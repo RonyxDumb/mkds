@@ -17,16 +17,16 @@ typedef struct NNSiFndExpHeapHead {
 // The Exp heap head sits right after the common head.
 #define EXP_HEAP_HEAD(heap) ((NNSiFndExpHeapHead *) ((heap) + 1))
 
-u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment);
-u32 NNS_FndGetTotalFreeSizeForExpHeap(NNSFndHeapHandle heap);
-void NNS_FndFreeToExpHeap(NNSFndHeapHandle heap, void *memBlock);
-u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 size);
-void *NNS_FndAllocFromExpHeapEx(NNSFndHeapHandle heap, u32 size, int alignment);
-void NNS_FndDestroyExpHeap(NNSFndHeapHandle heap);
-NNSFndHeapHandle NNS_FndCreateExpHeapEx(void *startAddress, u32 size, u16 optFlag);
-BOOL RecycleRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region);
-void *AllocFromTail(NNSiFndHeapHead *heap, u32 size, int alignment);
-void *AllocFromHead(NNSiFndHeapHead *heap, u32 size, int alignment);
-void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBlockHead *freeBlock, void *mblock,
+u32 Mem_Exp_GetAllocatableSize(NNSFndHeapHandle heap, int alignment);
+u32 Mem_GetExpHeapTotalFreeSize(NNSFndHeapHandle heap);
+void Mem_Exp_Free(NNSFndHeapHandle heap, void *memBlock);
+u32 Mem_ResizeExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 size);
+void *Mem_Exp_Allocate(NNSFndHeapHandle heap, u32 size, int alignment);
+void Mem_Exp_Finalize(NNSFndHeapHandle heap);
+NNSFndHeapHandle Mem_Exp_Create(void *startAddress, u32 size, u16 optFlag);
+BOOL Mem_Exp_CoalesceFreedRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region);
+void *Mem_Exp_AllocFromTail(NNSiFndHeapHead *heap, u32 size, int alignment);
+void *Mem_Exp_AllocFromHead(NNSiFndHeapHead *heap, u32 size, int alignment);
+void *Mem_Exp_ConvertFreeBlockToUsedBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBlockHead *freeBlock, void *mblock,
                                   u32 size, u16 direction);
-NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag);
+NNSiFndHeapHead *Mem_Exp_Initialize(void *startAddress, void *endAddress, u16 optFlag);

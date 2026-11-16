@@ -8,23 +8,23 @@ typedef struct SceneNumbers SceneNumbers;
 
 struct MapObjectKindDescriptor;
 
-void UpdateResultScene(SceneNumbers *sceneNumbers);
-void WriteResultSceneRegistersCallback(void);
-void ReleaseResultScene(void);
-void InitResultScene(void);
-u32 IsInOverlayRange(struct MapObjectKindDescriptor *address);
-void ReleaseCurrentOverlay(void);
+void Scene_Result_Update(SceneNumbers *sceneNumbers);
+void Scene_Result_VBlank(void);
+void Scene_Result_Finalize(void);
+void Scene_Result_Initialize(void);
+u32 IsAddressInOverlayRegion(struct MapObjectKindDescriptor *address);
+void DisposeLoadedOverlay(void);
 s32 TryFinishOverlayLoad(void);
-void FreeOverlayExpHeap(void);
-void CreateOverlayExpHeap(void);
-void FinishOverlayLoad(void);
-void StartLoadOverlay(s32 overlay);
-void ResetCurrentOverlay(void);
+void DisposeOverlayManagerHeap(void);
+void CreateRegionHeapHandleForOverlay1(void);
+void WaitOverlayLoadedStarted(void);
+void UpdateOverlayStatusWithKind(s32 overlay);
+void ResetOverlayManager(void);
 void CreateOverlayFrmHeap(void);
-void InitOverlayTable(void *heap);
+void InitializeOverlayManager(void *heap);
 s32 GetParticipantSlotResult(s32 participantIndex);
 BOOL IsParticipantSlotResultSyncing(s32 participantIndex);
 void UpdateSlotResultSyncs(void);
 void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex);
 
-extern SceneCallbacks gResultSceneCallbacks;
+extern SceneCallbacks g_Scene_Result;

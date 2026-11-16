@@ -17,23 +17,23 @@ BOOL IsSelectChoisesChooseNoRequest(void);
 void RequestSelectChoisesHidden(void);
 void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond);
 void RequestSelectChoisesChoose(void);
-void WriteSelectChoisesRegisters(void);
-void AdvanceSelectChoises(void);
+void SelectChoisesContext_OnSceneVblank_from_thumb(void);
+void SelectChoisesContext_OnSceneUpdate_from_thumb(void);
 
-void AdvanceSelectChoisesChosen(void);
+void SelectChoisesContext_UpdateFn_State2_from_thumb(void);
 
-s32 LoadSelectChoises(s32 subCharOffset);
+s32 SelectChoisesContext_LoadGraphics_from_thumb(s32 subCharOffset);
 void RefreshSelectChoisesNscrCopy(void);
 void RefreshSelectChoisesPaletteBits(void);
-void RefreshAndQueueSelectChoises(void);
+void SelectChoisesContext_UpdateGraphics_from_thumb(void);
 void RefreshSelectChoisesPaletteNoIndex(void);
-void AdvanceSelectChoisesHidden(void);
-void AdvanceSelectChoisesChoose(void);
+void SelectChoisesContext_UpdateFn_State0_from_thumb(void);
+void SelectChoisesContext_UpdateFn_State1_from_thumb(void);
 
-u32 InitSelectChoisesDisplay(void);
-void ClearSelectChoisesPointer(void);
+u32 SelectChoisesContext_InitializeBg_from_thumb(void);
+void SelectChoisesContext_Dispose_from_thumb(void);
 
-s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset);
+s32 SelectChoisesContext_Initialize_from_thumb(void *heap, void *font, s32 subCharOffset);
 
 void ClearSelectReturnDisplayBitOn(void);
 
@@ -47,8 +47,8 @@ BOOL IsSelectReturnShownNoRequest(void);
 void RequestSelectReturnSlideOut(void);
 void RequestSelectReturnPressWithSound(s32 requestSlideOut);
 void RequestSelectReturnSlideIn(void);
-void WriteSelectReturnRegisters(void);
-void AdvanceSelectReturn(void);
+void SelectReturnContext_OnSceneVblank_from_thumb(void);
+void SelectReturnContext_OnSceneUpdate_from_thumb(void);
 void AdvanceSelectReturnSlideOut(void);
 void AdvanceSelectReturnPress(void);
 
@@ -57,12 +57,12 @@ void AdvanceSelectReturnShown(void);
 void AdvanceSelectReturnSlideIn(void);
 void AdvanceSelectReturnHidden(void);
 void SetSelectReturnPaletteBits(s32 paletteKind);
-s32 LoadSelectReturn(s32 subCharOffset);
+s32 LoadSelectReturnGraphics_from_thumb(s32 subCharOffset);
 void InitSelectReturnDisplay(void);
 
-void ClearSelectReturnPointer(void);
+void SelectReturnContext_Dispose_from_thumb(void);
 
-s32 InitSelectReturn(void *heap, s32 subCharOffset);
+s32 InitializeSelectReturn_from_thumb(void *heap, s32 subCharOffset);
 
 extern const u8 gSelectChoisesNscrOrigins[2][2];
 extern const ByteRect gSelectChoisesTileRect;
@@ -71,5 +71,5 @@ extern const s8 gSelectReturnPressBg2Offsets[12];
 extern const s8 gSelectReturnSlideInBg2Offsets[12];
 extern const s8 gSelectReturnSlideOutBg2Offsets[12];
 extern const ByteRect gSelectChoisesHitRects[2];
-extern struct SelectReturn *gSelectReturn;
-extern struct SelectChoises *gSelectChoises;
+extern struct SelectReturn *g_SelectReturn;
+extern struct SelectChoises *g_SelectChoisesContext;

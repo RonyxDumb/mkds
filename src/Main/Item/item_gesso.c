@@ -162,20 +162,20 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     s32 entryIndex;
     s32 kartIndex;
 
-    entryIndex = gRaceSetup->mEntryIndex;
-    camera = GetChaseCamera();
+    entryIndex = g_GlobalCO->mEntryIndex;
+    camera = GetGlobalHD5();
     StartGessoBlockTimer(0);
     if (entryIndex < 0) {
         kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
         kartIndex = entryIndex;
     }
-    gesso->mKart = GetKart(kartIndex);
+    gesso->mKart = GetRacerMQEntry(kartIndex);
     gesso->mItemObject.mPos = gesso->mKart->mDrawMatrixPos;
-    VEC_MultAdd(0x5800, &camera->mUp, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
-    VEC_MultAdd(GetEntryRaceEnded() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mItemObject.mPos,
+    VecFx32_AddScale1(0x5800, &camera->mUp, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
+    VecFx32_AddScale1(GetEntryRaceEnded() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mItemObject.mPos,
                 &gesso->mItemObject.mPos);
-    VEC_Subtract(&gesso->mItemObject.mPos, &camera->mPos, &gesso->mViewOffset);
+    VecFx32_Subtract(&gesso->mItemObject.mPos, &camera->mPos, &gesso->mViewOffset);
     MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mAxes, &gesso->mViewOffset);
     if (fromData != 0) {
         if (gesso->mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA) {
@@ -220,18 +220,18 @@ void AdvanceItemGesso(ItemGesso *gesso) {
     s32 factor;
 
     kart = gesso->mKart;
-    camera = GetChaseCamera();
+    camera = GetGlobalHD5();
     ageFrames = gesso->mItemObject.mAgeFrames;
     if (ageFrames == 0x3f) {
         SetupItemGessoKarts(gesso);
     }
     if (ageFrames == 0x8f) {
-        kartCount = gRaceSetup->mKartCount;
+        kartCount = g_GlobalCO->mKartCount;
         for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
             if (gesso->mOrthoQuadCounts[kartIndex] == 0) {
                 continue;
             }
-            kartAtIndex = GetKart(kartIndex);
+            kartAtIndex = GetRacerMQEntry(kartIndex);
             if (kartAtIndex->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) {
                 continue;
             }
@@ -241,7 +241,7 @@ void AdvanceItemGesso(ItemGesso *gesso) {
             if (kartAtIndex->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) {
                 continue;
             }
-            StartKartGesso(kartAtIndex, gesso->mOrthoQuadCounts[kartIndex]);
+            StructMQRacerEntry_SomeFn_38(kartAtIndex, gesso->mOrthoQuadCounts[kartIndex]);
             StartEntryKartSound(kartAtIndex, 0xf0);
         }
     }
@@ -329,9 +329,9 @@ void AdvanceItemGesso(ItemGesso *gesso) {
     gesso->mItemObject.mPos.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, -viewOffset.x);
     gesso->mItemObject.mPos.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, -viewOffset.x);
     gesso->mItemObject.mPos.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, -viewOffset.x);
-    VEC_MultAdd(viewOffset.y, &camera->mUp, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
-    VEC_MultAdd(-viewOffset.z, &camera->mForward, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
-    VEC_Add(&camera->mPos, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
+    VecFx32_AddScale1(viewOffset.y, &camera->mUp, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
+    VecFx32_AddScale1(-viewOffset.z, &camera->mForward, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
+    VecFx32_Add(&camera->mPos, &gesso->mItemObject.mPos, &gesso->mItemObject.mPos);
 }
 
 void DrawItemGesso(ItemGesso *gesso, s32 unusedSecond, NsbmdModel *model) {
@@ -355,7 +355,7 @@ void DrawItemGesso(ItemGesso *gesso, s32 unusedSecond, NsbmdModel *model) {
     matrix.mRows[1].x = MUL_FIXED12_NO_ROUND(matrix.mRows[1].x, value);
     matrix.mRows[1].y = MUL_FIXED12_NO_ROUND(matrix.mRows[1].y, value);
     matrix.mRows[1].z = MUL_FIXED12_NO_ROUND(matrix.mRows[1].z, value);
-    VEC_MultAdd(gesso->mShear, &matrix.mRows[0], &matrix.mRows[1], &matrix.mRows[1]);
+    VecFx32_AddScale1(gesso->mShear, &matrix.mRows[0], &matrix.mRows[1], &matrix.mRows[1]);
     scale.x = MUL_FIXED12_NO_ROUND(gesso->mScaleX, gesso->mItemObject.mScale.x);
     scale.y = MUL_FIXED12_NO_ROUND(gesso->mScaleYAndApproachRate.x, gesso->mItemObject.mScale.y);
     scale.z = gesso->mItemObject.mScale.z;
@@ -408,7 +408,7 @@ void ComputeItemGessoFrameCount(void) {
 void CreateItemTeresaFrameScaleTable(void) {
     s32 frameIndex;
 
-    gItemTeresaFrameScales = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x29 * sizeof(*gItemTeresaFrameScales));
+    gItemTeresaFrameScales = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 0x29 * sizeof(*gItemTeresaFrameScales));
     for (frameIndex = 0; frameIndex <= 0x28; frameIndex++) {
         gItemTeresaFrameScales[frameIndex] = TO_FIXED12(0x28 - frameIndex) / (0x29 - frameIndex);
     }

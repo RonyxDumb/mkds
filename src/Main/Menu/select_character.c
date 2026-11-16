@@ -655,12 +655,12 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     CellFileSet titleParts;
     CellFileSet cellFileSet;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCharacter = HeapAlloc(heap, sizeof(*gSelectCharacter));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectCharacter = Mem_AllocateHeap(heap, sizeof(*gSelectCharacter));
     MemFillWordsByBlock_inline(gSelectCharacter, 0x12c);
     gSelectCharacter->mHeap = heap;
     gSelectCharacter->mMode = mode;
-    switch (GetRaceSetupCopy()->mEntryTransition) {
+    switch (GetGlobalCA_from_thumb()->mEntryTransition) {
         case ENTRY_TRANSITION_FRESH:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
@@ -673,8 +673,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
             switch (gSelectCharacter->mMode) {
                 case SELECT_CHARACTER_MODE_CONNECTION:
-                    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                        gConnectionWork->mDataSharingSendByte = SELECT_CHARACTER_SEND_BYTE_NONE;
+                    if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+                        g_GlobalZE->mDataSharingSendByte = SELECT_CHARACTER_SEND_BYTE_NONE;
                     }
                     break;
                 case SELECT_CHARACTER_MODE_WIFI_SESSION:
@@ -686,8 +686,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mSubOam = subOam;
-    if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||
-        GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+    if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetGlobalCA_from_thumb()->mMode == MODE_VS ||
+        GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
         usePlayerEntryList = TRUE;
     } else {
         usePlayerEntryList = FALSE;
@@ -715,7 +715,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         case SELECT_CHARACTER_MODE_CONNECTION:
             selectCharacter->mEntryIndex =
                 GetParticipantPosByIndex(
-                    gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0)
+                    g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0)
                     ->mEntryIndex;
             break;
         case SELECT_CHARACTER_MODE_WIFI_SESSION:
@@ -726,15 +726,15 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     if (selectCharacter->mUsePlayerEntryList == FALSE) {
         LocateCellFileSet(&selectCharacter->mGpMParts, "select_character_gp_m.nce.ncgr",
                           "select_character_gp_m.nce.ncer", "select_character_gp_m_o.NCLR",
-                          "select_character_gp_m.bncl", NULL, NULL, FindFileInLoadedArchives);
+                          "select_character_gp_m.bncl", NULL, NULL, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
         SetupCellFileSet(SCREEN_SIDE_MAIN, gSelectCharacter->mHeap, &selectCharacter->mGpMParts);
         LocateCellFileSet(&titleParts, "select_character_gp_title_m.nce.ncgr", "select_character_gp_title_m.nce.ncer",
-                          NULL, "select_character_gp_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
+                          NULL, "select_character_gp_title_m.bncl", NULL, NULL, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
         QueueCellChars(0, titleParts.mCells, titleParts.mChars, titleParts.mCellLayout, 0, 0,
                        selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
         LocateCellFileSet(&gSelectCharacter->mGpNameMParts, "select_character_gp_name_m.nce.ncgr",
                           "select_character_gp_name_m.nce.ncer", NULL, "select_character_gp_name_m.bncl", NULL, NULL,
-                          FindFileInLoadedArchives);
+                          FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
         selectCharacter->mGpMParts.mCellTable[9].mVisible = 0;
         selectCharacter->mGpMParts.mCellTable[8].mVisible = selectCharacter->mGpMParts.mCellTable[9].mVisible;
         selectCharacter->mGpMParts.mCellTable[7].mVisible = selectCharacter->mGpMParts.mCellTable[8].mVisible;
@@ -746,7 +746,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts = &gSelectCharacter->mSParts;
         LocateCellFileSet(sParts, "select_character_s.nce.ncgr", "select_character_s.nce.ncer",
                           "select_character_s_o.NCLR", "select_character_s.bncl", NULL, "select_character_s.bnbl",
-                          FindFileInLoadedArchives);
+                          FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
         SetupCellFileSet(SCREEN_SIDE_SUB, gSelectCharacter->mHeap, sParts);
         sParts->mCellTable[24].mVisible = 0;
         for (rowIndex = 0; rowIndex < 12; rowIndex++) {
@@ -765,7 +765,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts->mCellTable[24].mUseMatrix = sParts->mCellTable[25].mUseMatrix;
         sParts->mCellTable[25].mDoubleAffine = 0;
         sParts->mCellTable[24].mDoubleAffine = sParts->mCellTable[25].mDoubleAffine;
-    } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+    } else if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
         InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mSubOam);
         SlideInSelectRaceRuleWait();
     }
@@ -773,22 +773,22 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     for (rowIndex = 0; rowIndex < 8; rowIndex++) {
         gSelectCharacter->mRows[rowIndex] = gSelectCharacterRows[rowIndex];
     }
-    if (IsBackupFlagSet(0x15) != 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x15) != 0) {
         gSelectCharacter->mRows[rowIndex] = gSelectCharacterRows[8];
         rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
-    if (IsBackupFlagSet(0x14) != 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x14) != 0) {
         gSelectCharacter->mRows[rowIndex] = gSelectCharacterRows[9];
         rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
-    if (IsBackupFlagSet(0x16) != 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x16) != 0) {
         gSelectCharacter->mRows[rowIndex] = gSelectCharacterRows[10];
         rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
-    if (IsBackupFlagSet(0x17) != 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x17) != 0) {
         gSelectCharacter->mRows[rowIndex] = gSelectCharacterRows[11];
         rowIndex++;
         gSelectCharacter->mTableRowCount++;
@@ -798,23 +798,23 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     for (tableIndex = 0; tableIndex < gSelectCharacter->mTableRowCount; tableIndex++) {
         if (gSelectCharacter->mRows[tableIndex].mCharacterIndex ==
-            GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex) {
+            GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex) {
             gSelectCharacter->mTableIndex = tableIndex;
         }
     }
     gSelectCharacter->mPreviousTableIndex = gSelectCharacter->mTableIndex;
     selectCharacter = gSelectCharacter;
-    selectCharacter->mCharacterIndex = GetRaceSetupCopy()->mEntries[selectCharacter->mEntryIndex].mCharacterIndex;
+    selectCharacter->mCharacterIndex = GetGlobalCA_from_thumb()->mEntries[selectCharacter->mEntryIndex].mCharacterIndex;
     if (gSelectCharacter->mCharacterIndex == -1) {
         gSelectCharacter->mCharacterIndex = CHARACTER_MARIO;
     }
     gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
-    GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
-    GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = -1;
-    GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 0;
+    GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
+    GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = -1;
+    GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         sParts = &gSelectCharacter->mSParts;
-        SetPlayerCharacterCellFileSet(0, &cellFileSet);
+        LoadPlayerGfxData_from_thumb(0, &cellFileSet);
         for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
             QueueCellCharsAndCopyPalettes(gSelectCharacter->mRows[rowIndex].mCharacterIndex, cellFileSet.mCells,
                                           cellFileSet.mChars, cellFileSet.mPalette, cellFileSet.mCellLayout, 1,
@@ -874,10 +874,10 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         SetSelectReturnSoundId(0xe);
         RequestSelectReturnSlideIn();
     }
-    if (AreBrightnessFadesClear() != 0) {
+    if (Bright_IsBothScreensFadedIn() != 0) {
         gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_IN;
     } else {
-        StartFadeToClear(10);
+        BrightCtx_SomeFnTopBottom(10);
         SetSelectCharacterRowCellsVisible(0);
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -892,8 +892,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
 
 static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
     BOOL result = FALSE;
-    if (gInputSlots[inputSlot].mPair.mHasPair == 0 &&
-        gInputSlots[inputSlot].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (g_GlobalCYT[inputSlot].mPair.mHasPair == 0 &&
+        g_GlobalCYT[inputSlot].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         result = TRUE;
     }
     return result;
@@ -901,8 +901,8 @@ static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
 
 static inline s32 SelectCharacterIsPairNewUnlessLost(u16 inputSlot) {
     BOOL result = FALSE;
-    if (SelectCharacterIsPairRecentlyLost(inputSlot) == 0 && gInputSlots[inputSlot].mPair.mPrevHasPair == 0 &&
-        gInputSlots[inputSlot].mPair.mHasPair != 0) {
+    if (SelectCharacterIsPairRecentlyLost(inputSlot) == 0 && g_GlobalCYT[inputSlot].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[inputSlot].mPair.mHasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -926,12 +926,12 @@ int AdvanceSelectCharacter(void) {
     s16 interpolatedValue;
 
     result = 0;
-    inputSlot = GetPadInputSlot();
+    inputSlot = GetSomeCYId_9();
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
     switch (selectCharacter->mState) {
         case SELECT_CHARACTER_STATE_WAIT_FADE:
-            if (AreBrightnessFadesClear() != 0) {
+            if (Bright_IsBothScreensFadedIn() != 0) {
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_IN;
             }
             break;
@@ -961,17 +961,17 @@ int AdvanceSelectCharacter(void) {
             gSelectCharacter->mKartIndex = KART_INDEX_HEYHO;
             gSelectCharacter->mStateFrames = 0;
             gSelectCharacter->mResult = MENU_SCREEN_RESULT_NEXT;
-            if (GetRaceSetupCopy()->mMode == MODE_VS) {
+            if (GetGlobalCA_from_thumb()->mMode == MODE_VS) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
-                if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                    gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
+                if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+                    g_GlobalZE->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 StartPlayerEntryListKindIfUsed(1);
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
-            } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+            } else if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
-                if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                    gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
+                if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+                    g_GlobalZE->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
             }
@@ -979,8 +979,8 @@ int AdvanceSelectCharacter(void) {
         case SELECT_CHARACTER_STATE_CHOOSE:
             previousTableIndex = selectCharacter->mTableIndex;
             if (SelectCharacterIsPairNewUnlessLost(inputSlot) != 0) {
-                pointX = gInputSlots[inputSlot].mPair.mPairX;
-                pointY = gInputSlots[inputSlot].mPair.mPairY;
+                pointX = g_GlobalCYT[inputSlot].mPair.mPairX;
+                pointY = g_GlobalCYT[inputSlot].mPair.mPairY;
                 rectEntryId = RectTableFindContaining(sParts->mRects, pointX, pointY);
                 if (rectEntryId >= 0) {
                     for (tableIndex = 0; tableIndex < gSelectCharacter->mTableRowCount; tableIndex++) {
@@ -1011,13 +1011,13 @@ int AdvanceSelectCharacter(void) {
                         break;
                     case SELECT_CHARACTER_MODE_CONNECTION:
                         flaggedCharacterIndex = selectCharacterReload->mCharacterIndex | 0xc0;
-                        if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                            gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
+                        if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+                            g_GlobalZE->mDataSharingSendByte = flaggedCharacterIndex;
                         }
                         break;
                 }
             } else {
-                keyBits = gInputSlots[inputSlot].mPressedBits;
+                keyBits = g_GlobalCYT[inputSlot].mPressedBits;
                 if ((u16) (keyBits & PAD_KEY_A) != 0) {
                     gSelectCharacter->mStateFrames = 0;
                     gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_PICK;
@@ -1078,13 +1078,13 @@ int AdvanceSelectCharacter(void) {
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mMode) {
                     case SELECT_CHARACTER_MODE_NO_CONNECTION:
-                        GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
+                        GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                             selectCharacterReload->mCharacterIndex;
-                        GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex =
+                        GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex =
                             gSelectCharacter->mKartIndex;
                         FillRandomCharacterIndices();
-                        if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
-                            GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
+                        if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
+                            GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
                             SetKartModelMenuSpinStopped(1);
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
                             ClearNonParticipantKartIndices();
@@ -1098,20 +1098,20 @@ int AdvanceSelectCharacter(void) {
                         }
                         break;
                     case SELECT_CHARACTER_MODE_CONNECTION:
-                        if (GetRaceSetupCopy()->mMode == MODE_VS) {
+                        if (GetGlobalCA_from_thumb()->mMode == MODE_VS) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
-                            if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                                gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
+                            if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+                                g_GlobalZE->mDataSharingSendByte = flaggedCharacterIndex;
                             }
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1],
                                                             INTERPOLATION_STATE_FALLING);
                             StartPlayerEntryListKindIfUsed(1);
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                             StartKartModelMenuTimedSpinStop();
-                        } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+                        } else if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
-                            if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                                gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
+                            if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+                                g_GlobalZE->mDataSharingSendByte = flaggedCharacterIndex;
                             }
                             SetKartModelMenuSpinStopped(1);
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
@@ -1134,7 +1134,7 @@ int AdvanceSelectCharacter(void) {
                 if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_WIFI_SESSION) {
                     WriteWiFiSessionToRaceSetupCopy();
                 }
-                if (GetRaceSetupCopy()->mMode == MODE_BATTLE || IsSelectCharacterModeAndTimerZero() != 0) {
+                if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE || IsSelectCharacterModeAndTimerZero() != 0) {
                     gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
                 } else {
                     StartPlayerEntryListKindIfUsed(1);
@@ -1155,7 +1155,7 @@ int AdvanceSelectCharacter(void) {
                 SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                 if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     StartKartModelMenuBg0Decrease();
-                } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+                } else if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
                     SlideOutSelectRaceRuleWait();
                 }
                 gSelectCharacter->mStateFrames = 0;
@@ -1170,9 +1170,9 @@ int AdvanceSelectCharacter(void) {
                     TO_FIXED12(SELECT_CHARACTER_SCALE_STEPS - selectCharacterReload->mStateFrames) /
                     SELECT_CHARACTER_SCALE_STEPS;
             } else {
-                GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
+                GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                     selectCharacterReload->mCharacterIndex;
-                GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = gSelectCharacter->mKartIndex;
+                GetGlobalCA_from_thumb()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = gSelectCharacter->mKartIndex;
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_DONE;
             }
             gSelectCharacter->mAngle += 0x1000;
@@ -1195,7 +1195,7 @@ int AdvanceSelectCharacter(void) {
             RequestKartModelMenuCharacter(selectCharacterReload->mCharacterIndex);
             RequestKartModelMenuKart(gSelectCharacter->mKartIndex);
         }
-        AdvanceKartModelMenu(GetRaceSetupCopy()->mMirrorMode);
+        AdvanceKartModelMenu(GetGlobalCA_from_thumb()->mMirrorMode);
     }
     if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
         AdvancePlayerEntryList();
@@ -1207,7 +1207,7 @@ int AdvanceSelectCharacter(void) {
         DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mSubOam,
                                        sParts->mCellTable);
         IncrementOamMatrixCount(gSelectCharacter->mSubOam);
-    } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+    } else if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
         AdvanceSelectRaceRuleWait();
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -1215,10 +1215,10 @@ int AdvanceSelectCharacter(void) {
     }
     switch (result) {
         case MENU_SCREEN_RESULT_NEXT:
-            if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
-                GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FRESH;
+            if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
+                GetGlobalCA_from_thumb()->mEntryTransition = ENTRY_TRANSITION_FRESH;
             } else {
-                GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FROM_CHARACTER;
+                GetGlobalCA_from_thumb()->mEntryTransition = ENTRY_TRANSITION_FROM_CHARACTER;
             }
             break;
         case MENU_SCREEN_RESULT_BACK:
@@ -1226,7 +1226,7 @@ int AdvanceSelectCharacter(void) {
                 RequestKartModelMenuCharacter(-1);
                 RequestKartModelMenuKart(-1);
             }
-            GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FRESH;
+            GetGlobalCA_from_thumb()->mEntryTransition = ENTRY_TRANSITION_FRESH;
             break;
     }
     return result;
@@ -1238,11 +1238,11 @@ int AdvanceSelectCharacter(void) {
 
 void ReleaseSelectCharacter(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+        if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
             ClearSelectRaceRuleWaitPointer();
         }
     }
-    HeapDestroy(gSelectCharacter->mHeap);
+    Mem_DestroyHeap(gSelectCharacter->mHeap);
     gSelectCharacter = NULL;
 }
 
@@ -1262,21 +1262,21 @@ void WriteSelectCharacterRegisters(void) {
     }
 }
 
-void LoadSelectCharacterData(void) {
+void VerifySelectCharacterFiles_from_thumb(void) {
     Ncgr *chars = NULL;
     Nclr *palette = NULL;
     NNSG2dCellDataBank *cells = NULL;
 
-    LoadNcgrData2(&chars, FindFileInLoadedArchives("select_character_gp_m.nce.ncgr"));
-    LoadNcerData(&cells, FindFileInLoadedArchives("select_character_gp_m.nce.ncer"));
-    LoadNclrData(&palette, FindFileInLoadedArchives("select_character_gp_m_o.NCLR"));
-    LoadNcgrData2(&chars, FindFileInLoadedArchives("select_character_s.nce.ncgr"));
-    LoadNcerData(&cells, FindFileInLoadedArchives("select_character_s.nce.ncer"));
-    LoadNclrData(&palette, FindFileInLoadedArchives("select_character_s_o.NCLR"));
-    LoadNcgrData2(&chars, FindFileInLoadedArchives("select_character_gp_name_m.nce.ncgr"));
-    LoadNcerData(&cells, FindFileInLoadedArchives("select_character_gp_name_m.nce.ncer"));
-    LoadNcgrData2(&chars, FindFileInLoadedArchives("select_character_gp_title_m.nce.ncgr"));
-    LoadNcerData(&cells, FindFileInLoadedArchives("select_character_gp_title_m.nce.ncer"));
+    Gfx_ReadCharGraphics(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_m.nce.ncgr"));
+    LoadCellBankFrom(&cells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_m.nce.ncer"));
+    Gfx_ReadPalette(&palette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_m_o.NCLR"));
+    Gfx_ReadCharGraphics(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_s.nce.ncgr"));
+    LoadCellBankFrom(&cells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_s.nce.ncer"));
+    Gfx_ReadPalette(&palette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_s_o.NCLR"));
+    Gfx_ReadCharGraphics(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_name_m.nce.ncgr"));
+    LoadCellBankFrom(&cells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_name_m.nce.ncer"));
+    Gfx_ReadCharGraphics(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_title_m.nce.ncgr"));
+    LoadCellBankFrom(&cells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_character_gp_title_m.nce.ncer"));
 }
 
 void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimit, s16 startValue, s32 endValue) {

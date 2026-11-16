@@ -10,8 +10,8 @@
 
 void CPS_SetSsl(u8 useHttps) {
     CPSSoc *connection;
-    OSi_ReferSymbol(BuildInfo.mSsl);
-    connection = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    Os_ReferSymbol(g_StartModuleParams.mSsl);
+    connection = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (connection != NULL) {
         connection->mUseHttps = useHttps;
     }

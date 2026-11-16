@@ -6,16 +6,16 @@
 
 #pragma thumb on
 
-void WriteTitleSceneRegisters(void) {
-    gTitleScene->mStateHandlers[gTitleScene->mState].mWriteRegisters();
-    gTitleScene->mStateChanged = FALSE;
-    WriteSceneTextRegisters();
-    UploadOamLists(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
+void Scene_Title_VBlankImpl_from_thumb(void) {
+    g_SceneTitleContext->mStateHandlers[g_SceneTitleContext->mState].mWriteRegisters();
+    g_SceneTitleContext->mStateChanged = FALSE;
+    NavigationContext_OnSceneVblank_from_thumb();
+    CopyOamBuffersToMemory_from_thumb(&g_SceneTitleContext->mMainOam, &g_SceneTitleContext->mSubOam);
 }
 
 #pragma thumb off
 
-void IncrementCounterSaturating(int *counter) {
+void StructHU_IncrementSomeCounter(int *counter) {
     u32 value;
     value = *(u32 *) counter;
     if ((s32) value < 0x7fffffff) {

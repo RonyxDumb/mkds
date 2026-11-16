@@ -4,7 +4,7 @@
 
 void GetRaceHudSubScreenBg3MinMax(IntPair *outMin, IntPair *outMax) {
     int courseId;
-    courseId = RaceHudSubScreenGetCurrentCourseId();
+    courseId = GetCurrentInternalCourseId_0();
     if (courseId == COURSE_ID_OLD_LUIGI_GC) {
         SetFixed12MinMaxFromWhole(outMin, outMax, 0xfffff434u, 0xfffffff6, 0x00000ba4u, 0x00001766u);
         return;

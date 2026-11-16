@@ -20,14 +20,14 @@ const MapObjectKindDescriptor gWoodbox1KindDescriptor = {0,
 
 #pragma thumb on
 
-void InitModelAnimationWithEntries(u32 animationKind, void *model, void *animation, void *nsbmdFile,
+void SomeAnimationLoadWrapper_from_thumb(u32 animationKind, void *model, void *animation, void *nsbmdFile,
                                    void *animationFile) {
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    InitModelAnimation(animationKind, animation, model, 1, heap, nsbmdFile);
-    InitModelAnimationEntries(animation, animationFile, GetHeap(GetCurrentHeapCall()));
-    SetModelAnimation(animation, 0);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    StructAM_CreateFrom(animationKind, animation, model, 1, heap, nsbmdFile);
+    StructAM_MaybeLoadAnimation(animation, animationFile, ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
+    StructAM_SomeFn_MaybeLoadFrame(animation, 0);
 }
 
 #pragma thumb off

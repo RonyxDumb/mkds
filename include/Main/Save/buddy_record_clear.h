@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearBuddyRecordBlock(void);
+void ClearSaveDataSection_FriendList_from_thumb(void);

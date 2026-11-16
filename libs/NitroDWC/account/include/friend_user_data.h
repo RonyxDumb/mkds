@@ -11,8 +11,8 @@ typedef struct DWCAccUserData DWCAccUserData;
 #define ACCOUNT_MARCH 3
 
 s32 DateToDayCount(const RTCDate *date);
-u32 IsLeapYearTwoDigit(u32 year);
-void DWC_ReportUserData(const DWCAccUserData *userdata);
-void DWC_ReportFriendData(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata);
-BOOL DWC_IsEqualFriendData(const DWCAccFriendData *frienddata1, const DWCAccFriendData *frienddata2);
+u32 IsLeapYear_from_thumb(u32 year);
+void PlayerProfileInfo_SomeFn_2_from_thumb(const DWCAccUserData *userdata);
+void PlayerProfileInfo_SomeFn_3_from_thumb(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata);
+BOOL FriendCode_SameAs_from_thumb(const DWCAccFriendData *frienddata1, const DWCAccFriendData *frienddata2);
 void DWC_LoginIdToUserName(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata, char *username);

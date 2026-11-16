@@ -27,7 +27,7 @@ void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId) {
 
     mapSoundCopy = mapSound;
     counter = gMapObjectSoundCounter;
-    StartSound(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
+    StructMQRacerEntry_SomeFn_8(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
     gMapObjectSoundCounter = gMapObjectSoundCounter + 0xa;
 }
 
@@ -91,7 +91,7 @@ void StartIronBallBounceSound(struct MapObjectSound *soundSource, s32 fixedValue
     if (clampedValue > 0x1e) {
         clampedValue = 0x1e;
     }
-    StartSound(&soundSource->mSoundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
+    StructMQRacerEntry_SomeFn_8(&soundSource->mSoundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
 }
 
 void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue) {
@@ -105,4 +105,4 @@ void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue) {
     }
 }
 
-void InitSceneSoundsNop(void) {}
+void nullsub_13(void) {}

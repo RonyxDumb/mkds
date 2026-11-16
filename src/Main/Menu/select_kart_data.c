@@ -122,7 +122,7 @@ const LabelCanvasEntry gSelectKartSLabelCanvasEntries[9] = {
 s32 UpdateSelectKartTouchHold(void) {
     s32 result = -1;
     CellFileSet *cellFileSet = &gSelectKart->mSelectKartSParts;
-    u16 slotIndex = GetPadInputSlot();
+    u16 slotIndex = GetSomeCYId_9();
     s32 pairX;
     s32 pairY;
     s32 rectIndex;
@@ -225,7 +225,7 @@ void PrintSelectKartMessage(void) {
     CellFileSet *parts;
     void *message;
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
+        message = Bmg_GetRawStringPointer_from_thumb(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (labelIndex = 8; labelIndex >= 7; labelIndex--) {
             PrintLabelLayoutTextNoFixedAdvance(1, gSelectKartSLabelCanvasEntries[labelIndex].mLabelIndex,
@@ -272,7 +272,7 @@ void RefreshKartMenuParamElements(void) {
 
 void SelectKartMI_CpuFillFast(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
-    MIi_CpuClearFast(valueCopy, destination, size);
+    Mem_CpuFastMemorySet(valueCopy, destination, size);
 }
 
 void SelectKartMI_CpuClearFast(void *destination, u32 size) {
@@ -281,8 +281,8 @@ void SelectKartMI_CpuClearFast(void *destination, u32 size) {
 
 u16 GetOwnIndexOrZero(void) {
     int index;
-    if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
-        index = gConnectionWork->mOwnIndex;
+    if (g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD) {
+        index = g_GlobalZE->mOwnIndex;
     } else {
         index = 0;
     }
@@ -290,7 +290,7 @@ u16 GetOwnIndexOrZero(void) {
 }
 
 u32 GetParticipantEntryIndex(u32 participantIndex) {
-    return (gConnectionWork->mParticipantPosByIndex[participantIndex].mEntryIndex);
+    return (g_GlobalZE->mParticipantPosByIndex[participantIndex].mEntryIndex);
 }
 
 u32 GetOwnEntryIndex(void) {
@@ -314,13 +314,13 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     s32 value;
     u32 entryListUsed;
     void *text;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectKart = HeapAlloc(heap, sizeof(*gSelectKart));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectKart = Mem_AllocateHeap(heap, sizeof(*gSelectKart));
     SelectKartMI_CpuClearFast(gSelectKart, 0x118);
     gSelectKart->mHeap = heap;
     gSelectKart->mMode = mode;
     gSelectKart->mTouchRect = -1;
-    switch (GetRaceSetupCopy()->mEntryTransition) {
+    switch (GetGlobalCA_from_thumb()->mEntryTransition) {
         case ENTRY_TRANSITION_FROM_CHARACTER:
             SetupInterpolation(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
             SetupInterpolation(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
@@ -339,8 +339,8 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
     gSelectKart->mMainOam = mainOam;
     gSelectKart->mSubOam = subOam;
-    if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||
-        GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+    if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION || GetGlobalCA_from_thumb()->mMode == MODE_VS ||
+        GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
         entryListUsed = 1;
     } else {
         entryListUsed = 0;
@@ -372,21 +372,21 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             break;
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        gSelectKart->mKartSelectMessages = FindFileInLoadedArchives("kart_select.bmg");
-        gSelectKart->mKartAppear = CreateKartAppear(gSelectKart->mHeap);
+        gSelectKart->mKartSelectMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("kart_select.bmg");
+        gSelectKart->mKartAppear = LoadKartAppearTablePointer_from_thumb(gSelectKart->mHeap);
     }
     selectKart = gSelectKart;
-    selectKart->mCharacterIndex = GetRaceSetupCopy()->mEntries[selectKart->mEntryIndex].mCharacterIndex;
+    selectKart->mCharacterIndex = GetGlobalCA_from_thumb()->mEntries[selectKart->mEntryIndex].mCharacterIndex;
     selectKart = gSelectKart;
-    selectKart->mKartIndex = GetRaceSetupCopy()->mEntries[selectKart->mEntryIndex].mKartIndex;
+    selectKart->mKartIndex = GetGlobalCA_from_thumb()->mEntries[selectKart->mEntryIndex].mKartIndex;
     if (gSelectKart->mCharacterIndex == -1) {
         gSelectKart->mCharacterIndex = CHARACTER_MARIO;
     }
     if (gSelectKart->mKartIndex == -1) {
         gSelectKart->mKartIndex = 0;
     }
-    GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
-    GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 0;
+    GetGlobalCA_from_thumb()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
+    GetGlobalCA_from_thumb()->mEntries[gSelectKart->mEntryIndex].mKartStored = 0;
     gSelectKart->mKartTableIndex = FindKartTableIndex(gSelectKart->mKartIndex);
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         selectKart = gSelectKart;
@@ -394,16 +394,16 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             cellFileSet = &selectKart->mSelectCharacterGpMParts;
             LocateCellFileSet(cellFileSet, "select_character_gp_m.nce.ncgr", "select_character_gp_m.nce.ncer",
                               "select_character_gp_m_o.NCLR", "select_character_gp_m.bncl", NULL, NULL,
-                              FindFileInLoadedArchives);
+                              FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
             SetupCellFileSet(SCREEN_SIDE_MAIN, gSelectKart->mHeap, cellFileSet);
             LocateCellFileSet(&titleFileSet, "select_character_gp_title_m.nce.ncgr",
                               "select_character_gp_title_m.nce.ncer", NULL, "select_character_gp_title_m.bncl", NULL,
-                              NULL, FindFileInLoadedArchives);
+                              NULL, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
             QueueCellChars(1, titleFileSet.mCells, titleFileSet.mChars, titleFileSet.mCellLayout, 0, 0,
                            cellFileSet->mCells, cellFileSet->mCellLayout);
             LocateCellFileSet(&nameFileSet, "select_character_gp_name_m.nce.ncgr",
                               "select_character_gp_name_m.nce.ncer", NULL, "select_character_gp_name_m.bncl", NULL,
-                              NULL, FindFileInLoadedArchives);
+                              NULL, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
             QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells,
                            nameFileSet.mChars, nameFileSet.mCellLayout, 0, 2, cellFileSet->mCells,
                            cellFileSet->mCellLayout);
@@ -414,26 +414,26 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &gSelectKart->mSelectKartSBParts, "select_kart_s_b.NCGR",
-                                       "select_kart_s_b.NCLR", "select_kart_s.NSCR", 3, FindFileInLoadedArchives);
+                                       "select_kart_s_b.NCLR", "select_kart_s.NSCR", 3, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         value = GX_GetSizeOfSubOBJ();
         cellFileSet = &gSelectKart->mSelectKartSParts;
         LocateCellFileSet(cellFileSet, "select_kart_s.nce.ncgr", "select_kart_s.nce.ncer", "select_kart_s_o.NCLR",
-                          "select_kart_s.bncl", "select_kart_s.bnll", "select_kart_s.bnbl", FindFileInLoadedArchives);
+                          "select_kart_s.bncl", "select_kart_s.bnll", "select_kart_s.bnbl", FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
         SetupCellFileSet(SCREEN_SIDE_SUB, gSelectKart->mHeap, cellFileSet);
         for (index = 0; index < 9; index++) {
             value -= SetupLabelCanvas(SCREEN_SIDE_SUB, gSelectKart->mHeap, cellFileSet,
                                       &gSelectKartSLabelCanvasEntries[index], value);
         }
         for (index = 0; index < 6; index++) {
-            text = GetBmgEntry(gSelectKart->mKartSelectMessages, gSelectKartSLabelCanvasEntries[index].mMessageIndex);
+            text = Bmg_GetRawStringPointer_from_thumb(gSelectKart->mKartSelectMessages, gSelectKartSLabelCanvasEntries[index].mMessageIndex);
             value = gSelectKartSLabelCanvasEntries[index].mLabelIndex;
             PrintLabelLayoutTextNoFixedAdvance(1, value, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
                                                cellFileSet->mCellTable);
             SetLabelPriority(value, 1, cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
         }
-        text = GetBmgEntry(FindFileInLoadedArchives("common.bmg"), gSelectKartSLabelCanvasEntries[6].mMessageIndex);
+        text = Bmg_GetRawStringPointer_from_thumb(FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg"), gSelectKartSLabelCanvasEntries[6].mMessageIndex);
         index = gSelectKartSLabelCanvasEntries[6].mLabelIndex;
         PrintLabelLayoutTextNoFixedAdvance(1, index, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
                                            cellFileSet->mCellTable);
@@ -462,12 +462,12 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
 #pragma thumb off
 
 u32 GetConnectionState(void) {
-    return (gConnectionWork->mState);
+    return (g_GlobalZE->mState);
 }
 
 void SetDataSharingSendByteWhenSynced(u8 sendByte) {
     if (GetConnectionState() == CONNECTION_STATE_SYNCED) {
-        gConnectionWork->mDataSharingSendByte = sendByte;
+        g_GlobalZE->mDataSharingSendByte = sendByte;
     }
 }
 
@@ -503,7 +503,7 @@ BOOL SelectKartIsPairNewUnlessLost(InputSlotPair *pair) {
 }
 
 BOOL SelectKartIsSlotPairNew(u32 slot) {
-    return SelectKartIsPairNewUnlessLost(&gInputSlots[slot].mPair);
+    return SelectKartIsPairNewUnlessLost(&g_GlobalCYT[slot].mPair);
 }
 
 u32 SelectKartGetPairX(InputSlotPair *inputSlotPair) {
@@ -511,7 +511,7 @@ u32 SelectKartGetPairX(InputSlotPair *inputSlotPair) {
 }
 
 u32 SelectKartGetSlotPairX(u32 slot) {
-    return SelectKartGetPairX(&gInputSlots[slot].mPair);
+    return SelectKartGetPairX(&g_GlobalCYT[slot].mPair);
 }
 
 u32 SelectKartGetPairY(InputSlotPair *inputSlotPair) {
@@ -519,7 +519,7 @@ u32 SelectKartGetPairY(InputSlotPair *inputSlotPair) {
 }
 
 u32 SelectKartGetSlotPairY(u32 slot) {
-    return SelectKartGetPairY(&gInputSlots[slot].mPair);
+    return SelectKartGetPairY(&g_GlobalCYT[slot].mPair);
 }
 
 #pragma optimize_for_size on
@@ -529,7 +529,7 @@ u16 SelectKartGetInputSlotNewBits(InputSlot *inputSlot, u32 mask) {
 }
 
 u16 SelectKartGetNewBits(u32 slotIndex, u32 mask) {
-    return SelectKartGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return SelectKartGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 #pragma thumb on
@@ -549,7 +549,7 @@ int AdvanceSelectKart(void) {
     result = 0;
     characterParts = &selectKart->mSelectCharacterGpMParts;
     selectKartParts = &selectKart->mSelectKartSParts;
-    padInputSlot = GetPadInputSlot();
+    padInputSlot = GetSomeCYId_9();
     AdvanceInterpolation(&gSelectKart->mInterpolations[0]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[1]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[2]);
@@ -657,8 +657,8 @@ int AdvanceSelectKart(void) {
             if (selectKart->mStateFrames >= SELECT_KART_CONFIRM_STEPS) {
                 switch (selectKart->mMode) {
                     case SELECT_KART_MODE_NO_CONNECTION:
-                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = selectKart->mKartIndex;
-                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 1;
+                        GetGlobalCA_from_thumb()->mEntries[gSelectKart->mEntryIndex].mKartIndex = selectKart->mKartIndex;
+                        GetGlobalCA_from_thumb()->mEntries[gSelectKart->mEntryIndex].mKartStored = 1;
                         FillRandomKartIndices();
                         gSelectKart->mState = SELECT_KART_STATE_HOLD;
                         break;
@@ -711,7 +711,7 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_SLIDE_OUT:
             if (selectKart->mInterpolations[4].mState == INTERPOLATION_STATE_AT_START) {
-                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
+                GetGlobalCA_from_thumb()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
                 gSelectKart->mState = SELECT_KART_STATE_DONE;
             }
             SetSelectKartSPartsOffsetY();
@@ -723,7 +723,7 @@ int AdvanceSelectKart(void) {
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         RequestKartModelMenuCharacter(gSelectKart->mCharacterIndex);
         RequestKartModelMenuKart(gSelectKart->mKartIndex);
-        AdvanceKartModelMenu(GetRaceSetupCopy()->mMirrorMode);
+        AdvanceKartModelMenu(GetGlobalCA_from_thumb()->mMirrorMode);
         DrawKartModelMenu();
     }
     selectKart = gSelectKart;
@@ -744,10 +744,10 @@ int AdvanceSelectKart(void) {
     }
     switch (result) {
         case MENU_SCREEN_RESULT_NEXT:
-            GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FRESH;
+            GetGlobalCA_from_thumb()->mEntryTransition = ENTRY_TRANSITION_FRESH;
             break;
         case MENU_SCREEN_RESULT_BACK:
-            GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FROM_KART;
+            GetGlobalCA_from_thumb()->mEntryTransition = ENTRY_TRANSITION_FROM_KART;
             break;
     }
     return result;
@@ -755,7 +755,7 @@ int AdvanceSelectKart(void) {
 #pragma thumb off
 
 u32 SelectKartGetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+    return (g_GlobalP->mConnectionKind);
 }
 
 u16 *SelectKartMB_GetMultiBootParam(void) {
@@ -786,7 +786,7 @@ void ReleaseSelectKart(void) {
     } else {
         ClearSelectRaceRuleWaitPointer();
     }
-    HeapDestroy(gSelectKart->mHeap);
+    Mem_DestroyHeap(gSelectKart->mHeap);
     *&gSelectKart = NULL;
 }
 
@@ -874,7 +874,7 @@ void WriteSelectKartRegisters(void) {
 
 #pragma thumb on
 
-void LoadSelectKartData(void) {
+void VerifySelectKartFiles_from_thumb(void) {
     void *fileData;
     Ncgr *chars;
     Nclr *palette;
@@ -884,18 +884,18 @@ void LoadSelectKartData(void) {
     palette = NULL;
     cells = NULL;
     screenMap[0] = NULL;
-    fileData = FindFileInLoadedArchives("select_kart_s_b.NCGR");
-    LoadNcgrData(&chars, fileData);
-    fileData = FindFileInLoadedArchives("select_kart_s.nce.ncgr");
-    LoadNcgrData2(&chars, fileData);
-    fileData = FindFileInLoadedArchives("select_kart_s.nce.ncer");
-    LoadNcerData(&cells, fileData);
-    fileData = FindFileInLoadedArchives("select_kart_s_o.NCLR");
-    LoadNclrData(&palette, fileData);
-    fileData = FindFileInLoadedArchives("select_kart_s_b.NCLR");
-    LoadNclrData(&palette, fileData);
-    fileData = FindFileInLoadedArchives("select_kart_s.NSCR");
-    LoadNscrData(screenMap, fileData);
+    fileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_kart_s_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, fileData);
+    fileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_kart_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, fileData);
+    fileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_kart_s.nce.ncer");
+    LoadCellBankFrom(&cells, fileData);
+    fileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_kart_s_o.NCLR");
+    Gfx_ReadPalette(&palette, fileData);
+    fileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_kart_s_b.NCLR");
+    Gfx_ReadPalette(&palette, fileData);
+    fileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_kart_s.NSCR");
+    MaybeReadScreenBlock_0(screenMap, fileData);
 }
 
 #pragma thumb off

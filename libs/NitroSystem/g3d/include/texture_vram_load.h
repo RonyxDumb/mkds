@@ -3,4 +3,4 @@
 #include "types.h"
 #include "texture_resource_type.h"
 
-void NNS_G3dTexLoad(NNSG3dResTex *pTex, BOOL execBeginEnd);
+void Tex0Block_MaybeCopyTexturesToMem(NNSG3dResTex *pTex, BOOL execBeginEnd);

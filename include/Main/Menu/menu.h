@@ -3,43 +3,43 @@
 #include "types.h"
 #include "Main/Graphics/scene_text_init.h"
 
-void InitMenu(void);
-u16 *MenuMB_GetMultiBootParam(void);
-BOOL MenuMB_IsMultiBootChild(void);
-BOOL MenuMB_IsMultiBootChildWrapper(void);
+void Scene_Menu_InitializeImpl_from_thumb(void);
+u16 *GetBootIndicatorPointer_0(void);
+BOOL IsDwc_0(void);
+BOOL j_IsDwc_0(void);
 
-unsigned int GetLVselIndex6Requested(void);
-unsigned int GetUnfilledNotEliminated(void);
-void SetRaceSetupRequested(unsigned int requested);
-unsigned int GetMenuEntryKind(void);
+unsigned int GetB488_B6(void);
+unsigned int GetB488_B5(void);
+void SetB488_B2(unsigned int requested);
+unsigned int GetB488_SinglePlayerMenuTarget(void);
 
-u32 MenuWriteSubWinEnableBits(u32 bits);
-u32 MenuWriteMainWinEnableBits(u32 bits);
+u32 SetDispcntWindows01ObjDisplayFlagsSub(u32 bits);
+u32 SetDispcntWindows01ObjDisplayFlagsTop(u32 bits);
 
 typedef struct DisplaySettings DisplaySettings;
 
-s32 GetRaceSetupMissionTableRow(void);
-s32 GetRaceSetupMissionTableColumn(void);
-void CopyCurrentToRaceSetupCopy(void);
-void CopyMenuScreenCallbacks(void);
-void WriteMenuSceneRegisters(void);
-void SetMainBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+s32 GetCurrentMissionLevel_1(void);
+s32 GetCurrentMissionStage(void);
+void CopyInfoFromCOtoCA_from_thumb(void);
+void CopyB43CFunctionTable_from_thumb(void);
+void Scene_Menu_VBlankImpl_from_thumb(void);
+void DisplayConfig_SetTopEngineBg0Config(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                       u32 cntVal8, u32 cntVal2, u32 cntVal13);
-void SetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetTopEngineBg1Config_1(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                       u32 cntVal8, u32 cntVal2, u32 cntVal13);
-void SetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetTopEngineBg2Config2(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                             u32 cntVal8, u32 cntVal2);
-void SetMainBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetTopEngineBg3Config_0(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                             u32 cntVal8, u32 cntVal2);
-void SetSubBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetBottomEngineBg0Config(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                      u32 cntVal8, u32 cntVal2, u32 cntVal13);
-void SetSubBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetBottomEngineBg1Config(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                      u32 cntVal8, u32 cntVal2, u32 cntVal13);
-void SetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetBottomEngineBg2Config2(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                            u32 cntVal8, u32 cntVal2);
-void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetBottomEngineBg3Config_1(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                            u32 cntVal8, u32 cntVal2);
-void MenuGX_SetOBJVRamModeChar(u32 bits);
-void MenuGXS_SetOBJVRamModeChar(u32 bits);
+void SetTopDispcntTileObjMappingRemoveBoundary(u32 bits);
+void SetSubDispcntTileObjMappingRemoveBoundary(u32 bits);
 
 extern const u8 gMenuDisplaySettingsDesc[40];

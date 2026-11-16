@@ -2,7 +2,7 @@
 #include "registers.h"
 
 // Reads the divider and square root registers into the context.
-void CP_SaveContext(CPContext *context) {
+void Arm_MathContext_Save(CPContext *context) {
     context->mDivNumer = reg_CP_DIV_NUMER;
     context->mDivDenom = reg_CP_DIV_DENOM;
     context->mDivMode = reg_CP_DIVCNT & 3;
@@ -11,7 +11,7 @@ void CP_SaveContext(CPContext *context) {
 }
 
 // Writes the context back to the divider and square root registers.
-void CPi_RestoreContext(const CPContext *context) {
+void Arm_MathContext_Load(const CPContext *context) {
     reg_CP_DIV_NUMER = context->mDivNumer;
     reg_CP_DIV_DENOM = context->mDivDenom;
     reg_CP_DIVCNT = context->mDivMode;

@@ -51,8 +51,8 @@
 #include "Main/Kart/kart_ai_follow.h"
 #include "fixed_vector_math.h"
 
-MapObjectModel *gSmanTop;
-MapObjectModel *gSmanBottom;
+MapObjectModel *g_SmanTopMapObject;
+MapObjectModel *g_SmanBottomMapObject;
 
 MapObjectKindDescriptor gSmanKindDescriptor = {0,
                                                {0, 0},
@@ -64,15 +64,15 @@ MapObjectKindDescriptor gSmanKindDescriptor = {0,
                                                0,
                                                CreateSmanUpdateList};
 
-void CreateSmanTop(void *mapObjectList) {
+void LoadSmanTopMapObject(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "sman_top.nsbmd");
-    gSmanTop = mapObjectModelNsbmd;
-    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
+    mapObjectModelNsbmd = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "sman_top.nsbmd");
+    g_SmanTopMapObject = mapObjectModelNsbmd;
+    StructMapObject_MaybeSetPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
 void SetupDrawSmanTop(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gSmanTop);
+    StructMapObject_SomeFn_9(mapObjectList, g_SmanTopMapObject);
 }
 
 void DrawSmanTop(void *mapObjectList, Sman *sman) {
@@ -81,26 +81,26 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
     s32 topOffset[3];
     commandArg = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&sman->mMapObject.mPos), 0xc);
     topOffset[1] = sman->mTopHeight >> 4;
     topOffset[0] = 0;
     topOffset[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, topOffset, 3);
     NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
-    MTX_RotZ33_(&matrix, FX_SinIdx((u16) sman->mAngleZ), FX_CosIdx((u16) sman->mAngleZ));
+    MTX_RotZ33__from_thumb(&matrix, FX_SinIdx((u16) sman->mAngleZ), FX_CosIdx((u16) sman->mAngleZ));
     NNS_G3dGeBufferOP_N(0x1a, &matrix, 9);
-    DrawMapObjectModel(mapObjectList, gSmanTop, sman);
+    DrawMapObjectModel(mapObjectList, g_SmanTopMapObject, sman);
 }
 
-void CreateSmanBottom(void *mapObjectList) {
+void LoadSmanBottomMapObject(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "sman_bottom.nsbmd");
-    gSmanBottom = mapObjectModelNsbmd;
-    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
+    mapObjectModelNsbmd = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "sman_bottom.nsbmd");
+    g_SmanBottomMapObject = mapObjectModelNsbmd;
+    StructMapObject_MaybeSetPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
 void SetupDrawSmanBottom(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gSmanBottom);
+    StructMapObject_SomeFn_9(mapObjectList, g_SmanBottomMapObject);
 }
 
 void DrawSmanBottom(void *mapObjectList, Sman *sman) {
@@ -109,14 +109,14 @@ void DrawSmanBottom(void *mapObjectList, Sman *sman) {
     s32 bottomScale;
     commandArg = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&sman->mMapObject.mPos), 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
     bottomScale = sman->mBottomScale;
     scale[0] = bottomScale;
     scale[1] = bottomScale;
     scale[2] = bottomScale;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
-    DrawMapObjectModel(mapObjectList, gSmanBottom, sman);
+    DrawMapObjectModel(mapObjectList, g_SmanBottomMapObject, sman);
 }
 
 void InitSmanObjects(SmanList *smanList) {
@@ -230,11 +230,11 @@ MapObjectKindData *CreateSmanKindData(void) {
 }
 
 MapObjectList *CreateSmanTopDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSmanTop, DrawSmanTop, SetupDrawSmanTop);
+    return CreateAllocateMapObject_from_thumb(LoadSmanTopMapObject, DrawSmanTop, SetupDrawSmanTop);
 }
 
 MapObjectList *CreateSmanBottomDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSmanBottom, DrawSmanBottom, SetupDrawSmanBottom);
+    return CreateAllocateMapObject_from_thumb(LoadSmanBottomMapObject, DrawSmanBottom, SetupDrawSmanBottom);
 }
 
 MapObjectList *CreateSmanUpdateList(void) {

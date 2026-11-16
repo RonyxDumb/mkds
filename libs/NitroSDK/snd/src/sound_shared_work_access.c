@@ -8,19 +8,19 @@ SNDSharedWork *SNDi_SharedWork;
 
 // Reads the player status word of the shared work area after invalidating its cache line.
 u32 SND_GetPlayerStatus(void) {
-    DC_InvalidateRange(&SNDi_SharedWork->mPlayerStatus, 4);
+    DC_InvalidateRangeNoClean(&SNDi_SharedWork->mPlayerStatus, 4);
     return SNDi_SharedWork->mPlayerStatus;
 }
 
 // Reads variable varNo of player playerNo from the shared work area after invalidating its cache line.
 s16 SND_GetPlayerLocalVariable(s32 playerNo, s32 varNo) {
-    DC_InvalidateRange(&SNDi_SharedWork->mPlayer[playerNo].mVariable[varNo], 2);
+    DC_InvalidateRangeNoClean(&SNDi_SharedWork->mPlayer[playerNo].mVariable[varNo], 2);
     return SNDi_SharedWork->mPlayer[playerNo].mVariable[varNo];
 }
 
 // Reads the finished command tag of the shared work area after invalidating its cache line.
 u32 SNDi_GetFinishedCommandTag(void) {
-    DC_InvalidateRange(SNDi_SharedWork, 4);
+    DC_InvalidateRangeNoClean(SNDi_SharedWork, 4);
     return SNDi_SharedWork->mFinishCommandTag;
 }
 
@@ -42,26 +42,26 @@ void SNDi_InitSharedWork(SNDSharedWork *work) {
     for (variableNo = 0; variableNo < 16; variableNo++) {
         work->mGlobalVariable[variableNo] = -1;
     }
-    DC_FlushRange(work, 0x280);
+    Arm_FlushRange(work, 0x280);
 }
 
 // Clears the handler, argument and id of each of the 8 alarm table entries.
-void SND_AlarmInit(void) {
+void Sound_InitializeAlarms(void) {
     s32 alarmNo;
 
     for (alarmNo = 0; alarmNo < 8; alarmNo++) {
-        gSndAlarmCallbackInfos[alarmNo].mFunc = 0;
-        gSndAlarmCallbackInfos[alarmNo].mArg = 0;
-        gSndAlarmCallbackInfos[alarmNo].mId = 0;
+        g_SoundAlarms[alarmNo].mFunc = 0;
+        g_SoundAlarms[alarmNo].mArg = 0;
+        g_SoundAlarms[alarmNo].mId = 0;
     }
 }
 
 // Raises the id byte of alarm table entry alarmNo and returns it.
-u32 SNDi_IncAlarmId(u32 alarmNo) {
+u32 IncreaseMDCounter(u32 alarmNo) {
     AlarmCallbackInfo *info;
     u32 id;
 
-    info = &gSndAlarmCallbackInfos[alarmNo];
+    info = &g_SoundAlarms[alarmNo];
     id = info->mId + 1;
     info->mId = id;
     return id;

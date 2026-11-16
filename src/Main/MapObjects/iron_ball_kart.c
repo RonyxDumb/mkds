@@ -22,7 +22,7 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/bound.h"
 
-MapObjectModel *gIronBall;
+MapObjectModel *g_IronBallMapObject;
 
 Vec3 gIronBallInitialScale = {0x4000, 0x4000, 0x4000};
 
@@ -52,22 +52,22 @@ void MoveKeyboardCursorToValue(u16 value) {
 
     foundRect = FindKeyboardRectByValue(value);
     if (foundRect != NULL) {
-        gKeyboardKeys.mCursorRect = foundRect;
-        if (gKeyboardKeys.mCursorCallback != NULL) {
-            callbackValue = gKeyboardKeys.mCursorCallback(GetKeyboardRectValue(foundRect), 0);
+        g_Global78Sub_2.mCursorRect = foundRect;
+        if (g_Global78Sub_2.mCursorCallback != NULL) {
+            callbackValue = g_Global78Sub_2.mCursorCallback(GetKeyboardRectValue(foundRect), 0);
             if (callbackValue != 0) {
-                gKeyboardKeys.mCursorRect = FindKeyboardRectByValue(callbackValue);
+                g_Global78Sub_2.mCursorRect = FindKeyboardRectByValue(callbackValue);
             }
         }
     }
 }
 
 s32 GetKeyboardCursorValue(void) {
-    return GetKeyboardRectValue(gKeyboardKeys.mCursorRect);
+    return GetKeyboardRectValue(g_Global78Sub_2.mCursorRect);
 }
 
 s32 GetKeyboardChosenKeyValue(void) {
-    return GetKeyboardValueForKeyId(gKeyboardKeys.mChosenKeyId);
+    return GetKeyboardValueForKeyId(g_Global78Sub_2.mChosenKeyId);
 }
 
 #pragma thumb off
@@ -76,8 +76,8 @@ void InitIronBall(IronBall *ironBall) {
     Vec3 scale = gIronBallInitialScale;
 
     SetMapObjectScale(&ironBall->mMapObject, &scale);
-    ironBall->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&ironBall->mMapObject.mSound->mSoundSource, 10, &ironBall->mMapObject.mPos);
+    ironBall->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&ironBall->mMapObject.mSound->mSoundSource, 10, &ironBall->mMapObject.mPos);
     ironBall->mMapObject.mFarDistanceSquared = gSoundFalloffs[10].mFarDistanceSquared;
     ironBall->mSoundOffZoneMask = DecimalNonZeroDigitsToBitMask(ironBall->mMapObject.mCourseMapRow->mSettings[6]);
 }
@@ -94,12 +94,12 @@ u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *firstResponse, u
 }
 
 void CreateIronBall(void *mapObjectList) {
-    gIronBall = CreateMapObjectModelNsbmd(mapObjectList, "IronBall.nsbmd");
-    SetMapObjectModelPolygonId(gIronBall, 0x3f);
+    g_IronBallMapObject = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "IronBall.nsbmd");
+    StructMapObject_MaybeSetPolygonId(g_IronBallMapObject, 0x3f);
 }
 
 void SetupDrawIronBall(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gIronBall);
+    StructMapObject_SomeFn_9(mapObjectList, g_IronBallMapObject);
 }
 
 void DrawIronBall(void *mapObjectList, IronBall *ironBall) {
@@ -110,10 +110,10 @@ void DrawIronBall(void *mapObjectList, IronBall *ironBall) {
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&ironBall->mMapObject.mPos), 0xc);
     if (ironBall->mRotateZAngle != 0) {
-        MTX_RotZ33_(&rotationMatrix, SIN_OF_ANGLE((u16) ironBall->mRotateZAngle),
+        MTX_RotZ33__from_thumb(&rotationMatrix, SIN_OF_ANGLE((u16) ironBall->mRotateZAngle),
                     COS_OF_ANGLE((u16) ironBall->mRotateZAngle));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &ironBall->mMapObject.mScale, 3);
-    DrawMapObjectModel(mapObjectList, gIronBall, ironBall);
+    DrawMapObjectModel(mapObjectList, g_IronBallMapObject, ironBall);
 }

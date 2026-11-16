@@ -8,12 +8,12 @@
 #pragma optimize_for_size on
 
 u32 IsBackupCommandRunning(void) {
-    if (IsBackupEnabled() != 0) {
-        return gBackupAccess->mCommandRunning;
+    if (SaveDataIoManager_IsBusy() != 0) {
+        return g_SaveDataIoManager->mCommandRunning;
     }
     return 0;
 }
 
 u32 IsBackupBusy(void) {
-    return gBackupBuffers->mBusy != 0 ? 1 : IsBackupCommandRunning();
+    return g_SaveDataHolder->mBusy != 0 ? 1 : IsBackupCommandRunning();
 }

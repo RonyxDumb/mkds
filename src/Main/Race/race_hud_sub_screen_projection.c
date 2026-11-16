@@ -34,7 +34,7 @@ void InitRaceHudSubScreenProjection(void) {
     IntPair bg3Min;
     IntPair bg3Max;
 
-    gRaceHudSubScreenProjection = HeapAlloc(RaceHudSubScreenGetCurrentHeap(), sizeof(RaceHudSubScreenProjection));
+    gRaceHudSubScreenProjection = Mem_AllocateHeap(GetActiveExecutionContextHeapHandle_2(), sizeof(RaceHudSubScreenProjection));
     gRaceHudSubScreenProjection->mCenter.mFirst = 0;
     gRaceHudSubScreenProjection->mCenter.mSecond = 0;
     gRaceHudSubScreenProjection->mCenterWhole.mFirst = 0;
@@ -47,20 +47,20 @@ void InitRaceHudSubScreenProjection(void) {
     GetRaceHudSubScreenKartIconsMinMax(&kartIconsMin, &kartIconsMax);
     gRaceHudSubScreenProjection->mKartIconsMin = kartIconsMin;
     gRaceHudSubScreenProjection->mKartIconsMax = kartIconsMax;
-    gRaceHudSubScreenProjection->mKartIconsInverseX = FX_InvFx64c(kartIconsMax.mFirst - kartIconsMin.mFirst);
-    gRaceHudSubScreenProjection->mKartIconsInverseZ = FX_InvFx64c(kartIconsMax.mSecond - kartIconsMin.mSecond);
+    gRaceHudSubScreenProjection->mKartIconsInverseX = FX_Inv64(kartIconsMax.mFirst - kartIconsMin.mFirst);
+    gRaceHudSubScreenProjection->mKartIconsInverseZ = FX_Inv64(kartIconsMax.mSecond - kartIconsMin.mSecond);
     GetRaceHudSubScreenCourseMinMax(&courseMin, &courseMax);
     gRaceHudSubScreenProjection->mCourseMin = courseMin;
     gRaceHudSubScreenProjection->mCourseMax = courseMax;
-    gRaceHudSubScreenProjection->mCourseInverseX = FX_InvFx64c(courseMax.mFirst - courseMin.mFirst);
-    gRaceHudSubScreenProjection->mCourseInverseZ = FX_InvFx64c(courseMax.mSecond - courseMin.mSecond);
+    gRaceHudSubScreenProjection->mCourseInverseX = FX_Inv64(courseMax.mFirst - courseMin.mFirst);
+    gRaceHudSubScreenProjection->mCourseInverseZ = FX_Inv64(courseMax.mSecond - courseMin.mSecond);
     gRaceHudSubScreenProjection->mCourseWidthScaled =
-        MulFixed12NoRound(FX_Div(courseMax.mFirst - courseMin.mFirst, 0x200000), 0xb0000);
+        SomeFxProduct(FX_Div(courseMax.mFirst - courseMin.mFirst, 0x200000), 0xb0000);
     GetRaceHudSubScreenBg3MinMax(&bg3Min, &bg3Max);
     gRaceHudSubScreenProjection->mBg3Min = bg3Min;
     gRaceHudSubScreenProjection->mBg3Max = bg3Max;
-    gRaceHudSubScreenProjection->mBg3InverseX = FX_InvFx64c(bg3Max.mFirst - bg3Min.mFirst);
-    gRaceHudSubScreenProjection->mBg3InverseZ = FX_InvFx64c(bg3Max.mSecond - bg3Min.mSecond);
+    gRaceHudSubScreenProjection->mBg3InverseX = FX_Inv64(bg3Max.mFirst - bg3Min.mFirst);
+    gRaceHudSubScreenProjection->mBg3InverseZ = FX_Inv64(bg3Max.mSecond - bg3Min.mSecond);
     gRaceHudSubScreenProjection->mScrollTimer = 0;
     gRaceHudSubScreenProjection->mScrollPosition = gRaceHudSubScreenInitialScrollPosition;
 }
@@ -69,10 +69,10 @@ void ClearRaceHudSubScreenProjection(void) {
     gRaceHudSubScreenProjection = NULL;
 }
 
-BOOL IsCourseWithMap2DLocal3(void) {
+BOOL MaybeCircuitUsesLocal3(void) {
     BOOL result = FALSE;
 
-    switch (RaceHudSubScreenGetCurrentCourseId()) {
+    switch (GetCurrentInternalCourseId_0()) {
         case COURSE_ID_OLD_YOSHI_GC:
         case COURSE_ID_OLD_MOMO_64:
         case COURSE_ID_OLD_LUIGI_GC:
@@ -103,7 +103,7 @@ BOOL IsCourseWithMap2DLocal3(void) {
 BOOL IsCourseWithSubBg3AreaOverflow(void) {
     BOOL result = FALSE;
 
-    switch (RaceHudSubScreenGetCurrentCourseId()) {
+    switch (GetCurrentInternalCourseId_0()) {
         case COURSE_ID_OLD_YOSHI_GC:
         case COURSE_ID_OLD_MOMO_64:
         case COURSE_ID_OLD_FRAPPE_64:
@@ -130,12 +130,12 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
 
     switch (GetRaceHudSubScreenState()) {
         case RACE_HUD_SUB_SCREEN_MAP_TURNING:
-            if (RaceHudSubScreenGetCurrentMode() == MODE_BATTLE) {
-                camera = GetCurrentCamera();
+            if (GetCurrentRaceMode_2() == MODE_BATTLE) {
+                camera = GetGlobalHD4();
             } else {
-                camera = GetChaseCamera();
+                camera = GetGlobalHD5();
             }
-            rawAngle = FX_Atan2Idx(camera->mViewMatrix.mRows[2].z, camera->mViewMatrix.mRows[0].z);
+            rawAngle = FX_Atan2(camera->mViewMatrix.mRows[2].z, camera->mViewMatrix.mRows[0].z);
             angle = (0x14000 - rawAngle) % 0x10000;
             gRaceHudSubScreenProjection->mScrollTimer = 0;
             break;
@@ -160,58 +160,58 @@ void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out) {
     IntPair kartIconsMin = gRaceHudSubScreenProjection->mKartIconsMin;
     Vec3 kartPos;
 
-    GetKartPos(&kartPos, (u8) kartIndex);
-    switch (RaceHudSubScreenGetCurrentCourseId()) {
+    LoadRacerMQVectorB(&kartPos, (u8) kartIndex);
+    switch (GetCurrentInternalCourseId_0()) {
         case COURSE_ID_OLD_MOMO_64:
         case COURSE_ID_CROSS:
         case COURSE_ID_OLD_KINOKO_GC:
             if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
-                out->mFirst = GetFixed12Whole(MulFixed12NoRound(
+                out->mFirst = GetFixed12Whole(SomeFxProduct(
                                   0x80000, MulFx64c(kartIconsMin.mFirst - kartPos.z,
                                                     gRaceHudSubScreenProjection->mKartIconsInverseX))) +
                               0xf8;
             } else {
-                out->mFirst = GetFixed12Whole(MulFixed12NoRound(
+                out->mFirst = GetFixed12Whole(SomeFxProduct(
                                   0x80000, MulFx64c(kartPos.z - kartIconsMin.mFirst,
                                                     gRaceHudSubScreenProjection->mKartIconsInverseX))) +
                               0x78;
             }
             out->mSecond =
-                GetFixed12Whole(MulFixed12NoRound(0x98000, MulFx64c(kartPos.x - kartIconsMin.mSecond,
+                GetFixed12Whole(SomeFxProduct(0x98000, MulFx64c(kartPos.x - kartIconsMin.mSecond,
                                                                     gRaceHudSubScreenProjection->mKartIconsInverseZ))) +
                 0x28;
             break;
         case COURSE_ID_BANK:
             if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
-                out->mFirst = GetFixed12Whole(MulFixed12NoRound(
+                out->mFirst = GetFixed12Whole(SomeFxProduct(
                                   0x80000, MulFx64c(kartIconsMin.mFirst - kartPos.z,
                                                     gRaceHudSubScreenProjection->mKartIconsInverseX))) +
                               0xf8;
             } else {
-                out->mFirst = GetFixed12Whole(MulFixed12NoRound(
+                out->mFirst = GetFixed12Whole(SomeFxProduct(
                                   0x80000, MulFx64c(kartPos.z - kartIconsMin.mFirst,
                                                     gRaceHudSubScreenProjection->mKartIconsInverseX))) +
                               0x78;
             }
             out->mSecond =
-                GetFixed12Whole(MulFixed12NoRound(0x98000, MulFx64c(kartPos.x - kartIconsMin.mSecond,
+                GetFixed12Whole(SomeFxProduct(0x98000, MulFx64c(kartPos.x - kartIconsMin.mSecond,
                                                                     gRaceHudSubScreenProjection->mKartIconsInverseZ))) +
                 0x28;
             break;
         default:
             if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
-                out->mFirst = GetFixed12Whole(MulFixed12NoRound(
+                out->mFirst = GetFixed12Whole(SomeFxProduct(
                                   0x80000, MulFx64c(kartIconsMin.mFirst - kartPos.x,
                                                     gRaceHudSubScreenProjection->mKartIconsInverseX))) +
                               0xf8;
             } else {
-                out->mFirst = GetFixed12Whole(MulFixed12NoRound(
+                out->mFirst = GetFixed12Whole(SomeFxProduct(
                                   0x80000, MulFx64c(kartPos.x - kartIconsMin.mFirst,
                                                     gRaceHudSubScreenProjection->mKartIconsInverseX))) +
                               0x78;
             }
             out->mSecond =
-                GetFixed12Whole(MulFixed12NoRound(0x98000, MulFx64c(kartPos.z - kartIconsMin.mSecond,
+                GetFixed12Whole(SomeFxProduct(0x98000, MulFx64c(kartPos.z - kartIconsMin.mSecond,
                                                                     gRaceHudSubScreenProjection->mKartIconsInverseZ))) +
                 0x28;
             break;
@@ -222,8 +222,8 @@ void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, IntPair *out) {
     IntPair courseMin = gRaceHudSubScreenProjection->mCourseMin;
 
     out->mFirst = GetFixed12Whole(
-        MulFixed12NoRound(0x200000, MulFx64c(pos->x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX)));
-    out->mSecond = GetFixed12Whole(MulFixed12NoRound(
+        SomeFxProduct(0x200000, MulFx64c(pos->x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX)));
+    out->mSecond = GetFixed12Whole(SomeFxProduct(
         0x200000, MulFx64c(pos->z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ)));
 }
 
@@ -250,25 +250,25 @@ void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, IntPair *out, s32 unused
     s32 dx;
     s32 dy;
 
-    GetKartPos(&kartPos, (u8) kartIndex);
-    projectedX = MulFixed12NoRound(
+    LoadRacerMQVectorB(&kartPos, (u8) kartIndex);
+    projectedX = SomeFxProduct(
         0x200000, MulFx64c(kartPos.x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX));
-    projectedY = MulFixed12NoRound(
+    projectedY = SomeFxProduct(
         0x200000, MulFx64c(kartPos.z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ));
     if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
         dy = projectedY - centerY;
         dx = projectedX - center.mFirst;
         out->mFirst =
-            GetFixed12Whole(MulFixed12NoRound(-pairSecondScaled, dx) + MulFixed12NoRound(pairFirstScaled, dy)) + 0x80;
+            GetFixed12Whole(SomeFxProduct(-pairSecondScaled, dx) + SomeFxProduct(pairFirstScaled, dy)) + 0x80;
         out->mSecond =
-            GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, dy)) + 0x60;
+            GetFixed12Whole(SomeFxProduct(pairFirstScaled, dx) + SomeFxProduct(pairSecondScaled, dy)) + 0x60;
     } else {
         dx = projectedX - center.mFirst;
         dy = projectedY - centerY;
         out->mFirst =
-            GetFixed12Whole(MulFixed12NoRound(pairSecondScaled, dx) - MulFixed12NoRound(pairFirstScaled, dy)) + 0x80;
+            GetFixed12Whole(SomeFxProduct(pairSecondScaled, dx) - SomeFxProduct(pairFirstScaled, dy)) + 0x80;
         out->mSecond =
-            GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, dy)) + 0x60;
+            GetFixed12Whole(SomeFxProduct(pairFirstScaled, dx) + SomeFxProduct(pairSecondScaled, dy)) + 0x60;
     }
 }
 
@@ -304,9 +304,9 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScree
     s32 wholeY;
 
     projectedX =
-        MulFixed12NoRound(0x200000, MulFx64c(pos->x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX));
+        SomeFxProduct(0x200000, MulFx64c(pos->x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX));
     projectedY =
-        MulFixed12NoRound(0x200000, MulFx64c(pos->z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ));
+        SomeFxProduct(0x200000, MulFx64c(pos->z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ));
     if (requireNearCenter != 0) {
         centerWhole = gRaceHudSubScreenProjection->mCenterWhole;
         halfSize = gRaceHudSubScreenProjection->mHalfSize;
@@ -329,17 +329,17 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScree
         dx = projectedX - centerX;
         dy = projectedY - centerY;
         screenX =
-            GetFixed12Whole(MulFixed12NoRound(-pairSecondScaled, dx) + MulFixed12NoRound(pairFirstScaled, dy)) + 0x80;
+            GetFixed12Whole(SomeFxProduct(-pairSecondScaled, dx) + SomeFxProduct(pairFirstScaled, dy)) + 0x80;
         screenY =
-            GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, dy)) + 0x60;
+            GetFixed12Whole(SomeFxProduct(pairFirstScaled, dx) + SomeFxProduct(pairSecondScaled, dy)) + 0x60;
     } else {
         dx = projectedX - centerX;
         deltaY = projectedY - centerY;
         screenX =
-            GetFixed12Whole(MulFixed12NoRound(pairSecondScaled, dx) - MulFixed12NoRound(pairFirstScaled, deltaY)) +
+            GetFixed12Whole(SomeFxProduct(pairSecondScaled, dx) - SomeFxProduct(pairFirstScaled, deltaY)) +
             0x80;
         screenY =
-            GetFixed12Whole(MulFixed12NoRound(pairFirstScaled, dx) + MulFixed12NoRound(pairSecondScaled, deltaY)) +
+            GetFixed12Whole(SomeFxProduct(pairFirstScaled, dx) + SomeFxProduct(pairSecondScaled, deltaY)) +
             0x60;
     }
     if (screenX > -32 && screenX < 0x120 && screenY > -32 && screenY < 0xe0) {
@@ -360,15 +360,15 @@ void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out) {
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
         pos = gRaceHudSubScreenProjection->mScrollPosition;
     } else {
-        GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
+        LoadRacerMQVectorC(&pos, GetCurrentPlayerRacerId());
     }
     if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_VIEW) {
         pos = GetCourseMapSubScreenView()->mPos;
     }
     gRaceHudSubScreenProjection->mCenter.mFirst =
-        MulFixed12NoRound(0x200000, MulFx64c(pos.x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX));
+        SomeFxProduct(0x200000, MulFx64c(pos.x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX));
     gRaceHudSubScreenProjection->mCenter.mSecond =
-        MulFixed12NoRound(0x200000, MulFx64c(pos.z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ));
+        SomeFxProduct(0x200000, MulFx64c(pos.z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ));
     gRaceHudSubScreenProjection->mCenterWhole.mFirst = GetFixed12Whole(gRaceHudSubScreenProjection->mCenter.mFirst);
     out->mCenterX = gRaceHudSubScreenProjection->mCenterWhole.mFirst;
     gRaceHudSubScreenProjection->mCenterWhole.mSecond = GetFixed12Whole(gRaceHudSubScreenProjection->mCenter.mSecond);
@@ -396,21 +396,21 @@ void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
         pos = gRaceHudSubScreenProjection->mScrollPosition;
     } else {
-        GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
+        LoadRacerMQVectorC(&pos, GetCurrentPlayerRacerId());
     }
     if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_VIEW) {
         pos = GetCourseMapSubScreenView()->mPos;
     }
     out->mCenterX = GetFixed12Whole(
-        MulFixed12NoRound(0x200000, MulFx64c(pos.x - bg3Min.mFirst, gRaceHudSubScreenProjection->mBg3InverseX)));
+        SomeFxProduct(0x200000, MulFx64c(pos.x - bg3Min.mFirst, gRaceHudSubScreenProjection->mBg3InverseX)));
     out->mCenterY = GetFixed12Whole(
-        MulFixed12NoRound(0x200000, MulFx64c(pos.z - bg3Min.mSecond, gRaceHudSubScreenProjection->mBg3InverseZ)));
+        SomeFxProduct(0x200000, MulFx64c(pos.z - bg3Min.mSecond, gRaceHudSubScreenProjection->mBg3InverseZ)));
     out->mX1 = out->mCenterX - 0x80;
     out->mY1 = out->mCenterY - 0x60;
 }
 
 CourseMapSubScreenView *GetCourseMapSubScreenView(void) {
-    return gCourseMap->mSubScreenView;
+    return g_GlobalPE->mSubScreenView;
 }
 
 s32 MulFx64c(s32 value, s64 factor) {
@@ -430,22 +430,22 @@ void UpdateRaceHudSubScreenBg3CenterByFrames(RaceHudSubScreenBgAffine *out) {
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
         pos = gRaceHudSubScreenProjection->mScrollPosition;
     } else {
-        GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
+        LoadRacerMQVectorC(&pos, GetCurrentPlayerRacerId());
     }
     if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_VIEW) {
         pos = GetCourseMapSubScreenView()->mPos;
     }
     spanX = bg3Max.mFirst - bg3Min.mFirst;
     spanZ = bg3Max.mSecond - bg3Min.mSecond;
-    framesQuotient = GetRaceHudUpdateFrames() / 32;
+    framesQuotient = GetB350_T5() / 32;
     offsetX = spanX * framesQuotient;
     offsetZ = spanZ * framesQuotient;
     pos.x -= offsetX / 512;
     pos.z -= offsetZ / 512;
     out->mCenterX = GetFixed12Whole(
-        MulFixed12NoRound(0x200000, MulFx64c(pos.x - bg3Min.mFirst, gRaceHudSubScreenProjection->mBg3InverseX)));
+        SomeFxProduct(0x200000, MulFx64c(pos.x - bg3Min.mFirst, gRaceHudSubScreenProjection->mBg3InverseX)));
     out->mCenterY = GetFixed12Whole(
-        MulFixed12NoRound(0x200000, MulFx64c(pos.z - bg3Min.mSecond, gRaceHudSubScreenProjection->mBg3InverseZ)));
+        SomeFxProduct(0x200000, MulFx64c(pos.z - bg3Min.mSecond, gRaceHudSubScreenProjection->mBg3InverseZ)));
     out->mX1 = out->mCenterX - 0x80;
     out->mY1 = out->mCenterY - 0x60;
 }
@@ -455,7 +455,7 @@ u16 RaceHudSubScreenGetSlotDownBits(InputSlot *inputSlot, s32 mask) {
 }
 
 u16 RaceHudSubScreenGetDownBits(s32 slotIndex, s32 mask) {
-    return RaceHudSubScreenGetSlotDownBits(&gInputSlots[slotIndex], mask);
+    return RaceHudSubScreenGetSlotDownBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 void UpdateRaceHudSubScreenScroll(void) {
@@ -465,58 +465,58 @@ void UpdateRaceHudSubScreenScroll(void) {
     Vec3 dir;
 
     GetRaceHudSubScreenScrollLimits(&scrollMin, &scrollMax);
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_LEFT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetSomeCYId_9(), PAD_KEY_LEFT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x < scrollMin.mFirst) {
                 gRaceHudSubScreenProjection->mScrollPosition.x = scrollMin.mFirst;
             }
         } else {
-            GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
+            LoadRacerMQVectorC(&gRaceHudSubScreenProjection->mScrollPosition, GetCurrentPlayerRacerId());
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_RIGHT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetSomeCYId_9(), PAD_KEY_RIGHT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x > scrollMax.mFirst) {
                 gRaceHudSubScreenProjection->mScrollPosition.x = scrollMax.mFirst;
             }
         } else {
-            GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
+            LoadRacerMQVectorC(&gRaceHudSubScreenProjection->mScrollPosition, GetCurrentPlayerRacerId());
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_UP) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetSomeCYId_9(), PAD_KEY_UP) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z < scrollMin.mSecond) {
                 gRaceHudSubScreenProjection->mScrollPosition.z = scrollMin.mSecond;
             }
         } else {
-            GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
+            LoadRacerMQVectorC(&gRaceHudSubScreenProjection->mScrollPosition, GetCurrentPlayerRacerId());
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DOWN) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetSomeCYId_9(), PAD_KEY_DOWN) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z > scrollMax.mSecond) {
                 gRaceHudSubScreenProjection->mScrollPosition.z = scrollMax.mSecond;
             }
         } else {
-            GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
+            LoadRacerMQVectorC(&gRaceHudSubScreenProjection->mScrollPosition, GetCurrentPlayerRacerId());
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
         gRaceHudSubScreenProjection->mScrollTimer--;
         if (gRaceHudSubScreenProjection->mScrollTimer < RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW) {
-            GetKartPosFromPosSourceCopy(&target, GetFollowedKartOrEntryIndex());
+            LoadRacerMQVectorC(&target, GetCurrentPlayerRacerId());
             gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW;
-            VEC_Subtract(&target, &gRaceHudSubScreenProjection->mScrollPosition, &dir);
-            Vec3NormalizeAndGetLengthUnchecked(&dir, &dir);
-            VEC_MultAdd(RACE_HUD_SUB_SCREEN_SCROLL_STEP, &dir, &gRaceHudSubScreenProjection->mScrollPosition,
+            VecFx32_Subtract(&target, &gRaceHudSubScreenProjection->mScrollPosition, &dir);
+            Vector3_MaybeNormalize(&dir, &dir);
+            VecFx32_AddScale1(RACE_HUD_SUB_SCREEN_SCROLL_STEP, &dir, &gRaceHudSubScreenProjection->mScrollPosition,
                         &gRaceHudSubScreenProjection->mScrollPosition);
             if (GetFixed12Whole(target.x - gRaceHudSubScreenProjection->mScrollPosition.x) *
                         GetFixed12Whole(target.x - gRaceHudSubScreenProjection->mScrollPosition.x) +
@@ -555,7 +555,7 @@ s32 GetFixed12Whole(s32 value) {
 }
 
 s32 RaceHudSubScreenGetCurrentMirrorMode(void) {
-    return gRaceSetup->mMirrorMode;
+    return g_GlobalCO->mMirrorMode;
 }
 
 void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAffines, s32 scale) {
@@ -566,16 +566,16 @@ void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAff
     gRaceHudSubScreenProjection->mAnglePairSecond = RaceHudSubScreenFX_CosIdx(angle);
     gRaceHudSubScreenProjection->mAnglePairFirst = RaceHudSubScreenFX_SinIdx(angle);
     gRaceHudSubScreenProjection->mAnglePairSecondScaled =
-        MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairSecond, scale);
+        SomeFxProduct(gRaceHudSubScreenProjection->mAnglePairSecond, scale);
     gRaceHudSubScreenProjection->mAnglePairFirstScaled =
-        MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairFirst, scale);
+        SomeFxProduct(gRaceHudSubScreenProjection->mAnglePairFirst, scale);
     if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL) {
         UpdateRaceHudSubScreenScroll();
     }
     gRaceHudSubScreenProjection->mHalfSize = GetFixed12Whole(FX_Div(0xb0000, scale));
     scale = FX_Inv(scale);
-    secondByInverseScale = MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairSecond, scale);
-    firstByInverseScale = MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairFirst, scale);
+    secondByInverseScale = SomeFxProduct(gRaceHudSubScreenProjection->mAnglePairSecond, scale);
+    firstByInverseScale = SomeFxProduct(gRaceHudSubScreenProjection->mAnglePairFirst, scale);
     if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
         bgAffines[0].mMatrix0 = bgAffines[1].mMatrix0 = -secondByInverseScale;
         bgAffines[0].mMatrix2 = bgAffines[1].mMatrix2 = firstByInverseScale;
@@ -586,7 +586,7 @@ void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAff
     bgAffines[0].mMatrix1 = bgAffines[1].mMatrix1 = firstByInverseScale;
     bgAffines[0].mMatrix3 = bgAffines[1].mMatrix3 = secondByInverseScale;
     UpdateRaceHudSubScreenCenter(bgAffines);
-    switch (RaceHudSubScreenGetCurrentCourseId()) {
+    switch (GetCurrentInternalCourseId_0()) {
         default:
             bgAffines[1] = bgAffines[0];
             break;
@@ -606,6 +606,6 @@ void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAff
     }
 }
 
-s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier) {
+s32 SomeFxProduct(s32 multiplicand, s32 multiplier) {
     return MUL_FIXED12_NO_ROUND(multiplicand, multiplier);
 }

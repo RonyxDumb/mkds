@@ -36,7 +36,7 @@ const u32 gKartNameTagMaskedTexture[128] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 };
 
-void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
+void StructAM_SomeFn_0(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP;
     modelAnimation->mDone = 0;
     modelAnimation->mFrameStep = FIXED12_UNIT;
@@ -46,7 +46,7 @@ void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s3
     modelAnimation->mLoopCount = 0;
 }
 
-void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
+void StructAM_SomeFn(ModelAnimationFrameLoop *modelAnimation) {
     s32 frameIndex;
     switch (modelAnimation->mLoopMode) {
         case MODEL_ANIMATION_LOOP_MODE_WRAP:
@@ -85,10 +85,10 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
     }
 }
 
-void AdvanceModelAnimationFrame(ModelAnimationFrameLoop *modelAnimation) {
+void StructAM_SomeFn_7(ModelAnimationFrameLoop *modelAnimation) {
     modelAnimation->mDone = 0;
     modelAnimation->mFrameIndex = modelAnimation->mFrameIndex + modelAnimation->mFrameStep;
-    ApplyModelAnimationLoopMode(modelAnimation);
+    StructAM_SomeFn(modelAnimation);
 }
 
 void DrawKartNameTagQuadVertices(s32 texWidthFixed, s32 texHeightFixed, u32 color) {

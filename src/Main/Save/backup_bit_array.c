@@ -16,57 +16,57 @@
 
 #pragma thumb on
 
-void SetBitArrayBit(s32 bitIndex, u8 *bytes, s32 unused) {
+void MaybeSetPersonalGhostForCoursePresent_from_thumb(s32 bitIndex, u8 *bytes, s32 unused) {
     u8 *bitArrayByte;
 
-    bitArrayByte = GetBitArrayByte(bitIndex, bytes);
+    bitArrayByte = GetGhostDataByteByCourse_from_thumb(bitIndex, bytes);
     *bitArrayByte |= 1 << (u8) (bitIndex % 8);
 }
 
 BOOL IsBitArrayBitSet(s32 bitIndex, u8 *bytes, s32 unused) {
     u8 *bitArrayByte;
 
-    bitArrayByte = GetBitArrayByte(bitIndex, bytes);
+    bitArrayByte = GetGhostDataByteByCourse_from_thumb(bitIndex, bytes);
     return (*bitArrayByte & (1 << (u8) (bitIndex % 8))) != 0 ? 1 : 0;
 }
 
 void ClearBitArrayBit(s32 bitIndex, u8 *bytes, s32 unused) {
     u8 *bitArrayByte;
 
-    bitArrayByte = GetBitArrayByte(bitIndex, bytes);
+    bitArrayByte = GetGhostDataByteByCourse_from_thumb(bitIndex, bytes);
     *bitArrayByte &= ~(1 << (u8) (bitIndex % 8));
 }
 
-BOOL IsCourseGhostBitSet(u8 bitIndex) {
-    return IsBitArrayBitSet(bitIndex, gBackupBuffers->mFirstBlock->mCourseGhostBits, 4);
+BOOL MaybeHasPersonalGhostForCourse_from_thumb(u8 bitIndex) {
+    return IsBitArrayBitSet(bitIndex, g_SaveDataHolder->mFirstBlock->mCourseGhostBits, 4);
 }
 
 void ClearCourseGhostBit(s32 bitIndex) {
-    ClearBitArrayBit(bitIndex, gBackupBuffers->mFirstBlock->mCourseGhostBits, 4);
+    ClearBitArrayBit(bitIndex, g_SaveDataHolder->mFirstBlock->mCourseGhostBits, 4);
 }
 
 BOOL IsSlotGhostBitSet(u32 bitIndex) {
-    return IsBitArrayBitSet(bitIndex, gBackupBuffers->mFirstBlock->mSlotGhostBits, 2);
+    return IsBitArrayBitSet(bitIndex, g_SaveDataHolder->mFirstBlock->mSlotGhostBits, 2);
 }
 
-void ResetBackupFirstBlock(s32 copyOwnerName) {
+void ClearSaveDataSection_Header_from_thumb(s32 copyOwnerName) {
     u16 ownerCharCount;
     u16 *ownerText;
 
-    MI_CpuFill8(gBackupBuffers->mFirstBlock, 0, sizeof(BackupFirstBlock));
+    Mem_CpuFill8(g_SaveDataHolder->mFirstBlock, 0, sizeof(BackupFirstBlock));
     if (copyOwnerName != 0) {
-        ownerCharCount = gStartupWork->mOwnerCharCount;
-        ownerText = gStartupWork->mOwnerText;
-        gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
-        MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
-        MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
+        ownerCharCount = g_GlobalP->mOwnerCharCount;
+        ownerText = g_GlobalP->mOwnerText;
+        g_SaveDataHolder->mFirstBlock->mHasPlayerName = 1;
+        Mem_CpuFill8(g_SaveDataHolder->mFirstBlock->mPlayerName, 0, sizeof(g_SaveDataHolder->mFirstBlock->mPlayerName));
+        Mem_CpuCopy8(ownerText, g_SaveDataHolder->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
     }
-    gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
-    gBackupBuffers->mFirstBlock->mEmblemOff = 0;
-    gBackupBuffers->mFirstBlock->mLocateFriendOff = 0;
-    gBackupBuffers->mFirstBlock->mElo = BACKUP_ELO_INITIAL;
-    SetSecretMessageFlagsWrapper();
-    DWC_CreateUserData(&gBackupBuffers->mFirstBlock->mUserData, 0x414d434a);
+    g_SaveDataHolder->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
+    g_SaveDataHolder->mFirstBlock->mEmblemOff = 0;
+    g_SaveDataHolder->mFirstBlock->mLocateFriendOff = 0;
+    g_SaveDataHolder->mFirstBlock->mElo = BACKUP_ELO_INITIAL;
+    j_GetCurrentUnlockedSecretFlags();
+    j_PlayerProfileInfo_Create_from_thumb(&g_SaveDataHolder->mFirstBlock->mUserData, 0x414d434a);
 }
 
 #pragma thumb off

@@ -12,13 +12,13 @@
 #include "fixed_vector_math.h"
 
 const Vec3 gCourseModelDrawScale = {0x1000, 0x1000, 0x1000};
-const u32 gKillerItemNodeName[4] = {0x6c6c694b, 0x74497265, 0x6d65, 0};
+const u32 g_str_KillerItem[4] = {0x6c6c694b, 0x74497265, 0x6d65, 0};
 
 // Copies row 1 of the matrix at 0x120 (mRotationMatrix), the kart's up direction, to the out vector. The camera takes
 // it as its up while KART_DRIVE_BOOST_SURFACE_HELD is set in mDriveFlags and the world up (0, 0x1000, 0) otherwise; the
 // steering code removes this component from vectors. The kart has two more matrices (0x150 and 0x184), built from this
 // one for drawing.
-void GetKartUp(const Kart *kart, Vec3 *upDirection) {
+void StructMQRacerEntry_GetVec555(const Kart *kart, Vec3 *upDirection) {
     const MtxFx43 *matrix;
 
     matrix = &kart->mRotationMatrix;
@@ -30,7 +30,7 @@ void GetKartUp(const Kart *kart, Vec3 *upDirection) {
 // Copies row 2 of the matrix at 0x120 (mRotationMatrix), the kart's forward direction, to the out vector. The camera
 // follows it, and its mSavedKartForward holds a copy taken when the camera is set up. The kart has two more matrices
 // (0x150 and 0x184), built from this one for drawing.
-void GetKartForward(const Kart *kart, Vec3 *forward) {
+void GetMQRacerVector333(const Kart *kart, Vec3 *forward) {
     const MtxFx43 *matrix;
 
     matrix = &kart->mRotationMatrix;
@@ -62,12 +62,12 @@ void KartAiRespawnKartAndToggleEventFlag(Kart *kart) {
             kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_RESPAWN;
         }
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         kart->mDriveFlags &= ~KART_DRIVE_OBJECTS_SKIP;
     }
 }
 
-void PlaceKartKillerEffectCallback(NNSG3dRS *renderState) {
+void StructMLFnPtr(NNSG3dRS *renderState) {
     u32 killerItemKartIndex;
     MtxFx33 rotationMatrix;
     MtxFx43 positionMatrix;
@@ -80,7 +80,7 @@ void PlaceKartKillerEffectCallback(NNSG3dRS *renderState) {
     s32 killerItemDictIndex;
 
     killerItemKartIndex = GetKillerItemKartIndex();
-    killerItemDictIndex = NNS_G3dGetResDictIdxByName(&renderState->mRenderObj->mResMdl->mNodeInfo, gKillerItemNodeName);
+    killerItemDictIndex = Dict_SomeFn_0(&renderState->mRenderObj->mResMdl->mNodeInfo, g_str_KillerItem);
     if (killerItemDictIndex !=
         ((renderState->mFlag & NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID) != 0 ? renderState->mCurrentNodeDesc : -1)) {
         return;
@@ -92,12 +92,12 @@ void PlaceKartKillerEffectCallback(NNSG3dRS *renderState) {
     MTX_Concat33(&rotationMatrix, &inverseViewMatrix.mAxes, &rotationMatrix);
     effectPosition = positionMatrix.mRows[3];
     offset = rotationMatrix.mRows[2];
-    kart = GetKart(killerItemKartIndex);
+    kart = GetRacerMQEntry(killerItemKartIndex);
     offsetScale = MUL_FIXED12_ROUNDED(kart->mRadiusFactor, -0xd000) >> 4;
     offset.x = MUL_FIXED12_NO_ROUND(offset.x, offsetScale);
     offset.y = MUL_FIXED12_NO_ROUND(offset.y, offsetScale);
     offset.z = MUL_FIXED12_NO_ROUND(offset.z, offsetScale);
-    VEC_Add(&effectPosition, &offset, &effectPosition);
+    VecFx32_Add(&effectPosition, &offset, &effectPosition);
     PlaceKartKillerEffect(killerItemKartIndex, &effectPosition);
     renderState->mCbVecFunc[6] = NULL;
     renderState->mCbVecTiming[6] = 0;

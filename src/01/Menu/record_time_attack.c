@@ -64,7 +64,7 @@ BOOL AdvanceRecordTAttButtonSequence(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u16 pressedBits;
 
-    pressedBits = gInputSlots[slotIndex].mPressedBits;
+    pressedBits = g_GlobalCYT[slotIndex].mPressedBits;
     if (pressedBits != 0) {
         if (gRecordTAttButtonSequence[0] == (gRecordTAttButtonSequence[0] | pressedBits)) {
             gRecordTAtt->mButtonSequenceIndex = 1;
@@ -99,7 +99,7 @@ void InitRecordTAtt(void *heap) {
         ((reg_G2S_DB_BG1CNT) & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     (reg_G2S_DB_BG3CNT) =
         ((reg_G2S_DB_BG3CNT) & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
-    gRecordTAtt = HeapAlloc(heap, sizeof(RecordTAtt));
+    gRecordTAtt = Mem_AllocateHeap(heap, sizeof(RecordTAtt));
     gRecordTAtt->mHeap = heap;
     gRecordTAtt->mState = RECORD_TATT_STATE_SLIDE_IN_TOP;
     gRecordTAtt->mIndex = 0;
@@ -112,14 +112,14 @@ void InitRecordTAtt(void *heap) {
     }
     LocateAndQueueRecordTAtt();
     CreateKartIcon(heap);
-    ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
+    OamBuffer_SomeFn_from_thumb(GetRecordMainOam(), GetRecordSubOam());
     InitLayoutTable(heap, gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMBnll,
                     &gRecordTAtt->mRecordTAttMTable);
     InitLayoutTable(heap, gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSBnll,
                     &gRecordTAtt->mRecordTAttSTable);
-    gRecordTAtt->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gRecordTAtt->mGhostMessages = FindSceneFile("ghost.bmg");
-    gRecordTAtt->mRecordMessages = FindSceneFile("record.bmg");
+    gRecordTAtt->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    gRecordTAtt->mGhostMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("ghost.bmg");
+    gRecordTAtt->mRecordMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("record.bmg");
     remainingSize = 0x8000;
     remainingSize -=
         InitLabelCanvas(heap, 0, gRecordTAtt->mRecordTAttMBnll, 0xc8, 0x10, 0, gRecordTAtt->mRecordTAttMNcer,
@@ -152,7 +152,7 @@ void InitRecordTAtt(void *heap) {
     InitLabelCanvas(heap, 8, gRecordTAtt->mRecordTAttSBnll, 0x98, 0x10, 0xd, gRecordTAtt->mRecordTAttSNcer,
                     gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, remainingSize);
     recordTAtt = gRecordTAtt;
-    PrintLabelLayoutTextNoFixedAdvance(1, 8, gRecordTAtt->mRecordTAttSBnll, GetBmgEntry(recordTAtt->mRecordMessages, 3),
+    PrintLabelLayoutTextNoFixedAdvance(1, 8, gRecordTAtt->mRecordTAttSBnll, Bmg_GetRawStringPointer_from_thumb(recordTAtt->mRecordMessages, 3),
                                        recordTAtt->mRecordTAttSBncl, recordTAtt->mRecordTAttSTable);
     ResetRecordTAtt();
 }
@@ -174,7 +174,7 @@ void AdvanceRecordTAttSlideInTop(void) {
 
     gRecordTAtt->mStateFrames++;
     offsetY =
-        InterpolateS16(1, -RECORD_TATT_TOP_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, -RECORD_TATT_TOP_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg0Offset = offsetY;
     gRecordTAtt->mBg1OffsetY = offsetY;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = offsetY;
@@ -191,7 +191,7 @@ void AdvanceRecordTAttSlideInRight(void) {
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, RECORD_TATT_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, RECORD_TATT_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg1OffsetX = offsetX;
     gRecordTAtt->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
@@ -239,29 +239,29 @@ void AdvanceRecordTAttWaitInput(void) {
     AdvanceRecordTAttOffsetTimers();
     touchFlag = TRUE;
     recentlyLost = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && hasPair == 0) {
         touchFlag = FALSE;
     }
     if (touchFlag != FALSE) {
-        touchedRect = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                              gInputSlots[slotIndex].mPair.mPairY);
+        touchedRect = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                              g_GlobalCYT[slotIndex].mPair.mPairY);
     }
     touchFlag = FALSE;
     recentlyLost = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         touchFlag = TRUE;
     }
     if (touchFlag != FALSE) {
-        touchBeganRect = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                                 gInputSlots[slotIndex].mPair.mPairY);
+        touchBeganRect = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                 g_GlobalCYT[slotIndex].mPair.mPairY);
     }
     if (touchedRect != 0) {
         gRecordTAtt->mLeftRepeat = FALSE;
@@ -269,18 +269,18 @@ void AdvanceRecordTAttWaitInput(void) {
     if (touchedRect != 1) {
         gRecordTAtt->mRightRepeat = FALSE;
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         touchFlag = FALSE;
         recentlyLost = FALSE;
-        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchFlag = TRUE;
         }
-        if (touchFlag == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                        gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+        if (touchFlag == FALSE || IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                                        g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto other;
         }
     }
@@ -289,24 +289,24 @@ void AdvanceRecordTAttWaitInput(void) {
     RequestSelectReturnPressWithSound(0);
     goto done;
 other:
-    if (touchBeganRect == 2 || (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_X) != 0) {
+    if (touchBeganRect == 2 || (u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_X) != 0) {
         RequestRecordTAttPressButton();
     } else if ((touchedRect == 0 && gRecordTAtt->mLeftRepeat != FALSE) ||
                (touchBeganRect == 0 && gRecordTAtt->mLeftRepeat == FALSE) ||
-               (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
+               (u16) (g_GlobalCYT[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordTAtt->mOffsetTimers[0] = RECORD_TATT_OFFSET_TIMER_FRAMES;
         gRecordTAtt->mLeftRepeat = TRUE;
         RequestRecordTAttSlideOutSide();
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
     } else if ((touchedRect == 1 && gRecordTAtt->mRightRepeat != FALSE) ||
                (touchBeganRect == 1 && gRecordTAtt->mRightRepeat == FALSE) ||
-               (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+               (u16) (g_GlobalCYT[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordTAtt->mOffsetTimers[1] = RECORD_TATT_OFFSET_TIMER_FRAMES;
         gRecordTAtt->mRightRepeat = TRUE;
         RequestRecordTAttSlideOutSide();
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
     }
 done:
     if (AdvanceRecordTAttButtonSequence() != FALSE) {
@@ -335,7 +335,7 @@ void AdvanceRecordTAttSlideOutSide(void) {
             break;
     }
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, targetOffsetX, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg1OffsetX = offsetX;
     gRecordTAtt->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
@@ -385,7 +385,7 @@ void AdvanceRecordTAttSlideInSide(void) {
             break;
     }
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, startOffsetX, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, startOffsetX, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg1OffsetX = offsetX;
     gRecordTAtt->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
@@ -424,7 +424,7 @@ void AdvanceRecordTAttSlideOutRight(void) {
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg1OffsetX = offsetX;
     gRecordTAtt->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
@@ -466,7 +466,7 @@ void AdvanceRecordTAttSlideOutTop(void) {
 
     gRecordTAtt->mStateFrames++;
     offsetY =
-        InterpolateS16(1, 0, -RECORD_TATT_TOP_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, 0, -RECORD_TATT_TOP_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg0Offset = offsetY;
     gRecordTAtt->mBg1OffsetY = offsetY;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = offsetY;
@@ -498,7 +498,7 @@ void AdvanceRecordTAttSlideOutForClearPrompt(void) {
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg3OffsetX = offsetX;
     subLayoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = offsetX;
@@ -528,19 +528,19 @@ void AdvanceRecordTAttSlideOutForClearPrompt(void) {
 }
 
 void AdvanceRecordTAttWaitClearPromptOpen(void) {
-    if (IsTxtSystemOpenNoCloseRequest() != 0) {
+    if (TextSystem_IsDialogIdle_from_thumb() != 0) {
         RequestRecordTAttWaitClearAnswer();
     }
 }
 
 void AdvanceRecordTAttWaitClearAnswer(void) {
-    if (GetTxtSystemDone() != 0) {
-        if (GetTxtSystemSelectedIndex() == 0) {
-            if (IsCourseGhostRecordMissing(gRecordTAttCourseIds[gRecordTAtt->mIndex]) == 0) {
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
+            if (CourseTimeTrialRecordsEmpty(gRecordTAttCourseIds[gRecordTAtt->mIndex]) == 0) {
                 ClearCourseTimeRecords(gRecordTAttCourseIds[gRecordTAtt->mIndex]);
-                WaitThreadFunctionsDone();
-                if (gBackupAccess->mBackupEnabled != 0) {
-                    CARD_WaitBackupAsync();
+                WaitForWorkerTask();
+                if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                    j_WaitForPendingCardOperation();
                 }
             }
             gRecordTAtt->mClearChosen = TRUE;
@@ -555,7 +555,7 @@ void AdvanceRecordTAttWaitClearPromptClose(void) {
 
     gRecordTAtt->mStateFrames++;
     if (gRecordTAtt->mClearChosen != FALSE) {
-        offsetX = InterpolateS16(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+        offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
         gRecordTAtt->mBg1OffsetX = offsetX;
         mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = offsetX;
@@ -572,7 +572,7 @@ void AdvanceRecordTAttWaitClearPromptClose(void) {
         gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
     }
     if (gRecordTAtt->mStateFrames >= RECORD_TATT_SLIDE_FRAMES) {
-        if (IsTxtSystemClosedNoOpenRequest() != 0) {
+        if (TextSystem_IsDialogFinished_from_thumb() != 0) {
             RequestRecordTAttSlideInAfterClearPrompt();
         }
     }
@@ -585,7 +585,7 @@ void AdvanceRecordTAttSlideInAfterClearPrompt(void) {
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, RECORD_TATT_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, RECORD_TATT_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     if (gRecordTAtt->mClearChosen != FALSE) {
         u16 mainLayoutCount;
 
@@ -638,7 +638,7 @@ void AdvanceRecordTAttSlideOutForTimeText(void) {
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_TATT_SLIDE_DISTANCE, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg3OffsetX = offsetX;
     subLayoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = offsetX;
@@ -667,7 +667,7 @@ void AdvanceRecordTAttSlideOutForTimeText(void) {
 
 void AdvanceRecordTAttWaitTimeTextOpen(void) {
     int txtSystemNoCloseRequest;
-    txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
+    txtSystemNoCloseRequest = TextSystem_IsDialogIdle_from_thumb();
     if (txtSystemNoCloseRequest != 0) {
         RequestRecordTAttWaitTimeTextInput();
     }
@@ -679,21 +679,21 @@ void AdvanceRecordTAttWaitTimeTextInput(void) {
     BOOL recentlyLost;
 
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    pressedOrTouched = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    pressedOrTouched = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B;
     if (pressedOrTouched == 0) {
         pressedOrTouched = 0;
         recentlyLost = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             pressedOrTouched = 1;
         }
         if (pressedOrTouched == 0 ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
@@ -703,7 +703,7 @@ void AdvanceRecordTAttWaitTimeTextInput(void) {
 
 void AdvanceRecordTAttWaitTimeTextClose(void) {
     int txtSystemNoOpenRequest;
-    txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
+    txtSystemNoOpenRequest = TextSystem_IsDialogFinished_from_thumb();
     if (txtSystemNoOpenRequest != 0) {
         RequestRecordTAttSlideInAfterTimeText();
     }
@@ -716,7 +716,7 @@ void AdvanceRecordTAttSlideInAfterTimeText(void) {
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
-    offsetX = InterpolateS16(1, RECORD_TATT_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, RECORD_TATT_SLIDE_DISTANCE, 0, gRecordTAtt->mStateFrames, RECORD_TATT_SLIDE_FRAMES);
     gRecordTAtt->mBg3OffsetX = offsetX;
     subLayoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = offsetX;

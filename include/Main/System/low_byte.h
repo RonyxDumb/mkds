@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetLowByte(unsigned int value);
+unsigned int Int32ToInt8(unsigned int value);

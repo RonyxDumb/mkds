@@ -52,21 +52,21 @@ void CreateBoxAndQuestion(void) {
     u32 angleIndex;
     NsbmdModel *model;
 
-    CreateNsbmdModel(&gBox, FindMainRaceOrMainEffectMapObjFile("box.nsbmd"), 0, 0);
-    CreateNsbmdModel(&gQuestion, FindMainRaceOrMainEffectMapObjFile("question.nsbmd"), 0, 0);
-    SetNsbmdModelFixedAttributes(gBox);
-    SetNsbmdModelFixedAttributes(gQuestion);
+    CreateMapObjectSubFrom_from_thumb(&gBox, FormatFindMapObjFileBuffer_0_from_thumb("box.nsbmd"), 0, 0);
+    CreateMapObjectSubFrom_from_thumb(&gQuestion, FormatFindMapObjFileBuffer_0_from_thumb("question.nsbmd"), 0, 0);
+    StructMapObjectSub_SomeFn_1(gBox);
+    StructMapObjectSub_SomeFn_1(gQuestion);
     model = gBox;
     model->mSpecEmi = model->mSpecEmi & 0x8000ffff;
     model->mSpecEmi = model->mSpecEmi | 0x52940000;
     model = gQuestion;
     model->mSpecEmi = model->mSpecEmi & 0x8000ffff;
     model->mSpecEmi = model->mSpecEmi | 0x52940000;
-    gBoxRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), BOX_ROTATION_COUNT * sizeof(*gBoxRotations));
+    gBoxRotations = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), BOX_ROTATION_COUNT * sizeof(*gBoxRotations));
     for (boxIndex = 0; boxIndex < BOX_ROTATION_COUNT; boxIndex++) {
         angleIndex = (u16) (((u32) boxIndex << 16) / BOX_ROTATION_COUNT) >> 4;
-        cosine = FX_SinCosTable_[angleIndex * 2 + 1];
-        sine = FX_SinCosTable_[angleIndex * 2];
+        cosine = g_SinFx16Table_AndCos[angleIndex * 2 + 1];
+        sine = g_SinFx16Table_AndCos[angleIndex * 2];
         gBoxRotations[boxIndex].mCosine = cosine;
         gBoxRotations[boxIndex].mSine = sine;
         gBoxRotations[boxIndex].mCosineSquared = MUL_FIXED12_NO_ROUND(cosine, cosine);
@@ -74,13 +74,13 @@ void CreateBoxAndQuestion(void) {
         gBoxRotations[boxIndex].mCosineSineProduct = MUL_FIXED12_NO_ROUND(cosine, sine);
     }
     gQuestionRotations =
-        HeapAlloc(GetHeap(GetCurrentHeapCall()), QUESTION_ROTATION_COUNT * sizeof(*gQuestionRotations));
+        Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), QUESTION_ROTATION_COUNT * sizeof(*gQuestionRotations));
     for (questionIndex = 0; questionIndex < QUESTION_ROTATION_COUNT; questionIndex++) {
         angleIndex = (u16) (((u32) questionIndex << 16) / QUESTION_ROTATION_COUNT) >> 4;
-        gQuestionRotations[questionIndex].mCosine = FX_SinCosTable_[angleIndex * 2 + 1];
-        gQuestionRotations[questionIndex].mSine = FX_SinCosTable_[angleIndex * 2];
+        gQuestionRotations[questionIndex].mCosine = g_SinFx16Table_AndCos[angleIndex * 2 + 1];
+        gQuestionRotations[questionIndex].mSine = g_SinFx16Table_AndCos[angleIndex * 2];
     }
-    if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
+    if (g_GlobalCO->mCourseId == COURSE_ID_RAINBOW) {
         gBox->mPolygonAttributes &= 0xffff7fff;
         gQuestion->mPolygonAttributes &= 0xffff7fff;
     }

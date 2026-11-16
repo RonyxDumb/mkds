@@ -40,7 +40,7 @@ const MapObjectKindData gBridgeKindData = {NULL, NULL, 5, 0x5a000, 0x1e000, 0x15
 MapObjectKindData *CreateBridgeKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gBridgeKindData;
     return kindData;
 }
@@ -48,7 +48,7 @@ MapObjectKindData *CreateBridgeKindData(void) {
 MapObjectList *CreateBridgeDrawList(void) {
     BridgeDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(BridgeDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(BridgeDrawList));
     gBridgeDrawList = drawList;
     *drawList = gBridgeDrawListData;
     SetDrawListSlot(&gBridgeDrawList);
@@ -58,7 +58,7 @@ MapObjectList *CreateBridgeDrawList(void) {
 MapObjectList *CreateBridgeUpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gBridgeUpdateList = updateList;
     *updateList = gBridgeUpdateListData;
     SetUpdateListSlot(&gBridgeUpdateList);
@@ -89,11 +89,11 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].z, angleDelta);
     bridge->mAngleX = angle;
     bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
-    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, FX_SinIdx(angle), FX_CosIdx(angle));
+    MTX_RotX33__from_thumb(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, FX_SinIdx(angle), FX_CosIdx(angle));
     MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                  &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
                  &bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes);
-    VEC_MultAdd(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY,
+    VecFx32_AddScale1(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &bridge->mCollisionMapObject.mMapObject.mPos,
                 &bridge->mCollisionMapObject.mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {

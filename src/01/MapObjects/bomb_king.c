@@ -567,7 +567,7 @@ void BombKingStandingsEndCallback(void) {
 
 s32 StopStateWhenRaceStarted(MissionRunMapObject *mapObject) {
     int raceStarted;
-    raceStarted = IsRaceStarted();
+    raceStarted = IsAwardOrStaffRoll();
     if (raceStarted == 1) {
         StopMapObjectState(mapObject);
     }
@@ -624,7 +624,7 @@ void InitBombKingObjects(MapObjectList *list) {
             offset.x = mapObject->mPrm->mBombKing.mBombOffsetX;
             offset.y = mapObject->mPrm->mBombKing.mBombOffsetY;
             SetNodePositionSourceAndBombOffset(mapObject, 5, (&offset));
-            if (GetRaceUseChainCameras() != 0) {
+            if (IsNotStaffRoll() != 0) {
                 StartBombKingChainStartupFirst(mapObject);
             } else {
                 StartBombKingStartupFirst(mapObject);
@@ -637,15 +637,15 @@ void InitBombKingObjects(MapObjectList *list) {
 void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
     int active;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         active = IsWinnerDecided();
     } else {
         active = 0;
     }
     if (active != 0) {
         if (IsStateNumberBelow(mapObject, 1) != 0) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                active = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+                active = IsKartEliminated((u16) g_GlobalCO->mEntryIndex);
             } else {
                 active = 0;
             }
@@ -673,8 +673,8 @@ void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
 
 void InitBombKingMapObject(MissionRunMapObject *mapObject) {
     CreateParkedMapObjects(0xc9, 0xa, mapObject);
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
@@ -706,7 +706,7 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
         velocity.y = 0;
         velocity.z = mapObject->mMapObject.mPos.z - itemObject->mPos.z;
         if (LENGTH_SQUARED(velocity) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
+            Vector3_MaybeNormalize(&velocity, &velocity);
         }
         scale = mapObject->mPrm->mBombKing.mHitPushScale;
         velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
@@ -726,7 +726,7 @@ void InitBombKing(MapObjectList *list) {
         for (objectIndex = 0;
              objectIndex < list->mMapObjectCount && (mapObject = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
             InitMissionRunMapObject(list, mapObject, "bomb_king.nsbmd", "bomb_king.nsbca", "bomb_king.prm");

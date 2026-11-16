@@ -58,7 +58,7 @@ typedef struct KartAiRaceSpeedLimit {
 typedef struct KartAiSpeedLimit {
     /* 00 */ s32 mBaseSpeedLimit;
     /* 04 */ s32 mSpeedLimit;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mInstances;
     /* 0c */ BOOL mUnk_0c;
     /* 10 */ s32 mTurnSpeedLimit;
 } KartAiSpeedLimit;
@@ -171,4 +171,4 @@ extern u16 gSearchStartIndex;
 extern struct BattleKartAiParams *gBattleKartAiParams;
 extern s32 gEntryYDifferenceLimit;
 
-extern char gKartModelSlashPrefix[2];
+extern char g_str_Slash[2];

@@ -92,9 +92,9 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
 
     if (item->mFlags & ITEM_OBJECT_FLAG_DEFLECTED) {
         if (LENGTH_SQUARED(*normal) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(normal, normal);
+            Vector3_MaybeNormalize(normal, normal);
         }
-        if (Vec3DotUnrounded(normal, &item->mCoursePointOrParams) > 0x800) {
+        if (VecFx32_CrossProduct_0(normal, &item->mCoursePointOrParams) > 0x800) {
             item->mVelocity.z = MUL_FIXED12_NO_ROUND(normal->z, 0x14cd);
             item->mVelocity.x = MUL_FIXED12_NO_ROUND(normal->x, 0x14cd);
         }
@@ -109,10 +109,10 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     if (item->mFlags & ITEM_OBJECT_FLAG_DEFLECTED) {
         return;
     }
-    if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
+    if (VecFx32_CrossProduct_0(&item->mVelocity, normal) >= 0) {
         return;
     }
-    random = &gRaceProgress->mRandom;
+    random = &g_GlobalMV->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
     item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
@@ -140,7 +140,7 @@ void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
     }
     volume = 0x7fu;
     zero = 0u;
-    StartSound(sourceCopy, soundIdCopy, volume, zero);
+    StructMQRacerEntry_SomeFn_8(sourceCopy, soundIdCopy, volume, zero);
 }
 
 void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity,
@@ -163,15 +163,15 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             if (item->mFlags & ITEM_OBJECT_FLAG_IN_USE) {
                 break;
             }
-            VEC_Subtract(&item->mPrevPos, otherPos, &offset);
+            VecFx32_Subtract(&item->mPrevPos, otherPos, &offset);
             if (!(item->mFlags & ITEM_OBJECT_FLAG_RESTING) && (item->mFlags & ITEM_OBJECT_FLAG_BOUNCED_BEFORE)) {
                 DeflectItemObjectRandomly(item, otherPos, &offset);
                 break;
             }
             item->mFlags |= ITEM_OBJECT_FLAG_HIT_THIS_STEP;
-            if (Vec3DotUnrounded(&item->mVelocity, &offset) <= 0) {
+            if (VecFx32_CrossProduct_0(&item->mVelocity, &offset) <= 0) {
                 if (LENGTH_SQUARED(offset) >= 0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+                    Vector3_MaybeNormalize(&offset, &offset);
                 }
                 item->mBounce(item, otherVelocity, &offset);
                 if (item->mFlags & ITEM_OBJECT_FLAG_RESTING) {
@@ -199,7 +199,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 break;
             }
             if (LENGTH_SQUARED(offset) >= 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+                Vector3_MaybeNormalize(&offset, &offset);
             }
             radius = item->mRadius;
             item->mPos.x = otherPos->x + MUL_FIXED12_NO_ROUND(radius, offset.x);
@@ -213,18 +213,18 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             value = 0;
             if (SQUARE_SUM3(otherVelocity->x, otherVelocity->y, otherVelocity->z) >=
                 0x10) {
-                value = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
+                value = Vector3_MaybeNormalize(otherVelocity, &direction);
             }
             if (value != 0) {
                 ApplyItemObjectPush(item, otherPos, otherVelocity, &direction);
             } else {
-                VEC_Subtract(&item->mPos, otherPos, &direction);
+                VecFx32_Subtract(&item->mPos, otherPos, &direction);
                 if (direction.y < 0) {
                     direction.y = 0;
                 }
                 if (SQUARE_SUM3(direction.x, direction.y, direction.z) >=
                     0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+                    Vector3_MaybeNormalize(&direction, &direction);
                 }
                 push.x = MUL_FIXED12_NO_ROUND(direction.x, 0x1800);
                 push.y = MUL_FIXED12_NO_ROUND(direction.y, 0x1800);
@@ -396,8 +396,8 @@ void ReleaseItemObjectToItsPool(ItemObject *item) {
 }
 
 Vec3 *CreateItemPushVector(void) {
-    void *heap = GetHeap(GetCurrentHeapCall());
-    gItemPushVector = HeapAlloc(heap, sizeof(Vec3));
+    void *heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gItemPushVector = Mem_AllocateHeap(heap, sizeof(Vec3));
     return gItemPushVector;
 }
 
@@ -442,7 +442,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     } else {
         item->mCoursePointOrParams.y = 0x333;
         if (!(item->mFlags & ITEM_OBJECT_FLAG_RESTING)) {
-            item->mCoursePointOrParams.y += MUL_FIXED12_NO_ROUND(VEC_Mag(velocity), 0x15c);
+            item->mCoursePointOrParams.y += MUL_FIXED12_NO_ROUND(VecFx32_Norm(velocity), 0x15c);
             if (item->mCoursePointOrParams.y > 0x5c3) {
                 item->mCoursePointOrParams.y = 0x5c3;
             }
@@ -457,14 +457,14 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     if (item->mNormal.y != 0) {
         Vec3 *normal = &item->mNormal;
 
-        value = Vec3DotUnrounded(velocity, normal);
+        value = VecFx32_CrossProduct_0(velocity, normal);
         if (value < 0x3000) {
-            VEC_MultAdd(0x3000 - value, normal, velocity, velocity);
+            VecFx32_AddScale1(0x3000 - value, normal, velocity, velocity);
         }
     }
     item->mFlags |= ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_FADING_OUT;
     FreeItemObjectCollisionSlot(item);
-    value = Vec3DotUnrounded(velocity, GetViewTransposeMatrixAxis0());
+    value = VecFx32_CrossProduct_0(velocity, GetViewTransposeMatrixAxis0());
     if (value > 1) {
         item->mCoursePointOrParams.x = 1;
     } else {
@@ -566,12 +566,12 @@ void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
 void AdvanceItemObjectFadeOut(ItemObject *item) {
     Vec3 direction;
 
-    Vec3CrossUnrounded(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
-    VEC_MultAdd(item->mCoursePointOrParams.x != 0 ? item->mCoursePointOrParams.y : -item->mCoursePointOrParams.y,
+    Vector3_Cross(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
+    VecFx32_AddScale1(item->mCoursePointOrParams.x != 0 ? item->mCoursePointOrParams.y : -item->mCoursePointOrParams.y,
                 &direction, &item->mNormal, &item->mNormal);
     item->mFlags |= ITEM_OBJECT_FLAG_KEEP_NORMAL;
     item->mVelocity.y -= 0x400;
-    VEC_Add(&item->mPos, &item->mVelocity, &item->mPos);
+    VecFx32_Add(&item->mPos, &item->mVelocity, &item->mPos);
     item->mAlpha--;
     if (item->mAlpha > 0) {
         return;
@@ -586,23 +586,23 @@ void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, 
     s32 dot;
     s64 lengthSquared;
 
-    VEC_Subtract(otherVelocity, &item->mVelocity, &relativeVelocity);
-    VEC_Subtract(&item->mPos, otherPos, &away);
-    dot = VEC_DotProduct(normal, &away);
+    VecFx32_Subtract(otherVelocity, &item->mVelocity, &relativeVelocity);
+    VecFx32_Subtract(&item->mPos, otherPos, &away);
+    dot = Vector3_DotProduct(normal, &away);
     away.x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
     away.y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
     away.z -= MUL_FIXED12_NO_ROUND(normal->z, dot);
     lengthSquared = LENGTH_SQUARED(away);
     if (lengthSquared >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&away, &away);
+        Vector3_MaybeNormalize(&away, &away);
     }
     if (item->mFlags & ITEM_OBJECT_FLAG_RESTING) {
-        VEC_MultAdd(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);
+        VecFx32_AddScale1(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);
         push = gItemPushVector;
         push->x = MUL_FIXED12_NO_ROUND(away.x, 0xccd);
         push->y = MUL_FIXED12_NO_ROUND(away.y, 0xccd);
         push->z = MUL_FIXED12_NO_ROUND(away.z, 0xccd);
-        VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
+        VecFx32_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
     } else {
         item->mVelocity.x = MUL_FIXED12_NO_ROUND(otherVelocity->x, 0x8cd);
         item->mVelocity.y = MUL_FIXED12_NO_ROUND(otherVelocity->y, 0x8cd);
@@ -611,7 +611,7 @@ void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, 
         push->x = MUL_FIXED12_NO_ROUND(away.x, 0x1800);
         push->y = MUL_FIXED12_NO_ROUND(away.y, 0x1800);
         push->z = MUL_FIXED12_NO_ROUND(away.z, 0x1800);
-        VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
+        VecFx32_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
     }
 }
 
@@ -622,7 +622,7 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     enum { KIND_FIRST } kind;
     s32 bounceFactor;
 
-    VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mCoursePointOrParams);
+    VecFx32_AddScale1(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mCoursePointOrParams);
     UpdateCollisionHitLink(collisionHitLink, item->mCollisionBits, item->mCollisionHitLink, &item->mCoursePointOrParams,
                            &item->mNormal);
     if (item->mCollisionHitLink->mObject != NULL && IsHitLinkOutsideGearRadiusOrFlagged(item->mCollisionHitLink) != 0) {
@@ -670,7 +670,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 item->mFlags |= ITEM_OBJECT_FLAG_KEEP_NORMAL;
             }
         }
-        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
+        VecFx32_AddScale1(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
         if (item->mHitLinkTimer > 0) {
             item->mHitLinkTimer -= 1;
             if ((item->mCreationNumber & ITEM_OBJECT_CREATION_PHASE_MASK) != GetRaceUpdateFramesMod8()) {
@@ -692,13 +692,13 @@ void AdvanceRestingItemObject(ItemObject *item) {
             }
             FadeOutItemObjectNoCallback(item, 1);
         } else {
-            VEC_Subtract(&item->mPos, &item->mPrevPos, &item->mVelocity);
+            VecFx32_Subtract(&item->mPos, &item->mPrevPos, &item->mVelocity);
         }
     } else {
         if (!(item->mFlags & ITEM_OBJECT_FLAG_SCALE_CHANGED)) {
             return;
         }
-        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
+        VecFx32_AddScale1(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
     }
 }
 
@@ -711,7 +711,7 @@ void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal
     if (scaleDifference * scaleDifference >= 0x68be1) {
         return;
     }
-    dot = Vec3DotUnrounded(otherVelocity, normal);
+    dot = VecFx32_CrossProduct_0(otherVelocity, normal);
     if (dot <= 0) {
         dot = -dot;
     }
@@ -733,28 +733,28 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
     velocity = &item->mVelocity;
     kind = *(vs32 *) &item->mKind;
     startsFalling = gItemKinds[kind].mStartsFalling;
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK || (item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
+    if (g_GlobalCO->mMode == MODE_TIME_ATTACK || (item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
         startsFalling = 0;
     }
     item->mFlags |= ITEM_OBJECT_FLAG_LAUNCHED;
     item->mOwnerKartIndexAndFlags |= gItemObjectLaunchNoOwnerBit;
-    dot = VEC_DotProduct(normal, velocity);
+    dot = Vector3_DotProduct(normal, velocity);
     velocity->x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
     velocity->y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
     velocity->z -= MUL_FIXED12_NO_ROUND(normal->z, dot);
-    dot = Vec3DotUnrounded(fromVelocity, normal);
+    dot = VecFx32_CrossProduct_0(fromVelocity, normal);
     if (dot < 0) {
         dot = 0;
     } else if (dot > 0x1333) {
         dot = 0x1333;
     }
-    VEC_MultAdd(dot + (startsFalling != 0 ? 0x2800 : 0x3800), normal, velocity, velocity);
+    VecFx32_AddScale1(dot + (startsFalling != 0 ? 0x2800 : 0x3800), normal, velocity, velocity);
     if (pushStrength != 0) {
-        VEC_Subtract(&item->mPos, fromPos, &away);
+        VecFx32_Subtract(&item->mPos, fromPos, &away);
         if (LENGTH_SQUARED(away) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&away, &away);
+            Vector3_MaybeNormalize(&away, &away);
         }
-        VEC_MultAdd(pushStrength * 0x14cd, &away, velocity, velocity);
+        VecFx32_AddScale1(pushStrength * 0x14cd, &away, velocity, velocity);
     }
     if (startsFalling != 0) {
         if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
@@ -795,13 +795,13 @@ void AdvanceFallingItemObject(ItemObject *item) {
     pos = &item->mPos;
     velocity = &item->mVelocity;
 
-    VEC_Add(velocity, pos, pos);
+    VecFx32_Add(velocity, pos, pos);
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0xfec);
     velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0xfec);
     if (CollideSphereWithCourse(pos, &item->mPrevPos, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex, &pushOut,
                                 &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL,
                                 &collisionHitLink) != 0) {
-        VEC_Add(&pushOut, pos, pos);
+        VecFx32_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & COURSE_HIT_GROUND) {
             LandItemObjectIfOnGround(item, pos, velocity, 0x385, &groundNormal);
         }

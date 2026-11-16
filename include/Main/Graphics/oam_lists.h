@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// How HideUnusedOams parks an entry: the x position bits of the first word (the second halfword) are replaced with an
+// How OamBuffer_SomeFn2_from_thumb parks an entry: the x position bits of the first word (the second halfword) are replaced with an
 // x that is right of the screen, and the y position goes below it.
 #define OAM_ENTRY_X_MASK 0x1ff0000
 #define OAM_ENTRY_HIDDEN_X 0x1800000
@@ -24,6 +24,6 @@ typedef struct OamEntryList {
     /* 402 */ u16 mMatrixCount;
 } OamEntryList;
 
-void HideUnusedOams(void *mainOam, void *subOam);
-void ClearOamListCounts(void *mainOam, void *subOam);
-void ResetOamLists(void *mainOam, void *subOam);
+void OamBuffer_SomeFn2_from_thumb(void *mainOam, void *subOam);
+void OamBuffer_ResetValues16_from_thumb(void *mainOam, void *subOam);
+void OamBuffer_SomeFn_from_thumb(void *mainOam, void *subOam);

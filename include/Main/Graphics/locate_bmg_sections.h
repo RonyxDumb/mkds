@@ -2,13 +2,13 @@
 
 #include "types.h"
 
-// Section header: two words; LocateBmgSections adds the second to the section address to move on.
+// Section header: two words; Bmg_Load_from_thumb adds the second to the section address to move on.
 typedef struct BmgSectionHeader {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;
 } BmgSectionHeader;
 
-// First word of the two sections LocateBmgSections keeps, after the byte reversal: the table of entry offsets and the
+// First word of the two sections Bmg_Load_from_thumb keeps, after the byte reversal: the table of entry offsets and the
 // body that holds the text.
 #define BMG_SECTION_TAG_ENTRY_OFFSETS 0x494e4631
 #define BMG_SECTION_TAG_BODY 0x44415431
@@ -21,11 +21,11 @@ typedef struct Bmg {
     /* 20 */ BmgSectionHeader mFirstSection;
 } Bmg;
 
-// The BMG section holding the offset of each message entry (mEntryOffsets), found by LocateBmgSections.
+// The BMG section holding the offset of each message entry (mEntryOffsets), found by Bmg_Load_from_thumb.
 typedef struct BmgEntryOffsetSection {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;
-    /* 08 */ u8 mUnk_08[8];
+    /* 08 */ u8 mInstances[8];
     /* 10 */ u32 mEntryOffsets[1];
 } BmgEntryOffsetSection;
 
@@ -36,8 +36,8 @@ typedef struct BmgBodySection {
     /* 08 */ u8 mBody[1];
 } BmgBodySection;
 
-void LocateBmgSections(Bmg *bmg);
-void *GetBmgEntry(Bmg *bmg, s32 index);
+void Bmg_Load_from_thumb(Bmg *bmg);
+void *Bmg_GetRawStringPointer_from_thumb(Bmg *bmg, s32 index);
 
-extern struct BmgBodySection *gBmgBodySection;
-extern struct BmgEntryOffsetSection *gBmgEntryOffsetSection;
+extern struct BmgBodySection *g_CurrentBmgDat1Block;
+extern struct BmgEntryOffsetSection *g_CurrentBmgInf1Block;

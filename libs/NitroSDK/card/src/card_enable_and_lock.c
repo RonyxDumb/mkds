@@ -4,69 +4,69 @@
 #include "card_rom_backup_access.h"
 #include "lock_word_and_bus_ownership.h"
 
-CARDiCommon gAccessState;
-CARDiCommandArg gRequestBlock;
-u32 gAccessEnabled[8];
+CARDiCommon g_Card_Context;
+CARDiCommandArg g_Card_Command;
+u32 g_Card_Enabled[8];
 
 // Returns the enable flag.
-u32 CARD_IsEnabled(void) {
-    return gAccessEnabled[0];
+u32 Card_IsEnabled(void) {
+    return g_Card_Enabled[0];
 }
 
-// Ends in OS_Terminate unless card access is enabled.
-void CARD_CheckEnabled(void) {
-    if (CARD_IsEnabled() != 0) {
+// Ends in Os_Terminate unless card access is enabled.
+void EnsureCardEnabled(void) {
+    if (Card_IsEnabled() != 0) {
         return;
     }
-    OS_Terminate();
+    Os_Terminate();
 }
 
 // Sets the enable flag.
-void CARD_Enable(u32 enable) {
-    gAccessEnabled[0] = enable;
+void Card_SetEnabled(u32 enable) {
+    g_Card_Enabled[0] = enable;
 }
 
 // Waits while a transfer is running. Returns 1 when CARDiCommandArg.mResult is 0.
-int CARDi_WaitAsync(void) {
+int WaitForPendingCardOperation(void) {
     CARDiCommon *common;
     u32 enabled;
 
-    common = (CARDiCommon *) (u32) &gAccessState;
-    enabled = OS_DisableInterrupts();
+    common = (CARDiCommon *) (u32) &g_Card_Context;
+    enabled = Os_DisableIrq();
     while (common->mFlag & BACKUP_ACCESS_FLAG_BUSY) {
-        OS_SleepThread(&common->mBusyQ);
+        Os_Thread_Sleep(&common->mBusyQ);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
 }
 
 // Returns 1 when no transfer is running.
-int CARDi_TryWaitAsync(void) {
-    return (gAccessState.mFlag & BACKUP_ACCESS_FLAG_BUSY) == 0;
+int Card_IsNotBusy(void) {
+    return (g_Card_Context.mFlag & BACKUP_ACCESS_FLAG_BUSY) == 0;
 }
 
 // Returns CARDiCommandArg.mResult of the last request, 0 when it succeeded.
-u32 CARD_GetResultCode(void) {
-    return gAccessState.mCmd->mResult;
+u32 Card_GetResult(void) {
+    return g_Card_Context.mCmd->mResult;
 }
 
-void CARD_LockRom(u16 lockId) {
-    CARDi_LockResource(lockId, 1);
-    OS_LockCard(lockId);
+void Card_LockRomResource(u16 lockId) {
+    Card_LockResource(lockId, 1);
+    Os_TryLockCard(lockId);
 }
 
-// Calls OS_UnlockCard, then gives the ROM target back.
-void CARD_UnlockRom(u16 lockId) {
-    OS_UnlockCard(lockId);
-    CARDi_UnlockResource(lockId, 1);
+// Calls Os_UnlockCard, then gives the ROM target back.
+void Card_UnlockRomResource(u16 lockId) {
+    Os_UnlockCard(lockId);
+    Card_UnlockResource(lockId, 1);
 }
 
 // Takes the backup target for the lock id.
-void CARD_LockBackup(u16 lockId) {
-    CARDi_LockResource(lockId, 2);
+void Card_LockBackupResource(u16 lockId) {
+    Card_LockResource(lockId, 2);
 }
 
 // Gives the backup target back.
-void CARD_UnlockBackup(u16 lockId) {
-    CARDi_UnlockResource(lockId, 2);
+void Card_UnlockBackupResource(u16 lockId) {
+    Card_UnlockResource(lockId, 2);
 }

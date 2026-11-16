@@ -4,17 +4,17 @@
 
 typedef u32 (*CARDPulledOutCallback)(void);
 
-void CARDi_SendtoPxi(u32 data, s32 wait);
-void CARD_TerminateForPulledOut(void);
+void Card_SendToFifo(u32 data, s32 wait);
+void Card_TerminateForPulledOut(void);
 
-u32 CARD_IsPulledOut(void);
-void CARD_SetPulledOutCallback(CARDPulledOutCallback callback);
-void CARDi_PulledOutCallback(u32 tag, u32 data);
-void CARD_InitPulledOutCallback(void);
+u32 Card_IsPulledOut(void);
+void Card_SetUserCardPulledOutCallback(CARDPulledOutCallback callback);
+void Card_CardPulledOutHandler(u32 tag, u32 data);
+void Card_InitializePulledOutCallback(void);
 
-// Set to 1 by CARDi_PulledOutCallback; CARD_IsPulledOut returns it.
-extern u32 gRemovalSeen;
+// Set to 1 by Card_CardPulledOutHandler; Card_IsPulledOut returns it.
+extern u32 g_Card_IsPulledOut;
 
-// The hook set by CARD_SetPulledOutCallback, cleared by CARD_InitPulledOutCallback and called by
-// CARDi_PulledOutCallback.
-extern CARDPulledOutCallback gRemovalCallback;
+// The hook set by Card_SetUserCardPulledOutCallback, cleared by Card_InitializePulledOutCallback and called by
+// Card_CardPulledOutHandler.
+extern CARDPulledOutCallback g_Card_UserCardPulledOutCallback;

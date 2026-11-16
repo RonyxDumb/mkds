@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 SetPlayerCharacterCellFileSet(u32 characterIndex, void *cellFileSet);
+u32 LoadPlayerGfxData_from_thumb(u32 characterIndex, void *cellFileSet);

@@ -42,7 +42,7 @@ void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable 
     if (labelLayout != NULL) {
         count = count + labelLayout->mCount;
     }
-    *tableOut = HeapAlloc(heap, count << 6);
+    *tableOut = Mem_AllocateHeap(heap, count << 6);
     InitLayoutTableEntries(*tableOut, count);
 }
 
@@ -80,7 +80,7 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
         position[1] = TO_FIXED12(axisRecords[1].mPosition);
     } else {
         cellEntry = GetCellLayoutEntry(cellLayout, index);
-        cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+        cellData = CellBank_GetMetatileEntry(cells, (u16) cellEntry->mCellIndex);
         axisRecords[2] = cellEntry->mAxisX;
         axisRecords[0] = axisRecords[2];
         axisRecords[1] = cellEntry->mAxisY;
@@ -118,7 +118,7 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], 0x80 - oamCount, cellData, matrix, position,
+    oamList->mOamCount += MaybeMakeOamSlot(&oamList->mOams[oamCount], 0x80 - oamCount, cellData, matrix, position,
                                                 groupIndex, entry->mDoubleAffine);
 }
 

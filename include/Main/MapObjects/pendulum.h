@@ -56,12 +56,12 @@ typedef struct NsbmdModel {
     /* 28 */ ModelAnimation *mNsbtpAnimation;
 } NsbmdModel;
 
-extern NsbmdModel gJgCloud;
+extern NsbmdModel g_JgCloudMapObject;
 
-extern NsbmdModel gJgMain;
+extern NsbmdModel g_JgMainMapObject;
 
 // Work area of FillNsbmdModel on the stack: two words, then the object
-// NNSi_G3dAnmCalcNsBtp fills in.
+// Anim_UnkFnPtr_BTP fills in.
 typedef struct NsbmdTexFrameWork {
     /* 00 */ u32 mTexImageParam;
     /* 04 */ u32 mDataIndex;
@@ -80,8 +80,8 @@ void DrawPendulum(u32 unused0, PendulumObject *pendulum, u32 unused1, u32 alpha)
 MapObjectList *CreatePendulumUpdateList(void);
 MapObjectDrawList *CreatePendulumDrawList(void);
 MapObjectKindData *CreatePendulumKindData(void);
-void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused);
-void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused);
+void CreateMapObjectSubFrom_from_thumb(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused);
+void StructMapObjectSub_SomeFn_from_thumb(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused);
 void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record);
 
 extern const MapObjectDrawList gPendulumDrawListData;

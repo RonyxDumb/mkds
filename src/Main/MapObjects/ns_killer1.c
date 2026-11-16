@@ -57,7 +57,7 @@ MapObjectKindDescriptor gNsKiller1KindDescriptor = {0,
                                                     CreateNsKiller1UpdateList};
 
 void CreateNsKiller1(void *mapObjectList) {
-    gNsKiller1 = CreateMapObjectModelAnimated(mapObjectList, "NsKiller1.nsbmd");
+    gNsKiller1 = CreateMapObjectFromModel_from_thumb(mapObjectList, "NsKiller1.nsbmd");
 }
 
 void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {

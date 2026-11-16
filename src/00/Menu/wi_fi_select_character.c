@@ -21,21 +21,21 @@ void InitWiFiSelectCharacterState(void *heap) {
     void *secondOamList;
     s32 index;
 
-    gWiFiSelectCharacterState = HeapAlloc(heap, 4);
+    gWiFiSelectCharacterState = Mem_AllocateHeap(heap, 4);
     gWiFiSelectCharacterState->mHeap = heap;
     InitWiFiSelectCharacterNop();
     if (GetWiFiPrevState() != 5) {
         PackWiFiSessionIndicesWrapper();
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(DWC_GetMyAID()));
-        SetSessionKartCount(gWiFiSession->mKartCount);
+        SetSessionKartCount(g_GlobalB->mKartCount);
     }
     firstOamList = GetWiFiMenuMainOamList();
     secondOamList = GetWiFiMenuSubOamList();
     InitSelectCharacter(heap, 2, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
-    gMenuShared->mOtherKartCountAdded = FALSE;
+    g_GlobalB488->mOtherKartCountAdded = FALSE;
     for (index = 0; index < 4; index++) {
-        gMenuShared->mUnk_5c[index] = 0;
+        g_GlobalB488->mUnk_5c[index] = 0;
     }
 }
 

@@ -39,7 +39,7 @@ typedef struct WiFiBuddySync {
     // GpUpdate calls since the last restart (DWCi_InitGPProcessCount, at login success); the list part starts after
     // more than 7.
     /* 08 */ u32 mPollCount;
-    // OS_GetTick reading at the last GpUpdate; the next one is allowed after 300 ms.
+    // Os_GetTick reading at the last GpUpdate; the next one is allowed after 300 ms.
     /* 0c */ u64 mLastPollTime;
     // Capacity of the list at mBuddies (0x3c entries), not the number of entries in use (DWC_GetNumFriend counts
     // those).
@@ -83,7 +83,7 @@ typedef struct WiFiBuddySync {
     /* 44 */ DWCBuddyChangedCallback mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
     /* 4c */ void (*mSaveCallback)(s32 success, s32 isPublicData, u32 instance);
-    /* 50 */ u32 mUnk_50;
+    /* 50 */ u32 mField5F;
 } WiFiBuddySync;
 
 // Written by DWCi_FriendInit and cleared by DWCi_ShutdownFriend, the release half.

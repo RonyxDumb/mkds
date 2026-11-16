@@ -13,7 +13,7 @@
 #include "Main/System/init_after_startup.h"
 
 PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
-    return &gCourseMap->mBattlePointLinks[gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]]
+    return &g_GlobalPE->mBattlePointLinks[g_GlobalPE->mKeyedPlacements[g_GlobalPE->mKeyedPlacementIndexByKey[key]]
                                               .mPointIndex];
 }
 
@@ -37,7 +37,7 @@ static inline s32 IsEntryHumanGhostOrPeer(s8 entryIndex) {
 BOOL IsEntryRaceEnded(void) {
     BOOL result = FALSE;
     BOOL ended;
-    s8 entryIndex = gRaceSetup->mEntryIndex;
+    s8 entryIndex = g_GlobalCO->mEntryIndex;
 
     if (entryIndex == -1 || IsEntryHumanGhostOrPeer(entryIndex) == 0) {
         result = TRUE;
@@ -45,7 +45,7 @@ BOOL IsEntryRaceEnded(void) {
     if (result != FALSE) {
         return result;
     }
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_MISSION_RUN:
             ended = FALSE;
             switch (GetRaceProgressKart(entryIndex)->mStatus) {
@@ -56,13 +56,13 @@ BOOL IsEntryRaceEnded(void) {
                     break;
             }
             if (ended == FALSE) {
-                if (gRaceProgress->mEntryEndKind != 0) {
+                if (g_GlobalMV->mEntryEndKind != 0) {
                     return result;
                 }
             }
             return TRUE;
         case MODE_BATTLE:
-            if (gRaceProgress->mRaceDone != 0) {
+            if (g_GlobalMV->mRaceDone != 0) {
                 result = TRUE;
             }
             return result;
@@ -82,9 +82,9 @@ BOOL IsEntryRaceEnded(void) {
     }
 }
 
-void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartIndex) {
-    EntryKartCounters *entryKartCounters = GetEntryKartCounters();
-    RaceProgress *raceProgress = gRaceProgress;
+void MaybeComputeGPScore(RaceProgressScoreTerms *scoreTerms, s32 kartIndex) {
+    EntryKartCounters *entryKartCounters = GetGlobalRK();
+    RaceProgress *raceProgress = g_GlobalMV;
     RaceProgressKart *raceProgressKart = &raceProgress->mKarts[kartIndex];
     RankTimeGp *rankTimeGpFile = raceProgress->mRankTimeGpFile;
 
@@ -100,7 +100,7 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     }
     scoreTerms->mFirstPlaceScore =
         (rankTimeGpFile->mFirstPlaceWeight *
-         FX_Div(TO_FIXED12(raceProgressKart->mFirstPlaceFrames), TO_FIXED12(gRaceProgress->mHeader.mRankTime))) >>
+         FX_Div(TO_FIXED12(raceProgressKart->mFirstPlaceFrames), TO_FIXED12(g_GlobalMV->mHeader.mRankTime))) >>
         12;
     if (entryKartCounters->mRaceStartBoosted != 0) {
         scoreTerms->mRaceStartBoostScore = rankTimeGpFile->mRaceStartBoostPoints;
@@ -116,13 +116,13 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mRespawnPoints;
 }
 
-// Sum of the nine score terms (also saved in gRaceProgress.mScoreTerms), clamped to -9999..9999; 0 unless kart a is the
+// Sum of the nine score terms (also saved in g_GlobalMV.mScoreTerms), clamped to -9999..9999; 0 unless kart a is the
 // local entry in Grand Prix or Mission Run.
-s16 ComputeRaceProgressKartScore(s32 kartIndex) {
+s16 MaybeComputeRacerScore(s32 kartIndex) {
     RaceProgressScoreTerms scoreTerms;
     EntryKartCounters *entryKartCounters;
     RaceSetup *raceSetup;
-    RaceProgress *raceProgress = gRaceProgress;
+    RaceProgress *raceProgress = g_GlobalMV;
     RaceProgressScoreTerms *savedScoreTerms = &raceProgress->mScoreTerms;
     s32 score;
     MissionSettings *missionSettings;
@@ -130,14 +130,14 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     if ((raceProgress->mKarts[kartIndex].mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) == 0) {
         return 0;
     }
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
-            ComputeGrandPrixScoreTerms(&scoreTerms, kartIndex);
+            MaybeComputeGPScore(&scoreTerms, kartIndex);
             break;
         case MODE_MISSION_RUN:
             missionSettings = &raceSetup->mMissionSettings;
-            entryKartCounters = GetEntryKartCounters();
+            entryKartCounters = GetGlobalRK();
             scoreTerms.mTimeRemainingScore =
                 FX_Div(missionSettings->mTimeScoreWeight *
                                (missionSettings->mTimeScoreFrameCount - raceProgress->mHeader.mElapsedFrames)
@@ -170,19 +170,19 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     return score;
 }
 
-void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
+void StructRC_SomeFn_2(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     s32 lapIndex;
     MinuteSecondMillisecondTime *lapTime;
     CourseMapRoute *route;
     s32 firstEntry;
 
-    if (gCourseMap->mCheckpoints == NULL) {
+    if (g_GlobalPE->mCheckpoints == NULL) {
         raceProgressKart->mRoute = 0;
         raceProgressKart->mCheckpoint = 0;
     } else {
-        raceProgressKart->mRoute = gCourseMap->mCheckpointRoutes->mPreviousRoutes[0];
-        route = &gCourseMap->mCheckpointRoutes[raceProgressKart->mRoute];
-        firstEntry = gCourseMap->mCheckpointRoutes[raceProgressKart->mRoute].mFirstEntry;
+        raceProgressKart->mRoute = g_GlobalPE->mCheckpointRoutes->mPreviousRoutes[0];
+        route = &g_GlobalPE->mCheckpointRoutes[raceProgressKart->mRoute];
+        firstEntry = g_GlobalPE->mCheckpointRoutes[raceProgressKart->mRoute].mFirstEntry;
         raceProgressKart->mCheckpoint = firstEntry + route->mEntryCount - 1;
     }
     raceProgressKart->mLapFrames = 0;
@@ -192,8 +192,8 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mLap = 0;
     raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_RACING;
     raceProgressKart->mFlags = 0;
-    raceProgressKart->mInOrderCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
-    raceProgressKart->mCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
+    raceProgressKart->mInOrderCheckpointNumber = g_GlobalPE->mNumberedCheckpointCount - 1;
+    raceProgressKart->mCheckpointNumber = g_GlobalPE->mNumberedCheckpointCount - 1;
     raceProgressKart->mRankIndexRequestBits =
         (raceProgressKart->mRankIndexRequestBits & ~0xf0) | (((u16) kartIndex & 0xf) << 4);
     raceProgressKart->mRaceProgress = 0;
@@ -204,13 +204,13 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mRankIndexRequestBits = raceProgressKart->mRankIndexRequestBits & ~0x300;
     lapTime = raceProgressKart->mLapTimes;
     for (lapIndex = 0; lapIndex < 5; lapIndex++) {
-        ComputeRaceTime(&lapTime->mMinute, &lapTime->mSecond, &lapTime->mMillisecond, 0,
-                        gRaceProgress->mHeader.mElapsedFrames);
+        MaybeConvertElapsedTime(&lapTime->mMinute, &lapTime->mSecond, &lapTime->mMillisecond, 0,
+                        g_GlobalMV->mHeader.mElapsedFrames);
         lapTime++;
     }
-    ComputeRaceTime(&raceProgressKart->mLapTimes[5].mMinute, &raceProgressKart->mLapTimes[5].mSecond,
-                    &raceProgressKart->mLapTimes[5].mMillisecond, 0, gRaceProgress->mHeader.mElapsedFrames);
-    if (kartIndex == gRaceSetup->mEntryIndex) {
+    MaybeConvertElapsedTime(&raceProgressKart->mLapTimes[5].mMinute, &raceProgressKart->mLapTimes[5].mSecond,
+                    &raceProgressKart->mLapTimes[5].mMillisecond, 0, g_GlobalMV->mHeader.mElapsedFrames);
+    if (kartIndex == g_GlobalCO->mEntryIndex) {
         raceProgressKart->mFlags = raceProgressKart->mFlags | RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY;
     }
     raceProgressKart->mRankIndexRequestBits =
@@ -227,7 +227,7 @@ static inline void ResetRaceProgressClock(RaceProgressHeader *raceProgressHeader
 }
 
 static inline void RaceProgressComputeTimeFromFrames(MinuteSecondMillisecondTime *time, u32 frames) {
-    ComputeRaceTime(&time->mMinute, &time->mSecond, &time->mMillisecond, 0, frames);
+    MaybeConvertElapsedTime(&time->mMinute, &time->mSecond, &time->mMillisecond, 0, frames);
 }
 
 static inline void RaceProgressInitRandomState(RandomState64 *randomState64, u32 seed) {
@@ -245,7 +245,7 @@ static inline u32 RaceProgressNextRandomBelow(RandomState64 *randomState64, u32 
     return ((s64) (randomState64->mValue >> 32) * limit) >> 32;
 }
 
-void InitRaceProgress(void) {
+void CreateGlobalMV(void) {
     BOOL entryRaceEnded;
     s32 index;
     u32 seed;
@@ -261,13 +261,13 @@ void InitRaceProgress(void) {
     CourseMapRoute *route;
     CourseMapCheckpoint *checkpoint;
 
-    ResetRaceProgressClock(&gRaceProgress->mHeader);
-    RaceProgressComputeTimeFromFrames(&gRaceProgress->mHeader.mClockTime, gRaceProgress->mHeader.mElapsedFrames);
+    ResetRaceProgressClock(&g_GlobalMV->mHeader);
+    RaceProgressComputeTimeFromFrames(&g_GlobalMV->mHeader.mClockTime, g_GlobalMV->mHeader.mElapsedFrames);
     entryRaceEnded = FALSE;
-    gRaceProgress->mHeader.mFinishedCount = 0;
-    gRaceProgress->mHeader.mRemovedCount = 0;
-    gRaceProgress->mRaceDone = 0;
-    switch (gRaceSetup->mRaceKind) {
+    g_GlobalMV->mHeader.mFinishedCount = 0;
+    g_GlobalMV->mHeader.mRemovedCount = 0;
+    g_GlobalMV->mRaceDone = 0;
+    switch (g_GlobalCO->mRaceKind) {
         case RACE_KIND_DEMO:
         case RACE_KIND_REPLAY:
         case RACE_KIND_STAFF_ROLL:
@@ -279,33 +279,33 @@ void InitRaceProgress(void) {
             }
             break;
     }
-    gRaceProgress->mEntryRaceEnded = entryRaceEnded;
-    gRaceProgress->mEntryEndKind = RACE_END_KIND_NOT_ENDED;
-    gRaceProgress->mTimeCountsDown = FALSE;
-    gRaceProgress->mTimeLimitFrameCount = 0;
-    switch (gRaceSetup->mMode) {
+    g_GlobalMV->mEntryRaceEnded = entryRaceEnded;
+    g_GlobalMV->mEntryEndKind = RACE_END_KIND_NOT_ENDED;
+    g_GlobalMV->mTimeCountsDown = FALSE;
+    g_GlobalMV->mTimeLimitFrameCount = 0;
+    switch (g_GlobalCO->mMode) {
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mMissionKind == MISSION_KIND_LAPS_FIRST_PLACE) {
-                gRaceProgress->mTimeCountsDown = FALSE;
+            if (g_GlobalCO->mMissionKind == MISSION_KIND_LAPS_FIRST_PLACE) {
+                g_GlobalMV->mTimeCountsDown = FALSE;
             } else {
-                gRaceProgress->mTimeCountsDown = TRUE;
+                g_GlobalMV->mTimeCountsDown = TRUE;
             }
-            gRaceProgress->mTimeLimitFrameCount = gRaceSetup->mMissionTimeLimitFrameCount;
+            g_GlobalMV->mTimeLimitFrameCount = g_GlobalCO->mMissionTimeLimitFrameCount;
             break;
         case MODE_BATTLE:
-            if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
-                gRaceProgress->mTimeCountsDown = TRUE;
-                gRaceProgress->mTimeLimitFrameCount = gCourseMap->mSettings->mLapCountOrBattleSeconds * 0x3c;
+            if (g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
+                g_GlobalMV->mTimeCountsDown = TRUE;
+                g_GlobalMV->mTimeLimitFrameCount = g_GlobalPE->mSettings->mLapCountOrBattleSeconds * 0x3c;
             }
             break;
     }
     for (index = 0; index < 8; index++) {
-        InitRaceProgressKart(&gRaceProgress->mKarts[index], index);
-        gRaceProgress->mKartAtRank[index] = -1;
+        StructRC_SomeFn_2(&g_GlobalMV->mKarts[index], index);
+        g_GlobalMV->mKartAtRank[index] = -1;
     }
-    switch (gRaceSetup->mRaceKind) {
+    switch (g_GlobalCO->mRaceKind) {
         case RACE_KIND_REPLAY:
-            seed = gRaceSetup->mSeed;
+            seed = g_GlobalCO->mSeed;
             break;
         case RACE_KIND_AWARD:
             seed = 0xc240793;
@@ -314,7 +314,7 @@ void InitRaceProgress(void) {
             seed = 0x71abc95;
             break;
         default:
-            switch (gRaceSetup->mMode) {
+            switch (g_GlobalCO->mMode) {
                 case MODE_TIME_ATTACK:
                     seed = 0x34a8f71;
                     break;
@@ -325,7 +325,7 @@ void InitRaceProgress(void) {
                     seed = 0x5b12f73;
                     break;
                 default:
-                    connectionWork = gConnectionWork;
+                    connectionWork = g_GlobalZE;
                     value = 0;
                     if (RaceProgressGetWorkConnectionMode(connectionWork) != 0) {
                         if (connectionWork->mState != CONNECTION_STATE_ENDED) {
@@ -335,51 +335,51 @@ void InitRaceProgress(void) {
                     if (value != 0) {
                         seed = connectionWork->mRaceSeed;
                     } else {
-                        tickSeed1 = OS_GetTick();
-                        seed = (tickSeed1 << 16) + OS_GetTick();
+                        tickSeed1 = Os_GetTick();
+                        seed = (tickSeed1 << 16) + Os_GetTick();
                     }
                     break;
             }
             break;
     }
-    RaceProgressInitRandomState(&gRaceProgress->mRandom, seed);
-    gRaceProgress->mSeed = seed;
-    gRaceSetup->mNextHeader.mSeed = seed;
-    tickSeed1 = OS_GetTick();
-    tickSeed2 = OS_GetTick();
-    tickSeed3 = OS_GetTick();
-    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, tickSeed1 + ((tickSeed2 << 24) + (tickSeed3 << 8)));
-    RaceProgressInitRandomState(&gRaceProgress->mFixedSeedRandom, 0xa094a2f);
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        ShuffleCourseMapRespawnSlots(&gRaceProgress->mRandom);
+    RaceProgressInitRandomState(&g_GlobalMV->mRandom, seed);
+    g_GlobalMV->mSeed = seed;
+    g_GlobalCO->mNextHeader.mSeed = seed;
+    tickSeed1 = Os_GetTick();
+    tickSeed2 = Os_GetTick();
+    tickSeed3 = Os_GetTick();
+    RaceProgressInitRandomState(&g_GlobalMV->mLocalRandom, tickSeed1 + ((tickSeed2 << 24) + (tickSeed3 << 8)));
+    RaceProgressInitRandomState(&g_GlobalMV->mFixedSeedRandom, 0xa094a2f);
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        ShuffleCourseMapRespawnSlots(&g_GlobalMV->mRandom);
     }
-    gRaceProgress->mCameraChainEnded = 0;
-    gRaceProgress->mLapProgressScale = FX_Inv(TO_FIXED12(gCourseMap->mLapProgressBaseMax + 1));
-    gRaceProgress->mRaceProgressScale = FX_Inv(TO_FIXED12(GetLapCount()));
-    for (index = 0; index < gCourseMap->mNumberedCheckpointCount + 1; index++) {
-        checkpointNumber = index % (gCourseMap->mNumberedCheckpointCount + 1);
-        if (checkpointNumber == gCourseMap->mNumberedCheckpointCount) {
-            gRaceProgress->mCheckpointLapProgress[index] = TO_FIXED12(1);
+    g_GlobalMV->mCameraChainEnded = 0;
+    g_GlobalMV->mLapProgressScale = FX_Inv(TO_FIXED12(g_GlobalPE->mLapProgressBaseMax + 1));
+    g_GlobalMV->mRaceProgressScale = FX_Inv(TO_FIXED12(GetCurrentLapCount()));
+    for (index = 0; index < g_GlobalPE->mNumberedCheckpointCount + 1; index++) {
+        checkpointNumber = index % (g_GlobalPE->mNumberedCheckpointCount + 1);
+        if (checkpointNumber == g_GlobalPE->mNumberedCheckpointCount) {
+            g_GlobalMV->mCheckpointLapProgress[index] = TO_FIXED12(1);
         } else {
-            for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
-                route = &gCourseMap->mCheckpointRoutes[routeIndex];
+            for (routeIndex = 0; routeIndex < g_GlobalPE->mCheckpointRouteCount; routeIndex++) {
+                route = &g_GlobalPE->mCheckpointRoutes[routeIndex];
                 for (entryInRoute = 0; entryInRoute < route->mEntryCount; entryInRoute++) {
                     checkpointIndex = entryInRoute + route->mFirstEntry;
-                    checkpoint = &gCourseMap->mCheckpoints[checkpointIndex];
+                    checkpoint = &g_GlobalPE->mCheckpoints[checkpointIndex];
                     if (checkpoint->mNumber == checkpointNumber) {
                         value = Fixed12AddOneThenDivideByIntOrZero(TO_FIXED12(checkpointIndex - route->mFirstEntry),
                                                                    route->mEntryCount);
                         value += TO_FIXED12(route->mLapProgressBase);
-                        gRaceProgress->mCheckpointLapProgress[index] =
-                            MUL_FIXED12_ROUNDED(value, gRaceProgress->mLapProgressScale);
+                        g_GlobalMV->mCheckpointLapProgress[index] =
+                            MUL_FIXED12_ROUNDED(value, g_GlobalMV->mLapProgressScale);
                     }
                 }
             }
         }
     }
-    if (gRaceSetup->mMode != MODE_BATTLE) {
-        gRaceProgress->mStartPlacementOffset = 0;
+    if (g_GlobalCO->mMode != MODE_BATTLE) {
+        g_GlobalMV->mStartPlacementOffset = 0;
         return;
     }
-    gRaceProgress->mStartPlacementOffset = RaceProgressNextRandomBelow(&gRaceProgress->mRandom, 8);
+    g_GlobalMV->mStartPlacementOffset = RaceProgressNextRandomBelow(&g_GlobalMV->mRandom, 8);
 }

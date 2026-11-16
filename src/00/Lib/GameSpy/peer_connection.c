@@ -117,7 +117,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             peer->mInputBufferLength = FALSE;
             break;
         default:
-            AssertionFailed("0", "gpiPeer.c", NULL, 0x9f);
+            LogThrowAssertion("0", "gpiPeer.c", NULL, 0x9f);
             break;
     }
     if (peer->mOutputBuffer.mLength > 0) {
@@ -145,7 +145,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
 
     gpState = connection->mGpiConnection;
     if (peer->mState != PROFILE_PEER_STATE_WAIT_AUTH) {
-        AssertionFailed("peer->state == GPI_PEER_WAITING", "gpiPeer.c", NULL, 0xc1);
+        LogThrowAssertion("peer->state == GPI_PEER_WAITING", "gpiPeer.c", NULL, 0xc1);
     }
     result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &socketGone,
                               (const s8 *) "PR");
@@ -174,7 +174,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
                 peer->mState = PROFILE_PEER_STATE_CLOSED;
                 return 0;
             }
-            sprintf(buffer, "%s%d%d", gpState->mPassword, gpState->mProfileId, pid);
+            MaybeStrcpy(buffer, "%s%d%d", gpState->mPassword, gpState->mProfileId, pid);
             MD5Digest(buffer, strlen(buffer), sigDigest);
             if (strcmp(sig, sigDigest) != 0) {
                 GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\anack\\");
@@ -311,7 +311,7 @@ s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer) {
     s32 result = 0;
 
     if (peer->mState == PROFILE_PEER_STATE_NOT_CONNECTED) {
-        AssertionFailed("peer->state != GPI_PEER_NOT_CONNECTED", "gpiPeer.c", NULL, 0x1d9);
+        LogThrowAssertion("peer->state != GPI_PEER_NOT_CONNECTED", "gpiPeer.c", NULL, 0x1d9);
     }
     if (peer->mState != PROFILE_PEER_STATE_CONNECTED) {
         if (peer->mInitiated != 0) {
@@ -348,7 +348,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
     s32 unusedLocal;
 
     if (peer == NULL) {
-        AssertionFailed("peer != NULL", "gpiPeer.c", NULL, 0x213);
+        LogThrowAssertion("peer != NULL", "gpiPeer.c", NULL, 0x213);
     }
     previous = gpState->mPeerList;
     if (previous == peer) {
@@ -357,7 +357,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
         current = previous->mNext;
         while (current != peer) {
             if (current == NULL) {
-                AssertionFailed("0", "gpiPeer.c", NULL, 0x225);
+                LogThrowAssertion("0", "gpiPeer.c", NULL, 0x225);
                 gpiDebug(connection, "Tried to remove peer not in list.");
                 return;
             }
@@ -518,10 +518,10 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
     s32 result;
 
     if (peer == NULL) {
-        AssertionFailed("peer != NULL", "gpiPeer.c", NULL, 0x340);
+        LogThrowAssertion("peer != NULL", "gpiPeer.c", NULL, 0x340);
     }
     if (message == NULL) {
-        AssertionFailed("message != NULL", "gpiPeer.c", NULL, 0x341);
+        LogThrowAssertion("message != NULL", "gpiPeer.c", NULL, 0x341);
     }
     len = strlen(message);
     {
@@ -569,9 +569,9 @@ u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransf
     u32 time = transferID->mTime;
 
     if (transferID == NULL) {
-        AssertionFailed("transferID", "gpiPeer.c", NULL, 0x376);
+        LogThrowAssertion("transferID", "gpiPeer.c", NULL, 0x376);
     }
-    sprintf(buffer, "\\m\\%d\\xfer\\%d %u %u", type, profileid, count, time);
+    MaybeStrcpy(buffer, "\\m\\%d\\xfer\\%d %u %u", type, profileid, count, time);
     return GpiPeerSendString(connection, peer, buffer);
 }
 
@@ -580,7 +580,7 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
     s32 result;
 
     if (peer == NULL) {
-        AssertionFailed("peer != NULL", "gpiPeer.c", NULL, 0x389);
+        LogThrowAssertion("peer != NULL", "gpiPeer.c", NULL, 0x389);
     }
     if (message == NULL) {
         message = "";
@@ -588,7 +588,7 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
     if (len == -1) {
         len = strlen(message);
     }
-    sprintf(buffer, "\\len\\%d\\msg\\\n", len);
+    MaybeStrcpy(buffer, "\\len\\%d\\msg\\\n", len);
     result = GpiPeerSendString(connection, peer, buffer);
     if (result != 0) {
         return result;

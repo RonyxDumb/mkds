@@ -10,7 +10,7 @@ void BeginSleep(void *arg) {
     NNSi_SndCaptureBeginSleep();
     SND_StopTimer(0, 0, 0, 0);
     tag = SND_GetCurrentCommandTag();
-    SND_FlushCommand(1);
+    Sound_FlushCommand(1);
     SND_WaitForCommandProc(tag);
 }
 

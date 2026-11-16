@@ -39,16 +39,16 @@ void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *norma
     s32 localZ;
     s32 localY;
 
-    VEC_Subtract(position, &object->mMapObject.mPos, &offset);
-    localZ = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]);
-    localY = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[1]);
-    link->mLocalPosition.x = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
+    VecFx32_Subtract(position, &object->mMapObject.mPos, &offset);
+    localZ = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[2]);
+    localY = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[1]);
+    link->mLocalPosition.x = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[0]);
     link->mLocalPosition.y = localY;
     link->mLocalPosition.z = localZ;
     if (normal != NULL && object->mCollisionData.mTracksNormal != FALSE) {
-        localZ = Vec3DotUnrounded(normal, &object->mMapObject.mMatrix.mRows[2]);
-        localY = Vec3DotUnrounded(normal, &object->mMapObject.mMatrix.mRows[1]);
-        link->mLocalNormal.x = Vec3DotUnrounded(normal, &object->mMapObject.mMatrix.mRows[0]);
+        localZ = VecFx32_CrossProduct_0(normal, &object->mMapObject.mMatrix.mRows[2]);
+        localY = VecFx32_CrossProduct_0(normal, &object->mMapObject.mMatrix.mRows[1]);
+        link->mLocalNormal.x = VecFx32_CrossProduct_0(normal, &object->mMapObject.mMatrix.mRows[0]);
         link->mLocalNormal.y = localY;
         link->mLocalNormal.z = localZ;
     } else {
@@ -66,7 +66,7 @@ void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition) {
         return;
     }
     MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mAxes, outPosition);
-    VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
+    VecFx32_Add(&object->mMapObject.mPos, outPosition, outPosition);
 }
 
 BOOL GetCollisionHitLinkPosAndNormal(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outNormal) {
@@ -74,7 +74,7 @@ BOOL GetCollisionHitLinkPosAndNormal(CollisionHitLink *link, Vec3 *outPosition, 
 
     if (object != NULL) {
         MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mAxes, outPosition);
-        VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
+        VecFx32_Add(&object->mMapObject.mPos, outPosition, outPosition);
         if (object->mCollisionData.mTracksNormal != FALSE) {
             MTX_MultVec33(&link->mLocalNormal, &object->mMapObject.mMatrix.mAxes, outNormal);
             if (outNormal->y < object->mCollisionData.mFloorThreshold) {
@@ -101,14 +101,14 @@ s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link) {
 }
 
 MapObjectKindData *CreateKoopaBlockKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    MapObjectKindData *kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
 
     *kindData = gKoopaBlockKindData;
     return kindData;
 }
 
 MapObjectList *CreateKoopaBlockDrawList(void) {
-    MapObjectDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    MapObjectDrawList *drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
 
     gKoopaBlockDrawList = drawList;
     *drawList = gKoopaBlockDrawListData;
@@ -117,7 +117,7 @@ MapObjectList *CreateKoopaBlockDrawList(void) {
 }
 
 MapObjectList *CreateKoopaBlockUpdateList(void) {
-    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    MapObjectList *updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
 
     gKoopaBlockUpdateList = updateList;
     *updateList = gKoopaBlockUpdateListData;
@@ -167,11 +167,11 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
     }
     koopaBlock->mCollisionMapObject.mCollisionData.mPreviousPos = koopaBlock->mCollisionMapObject.mMapObject.mPos;
     GetGroupFollowerLinearPosition(follower, &koopaBlock->mCollisionMapObject.mMapObject.mPos);
-    AdvanceStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine);
-    VEC_Subtract(&koopaBlock->mCollisionMapObject.mMapObject.mPos,
+    StateDualHandler_Execute(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine);
+    VecFx32_Subtract(&koopaBlock->mCollisionMapObject.mMapObject.mPos,
                  &koopaBlock->mCollisionMapObject.mCollisionData.mPreviousPos,
                  &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
-    VEC_MultAdd(-koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY,
+    VecFx32_AddScale1(-koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
                 &koopaBlock->mCollisionMapObject.mMapObject.mPos,
                 &koopaBlock->mCollisionMapObject.mCollisionData.mCenterPos);

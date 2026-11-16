@@ -5,11 +5,11 @@
 #pragma thumb off
 
 void SelectCupGridSetMenuEntryKind(u32 value) {
-    gMenuShared->mMenuEntryKind = value;
+    g_GlobalB488->mMenuEntryKind = value;
 }
 
 void SelectCupGridSetRaceSetupRequested(u32 value) {
-    gMenuShared->mRaceSetupRequested = value;
+    g_GlobalB488->mRaceSetupRequested = value;
 }
 
 #pragma thumb on

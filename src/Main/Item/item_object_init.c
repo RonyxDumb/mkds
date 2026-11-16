@@ -10,7 +10,7 @@
 void InitItemObject(ItemObject *itemObject, u32 creationNumber, int itemKind) {
     itemObject->mCreationNumber = creationNumber;
     CreateCollisionHitLink(&itemObject->mCollisionHitLink);
-    InitSoundSource(&itemObject->mSoundSource, gItemKinds[itemKind].mFalloffIndex, &itemObject->mPos);
+    StructMQRacerEntry_SomeFn_45(&itemObject->mSoundSource, gItemKinds[itemKind].mFalloffIndex, &itemObject->mPos);
     ReleaseSoundSourceWrapper(&itemObject->mSoundSource);
 }
 

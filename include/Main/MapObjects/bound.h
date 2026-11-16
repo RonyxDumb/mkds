@@ -88,7 +88,7 @@ void CreateBound(void *mapObjectList);
 MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, void *collideItemObjectCallback,
                                                     void *sphereHitCallback, u32 wordValue, u16 halfValue, u16 soundId);
 MapObjectKindData *CreateEmptyMapObjectKindData(void);
-void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
+void *CreateAllocateSomeObject_from_thumb(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                               u32 wordValue, u16 halfValue);
 BOOL StartBoundWobble(s32 mapObjectIndex);
 MapObjectList *CreateBoundUpdateList(void);

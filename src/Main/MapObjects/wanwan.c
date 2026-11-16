@@ -55,7 +55,7 @@ const MapObjectList gWanwanUpdateListData = {NULL, 0, {0}, NULL, NULL, UpdateWan
 WanwanKindData *CreateWanwanKindData(void) {
     WanwanKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(WanwanKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(WanwanKindData));
     *kindData = gWanwanKindData;
     return kindData;
 }
@@ -63,7 +63,7 @@ WanwanKindData *CreateWanwanKindData(void) {
 WanwanDrawList *CreateWanwanDrawList(void) {
     WanwanDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(WanwanDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(WanwanDrawList));
     gWanwanDrawList = drawList;
     *drawList = gWanwanDrawListData;
     SetDrawListSlot(&gWanwanDrawList);
@@ -73,7 +73,7 @@ WanwanDrawList *CreateWanwanDrawList(void) {
 MapObjectList *CreateWanwanUpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gWanwanUpdateList = updateList;
     *updateList = gWanwanUpdateListData;
     SetUpdateListSlot(&gWanwanUpdateList);
@@ -84,7 +84,7 @@ void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
     MtxFx43 shadowMatrix;
 
     if (wanwan->mMapObject.mStateMachine.mState == WANWAN_STATE_REST) {
-        if (GetChoisesSOpenDuringRace() == 0) {
+        if (IsRaceOptionMenuOn_from_thumb() == 0) {
             wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
             wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
         }
@@ -117,7 +117,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     s32 falloffIndex;
 
     usesCourseCollision = wanwan->mUsesCourseCollision;
-    AdvanceStateMachine(&wanwan->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&wanwan->mMapObject.mStateMachine);
     wanwan->mMapObject.mPosStep.y -= 0x400;
     wanwan->mMapObject.mPos.y += wanwan->mMapObject.mPosStep.y;
     touchesGround = FALSE;
@@ -336,8 +336,8 @@ void UpdateWanwanRoam(void *stateObject) {
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                 angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
                 attemptCount++;
-                candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2], radius);
-                candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2 + 1], radius);
+                candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(g_SinFx16Table_AndCos[angleIndex * 2], radius);
+                candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(g_SinFx16Table_AndCos[angleIndex * 2 + 1], radius);
                 if (attemptCount > 5) {
                     break;
                 }
@@ -369,14 +369,14 @@ void UpdateWanwanRoam(void *stateObject) {
     GetSegmentProgressPointXz(&wanwan->mSegmentProgress, &wanwan->mMapObject.mPos);
     if (!(wanwan->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI)) {
         kartIndex = GetRaceUpdateFramesModKartCount();
-        kart = GetKart(kartIndex);
-        if (IsKartNotNormal(kart) == FALSE) {
+        kart = GetRacerMQEntry(kartIndex);
+        if (StructMQRacerEntry_SomeFn_86(kart) == FALSE) {
             value = wanwan->mKartDetectRadius;
             if ((s64) (kart->mPos.x - wanwan->mCenterPos.x) * (kart->mPos.x - wanwan->mCenterPos.x) +
                     (s64) (kart->mPos.z - wanwan->mCenterPos.z) * (kart->mPos.z - wanwan->mCenterPos.z) <
                 (s64) value * value) {
-                wanwan->mKartPos = &GetKart(kartIndex)->mPos;
-                wanwan->mKartVelocity = &GetKart(kartIndex)->mVelocity;
+                wanwan->mKartPos = &GetRacerMQEntry(kartIndex)->mPos;
+                wanwan->mKartVelocity = &GetRacerMQEntry(kartIndex)->mVelocity;
                 wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_LUNGE;
                 wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
             }
@@ -432,7 +432,7 @@ void UpdateWanwanLunge(void *stateObject) {
     s32 length;
 
     if (wanwan->mMapObject.mStateMachine.mStateFrames > wanwan->mTargetFrame) {
-        VEC_Subtract(wanwan->mKartPos, &wanwan->mMapObject.mPos, &offset);
+        VecFx32_Subtract(wanwan->mKartPos, &wanwan->mMapObject.mPos, &offset);
         value = CROSS2_FIXED12(wanwan->mKartVelocity->x, offset.z, wanwan->mKartVelocity->z, offset.x);
         value = -value >> 12;
         if (value < 0) {
@@ -441,8 +441,8 @@ void UpdateWanwanLunge(void *stateObject) {
         scale = MUL_FIXED12_NO_ROUND(value, 0x7a);
         predictedPos.x = wanwan->mKartVelocity->x * scale;
         predictedPos.z = wanwan->mKartVelocity->z * scale;
-        VEC_Add(&predictedPos, wanwan->mKartPos, &predictedPos);
-        VEC_Subtract(&predictedPos, &wanwan->mCenterPos, &offset);
+        VecFx32_Add(&predictedPos, wanwan->mKartPos, &predictedPos);
+        VecFx32_Subtract(&predictedPos, &wanwan->mCenterPos, &offset);
         length = Vec3NormalizeXZAndGetLengthOrZero(&offset, &offset);
         if (length > wanwan->mScaledLength) {
             length -= wanwan->mScaledLength >> 1;
@@ -453,10 +453,10 @@ void UpdateWanwanLunge(void *stateObject) {
         offset.x = MUL_FIXED12_NO_ROUND(offset.x, length);
         offset.y = MUL_FIXED12_NO_ROUND(offset.y, length);
         offset.z = MUL_FIXED12_NO_ROUND(offset.z, length);
-        VEC_Add(&offset, &wanwan->mCenterPos, &wanwan->mTargetPos);
+        VecFx32_Add(&offset, &wanwan->mCenterPos, &wanwan->mTargetPos);
         wanwan->mTargetFrame += 0xb4;
     }
-    VEC_Subtract(&wanwan->mTargetPos, &wanwan->mMapObject.mPos, &offset);
+    VecFx32_Subtract(&wanwan->mTargetPos, &wanwan->mMapObject.mPos, &offset);
     wanwan->mMapObject.mPosStep.x += (s32) (((s64) offset.x << 5) >> 12);
     wanwan->mMapObject.mPosStep.z += (s32) (((s64) offset.z << 5) >> 12);
     if (WanwanGetHorizontalLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x40000000) {
@@ -479,7 +479,7 @@ void UpdateWanwanLunge(void *stateObject) {
     }
     wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
     wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
-    VEC_Subtract(&wanwan->mMapObject.mPos, &wanwan->mCenterPos, &offset);
+    VecFx32_Subtract(&wanwan->mMapObject.mPos, &wanwan->mCenterPos, &offset);
     if (HORIZONTAL_LENGTH_SQUARED(offset) >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
         Vec3NormalizeXZAndGetLengthOrZero(&offset, &offset);
         wanwan->mMapObject.mPos.x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(offset.x, wanwan->mMaxRadius);
@@ -574,7 +574,7 @@ void UpdateWanwanPullBack(void *stateObject) {
             (s64) (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) *
                 (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) >=
         (s64) radius * radius) {
-        VEC_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
+        VecFx32_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
         wanwan->mMapObject.mPosStep.x += (s32) (((s64) toCenter.x << 2) >> 12);
         wanwan->mMapObject.mPosStep.z += (s32) (((s64) toCenter.z << 2) >> 12);
         if (XzLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x1000000) {

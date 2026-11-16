@@ -1,3 +1,3 @@
 #include "sound_command_queue.h"
 
-AlarmCallbackInfo gSndAlarmCallbackInfos[8];
+AlarmCallbackInfo g_SoundAlarms[8];

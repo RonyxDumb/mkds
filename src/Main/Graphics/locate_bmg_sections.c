@@ -2,12 +2,12 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 
-struct BmgBodySection *gBmgBodySection;
-struct BmgEntryOffsetSection *gBmgEntryOffsetSection;
+struct BmgBodySection *g_CurrentBmgDat1Block;
+struct BmgEntryOffsetSection *g_CurrentBmgInf1Block;
 
 #pragma thumb on
 #pragma optimize_for_size on
-void LocateBmgSections(Bmg *bmg) {
+void Bmg_Load_from_thumb(Bmg *bmg) {
     u32 sectionIndex;
     BmgSectionHeader *nextSection;
     BmgSectionHeader *section;
@@ -17,20 +17,20 @@ void LocateBmgSections(Bmg *bmg) {
     for (sectionIndex = 0; sectionIndex < bmg->mSectionCount; sectionIndex++) {
         section = nextSection;
         nextSection = OFFSET_PTR(BmgSectionHeader, nextSection, nextSection->mNextOffset);
-        tag = ReverseBytes32(section->mTag);
+        tag = SwapEndianness32_from_thumb(section->mTag);
         switch (tag) {
             case BMG_SECTION_TAG_ENTRY_OFFSETS:
-                gBmgEntryOffsetSection = (BmgEntryOffsetSection *) section;
+                g_CurrentBmgInf1Block = (BmgEntryOffsetSection *) section;
                 break;
             case BMG_SECTION_TAG_BODY:
-                gBmgBodySection = (BmgBodySection *) section;
+                g_CurrentBmgDat1Block = (BmgBodySection *) section;
                 break;
         }
     }
 }
 
-void *GetBmgEntry(Bmg *bmg, s32 index) {
-    LocateBmgSections(bmg);
-    return &gBmgBodySection->mBody[gBmgEntryOffsetSection->mEntryOffsets[index % 0x10000]];
+void *Bmg_GetRawStringPointer_from_thumb(Bmg *bmg, s32 index) {
+    Bmg_Load_from_thumb(bmg);
+    return &g_CurrentBmgDat1Block->mBody[g_CurrentBmgInf1Block->mEntryOffsets[index % 0x10000]];
 }
 #pragma thumb off

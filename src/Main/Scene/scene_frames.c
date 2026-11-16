@@ -8,14 +8,14 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
-u32 SceneReturnTerminateForPulledOut(void) {
+u32 SomeUserCardPulledOutCallback(void) {
     return 0x1u;
 }
 
-u32 ReturnNoTerminateForPulledOut(void) {
+u32 AnotherUserCardPulledOutCallback(void) {
     return 0x0u;
 }
 
 u32 GetSceneFrames(void) {
-    return (gSceneRunState->mSceneFrames);
+    return (g_GlobalZM->mSceneFrames);
 }

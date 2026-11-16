@@ -36,7 +36,7 @@ void InitWiFiAikotoba(void *heap) {
     u32 wiFiPrevState;
     void *oamList;
 
-    gWiFiAikotoba = HeapAlloc(heap, sizeof(WiFiAikotoba));
+    gWiFiAikotoba = Mem_AllocateHeap(heap, sizeof(WiFiAikotoba));
     gWiFiAikotoba->mHeap = heap;
     gWiFiAikotoba->mState = WIFI_AIKOTOBA_STATE_WAIT_FADE;
     gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_WAIT_FADE;
@@ -55,14 +55,14 @@ void InitWiFiAikotoba(void *heap) {
     gWiFiAikotoba->mHighlightVisible = TRUE;
     LocateAndUploadWiFiAikotoba();
     for (index = 0; index < 2; index++) {
-        SetCellOamModeXlu(gWiFiAikotobaXluCellIndices[index], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gWiFiAikotobaXluCellIndices[index], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
                           gWiFiAikotoba->mWiFiAikotobaBncl);
     }
     oamList = GetWiFiMenuMainOamList();
-    ResetOamLists(oamList, GetWiFiMenuSubOamList());
+    OamBuffer_SomeFn_from_thumb(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiAikotoba->mWiFiAikotobaBncl, NULL, &gWiFiAikotoba->mWiFiAikotobaTable);
-    gWiFiAikotoba->mWiFiMessages = FindSceneFile("wifi.bmg");
-    gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gWiFiAikotoba->mWiFiMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("wifi.bmg");
+    gWiFiAikotoba->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     for (index = 0; index < 2; index++) {
         for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[index]; cellIndex++) {
             gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[index][cellIndex]].mOffsetX =
@@ -78,18 +78,18 @@ void ClearWiFiAikotobaPointer(void) {
 
 void LocateAndUploadWiFiAikotoba(void) {
     void *sceneFile;
-    sceneFile = FindSceneFile("WiFi_aikotoba.bncl");
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_aikotoba.bncl");
     gWiFiAikotoba->mWiFiAikotobaBncl = sceneFile;
-    sceneFile = FindSceneFile("WiFi_aikotoba.bnbl");
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_aikotoba.bnbl");
     gWiFiAikotoba->mWiFiAikotobaBnbl = sceneFile;
-    sceneFile = FindSceneFile("WiFi_aikotoba_s.nce.ncgr");
-    LocateNcgr2(&gWiFiAikotoba->mWiFiAikotobaSNcgr, sceneFile);
-    sceneFile = FindSceneFile("WiFi_aikotoba_s.nce.ncer");
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_aikotoba_s.nce.ncgr");
+    Gfx_ReadCharGraphicsRelative(&gWiFiAikotoba->mWiFiAikotobaSNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_aikotoba_s.nce.ncer");
     LocateNcer(&gWiFiAikotoba->mWiFiAikotobaSNcer, sceneFile);
-    sceneFile = FindSceneFile("WiFi_aikotoba_s_o.nclr");
-    LocateNclr(&gWiFiAikotoba->mWiFiAikotobaSONclr, sceneFile);
-    GXS_LoadOBJ(gWiFiAikotoba->mWiFiAikotobaSNcgr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSNcgr->mDataSize);
-    GXS_LoadOBJPltt(gWiFiAikotoba->mWiFiAikotobaSONclr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSONclr->mDataSize);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_aikotoba_s_o.nclr");
+    Gfx_ReadPaletteRelative(&gWiFiAikotoba->mWiFiAikotobaSONclr, sceneFile);
+    TEQSub_Fn35Impl(gWiFiAikotoba->mWiFiAikotobaSNcgr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSNcgr->mDataSize);
+    TEQSub_Fn30Impl(gWiFiAikotoba->mWiFiAikotobaSONclr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSONclr->mDataSize);
 }
 
 BOOL IsBuddyRecordBlockFull(void) {
@@ -103,7 +103,7 @@ BOOL IsBuddyRecordBlockFull(void) {
 
 void AdvanceWiFiAikotobaWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_SLIDE_IN;
     }
@@ -116,7 +116,7 @@ void AdvanceWiFiAikotobaSlideIn(void) {
 
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     offsetX =
-        InterpolateS16(1, WIFI_AIKOTOBA_OFFSET_HIDDEN, 0, gWiFiAikotoba->mStateFrames, WIFI_AIKOTOBA_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, WIFI_AIKOTOBA_OFFSET_HIDDEN, 0, gWiFiAikotoba->mStateFrames, WIFI_AIKOTOBA_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[rowIndex]; cellIndex++) {
             if (rowIndex == 1) {
@@ -155,30 +155,30 @@ void AdvanceWiFiAikotobaInput(void) {
 
     pairNewUnlessRecentlyLost = FALSE;
     pairRecentlyLost = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         pairRecentlyLost = TRUE;
     }
-    if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (pairRecentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         pairNewUnlessRecentlyLost = TRUE;
     }
     if (pairNewUnlessRecentlyLost != FALSE) {
-        hitIndex = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                           gInputSlots[slotIndex].mPair.mPairY);
+        hitIndex = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                           g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         pairNewUnlessRecentlyLost = FALSE;
         pairRecentlyLost = FALSE;
-        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             pairRecentlyLost = TRUE;
         }
-        if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (pairRecentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             pairNewUnlessRecentlyLost = TRUE;
         }
         if (pairNewUnlessRecentlyLost == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -187,7 +187,7 @@ void AdvanceWiFiAikotobaInput(void) {
     RequestSelectReturnPressWithSound(0);
     return;
 next:
-    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+    pressedKeys = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A;
     if ((u16) pressedKeys != 0 || hitIndex <= 1) {
         wiFiAikotoba = gWiFiAikotoba;
         previousIndex = wiFiAikotoba->mSelectedIndex;
@@ -213,17 +213,17 @@ next:
         if (gWiFiAikotoba->mSelectedIndex == previousIndex) {
             gWiFiAikotoba->mHighlightVisible = FALSE;
         }
-        StartSoundOncePerFrame(5);
+        MaybePlaySomeSseqFromSarc0(5);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mSelectedIndex > 0) {
         gWiFiAikotoba->mSelectedIndex = gWiFiAikotoba->mSelectedIndex - 1;
-        StartSoundOncePerFrame(0);
+        MaybePlaySomeSseqFromSarc0(0);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mSelectedIndex < 1) {
         gWiFiAikotoba->mSelectedIndex = gWiFiAikotoba->mSelectedIndex + 1;
-        StartSoundOncePerFrame(0);
+        MaybePlaySomeSseqFromSarc0(0);
     }
 }
 
@@ -254,7 +254,7 @@ void AdvanceWiFiAikotobaSlideOut(void) {
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     if (gWiFiAikotoba->mStateFrames <= WIFI_AIKOTOBA_SLIDE_FRAMES) {
         offsetX =
-            InterpolateS16(1, 0, WIFI_AIKOTOBA_OFFSET_HIDDEN, gWiFiAikotoba->mStateFrames, WIFI_AIKOTOBA_SLIDE_FRAMES);
+            ComputeValueInterpolation_from_thumb(1, 0, WIFI_AIKOTOBA_OFFSET_HIDDEN, gWiFiAikotoba->mStateFrames, WIFI_AIKOTOBA_SLIDE_FRAMES);
     } else {
         offsetX = WIFI_AIKOTOBA_OFFSET_HIDDEN;
     }
@@ -273,8 +273,8 @@ void AdvanceWiFiAikotobaSlideOut(void) {
         if (IsBuddyRecordBlockFull() != 0 && gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
             gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_NOTICE;
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_NONE;
-            bmgEntry = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0xf);
-            SetupTxtSystemMainTextButton(bmgEntry, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 6));
+            bmgEntry = Bmg_GetRawStringPointer_from_thumb(gWiFiAikotoba->mWiFiMessages, 0xf);
+            SetupTxtSystemMainTextButton(bmgEntry, Bmg_GetRawStringPointer_from_thumb(gWiFiAikotoba->mCommonMessages, 6));
             gWiFiAikotoba->mStateFrames = 0;
             return;
         }
@@ -288,34 +288,34 @@ void AdvanceWiFiAikotobaBuddyFullNotice(void) {
     void *questionText;
     void *yesText;
 
-    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK;
-        questionText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0x10);
-        yesText = GetBmgEntry(gWiFiAikotoba->mCommonMessages, 0);
-        SetupTxtSystemMainTextTwoButtons(questionText, yesText, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 1), 0);
+        questionText = Bmg_GetRawStringPointer_from_thumb(gWiFiAikotoba->mWiFiMessages, 0x10);
+        yesText = Bmg_GetRawStringPointer_from_thumb(gWiFiAikotoba->mCommonMessages, 0);
+        SetupTxtSystemMainTextTwoButtons(questionText, yesText, Bmg_GetRawStringPointer_from_thumb(gWiFiAikotoba->mCommonMessages, 1), 0);
         return;
     }
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
     }
 }
 
 void AdvanceWiFiAikotobaBuddyFullAsk(void) {
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
-        if (GetTxtSystemSelectedIndex() == 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
             if (GetWiFiNextScene() == -1) {
                 SetWiFiNextScene(8);
             }
-            gMenuShared->mWiFiScene8StartKind = 1;
+            g_GlobalB488->mWiFiScene8StartKind = 1;
             return;
         }
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_SLIDE_IN;
         gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_NONE;
         return;
     }
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
     }
 }
 

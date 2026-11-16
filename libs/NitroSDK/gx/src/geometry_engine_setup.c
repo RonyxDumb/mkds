@@ -216,10 +216,10 @@ void G3i_LookAt_(const Vec3 *camPos, const Vec3 *camUp, const Vec3 *target, int 
     look.x = camPos->x - target->x;
     look.y = camPos->y - target->y;
     look.z = camPos->z - target->z;
-    VEC_Normalize(&look, &look);
-    VEC_CrossProduct(camUp, &look, &right);
-    VEC_Normalize(&right, &right);
-    VEC_CrossProduct(&look, &right, &up);
+    VecFx32_Normalize(&look, &look);
+    VecFx32_CrossProduct(camUp, &look, &right);
+    VecFx32_Normalize(&right, &right);
+    VecFx32_CrossProduct(&look, &right, &up);
     if (draw != 0) {
         reg_G3_MTX_MODE = 2;
         fifo = &reg_G3_MTX_LOAD_4x3;
@@ -233,9 +233,9 @@ void G3i_LookAt_(const Vec3 *camPos, const Vec3 *camUp, const Vec3 *target, int 
         *fifo = up.z;
         *fifo = look.z;
     }
-    transX = -VEC_DotProduct(camPos, &right);
-    transY = -VEC_DotProduct(camPos, &up);
-    transZ = -VEC_DotProduct(camPos, &look);
+    transX = -Vector3_DotProduct(camPos, &right);
+    transY = -Vector3_DotProduct(camPos, &up);
+    transZ = -Vector3_DotProduct(camPos, &look);
     if (draw != 0) {
         *fifo = transX;
         *fifo = transY;
@@ -259,7 +259,7 @@ void G3i_LookAt_(const Vec3 *camPos, const Vec3 *camUp, const Vec3 *target, int 
 
 // Resets the geometry engine and its registers to the start state: clears the FIFO and the matrix stacks, sets the
 // clear color, depth, fog and BG0 registers, clears the tables and sets the default polygon attributes.
-void G3X_Init(void) {
+void G3X_Initialize(void) {
     G3X_ClearFifo();
     reg_G3_END_VTXS = 0;
     while (reg_G3X_GXSTAT & 0x8000000) {
@@ -274,14 +274,14 @@ void G3X_Init(void) {
     reg_G3X_DISP3DCNT &= (u16) ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_ATE_MASK);
     reg_G3X_GXSTAT |= 0x8000;
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xc0000000) | 0x80000000;
-    G3X_InitMtxStack();
+    G3X_InitializeMatrixStack();
     reg_G3X_CLEAR_COLOR = 0;
     reg_G3X_CLEAR_DEPTH = 0x7fff;
     reg_G3X_CLRIMAGE_OFFSET = 0;
     reg_G3X_FOG_COLOR = 0;
     reg_G3X_FOG_OFFSET = 0;
     reg_G2_BG0CNT &= ~REG_G2_BG0CNT_PRIORITY_MASK;
-    G3X_InitTable();
+    G3X_InitializeTable();
     reg_G3_POLYGON_ATTR = 0x1f0080;
     reg_G3_TEXIMAGE_PARAM = 0;
     reg_G3_PLTT_BASE = 0;
@@ -289,13 +289,13 @@ void G3X_Init(void) {
 
 // Waits for the geometry engine, resets the matrix stacks and sets the default polygon attributes, texture
 // parameters and palette base.
-void G3X_Reset(void) {
+void G3X_ResetMatrixStack(void) {
     while (reg_G3X_GXSTAT & 0x8000000) {
     }
     reg_G3X_GXSTAT |= 0x8000;
     reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_GO_MASK;
     reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_RO_MASK;
-    G3X_ResetMtxStack();
+    G3X_ResetMatrixStack2();
     reg_G3_POLYGON_ATTR = 0x1f0080;
     reg_G3_TEXIMAGE_PARAM = 0;
     reg_G3_PLTT_BASE = 0;
@@ -310,7 +310,7 @@ void G3X_ClearFifo(void) {
 
 // Pops the projection and position vector stacks to their bottom and loads the identity matrix into the texture,
 // projection and position vector matrices.
-void G3X_InitMtxStack(void) {
+void G3X_InitializeMatrixStack(void) {
     s32 positionLevel;
     s32 projectionLevel;
 
@@ -331,8 +331,8 @@ void G3X_InitMtxStack(void) {
     reg_G3_MTX_IDENTITY = 0;
 }
 
-// As G3X_InitMtxStack, except that the projection matrix does not get the identity matrix.
-void G3X_ResetMtxStack(void) {
+// As G3X_InitializeMatrixStack, except that the projection matrix does not get the identity matrix.
+void G3X_ResetMatrixStack2(void) {
     s32 positionLevel;
     s32 projectionLevel;
 
@@ -371,7 +371,7 @@ s32 G3X_GetClipMtx(void *dest) {
     if (reg_G3X_GXSTAT & 0x8000000) {
         return -1;
     }
-    MI_Copy64B((const void *) 0x4000640, dest);
+    asm_MI_Copy64B((const void *) 0x4000640, dest);
     return 0;
 }
 
@@ -380,11 +380,11 @@ s32 G3X_GetVectorMtx(void *dest) {
     if (reg_G3X_GXSTAT & 0x8000000) {
         return -1;
     }
-    MI_Copy36B((const void *) 0x4000680, dest);
+    asm_MI_Copy36B((const void *) 0x4000680, dest);
     return 0;
 }
 
 // Copies the 8 words of fogTable to the fog table registers.
 void G3X_SetFogTable(const void *fogTable) {
-    MI_Copy32B(fogTable, (void *) 0x4000360);
+    asm_MI_Copy32B(fogTable, (void *) 0x4000360);
 }

@@ -23,7 +23,7 @@ DWCInetControl *gInetControl;
 
 void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority) {
     if (gInetControl == NULL) {
-        MI_CpuFill8(inetCntl, 0, 12);
+        Mem_CpuFill8(inetCntl, 0, 12);
         inetCntl->mDmaNo = dmaNo;
         inetCntl->mPowerMode = 1;
         inetCntl->mState = INET_STATUS_INITIALIZED;
@@ -58,7 +58,7 @@ void DWC_ConnectInetAsync(void) {
         if (gInetControl->mState != INET_STATUS_INITIALIZED) {
             return;
         }
-        MI_CpuFill8(&config, 0, 12);
+        Mem_CpuFill8(&config, 0, 12);
         config.mDmaNo = gInetControl->mDmaNo;
         config.mPowerMode = gInetControl->mPowerMode;
         config.mAlloc = DWC_Alloc;
@@ -128,7 +128,7 @@ void DWC_CleanupInet(void) {
     if (gInetControl != NULL) {
         destroyResult = DWC_AC_Destroy();
         while (destroyResult == 0) {
-            OS_Sleep(10);
+            Os_Sleep(10);
             destroyResult = DWC_AC_Destroy();
         }
         gInetControl = NULL;

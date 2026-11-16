@@ -4,7 +4,7 @@
 #include "cpu_copy_fill.h"
 
 #pragma thumb on
-void CopyBackupReadToBlock(u32 *buffer, u32 length) {
-    MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, length);
+void CopyToSXSomePtr_from_thumb(u32 *buffer, u32 length) {
+    Mem_CpuCopy8(buffer, g_SaveDataIoManager->mReadTarget, length);
 }
 #pragma thumb off

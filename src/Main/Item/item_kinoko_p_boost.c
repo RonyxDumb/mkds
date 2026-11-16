@@ -14,7 +14,7 @@ const ItemKind gItemKindKinokoP = {
 
 void StartItemKinokoPBoost(ItemInUse *inUse, HeldItem *heldItem) {
     StartHeldItemTimer(heldItem, 0x1c2);
-    StartKartKinokoBoost(heldItem->mKartItems->mKart);
+    StructMQRacerEntry_SomeFn_57(heldItem->mKartItems->mKart);
     inUse->mKartItems->mKinokoBoostStarted = TRUE;
     SetHeldItemUseDelay(heldItem, 0xc);
 }

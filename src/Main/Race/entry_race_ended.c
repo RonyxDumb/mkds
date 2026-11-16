@@ -3,5 +3,5 @@
 #include "Main/System/init_after_startup.h"
 
 u32 GetEntryRaceEnded(void) {
-    return gRaceProgress->mEntryRaceEnded;
+    return g_GlobalMV->mEntryRaceEnded;
 }

@@ -66,7 +66,7 @@ StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandSpeedUp, UpdateSecond
 
 void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);
-    InitStateMachine(&secondHand->mMapObject.mStateMachine, gSecondHandStateTable, 4, secondHand);
+    StateDualHandler_Create(&secondHand->mMapObject.mStateMachine, gSecondHandStateTable, 4, secondHand);
     QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &secondHand->mRotationQuaternion);
     secondHand->mInitialRotationQuaternion = secondHand->mRotationQuaternion;
     secondHand->mRampFrameCount = courseRow->mSettings[2];

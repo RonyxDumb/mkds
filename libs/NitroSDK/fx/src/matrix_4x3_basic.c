@@ -79,7 +79,7 @@ s32 MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst) {
     result->mRows[3].z = -(s32) DOT3_FIXED12(result->mRows[0].z, src->mRows[3].x, result->mRows[1].z, src->mRows[3].y,
                                              result->mRows[2].z, src->mRows[3].z);
     if (result == &resultBuffer) {
-        MI_Copy48B(&resultBuffer, dst);
+        asm_MI_Copy48B(&resultBuffer, dst);
     }
     return 0;
 }
@@ -195,7 +195,7 @@ asm void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst) {
 #pragma thumb on
 
 // Sets dst to the scale matrix with x, y and z on the diagonal and a zero translation.
-asm void MTX_Scale43_(MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {
+asm void MTX_Scale43__from_thumb(MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {
     stmia r0!, {r1}
     mov r1, #0
     str r3, [r0, #28]
@@ -210,7 +210,7 @@ asm void MTX_Scale43_(MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {
 }
 
 // Sets dst to the rotation about the x axis, rows (0x1000, 0, 0), (0, cosVal, sinVal), (0, -sinVal, cosVal), (0, 0, 0).
-asm void MTX_RotX43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotX43__from_thumb(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
     str r1, [r0, #20]
     neg r1, r1
     str r1, [r0, #28]
@@ -229,7 +229,7 @@ asm void MTX_RotX43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
 }
 
 // Sets dst to the rotation about the y axis, rows (cosVal, 0, -sinVal), (0, 0x1000, 0), (sinVal, 0, cosVal), (0, 0, 0).
-asm void MTX_RotY43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotY43__from_thumb(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
     str r1, [r0, #24]
     mov r3, #0
     stmia r0!, {r2, r3}
@@ -246,7 +246,7 @@ asm void MTX_RotY43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
 }
 
 // Sets dst to the rotation about the z axis, rows (cosVal, sinVal, 0), (-sinVal, cosVal, 0), (0, 0, 0x1000), (0, 0, 0).
-asm void MTX_RotZ43_(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotZ43__from_thumb(MtxFx43 *dst, s32 sinVal, s32 cosVal) {
     stmia r0!, {r2}
     mov r3, #0
     stmia r0!, {r1, r3}

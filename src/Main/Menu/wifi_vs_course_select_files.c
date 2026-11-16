@@ -85,9 +85,9 @@ void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
     if (action == 1) {
         if (row == 0) {
-            text = GetBmgEntry(gWiFiVSCourseSelect->mWiFiMessages, 0x1a);
+            text = Bmg_GetRawStringPointer_from_thumb(gWiFiVSCourseSelect->mWiFiMessages, 0x1a);
         } else {
-            text = GetBmgEntry(gWiFiVSCourseSelect->mWiFiMessages, GetWiFiCourseMessageIndex(gCourseIdTable[row - 1]));
+            text = Bmg_GetRawStringPointer_from_thumb(gWiFiVSCourseSelect->mWiFiMessages, GetWiFiCourseMessageIndex(gCourseIdTable[row - 1]));
         }
         PrintLabelLayoutTextNoFixedAdvance(1, slot, fileSet->mLabelLayout, text, fileSet->mCellLayout,
                                            fileSet->mCellTable);
@@ -113,14 +113,14 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
     cellCount = fileSet->mCellLayout->mCount;
     for (rowIndex = 0; rowIndex < gWiFiVSCourseSelect->mPlayerCount; rowIndex++) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex].mOffsetY =
-            InterpolateS16(1, 0,
+            ComputeValueInterpolation_from_thumb(1, 0,
                            0x60 - (((s16 *) GetCellLayoutEntry(
                                        fileSet->mCellLayout, gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex))[1]
                                        << 20 >>
                                    20),
                            (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
         fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex].mOffsetY =
-            InterpolateS16(
+            ComputeValueInterpolation_from_thumb(
                 1, 0,
                 0x60 - (((s16 *) GetLabelLayoutEntry(fileSet->mLabelLayout,
                                                      gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex))[1]
@@ -140,7 +140,7 @@ void ShowWiFiSessionCourse(void) {
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
     cellCount = fileSet->mCellLayout->mCount;
     courseId = GetWiFiSessionCourseId();
-    text = GetBmgEntry(gWiFiVSCourseSelect->mCommonMessages, GetCourseMessageIndex(courseId));
+    text = Bmg_GetRawStringPointer_from_thumb(gWiFiVSCourseSelect->mCommonMessages, GetBmgIndexFromCircuitIndex_from_thumb(courseId));
     for (rowIndex = 0; rowIndex < 4; rowIndex++) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex].mVisible = 0;
         fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex].mVisible =
@@ -157,7 +157,7 @@ void ShowWiFiSessionCourse(void) {
     PrintLabelLayoutTextNoFixedAdvance(0, gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex, fileSet->mLabelLayout, text,
                                        fileSet->mCellLayout, fileSet->mCellTable);
     gWiFiVSCourseSelect->mCourseId = courseId;
-    gWiFiVSCourseSelect->mCourseMessageIndex = GetCourseMessageIndex(courseId);
+    gWiFiVSCourseSelect->mCourseMessageIndex = GetBmgIndexFromCircuitIndex_from_thumb(courseId);
     gWiFiVSCourseSelect->mCourseNameStart[0] = text[0];
     gWiFiVSCourseSelect->mCourseNameStart[1] = text[1];
     gWiFiVSCourseSelect->mCourseNameStart[2] = text[2];
@@ -199,7 +199,7 @@ void AdvancePickedCourseRows(void) {
             case WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE:
             case WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS:
                 if (pickedCourseId != 0 && pickedCourseId != gWiFiVSCourseSelect->mShownCourseIds[rowIndex]) {
-                    text = GetBmgEntry(gWiFiVSCourseSelect->mCommonMessages, GetCourseMessageIndex(pickedCourseId));
+                    text = Bmg_GetRawStringPointer_from_thumb(gWiFiVSCourseSelect->mCommonMessages, GetBmgIndexFromCircuitIndex_from_thumb(pickedCourseId));
                     PrintLabelLayoutTextNoFixedAdvance(0, gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex,
                                                        fileSet->mLabelLayout, text, fileSet->mCellLayout,
                                                        fileSet->mCellTable);
@@ -207,7 +207,7 @@ void AdvancePickedCourseRows(void) {
                     SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[rowIndex],
                                                     INTERPOLATION_STATE_RISING);
                     if (gWiFiVSCourseSelect->mEntryIndex != rowIndex) {
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x208);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x208);
                     }
                 }
                 break;
@@ -239,9 +239,9 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
                 seconds = (gWiFiVSCourseSelect->mTimer + 0x3c) / 0x3c;
                 fileSet->mCellTable[15].mVisible = seconds >= 10 ? 1 : 0;
                 if (gWiFiVSCourseSelect->mTimer == 0) {
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x51);
                 } else if ((gWiFiVSCourseSelect->mTimer + 0x3c) % 0x3c == 0 && seconds <= 4) {
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x50);
                 }
             }
             cellLayout = fileSet->mCellLayout;
@@ -271,7 +271,7 @@ s32 PickRandomCourseIndexNotRaced(void) {
     random = &courseSelect->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     courseIndex = (u16) (random->mValue >> 32 >> 20) % 20;
-    menuShared = gMenuShared;
+    menuShared = g_GlobalB488;
     do {
         notRaced = TRUE;
         courseIndex = (courseIndex + 1) % 20;
@@ -305,16 +305,16 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     LayoutTableEntry *cellTable;
     u16 values[2];
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gWiFiVSCourseSelect = HeapAlloc(heap, sizeof(*gWiFiVSCourseSelect));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gWiFiVSCourseSelect = Mem_AllocateHeap(heap, sizeof(*gWiFiVSCourseSelect));
     MemFillWordsByBlock_inline(gWiFiVSCourseSelect, 0x158);
     gWiFiVSCourseSelect->mHeap = heap;
     gWiFiVSCourseSelect->mOamLists[0] = mainOam;
     gWiFiVSCourseSelect->mOamLists[1] = subOam;
-    gWiFiVSCourseSelect->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gWiFiVSCourseSelect->mWiFiMessages = FindSceneFile("wifi.bmg");
-    tick = OS_GetTick();
-    seed = (tick << 16) + (u32) OS_GetTick();
+    gWiFiVSCourseSelect->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    gWiFiVSCourseSelect->mWiFiMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("wifi.bmg");
+    tick = Os_GetTick();
+    seed = (tick << 16) + (u32) Os_GetTick();
     random = &gWiFiVSCourseSelect->mRandom;
     random->mValue = seed;
     random->mMultiplier = RANDOM_STATE64_MULTIPLIER;
@@ -332,12 +332,12 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xc00;
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR",
-                                   "WiFi_VS_course_select_m_b.NCLR", "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);
+                                   "WiFi_VS_course_select_m_b.NCLR", "WiFi_VS_course_select_m.NSCR", 0, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     mainFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, "WiFi_VS_course_select_m.nce.ncgr", "WiFi_VS_course_select_m.nce.ncer",
                       "WiFi_VS_course_select_m_o.NCLR", "WiFi_VS_course_select_m.bncl", "WiFi_VS_course_select_m.bnll",
-                      NULL, FindSceneFile);
+                      NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect->mHeap, mainFileSet);
     value = mainFileSet->mCellLayout->mCount;
     for (index = 0; index < value; index++) {
@@ -359,12 +359,12 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     mainFileSet->mCellTable[4].mVisible = 0;
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1],
                                    "WIFI_VS_COURSE_SELECT_S_B.NCGR", "WIFI_VS_COURSE_SELECT_S_B.NCLR",
-                                   "WIFI_VS_COURSE_SELECT_S.NSCR", 3, FindSceneFile);
+                                   "WIFI_VS_COURSE_SELECT_S.NSCR", 3, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     subFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
     objSizeLeft = GX_GetSizeOfSubOBJ();
     LocateCellFileSet(subFileSet, "WiFi_VS_course_select_s.nce.ncgr", "WiFi_VS_course_select_s.nce.ncer",
                       "WiFi_VS_course_select_s_o.NCLR", "WiFi_VS_course_select_s.bncl", "WiFi_VS_course_select_s.bnll",
-                      "WiFi_VS_course_select_s.bnbl", FindSceneFile);
+                      "WiFi_VS_course_select_s.bnbl", FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_SUB, gWiFiVSCourseSelect->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mCount;
     for (subIndex = 0; subIndex < subCellCount; subIndex++) {
@@ -404,7 +404,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
     AdvancePickedCourseRows();
     switch (gWiFiVSCourseSelect->mState) {
         case WIFI_VS_COURSE_SELECT_STATE_WAIT_SLIDE_IN:
-            if (AreBrightnessFadesClear() == 0) {
+            if (Bright_IsBothScreensFadedIn() == 0) {
                 break;
             }
             if (gWiFiVSCourseSelect->mInterpolations[0].mState == INTERPOLATION_STATE_AT_END) {
@@ -414,7 +414,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE:
             if (IsScrollListPickStarted() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x208);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x208);
             }
             if (IsScrollListPickFinished() == 0 && gWiFiVSCourseSelect->mTimer != 0) {
                 break;
@@ -442,7 +442,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
                 StartFadeToFadedPositiveOneScreen(0x3c, 1);
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS;
                 gWiFiVSCourseSelect->mStateFrames = 0;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x209);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x209);
             }
             break;
         case WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS:
@@ -459,7 +459,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
         case WIFI_VS_COURSE_SELECT_STATE_HOLD_COURSE:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_HOLD_FRAMES) {
-                StartFadeToFadedNegative(10);
+                Bright_FadeOutBlack(10);
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_IN;
                 gWiFiVSCourseSelect->mStateFrames = 0;
             }
@@ -492,7 +492,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
 #pragma thumb on
 
 void ReleaseWiFiVSCourseSelect(void) {
-    HeapDestroy(gWiFiVSCourseSelect->mHeap);
+    Mem_DestroyHeap(gWiFiVSCourseSelect->mHeap);
     *&gWiFiVSCourseSelect = NULL;
 }
 
@@ -503,7 +503,7 @@ void ReleaseWiFiVSCourseSelect(void) {
 void WriteWiFiVSCourseSelectRegisters(void) {
     s32 window0V;
 
-    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+    ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1a00;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 2;
     reg_G2_BG0OFS = (-GetInterpolatedValue(&gWiFiVSCourseSelect->mInterpolations[1]) << 16) & 0x1ff0000;
@@ -537,30 +537,30 @@ void LoadWiFiVSCourseSelectFiles(void) {
     palette = NULL;
     cells = NULL;
     screenMaps[0] = NULL;
-    file = FindSceneFile("WiFi_VS_course_select_m_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("WiFi_VS_course_select_s_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("WiFi_VS_course_select_m.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("WiFi_VS_course_select_s.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("WiFi_VS_course_select_m.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("WiFi_VS_course_select_s.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("WiFi_VS_course_select_m_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("WiFi_VS_course_select_m_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("WiFi_VS_course_select_s_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("WiFi_VS_course_select_s_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("WiFi_VS_course_select_m.NSCR");
-    LoadNscrData(screenMaps, file);
-    file = FindSceneFile("WiFi_VS_course_select_s.NSCR");
-    LoadNscrData(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_m_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_s_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_m.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_m.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_s.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_m_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_m_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_s_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_s_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_m.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_VS_course_select_s.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
 }
 
 #pragma thumb off

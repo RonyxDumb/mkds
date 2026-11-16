@@ -88,7 +88,7 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
 
     profileStore = &connection->mGpiConnection->mProfileList;
     if (id <= 0) {
-        AssertionFailed("id > 0", "gpiProfile.c", NULL, 0x2b5);
+        LogThrowAssertion("id > 0", "gpiProfile.c", NULL, 0x2b5);
     }
     if (id <= 0) {
         return NULL;

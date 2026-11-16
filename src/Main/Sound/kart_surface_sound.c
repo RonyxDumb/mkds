@@ -80,17 +80,17 @@ void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32
     }
     if (entryIndex == 2) {
         if ((0x00009c40u) < waterDepth) {
-            StartSound(source, 0x70, SOUND_VOLUME_MAX, 0);
+            StructMQRacerEntry_SomeFn_8(source, 0x70, SOUND_VOLUME_MAX, 0);
             return;
         }
         if (waterDepth != 0) {
-            StartSound(source, 0x6f, SOUND_VOLUME_MAX, 0);
+            StructMQRacerEntry_SomeFn_8(source, 0x6f, SOUND_VOLUME_MAX, 0);
             return;
         }
     }
     surfaceSoundId = GetSurfaceSoundId(entryIndex, surfaceKind, surfaceVariant);
     if (surfaceSoundId != SURFACE_SOUND_NONE) {
-        StartSound(source, surfaceSoundId, SOUND_VOLUME_MAX, 0);
+        StructMQRacerEntry_SomeFn_8(source, surfaceSoundId, SOUND_VOLUME_MAX, 0);
         return;
     }
 }
@@ -152,7 +152,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
     }
     if (waterDepth != 0) {
         depthPitch = 0;
-        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex;
+        isEntryKart = kart->mIndex == g_GlobalCO->mEntryIndex;
         if (waterDepth > 0x11170) {
             depthPitch = 0x384;
             if (isEntryKart != FALSE) {
@@ -183,7 +183,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
                 if (lapProgressDifference > GetLapProgressSoundGap(lapSoundKind)) {
                     baseSoundId = GetLapProgressSoundId(lapSoundKind);
                     soundState->mLapProgressSoundCount++;
-                    StartSound(&kart->mSoundSource, (u16) ((soundState->mLapProgressSoundCount & 1) + baseSoundId),
+                    StructMQRacerEntry_SomeFn_8(&kart->mSoundSource, (u16) ((soundState->mLapProgressSoundCount & 1) + baseSoundId),
                                SOUND_VOLUME_MAX, 0);
                     soundState->mLapProgressAtLastSound = lapProgress;
                 }
@@ -205,17 +205,17 @@ void StartKartSurfaceSound(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surf
     if (soundId == SURFACE_SOUND_NONE) {
         return;
     }
-    if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
+    if (g_GlobalCO->mCourseId == COURSE_ID_RAINBOW) {
         soundId = 0x1b6;
     }
-    StartSound(&kart->mSoundSource, soundId, SOUND_VOLUME_MAX, 0);
+    StructMQRacerEntry_SomeFn_8(&kart->mSoundSource, soundId, SOUND_VOLUME_MAX, 0);
 }
 
 void StartKartSeqArcSoundWithVolume(s32 soundIndex, s32 soundOffset, u32 volume, s32 playerNo, s32 playerPrio) {
     NNSSndSeqPlayer *sndHandle;
     u16 sequenceNo;
 
-    if (IsRaceSceneNormalOrReplay() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -236,7 +236,7 @@ void StartKartCollisionSound(Kart *kart, s32 soundIndex, s16 unused) {
     if (gSceneSoundState.mRaceFrames < KART_COLLISION_SOUND_MIN_RACE_FRAMES) {
         return;
     }
-    playingSound = StartSoundEx(&kart->mSoundSource, 0, soundId, SOUND_VOLUME_MAX, 0);
+    playingSound = StructMQRacerEntry_SomeFn_6(&kart->mSoundSource, 0, soundId, SOUND_VOLUME_MAX, 0);
     if (playingSound == NULL) {
         return;
     }
@@ -244,7 +244,7 @@ void StartKartCollisionSound(Kart *kart, s32 soundIndex, s16 unused) {
     playingSound->mFlags |= PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT;
 }
 
-void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
+void StructMQRacerEntry_SomeFn_5(Kart *kart, s32 soundIndex, s32 soundOffset) {
     NNSSndSeqPlayer *sndHandle;
     KartSound *soundState;
     u32 raceFrames;
@@ -270,14 +270,14 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
             return;
         }
         volume = SOUND_VOLUME_MAX;
-        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex;
+        isEntryKart = kart->mIndex == g_GlobalCO->mEntryIndex;
         if (soundOffset == 5) {
             volume = SOUND_VOLUME_MAX;
         } else if (soundOffset == 3) {
             volume = SOUND_VOLUME_MAX;
         }
         if (isEntryKart != FALSE) {
-            if (IsRaceSceneNormalOrReplay() == 0) {
+            if (IsInRaceSceneNormalOrReplay() == 0) {
                 return;
             }
             NNS_SndHandleInit(&sndHandle);
@@ -292,7 +292,7 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
             if (soundOffset != 3 && soundOffset != 5) {
                 return;
             }
-            StartSoundEx(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + (soundOffset + 1),
+            StructMQRacerEntry_SomeFn_6(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + (soundOffset + 1),
                          0x73, 0);
         }
     } else {
@@ -308,7 +308,7 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
         if (raceFrames - soundState->mLastSeqArcSoundRaceFrame < minFrameGap) {
             return;
         }
-        StartSoundEx(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + soundOffset,
+        StructMQRacerEntry_SomeFn_6(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + soundOffset,
                      SOUND_VOLUME_MAX, 0);
         soundState->mLastSeqArcSoundRaceFrame = raceFrames;
     }
@@ -358,7 +358,7 @@ void UpdateKartSoundQueue(void) {
             if (queue->mVolume < KART_SOUND_QUEUE_VOLUME_MIN) {
                 queue->mVolume = KART_SOUND_QUEUE_VOLUME_MIN;
             }
-            StartQueuedKartSound(queue->mKarts[slotIndex], queue->mSoundIndices[slotIndex], 0, queue->mVolume);
+            StructMQRacerEntry_SomeFn_13(queue->mKarts[slotIndex], queue->mSoundIndices[slotIndex], 0, queue->mVolume);
             queue->mFramesSinceStart[slotIndex]++;
         } else {
             queue->mFramesSinceStart[slotIndex]++;
@@ -372,8 +372,8 @@ void QueueKartSound(Kart *kart, s32 soundIndex) {
     if (queue->mDisabled != FALSE) {
         return;
     }
-    if (kart->mIndex == gRaceSetup->mEntryIndex) {
-        StartQueuedKartSound(kart, soundIndex, 1, 0x6e);
+    if (kart->mIndex == g_GlobalCO->mEntryIndex) {
+        StructMQRacerEntry_SomeFn_13(kart, soundIndex, 1, 0x6e);
         queue->mDelayFrames = 0;
         return;
     }
@@ -382,7 +382,7 @@ void QueueKartSound(Kart *kart, s32 soundIndex) {
     queue->mCount++;
 }
 
-void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 volume) {
+void StructMQRacerEntry_SomeFn_13(Kart *kart, s32 soundIndex, s32 useKartSource, s32 volume) {
     NNSSndSeqPlayer *sndHandle;
     PlayingSound *playingSound;
     PlayingSound *stoppedSound;
@@ -395,10 +395,10 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
         do {
             if (playingSound->mSeqArcNo == PLAYING_SOUND_SEQ_ARC_PER_CHARACTER) {
                 stoppedSound = playingSound;
-                playingSound = NNS_FndGetNextListObject(&kart->mSoundSource.mPlayingSounds, playingSound);
-                StopPlayingSound(&kart->mSoundSource, stoppedSound, 0);
+                playingSound = IntrusiveListWrapper_NextItem(&kart->mSoundSource.mPlayingSounds, playingSound);
+                StructMQRacerEntry_SomeFn_9(&kart->mSoundSource, stoppedSound, 0);
             } else {
-                playingSound = NNS_FndGetNextListObject(&kart->mSoundSource.mPlayingSounds, playingSound);
+                playingSound = IntrusiveListWrapper_NextItem(&kart->mSoundSource.mPlayingSounds, playingSound);
             }
         } while (playingSound != NULL);
     }
@@ -412,11 +412,11 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
     }
     soundOffset = 0xd;
     if (useKartSource != 0) {
-        StartSoundEx(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + soundOffset,
+        StructMQRacerEntry_SomeFn_6(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + soundOffset,
                      SOUND_VOLUME_MAX, 0);
         return;
     }
-    if (IsRaceSceneNormalOrReplay() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -437,7 +437,7 @@ void StartBattleWinOrLoseSound(s32 soundIndex, s32 isWinner) {
 
     soundOffset = isWinner != 0 ? 0xc : 0xd;
     gKartSoundQueue.mDisabled = TRUE;
-    if (IsRaceSceneNormalOrReplay() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -450,7 +450,7 @@ void StartBattleWinOrLoseSound(s32 soundIndex, s32 isWinner) {
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
 
-void GhostKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused) {}
+void MQ_FnPtr1_1(Kart *kart, PlayingSound *playingSound, s32 unused) {}
 
 void RemovedKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused) {}
 
@@ -458,7 +458,7 @@ void SetKartStartSeqNop(Kart *kart) {
     kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) RemovedKartStartSeqNop;
 }
 
-void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 playerPrio) {
+void MQ_FnPtr1_2(Kart *kart, PlayingSound *playingSound, s32 playerPrio) {
     u32 seqArcNo;
     u32 soundId;
     s32 playerNo;
@@ -468,7 +468,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 player
     seqArcNo = playingSound->mSeqArcNo;
     soundId = playingSound->mSoundId;
     playerNo = -1;
-    if (kart->mIndex == gRaceSetup->mEntryIndex) {
+    if (kart->mIndex == g_GlobalCO->mEntryIndex) {
         seqParam = NNS_SndArcGetSeqArcParam(seqArcNo, soundId);
         value = seqParam->mPlayerNo;
         if (value == 2) {
@@ -483,7 +483,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 player
     }
     if ((playingSound->mFlags & PLAYING_SOUND_FLAG_KART_COLLISION) &&
         (playingSound->mFlags & PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT)) {
-        value = GetKartVariant(kart->mIndex) + 0x2d;
+        value = GetAD00SubKartIndexMod3(kart->mIndex) + 0x2d;
         NNS_SndArcPlayerStartSeqArcEx(&playingSound->mSeqPlayer, playerNo, value, playerPrio, seqArcNo, soundId);
         if (playingSound == NULL) {
             return;
@@ -510,7 +510,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
     if (playingSound->mSeqArcNo != PLAYING_SOUND_SEQ_ARC_PER_CHARACTER) {
         waterDepth = kart->mWaterDepth;
         depthPitch = 0;
-        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex;
+        isEntryKart = kart->mIndex == g_GlobalCO->mEntryIndex;
         if (waterDepth > 0x11170) {
             depthPitch = 0x384;
             if (isEntryKart != FALSE) {
@@ -571,7 +571,7 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
     SetSndHandleTrackPitch(&playingSound->mSeqPlayer, playingSound->mPitch + pitchOffset);
 }
 
-void UpdateKartPlayingSound(Kart *kart, PlayingSound *playingSound) {
+void MQ_FnPtr2(Kart *kart, PlayingSound *playingSound) {
     SetKartPlayingSoundVolumePitch(kart, playingSound, 0);
 }
 

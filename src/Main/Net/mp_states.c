@@ -39,7 +39,7 @@ QueueMPDataToPortParams gQueueMPChunkParams = {QueueMPChunkCallback, 0x16c, {0, 
 void RequestMPReadyAfterCombine(void) {
     MPStateMachine *stateMachine;
     CombineParticipantBits();
-    stateMachine = &gConnectionWork->mMPStateMachine;
+    stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = MP_STATE_READY;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -49,14 +49,14 @@ void RequestMPReadyAfterCombine(void) {
 #pragma thumb on
 
 static inline u32 MPStatesGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline void MPStatesRequestMPState(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
+    MPStateMachine *stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = nextState;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -66,18 +66,18 @@ void UpdateMPSendParticipantMask(void *stateObject) {
     u16 waitFrames;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        participantMask = gConnectionWork->mParticipantMask;
+        participantMask = g_GlobalZE->mParticipantMask;
         if (IsAllMPChildSharedDataCopied() != 0) {
             if (QueueMPDataHalfwordAndWord(MP_MESSAGE_PARTICIPANT_MASK, participantMask, participantMask) != FALSE) {
                 SetParticipantMask(participantMask);
             }
         } else {
-            waitFrames = gConnectionWork->mMPStateMachine.mChildDataWaitFrames;
+            waitFrames = g_GlobalZE->mMPStateMachine.mChildDataWaitFrames;
             if (waitFrames > 0xe10) {
                 SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                 return;
             }
-            gConnectionWork->mMPStateMachine.mChildDataWaitFrames = waitFrames + 1;
+            g_GlobalZE->mMPStateMachine.mChildDataWaitFrames = waitFrames + 1;
         }
     }
 }
@@ -86,10 +86,10 @@ void UpdateMPSendGroupSendMask(void *stateObject) {
     MPStateMachine *stateMachine;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT &&
-        (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY)) {
-        if (QueueMPDataHalfwordAndWord(MP_MESSAGE_GROUP_SEND_MASK, gConnectionWork->mChildren.mChildMask,
-                                       gConnectionWork->mGroupSendMask) != FALSE) {
-            stateMachine = &gConnectionWork->mMPStateMachine;
+        (g_GlobalZE->mFlags & CONNECTION_FLAG_SEND_READY)) {
+        if (QueueMPDataHalfwordAndWord(MP_MESSAGE_GROUP_SEND_MASK, g_GlobalZE->mChildren.mChildMask,
+                                       g_GlobalZE->mGroupSendMask) != FALSE) {
+            stateMachine = &g_GlobalZE->mMPStateMachine;
             stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_ROM_ARCHIVE;
             stateMachine->mStateMachine.mNextStateRequested = 1;
         }
@@ -97,8 +97,8 @@ void UpdateMPSendGroupSendMask(void *stateObject) {
 }
 
 void EnterMPLoadDlArchives(void *stateObject) {
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
 }
 
 #pragma thumb off
@@ -110,7 +110,7 @@ void UpdateMPLoadDlArchives(void *stateObject) {
     MPStateMachine *stateMachine;
     result = AdvanceMainAndMenuDLArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_SOUND_DATA;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -129,7 +129,7 @@ void UpdateMPWaitRomArchive(void *stateObject) {
 
     shouldRequestState = TRUE;
     isMultiBootSetup = FALSE;
-    connectionWork = gConnectionWork;
+    connectionWork = g_GlobalZE;
     if (connectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) {
         isModeAllowed = TRUE;
         if (connectionWork == NULL) {
@@ -146,7 +146,7 @@ void UpdateMPWaitRomArchive(void *stateObject) {
     }
     if (isMultiBootSetup != FALSE) {
         if (GetRomArchiveState() == ROM_ARCHIVE_READY) {
-            SetGroupSendMaskAsParent(gConnectionWork->mGroupSendMask);
+            SetGroupSendMaskAsParent(g_GlobalZE->mGroupSendMask);
         } else {
             shouldRequestState = FALSE;
         }
@@ -158,7 +158,7 @@ void UpdateMPWaitRomArchive(void *stateObject) {
 
 void EnterMPLoadOverlay(void *stateObject) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        StartLoadOverlay(OVERLAY_SLOT_OV002);
+        UpdateOverlayStatusWithKind(OVERLAY_SLOT_OV002);
     }
 }
 
@@ -173,9 +173,9 @@ void UpdateMPLoadOverlay(void *stateObject) {
 }
 
 void EnterMPLoadSoundData(void *stateObject) {
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
-    gConnectionWork->mCallbackFailed = 0;
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    g_GlobalZE->mCallbackFailed = 0;
 }
 
 #pragma thumb off
@@ -187,7 +187,7 @@ void UpdateMPLoadSoundData(void *stateObject) {
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadSndDataFromFileCallback);
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_START_DATA_SHARING;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -214,17 +214,17 @@ void EnterMPStartExchange(void *stateObject) {
             flagCount = 2;
         }
         for (flagIndex = 0; flagIndex < flagCount; flagIndex++) {
-            gConnectionWork->mChunkReceivedFlags[slot][flagIndex] = 0;
+            g_GlobalZE->mChunkReceivedFlags[slot][flagIndex] = 0;
         }
     }
-    gConnectionWork->mRecordReceivedMask = 0;
+    g_GlobalZE->mRecordReceivedMask = 0;
 }
 
 void UpdateMPStartExchange(void *stateObject) {
-    if (gConnectionWork->mRequestPending == 0) {
-        switch (gConnectionWork->mStep) {
+    if (g_GlobalZE->mRequestPending == 0) {
+        switch (g_GlobalZE->mStep) {
             case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
-                gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+                g_GlobalZE->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
                 break;
             case CONNECTION_STEP_STARTING_EXCHANGE:
                 MPStatesRequestMPState(MP_STATE_EXCHANGE_OWN_RECORDS);
@@ -239,18 +239,18 @@ void UpdateMPStartExchange(void *stateObject) {
 void EnterMPExchangeOwnRecords(void *stateObject) {
     u16 ownIndex;
 
-    ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-    FillPlayerRecord(&gConnectionWork->mPlayerRecords[ownIndex]);
-    gConnectionWork->mMPStateMachine.mChunkSendFlags |= 1;
-    gConnectionWork->mEntryChunkIndex = 0;
-    gConnectionWork->mMPStateMachine.mEntryWaitFrames = 0;
+    ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+    StructTK_SomeFn_from_thumb(&g_GlobalZE->mPlayerRecords[ownIndex]);
+    g_GlobalZE->mMPStateMachine.mChunkSendFlags |= 1;
+    g_GlobalZE->mEntryChunkIndex = 0;
+    g_GlobalZE->mMPStateMachine.mEntryWaitFrames = 0;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 void QueueMPChunkCallback(void) {
-    gConnectionWork->mMPStateMachine.mChunkSendFlags |= 1;
+    g_GlobalZE->mMPStateMachine.mChunkSendFlags |= 1;
 }
 #pragma thumb off
 
@@ -259,22 +259,22 @@ void QueueMPChunkCallback(void) {
 BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBitmap) {
     u8 *packet;
 
-    if ((gConnectionWork->mMPStateMachine.mChunkSendFlags & 1) == 0) {
+    if ((g_GlobalZE->mMPStateMachine.mChunkSendFlags & 1) == 0) {
         return FALSE;
     }
-    packet = gConnectionWork->mChunkBuffer;
+    packet = g_GlobalZE->mChunkBuffer;
     packet[1] = chunkNumber;
     *(u16 *) (packet + 2) = size;
     packet[0] = playerIndex;
     if (data != NULL) {
-        MI_CpuCopy8(data, packet + 4, size);
+        Mem_CpuCopy8(data, packet + 4, size);
     } else {
         size = 0;
     }
-    DC_StoreRange(packet, size + 4);
-    gConnectionWork->mMPStateMachine.mChunkSendFlags &= ~1;
-    if (QueueMPDataToPort(gConnectionWork->mChunkBuffer, size + 4, destBitmap, NULL, &gQueueMPChunkParams) == 0) {
-        gConnectionWork->mMPStateMachine.mChunkSendFlags |= 1;
+    DC_SomeClean(packet, size + 4);
+    g_GlobalZE->mMPStateMachine.mChunkSendFlags &= ~1;
+    if (QueueMPDataToPort(g_GlobalZE->mChunkBuffer, size + 4, destBitmap, NULL, &gQueueMPChunkParams) == 0) {
+        g_GlobalZE->mMPStateMachine.mChunkSendFlags |= 1;
         return FALSE;
     }
     return TRUE;
@@ -307,7 +307,7 @@ void UpdateMPExchangeOwnRecords(void *stateObject) {
     u16 value;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        work = gConnectionWork;
+        work = g_GlobalZE;
         expectedMask = work->mChildren.mExpectedRecordMask;
         receivedMask = work->mRecordReceivedMask;
         if (expectedMask == (expectedMask & receivedMask)) {
@@ -315,38 +315,38 @@ void UpdateMPExchangeOwnRecords(void *stateObject) {
                 MPStatesRequestMPState(MP_STATE_SEND_ALL_RECORDS);
             }
         } else {
-            if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+            if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 value = 0x708;
             } else {
                 value = 0x258;
             }
-            gConnectionWork->mMPStateMachine.mEntryWaitFrames++;
-            if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > value) {
-                gConnectionWork->mChildren.mExpectedRecordMask = gConnectionWork->mChildren.mChildMask;
+            g_GlobalZE->mMPStateMachine.mEntryWaitFrames++;
+            if (g_GlobalZE->mMPStateMachine.mEntryWaitFrames > value) {
+                g_GlobalZE->mChildren.mExpectedRecordMask = g_GlobalZE->mChildren.mChildMask;
             }
         }
     } else {
-        if ((gConnectionWork->mMPStateMachine.mChunkSendFlags & 1) != 0) {
-            chunkIndex = gConnectionWork->mEntryChunkIndex;
-            value = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-            if (GetEntryChunk((u8 *) &gConnectionWork->mPlayerRecords[value], chunkIndex, 0x20, &chunkData,
+        if ((g_GlobalZE->mMPStateMachine.mChunkSendFlags & 1) != 0) {
+            chunkIndex = g_GlobalZE->mEntryChunkIndex;
+            value = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+            if (GetEntryChunk((u8 *) &g_GlobalZE->mPlayerRecords[value], chunkIndex, 0x20, &chunkData,
                               &chunkSize) != FALSE) {
-                value = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
+                value = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
                 QueueMPChunk(chunkIndex, chunkData, chunkSize, value, 1);
-                gConnectionWork->mEntryChunkIndex = chunkIndex + 1;
+                g_GlobalZE->mEntryChunkIndex = chunkIndex + 1;
             } else {
-                gConnectionWork->mEntryChunkIndex = 0;
+                g_GlobalZE->mEntryChunkIndex = 0;
             }
         }
     }
 }
 
 void EnterMPSendAllRecords(void *stateObject) {
-    gConnectionWork->mState = CONNECTION_STATE_ENTRY_EXCHANGE;
-    gConnectionWork->mMPStateMachine.mEntryWaitFrames = 0;
-    gConnectionWork->mRecordReceivedMask = 0;
-    gConnectionWork->mEntryChunkIndex = 0;
-    gConnectionWork->mEntryChunkSlot = 0;
+    g_GlobalZE->mState = CONNECTION_STATE_ENTRY_EXCHANGE;
+    g_GlobalZE->mMPStateMachine.mEntryWaitFrames = 0;
+    g_GlobalZE->mRecordReceivedMask = 0;
+    g_GlobalZE->mEntryChunkIndex = 0;
+    g_GlobalZE->mEntryChunkSlot = 0;
 }
 
 // Parent: queues the entries of all slots to the children, chunk by chunk, until the wait ends.
@@ -359,34 +359,34 @@ void UpdateMPSendAllRecords(void *stateObject) {
     u16 waitLimit;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        if ((gConnectionWork->mMPStateMachine.mChunkSendFlags & 1) != 0) {
+        if ((g_GlobalZE->mMPStateMachine.mChunkSendFlags & 1) != 0) {
             slotDone = 1;
-            slot = gConnectionWork->mEntryChunkSlot;
-            if (((u8) (gConnectionWork->mChildren.mChildMask | 1) & (1 << slot)) != 0) {
-                chunkIndex = gConnectionWork->mEntryChunkIndex;
-                if (GetEntryChunk((u8 *) &gConnectionWork->mPlayerRecords[slot], chunkIndex, 0x168, &chunkData,
+            slot = g_GlobalZE->mEntryChunkSlot;
+            if (((u8) (g_GlobalZE->mChildren.mChildMask | 1) & (1 << slot)) != 0) {
+                chunkIndex = g_GlobalZE->mEntryChunkIndex;
+                if (GetEntryChunk((u8 *) &g_GlobalZE->mPlayerRecords[slot], chunkIndex, 0x168, &chunkData,
                                   &chunkSize) != FALSE) {
-                    QueueMPChunk(chunkIndex, chunkData, chunkSize, slot, gConnectionWork->mChildren.mChildMask);
-                    gConnectionWork->mEntryChunkIndex = chunkIndex + 1;
+                    QueueMPChunk(chunkIndex, chunkData, chunkSize, slot, g_GlobalZE->mChildren.mChildMask);
+                    g_GlobalZE->mEntryChunkIndex = chunkIndex + 1;
                     slotDone = 0;
                 }
             }
             if (slotDone != 0) {
-                gConnectionWork->mEntryChunkSlot++;
-                gConnectionWork->mEntryChunkIndex = 0;
-                if (gConnectionWork->mEntryChunkSlot >= MP_PARTICIPANT_SLOT_COUNT) {
-                    gConnectionWork->mEntryChunkSlot = 0;
+                g_GlobalZE->mEntryChunkSlot++;
+                g_GlobalZE->mEntryChunkIndex = 0;
+                if (g_GlobalZE->mEntryChunkSlot >= MP_PARTICIPANT_SLOT_COUNT) {
+                    g_GlobalZE->mEntryChunkSlot = 0;
                 }
             }
         }
-        if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+        if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             waitLimit = 0x708;
         } else {
             waitLimit = 0x258;
         }
-        gConnectionWork->mMPStateMachine.mEntryWaitFrames++;
-        if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > waitLimit) {
-            gConnectionWork->mRecordReceivedMask = gConnectionWork->mChildren.mChildMask;
+        g_GlobalZE->mMPStateMachine.mEntryWaitFrames++;
+        if (g_GlobalZE->mMPStateMachine.mEntryWaitFrames > waitLimit) {
+            g_GlobalZE->mRecordReceivedMask = g_GlobalZE->mChildren.mChildMask;
             MPStatesRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
         }
     }
@@ -396,20 +396,20 @@ void EnterMPSendRomArchive(void *stateObject) {
     u8 slot;
 
     WM_SetPortCallback(14, NULL, NULL);
-    gConnectionWork->mLanguageIndex = gConnectionWork->mPlayerRecords[0].mLanguageIndex;
+    g_GlobalZE->mLanguageIndex = g_GlobalZE->mPlayerRecords[0].mLanguageIndex;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        gStartupWork->mLanguageIndex = gConnectionWork->mLanguageIndex;
+        g_GlobalP->mLanguageIndex = g_GlobalZE->mLanguageIndex;
     }
     for (slot = 1; slot < 8; slot++) {
-        if ((gConnectionWork->mRecordReceivedMask & (1 << slot)) == 0) {
-            MI_CpuFill8(&gConnectionWork->mPlayerRecords[slot], 0, sizeof(PlayerRecord));
+        if ((g_GlobalZE->mRecordReceivedMask & (1 << slot)) == 0) {
+            Mem_CpuFill8(&g_GlobalZE->mPlayerRecords[slot], 0, sizeof(PlayerRecord));
         }
     }
 }
 
 void UpdateMPSendRomArchive(void *stateObject) {
-    if (gConnectionWork->mRequestPending == 0) {
-        switch (gConnectionWork->mStep) {
+    if (g_GlobalZE->mRequestPending == 0) {
+        switch (g_GlobalZE->mStep) {
             case CONNECTION_STEP_STARTING_EXCHANGE:
                 StartRomArchiveSend();
                 break;
@@ -421,8 +421,8 @@ void UpdateMPSendRomArchive(void *stateObject) {
 }
 
 void EnterMPSendPlayerNames(void *stateObject) {
-    gConnectionWork->mPlayerSendIndex = 0;
-    gConnectionWork->mNamesStoredMask = 0;
+    g_GlobalZE->mPlayerSendIndex = 0;
+    g_GlobalZE->mNamesStoredMask = 0;
 }
 
 void UpdateMPSendPlayerNames(void *stateObject) {
@@ -432,23 +432,23 @@ void UpdateMPSendPlayerNames(void *stateObject) {
 
     switch (MPStatesGetConnectionMode()) {
         case CONNECTION_MODE_PARENT:
-            playerIndex = gConnectionWork->mPlayerSendIndex;
-            receivedMask = gConnectionWork->mRecordReceivedMask;
+            playerIndex = g_GlobalZE->mPlayerSendIndex;
+            receivedMask = g_GlobalZE->mRecordReceivedMask;
             receivedBit = receivedMask & (1 << playerIndex);
             if (receivedBit != 0) {
                 if (QueueMPDataPlayerName(playerIndex, receivedMask) != FALSE) {
-                    gConnectionWork->mPlayerSendIndex++;
+                    g_GlobalZE->mPlayerSendIndex++;
                 }
             } else {
-                gConnectionWork->mPlayerSendIndex++;
+                g_GlobalZE->mPlayerSendIndex++;
             }
-            if (gConnectionWork->mPlayerSendIndex >= MP_PARTICIPANT_SLOT_COUNT) {
+            if (g_GlobalZE->mPlayerSendIndex >= MP_PARTICIPANT_SLOT_COUNT) {
                 MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
             }
             break;
         case CONNECTION_MODE_CHILD:
-            playerIndex = gConnectionWork->mRecordReceivedMask;
-            receivedMask = gConnectionWork->mNamesStoredMask;
+            playerIndex = g_GlobalZE->mRecordReceivedMask;
+            receivedMask = g_GlobalZE->mNamesStoredMask;
             if (playerIndex == (playerIndex & receivedMask)) {
                 MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
             }
@@ -462,10 +462,10 @@ void UpdateMPSendPlayerNames(void *stateObject) {
 
 void EnterMPStartDataSharing(void *stateObject) {
     int connectionMode;
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
     } else {
-        connectionMode = gConnectionWork->mConnectionMode;
+        connectionMode = g_GlobalZE->mConnectionMode;
     }
     if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(1);
@@ -477,17 +477,17 @@ void EnterMPStartDataSharing(void *stateObject) {
 #pragma thumb on
 
 void UpdateMPStartDataSharing(void *stateObject) {
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
         case CONNECTION_STEP_ROM_ARCHIVE_SEND:
         case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
             StartDataSharing();
             break;
         case CONNECTION_STEP_STARTING_SHARING:
-            gConnectionWork->mState = CONNECTION_STATE_SYNC_WAIT;
+            g_GlobalZE->mState = CONNECTION_STATE_SYNC_WAIT;
             MPStatesRequestMPState(MP_STATE_SEND_PARTICIPANT_MASK);
             break;
     }
@@ -496,29 +496,29 @@ void UpdateMPStartDataSharing(void *stateObject) {
 void EnterMPExchangePlayerBits(void *stateObject) {
     s32 ownIndex;
 
-    gConnectionWork->mBitsReceivedMask = 0;
+    g_GlobalZE->mBitsReceivedMask = 0;
     ownIndex = 0;
-    if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
-        ownIndex = gConnectionWork->mOwnIndex;
+    if (g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD) {
+        ownIndex = g_GlobalZE->mOwnIndex;
     }
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, gConnectionWork->mPlayerRecords[(u16) ownIndex].mBits,
-                sizeof(gConnectionWork->mPlayerRecords[(u16) ownIndex].mBits));
-    gConnectionWork->mRecordReceivedMask |= 1;
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mFlags, g_GlobalZE->mPlayerRecords[(u16) ownIndex].mBits,
+                sizeof(g_GlobalZE->mPlayerRecords[(u16) ownIndex].mBits));
+    g_GlobalZE->mRecordReceivedMask |= 1;
 }
 
 void UpdateMPExchangePlayerBits(void *stateObject) {
     s32 ownIndex;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        if (gConnectionWork->mChildren.mChildMask ==
-            (gConnectionWork->mChildren.mChildMask & gConnectionWork->mBitsReceivedMask)) {
+        if (g_GlobalZE->mChildren.mChildMask ==
+            (g_GlobalZE->mChildren.mChildMask & g_GlobalZE->mBitsReceivedMask)) {
             MPStatesRequestMPState(MP_STATE_SEND_PLAYER_BITS);
         }
-    } else if (gConnectionWork->mBitsReceivedMask != 0) {
+    } else if (g_GlobalZE->mBitsReceivedMask != 0) {
         MPStatesRequestMPState(MP_STATE_SEND_PLAYER_BITS);
     } else {
-        if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
-            ownIndex = gConnectionWork->mOwnIndex;
+        if (g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD) {
+            ownIndex = g_GlobalZE->mOwnIndex;
         } else {
             ownIndex = 0;
         }
@@ -529,7 +529,7 @@ void UpdateMPExchangePlayerBits(void *stateObject) {
 
 #pragma thumb on
 void EnterMPSendPlayerBits(void *stateObject) {
-    gConnectionWork->mPlayerSendIndex = 0;
+    g_GlobalZE->mPlayerSendIndex = 0;
 }
 #pragma thumb off
 
@@ -537,19 +537,19 @@ void EnterMPSendPlayerBits(void *stateObject) {
 
 void UpdateMPSendPlayerBits(void *stateObject) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        if ((gConnectionWork->mRecordReceivedMask & (1 << gConnectionWork->mPlayerSendIndex)) != 0) {
-            if (QueueMPDataPlayerBits(gConnectionWork->mPlayerSendIndex, gConnectionWork->mChildren.mChildMask) !=
+        if ((g_GlobalZE->mRecordReceivedMask & (1 << g_GlobalZE->mPlayerSendIndex)) != 0) {
+            if (QueueMPDataPlayerBits(g_GlobalZE->mPlayerSendIndex, g_GlobalZE->mChildren.mChildMask) !=
                 FALSE) {
-                gConnectionWork->mPlayerSendIndex += 1;
+                g_GlobalZE->mPlayerSendIndex += 1;
             }
         } else {
-            gConnectionWork->mPlayerSendIndex += 1;
+            g_GlobalZE->mPlayerSendIndex += 1;
         }
-        if (gConnectionWork->mPlayerSendIndex > MP_PARTICIPANT_SLOT_COUNT) {
+        if (g_GlobalZE->mPlayerSendIndex > MP_PARTICIPANT_SLOT_COUNT) {
             MPStatesRequestMPState(MP_STATE_SEND_PLAYER_NAMES);
         }
-    } else if (gConnectionWork->mRecordReceivedMask ==
-               (gConnectionWork->mRecordReceivedMask & gConnectionWork->mBitsReceivedMask)) {
+    } else if (g_GlobalZE->mRecordReceivedMask ==
+               (g_GlobalZE->mRecordReceivedMask & g_GlobalZE->mBitsReceivedMask)) {
         MPStatesRequestMPState(MP_STATE_SEND_PLAYER_NAMES);
     }
 }

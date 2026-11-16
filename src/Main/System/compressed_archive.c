@@ -2,7 +2,7 @@
 #include "Main/Race/race_hud_cell_group_functions.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
-u32 gCompressedArchive[1251] __attribute__((aligned(32))) = {
+u32 g_Static2D_carc_bin[1251] __attribute__((aligned(32))) = {
     0x217010,   0x52414e00, 0xfffe43,   0x21700001, 0x100000,   0x42000003, 0xb4464154, 0,          0x15,
     0,          0x12000,    0x12000,    0x3040000,  0x3040000,  0x24000000, 0x24000004, 4,          0x608,
     0x608,      0x72800,    0x72800,    0x9400000,  0x9400000,  0x60000000, 0x6000000a, 0xa,        0xc28,
@@ -143,6 +143,6 @@ u32 gCompressedArchive[1251] __attribute__((aligned(32))) = {
     0x289f00f0, 0x5c1359df, 0x39ffdb27, 0x2a840913, 0xf913f90b, 0x9813d913, 0x7f4b5883, 0x186f4930, 0xd8db1d4b,
     0x5868194b, 0xff4bf44b, 0x4bf44bf4, 0x4bf44bf4, 0x4bf44bf4, 0x4bf44bf4, 0xf44bf4f8, 0xf44bf44b, 0x4bf44b};
 
-u32 *GetCompressedArchive(void) {
-    return gCompressedArchive;
+u32 *GetEmbeddedStatic2DCarcArchiveData(void) {
+    return g_Static2D_carc_bin;
 }

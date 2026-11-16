@@ -13,9 +13,9 @@
 #include "matrix_3x3_basic.h"
 #include "fixed_vector_math.h"
 
-void SetKartSoundDistanceSquaredAndChange(Kart *kart) {
-    kart->mSoundSource.mDistanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-    AdvanceSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange, GetKartCameraDistanceSquared(kart->mIndex));
+void MQ_FnPtr2_Replay(Kart *kart) {
+    kart->mSoundSource.mDistanceSquared = GetAED0PlayerUnk(kart->mIndex);
+    AdvanceSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange, GetAED0PlayerUnk(kart->mIndex));
 }
 
 static inline void SendGxCommandOneValue(u32 command, s32 value) {
@@ -37,7 +37,7 @@ static inline void ShiftVec3RightByFour(Vec3 *destination, const Vec3 *source) {
     destination->z = source->z >> 4;
 }
 
-void DrawKart(Kart *kart) {
+void StructMQRacerEntry_SomeFn_50(Kart *kart) {
     u32 hasKartFlag;
     u32 kartFlags;
     u32 kartStatus;
@@ -58,7 +58,7 @@ void DrawKart(Kart *kart) {
         killerItemShown = 0;
         if ((kartStatus & (KART_ENTRY_HIDDEN | KART_ENTRY_NOT_DRAWN | KART_ENTRY_NOT_DRAWN_PARKED)) == 0 &&
             (kartFlags & (KART_EFFECT_OUT_OF_VIEW | KART_EFFECT_BLINK_HIDDEN)) == 0) {
-            killerItemShown = DrawKartKillerItem(kart);
+            killerItemShown = StructMQRacerEntry_SomeFn_68(kart);
         }
         SetKartKillerEffectShown(kart->mIndex, killerItemShown);
         kart->mVisible = 0;
@@ -99,7 +99,7 @@ void DrawKart(Kart *kart) {
             tireScale = kart->mKartModelsEntry->mKartOffsetData->mFirstTiresScale;
             SendGxCommandOneValue(0x14, 0x1c);
             NNS_G3dGeBufferOP_N(0x1c, &tireTranslations->mThirdTireX, 3);
-            MTX_RotX33_(&spinMatrix, SIN_OF_ANGLE(kart->mTireSpinAngle), COS_OF_ANGLE(kart->mTireSpinAngle));
+            MTX_RotX33__from_thumb(&spinMatrix, SIN_OF_ANGLE(kart->mTireSpinAngle), COS_OF_ANGLE(kart->mTireSpinAngle));
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
             if (tireTranslations->mThirdTireX != 0) {
@@ -110,7 +110,7 @@ void DrawKart(Kart *kart) {
             NNS_G3dGeBufferOP_N(0x1c, tireTranslations, 3);
             SendGxCommandThreeValues(0x1b, tireScale, tireScale, tireScale);
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-            MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(kart->mTireTurnAngle), COS_OF_ANGLE(kart->mTireTurnAngle));
+            MTX_RotY33__from_thumb(&rotationMatrix, SIN_OF_ANGLE(kart->mTireTurnAngle), COS_OF_ANGLE(kart->mTireTurnAngle));
             NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
@@ -133,7 +133,7 @@ void DrawKart(Kart *kart) {
     DrawNsbmd(modelsEntry->mModels[0]);
 }
 
-BOOL DrawKartKillerItem(Kart *kart) {
+BOOL StructMQRacerEntry_SomeFn_68(Kart *kart) {
     KartModelsEntry *modelsEntry;
     ModelAnimation *killerItemNsbca;
     BOOL drawn;
@@ -150,7 +150,7 @@ BOOL DrawKartKillerItem(Kart *kart) {
     if (drawn != FALSE) {
         offsetScale = kart->mRadius + 0x5000;
         matrix = *kart->mDrawMatrix;
-        VEC_MultAdd(offsetScale, &kart->mRotationRow1, kart->mPosSource, &position);
+        VecFx32_AddScale1(offsetScale, &kart->mRotationRow1, kart->mPosSource, &position);
         matrix.mRows[3].x = position.x >> 4;
         matrix.mRows[3].y = position.y >> 4;
         matrix.mRows[3].z = position.z >> 4;
@@ -165,11 +165,11 @@ BOOL DrawKartKillerItem(Kart *kart) {
         SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);
         SetKillerItemKartIndex(kart->mIndex);
         frame = kart->mKartModelsEntry->mKillerItemAnimation.mFrameIndex;
-        killerItemNsbca = GetKillerItemNsbca();
+        killerItemNsbca = GetAD00KillerItemAnimation();
         killerItemNsbca->mHead.mFrameIndex = frame;
         killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame = killerItemNsbca->mHead.mFrameIndex;
-        DrawNsbmd(GetKillerItem());
-        DrawShadowWithoutMatrix(GetKillerItemS());
+        DrawNsbmd(GetKillerItemModel());
+        DrawShadowWithoutMatrix(GetSomeAD00Sh());
     }
     return drawn;
 }

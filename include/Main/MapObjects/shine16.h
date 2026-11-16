@@ -99,7 +99,7 @@ typedef struct KartBalloons {
 typedef struct KartBalloonsObject {
     /* 000 */ MapObject mMapObject;
     // Frames left before the first balloons are made: the update does nothing until it reaches 0, then puts every entry
-    // in state 1. Starts at 0x3c, or 0xffff when gRace.mUseChainCameras is non-zero.
+    // in state 1. Starts at 0x3c, or 0xffff when g_GlobalTD.mUseChainCameras is non-zero.
     /* 0a0 */ s32 mStartTimer;
     // One KartBalloons entry per kart index (the first mKartCount are used).
     /* 0a4 */ KartBalloons mKartBalloons[8];
@@ -137,7 +137,7 @@ void DrawShine16Shadow(void *mapObjectList, Shine16 *shine16, void *unused, s32 
 u16 *ResetShine16ShadowAngleIndex(void);
 
 u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *firstResponse, u8 *response);
-void CreateShine16(void *mapObjectList);
+void LoadShine16MapObject(void *mapObjectList);
 void SetupDrawShine16(void *mapObjectList);
 void DrawShine16(void *mapObjectList, Shine16 *shine16);
 
@@ -151,4 +151,4 @@ extern const u16 gBalloonHideThirdFlag;
 extern const u16 gBalloonHideSecondFlag;
 extern const u16 gBalloonHideFirstFlag;
 extern u16 gShine16ShadowAngleIndex;
-extern struct MapObjectModel *gShine16;
+extern struct MapObjectModel *g_Shine16MapObject;

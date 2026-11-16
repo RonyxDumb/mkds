@@ -179,7 +179,7 @@ typedef struct EntryCharacterKartKind {
 #define WL_MENU_KIND_TO_RESULT 2
 #define WL_MENU_KIND_TO_MENU 3
 
-// Object behind gMenuShared, 0x130 bytes (CreateMenuShared allocates it).
+// Object behind g_GlobalB488, 0x130 bytes (InitializeGlobalB488_from_thumb allocates it).
 
 typedef struct MenuShared {
     /* 000 */ s32 mTitleBlendDone;
@@ -218,7 +218,7 @@ typedef struct MenuShared {
     /* 12c */ s32 mIndicesShuffled;
 } MenuShared;
 
-// Values of WiFiSession.mStateMachine.mState: the seven (enter, update) pairs of gWiFiSessionStateTable.
+// Values of WiFiSession.mStateMachine.mState: the seven (enter, update) pairs of g_GlobalB_E7FnList.
 typedef enum WiFiSessionState {
     WIFI_SESSION_STATE_OFF = 0,
     WIFI_SESSION_STATE_LOGIN = 1,
@@ -297,7 +297,7 @@ typedef enum WiFiSessionMessageKind {
 #define WIFI_MATCH_NO_WAIT 1
 #define WIFI_MATCH_WAIT_LIMIT 60000
 
-// Values of WiFiSession.mStartStatus, set by RegisterKartKeysAndStart and KartKeysStartCallback.
+// Values of WiFiSession.mStartStatus, set by GlobalB_E7Fn_3AImpl and KartKeysStartCallback.
 typedef enum WiFiStartStatus {
     WIFI_START_STATUS_PENDING = 1,
     WIFI_START_STATUS_CANCELED = 2, // the callback result was 0 with its flag set
@@ -334,7 +334,7 @@ typedef enum WiFiSessionSetup {
 #define WIFI_SESSION_KART_SLOTS 4
 // mReceivedMask with every bit set: a message of this kind arrived once for all indices.
 #define WIFI_SESSION_ALL_RECEIVED 0xff
-// Calls PickNextToIndex returns "no index" for after it picked one.
+// Calls GetSomeRacerIndex returns "no index" for after it picked one.
 #define WIFI_SESSION_CALLS_AFTER_PICK 2
 // Value of the buddy status bytes the poll counts, and the one it skips.
 // Frames without a callback from a participant before its kart is removed from the session.

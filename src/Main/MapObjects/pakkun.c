@@ -52,9 +52,9 @@ MapObjectList *gPakkunMouthDrawList;
 MapObjectList *gPakkunZHeadDrawList;
 MapObjectList *gPakkunUpdateList;
 MapObjectModel *gPakkunMouth;
-void *gPakkunZHead;
+void *g_SomeMapObject2;
 void *gPakkunBodyDrawList;
-void *gPakkunBody;
+void *g_PakkunBodyMapObject;
 
 MapObjectList *CreatePakkunSpitUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdatePakkunSpit, NULL);
@@ -121,7 +121,7 @@ void InitPakkun(Pakkun *pakkun) {
         if (setting >= 0) {
             InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], setting, 100);
             GetGroupFollowerLinearPosStep(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
-            angleDelta = FX_Atan2Idx(step.x, step.z) - pakkun->mBaseYaw;
+            angleDelta = FX_Atan2(step.x, step.z) - pakkun->mBaseYaw;
             if (angleDelta > 0x8000) {
                 angleDelta -= 0x10000;
             }
@@ -130,14 +130,14 @@ void InitPakkun(Pakkun *pakkun) {
             pakkun->mFollowerCount++;
         }
     }
-    pakkun->mPolygonId = AllocPolygonId();
+    pakkun->mPolygonId = GetIncrementSomeItemCounter();
     CreateParkedMapObjects(0x1ab, 0x14, pakkun);
 }
 
 void CreatePakkunMouth(void *mapObjectList) {
-    gPakkunMouth = CreateMapObjectModelAnimated(mapObjectList, "PakkunMouth.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gPakkunMouth, "PakkunMouth.nsbca");
-    SetMapObjectModelAlpha(gPakkunMouth, 0x1f);
+    gPakkunMouth = CreateMapObjectFromModel_from_thumb(mapObjectList, "PakkunMouth.nsbmd");
+    StructMapObject_AddAnimationNsbca_from_thumb(gPakkunMouth, "PakkunMouth.nsbca");
+    StructMapObject_SomeFn_6(gPakkunMouth, 0x1f);
 }
 
 static inline u32 PakkunMapObjectRandomBelowU16(u32 limit) {
@@ -184,11 +184,11 @@ void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun) {
     translation[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, translation, 3);
     if (pakkun->mHeadYaw != 0) {
-        MTX_RotY33_(&yawMatrix, FX_SinIdx((u16) pakkun->mHeadYaw), FX_CosIdx((u16) pakkun->mHeadYaw));
+        MTX_RotY33__from_thumb(&yawMatrix, FX_SinIdx((u16) pakkun->mHeadYaw), FX_CosIdx((u16) pakkun->mHeadYaw));
         NNS_G3dGeBufferOP_N(0x1a, &yawMatrix, 9);
     }
     if (pakkun->mHeadPitch != 0) {
-        MTX_RotX33_(&pitchMatrix, FX_SinIdx((u16) pakkun->mHeadPitch), FX_CosIdx((u16) pakkun->mHeadPitch));
+        MTX_RotX33__from_thumb(&pitchMatrix, FX_SinIdx((u16) pakkun->mHeadPitch), FX_CosIdx((u16) pakkun->mHeadPitch));
         NNS_G3dGeBufferOP_N(0x1a, &pitchMatrix, 9);
     }
     scaleValue = pakkun->mHeadScale;
@@ -197,18 +197,18 @@ void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun) {
     scale[2] = scaleValue;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
-    SetMapObjectModelPolygonId(gPakkunMouth, pakkun->mPolygonId);
-    SetMapObjectModelNsbcaFrameIndex(gPakkunMouth, FROM_FIXED12(pakkun->mMouthFrame));
+    StructMapObject_MaybeSetPolygonId(gPakkunMouth, pakkun->mPolygonId);
+    StructMapObject_MaybeSetNsbcaFrame(gPakkunMouth, FROM_FIXED12(pakkun->mMouthFrame));
     DrawMapObjectModel(mapObjectList, gPakkunMouth, pakkun);
 }
 
-void CreatePakkunZHead(void *mapObjectList) {
-    gPakkunZHead = CreateMapObjectModelNsbmd(mapObjectList, "PakkunZHead.nsbmd");
-    SetMapObjectModelAlpha(gPakkunZHead, 0x1e);
+void LoadPakkunZHeadMapObject(void *mapObjectList) {
+    g_SomeMapObject2 = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "PakkunZHead.nsbmd");
+    StructMapObject_SomeFn_6(g_SomeMapObject2, 0x1e);
 }
 
 void SetupDrawPakkunZHead(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gPakkunZHead);
+    StructMapObject_SomeFn_9(mapObjectList, g_SomeMapObject2);
 }
 
 void DrawPakkunZHead(void *mapObjectList, Pakkun *pakkun) {
@@ -228,18 +228,18 @@ void DrawPakkunZHead(void *mapObjectList, Pakkun *pakkun) {
     scale[2] = scaleValue;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
-    SetMapObjectModelPolygonId(gPakkunZHead, pakkun->mPolygonId);
-    DrawMapObjectModel(mapObjectList, gPakkunZHead, pakkun);
+    StructMapObject_MaybeSetPolygonId(g_SomeMapObject2, pakkun->mPolygonId);
+    DrawMapObjectModel(mapObjectList, g_SomeMapObject2, pakkun);
 }
 
-void CreatePakkunBody(void *mapObjectList) {
-    gPakkunBody = CreateMapObjectModelNsbmd(mapObjectList, "PakkunBody.nsbmd");
-    SetMapObjectModelPolygonId(gPakkunBody, 0x3f);
-    SetMapObjectModelAlpha(gPakkunBody, 0x1f);
+void LoadPakkunBodyMapObject(void *mapObjectList) {
+    g_PakkunBodyMapObject = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "PakkunBody.nsbmd");
+    StructMapObject_MaybeSetPolygonId(g_PakkunBodyMapObject, 0x3f);
+    StructMapObject_SomeFn_6(g_PakkunBodyMapObject, 0x1f);
 }
 
 void SetupDrawPakkunBody(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gPakkunBody);
+    StructMapObject_SomeFn_9(mapObjectList, g_PakkunBodyMapObject);
 }
 
 void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun) {
@@ -253,13 +253,13 @@ void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun) {
     sideScale = 0x3000 - firstValue - secondValue;
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&pakkun->mMapObject.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&pakkun->mMapObject.mPos), 12);
     scale[0] = sideScale;
     scale[1] = firstValue + secondValue - FIXED12_UNIT;
     scale[2] = sideScale;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
-    DrawMapObjectModel(mapObjectList, gPakkunBody, pakkun);
+    DrawMapObjectModel(mapObjectList, g_PakkunBodyMapObject, pakkun);
 }
 
 void InitPakkunObjects(void) {
@@ -272,10 +272,10 @@ void InitPakkunObjects(void) {
     for (mapObjectIndex = 0; mapObjectIndex < gPakkunUpdateList->mMapObjectCount &&
                              (pakkun = gPakkunUpdateList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        if (GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1 > 0) {
-            frame = 0.5f + TO_FIXED12(GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1);
+        if (StructMapObject_GetAnimationBCAFrameCount(gPakkunMouth) - 1 > 0) {
+            frame = 0.5f + TO_FIXED12(StructMapObject_GetAnimationBCAFrameCount(gPakkunMouth) - 1);
         } else {
-            frame = TO_FIXED12(GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) - 0.5f;
+            frame = TO_FIXED12(StructMapObject_GetAnimationBCAFrameCount(gPakkunMouth) - 1) - 0.5f;
         }
         pakkun->mMouthFrame = 0;
         pakkun->mMouthFrameStep = FIXED12_UNIT;
@@ -409,13 +409,13 @@ MapObjectList *CreatePakkunMouthDrawList(void) {
 }
 
 MapObjectList *CreatePakkunBodyDrawList(void) {
-    gPakkunBodyDrawList = CreateMapObjectDrawList2(CreatePakkunBody, DrawPakkunBody, SetupDrawPakkunBody);
+    gPakkunBodyDrawList = CreateAllocateMapObject_from_thumb(LoadPakkunBodyMapObject, DrawPakkunBody, SetupDrawPakkunBody);
     SetDrawListSlot(&gPakkunBodyDrawList);
     return gPakkunBodyDrawList;
 }
 
 MapObjectList *CreatePakkunZHeadDrawList(void) {
-    gPakkunZHeadDrawList = CreateMapObjectDrawList2(CreatePakkunZHead, DrawPakkunZHead, SetupDrawPakkunZHead);
+    gPakkunZHeadDrawList = CreateAllocateMapObject_from_thumb(LoadPakkunZHeadMapObject, DrawPakkunZHead, SetupDrawPakkunZHead);
     gPakkunZHeadDrawList->mSortByDistance = TRUE;
     SetDrawListSlot(&gPakkunZHeadDrawList);
     return gPakkunZHeadDrawList;

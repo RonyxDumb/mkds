@@ -14,7 +14,7 @@ char gCupPictureNitro[6] = "nitro";
 char gCupPicturePrefix[29] = "/data/CupPicture/select_cup_";
 
 BOOL IsCupPictureReady(void) {
-    if (gCupPicture != NULL && GetThreadFunctionQueueRunRequested() == 0) {
+    if (g_GlobalB4A4 != NULL && WorkerHasPendingTask() == 0) {
         return TRUE;
     }
     return FALSE;
@@ -22,21 +22,21 @@ BOOL IsCupPictureReady(void) {
 
 void *GetCupPictureNclrData(void) {
     if (IsCupPictureReady() != FALSE) {
-        return gCupPicture->mCupPictureNclr->mData;
+        return g_GlobalB4A4->mCupPictureNclr->mData;
     }
     return NULL;
 }
 
 void *GetCupPictureNcgrData(void) {
     if (IsCupPictureReady() != FALSE) {
-        return gCupPicture->mCupPictureNcgr->mData;
+        return g_GlobalB4A4->mCupPictureNcgr->mData;
     }
     return NULL;
 }
 
 void *GetCupPictureNscrData(void) {
     if (IsCupPictureReady() != FALSE) {
-        return &gCupPicture->mCupPictureNscr->mData;
+        return &g_GlobalB4A4->mCupPictureNscr->mData;
     }
     return NULL;
 }

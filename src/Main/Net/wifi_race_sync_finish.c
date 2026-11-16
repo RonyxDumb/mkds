@@ -3,5 +3,5 @@
 #include "Main/Save/ghost_record_file.h"
 
 void SetWiFiRaceSyncFinishRecorded(void) {
-    gWiFiRaceSync->mFinishRecorded = 1;
+    g_GlobalAA->mFinishRecorded = 1;
 }

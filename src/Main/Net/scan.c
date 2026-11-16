@@ -20,10 +20,10 @@
 #include "Main/Scene/scene_display_archive_work.h"
 
 static inline u32 ScanGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
@@ -34,24 +34,24 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
     s32 index;
     u16 allowedChannels;
 
-    connection = gConnectionWork;
+    connection = g_GlobalZE;
     scanState = &connection->mScanState;
     channel = scanState->mChannel;
     scanParams = connection->mScanParams;
     connection->mConnectionMode = CONNECTION_MODE_CHILD;
-    gConnectionWork->mStep = CONNECTION_STEP_SEARCHING;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SEARCHING;
+    g_GlobalZE->mRequestPending = 1;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
-        gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
+        g_GlobalZE->mRequestPending = 0;
         return;
     }
     if (allowedChannels == 0x8000) {
-        gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
+        g_GlobalZE->mRequestPending = 0;
         return;
     }
     if (scanState->mTargetRemaining == 0) {
@@ -79,13 +79,13 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
     }
     scanParams->mMaxChannelTime = WM_GetDispersionScanPeriod();
     if (WM_StartScan(StartScanCallback, scanParams) != 2) {
-        gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
+        g_GlobalZE->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
         StopConnection();
         return;
     }
-    gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
-    gConnectionWork->mScanResultCallback = resultCallback;
-    gConnectionWork->mScanFilterCallback = filterCallback;
+    g_GlobalZE->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
+    g_GlobalZE->mScanResultCallback = resultCallback;
+    g_GlobalZE->mScanFilterCallback = filterCallback;
     if (isRepeat != 0) {
         scanState->mIsRepeat = 1;
     } else {
@@ -103,12 +103,12 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
     }
     isGhost = gameInfo->mGameInfoPart.mHasGhost;
     if (isGhost != 0) {
-        if (gConnectionWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+        if (g_GlobalZE->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             return;
         }
         languageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
         childCount = gameInfo->mGameInfoPart.mChildCount;
-        MI_CpuCopy8(scanBuffer, slot, sizeof(WMBssDesc));
+        Mem_CpuCopy8(scanBuffer, slot, sizeof(WMBssDesc));
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
@@ -118,18 +118,18 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         slot->mLanguageIndex = languageIndex;
         slot->mMultiBoot = 0;
         slot->mHasGhost = isGhost;
-        MI_CpuCopy8(gameInfo, slot->mName, sizeof(slot->mName));
+        Mem_CpuCopy8(gameInfo, slot->mName, sizeof(slot->mName));
         SetScanGhostInfo(entryIndex, gameInfo);
     } else {
         s32 gameChildCount;
         u8 gameLanguageIndex;
 
-        if (gConnectionWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
+        if (g_GlobalZE->mConnectionKind == CONNECTION_KIND_WL_MENU) {
             return;
         }
         gameLanguageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
         gameChildCount = gameInfo->mGameInfoPart.mChildCount;
-        MI_CpuCopy8(scanBuffer, slot, sizeof(WMBssDesc));
+        Mem_CpuCopy8(scanBuffer, slot, sizeof(WMBssDesc));
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
@@ -139,7 +139,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         slot->mLanguageIndex = gameLanguageIndex;
         slot->mMultiBoot = 0;
         slot->mHasGhost = isGhost;
-        MI_CpuCopy8(gameInfo, slot->mName, sizeof(slot->mName));
+        Mem_CpuCopy8(gameInfo, slot->mName, sizeof(slot->mName));
     }
 }
 
@@ -157,7 +157,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     UserGameInfo *userGameInfo;
     s8 childCount;
 
-    connection = gConnectionWork;
+    connection = g_GlobalZE;
     chosenSlot = NULL;
     slotCursor = connection->mScanSlots;
     oldestAge = 0;
@@ -200,7 +200,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 gameInfoPart = (void *) &userGameInfo->mGameInfoPart;
                 nameInfo = &gameInfoPart->mNameInfo;
                 childCount = -(found != FALSE);
-                MI_CpuCopy8(scanBuffer, chosenSlot, sizeof(WMBssDesc));
+                Mem_CpuCopy8(scanBuffer, chosenSlot, sizeof(WMBssDesc));
                 chosenSlot->mKey = *key;
                 chosenSlot->mInUse = 1;
                 chosenSlot->mAge = 0;
@@ -210,8 +210,8 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 chosenSlot->mLanguageIndex = LANGUAGE_UNSUFFIXED;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
-                MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, sizeof(chosenSlot->mName));
-                gConnectionWork->mRememberedScanKeyHeld = 0;
+                Mem_CpuCopy8(nameInfo->mName, chosenSlot->mName, sizeof(chosenSlot->mName));
+                g_GlobalZE->mRememberedScanKeyHeld = 0;
             } else if (userGameInfo->mKind == USER_GAME_INFO_KIND_MEMBER_COUNT) {
                 if (chosenSlot->mInUse != 0) {
                     chosenSlot->mChildCount = userGameInfo->mMemberCount - 1;
@@ -219,7 +219,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
             } else if (chosenSlot->mInUse != 0) {
                 chosenSlot->mAge = 0;
             } else {
-                connection = gConnectionWork;
+                connection = g_GlobalZE;
                 connection->mRememberedScanKey = *key;
                 connection->mRememberedScanKeyHeld = SCAN_REMEMBERED_KEY_HELD;
             }
@@ -227,7 +227,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     } else if (scanBuffer->mGameInfo.mUserGameInfoLength == SCAN_USER_GAME_INFO_BYTES) {
         FillScanSlot(chosenSlot, scanBuffer, key, gameInfo, slotIndex);
     }
-    scanState = &gConnectionWork->mScanState;
+    scanState = &g_GlobalZE->mScanState;
     scanState->mSlotCount = 0;
     for (slotIndex = 0, slot = scanState->mSlots; slotIndex < 4; slotIndex++, slot++) {
         if (slot->mInUse != 0) {
@@ -248,31 +248,31 @@ void StartScanCallback(WirelessMessage *event) {
     BOOL accepted;
     ScanSlot *slot;
 
-    if (gConnectionWork->mStep != CONNECTION_STEP_SEARCHING) {
+    if (g_GlobalZE->mStep != CONNECTION_STEP_SEARCHING) {
         return;
     }
     if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (event->mReplyState) {
             case WIRELESS_STATE_HOST_SIGHTED:
-                DC_InvalidateRange(gConnectionWork->mScanBssDescBuffer, 0xc0);
-                MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, sizeof(WMBssDesc));
-                DC_StoreRange(&scanBuffer, 0xc0);
-                if (gConnectionWork->mState == CONNECTION_STATE_ENDED) {
+                DC_InvalidateRangeNoClean(g_GlobalZE->mScanBssDescBuffer, 0xc0);
+                Mem_CpuCopy8(g_GlobalZE->mScanBssDescBuffer, &scanBuffer, sizeof(WMBssDesc));
+                DC_SomeClean(&scanBuffer, 0xc0);
+                if (g_GlobalZE->mState == CONNECTION_STATE_ENDED) {
                     value = event->mAid;
                     if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
-                        gConnectionWork->mMatchingHostFound = 1;
-                        gConnectionWork->mMatchingHostAid = value;
-                        gConnectionWork->mUnk_1ed6 = 0;
+                        g_GlobalZE->mMatchingHostFound = 1;
+                        g_GlobalZE->mMatchingHostAid = value;
+                        g_GlobalZE->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mGameInfoLength >= SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID &&
                                scanBuffer.mGameInfo.mGgid == CONNECTION_GAME_GROUP_ID &&
                                (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) != 0) {
                         if ((scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
-                            gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_MULTIBOOT;
+                            g_GlobalZE->mOtherHostKind = OTHER_HOST_KIND_MULTIBOOT;
                         } else {
-                            gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_NON_MULTIBOOT;
+                            g_GlobalZE->mOtherHostKind = OTHER_HOST_KIND_NON_MULTIBOOT;
                         }
-                        gConnectionWork->mOtherHostAid = value;
-                        gConnectionWork->mUnk_1ede = 0;
+                        g_GlobalZE->mOtherHostAid = value;
+                        g_GlobalZE->mUnk_1ede = 0;
                     }
                 } else {
                     accepted = TRUE;
@@ -280,15 +280,15 @@ void StartScanCallback(WirelessMessage *event) {
                         scanBuffer.mGameInfo.mGgid != CONNECTION_GAME_GROUP_ID ||
                         (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) == 0) {
                         accepted = FALSE;
-                    } else if (gConnectionWork->mScanFilterCallback != 0) {
-                        if (gConnectionWork->mScanFilterCallback(&scanBuffer) == 0) {
+                    } else if (g_GlobalZE->mScanFilterCallback != 0) {
+                        if (g_GlobalZE->mScanFilterCallback(&scanBuffer) == 0) {
                             accepted = FALSE;
                         }
                     }
                     if (accepted != FALSE) {
-                        if (gConnectionWork->mScanResultCallback != 0) {
-                            gConnectionWork->mScanResultCallback(event, &scanBuffer);
-                        } else if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0) {
+                        if (g_GlobalZE->mScanResultCallback != 0) {
+                            g_GlobalZE->mScanResultCallback(event, &scanBuffer);
+                        } else if ((g_GlobalZE->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0) {
                             if ((scanBuffer.mGameInfo.mTgid & PARENT_TGID_FLAG) != 0) {
                                 key.mBytes[0] = event->mMacAddress[0];
                                 key.mBytes[1] = event->mMacAddress[1];
@@ -297,21 +297,21 @@ void StartScanCallback(WirelessMessage *event) {
                                 key.mBytes[4] = event->mMacAddress[4];
                                 key.mBytes[5] = event->mMacAddress[5];
                                 FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mGameInfo.mUserGameInfo);
-                                *gConnectionWork->mParentBssDesc = scanBuffer;
+                                *g_GlobalZE->mParentBssDesc = scanBuffer;
                             }
                         }
-                    } else if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                        gConnectionWork->mScanMissCount += 1;
+                    } else if (g_GlobalZE->mRememberedScanKeyHeld == 0) {
+                        g_GlobalZE->mScanMissCount += 1;
                     }
                 }
                 break;
             case WIRELESS_STATE_SEARCH_EMPTY:
-                if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                    gConnectionWork->mScanMissCount += 1;
+                if (g_GlobalZE->mRememberedScanKeyHeld == 0) {
+                    g_GlobalZE->mScanMissCount += 1;
                 }
                 break;
         }
-        connection = gConnectionWork;
+        connection = g_GlobalZE;
         if ((connection->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0 &&
             connection->mState != CONNECTION_STATE_ENDED) {
             for (slotIndex = 0, slot = connection->mScanSlots; slotIndex < 4; slotIndex++, slot++) {
@@ -319,7 +319,7 @@ void StartScanCallback(WirelessMessage *event) {
                     slot->mAge += 1;
                     if (slot->mAge > SCAN_SLOT_EXPIRE_AGE) {
                         slot->mInUse = 0;
-                        scanState = &gConnectionWork->mScanState;
+                        scanState = &g_GlobalZE->mScanState;
                         scanState->mSlotCount = 0;
                         for (countedIndex = 0, countedSlot = scanState->mSlots; countedIndex < 4;
                              countedIndex++, countedSlot++) {
@@ -331,20 +331,20 @@ void StartScanCallback(WirelessMessage *event) {
                 }
             }
         }
-        if (gConnectionWork->mKeepScanning == 0) {
-            gConnectionWork->mRequestPending = 0;
+        if (g_GlobalZE->mKeepScanning == 0) {
+            g_GlobalZE->mRequestPending = 0;
             return;
         }
-        StartScan(1, gConnectionWork->mScanResultCallback, gConnectionWork->mScanFilterCallback);
+        StartScan(1, g_GlobalZE->mScanResultCallback, g_GlobalZE->mScanFilterCallback);
     } else {
         StopConnection();
     }
 }
 
 void EndScan(void) {
-    gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
-    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_SEARCH;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
+    g_GlobalZE->mStep = CONNECTION_STEP_STOPPING_SEARCH;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_EndScan(EndScanCallback) == 2) {
         return;
     }
@@ -352,7 +352,7 @@ void EndScan(void) {
 }
 
 void EndScanCallback(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
@@ -363,10 +363,10 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
                   void (*disconnectedCallback)()) {
     u8 userData[0x18];
 
-    MI_CpuFill8(userData, 0, sizeof(userData));
-    MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, userData, PLAYER_NAME_BYTES);
+    Mem_CpuFill8(userData, 0, sizeof(userData));
+    Mem_CpuCopy8(&g_SaveDataHolder->mFirstBlock->mPlayerName, userData, PLAYER_NAME_BYTES);
     if (parentBssDesc != NULL) {
-        *gConnectionWork->mParentBssDesc = *parentBssDesc;
+        *g_GlobalZE->mParentBssDesc = *parentBssDesc;
     }
     if (customUserData == NULL) {
         userData[0x14] = 0;
@@ -374,17 +374,17 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
             userData[0x14] = userData[0x14] | 1;
         }
     } else {
-        MI_CpuCopy8(customUserData, userData, sizeof(userData));
+        Mem_CpuCopy8(customUserData, userData, sizeof(userData));
     }
-    gConnectionWork->mStep = CONNECTION_STEP_JOINING;
-    gConnectionWork->mRequestPending = 1;
-    if (WM_StartConnectEx(StartConnectCallback, gConnectionWork->mParentBssDesc, userData, 1, 0) != 2) {
+    g_GlobalZE->mStep = CONNECTION_STEP_JOINING;
+    g_GlobalZE->mRequestPending = 1;
+    if (WM_StartConnectEx(StartConnectCallback, g_GlobalZE->mParentBssDesc, userData, 1, 0) != 2) {
         StopConnection();
         return;
     }
-    gConnectionWork->mConnectedCallback = connectedCallback;
-    gConnectionWork->mConnectFailedCallback = failedCallback;
-    gConnectionWork->mDisconnectedCallback = disconnectedCallback;
+    g_GlobalZE->mConnectedCallback = connectedCallback;
+    g_GlobalZE->mConnectFailedCallback = failedCallback;
+    g_GlobalZE->mDisconnectedCallback = disconnectedCallback;
 }
 
 void StartConnectCallback(WirelessMessage *event) {
@@ -397,33 +397,33 @@ void StartConnectCallback(WirelessMessage *event) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (event->mReplyState) {
                 case WIRELESS_STATE_LINKED:
-                    gConnectionWork->mOwnIndex = event->mOwnAid;
-                    gConnectionWork->mExpectedRecordMask = shouldReset;
+                    g_GlobalZE->mOwnIndex = event->mOwnAid;
+                    g_GlobalZE->mExpectedRecordMask = shouldReset;
                     seed = shouldReset;
                     switch (ScanGetConnectionMode()) {
                         case CONNECTION_MODE_PARENT:
-                            seed = gConnectionWork->mParentParameter->mTgid;
+                            seed = g_GlobalZE->mParentParameter->mTgid;
                             break;
                         case CONNECTION_MODE_CHILD:
-                            seed = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
+                            seed = g_GlobalZE->mParentBssDesc->mGameInfo.mTgid;
                             break;
                     }
-                    randomState = &gConnectionWork->mRandomState;
+                    randomState = &g_GlobalZE->mRandomState;
                     randomState->mValue = (u32) (seed * 3 | seed << 16);
                     randomState->mMultiplier = RANDOM_STATE64_MULTIPLIER;
                     randomState->mIncrement = RANDOM_STATE64_INCREMENT;
-                    if (gConnectionWork->mConnectedCallback != 0) {
-                        gConnectionWork->mConnectedCallback();
+                    if (g_GlobalZE->mConnectedCallback != 0) {
+                        g_GlobalZE->mConnectedCallback();
                     }
-                    gConnectionWork->mRequestPending = 0;
+                    g_GlobalZE->mRequestPending = 0;
                     break;
                 case WIRELESS_STATE_UNLINKED:
                     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                         shouldReset = TRUE;
-                    } else if (gConnectionWork->mDisconnectedCallback != 0) {
-                        gConnectionWork->mDisconnectedCallback();
+                    } else if (g_GlobalZE->mDisconnectedCallback != 0) {
+                        g_GlobalZE->mDisconnectedCallback();
                     } else {
-                        switch (gConnectionWork->mState) {
+                        switch (g_GlobalZE->mState) {
                             case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
                             case CONNECTION_STATE_MULTIBOOT_SCAN_READY:
                             case CONNECTION_STATE_SETUP_SPARE:
@@ -454,11 +454,11 @@ void StartConnectCallback(WirelessMessage *event) {
         case WIRELESS_RESULT_REFUSED:
         case WIRELESS_RESULT_NOT_LISTED:
         case WIRELESS_RESULT_LIST_FULL:
-            if (gConnectionWork->mConnectFailedCallback == 0) {
+            if (g_GlobalZE->mConnectFailedCallback == 0) {
                 shouldReset = TRUE;
             } else {
-                gConnectionWork->mConnectFailedCallback();
-                gConnectionWork->mRequestPending = 0;
+                g_GlobalZE->mConnectFailedCallback();
+                g_GlobalZE->mRequestPending = 0;
             }
             break;
         default:
@@ -469,20 +469,20 @@ void StartConnectCallback(WirelessMessage *event) {
         return;
     }
     ResetConnectionData();
-    gConnectionWork->mErrorCode = CONNECTION_ERROR_DISCONNECTED;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mErrorCode = CONNECTION_ERROR_DISCONNECTED;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void StartMP(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
-    gConnectionWork->mRequestPending = 1;
-    if (WM_StartMPEx(StartMPCallback, gConnectionWork->mStartMPReceiveBuffer,
-                     gConnectionWork->mStartMPReceiveBufferSize, gConnectionWork->mStartMPSendBuffer,
-                     gConnectionWork->mStartMPSendBufferSize, 1, 0, 0, 0, 0, 0) == 2) {
+    g_GlobalZE->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+    g_GlobalZE->mRequestPending = 1;
+    if (WM_StartMPEx(StartMPCallback, g_GlobalZE->mStartMPReceiveBuffer,
+                     g_GlobalZE->mStartMPReceiveBufferSize, g_GlobalZE->mStartMPSendBuffer,
+                     g_GlobalZE->mStartMPSendBufferSize, 1, 0, 0, 0, 0, 0) == 2) {
         return;
     }
-    gConnectionWork->mErrorCode = CONNECTION_ERROR_MP_FAILED;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mErrorCode = CONNECTION_ERROR_MP_FAILED;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void StartMPCallback(WirelessMessage *event) {
@@ -490,9 +490,9 @@ void StartMPCallback(WirelessMessage *event) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (event->mState) {
                 case WIRELESS_STATE_EXCHANGE_BEGUN:
-                    gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
-                    gConnectionWork->mSyncDoneChildMask = 0;
-                    gConnectionWork->mRequestPending = 0;
+                    g_GlobalZE->mFlags |= CONNECTION_FLAG_SEND_READY;
+                    g_GlobalZE->mSyncDoneChildMask = 0;
+                    g_GlobalZE->mRequestPending = 0;
                     break;
                 case WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER:
                 case WIRELESS_STATE_EXCHANGE_IGNORED_FIRST:
@@ -504,9 +504,9 @@ void StartMPCallback(WirelessMessage *event) {
         case WIRELESS_RESULT_TRANSMIT_ERROR:
             break;
         default:
-            gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
-            gConnectionWork->mErrorCode = CONNECTION_ERROR_MP_FAILED;
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mFlags |= CONNECTION_FLAG_SEND_READY;
+            g_GlobalZE->mErrorCode = CONNECTION_ERROR_MP_FAILED;
+            g_GlobalZE->mRequestPending = 0;
             break;
     }
 }
@@ -514,36 +514,36 @@ void StartMPCallback(WirelessMessage *event) {
 void SetMPFrequency(u32 mpFreq) {
     s32 result;
 
-    gConnectionWork->mStep = CONNECTION_STEP_SETTING_EXCHANGE_RATE;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SETTING_EXCHANGE_RATE;
+    g_GlobalZE->mRequestPending = 1;
     result = WM_SetMPFrequency(SetMPFrequencyCallback, mpFreq);
     if (result == 0) {
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
         return;
     }
     if (result == 2) {
         return;
     }
-    gConnectionWork->mErrorCode = CONNECTION_ERROR_MP_FAILED;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mErrorCode = CONNECTION_ERROR_MP_FAILED;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void SetMPFrequencyCallback(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_MP_FAILED;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_MP_FAILED;
+        g_GlobalZE->mRequestPending = 0;
     }
 }
 
 void SetEntry(s32 enabled) {
     s32 result;
 
-    if ((gConnectionWork->mParentParameter->mEntryFlag != 0) == enabled) {
+    if ((g_GlobalZE->mParentParameter->mEntryFlag != 0) == enabled) {
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_REGISTERING_ENTRY;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_REGISTERING_ENTRY;
+    g_GlobalZE->mRequestPending = 1;
     result = WM_SetEntry(SetEntryCallback, enabled);
     if (result == 2) {
         return;
@@ -552,7 +552,7 @@ void SetEntry(s32 enabled) {
 }
 
 void SetEntryCallback(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
@@ -562,16 +562,16 @@ void SetEntryCallback(WirelessMessage *event) {
 void StartDataSharing(void) {
     s32 result;
 
-    gConnectionWork->mStep = CONNECTION_STEP_STARTING_SHARING;
-    gConnectionWork->mRequestPending = 1;
-    result = WM_StartDataSharing(gConnectionWork->mSharingInfo, 0xc, 0xff, 8, 1);
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mStep = CONNECTION_STEP_STARTING_SHARING;
+    g_GlobalZE->mRequestPending = 1;
+    result = WM_StartDataSharing(g_GlobalZE->mSharingInfo, 0xc, 0xff, 8, 1);
+    g_GlobalZE->mRequestPending = 0;
     if (result != 0) {
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_MP_FAILED;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_MP_FAILED;
+        g_GlobalZE->mRequestPending = 0;
         return;
     }
-    ResetDataSharing(&gConnectionWork->mDataSharing);
+    ResetDataSharing(&g_GlobalZE->mDataSharing);
 }
 
 void SetGameInfo(void) {
@@ -582,16 +582,16 @@ void SetGameInfo(void) {
     if (ScanGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_PUBLISHING_GAME_INFO;
-    gConnectionWork->mRequestPending = 1;
-    children = &gConnectionWork->mChildren;
+    g_GlobalZE->mStep = CONNECTION_STEP_PUBLISHING_GAME_INFO;
+    g_GlobalZE->mRequestPending = 1;
+    children = &g_GlobalZE->mChildren;
     children->mGameInfo->mGameInfoPart.mChildCount = children->mChildCount;
     isSyncedOrSyncedRace = TRUE;
-    if (gConnectionWork->mState != CONNECTION_STATE_SYNCED && gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+    if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED && g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
         isSyncedOrSyncedRace = FALSE;
     }
     if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, SCAN_USER_GAME_INFO_BYTES, CONNECTION_GAME_GROUP_ID,
-                       gConnectionWork->mParentParameter->mTgid, isSyncedOrSyncedRace == FALSE) != 2) {
-        gConnectionWork->mRequestPending = 0;
+                       g_GlobalZE->mParentParameter->mTgid, isSyncedOrSyncedRace == FALSE) != 2) {
+        g_GlobalZE->mRequestPending = 0;
     }
 }

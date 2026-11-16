@@ -14,25 +14,25 @@ u32 RegisterMultiBootSegment(void) {
     int succeeded;
     u32 result;
     result = 0;
-    size = MB_GetSegmentLength(NULL);
+    size = ComputeRomBinarySize_from_thumb(NULL);
     if ((0x00010000u) <= size) {
-        succeeded = MB_ReadSegment(NULL, gConnectionWork->mMultiBootSegment, gConnectionWork->mMultiBootSegmentSize);
+        succeeded = FsUnk_ReadCartHeader_from_thumb(NULL, g_GlobalZE->mMultiBootSegment, g_GlobalZE->mMultiBootSegmentSize);
         if ((succeeded != 0) &&
-            (succeeded = MB_RegisterFile(gGameRegistry, gConnectionWork->mMultiBootSegment), succeeded != 0)) {
+            (succeeded = MB_RegisterFile(g_GlobalBAN, g_GlobalZE->mMultiBootSegment), succeeded != 0)) {
             result = 1;
         }
     }
     return result;
 }
 
-void SetGameRegistryTexts(Bmg *bmg) {
+void SetGlobalBAN_from_thumb(Bmg *bmg) {
     void **table;
     void *firstEntry;
     void *secondEntry;
-    firstEntry = GetBmgEntry(bmg, 0);
-    secondEntry = GetBmgEntry(bmg, 1);
-    table = (void **) gGameRegistry;
-    ((void **) gGameRegistry)[1] = firstEntry;
+    firstEntry = Bmg_GetRawStringPointer_from_thumb(bmg, 0);
+    secondEntry = Bmg_GetRawStringPointer_from_thumb(bmg, 1);
+    table = (void **) g_GlobalBAN;
+    ((void **) g_GlobalBAN)[1] = firstEntry;
     table[2] = secondEntry;
 }
 

@@ -4,7 +4,7 @@
 
 #pragma optimize_for_size on
 
-LogoScene *gLogoScene;
+LogoScene *g_LogoContext;
 s32 gTestSceneCharTableIndex;
 TestScene *gTestScene;
 u16 gTestSceneCharText[206];

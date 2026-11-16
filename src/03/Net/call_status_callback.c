@@ -52,14 +52,14 @@ s32 StopExchange(void) {
         oldStatus = gExchangeStatus;
         gStopRequested = 1;
         while (gExchangeStatus >= EXCHANGE_STATUS_STARTED && gExchangeStatus <= EXCHANGE_STATUS_SECOND_KEY_RECEIVED) {
-            OS_Sleep(100);
+            Os_Sleep(100);
         }
-        OS_Sleep(500);
-        if (OS_IsThreadTerminated(&gExchangeThread) == 0) {
+        Os_Sleep(500);
+        if (Os_Thread_IsTerminated(&gExchangeThread) == 0) {
             do {
-                OS_WakeupThreadDirect(&gExchangeThread);
-                OS_JoinThread(&gExchangeThread);
-            } while (OS_IsThreadTerminated(&gExchangeThread) == 0);
+                Os_Thread_WakeUpDirect(&gExchangeThread);
+                Os_Thread_Join(&gExchangeThread);
+            } while (Os_Thread_IsTerminated(&gExchangeThread) == 0);
         }
         if (gThreadStack != NULL) {
             gFreeFunction(gThreadStack);

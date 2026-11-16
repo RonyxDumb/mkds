@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void WriteSceneTextRegisters(void);
-void AdvanceSceneText(void);
+void NavigationContext_OnSceneVblank_from_thumb(void);
+void NavigationContext_OnSceneUpdate_from_thumb(void);

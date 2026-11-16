@@ -28,9 +28,9 @@ void StartTimedQuad(TimedQuad *timedQuad);
 
 void SetStemSet(s32 setIndex);
 
-void Nop(void);
+void nullsub_7(void);
 
-extern struct StemSets *gStemSets;
+extern struct StemSets *g_GlobalBO;
 
 extern void (*const gTimedQuadStartFunctions[1])(TimedQuad *timedQuad);
 extern void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *timedQuad);

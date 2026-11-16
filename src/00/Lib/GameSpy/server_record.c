@@ -94,7 +94,7 @@ void SbServerSetValue(SbServer *server, const char *key, const char *value) {
 
 void SbServerSetInt(SbServer *server, const char *key, u32 value) {
     char valueText[20];
-    sprintf(valueText, "%d", value);
+    MaybeStrcpy(valueText, "%d", value);
     SbServerSetValue(server, key, valueText);
 }
 
@@ -102,7 +102,7 @@ char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue) {
     KeyLookup probe;
     u32 *entry;
     if (server == NULL) {
-        AssertionFailed("server", "sb_server.c", NULL, 0x97);
+        LogThrowAssertion("server", "sb_server.c", NULL, 0x97);
     }
     if (server == NULL) {
         return NULL;
@@ -313,7 +313,7 @@ void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
                 if (valueLength < 0) {
                     return;
                 }
-                sprintf(scratch.mTempKey, "%s%d", key, unitIndex);
+                MaybeStrcpy(scratch.mTempKey, "%s%d", key, unitIndex);
                 SbServerSetValue(server, scratch.mTempKey, (const char *) data);
                 data += valueLength;
                 length -= valueLength;

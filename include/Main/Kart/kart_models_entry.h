@@ -4,6 +4,6 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Item/item_in_use.h" // KartModelsEntry
 
-void *GetKartModelResMdl(u16 kartIndex);
+void *GetCharacterKartModel(u16 kartIndex);
 
-KartModelsEntry *GetKartModelsEntry(u32 kartIndex);
+KartModelsEntry *GetAD00SubRacer(u32 kartIndex);

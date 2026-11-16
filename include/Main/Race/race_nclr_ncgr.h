@@ -3,4 +3,4 @@
 
 typedef struct RaceNclrNcgr RaceNclrNcgr;
 
-RaceNclrNcgr *GetRaceNclrNcgr(u32 pairIndex);
+RaceNclrNcgr *GetRacePaletteBlock(u32 pairIndex);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteBackupMissionRecords(void);
+void WriteSaveDataMissionRunSection_from_thumb(void);

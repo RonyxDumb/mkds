@@ -37,18 +37,18 @@ void LocateAndQueueSelectRaceRuleWait(void) {
     Nclr *cellPalette[1];
     cellChars = NULL;
     cellPalette[0] = NULL;
-    sceneFile = FindSceneFile(gSelectRaceRuleWaitNcerName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectRaceRuleWaitNcerName);
     LocateNcer(&gSelectRaceRuleWait->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gSelectRaceRuleWaitNcgrName);
-    LocateNcgr2(&cellChars, sceneFile);
-    sceneFile = FindSceneFile(gSelectRaceRuleWaitNclrName);
-    LocateNclr(cellPalette, sceneFile);
-    sceneFile = FindSceneFile(gSelectRaceRuleWaitBnclName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectRaceRuleWaitNcgrName);
+    Gfx_ReadCharGraphicsRelative(&cellChars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectRaceRuleWaitNclrName);
+    Gfx_ReadPaletteRelative(cellPalette, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectRaceRuleWaitBnclName);
     gSelectRaceRuleWait->mBncl = sceneFile;
-    sceneFile = FindSceneFile(gSelectRaceRuleWaitBnllName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectRaceRuleWaitBnllName);
     gSelectRaceRuleWait->mBnll = sceneFile;
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, cellChars->mData, cellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, cellPalette[0]->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, cellChars->mData, cellChars->mDataSize);
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, cellPalette[0]->mData,
                                        cellPalette[0]->mDataSize);
 }
 
@@ -87,18 +87,18 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     u16 cellEntryCount;
     u32 subObjSize;
 
-    gSelectRaceRuleWait = HeapAlloc(heap, sizeof(*gSelectRaceRuleWait));
+    gSelectRaceRuleWait = Mem_AllocateHeap(heap, sizeof(*gSelectRaceRuleWait));
     gSelectRaceRuleWait->mState = SELECT_RACE_RULE_WAIT_REST;
     gSelectRaceRuleWait->mOamList = oamList;
     LocateAndQueueSelectRaceRuleWait();
     InitLayoutTable(heap, gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mBnll, &gSelectRaceRuleWait->mTable);
-    gSelectRaceRuleWait->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gSelectRaceRuleWait->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     subObjSize = GX_GetSizeOfSubOBJ();
     InitLabelCanvas(heap, 0xe, gSelectRaceRuleWait->mBnll, 0xc8, 0xd, 0, gSelectRaceRuleWait->mNcer,
                     gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mTable, subObjSize);
     selectRaceRuleWait = gSelectRaceRuleWait;
     PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRuleWait->mBnll,
-                                       GetBmgEntry(selectRaceRuleWait->mCommonMessages, 0x79),
+                                       Bmg_GetRawStringPointer_from_thumb(selectRaceRuleWait->mCommonMessages, 0x79),
                                        selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
     entryIndex = 0;
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
@@ -131,7 +131,7 @@ void AdvanceSelectRaceRuleWaitSlideIn(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = ComputeValueInterpolation_from_thumb(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= SELECT_RACE_RULE_WAIT_SLIDE_STEPS) {
@@ -145,7 +145,7 @@ void AdvanceSelectRaceRuleWaitSlideOut(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = ComputeValueInterpolation_from_thumb(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= SELECT_RACE_RULE_WAIT_SLIDE_STEPS) {

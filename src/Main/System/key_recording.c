@@ -20,10 +20,10 @@
 #include "Main/System/heap_call.h"
 #include "arena_cache_init.h"
 
-SceneCallbacks gEmblemSceneCallbacks = {InitEmblemScene,
-                                        UpdateEmblemScene,
-                                        EmblemSceneNop,
-                                        WriteEmblemSceneRegistersCallback,
+SceneCallbacks g_Scene_Emblem = {Scene_Emblem_Initialize,
+                                        Scene_Emblem_Update,
+                                        Scene_Emblem_Finalize,
+                                        Scene_Emblem_VBlank,
                                         NULL,
                                         NULL,
                                         0xa,
@@ -69,7 +69,7 @@ void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
             }
             buffer->mPairByteCount = (u32) pairIndex * 2;
             keyRecording->mStatus = KEY_RECORDING_FULL;
-            DC_StoreRange(keyRecording->mBuffer, 0xdcc);
+            DC_SomeClean(keyRecording->mBuffer, 0xdcc);
             return;
         }
         keyRecording->mPairIndex++;
@@ -119,27 +119,27 @@ BOOL IsKeyRecordingFull(KeyRecording *keyRecording) {
     return keyRecording->mStatus == KEY_RECORDING_FULL;
 }
 
-BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording) {
+BOOL StructCYB_SomeFn_0(KeyRecording *keyRecording) {
     if (keyRecording->mStatus != KEY_RECORDING_PLAYING) {
         return FALSE;
     }
     return ((u32) keyRecording->mPairIndex << 1) > 0xd1b;
 }
 
-void InitEmblemScene(void) {
-    GetHeap(GetCurrentHeapCall());
-    StopWvrAndWait();
-    ResetInputSlots();
+void Scene_Emblem_Initialize(void) {
+    ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    MaybeInitializeSomeWirelessShit();
+    MaybeResetInput();
     InitEmblemAndAdvanceKartList();
 }
 
-void EmblemSceneNop(void) {}
+void Scene_Emblem_Finalize(void) {}
 
-void WriteEmblemSceneRegistersCallback(void) {
+void Scene_Emblem_VBlank(void) {
     AdvanceEmblemDisplayWrapper();
 }
 
-void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
+void Scene_Emblem_Update(SceneNumbers *sceneNumbers) {
     s32 emblemDone;
 
     emblemDone = AdvanceEmblemAndCheckDone();
@@ -155,9 +155,9 @@ void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
     }
 }
 
-s32 RunEmblemScene(void *sceneNumbers) {
-    SceneCallbacks emblemSceneCallbacks = gEmblemSceneCallbacks;
+s32 SceneFn_Emblem(void *sceneNumbers) {
+    SceneCallbacks emblemSceneCallbacks = g_Scene_Emblem;
 
-    RunScene(sceneNumbers, &emblemSceneCallbacks);
+    OnSceneLoop(sceneNumbers, &emblemSceneCallbacks);
     return 0;
 }

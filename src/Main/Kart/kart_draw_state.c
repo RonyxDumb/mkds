@@ -54,7 +54,7 @@ void AdvanceKartDrawState(Kart *kart) {
         MTX_Concat43(drawMatrix, &rotationMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &negatedOffsetMatrix, drawMatrix);
         if ((kart->mEffectFlags & KART_EFFECT_Y_SPIN) != 0) {
-            MTX_RotY43_(&extraYRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle),
+            MTX_RotY43__from_thumb(&extraYRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle),
                         COS_OF_ANGLE(kart->mYRotationAngle));
             MTX_Concat43(drawMatrix, &extraYRotationMatrix, drawMatrix);
         }
@@ -62,7 +62,7 @@ void AdvanceKartDrawState(Kart *kart) {
         drawMatrix->mRows[3].y = drawMatrix->mRows[3].y + kart->mPosSource->y;
         drawMatrix->mRows[3].z = drawMatrix->mRows[3].z + kart->mPosSource->z;
     } else if ((kartBits & KART_EFFECT_Y_SPIN) != 0) {
-        MTX_RotY43_(&yRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle), COS_OF_ANGLE(kart->mYRotationAngle));
+        MTX_RotY43__from_thumb(&yRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle), COS_OF_ANGLE(kart->mYRotationAngle));
         MTX_Concat43(&yRotationMatrix, &kart->mRotationMatrix, &kart->mDrawBaseMatrix);
         source = kart->mPosSource;
         kart->mDrawBaseRow3.x = source->x;
@@ -82,7 +82,7 @@ void AdvanceKartDrawState(Kart *kart) {
     if ((kart->mEffectFlags & KART_EFFECT_WOBBLE) == 0) {
         kart->mDrawMatrix = &kart->mDrawBaseMatrix;
     } else {
-        AdvanceKartWobble(kart);
+        StructMQRacerEntry_SomeFn_77(kart);
         kart->mDrawMatrix = &kart->mWobbleMatrix;
     }
     modelsEntry = kart->mKartModelsEntry;
@@ -95,10 +95,10 @@ void AdvanceKartDrawState(Kart *kart) {
             kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0x7d0);
         } else {
             tireSpinStep = MUL_FIXED12_NO_ROUND(tireSpinStep, 0xfa0);
-            if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
+            if (AbsValue(GetKartForwardSpeedRatio()) < 0x29) {
                 tireSpinStep = 0;
-                if ((u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
-                    IsRaceStarted() == 1) {
+                if ((u16) (g_GlobalCYT[entryIndex = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
+                    IsAwardOrStaffRoll() == 1) {
                     tireSpinStep = tireSpinStep + 0x190;
                 }
             } else if ((kart->mMotionFlags & KART_MOTION_REVERSING) != 0) {
@@ -113,8 +113,8 @@ void AdvanceKartDrawState(Kart *kart) {
     }
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
     if (characterAnimation != NULL && characterAnimation->mAnmObjCount != 0) {
-        AdvanceKartCharacterAnimation(kart);
-        if (IsKartEnded(kart->mIndex) != 0) {
+        StructMQRacerEntry_SomeFn_20(kart);
+        if (IsRacerFinishedRace(kart->mIndex) != 0) {
             AdvanceKartAnimationChangeTimer(kart);
         }
         characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;

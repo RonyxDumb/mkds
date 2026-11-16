@@ -17,19 +17,19 @@
 
 #pragma thumb on
 
-void InitMPChunkBuffers(void *heap) {
+void AllocateSomeZEStuff_from_thumb(void *heap) {
     int slot;
     int byteOffset;
     void *allocation;
     ConnectionWork **workAddress;
-    allocation = HeapAllocAligned(heap, MP_CHUNK_PACKET_BYTES, HEAP_ALIGN_CACHE_LINE);
-    workAddress = &gConnectionWork;
-    gConnectionWork->mChunkBuffer = allocation;
+    allocation = Mem_AllocateHeapAligned(heap, MP_CHUNK_PACKET_BYTES, HEAP_ALIGN_CACHE_LINE);
+    workAddress = &g_GlobalZE;
+    g_GlobalZE->mChunkBuffer = allocation;
     slot = 0;
     byteOffset = 0;
     do {
-        allocation = HeapAlloc(heap, MP_CHUNK_FLAGS_PER_SLOT);
-        gConnectionWork->mChunkReceivedFlags[slot] = allocation;
+        allocation = Mem_AllocateHeap(heap, MP_CHUNK_FLAGS_PER_SLOT);
+        g_GlobalZE->mChunkReceivedFlags[slot] = allocation;
         byteOffset = byteOffset + 4;
         slot = slot + 1;
     } while (slot < 8);
@@ -40,15 +40,15 @@ void InitMPChunkBuffers(void *heap) {
 #pragma thumb on
 
 static inline u32 MPStatesGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline s32 MPStatesIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (MPStatesGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if (MPStatesGetConnectionMode() != CONNECTION_MODE_NONE && g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -56,7 +56,7 @@ static inline s32 MPStatesIsConnectionActive(void) {
 
 static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (MPStatesIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (MPStatesIsConnectionActive() && !(g_GlobalZE->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -64,7 +64,7 @@ static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
 
 static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
+    if (MPStatesIsConnectionActiveNotEnding() && g_GlobalZE->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -74,15 +74,15 @@ void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s
     s32 state;
     s32 playerBit;
 
-    state = gConnectionWork->mState;
+    state = g_GlobalZE->mState;
     if (state != CONNECTION_STATE_GATHERING) {
         StoreReceivedPlayerName(data, playerIndex, keepMask);
         return;
     }
     playerBit = 1 << playerIndex;
-    if (!(gConnectionWork->mNamesStoredMask & playerBit)) {
-        MI_CpuCopy8(data, &gConnectionWork->mPlayerRecords[playerIndex], PLAYER_NAME_BYTES);
-        gConnectionWork->mNamesStoredMask |= playerBit;
+    if (!(g_GlobalZE->mNamesStoredMask & playerBit)) {
+        Mem_CpuCopy8(data, &g_GlobalZE->mPlayerRecords[playerIndex], PLAYER_NAME_BYTES);
+        g_GlobalZE->mNamesStoredMask |= playerBit;
     }
 }
 
@@ -93,10 +93,10 @@ s32 IsAllMPChildSharedDataCopied(void) {
 
     allCopied = 1;
     childIndex = allCopied;
-    childMask = gConnectionWork->mChildren.mChildMask;
+    childMask = g_GlobalZE->mChildren.mChildMask;
     for (; childIndex < 8; childIndex++) {
         if ((childMask & (allCopied << childIndex)) &&
-            gConnectionWork->mDataSharing.mSharedDataCopied[childIndex] == 0) {
+            g_GlobalZE->mDataSharing.mSharedDataCopied[childIndex] == 0) {
             allCopied = 0;
             break;
         }
@@ -108,20 +108,20 @@ s32 AdvanceParentSync(void) {
     BOOL done;
 
     done = FALSE;
-    switch (gConnectionWork->mSyncState) {
+    switch (g_GlobalZE->mSyncState) {
         case CONNECTION_SYNC_START:
-            gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_WAIT_CHILDREN;
+            g_GlobalZE->mSyncState = CONNECTION_SYNC_PARENT_WAIT_CHILDREN;
             break;
         case CONNECTION_SYNC_PARENT_WAIT_CHILDREN:
-            if (gConnectionWork->mChildren.mChildMask ==
-                (gConnectionWork->mChildren.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_ANNOUNCE;
+            if (g_GlobalZE->mChildren.mChildMask ==
+                (g_GlobalZE->mChildren.mChildMask & g_GlobalZE->mSyncDoneChildMask)) {
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_PARENT_ANNOUNCE;
             }
             break;
         case CONNECTION_SYNC_PARENT_ANNOUNCE:
             if (QueueMPDataHalfword(MP_MESSAGE_TRANSFER_SYNC_DONE, 0xff) != FALSE) {
-                gConnectionWork->mSyncDoneChildMask = done;
-                gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
+                g_GlobalZE->mSyncDoneChildMask = done;
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;
         case CONNECTION_SYNC_DONE:
@@ -135,10 +135,10 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
     BOOL done;
 
     done = FALSE;
-    switch (gConnectionWork->mSyncState) {
+    switch (g_GlobalZE->mSyncState) {
         case CONNECTION_SYNC_START:
-            if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD;
+            if (g_GlobalZE->mFlags & CONNECTION_FLAG_SEND_READY) {
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_LOAD;
             }
             break;
         case CONNECTION_SYNC_CHILD_LOAD:
@@ -157,28 +157,28 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
                         RequestMenuDLArchives();
                         break;
                 }
-                gConnectionWork->mStep = CONNECTION_STEP_CHILD_ARCHIVE_SYNC;
-                gConnectionWork->mRequestPending = 1;
-                gConnectionWork->mNextLoadIndex = 0;
-                FS_InitFile(&gConnectionWork->mFile);
-                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
+                g_GlobalZE->mStep = CONNECTION_STEP_CHILD_ARCHIVE_SYNC;
+                g_GlobalZE->mRequestPending = 1;
+                g_GlobalZE->mNextLoadIndex = 0;
+                Fs_File_Initialize(&g_GlobalZE->mFile);
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
             } else {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
             }
             QueueMPDataHalfword(MP_MESSAGE_SYNC_NOT_DONE, 1);
             break;
         case CONNECTION_SYNC_CHILD_LOAD_WAIT:
             if (LoadPendingFiles() != FALSE) {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
             }
             break;
         case CONNECTION_SYNC_CHILD_REPORT:
             if (QueueMPDataHalfword(MP_MESSAGE_SYNC_DONE, 1) != FALSE) {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;
         case CONNECTION_SYNC_DONE:
-            if (gConnectionWork->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
+            if (g_GlobalZE->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
                 done = TRUE;
             }
             break;
@@ -207,13 +207,13 @@ u32 AdvanceMainAndMenuDLArchives(void) {
 // Asks for state 16 with the next race's course and mode.
 void RequestMPWaitRaceArchives(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
-    stateMachine = &gConnectionWork->mMPStateMachine;
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_RACE_ARCHIVES;
     stateMachine->mStateMachine.mNextStateRequested = 1;
-    gConnectionWork->mCourseId = courseId;
-    gConnectionWork->mMode = mode;
+    g_GlobalZE->mCourseId = courseId;
+    g_GlobalZE->mMode = mode;
 }
 
 #pragma thumb off
@@ -223,9 +223,9 @@ void RequestMPWaitRaceArchives(void *courseId, void *mode) {
 void RequestMPWaitResultArchives(void) {
     MPStateMachine *stateMachine;
 
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
-    stateMachine = &gConnectionWork->mMPStateMachine;
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_RESULT_ARCHIVES;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -233,9 +233,9 @@ void RequestMPWaitResultArchives(void) {
 void RequestMPWaitMenuArchives(void) {
     MPStateMachine *stateMachine;
 
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
-    stateMachine = &gConnectionWork->mMPStateMachine;
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_MENU_ARCHIVES;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -251,7 +251,7 @@ u32 AdvanceRaceArchives(void) {
         case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
         case CONNECTION_MODE_CHILD:
-            return AdvanceChildArchiveSync(MP_ARCHIVE_KIND_RACE, gConnectionWork->mCourseId, gConnectionWork->mMode);
+            return AdvanceChildArchiveSync(MP_ARCHIVE_KIND_RACE, g_GlobalZE->mCourseId, g_GlobalZE->mMode);
         default:
             return 3;
     }
@@ -261,24 +261,24 @@ u32 AdvanceRaceArchives(void) {
 
 #pragma thumb on
 
-void EnterMPWaitRaceArchives(void *stateObject) {
+void StructZE_E7Fn_16_1_from_thumb(void *stateObject) {
     int connectionMode;
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
     } else {
-        connectionMode = gConnectionWork->mConnectionMode;
+        connectionMode = g_GlobalZE->mConnectionMode;
     }
     if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }
 
-void UpdateMPWaitRaceArchives(void *stateObject) {
+void StructZE_E7Fn_16_2_from_thumb(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceRaceArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_COURSE_SOUND;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -291,52 +291,52 @@ void UpdateMPWaitRaceArchives(void *stateObject) {
 void LoadCourseSoundSetCallback(void) {
     u32 loaded;
 
-    loaded = LoadCourseSoundSet((u32) gConnectionWork->mMode, (u32) gConnectionWork->mCourseId);
+    loaded = LoadCourseSoundSet((u32) g_GlobalZE->mMode, (u32) g_GlobalZE->mCourseId);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        LoadSndBanksForCharacters(0);
+        MaybeReloadRacersSfx(0);
     }
     if (loaded == 0) {
-        gConnectionWork->mCallbackFailed = 1;
+        g_GlobalZE->mCallbackFailed = 1;
     }
 }
 
-void EnterMPLoadCourseSound(void *stateObject) {
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
-    gConnectionWork->mCallbackFailed = 0;
+void StructZE_E7Fn_17_1_from_thumb(void *stateObject) {
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    g_GlobalZE->mCallbackFailed = 0;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void UpdateMPLoadCourseSound(void *stateObject) {
+void StructZE_E7Fn_17_2_from_thumb(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadCourseSoundSetCallback);
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_REQUEST_DONE;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterMPWaitRequestDone(void *stateObject) {
+void StructZE_E7Fn_20_1_from_thumb(void *stateObject) {
     int connectionMode;
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
     } else {
-        connectionMode = gConnectionWork->mConnectionMode;
+        connectionMode = g_GlobalZE->mConnectionMode;
     }
     if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(1);
     }
 }
 
-void UpdateMPWaitRequestDone(void *stateObject) {
+void StructZE_E7Fn_20_2_from_thumb(void *stateObject) {
     MPStateMachine *stateMachine;
-    if (gConnectionWork->mRequestPending == 0) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+    if (g_GlobalZE->mRequestPending == 0) {
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_READY;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }

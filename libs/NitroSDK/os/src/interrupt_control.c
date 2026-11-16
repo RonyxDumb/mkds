@@ -5,10 +5,10 @@
 #include "registers.h"
 
 u16 OSi_IrqCallbackInfoIndex[8] = {8, 9, 10, 11, 3, 4, 5, 6};
-OSIrqCallbackInfo OSi_IrqCallbackInfo[8];
+OSIrqCallbackInfo g_IrqSpecialHandlerEntries[8];
 
 // Sets the handler for each interrupt bit in intrBit. DMA and timer bits register a callback with no argument.
-void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function) {
+void Os_SetIrqHandler(OSIrqMask intrBit, OSIrqFunction function) {
     s32 irqNo;
     OSIrqCallbackInfo *info;
 
@@ -16,9 +16,9 @@ void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function) {
         if (intrBit & 1) {
             info = 0;
             if (irqNo >= 8 && irqNo <= 11) {
-                info = &OSi_IrqCallbackInfo[irqNo - 8];
+                info = &g_IrqSpecialHandlerEntries[irqNo - 8];
             } else if (irqNo >= 3 && irqNo <= 6) {
-                info = &OSi_IrqCallbackInfo[irqNo + 1];
+                info = &g_IrqSpecialHandlerEntries[irqNo + 1];
             } else {
                 OS_IRQTable[irqNo] = function;
             }
@@ -33,7 +33,7 @@ void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function) {
 }
 
 // Returns the handler of the lowest interrupt bit set in intrBit, or 0 when none is set.
-OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit) {
+OSIrqFunction Os_GetIrqHandler(OSIrqMask intrBit) {
     s32 irqNo;
     OSIrqFunction *table;
 
@@ -41,10 +41,10 @@ OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit) {
     for (irqNo = 0; irqNo < 22; irqNo++, table++) {
         if (intrBit & 1) {
             if (irqNo >= 8 && irqNo <= 11) {
-                return OSi_IrqCallbackInfo[irqNo - 8].mFunc;
+                return g_IrqSpecialHandlerEntries[irqNo - 8].mFunc;
             }
             if (irqNo >= 3 && irqNo <= 6) {
-                return OSi_IrqCallbackInfo[irqNo + 1].mFunc;
+                return g_IrqSpecialHandlerEntries[irqNo + 1].mFunc;
             }
             return *table;
         }
@@ -59,21 +59,21 @@ void OSi_EnterDmaCallback(u32 dmaNo, OSIrqCallback callback, u32 arg) {
     OSIrqMask irqBit;
 
     irqBit = 1 << (dmaNo + 8);
-    OSi_IrqCallbackInfo[dmaNo].mFunc = callback;
-    OSi_IrqCallbackInfo[dmaNo].mArg = arg;
-    OSi_IrqCallbackInfo[dmaNo].mEnable = OS_EnableIrqMask(irqBit) & irqBit;
+    g_IrqSpecialHandlerEntries[dmaNo].mFunc = callback;
+    g_IrqSpecialHandlerEntries[dmaNo].mArg = arg;
+    g_IrqSpecialHandlerEntries[dmaNo].mEnable = Os_EnableIrqHandler(irqBit) & irqBit;
 }
 
 // Registers callback with arg for timer timerNo and enables its interrupt, which stays enabled afterwards.
-void OSi_EnterTimerCallback(u32 timerNo, OSIrqCallback callback, u32 arg) {
-    (OSi_IrqCallbackInfo + 4)[timerNo].mFunc = callback;
-    (OSi_IrqCallbackInfo + 4)[timerNo].mArg = arg;
-    OS_EnableIrqMask(1 << (timerNo + 3));
-    (OSi_IrqCallbackInfo + 4)[timerNo].mEnable = 1;
+void Os_SetTimerIrqHandler(u32 timerNo, OSIrqCallback callback, u32 arg) {
+    (g_IrqSpecialHandlerEntries + 4)[timerNo].mFunc = callback;
+    (g_IrqSpecialHandlerEntries + 4)[timerNo].mArg = arg;
+    Os_EnableIrqHandler(1 << (timerNo + 3));
+    (g_IrqSpecialHandlerEntries + 4)[timerNo].mEnable = 1;
 }
 
 // Writes the interrupt enable mask with interrupts off and returns the previous mask.
-OSIrqMask OS_SetIrqMask(OSIrqMask intr) {
+OSIrqMask SetIE(OSIrqMask intr) {
     u16 savedMasterEnable;
     OSIrqMask prev;
 
@@ -87,7 +87,7 @@ OSIrqMask OS_SetIrqMask(OSIrqMask intr) {
 }
 
 // Sets the bits of intr in the interrupt enable mask and returns the previous mask.
-OSIrqMask OS_EnableIrqMask(OSIrqMask intr) {
+OSIrqMask Os_EnableIrqHandler(OSIrqMask intr) {
     u16 savedMasterEnable;
     OSIrqMask prev;
 
@@ -101,7 +101,7 @@ OSIrqMask OS_EnableIrqMask(OSIrqMask intr) {
 }
 
 // Clears the bits of intr in the interrupt enable mask and returns the previous mask.
-OSIrqMask OS_DisableIrqMask(OSIrqMask intr) {
+OSIrqMask Os_DisableIrqHandler(OSIrqMask intr) {
     u16 savedMasterEnable;
     OSIrqMask prev;
 
@@ -115,7 +115,7 @@ OSIrqMask OS_DisableIrqMask(OSIrqMask intr) {
 }
 
 // Writes the interrupt request flags with interrupts off and returns the previous flags.
-OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr) {
+OSIrqMask SetIF(OSIrqMask intr) {
     u16 savedMasterEnable;
     OSIrqMask prev;
 
@@ -129,10 +129,10 @@ OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr) {
 }
 
 // Writes the check values at both ends of the interrupt stack.
-void OS_SetIrqStackChecker(void) {
+void Os_InitializeSvcStack(void) {
     u32 base;
 
-    base = (u32) &OSi_IrqThreadQueue;
+    base = (u32) &g_DTCM;
     *OFFSET_PTR(u32, base, 0x3f7c) = STACK_CHECK_BOTTOM;
     *(u32 *) (base + 0x3f80 - (u32) SDK_IRQ_STACKSIZE) = STACK_CHECK_TOP;
 }
@@ -146,16 +146,16 @@ void OSi_IrqCallback(int index) {
     OSIrqMask irqBit;
 
     irqBit = 1 << OSi_IrqCallbackInfoIndex[index];
-    callback = OSi_IrqCallbackInfo[index].mFunc;
-    OSi_IrqCallbackInfo[index].mFunc = 0;
+    callback = g_IrqSpecialHandlerEntries[index].mFunc;
+    g_IrqSpecialHandlerEntries[index].mFunc = 0;
     if (callback != 0) {
-        callback(OSi_IrqCallbackInfo[index].mArg);
+        callback(g_IrqSpecialHandlerEntries[index].mArg);
     }
     IRQ_CHECK_FLAGS |= irqBit;
-    if (OSi_IrqCallbackInfo[index].mEnable != 0) {
+    if (g_IrqSpecialHandlerEntries[index].mEnable != 0) {
         return;
     }
-    OS_DisableIrqMask(irqBit);
+    Os_DisableIrqHandler(irqBit);
 }
 
 void OSi_IrqDma0(void) {

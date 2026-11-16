@@ -81,7 +81,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
         shadowPosition.z = coin->mMapObject.mPos.z;
         gxArgument = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &gxArgument, 1);
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shadowPosition), 0xc);
+        NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&shadowPosition), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor < COIN_SCALE_FULL) {
             scale.x = scaleFactor;
@@ -90,7 +90,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
             NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
         NNS_G3dGeBufferOP_N(0x1b, &coin->mMapObject.mScale, 3);
-        MTX_RotY33_(&rotationMatrix, FX_CosIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]),
+        MTX_RotY33__from_thumb(&rotationMatrix, FX_CosIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]),
                     FX_SinIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
         shadowScale.x = 0x199a;
@@ -120,8 +120,8 @@ void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd) {
     if (coin->mNsbtpFrameCounter >= COIN_NSBTP_FRAME_STEPS) {
         coin->mNsbtpFrameCounter -= COIN_NSBTP_FRAME_STEPS;
         coin->mNsbtpFrameIndex += 1;
-        if (coin->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gCoinModel)) {
-            coin->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gCoinModel);
+        if (coin->mNsbtpFrameIndex >= StructMapObject_SomeFn_1(gCoinModel)) {
+            coin->mNsbtpFrameIndex -= StructMapObject_SomeFn_1(gCoinModel);
         }
     }
 }
@@ -130,7 +130,7 @@ void StartCoinCountUp(void) {
     Kart *kart;
     Coin *coin;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         StartCoinRiseOverKart(coin, kart);
@@ -145,7 +145,7 @@ void StartCoinDrop(void) {
     s32 speed;
     SoundStartParams soundArg;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         random = GetMapObjectRandom();
@@ -182,7 +182,7 @@ void StartCoinBossTransfer(void) {
     MissionRunMapObject *targetObject;
     SoundStartParams soundArg;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         random = GetMapObjectRandom();
@@ -196,9 +196,9 @@ void StartCoinBossTransfer(void) {
         coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
         coin->mTimer = COIN_RISE_FRAMES;
         targetObject = NULL;
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
             kartCount = 0;
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 kartCount = MissionRunGetCurrentKartCount();
             }
             targetObject = GetMissionRunMapObject(kartCount);
@@ -219,7 +219,7 @@ void StartCoinBossTransfer(void) {
 }
 
 void AddPendingBossTransferInMissionRun(u32 amount) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AddMissionRunPendingBossTransfer(amount);
     }
 }
@@ -234,7 +234,7 @@ void SetBossCoinShownCount(s32 shownCount) {
 
     foundCount = 0;
     coinList = FindMapObjectKindUpdateList(0x68);
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
@@ -248,8 +248,8 @@ void SetBossCoinShownCount(s32 shownCount) {
                         coin->mScaleFactor = COIN_SCALE_FULL;
                         coin->mModelAlpha = 0;
                         coin->mTargetPos =
-                            (Vec3 *) ((gRaceSetup->mMode == MODE_MISSION_RUN
-                                           ? (u32) GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN
+                            (Vec3 *) ((g_GlobalCO->mMode == MODE_MISSION_RUN
+                                           ? (u32) GetMissionRunMapObject(g_GlobalCO->mMode == MODE_MISSION_RUN
                                                                               ? MissionRunGetCurrentKartCount()
                                                                               : 0)
                                            : 0) +
@@ -282,7 +282,7 @@ void ParkBossCoins(s32 parkCount) {
 
     count = 0;
     coinList = FindMapObjectKindUpdateList(0x68);
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
@@ -295,7 +295,7 @@ void ParkBossCoins(s32 parkCount) {
                     if ((coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                         ParkMapObject(&coin->mMapObject);
                     }
-                    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                         AddMissionRunPendingCountUpFromBoss(1);
                     }
                 }
@@ -330,7 +330,7 @@ void StartCoinsFadeOut(void) {
         if (*sndHandleSlot != 0) {
             NNS_SndPlayerStopSeq(sndHandleSlot, 0);
         }
-        NNS_SndArcPlayerStartSeqArc(sndHandleSlot, 0, 0x233);
+        PlaySseqFromSarc(sndHandleSlot, 0, 0x233);
     }
 }
 
@@ -367,18 +367,18 @@ void StartCoinsFadeIn(void) {
         if (*sndHandleSlot != 0) {
             NNS_SndPlayerStopSeq(sndHandleSlot, 0);
         }
-        NNS_SndArcPlayerStartSeqArc(sndHandleSlot, 0, 0x232);
+        PlaySseqFromSarc(sndHandleSlot, 0, 0x232);
     }
 }
 
 void SetMissionRunCoinCallbacks(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         SetMissionRunCountUpCallback(StartCoinCountUp);
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         SetMissionRunDropCallback(StartCoinDrop);
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         SetMissionRunBossTransferCallback(StartCoinBossTransfer);
     }
 }
@@ -394,7 +394,7 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
         if (coin->mState != COIN_STATE_DROP && coin->mState != COIN_STATE_TRANSFER_RISE &&
             coin->mState != COIN_STATE_TRANSFER_FLY) {
             ParkMapObject(&coin->mMapObject);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunPendingCountUp(1);
             }
         }
@@ -405,9 +405,9 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
 void LoadCoin(MapObjectList *drawList) {
     gCoinModel = LoadMapObjectModelAnimated(drawList, "coin.nsbmd");
     LoadMapObjectModelNsbtpAnimation(gCoinModel, "coin.nsbtp");
-    SetMapObjectModelPolygonId(gCoinModel, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gCoinModel, 0x3f);
     SetMapObjectModelLightEnableFlag(gCoinModel, 2);
-    SetNsbmdEmiAll(gCoinModel->mAnimatedModel, 0x294a);
+    StructML_SomeFn_7(gCoinModel->mAnimatedModel, 0x294a);
     drawList->mSortByDistance = 1;
 }
 
@@ -420,7 +420,7 @@ void DrawCoin(void *mapObjectList, Coin *coin) {
     if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0) {
         gxArgument = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, (&gxArgument), 1);
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coin->mMapObject.mPos), 0xc);
+        NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&coin->mMapObject.mPos), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor != COIN_SCALE_FULL) {
             scale.x = scaleFactor;
@@ -429,14 +429,14 @@ void DrawCoin(void *mapObjectList, Coin *coin) {
             NNS_G3dGeBufferOP_N(0x1b, (&scale), 3);
         }
         NNS_G3dGeBufferOP_N(0x1b, (&coin->mMapObject.mScale), 3);
-        SetMapObjectModelPolygonId(gCoinModel, AllocPolygonIdWrapping());
+        StructMapObject_MaybeSetPolygonId(gCoinModel, AllocPolygonIdWrapping());
         alpha = coin->mModelAlpha;
         if (alpha >= 0x1f) {
             alpha = 0x1f;
         }
-        SetMapObjectModelAlpha(gCoinModel, alpha);
-        SetMapObjectModelNsbtpFrameIndex(gCoinModel, coin->mNsbtpFrameIndex);
-        QueueMapObjectModelMaterial(mapObjectList, gCoinModel);
+        StructMapObject_SomeFn_6(gCoinModel, alpha);
+        StructMapObject_SomeFn_0(gCoinModel, coin->mNsbtpFrameIndex);
+        StructMapObject_SomeFn_9(mapObjectList, gCoinModel);
         DrawMapObjectModel(mapObjectList, gCoinModel, coin);
     }
 }
@@ -484,7 +484,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             coin->mModelAlpha = newAlpha;
             AdvanceCoinNsbtpFrame(coin, 1);
             coin->mMapObject.mPosStep.y -= 0x333;
-            VEC_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
+            VecFx32_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
             if (coin->mMapObject.mPos.y <= coin->mBounceY) {
                 coin->mMapObject.mPos.y = coin->mBounceY;
                 if (coin->mMapObject.mPosStep.y <= 0) {
@@ -519,8 +519,8 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             if (coin->mMapObject.mCourseMapRow->mSettings[1] != 0) {
                 radius = coin->mMapObject.mCourseMapRow->mSettings[1];
-                for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-                    kartPos = &GetKart((u16) kartIndex)->mPos;
+                for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
+                    kartPos = &GetRacerMQEntry((u16) kartIndex)->mPos;
                     dx = kartPos->x - coin->mMapObject.mPos.x;
                     dz = kartPos->z - coin->mMapObject.mPos.z;
                     if (SQUARE_SUM2(dx, dz) < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
@@ -565,7 +565,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             coin->mModelAlpha = newAlpha;
             AdvanceCoinNsbtpFrame(coin, 4);
-            kart = GetKart((u16) gRaceSetup->mEntryIndex);
+            kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
             coin->mMapObject.mPos.x = kart->mPos.x;
             coin->mMapObject.mPos.y += coin->mMapObject.mPosStep.y;
             coin->mMapObject.mPos.z = kart->mPos.z;
@@ -602,15 +602,15 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             AdvanceCoinNsbtpFrame(coin, 1);
             coin->mMapObject.mPosStep.y -= 0x333;
-            VEC_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
+            VecFx32_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
             spherePosition.x = coin->mMapObject.mPos.x;
             spherePosition.y = coin->mMapObject.mExtent.x + (coin->mMapObject.mPos.y - 0xe000);
             spherePosition.z = coin->mMapObject.mPos.z;
             if (CollideSphereWithMapObjects(&spherePosition, &coin->mMapObject.mPosStep, coin->mMapObject.mExtent.x,
                                             coin->mMapObject.mCollisionSlotIndex, 2, &pushOut) != 0) {
-                VEC_Add(&coin->mMapObject.mPos, &pushOut, &coin->mMapObject.mPos);
+                VecFx32_Add(&coin->mMapObject.mPos, &pushOut, &coin->mMapObject.mPos);
                 if (LENGTH_SQUARED(pushOut) >= 0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&pushOut, &coin->mMapObject.mPosStep);
+                    Vector3_MaybeNormalize(&pushOut, &coin->mMapObject.mPosStep);
                 }
                 coin->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.x, 0x1400);
                 coin->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.y, 0x1400);
@@ -619,7 +619,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             if (CollideSphereWithCourse(&spherePosition, NULL, 0, coin->mMapObject.mExtent.x, 1,
                                         coin->mMapObject.mCollisionSlotIndex, &pushOut, &normal, &secondNormal,
                                         &collisionBits, NULL, NULL, NULL, NULL) != 0) {
-                VEC_Add(&coin->mMapObject.mPos, &pushOut, &coin->mMapObject.mPos);
+                VecFx32_Add(&coin->mMapObject.mPos, &pushOut, &coin->mMapObject.mPos);
                 if (collisionBits & 0x214300) {
                     BounceVelocityOffSurface(&coin->mMapObject.mPosStep, &secondNormal, 0x1000, 0x1000, 0xc00,
                                              &coin->mMapObject.mPosStep);
@@ -627,7 +627,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                             (s64) coin->mMapObject.mPosStep.y * coin->mMapObject.mPosStep.y +
                             (s64) coin->mMapObject.mPosStep.z * coin->mMapObject.mPosStep.z >=
                         0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&coin->mMapObject.mPosStep, &coin->mMapObject.mPosStep);
+                        Vector3_MaybeNormalize(&coin->mMapObject.mPosStep, &coin->mMapObject.mPosStep);
                     }
                     coin->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.x, 0x1400);
                     coin->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.y, 0x1400);
@@ -654,7 +654,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
         case COIN_STATE_FADE_OUT_DROP:
             AdvanceCoinNsbtpFrame(coin, 1);
             coin->mMapObject.mPosStep.y -= 0x333;
-            VEC_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
+            VecFx32_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
             newAlpha = coin->mModelAlpha - 1;
             if (newAlpha > 0) {
                 coin->mModelAlpha = newAlpha;
@@ -665,7 +665,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 coin->mScaleFactor = COIN_SCALE_FULL;
                 coin->mModelAlpha = 0;
                 coin->mMapObject.mFlags |= gCoinHiddenFlag;
-                if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                     AddMissionRunBossCount(1);
                 }
             } else {
@@ -696,7 +696,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             AdvanceCoinNsbtpFrame(coin, 1);
             coin->mMapObject.mPosStep.y -= 0x333;
-            VEC_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
+            VecFx32_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
             if (coin->mMapObject.mPosStep.y <= 0) {
                 coin->mState = COIN_STATE_TRANSFER_FLY;
             }
@@ -724,7 +724,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             } else if (coin->mMapObject.mPos.z > coin->mTargetPos->z) {
                 coin->mMapObject.mPosStep.z -= 0x400;
             }
-            VEC_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
+            VecFx32_Add(&coin->mMapObject.mPos, &coin->mMapObject.mPosStep, &coin->mMapObject.mPos);
             if (coin->mTimer-- <= 0) {
                 coin->mTimer = 0;
                 newAlpha = coin->mModelAlpha - 1;
@@ -758,8 +758,8 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             if (coin->mModelAlpha != 0 && coin->mTargetPos != NULL) {
                 AdvanceCoinNsbtpFrame(coin, 1);
                 coin->mMapObject.mPosStep.y -= 0x14;
-                VEC_Add(&coin->mTargetOffset, &coin->mMapObject.mPosStep, &coin->mTargetOffset);
-                VEC_Add(&coin->mTargetOffset, coin->mTargetPos, &coin->mMapObject.mPos);
+                VecFx32_Add(&coin->mTargetOffset, &coin->mMapObject.mPosStep, &coin->mTargetOffset);
+                VecFx32_Add(&coin->mTargetOffset, coin->mTargetPos, &coin->mMapObject.mPos);
                 if ((s64) ((const Vec3 *) &coin->mTargetOffset)->x * ((const Vec3 *) &coin->mTargetOffset)->x +
                         (s64) ((const Vec3 *) &coin->mTargetOffset)->z * ((const Vec3 *) &coin->mTargetOffset)->z >=
                     0x190000000LL) {
@@ -777,7 +777,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
 }
 
 MapObjectKindData *CreateCoinKindData(void) {
-    return CreateMapObjectKindData(&CollideKartWithCoin, NULL, NULL, 1, 1);
+    return CreateAllocateSomeObject_from_thumb(&CollideKartWithCoin, NULL, NULL, 1, 1);
 }
 
 MapObjectList *CreateCoinDrawList(void) {

@@ -5,8 +5,8 @@
 
 #pragma thumb on
 
-void WriteBackupMissionRecords(void) {
-    WriteBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
+void WriteSaveDataMissionRunSection_from_thumb(void) {
+    WriteSaveDataSection_MissionRun_from_thumb(g_SaveDataHolder->mMissionRecordBlock);
 }
 
 #pragma thumb off

@@ -45,11 +45,11 @@ static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
     u32 value;
     u32 limitU16;
     if (limit == 0x10000) {
-        randomState64 = &gRaceProgress->mLocalRandom;
+        randomState64 = &g_GlobalMV->mLocalRandom;
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
         return (randomState64->mValue >> 32) * 0x10000 >> 32;
     }
-    randomState64 = &gRaceProgress->mLocalRandom;
+    randomState64 = &g_GlobalMV->mLocalRandom;
     limitU16 = (u16) limit;
     if (limitU16 == 0) {
         value = 0;
@@ -108,12 +108,12 @@ void InitTeresaSpawnerObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (spawner = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        spawner->mNearCheckTimer = TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, 0xf);
+        spawner->mNearCheckTimer = TeresaSpawnerNextRandomBelow(&g_GlobalMV->mLocalRandom, 0xf);
     }
 }
 
 RandomState64 *GetRaceLocalRandom(void) {
-    return &gRaceProgress->mLocalRandom;
+    return &g_GlobalMV->mLocalRandom;
 }
 
 u16 NextRandomU16(RandomState64 *randomState64) {
@@ -156,7 +156,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     if (timer <= 0) {
         spawner->mNearCheckTimer = TERESA_NEAR_CHECK_FRAMES;
         radius = spawner->mMapObject.mCourseMapRow->mSettings[0];
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
         radiusFixed = TO_FIXED12(radius);
         kartPos = &kart->mPos;
         deltaX = kartPos->x - spawner->mMapObject.mPos.x;
@@ -222,14 +222,14 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
             break;
     }
     if (GetUnparkedTeresaCount() > 0) {
-        StartWhileRequestedFullVolumeWrapper(&GetKart((u16) gRaceSetup->mEntryIndex)->mSoundSource, 0x11e);
+        StartWhileRequestedFullVolumeWrapper(&GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex)->mSoundSource, 0x11e);
     }
 }
 
 MapObjectKindData *CreateTeresaSpawnerKindData(void) {
     s32 mode;
 
-    mode = gRaceSetup->mMode;
+    mode = g_GlobalCO->mMode;
     if (mode == MODE_VS || mode == MODE_WIFI) {
         if (GetCurrentCameraKind() == 0) {
             return 0;

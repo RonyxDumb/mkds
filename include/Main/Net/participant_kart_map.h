@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CreateParticipantKartMap(void *heap);
+u32 InitializeGlobalRE(void *heap);

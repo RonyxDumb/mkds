@@ -43,7 +43,7 @@ enum {
 #define WANWAN_ORIENTATION_BLEND_AMOUNT_START 0x1c2
 #define WANWAN_ORIENTATION_BLEND_AMOUNT_STEP 0x1c
 
-// The draw list of the Wanwan map objects: init and per-object draw functions, the pass and the slot that holds it.
+// The draw list of the Wanwan map objects: StructDC_SomeFn_from_thumb and per-object draw functions, the pass and the slot that holds it.
 typedef struct WanwanDrawList {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void (*mInit)(void);

@@ -43,7 +43,7 @@ typedef struct BombKingPrm {
     /* 074 */ s32 mStoppedAfterHitsFrameStep;
     /* 078 */ s32 mKartEliminatedAnimationEntry;
     /* 07c */ s32 mKartEliminatedFrameStep;
-    /* 080 */ u8 mUnk_080[0x4];
+    /* 080 */ u8 mField10[0x4];
     /* 084 */ s32 mWalkAnimationEntry;
     /* 088 */ s32 mWalkFrameStep;
     /* 08c */ s32 mWalkSpeed;
@@ -78,7 +78,7 @@ typedef struct BombKingPrm {
     /* 11c */ s32 mBombPointRadius;
     /* 120 */ s32 mBombPointHalfAngle;
     /* 124 */ s32 mWalkToBombFrameCount;
-    /* 128 */ u8 mUnk_128[0xc];
+    /* 128 */ u8 mField48[0xc];
     /* 134 */ s32 mStoredBombThrowSpeed;
     /* 138 */ s32 mStoredBombThrowVelocityY;
     /* 13c */ s32 mStoredBombThrowTimer;
@@ -315,7 +315,7 @@ typedef struct IwantePrm {
     /* 078 */ s32 mKartEliminatedHoldAnimationEntry;
     /* 07c */ s32 mKartEliminatedHoldFrameStep;
     /* 080 */ s32 mChainCameraPosYOffset;
-    /* 084 */ u8 mUnk_084[0x4];
+    /* 084 */ u8 mPoitCount[0x4];
     /* 088 */ s32 mItemHitHalfAngle;
     /* 08c */ s32 mTurnToKartAnimationEntry;
     /* 090 */ s32 mTurnToKartFrameStep;
@@ -336,7 +336,7 @@ typedef struct IwantePrm {
     /* 0f4 */ s32 mFallOnKartFrameStep;
     /* 0f8 */ s32 mFallOnKartSpeedTarget;
     /* 0fc */ s32 mFallOnKartSpeedPerCall;
-    /* 100 */ u8 mUnk_100[0x8];
+    /* 100 */ u8 mKtpjCount[0x8];
     /* 108 */ s32 mFallOnKartVelocityY;
     /* 10c */ s32 mLandOnKartAnimationEntry;
     /* 110 */ s32 mLandOnKartFrameStep;
@@ -344,19 +344,19 @@ typedef struct IwantePrm {
     /* 118 */ s32 mLandBeforeSidewaysAnimationEntry;
     /* 11c */ s32 mLandBeforeSidewaysFrameStep;
     /* 120 */ s32 mLandBeforeSidewaysFrameCount;
-    /* 124 */ u8 mUnk_124[0x4];
+    /* 124 */ u8 mKtpmCount[0x4];
     /* 128 */ s32 mMoveSidewaysAnimationEntry;
     /* 12c */ s32 mMoveSidewaysFrameStep;
     /* 130 */ s32 mMoveSidewaysSpeedTarget;
     /* 134 */ s32 mMoveSidewaysSpeedPerCall;
-    /* 138 */ u8 mUnk_138[0x8];
+    /* 138 */ u8 mCpatCount[0x8];
     /* 140 */ s32 mMoveSidewaysFrameCount;
     /* 144 */ s32 mKartHitCarryVelocity;
     /* 148 */ s32 mSidewaysStopAnimationEntry;
     /* 14c */ s32 mSidewaysStopFrameStep;
     /* 150 */ s32 mSidewaysStopSpeedTarget;
     /* 154 */ s32 mSidewaysStopSpeedPerCall;
-    /* 158 */ u8 mUnk_158[0x8];
+    /* 158 */ u8 mEpoiCount[0x8];
     /* 160 */ s32 mSidewaysStopFrameCount;
     /* 164 */ s32 mMoveToPointsAnimationEntry;
     /* 168 */ s32 mMoveToPointsFrameStep;
@@ -406,7 +406,7 @@ typedef struct IwantePrm {
     /* 238 */ s32 mHitThirdFrameStep;
     /* 23c */ s32 mHitReactionHoldAnimationEntry;
     /* 240 */ s32 mHitReactionHoldFrameStep;
-    /* 244 */ u8 mUnk_244[0x8];
+    /* 244 */ u8 mCameBattleIntroCam[0x8];
     /* 24c */ s32 mHitHoldAnimationEntry;
     /* 250 */ s32 mHitHoldFrameStep;
     /* 254 */ s32 mWalkWithEffectsAnimationEntry;
@@ -418,7 +418,7 @@ typedef struct IwantePrm {
     /* 278 */ s32 mHandsMovePointDistance;
     /* 27c */ s32 mWalkAnimationEntry;
     /* 280 */ s32 mWalkFrameStep;
-    /* 284 */ u8 mUnk_284[0x8];
+    /* 284 */ u8 mTrackLengthDiv15000[0x8];
     /* 28c */ s32 mWalkBAnimationEntry;
     /* 290 */ s32 mWalkBFrameStep;
     /* 294 */ s32 mWalkAAnimationEntry;
@@ -568,7 +568,7 @@ typedef struct KurikingPrm {
     /* 078 */ s32 mChaseKartAnimationEntry;
     /* 07c */ s32 mChaseKartFrameStep;
     /* 080 */ s32 mStartupNsbtaEntryIndex;
-    /* 084 */ u8 mUnk_084[0x14];
+    /* 084 */ u8 mLoadFunc[0x14];
     /* 098 */ s32 mWalkAnimationEntry;
     /* 09c */ s32 mWalkFrameStep;
     /* 0a0 */ s32 mWalkNsbtaEntryIndex;
@@ -603,7 +603,7 @@ typedef struct KurikingPrm {
     /* 114 */ s32 mKartInRangeSpeedPerCall;
     /* 118 */ s32 mKartInRangeAnglePerCallTarget;
     /* 11c */ s32 mKartInRangeAnglePerCallIncrement;
-    /* 120 */ u8 mUnk_120[0x4];
+    /* 120 */ u8 mField34[0x4];
     /* 124 */ s32 mKartRadius;
     /* 128 */ s32 mKartHalfAngle;
     /* 12c */ s32 mKartInRangeFrameCount;

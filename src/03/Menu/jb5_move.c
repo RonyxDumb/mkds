@@ -38,8 +38,8 @@ void SetupJb5Move(void) {
     gJb5MoveChildWaitEvent = 0;
     LoadJb5MoveFileAndSetBgCnt();
     childUserText[0] = 0;
-    MIi_CpuClear16(childUserText[0], &childUserText[1], 0x16);
-    MIi_CpuCopy16(childUserBuffer + 2, &childUserText[1], childUserBuffer[1] * 2);
+    Mem_CpuFill16(childUserText[0], &childUserText[1], 0x16);
+    CopyMemory16(childUserBuffer + 2, &childUserText[1], childUserBuffer[1] * 2);
     DrawCanvasTextRect(canvas, gJb5MoveTextRect.mX, gJb5MoveTextRect.mY, gJb5MoveTextRect.mRight - gJb5MoveTextRect.mX,
                        gJb5MoveTextRect.mBottom - gJb5MoveTextRect.mY, 2, 0x480, &childUserText[1]);
     RequestBgTextCanvasUpload(canvas);
@@ -49,7 +49,7 @@ void SetupJb5Move(void) {
 
 void LoadJb5MoveFileAndSetBgCnt(void) {
     void *jb5MoveNscName = &gJb5MoveNscName;
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 loadFileResult = LoadFileToVram(jb5MoveNscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));

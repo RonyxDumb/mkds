@@ -11,22 +11,22 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Menu/select_race_rule_state.h"
 
-u32 SetMultiSimple(u32 flag) {
+u32 StructP_SetAFlag4_SkipBattleIntro(u32 flag) {
     u32 newStartupFlags = flag;
     u32 startupFlags;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return newStartupFlags;
     }
     newStartupFlags = (newStartupFlags) & (1u);
-    startupFlags = gStartupWork->mUnk_1c;
+    startupFlags = g_GlobalP->mUnk_1c;
     startupFlags = (startupFlags) & ~(4u);
     newStartupFlags = (startupFlags) | ((newStartupFlags << 2));
-    gStartupWork->mUnk_1c = newStartupFlags;
+    g_GlobalP->mUnk_1c = newStartupFlags;
     return newStartupFlags;
 }
 
-KeyRecordingBuffer *InitKeyRecordingBuffer(KeyRecording *record, void *heap) {
-    KeyRecordingBuffer *buffer = HeapAlloc(heap, sizeof(KeyRecordingBuffer));
+KeyRecordingBuffer *AllocateInputRecord(KeyRecording *record, void *heap) {
+    KeyRecordingBuffer *buffer = Mem_AllocateHeap(heap, sizeof(KeyRecordingBuffer));
     record->mBuffer = buffer;
     return buffer;
 }

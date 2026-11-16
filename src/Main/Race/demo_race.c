@@ -27,26 +27,26 @@ BOOL IsCupAlwaysOrSecretMessageFlagSet(s32 cupIndex) {
         case 5:
             return TRUE;
         case 2:
-            if (IsBackupFlagSet(0) != 0 || IsBackupFlagSet(1) != 0 || IsBackupFlagSet(2) != 0 ||
-                IsBackupFlagSet(3) != 0) {
+            if (CheckSavedSecretFlag_from_thumb(0) != 0 || CheckSavedSecretFlag_from_thumb(1) != 0 || CheckSavedSecretFlag_from_thumb(2) != 0 ||
+                CheckSavedSecretFlag_from_thumb(3) != 0) {
                 return TRUE;
             }
             break;
         case 3:
-            if (IsBackupFlagSet(4) != 0 || IsBackupFlagSet(5) != 0 || IsBackupFlagSet(6) != 0 ||
-                IsBackupFlagSet(7) != 0) {
+            if (CheckSavedSecretFlag_from_thumb(4) != 0 || CheckSavedSecretFlag_from_thumb(5) != 0 || CheckSavedSecretFlag_from_thumb(6) != 0 ||
+                CheckSavedSecretFlag_from_thumb(7) != 0) {
                 return TRUE;
             }
             break;
         case 6:
-            if (IsBackupFlagSet(8) != 0 || IsBackupFlagSet(9) != 0 || IsBackupFlagSet(10) != 0 ||
-                IsBackupFlagSet(11) != 0) {
+            if (CheckSavedSecretFlag_from_thumb(8) != 0 || CheckSavedSecretFlag_from_thumb(9) != 0 || CheckSavedSecretFlag_from_thumb(10) != 0 ||
+                CheckSavedSecretFlag_from_thumb(11) != 0) {
                 return TRUE;
             }
             break;
         case 7:
-            if (IsBackupFlagSet(12) != 0 || IsBackupFlagSet(13) != 0 || IsBackupFlagSet(14) != 0 ||
-                IsBackupFlagSet(15) != 0) {
+            if (CheckSavedSecretFlag_from_thumb(12) != 0 || CheckSavedSecretFlag_from_thumb(13) != 0 || CheckSavedSecretFlag_from_thumb(14) != 0 ||
+                CheckSavedSecretFlag_from_thumb(15) != 0) {
                 return TRUE;
             }
             break;
@@ -71,7 +71,7 @@ u32 PickRandomCupIndex(RandomState64 *random) {
     if (passingCupCount == 0) {
         randomPosition = 0;
     } else {
-        random->mValue = _ll_mul(random->mMultiplier, random->mValue) + random->mIncrement;
+        random->mValue = Multiply64(random->mMultiplier, random->mValue) + random->mIncrement;
         if (passingCupCount == 0) {
             randomPosition = random->mValue >> 32;
         } else {
@@ -108,30 +108,30 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     u32 swapTemp;
     u32 listedCpuSlot;
 
-    if (RTC_GetTime(&time) != 0) {
+    if (Rtc_GetTime(&time) != 0) {
         time.mHour = 0;
         time.mMinute = 0;
         time.mSecond = 0;
     }
-    random.mValue = (u32) ((time.mHour * 60 + time.mMinute) * 60 + time.mSecond + OS_GetTick());
+    random.mValue = (u32) ((time.mHour * 60 + time.mMinute) * 60 + time.mSecond + Os_GetTick());
     random.mMultiplier = RANDOM_STATE64_MULTIPLIER;
     random.mIncrement = RANDOM_STATE64_INCREMENT;
-    gRaceSetup->mNextHeader.mMode = MODE_GRAND_PRIX;
-    gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_DEMO;
-    gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;
-    gRaceSetup->mNextHeader.mUseTeams = 0;
-    gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
-    gRaceSetup->mNextHeader.mCourseListMode = 0;
-    gRaceSetup->mNextHeader.mMirrorMode = 0;
-    gRaceSetup->mNextHeader.mLapCount = -1;
-    gRaceSetup->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
-    random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
+    g_GlobalCO->mNextHeader.mMode = MODE_GRAND_PRIX;
+    g_GlobalCO->mNextHeader.mRaceKind = RACE_KIND_DEMO;
+    g_GlobalCO->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;
+    g_GlobalCO->mNextHeader.mUseTeams = 0;
+    g_GlobalCO->mNextHeader.mRuleKind = RULE_KIND_FREE;
+    g_GlobalCO->mNextHeader.mCourseListMode = 0;
+    g_GlobalCO->mNextHeader.mMirrorMode = 0;
+    g_GlobalCO->mNextHeader.mLapCount = -1;
+    g_GlobalCO->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
+    random.mValue = Multiply64(random.mMultiplier, random.mValue) + random.mIncrement;
     courseIndexInCup = (u64) (u32) (random.mValue >> 32) * 4 >> 32;
     cupIndex = PickRandomCupIndex(&random);
-    gRaceSetup->mNextHeader.mCourseId = gCupCourseIdTable[cupIndex][courseIndexInCup];
-    random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
+    g_GlobalCO->mNextHeader.mCourseId = g_InternalCourseIdOrderedTable[cupIndex][courseIndexInCup];
+    random.mValue = Multiply64(random.mMultiplier, random.mValue) + random.mIncrement;
     followedKartIndex = (u64) (u32) (random.mValue >> 32) * 8 >> 32;
-    gRaceSetup->mNextHeader.mFollowedKartIndex = followedKartIndex;
+    g_GlobalCO->mNextHeader.mFollowedKartIndex = followedKartIndex;
     for (otherIndex = 0; otherIndex < 2; otherIndex++) {
         for (candidateIndex = 0; candidateIndex < 8; candidateIndex++) {
             if (candidateIndex != followedKartIndex) {
@@ -144,9 +144,9 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
         shuffledIndices[entryIndex] = entryIndex;
     }
     for (shuffleIndex = 0; shuffleIndex < 1000; shuffleIndex++) {
-        random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
+        random.mValue = Multiply64(random.mMultiplier, random.mValue) + random.mIncrement;
         swapIndex = (u64) (u32) (random.mValue >> 32) * 7 >> 32;
-        random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
+        random.mValue = Multiply64(random.mMultiplier, random.mValue) + random.mIncrement;
         swapTemp = shuffledIndices[swapIndex];
         shuffledIndices[swapIndex] = shuffledIndices[(u16) ((u64) (u32) (random.mValue >> 32) * 7 >> 32)];
         shuffledIndices[(u16) ((u64) (u32) (random.mValue >> 32) * 7 >> 32)] = swapTemp;
@@ -162,7 +162,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
             listedCpuSlot = 1;
         }
         GetEntryCharacterAndKart(picks, entryIndex, &characterIndex, &kartIndex);
-        SetNextRaceEntry(entryIndex, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, listedCpuSlot);
+        StructCO_ConfigureRacerDefault(entryIndex, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, listedCpuSlot);
     }
     ResetCupToFirstCourse();
 }

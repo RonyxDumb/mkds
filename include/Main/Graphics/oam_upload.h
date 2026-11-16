@@ -5,4 +5,4 @@
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 u16 GetOamMatrixCount(const RaceHudOamBuffer *oamList);
-void UploadOamLists(void *mainOamList, void *subOamList);
+void CopyOamBuffersToMemory_from_thumb(void *mainOamList, void *subOamList);

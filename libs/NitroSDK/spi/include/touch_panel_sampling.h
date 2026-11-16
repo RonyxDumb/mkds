@@ -101,7 +101,7 @@ typedef struct TouchPanelState {
     /* 16 */ u8 mUnk_16[2];
     // The stored calibration; used only while mCalibrated is set.
     /* 18 */ TPiCalibrateParam mCalibration;
-    // 1 once a calibration is stored; 0 after init or when TP_SetCalibrateParam gets a null pointer.
+    // 1 once a calibration is stored; 0 after StructDC_SomeFn_from_thumb or when UseSomeCalibrationStuff gets a null pointer.
     /* 30 */ u16 mCalibrated;
     // Panel state (TPState): ready, or automatic sampling running.
     /* 32 */ vu16 mState;
@@ -112,22 +112,22 @@ typedef struct TouchPanelState {
     /* 36 */ vu16 mBusyFlags;
 } TouchPanelState;
 
-// Set once by TP_Init.
-extern u16 gTouchPanelInitialized;
+// Set once by Os_InitializeTouchPanelFifo.
+extern u16 g_TouchPanelFifoInit;
 // The touch panel channel state.
-extern TouchPanelState gTouchPanelState;
+extern TouchPanelState g_GlobalTP;
 
 // Returns the error bits selected by command_flgs (1 single sample, 2 start, 4 stop).
 u32 TP_CheckError(u32 commandFlgs);
 // Spins until none of the busy bits in commandFlgs is set (1 single sample, 2 start, 4 stop).
-void TP_WaitBusy(u32 commandFlgs);
+void WaitForTPFlags(u32 commandFlgs);
 // Converts a raw sample to screen coordinates with the stored calibration, clamped to 0..0xff and 0..0xbf; the
 // coordinates are 0 when the sample is not touched. Copies the sample unchanged when no calibration is stored.
 void TP_GetCalibratedPoint(TPData *disp, const TPData *raw);
 // Computes the calibration from two raw points (12-bit values) and their screen positions (below 0x100 and 0xc0).
 // Returns 1, with the output possibly partly written, when a value is out of range, two paired values are equal or a
 // result does not fit 16 bits; returns 0 on success.
-u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16 dx1, u16 dy1, u16 rawX2, u16 rawY2,
+u32 MaybeCheckScreenCalibration(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16 dx1, u16 dy1, u16 rawX2, u16 rawY2,
                           u16 dx2, u16 dy2);
 // Returns the ring position of the newest automatic sample.
 u16 TP_GetLatestIndexInAuto(void);
@@ -146,16 +146,16 @@ u32 TP_WaitRawResult(TPData *result);
 void TP_RequestSamplingAsync(void);
 // Stores the calibration (origin and dot size of each axis and 0x10000000 divided by the dot size, 0 for a zero size)
 // and marks the panel calibrated. A null pointer marks it not calibrated.
-void TP_SetCalibrateParam(TPCalibrateParam *param);
+void UseSomeCalibrationStuff(TPCalibrateParam *param);
 // Reads the eight stored calibration values from the shared block at 0x027ffc80 and computes the calibration with
-// TP_CalcCalibrateParam. Zeroes it when the four raw values are all 0 or the calculation refuses. Always returns 1.
-BOOL TP_GetUserInfo(TPCalibrateParam *calibrate);
+// MaybeCheckScreenCalibration. Zeroes it when the four raw values are all 0 or the calculation refuses. Always returns 1.
+BOOL ComputeSomeScreenCalibrationStuff(TPCalibrateParam *calibrate);
 // Starts the touch panel channel once. Clears the callback, the ring, the calibration flag and the busy and error bits,
 // waits for the other processor on PXI tag 6 and installs the receive handler. Later calls return at once.
-void TP_Init(void);
+void Os_InitializeTouchPanelFifo(void);
 // Receive handler of PXI tag 6. An error word sets the error bit of its request and calls the callback with
 // TP_RESULT_PXI_BUSY. A word for the automatic sampling stores the next ring entry from the shared halfwords and calls
 // the callback. A final word with result 0 clears the busy bit of its request (the single-sample request also stores
 // the sample); results 2, 3 and 4 set the error bit and call the callback with 1, 2 and 3; any other result stops in an
 // endless loop with interrupts off.
-void TPi_TpCallback(u32 tag, u32 data, BOOL err);
+void TouchPanelFifoCallback(u32 tag, u32 data, BOOL err);

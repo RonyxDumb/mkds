@@ -3,6 +3,6 @@
 #include "types.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 
-void ClearMenuShared(void);
+void CreateGlobalB488_from_thumb(void);
 
-extern struct MenuShared *gMenuShared;
+extern struct MenuShared *g_GlobalB488;

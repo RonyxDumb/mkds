@@ -3,9 +3,9 @@
 #include "types.h"
 
 unsigned short GetLeadingKart(void);
-unsigned int RaceProgressGetCurrentRuleKind(void);
+unsigned int GetCurrentRaceRules_0(void);
 
-BOOL IsRaceProgressKartRemoved(u32 kartIndex);
-BOOL IsKartNonCpu(u32 kartIndex);
+BOOL IsRacerFinishStatus4(u32 kartIndex);
+BOOL IsRacer_Player_Ghost_UnkNet3(u32 kartIndex);
 
-unsigned int RaceProgressGetCurrentKartCount(void);
+unsigned int GetCurrentRacerCount(void);

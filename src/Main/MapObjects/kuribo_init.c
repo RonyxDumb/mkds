@@ -62,11 +62,11 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
     kuribo->mModelAlpha = MAP_OBJECT_ALPHA_MAX;
     if (row != NULL) {
         InitGroupFollower(&kuribo->mFollower, row, (row->mSettings[0] << 11) / 100);
-        startEntry = GetCourseMapGroupEntry(row->mGroupIndex, row->mSettings[3]);
+        startEntry = GetLoadedNkmPathEntryPOIT(row->mGroupIndex, row->mSettings[3]);
         kuribo->mStartY = startEntry->mPos.y;
         kuribo->mOrientationBlendAmount = row->mSettings[0] * 0xb4 / 100;
         kuribo->mReturnsAfterWait = row->mSettings[1] == 0;
-        InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
+        StateDualHandler_Create(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mSettings[3], 1);
         GetGroupFollowerCurveXz(&kuribo->mFollower, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPos.y = kuribo->mStartY;
@@ -91,7 +91,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         kuribo->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         kuribo->mStartY = 0;
         kuribo->mReturnsAfterWait = 0;
-        InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
+        StateDualHandler_Create(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         kuribo->mOrientationBlendAmount = FIXED12_UNIT;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
@@ -101,7 +101,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
             Quaternion identityB = {0, 0, 0, 0x1000};
             kuribo->mTargetOrientation = identityB;
         }
-        SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
+        StateDualHandler_SetState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
         kuribo->mMapObject.mPosStep.x = 0;
         kuribo->mMapObject.mPosStep.y = 0;
         kuribo->mMapObject.mPosStep.z = 0;
@@ -112,7 +112,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
 
 MapObjectKindData *CreateWaterKindData(void) {
     MapObjectKindData *object;
-    object = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    object = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     {
         MapObjectKindData zeros = {0};
         *object = zeros;

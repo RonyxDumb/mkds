@@ -80,7 +80,7 @@ s32 InterpolateGetFixed12Whole(s32 value) {
 
 // Mode 0 is linear, mode 1 eases the difference; returns start while elapsedFrames <= 0 and end once it reaches
 // durationFrames.
-s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames) {
+s16 ComputeValueInterpolation_from_thumb(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames) {
     s32 easeValue;
     s32 difference;
     float scaledDifference;
@@ -130,7 +130,7 @@ u16 GetInputSlotNewBits(InputSlot *inputSlot, u32 mask) {
 }
 
 u16 GetNewBits(u32 slotIndex, u32 mask) {
-    return GetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return GetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 // Returns the masked bits in place, not 0 or 1.
@@ -140,7 +140,7 @@ u16 GetInputSlotRepeatBits(InputSlot *inputSlot, u32 mask) {
 
 // Returns the masked bits in place, not 0 or 1.
 u16 GetRepeatBits(u32 slotIndex, u32 mask) {
-    return GetInputSlotRepeatBits(&gInputSlots[slotIndex], mask);
+    return GetInputSlotRepeatBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 #pragma thumb on
@@ -156,16 +156,16 @@ u16 GetNewOrRepeatBits(u32 slotIndex, u32 mask) {
 #pragma thumb off
 
 u32 GetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+    return (g_GlobalP->mConnectionKind);
 }
 
 RandomState64 *GetConnectionWorkRandomState(void) {
-    return &gConnectionWork->mRandomState;
+    return &g_GlobalZE->mRandomState;
 }
 
 #pragma thumb on
 
-// Connection kind 0 draws from the random state in gStartupWork (GetRandomState), any other kind from the one in
+// Connection kind 0 draws from the random state in g_GlobalP (GetRandomState), any other kind from the one in
 // ConnectionWork.
 u32 NextRandomBelowByConnectionKind(u32 limit) {
     int connectionKind;
@@ -194,7 +194,7 @@ void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
     u8 row;
     u8 column;
 
-    table = FindFileInLoadedArchives("/missionTable.mtbl");
+    table = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("/missionTable.mtbl");
     rowCount = GetMissionTableRowCount(table);
     columnCount = GetMissionTableColumnCount(table);
     for (row = 1; row <= rowCount; row++) {
@@ -235,7 +235,7 @@ BOOL IsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair) {
 }
 
 BOOL IsSlotPairNew(u32 slotIndex) {
-    return IsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
+    return IsPairNewUnlessRecentlyLost(&g_GlobalCYT[slotIndex].mPair);
 }
 
 #pragma thumb on
@@ -262,7 +262,7 @@ u32 GetPairX(InputSlotPair *pair) {
 }
 
 u32 GetSlotPairX(u32 slotIndex) {
-    return GetPairX(&gInputSlots[slotIndex].mPair);
+    return GetPairX(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u32 GetPairY(InputSlotPair *pair) {
@@ -270,16 +270,16 @@ u32 GetPairY(InputSlotPair *pair) {
 }
 
 u32 GetSlotPairY(u32 slotIndex) {
-    return GetPairY(&gInputSlots[slotIndex].mPair);
+    return GetPairY(&g_GlobalCYT[slotIndex].mPair);
 }
 
 #pragma thumb on
 
-u32 ReverseBytes32(u32 value) {
+u32 SwapEndianness32_from_thumb(u32 value) {
     return (u8) (value >> 24) + (((u8) (value >> 16) << 8) + (((u8) value << 24) + ((u8) (value >> 8) << 16)));
 }
 
-void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName) {
+void *GetCharacterNameString_from_thumb(u32 characterIndex, u32 fullName) {
     u32 messageIndexes[13] = {20, 25, 24, 27, 22, 26, 23, 21, 29, 28, 30, 31, 32};
     u32 messageIndex;
 
@@ -290,43 +290,43 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName) {
     } else {
         messageIndex = messageIndexes[characterIndex];
     }
-    return GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), messageIndex);
+    return Bmg_GetRawStringPointer_from_thumb(j_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2("common.bmg"), messageIndex);
 }
 
 #pragma thumb off
 
-u32 KartEntryGetCurrentPlayerKind(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+u32 GetRacerType(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind;
 }
 
-BOOL IsKartEntryHumanGhostOrPeer(u32 entryIndex) {
-    if (KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_HUMAN ||
-        KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_GHOST ||
-        KartEntryGetCurrentPlayerKind(entryIndex) == PLAYER_KIND_PEER) {
+BOOL IsRacerPlayerOrGhostOrNet(u32 entryIndex) {
+    if (GetRacerType(entryIndex) == PLAYER_KIND_HUMAN ||
+        GetRacerType(entryIndex) == PLAYER_KIND_GHOST ||
+        GetRacerType(entryIndex) == PLAYER_KIND_PEER) {
         return 1;
     }
     return 0;
 }
 
-void *GetKartEntryName(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName;
+void *GetRacerName(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mName;
 }
 
-u32 KartEntryGetCurrentMode(void) {
-    return (gRaceSetup->mMode);
+u32 GetCurrentRaceMode_0(void) {
+    return (g_GlobalCO->mMode);
 }
 
-u32 KartEntryGetCurrentCharacterIndex(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
+u32 GetRacerCharacterId_0(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mCharacterIndex;
 }
 
-int GetKartEntryNumber(int entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mNumber;
+int GetRacerCpuIndex(int entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mNumber;
 }
 
 #pragma thumb on
 
-void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 fullName) {
+void FormatRacerNameString_from_thumb(u32 entryIndex, u16 *nameOut, u32 fullName) {
     u16 numberText[2];
     u16 numberedName[10];
     u16 nameChars[12];
@@ -337,50 +337,50 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 fullName) {
     for (charIndex = 0; charIndex < 11; charIndex++) {
         nameOut[charIndex] = 0;
     }
-    if (IsKartEntryHumanGhostOrPeer(entryIndex) != 0) {
-        source = GetKartEntryName(entryIndex);
+    if (IsRacerPlayerOrGhostOrNet(entryIndex) != 0) {
+        source = GetRacerName(entryIndex);
         if (source == NULL) {
             return;
         }
         if (fullName != 0) {
             charCount = 10;
         } else {
-            charCount = CopyTextWithinWidth(source, &nameChars[1]);
+            charCount = GetClampedString10LengthForFontIndex0_from_thumb(source, &nameChars[1]);
         }
     } else {
-        if (KartEntryGetCurrentMode() == MODE_GRAND_PRIX || KartEntryGetCurrentMode() == MODE_MISSION_RUN) {
-            source = GetCharacterBmgEntry(KartEntryGetCurrentCharacterIndex(entryIndex), fullName);
+        if (GetCurrentRaceMode_0() == MODE_GRAND_PRIX || GetCurrentRaceMode_0() == MODE_MISSION_RUN) {
+            source = GetCharacterNameString_from_thumb(GetRacerCharacterId_0(entryIndex), fullName);
             charCount = 20;
         } else {
-            wcsncpy(numberedName, GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x72), 9);
-            swprintf(numberText, 2, L"%d", GetKartEntryNumber(entryIndex));
-            wcsncat(numberedName, numberText, 1);
+            CopyString16(numberedName, Bmg_GetRawStringPointer_from_thumb(j_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2("common.bmg"), 0x72), 9);
+            ParticularSnprintf16(numberText, 2, L"%d", GetRacerCpuIndex(entryIndex));
+            SomeStrcat16(numberedName, numberText, 1);
             source = numberedName;
             charCount = 10;
         }
     }
     if (source != NULL) {
-        wcsncpy(nameOut, source, charCount);
+        CopyString16(nameOut, source, charCount);
     }
 }
 
 #pragma thumb off
 
-void InitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
+void G2d_Text_Create(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = lineSpacing;
 }
 
-void DrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
-    NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
+void G2d_TextCanvas_PrintString2(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
+    G2d_Text_PrintString(textCanvas, textX, textY, color, flags, text);
 }
 
 #pragma thumb on
 
 // Writes the entry name, outlined, into the text buffer and flushes it.
-void RenderKartEntryName(u32 entryIndex) {
+void SomeDrawRacerName_from_thumb(u32 entryIndex) {
     NNSG2dCharCanvas charCanvas;
     TextCanvas textCanvas;
     u16 name[22];
@@ -389,22 +389,22 @@ void RenderKartEntryName(u32 entryIndex) {
     s32 index;
     s32 offsetX;
 
-    font = GetFontByIndex(0);
-    messageScreenCharBuffer = GetMessageScreenCharBuffer();
-    ClearMessageScreenChars();
+    font = GetLoadedFont_from_thumb(0);
+    messageScreenCharBuffer = GetSomeBgCanvasTileData_from_thumb();
+    Clear1A44SomeTileData_from_thumb();
     for (index = 0; index < 0x100; index++) {
         messageScreenCharBuffer[index] = 0;
     }
-    NNS_G2dCharCanvasInitForBG(&charCanvas, messageScreenCharBuffer, 8, 2, 4);
-    InitTextCanvas(&textCanvas, &charCanvas, font, 2, 0);
-    CopyKartEntryName(entryIndex, name, 0);
+    G2d_Sprite_CreateFromTiles(&charCanvas, messageScreenCharBuffer, 8, 2, 4);
+    G2d_Text_Create(&textCanvas, &charCanvas, font, 2, 0);
+    FormatRacerNameString_from_thumb(entryIndex, name, 0);
     for (offsetX = -1; offsetX < 2; offsetX++) {
         for (index = -1; index < 2; index++) {
-            DrawTextOnCanvas(&textCanvas, offsetX + 0x20, index + 8, 2, 0x412, name);
+            G2d_TextCanvas_PrintString2(&textCanvas, offsetX + 0x20, index + 8, 2, 0x412, name);
         }
     }
-    DrawTextOnCanvas(&textCanvas, 0x20, 8, 1, 0x412, name);
-    DC_FlushRange(GetMessageScreenCharBuffer(), 0x200);
+    G2d_TextCanvas_PrintString2(&textCanvas, 0x20, 8, 1, 0x412, name);
+    Arm_FlushRange(GetSomeBgCanvasTileData_from_thumb(), 0x200);
 }
 
 void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value) {

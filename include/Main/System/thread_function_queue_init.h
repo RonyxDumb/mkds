@@ -4,5 +4,5 @@
 
 typedef struct ThreadFunctionQueue ThreadFunctionQueue;
 
-void InitThreadFunctionQueue(void *heap);
-void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void);
+void InitializeWorker(void *heap);
+void (*WorkerGetNextTaskFn(ThreadFunctionQueue *queue))(void);

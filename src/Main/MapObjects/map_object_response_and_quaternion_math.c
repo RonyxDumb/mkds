@@ -309,7 +309,7 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
 
 void Vec3RotateAroundY(Vec3 *vector, s32 angle, Vec3 *result) {
     MtxFx33 matrix;
-    MTX_RotY33_(&matrix, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
+    MTX_RotY33__from_thumb(&matrix, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
     MTX_MultVec33(vector, &matrix, result);
 }
 
@@ -321,10 +321,10 @@ void Matrix3x3FromVec3Degrees(Vec3 *degrees, MtxFx33 *matrix) {
     angleX = DEG_TO_ANGLE(degrees->x);
     angleY = DEG_TO_ANGLE(degrees->y);
     angleZ = DEG_TO_ANGLE(degrees->z);
-    MTX_RotX33_(matrix, FX_SinIdx(angleX), FX_CosIdx(angleX));
-    MTX_RotY33_(&rotation, FX_SinIdx(angleY), FX_CosIdx(angleY));
+    MTX_RotX33__from_thumb(matrix, FX_SinIdx(angleX), FX_CosIdx(angleX));
+    MTX_RotY33__from_thumb(&rotation, FX_SinIdx(angleY), FX_CosIdx(angleY));
     MTX_Concat33(matrix, &rotation, matrix);
-    MTX_RotZ33_(&rotation, FX_SinIdx(angleZ), FX_CosIdx(angleZ));
+    MTX_RotZ33__from_thumb(&rotation, FX_SinIdx(angleZ), FX_CosIdx(angleZ));
     MTX_Concat33(matrix, &rotation, matrix);
 }
 
@@ -377,7 +377,7 @@ s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject) {
         if ((mapObject->mFlags & MAP_OBJECT_FLAG_NUMBER_OVERFLOW) == 0) {
             responses[1] = mapObject->mKindData->mCollideKartCallback(mapObject, kart, &responses[0], &responses[1]);
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN && responses[0] == 1 && g_GlobalCO->mMode == MODE_MISSION_RUN) {
             AddMissionRunCountForMapObjectKind(mapObject->mKind);
         }
         return responses[1];
@@ -416,7 +416,7 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
             responses[1] =
                 mapObject->mKindData->mCollideItemObjectCallback(mapObject, itemObject, &responses[0], &responses[1]);
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN && responses[0] == 1 && g_GlobalCO->mMode == MODE_MISSION_RUN) {
             AddMissionRunCountForMapObjectKind(mapObject->mKind);
         }
         if (firstResponseOut != NULL) {

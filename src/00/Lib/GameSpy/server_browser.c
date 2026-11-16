@@ -171,7 +171,7 @@ s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async,
         if (listLength + (s32) strlen(keyName) + 1 >= 256) {
             break;
         }
-        listLength += sprintf(keyNames + listLength, "\\%s", keyName);
+        listLength += MaybeStrcpy(keyNames + listLength, "\\%s", keyName);
         SBQueryEngineAddQueryKey(&matchingServerList->mEngine, basicFields[fieldIndex]);
     }
     error = SBServerListConnectAndQuery(&matchingServerList->mList, keyNames, serverFilter, updateOptions, maxServers);

@@ -4,13 +4,13 @@
 #include "Main/Graphics/emitters.h"
 
 struct KartPhysicalParam *GetKartPhysicalParam(u32 kartIndex) {
-    return &gKartPhysicalParamTable->mKartParams[kartIndex];
+    return &g_GlobalFAT->mKartParams[kartIndex];
 }
 
-s32 *GetCharPhysicalParam(u32 slotIndex) {
-    return &gKartPhysicalParamTable->mCharParams[slotIndex << 1];
+s32 *GetCharacterPhysicalParam(u32 slotIndex) {
+    return &g_GlobalFAT->mCharParams[slotIndex << 1];
 }
 
-s32 GetFirstBaseSpeedLimit(void) {
-    return (gKartPhysicalParamTable->mFirstBaseSpeedLimit);
+s32 GetFATGigi(void) {
+    return (g_GlobalFAT->mFirstBaseSpeedLimit);
 }

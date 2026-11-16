@@ -95,8 +95,8 @@ MapObjectKindDescriptor gIwanteHandsKindDescriptor = {0,
                                                       {NULL, NULL, NULL, NULL}};
 
 void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
@@ -135,21 +135,21 @@ void SetIwanteHandsApproachPoint(void) {
     Kart *kart;
     u16 angle;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         mapObject = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
     } else {
         mapObject = NULL;
     }
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     if (mapObject->mHandOrder == IWANTE_HAND_SECOND) {
         prm = &mapObject->mPrm->mIwante;
-        angle = FX_Atan2Idx(kart->mPos.z - mapObject->mMapObject.mPos.z, kart->mPos.x - mapObject->mMapObject.mPos.x) -
+        angle = FX_Atan2(kart->mPos.z - mapObject->mMapObject.mPos.z, kart->mPos.x - mapObject->mMapObject.mPos.x) -
                 prm->mApproachAngleOffset;
     } else {
         prm = &mapObject->mPrm->mIwante;
         angle = prm->mApproachAngleOffset +
-                FX_Atan2Idx(kart->mPos.z - mapObject->mMapObject.mPos.z, kart->mPos.x - mapObject->mMapObject.mPos.x);
+                FX_Atan2(kart->mPos.z - mapObject->mMapObject.mPos.z, kart->mPos.x - mapObject->mMapObject.mPos.x);
     }
     pos.x = mapObject->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(prm->mApproachPointRadius, COS_OF_ANGLE(angle));
     pos.y = mapObject->mMapObject.mPos.y;
@@ -166,21 +166,21 @@ void SetIwanteHandsPoints(void) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         angleObject = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
     } else {
         angleObject = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand =
-            GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0));
+            GetMissionRunMapObject((u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -477,7 +477,7 @@ s32 AdvanceIwanteHandSidewaysSound(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandSidewaysStop(MissionRunMapObject *mapObject) {
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandSidewaysStop);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mSidewaysStopAnimationEntry,
                                 mapObject->mPrm->mIwante.mSidewaysStopFrameStep);
@@ -489,7 +489,7 @@ void StartIwanteHandSidewaysStop(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandMoveSideways(MissionRunMapObject *mapObject) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     Vec3 zeroVector = {0, 0, 0};
 
     if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_MIRRORED) == 0) {
@@ -557,9 +557,9 @@ void StartIwanteHandFallOnKart(MissionRunMapObject *mapObject) {
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mFallOnKartSpeedTarget,
                              mapObject->mPrm->mIwante.mFallOnKartSpeedPerCall);
     if (GetAbsoluteCounter(
-            gRaceSetup->mMode == MODE_MISSION_RUN
+            g_GlobalCO->mMode == MODE_MISSION_RUN
                 ? GetMissionRunMapObject(
-                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                      (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0) >= 1) {
         SetCourseCollisionCallback(mapObject, StartIwanteHandLandBeforeSideways);
     } else {
@@ -575,7 +575,7 @@ s32 AdvanceIwanteHandKartSound(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandMoveToKart(MissionRunMapObject *mapObject) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     Vec3 velocity = {0, 0, 0};
 
     IncrementEntryIndex(mapObject);
@@ -593,7 +593,7 @@ void StartIwanteHandMoveToKart(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandTurnToKart(MissionRunMapObject *mapObject) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mIwante.mTurnToKartVelocityY;
@@ -626,7 +626,7 @@ void StartIwanteHandLandOnKartAndStop(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandDirectFallOnKart(MissionRunMapObject *mapObject) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mIwante.mDirectFallOnKartVelocityY;
@@ -755,13 +755,13 @@ s32 AdvanceIwanteHandsStopAfterPoints(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    firstHand = gRaceSetup->mMode == MODE_MISSION_RUN
+    firstHand = g_GlobalCO->mMode == MODE_MISSION_RUN
                     ? GetMissionRunMapObject(
-                          (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                          (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                     : 0;
-    secondHand = gRaceSetup->mMode == MODE_MISSION_RUN
+    secondHand = g_GlobalCO->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                           (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                      : 0;
     if (IsStateNumberBelow(firstHand, 3) != 0 && IsStateNumberBelow(secondHand, 3) != 0) {
         StopMapObjectState(mapObject);
@@ -773,13 +773,13 @@ s32 AdvanceIwanteHandsRestartWhenIdle(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    firstHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                           (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                      : 0);
-    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    secondHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                       : 0);
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
         StartIwanteHandsFallOrMoveToPoints(mapObject);
@@ -794,28 +794,28 @@ void StartIwanteHandsFallOrMoveToPoints(MissionRunMapObject *mapObject) {
     if (GetRepeatsRemaining(mapObject)) {
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRestartWhenIdle);
         StopTurningMoveFollowsAngle(mapObject);
-        firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+        firstHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
-                               (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                               (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                          : 0);
         secondHand =
-            (gRaceSetup->mMode == MODE_MISSION_RUN
+            (g_GlobalCO->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
-                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                       (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                  : 0);
         StartIwanteHandDirectFallOnKart(firstHand);
         StartIwanteHandDirectFallOnKart(secondHand);
     } else {
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterPoints);
         StopTurningMoveFollowsAngle(mapObject);
-        firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+        firstHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
-                               (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                               (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                          : 0);
         secondHand =
-            (gRaceSetup->mMode == MODE_MISSION_RUN
+            (g_GlobalCO->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
-                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                       (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                  : 0);
         StartIwanteHandMoveToPoints(firstHand);
         StartIwanteHandMoveToPoints(secondHand);
@@ -826,15 +826,15 @@ s32 AdvanceIwanteHandsStartFromPrm(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    firstHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                           (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                      : 0);
-    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    secondHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                       : 0);
-    SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex)->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
         SetRepeatsRemaining(mapObject, mapObject->mPrm->mIwante.mHandsRepeatCount);
@@ -847,16 +847,16 @@ void StartIwanteHandsChangeToWalkB(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStartFromPrm);
     StopTurningMoveFollowsAngle(mapObject);
-    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    firstHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                           (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                      : 0);
-    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    secondHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                       : 0);
     StartIwanteHandChangeToWalkB(firstHand);
     StartIwanteHandChangeToWalkB(secondHand);
@@ -866,15 +866,15 @@ s32 AdvanceIwanteHandsRepeatVertical(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    firstHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                           (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                      : 0);
-    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+    secondHand = (g_GlobalCO->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                       : 0);
-    SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex)->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
         mapObject->mHandOrder = mapObject->mHandOrder == IWANTE_HAND_SECOND ? IWANTE_HAND_FIRST : IWANTE_HAND_SECOND;
@@ -889,19 +889,19 @@ void StartIwanteHandsMoveVertical(MissionRunMapObject *mapObject) {
     MissionRunMapObject *secondHand;
 
     if (GetRepeatsRemaining(mapObject)) {
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRepeatVertical);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mHandsTurnPerCallTarget, 0x270f000);
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
             firstHand = GetMissionRunMapObject(
-                (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+                (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
         } else {
             firstHand = NULL;
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
             secondHand = GetMissionRunMapObject(
-                (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+                (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
         } else {
             secondHand = NULL;
         }
@@ -922,19 +922,19 @@ int AdvanceIwanteHandsStartMoveVertical(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
@@ -948,18 +948,18 @@ void StartIwanteHandsChangeToWalkA(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStartMoveVertical);
     StopTurningMoveFollowsAngle(mapObject);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -971,15 +971,15 @@ int AdvanceIwanteHandsApproachUntilIdle(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -996,16 +996,16 @@ int AdvanceIwanteHandsToggleState(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1035,15 +1035,15 @@ void StartIwanteHandsTurnToKart(MissionRunMapObject *mapObject) {
 
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsToggleState);
     StopTurningMoveFollowsAngle(mapObject);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1060,15 +1060,15 @@ int AdvanceIwanteHandsApproachKart(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1087,19 +1087,19 @@ void StartIwanteHandsApproachKart(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachKart);
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mHandsTurnPerCallTarget, 0x270f000);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1116,16 +1116,16 @@ int AdvanceIwanteHandsStopAfterToggle(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1139,19 +1139,19 @@ void StartIwanteHandsToggleState(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
     StopTurningMoveFollowsAngle(mapObject);
     mapObject->mHandOrder = (mapObject->mHandOrder == IWANTE_HAND_FIRST) ? IWANTE_HAND_SECOND : IWANTE_HAND_FIRST;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1168,19 +1168,19 @@ void StartIwanteHandsToggleStateHold(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
     StopTurningMoveFollowsAngle(mapObject);
     mapObject->mHandOrder = (mapObject->mHandOrder == IWANTE_HAND_FIRST) ? IWANTE_HAND_SECOND : IWANTE_HAND_FIRST;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
@@ -1202,29 +1202,29 @@ int AdvanceIwanteHandsNextByHitCount(MissionRunMapObject *mapObject) {
     MissionRunMapObject *firstHand;
     MissionRunMapObject *secondHand;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
         if (GetAbsoluteCounter(
-                ((gRaceSetup->mMode == MODE_MISSION_RUN
+                ((g_GlobalCO->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                       : 0))) == 1) {
             StartIwanteHandsToggleStateHold(mapObject);
         } else if (GetAbsoluteCounter(
-                       ((gRaceSetup->mMode == MODE_MISSION_RUN
+                       ((g_GlobalCO->mMode == MODE_MISSION_RUN
                              ? GetMissionRunMapObject((
-                                   u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) +
+                                   u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) +
                                          2))
                              : 0))) == 2) {
             StartIwanteHandsFromPrm(mapObject);
@@ -1241,22 +1241,22 @@ void StartIwanteHandsHitReaction(MissionRunMapObject *mapObject) {
 
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsNextByHitCount);
     StopTurningMoveFollowsAngle(mapObject);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
         firstHand = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         secondHand = GetMissionRunMapObject(
-            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
+            (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
         secondHand = NULL;
     }
     if (GetAbsoluteCounter(
-            ((gRaceSetup->mMode == MODE_MISSION_RUN
+            ((g_GlobalCO->mMode == MODE_MISSION_RUN
                   ? GetMissionRunMapObject(
-                        (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                        (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                   : 0))) >= 2) {
         StartIwanteHandHitReactionHold(firstHand);
         StartIwanteHandHitReactionHold(secondHand);
@@ -1268,7 +1268,7 @@ void StartIwanteHandsHitReaction(MissionRunMapObject *mapObject) {
 
 u32 AdvanceIwanteHandsWaitForRaceStart(MissionRunMapObject *mapObject) {
     int raceStarted;
-    raceStarted = IsRaceStarted();
+    raceStarted = IsAwardOrStaffRoll();
     if (raceStarted == 1) {
         StartIwanteHandsToggleState(mapObject);
     }
@@ -1340,7 +1340,7 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
     int limit;
     Vec3 velocity;
 
-    diff = (u16) (FX_Atan2Idx(itemObject->mPos.x - mapObject->mMapObject.mPos.x,
+    diff = (u16) (FX_Atan2(itemObject->mPos.x - mapObject->mMapObject.mPos.x,
                               itemObject->mPos.z - mapObject->mMapObject.mPos.z) -
                   mapObject->mAngle);
     if (diff > 0x8000) {
@@ -1353,14 +1353,14 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
         velocity.y = mapObject->mPrm->mIwante.mItemHitVelocityY;
         velocity.z =
             (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mIwante.mItemHitVelocity, FX_CosIdx((u16) mapObject->mAngle)));
-        SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
+        SetVelocity((g_GlobalCO->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
-                               (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                               (u16) (g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                          : 0),
                     &velocity);
-        SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
+        SetVelocity((g_GlobalCO->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject((
-                               u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                               u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                          : 0),
                     &velocity);
         StartEffect(0x3eb, &itemObject->mPos);
@@ -1368,9 +1368,9 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
         StartEffect(0x3ed, &itemObject->mPos);
         mapObject->mMapObject.mDistanceSquaredAndFlags |= gMapObjectItemHitReportFlag;
         ApplyIwanteHandsHit(
-            gRaceSetup->mMode == MODE_MISSION_RUN
+            g_GlobalCO->mMode == MODE_MISSION_RUN
                 ? GetMissionRunMapObject(
-                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                      (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0);
         SetItemCollisionCallback(mapObject, IwanteItemResponse2Callback);
         mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
@@ -1391,7 +1391,7 @@ void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
             InitMissionRunMapObject(NULL, obj, NULL, NULL, "iwante_l.prm");
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
             StartIwanteHandsWaitForRaceStart(obj);
@@ -1400,11 +1400,11 @@ void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
 }
 
 void UpdateIwanteHands(u32 mapObjectList, MissionRunMapObject *mapObject) {
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == 0 && IsStateNumberBelow(mapObject, 1)) {
+    if ((g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == 0 && IsStateNumberBelow(mapObject, 1)) {
         if (GetAbsoluteCounter(
-                (gRaceSetup->mMode == MODE_MISSION_RUN
+                (g_GlobalCO->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
+                           (u16) ((g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                      : 0)) < 2) {
             StartIwanteHandsApproachKart(mapObject);
         } else {
@@ -1423,7 +1423,7 @@ void InitIwanteObjects(MapObjectList *mapObjectList) {
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (GetRaceUseChainCameras()) {
+            if (IsNotStaffRoll()) {
                 obj->mMapObject.mPos.y += obj->mPrm->mIwante.mChainCameraPosYOffset;
                 StartIwanteChainCameraHold(obj);
             } else {
@@ -1439,9 +1439,9 @@ void InitIwanteObjects(MapObjectList *mapObjectList) {
 void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject) {
     s32 frameIndex;
 
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) &&
+    if ((g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) &&
         IsStateNumberBelow(mapObject, 3)) {
-        if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) g_GlobalCO->mEntryIndex) : 0) {
             StartIwanteKartEliminatedHold(mapObject);
         } else {
             StartIwanteHideAtEndReached(mapObject);
@@ -1449,8 +1449,8 @@ void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject) {
     }
     if (mapObject->mHandShape == 1) {
         frameIndex = mapObject->mModelAnimationFrameIndex + 1;
-        if (frameIndex >= GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1) {
-            frameIndex = GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1;
+        if (frameIndex >= StructMapObject_SomeFn_1(mapObject->mNsbmd) - 1) {
+            frameIndex = StructMapObject_SomeFn_1(mapObject->mNsbmd) - 1;
         }
         mapObject->mModelAnimationFrameIndex = frameIndex;
     } else {
@@ -1460,7 +1460,7 @@ void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject) {
         }
         mapObject->mModelAnimationFrameIndex = frameIndex;
     }
-    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, mapObject->mModelAnimationFrameIndex);
+    StructMapObject_SomeFn_0(mapObject->mNsbmd, mapObject->mModelAnimationFrameIndex);
     AdvanceMissionRunMapObject(mapObjectList, mapObject);
 }
 
@@ -1473,7 +1473,7 @@ void InitIwante(MapObjectList *mapObjectList) {
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
             InitMissionRunMapObject(mapObjectList, obj, "iwante_l.nsbmd", "iwante_l.nsbca", "iwante_l.prm");

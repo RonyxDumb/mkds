@@ -95,7 +95,7 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *kart, s32 scale) {
     kart->mVelocity.z = MUL_FIXED12_NO_ROUND(kart->mVelocity.z, scale);
     if (SQUARE_SUM3(kart->mVelocity.x, kart->mVelocity.y, kart->mVelocity.z) >=
         0x10) {
-        length = Vec3NormalizeAndGetLengthUnchecked(&kart->mVelocity, &kart->mVelocityDirection);
+        length = Vector3_MaybeNormalize(&kart->mVelocity, &kart->mVelocityDirection);
     }
     kart->mVelocityLength = length;
     if (kart->mVelocityLength > KART_VELOCITY_LENGTH_MAX) {
@@ -112,7 +112,7 @@ void AdvanceKartQuaternionFromVector(Kart *kart, Vec3 *target) {
     Vec4 *kartQuaternion = &kart->mAirTiltQuaternion;
     s32 succeeded;
 
-    succeeded = TryQuaternionFromVectors(&fromUpQuaternion, &gKartVec3UnitY, target);
+    succeeded = TryQuaternionFromVectors(&fromUpQuaternion, &g_UnitY_VecFx32, target);
     TryQuaternionFromVectors(&fromGroundQuaternion, &kart->mGroundNormal, target);
     QuaternionMultiply(&fromGroundQuaternion, kartQuaternion, kartQuaternion);
     if (succeeded != 0) {

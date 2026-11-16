@@ -69,7 +69,7 @@ u32 ConnectStart(ACWORK *work) {
 
     bssDesc = &work->mBssDesc[work->mConnectNo];
     work->mConnectApType = GetConnectType(work);
-    MI_CpuFill8(&work->mWepKey, 0, sizeof(WCMWepDesc));
+    Mem_CpuFill8(&work->mWepKey, 0, sizeof(WCMWepDesc));
     if (FillApWepKey(work, work->mConnectApType, &work->mWepKey) != 0) {
         work->mAuthMode = 1;
         if (((bssDesc->mCapaInfo >> 4) & 1) == 0) {
@@ -123,7 +123,7 @@ u32 ConnectAP(ACWORK *work) {
         WCM_ConnectAsync(bssDesc, &work->mWepKey, powerMode | GetAuthMode(work));
     } else if (connPhase == WIFI_LINK_PHASE_CONNECTED) {
         work->mCount = 0;
-        work->mTimeOut = OS_GetTick();
+        work->mTimeOut = Os_GetTick();
         return AC_PHASE_TEST_START;
     }
     return AC_PHASE_CONNECT_AP;

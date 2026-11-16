@@ -132,36 +132,36 @@ void DWCi_AC_SearchReStart(u32 phase) {
     work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     switch (phase) {
         case AC_PHASE_SEARCH_AROUND:
-            work->mTimeOut = OS_GetTick();
+            work->mTimeOut = Os_GetTick();
             ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
             break;
         case AC_PHASE_SEARCH_LISTED_CHANNELS:
-            work->mTimeOut = OS_GetTick();
+            work->mTimeOut = Os_GetTick();
             ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
                       work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
             break;
         case AC_PHASE_SEARCH_HIDDEN:
-            work->mTimeOut = OS_GetTick();
+            work->mTimeOut = Os_GetTick();
             ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
             break;
     }
 }
 
 u32 SearchStart(ACWORK *work) {
-    work->mTimeOut = OS_GetTick();
+    work->mTimeOut = Os_GetTick();
     work->mSearchChannel = 0;
-    work->mTimeOut = OS_GetTick();
+    work->mTimeOut = Os_GetTick();
     ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
     return 3;
 }
 
 u32 SearchAround(ACWORK *work) {
-    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x12c) {
+    if ((Os_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x12c) {
         work->mSearchChannel += 2;
         if (work->mSearchChannel >= 0xd) {
             return NextSearchCheck(work, 3);
         }
-        work->mTimeOut = OS_GetTick();
+        work->mTimeOut = Os_GetTick();
         ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
     }
     return 3;
@@ -176,7 +176,7 @@ u32 SearchAround2ndLap(ACWORK *work) {
 }
 
 u32 SearchDifferChannel(ACWORK *work) {
-    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
+    if ((Os_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
         work->mSearchList[work->mSearchListNo].mBeaconReceived == 1) {
         work->mSearchList[work->mSearchListNo].mBeaconReceived = 0;
         work->mSearchListNo++;
@@ -184,7 +184,7 @@ u32 SearchDifferChannel(ACWORK *work) {
             work->mSearchListNo = 0;
             return NextSearchCheck(work, 4);
         }
-        work->mTimeOut = OS_GetTick();
+        work->mTimeOut = Os_GetTick();
         ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
                   work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
     }
@@ -192,7 +192,7 @@ u32 SearchDifferChannel(ACWORK *work) {
 }
 
 u32 SearchStealth(ACWORK *work) {
-    if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
+    if ((Os_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
         work->mSearchList[work->mSearchListNo].mBeaconReceived == 1) {
         work->mSearchList[work->mSearchListNo].mBeaconReceived = 0;
         work->mSearchListNo++;
@@ -205,7 +205,7 @@ u32 SearchStealth(ACWORK *work) {
             work->mCount = 0;
             return NextSearchCheck(work, 5);
         }
-        work->mTimeOut = OS_GetTick();
+        work->mTimeOut = Os_GetTick();
         ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
     }
     return 5;

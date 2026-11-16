@@ -12,10 +12,10 @@
 #include "registers.h"
 
 u32 GetSceneRunStep(void) {
-    return (gSceneRunState->mRunStep);
+    return (g_GlobalZM->mRunStep);
 }
 
-u32 SceneRunPAD_DetectFold(void) {
+u32 Pad_DetectFolding(void) {
     u32 foldState;
     foldState = 0x27fffa8u;
     foldState = *(const u16 *) ((foldState) + (0));
@@ -24,10 +24,10 @@ u32 SceneRunPAD_DetectFold(void) {
     return foldState;
 }
 
-void SetMainMasterBrightness(s32 brightness) {
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, brightness);
+void SetTopBrightness(s32 brightness) {
+    SetBrightness(&reg_GX_MASTER_BRIGHT, brightness);
 }
 
-void SetSubMasterBrightness(s32 brightness) {
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, brightness);
+void SetBottomBrightness(s32 brightness) {
+    SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, brightness);
 }

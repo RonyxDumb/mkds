@@ -3,7 +3,7 @@
 #include "types.h"
 #include "model_material_set.h"
 
-void InitMatrices(void);
+void AllocateSomeDtcmBuffers_from_thumb(void);
 
 extern struct MtxFx43 *gViewRotatedMatrix;
 extern struct MtxFx43 *gTranslationMatrix;

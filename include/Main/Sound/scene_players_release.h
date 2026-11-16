@@ -17,7 +17,7 @@ typedef struct ScenePlayers ScenePlayers;
 
 void ReleaseScenePlayers(ScenePlayers *scenePlayers, s32 unused);
 
-void ScenePlayersNop(ScenePlayers *scenePlayers);
+void nullsub_14(ScenePlayers *scenePlayers);
 
 void StartScenePlayersForScene(ScenePlayers *scenePlayers);
 void StartScenePlayersForRace(ScenePlayers *scenePlayers);
@@ -25,4 +25,4 @@ void StartScenePlayersSeqNo(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlay
 void StartScenePlayersSeq(ScenePlayers *scenePlayers);
 void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps);
 
-void UpdateScenePlayersNop(ScenePlayers *scenePlayers);
+void nullsub_15(ScenePlayers *scenePlayers);

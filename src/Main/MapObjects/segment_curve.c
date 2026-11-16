@@ -57,12 +57,12 @@ void SetupGroupFollowerAtEntry(GroupFollower *follower, u16 entryIndex, s32 asce
     if (follower->mForward == 0 && path->mWraps != 0 && entryIndex == path->mSegmentCount) {
         currentIndex = 0;
     }
-    follower->mFromEntry = GetCourseMapGroupEntry(follower->mGroupIndex, currentIndex);
+    follower->mFromEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, currentIndex);
     nextIndex = follower->mForward != 0 ? entryIndex + 1 : entryIndex - 1;
     if (follower->mForward != 0 && path->mWraps != 0 && nextIndex == path->mSegmentCount) {
         nextIndex = 0;
     }
-    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, nextIndex);
+    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, nextIndex);
 }
 
 BOOL AdvanceGroupFollower(GroupFollower *follower) {
@@ -80,7 +80,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                         follower->mProgress, path->mSegments[follower->mSegmentIndex].mProgressLength);
                     follower->mSegmentIndex = 0;
                     follower->mFromEntry = follower->mToEntry;
-                    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, 1);
+                    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, 1);
                     speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                     if (speedScale != 0) {
                         follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);
@@ -91,7 +91,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     follower->mForward = 0;
                     follower->mProgress = SEGMENT_PROGRESS_END;
                     follower->mFromEntry = follower->mToEntry;
-                    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, follower->mSegmentIndex);
+                    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, follower->mSegmentIndex);
                 }
             } else {
                 follower->mProgress -= SEGMENT_PROGRESS_END;
@@ -100,9 +100,9 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                 follower->mSegmentIndex = follower->mSegmentIndex + 1;
                 follower->mFromEntry = follower->mToEntry;
                 if (follower->mSegmentIndex == path->mSegmentCount - 1 && path->mWraps != 0) {
-                    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, 0);
+                    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, 0);
                 } else {
-                    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, follower->mSegmentIndex + 1);
+                    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, follower->mSegmentIndex + 1);
                 }
                 speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                 if (speedScale != 0) {
@@ -123,7 +123,7 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                         MUL_FIXED12_NO_ROUND(follower->mProgress, path->mSegments[segmentIndex].mProgressLength);
                     follower->mSegmentIndex = path->mSegmentCount - 1;
                     follower->mFromEntry = follower->mToEntry;
-                    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, path->mSegmentCount - 1);
+                    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, path->mSegmentCount - 1);
                     speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                     if (speedScale != 0) {
                         follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);
@@ -135,14 +135,14 @@ BOOL AdvanceGroupFollower(GroupFollower *follower) {
                     follower->mForward = 1;
                     follower->mProgress = 0;
                     follower->mFromEntry = follower->mToEntry;
-                    follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, 1);
+                    follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, 1);
                 }
             } else {
                 follower->mProgress =
                     MUL_FIXED12_NO_ROUND(follower->mProgress, path->mSegments[segmentIndex].mProgressLength);
                 follower->mSegmentIndex = follower->mSegmentIndex - 1;
                 follower->mFromEntry = follower->mToEntry;
-                follower->mToEntry = GetCourseMapGroupEntry(follower->mGroupIndex, follower->mSegmentIndex);
+                follower->mToEntry = GetLoadedNkmPathEntryPOIT(follower->mGroupIndex, follower->mSegmentIndex);
                 speedScale = path->mSegments[follower->mSegmentIndex].mInverseProgressLength;
                 if (speedScale != 0) {
                     follower->mProgress = MUL_FIXED24_NO_ROUND(follower->mProgress, speedScale);

@@ -27,6 +27,6 @@ typedef struct MBiCacheList {
     /* 30 */ MBiCacheInfo mList[4];
 } MBiCacheList;
 
-void MBi_InitCache(MBiCacheList *table);
+void MemsetSomeObject_from_thumb(MBiCacheList *table);
 u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 byteCount);
 void MBi_AttachCacheBuffer(MBiCacheList *table, u32 offset, u32 size, u8 *data, u32 value);

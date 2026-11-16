@@ -3,13 +3,13 @@
 #include "00/Lib/DWC/access_point_manager.h"
 
 // Sets up a frame heap over startAddress to endAddress with nothing allocated.
-NNSiFndHeapHead *InitFrameHeap(void *startAddress, void *endAddress, u16 optFlag) {
+NNSiFndHeapHead *Mem_Frame_Initialize(void *startAddress, void *endAddress, u16 optFlag) {
     NNSiFndHeapHead *heap;
     NNSiFndFrmHeapHead *frmHeap;
 
     heap = startAddress;
     frmHeap = FRAME_HEAP_HEAD(heap);
-    NNSi_FndInitHeapHead(heap, HEAP_SIGNATURE_FRAME_HEAP, frmHeap + 1, endAddress, optFlag);
+    Mem_InitializeHeapHead(heap, HEAP_SIGNATURE_FRAME_HEAP, frmHeap + 1, endAddress, optFlag);
     frmHeap->mHeadAllocator = heap->mHeapStart;
     frmHeap->mTailAllocator = heap->mHeapEnd;
     frmHeap->mState = 0;
@@ -17,7 +17,7 @@ NNSiFndHeapHead *InitFrameHeap(void *startAddress, void *endAddress, u16 optFlag
 }
 
 // Takes size bytes from the front of the free memory, aligned to alignment, and returns them or NULL.
-void *AllocFromHead_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
+void *Mem_Frame_AllocFromHead(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
     u32 mask;
     u32 start;
     u32 end;
@@ -45,7 +45,7 @@ void *AllocFromHead_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
 }
 
 // Takes size bytes from the end of the free memory, aligned to alignment, and returns them or NULL.
-void *AllocFromTail_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
+void *Mem_Frame_AllocFromTail(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
     u32 mask;
     u8 *oldTail;
     u8 *start;
@@ -71,7 +71,7 @@ void *AllocFromTail_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
 }
 
 // Frees everything taken from the front of the heap and drops the recorded states.
-void FreeHead(NNSiFndHeapHead *heap) {
+void Mem_Frame_ResetFromHead(NNSiFndHeapHead *heap) {
     NNSiFndFrmHeapHead *frmHeap;
 
     frmHeap = FRAME_HEAP_HEAD(heap);
@@ -80,7 +80,7 @@ void FreeHead(NNSiFndHeapHead *heap) {
 }
 
 // Frees everything taken from the back of the heap, also in the recorded states.
-void FreeTail(NNSiFndHeapHead *heap) {
+void Mem_Frame_ResetFromTail(NNSiFndHeapHead *heap) {
     NNSiFndFrmHeapState *state;
     NNSiFndFrmHeapHead *frmHeap;
 
@@ -96,7 +96,7 @@ void FreeTail(NNSiFndHeapHead *heap) {
 }
 
 // Sets up a frame heap in the memory of size bytes at startAddress, or returns NULL when it is too small.
-NNSFndHeapHandle NNS_FndCreateFrmHeapEx(void *startAddress, u32 size, u16 optFlag) {
+NNSFndHeapHandle Mem_Frame_Create(void *startAddress, u32 size, u16 optFlag) {
     void *bufferEnd;
 
     bufferEnd = (void *) ((size + (u32) startAddress) & ~3);
@@ -104,17 +104,17 @@ NNSFndHeapHandle NNS_FndCreateFrmHeapEx(void *startAddress, u32 size, u16 optFla
     if (startAddress > bufferEnd || (u32) bufferEnd - (u32) startAddress < 0x30) {
         return 0;
     }
-    return InitFrameHeap(startAddress, bufferEnd, optFlag);
+    return Mem_Frame_Initialize(startAddress, bufferEnd, optFlag);
 }
 
 // Takes the heap out of the heap list; its memory stays with the caller.
-void NNS_FndDestroyFrmHeap(NNSFndHeapHandle heap) {
-    NNSi_FndFinalizeHeap(heap);
+void Mem_Frame_Finalize(NNSFndHeapHandle heap) {
+    Mem_FinalizeHeapHead(heap);
 }
 
 // Allocates size bytes, rounded up to a multiple of 4 and at least 4, from the front of the heap, or from the back when
 // alignment is negative.
-void *NNS_FndAllocFromFrmHeapEx(NNSFndHeapHandle heap, u32 size, int alignment) {
+void *Mem_Frame_Allocate(NNSFndHeapHandle heap, u32 size, int alignment) {
     NNSiFndFrmHeapHead *frmHeap;
 
     frmHeap = FRAME_HEAP_HEAD(heap);
@@ -123,29 +123,29 @@ void *NNS_FndAllocFromFrmHeapEx(NNSFndHeapHandle heap, u32 size, int alignment) 
     }
     size = (size + 3) & ~3;
     if (alignment >= 0) {
-        return AllocFromHead_(frmHeap, size, alignment);
+        return Mem_Frame_AllocFromHead(frmHeap, size, alignment);
     }
-    return AllocFromTail_(frmHeap, size, -alignment);
+    return Mem_Frame_AllocFromTail(frmHeap, size, -alignment);
 }
 
 // Frees the front of the heap for bit 0 of mode and the back for bit 1.
-void NNS_FndFreeToFrmHeap(NNSFndHeapHandle heap, int mode) {
+void Mem_ResetFrameHeap(NNSFndHeapHandle heap, int mode) {
     if (mode & 1) {
-        FreeHead(heap);
+        Mem_Frame_ResetFromHead(heap);
     }
     if (mode & 2) {
-        FreeTail(heap);
+        Mem_Frame_ResetFromTail(heap);
     }
 }
 
 // Returns the size of the largest block that can be allocated with the given alignment (its sign is ignored).
-u32 NNS_FndGetAllocatableSizeForFrmHeapEx(NNSFndHeapHandle heap, int alignment) {
+u32 Mem_Frame_GetAllocatableSize(NNSFndHeapHandle heap, int alignment) {
     u32 mask;
     u8 *start;
     u8 *tail;
     NNSiFndFrmHeapHead *frmHeap;
 
-    mask = Abs(alignment);
+    mask = abs(alignment);
     frmHeap = FRAME_HEAP_HEAD(heap);
     tail = frmHeap->mTailAllocator;
     start = (u8 *) (((mask - 1) + (u32) frmHeap->mHeadAllocator) & ~(mask - 1));
@@ -157,14 +157,14 @@ u32 NNS_FndGetAllocatableSizeForFrmHeapEx(NNSFndHeapHandle heap, int alignment) 
 
 // Records both allocation positions under tagName in a 16-byte entry taken from the front; returns 0 when there is no
 // room for it.
-BOOL NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
+BOOL Mem_CreateFrameHeapState(NNSFndHeapHandle heap, u32 tagName) {
     u8 *oldHead;
     NNSiFndFrmHeapState *state;
     NNSiFndFrmHeapHead *frmHeap;
 
     frmHeap = FRAME_HEAP_HEAD(heap);
     oldHead = frmHeap->mHeadAllocator;
-    state = AllocFromHead_(frmHeap, 0x10, 4);
+    state = Mem_Frame_AllocFromHead(frmHeap, 0x10, 4);
     if (state == 0) {
         return 0;
     }
@@ -177,7 +177,7 @@ BOOL NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
 }
 
 // Goes back to the state recorded under tagName, or to the newest one when tagName is 0; returns 0 when there is none.
-BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
+BOOL Mem_RestoreFrameHeapState(NNSFndHeapHandle heap, u32 tagName) {
     NNSiFndFrmHeapState *state;
     NNSiFndFrmHeapHead *frmHeap;
 
@@ -202,7 +202,7 @@ BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName) {
 
 // Cuts the end of the heap back to the allocated front and returns the new size of the heap; returns 0 when memory is
 // allocated from the back.
-u32 NNS_FndAdjustFrmHeap(NNSFndHeapHandle heap) {
+u32 Mem_Frame_SomeFn4(NNSFndHeapHandle heap) {
     NNSiFndFrmHeapHead *frmHeap;
 
     frmHeap = FRAME_HEAP_HEAD(heap);

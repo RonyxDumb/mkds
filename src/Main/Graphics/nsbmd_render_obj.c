@@ -32,18 +32,18 @@
 #include "frame_texture_vram_alloc.h"
 
 const Vec3 gKartEffectVec3UnitY = {0, 0x1000, 0};
-const Vec3 gKartEffectVec3Zero = {0, 0, 0};
+const Vec3 g_SomeVec = {0, 0, 0};
 
 // Appends the entry for file b, uploads the texture of file c, and binds the model set of b to it when there is one.
-void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
+void LoadedModelTexture_SomeFn(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
 
-    modelSet = NNS_G3dGetMdlSet(modelFile);
-    texture = NNS_G3dGetTex(textureFile);
+    modelSet = Nsbmd_GetMDL0Block(modelFile);
+    texture = Nsbtx_GetTEX0Block(textureFile);
     entry->mTexture = NULL;
     entry->mFile = NULL;
-    NNS_FndAppendListObject(&gResFileEntries, entry);
+    IntrusiveListWrapper_InsertLast(&g_LoadedModelTextureList, entry);
     entry->mFile = modelFile;
     if (texture == NULL) {
         return;
@@ -54,7 +54,7 @@ void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3d
     texture->mTex4x4Info.mVramKey = 0;
     texture->mPlttInfo.mFlag &= ~1;
     texture->mPlttInfo.mVramKey = 0;
-    UploadResTexture(texture);
+    Tex0Block_MaybePrepareFields(texture);
     entry->mTexture = texture;
     if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
         NNS_G3dBindMdlSet(modelSet, texture);
@@ -62,7 +62,7 @@ void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3d
 }
 
 // Gets VRAM for the texture, 4x4 texture and palette blocks and loads them; 0 if loaded already or a block fails.
-u32 UploadResTexture(NNSG3dResTex *texture) {
+u32 Tex0Block_MaybePrepareFields(NNSG3dResTex *texture) {
     u32 tex4x4Value;
     u32 texValue;
     u32 plttValue;
@@ -75,9 +75,9 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
         (texture->mPlttInfo.mFlag & 1) != 0) {
         result = 0;
     } else {
-        texValue = NNS_G3dTexGetRequiredSize(texture);
-        tex4x4Value = NNS_G3dTex4x4GetRequiredSize(texture);
-        plttValue = NNS_G3dPlttGetRequiredSize(texture);
+        texValue = Tex0Block_GetTextureDataSize(texture);
+        tex4x4Value = Tex0Block_GetCompressedTextureDataSize(texture);
+        plttValue = Tex0Block_GetPaletteDataSize(texture);
         if (texValue != 0) {
             texValue = NNS_GfdDefaultFuncAllocTexVram(texValue, 0, 0);
             if (texValue == 0) {
@@ -109,21 +109,21 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
             NNS_GfdDefaultFuncFreeTexVram(texValue);
             return 0;
         }
-        NNS_G3dTexSetTexKey(texture, texValue, tex4x4Value);
-        NNS_G3dPlttSetPlttKey(texture, plttValue);
-        NNS_G3dTexLoad(texture, 1);
-        NNS_G3dPlttLoad(texture, 1);
+        Tex0Block_SetTexturesVramKeys(texture, texValue, tex4x4Value);
+        Tex0Block_SetPaletteVramKey(texture, plttValue);
+        Tex0Block_MaybeCopyTexturesToMem(texture, 1);
+        Tex0Block_MaybeCopyPaletteToMem(texture, 1);
     }
     return result;
 }
 
 // With c non-zero and scene number 2 it swaps cull modes 1 and 2 when byte 0x57 of the game record is set.
-void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
+void StructML_MaybeInnerLoadModel(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     u32 materialIndex;
     NNSG3dResMdl *objResMdl;
 
-    if (allowCullSwap != 0 && GetCurrentSceneNumber() == 2) {
-        nsbmd->mCullModesSwapped = gRaceSetup->mMirrorMode;
+    if (allowCullSwap != 0 && GetCurrentSceneId() == 2) {
+        nsbmd->mCullModesSwapped = g_GlobalCO->mMirrorMode;
     } else {
         nsbmd->mCullModesSwapped = 0;
     }
@@ -132,14 +132,14 @@ void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     } else {
         nsbmd->mDrawKind = 0;
     }
-    NNS_G3dRenderObjInit(&nsbmd->mRenderObj, resMdl);
+    StructML_MaybeSetModel(&nsbmd->mRenderObj, resMdl);
     if (nsbmd->mCullModesSwapped != 0) {
         objResMdl = nsbmd->mResMdl;
         for (materialIndex = 0; materialIndex < objResMdl->mInfo.mNumMat; materialIndex++) {
-            if (NNS_G3dMdlGetMdlCullMode(objResMdl, materialIndex) == 1) {
-                NNS_G3dMdlSetMdlCullMode(objResMdl, materialIndex, 2);
-            } else if (NNS_G3dMdlGetMdlCullMode(objResMdl, materialIndex) == 2) {
-                NNS_G3dMdlSetMdlCullMode(objResMdl, materialIndex, 1);
+            if (ModelBlock_SomeTexPltFn_0(objResMdl, materialIndex) == 1) {
+                ModelBlock_SomeTexPltFn_1(objResMdl, materialIndex, 2);
+            } else if (ModelBlock_SomeTexPltFn_0(objResMdl, materialIndex) == 2) {
+                ModelBlock_SomeTexPltFn_1(objResMdl, materialIndex, 1);
             }
         }
     }
@@ -151,7 +151,7 @@ void SetNsbmdCullModeMirrored(Nsbmd *nsbmd) {
 
     resMdl = nsbmd->mResMdl;
     for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
-        NNS_G3dMdlSetMdlCullMode(resMdl, materialIndex, 1);
+        ModelBlock_SomeTexPltFn_1(resMdl, materialIndex, 1);
     }
 }
 
@@ -161,25 +161,25 @@ void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd) {
 
     resMdl = nsbmd->mResMdl;
     for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
-        NNS_G3dMdlSetMdlCullMode(resMdl, materialIndex, 2);
+        ModelBlock_SomeTexPltFn_1(resMdl, materialIndex, 2);
     }
 }
 
-void InitNsbmdRenderObjWrapper(Nsbmd *nsbmd, NNSG3dResMdl *resMdl) {
-    InitNsbmdRenderObj(nsbmd, resMdl, 1);
+void StructML_SomeFn(Nsbmd *nsbmd, NNSG3dResMdl *resMdl) {
+    StructML_MaybeInnerLoadModel(nsbmd, resMdl, 1);
 }
 
-NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
+NNSG3dResMdl *StructML_LoadModel2(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
 
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
     NNSG3dResDictEntryHeader *entries;
 
-    modelSet = NNS_G3dGetMdlSet(file);
-    texture = NNS_G3dGetTex(file);
+    modelSet = Nsbmd_GetMDL0Block(file);
+    texture = Nsbtx_GetTEX0Block(file);
     nsbmd->mResFileEntry.mTexture = NULL;
     nsbmd->mResFileEntry.mFile = NULL;
-    NNS_FndAppendListObject(&gResFileEntries, &nsbmd->mResFileEntry);
+    IntrusiveListWrapper_InsertLast(&g_LoadedModelTextureList, &nsbmd->mResFileEntry);
     nsbmd->mResFileEntry.mFile = file;
     if (texture != NULL) {
         texture->mTexInfo.mFlag &= ~1;
@@ -188,30 +188,30 @@ NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
         texture->mTex4x4Info.mVramKey = 0;
         texture->mPlttInfo.mFlag &= ~1;
         texture->mPlttInfo.mVramKey = 0;
-        UploadResTexture(texture);
+        Tex0Block_MaybePrepareFields(texture);
         nsbmd->mResFileEntry.mTexture = texture;
         if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSet = NNS_G3dGetMdlSet(file);
+    modelSet = Nsbmd_GetMDL0Block(file);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
-    InitNsbmdRenderObj(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
+    StructML_MaybeInnerLoadModel(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
     return nsbmd->mResMdl;
 }
 
-NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
+NNSG3dResMdl *StructML_LoadModelAndTextures2(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
     Nsbmd *nsbmdAlias = nsbmd;
 
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
     NNSG3dResDictEntryHeader *entries;
 
-    modelSet = NNS_G3dGetMdlSet(modelFile);
-    texture = NNS_G3dGetTex(textureFile);
+    modelSet = Nsbmd_GetMDL0Block(modelFile);
+    texture = Nsbtx_GetTEX0Block(textureFile);
     nsbmdAlias->mResFileEntry.mTexture = NULL;
     nsbmdAlias->mResFileEntry.mFile = NULL;
-    NNS_FndAppendListObject(&gResFileEntries, &nsbmdAlias->mResFileEntry);
+    IntrusiveListWrapper_InsertLast(&g_LoadedModelTextureList, &nsbmdAlias->mResFileEntry);
     nsbmdAlias->mResFileEntry.mFile = modelFile;
     if (texture != NULL) {
         texture->mTexInfo.mFlag &= ~1;
@@ -220,28 +220,28 @@ NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelF
         texture->mTex4x4Info.mVramKey = 0;
         texture->mPlttInfo.mFlag &= ~1;
         texture->mPlttInfo.mVramKey = 0;
-        UploadResTexture(texture);
+        Tex0Block_MaybePrepareFields(texture);
         nsbmdAlias->mResFileEntry.mTexture = texture;
         if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSet = NNS_G3dGetMdlSet(modelFile);
+    modelSet = Nsbmd_GetMDL0Block(modelFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
-    InitNsbmdRenderObj(nsbmdAlias, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
+    StructML_MaybeInnerLoadModel(nsbmdAlias, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
     return nsbmdAlias->mResMdl;
 }
 
-NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
+NNSG3dResMdl *StructML_LoadModel(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
     NNSG3dResDictEntryHeader *entries;
 
-    modelSet = NNS_G3dGetMdlSet(file);
-    texture = NNS_G3dGetTex(file);
+    modelSet = Nsbmd_GetMDL0Block(file);
+    texture = Nsbtx_GetTEX0Block(file);
     nsbmd->mResFileEntry.mTexture = NULL;
     nsbmd->mResFileEntry.mFile = NULL;
-    NNS_FndAppendListObject(&gResFileEntries, &nsbmd->mResFileEntry);
+    IntrusiveListWrapper_InsertLast(&g_LoadedModelTextureList, &nsbmd->mResFileEntry);
     nsbmd->mResFileEntry.mFile = file;
     if (texture != NULL) {
         texture->mTexInfo.mFlag &= ~1;
@@ -250,20 +250,20 @@ NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) 
         texture->mTex4x4Info.mVramKey = 0;
         texture->mPlttInfo.mFlag &= ~1;
         texture->mPlttInfo.mVramKey = 0;
-        UploadResTexture(texture);
+        Tex0Block_MaybePrepareFields(texture);
         nsbmd->mResFileEntry.mTexture = texture;
         if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSet = NNS_G3dGetMdlSet(file);
+    modelSet = Nsbmd_GetMDL0Block(file);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
-    InitNsbmdRenderObj(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 0);
+    StructML_MaybeInnerLoadModel(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 0);
     return nsbmd->mResMdl;
 }
 
 // Fills the object from model file c and texture file d, then keeps a heap copy of the texture block's header part.
-NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
+NNSG3dResMdl *StructML_LoadModelAndTextures(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
                                            NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
@@ -273,11 +273,11 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
     ResFileEntry *entry;
     NNSG3dResMdl *resMdl;
 
-    modelSet = NNS_G3dGetMdlSet(modelFile);
-    texture = NNS_G3dGetTex(textureFile);
+    modelSet = Nsbmd_GetMDL0Block(modelFile);
+    texture = Nsbtx_GetTEX0Block(textureFile);
     nsbmd->mResFileEntry.mTexture = NULL;
     nsbmd->mResFileEntry.mFile = NULL;
-    NNS_FndAppendListObject(&gResFileEntries, &nsbmd->mResFileEntry);
+    IntrusiveListWrapper_InsertLast(&g_LoadedModelTextureList, &nsbmd->mResFileEntry);
     nsbmd->mResFileEntry.mFile = modelFile;
     if (texture != NULL) {
         texture->mTexInfo.mFlag &= ~1;
@@ -286,22 +286,22 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
         texture->mTex4x4Info.mVramKey = 0;
         texture->mPlttInfo.mFlag &= ~1;
         texture->mPlttInfo.mVramKey = 0;
-        UploadResTexture(texture);
+        Tex0Block_MaybePrepareFields(texture);
         nsbmd->mResFileEntry.mTexture = texture;
         if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSet = NNS_G3dGetMdlSet(modelFile);
+    modelSet = Nsbmd_GetMDL0Block(modelFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
-    InitNsbmdRenderObj(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
+    StructML_MaybeInnerLoadModel(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0)), 1);
     entry = &nsbmd->mResFileEntry;
     loadedTexture = entry->mTexture;
     resMdl = nsbmd->mResMdl;
     if (loadedTexture != NULL) {
         headerSize = loadedTexture->mTexInfo.mOfsTex;
-        entry->mTexture = HeapAlloc(heap, headerSize);
-        MI_CpuCopy8(loadedTexture, entry->mTexture, headerSize);
+        entry->mTexture = Mem_AllocateHeap(heap, headerSize);
+        Mem_CpuCopy8(loadedTexture, entry->mTexture, headerSize);
     }
     return resMdl;
 }
@@ -316,8 +316,8 @@ void SetNsbmdFirstDrawMaterial(Nsbmd *nsbmd, u8 alpha) {
     } else {
         cullMode = 1;
     }
-    NNS_G3dMdlSetMdlPolygonID(resMdl, 0, 0);
-    NNS_G3dMdlSetMdlCullMode(resMdl, 0, cullMode);
+    ModelBlock_SomeTexPltFn_3(resMdl, 0, 0);
+    ModelBlock_SomeTexPltFn_1(resMdl, 0, cullMode);
     NNS_G3dMdlSetMdlAlpha(resMdl, 0, alpha);
 }
 
@@ -331,8 +331,8 @@ void SetNsbmdSecondDrawMaterial(Nsbmd *nsbmd, u8 alpha, u8 polygonId) {
     } else {
         cullMode = 2;
     }
-    NNS_G3dMdlSetMdlPolygonID(resMdl, 0, polygonId);
-    NNS_G3dMdlSetMdlCullMode(resMdl, 0, cullMode);
+    ModelBlock_SomeTexPltFn_3(resMdl, 0, polygonId);
+    ModelBlock_SomeTexPltFn_1(resMdl, 0, cullMode);
     NNS_G3dMdlSetMdlAlpha(resMdl, 0, alpha);
 }
 
@@ -360,41 +360,41 @@ void DrawNsbmd(Nsbmd *nsbmd) {
     gNsbmdDrawFunctions[nsbmd->mDrawKind](nsbmd);
 }
 
-void SetNsbmdPolygonIdAll(Nsbmd *nsbmd, u32 polygonId) {
+void StructML_MaybeProcessModelAnimations(Nsbmd *nsbmd, u32 polygonId) {
 
-    NNS_G3dMdlSetMdlPolygonIDAll(nsbmd->mResMdl, polygonId);
+    ModelBlock_SomeFn(nsbmd->mResMdl, polygonId);
 }
 
-void SetNsbmdLightEnableFlagAll(Nsbmd *nsbmd, u32 light) {
+void StructML_SomeFn_8(Nsbmd *nsbmd, u32 light) {
 
     NNS_G3dMdlSetMdlLightEnableFlagAll(nsbmd->mResMdl, light);
 }
 
-void SetNsbmdEmiAll(Nsbmd *nsbmd, u32 color) {
+void StructML_SomeFn_7(Nsbmd *nsbmd, u32 color) {
 
-    NNS_G3dMdlSetMdlEmiAll(nsbmd->mResMdl, color);
+    ModelBlock_SomeMatFn_3(nsbmd->mResMdl, color);
 }
 
-void SetNsbmdPolygonIdLightEmiAll(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color) {
+void StructML_SomeFn_1(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color) {
 
-    NNS_G3dMdlSetMdlPolygonIDAll(nsbmd->mResMdl, polygonId);
+    ModelBlock_SomeFn(nsbmd->mResMdl, polygonId);
     NNS_G3dMdlSetMdlLightEnableFlagAll(nsbmd->mResMdl, light);
-    NNS_G3dMdlSetMdlEmiAll(nsbmd->mResMdl, color);
+    ModelBlock_SomeMatFn_3(nsbmd->mResMdl, color);
 }
 
-void SetNsbmdCullModeAll(Nsbmd *nsbmd, u32 cullMode) {
+void StructML_SomeFn_0(Nsbmd *nsbmd, u32 cullMode) {
 
-    NNS_G3dMdlSetMdlCullModeAll(nsbmd->mResMdl, cullMode);
+    ModelBlock_SomeTexPltFn_2(nsbmd->mResMdl, cullMode);
 }
 
-// Frees the texture and palette memory of the file of every entry of gResFileEntries; the entries stay in the list.
-void ReleaseAllResFiles(void) {
+// Frees the texture and palette memory of the file of every entry of g_LoadedModelTextureList; the entries stay in the list.
+void MaybeDisposeLoadedModelTextures(void) {
     ResFileEntry *entry;
 
-    for (entry = NNS_FndGetNextListObject(&gResFileEntries, NULL); entry != NULL;
-         entry = NNS_FndGetNextListObject(&gResFileEntries, entry)) {
+    for (entry = IntrusiveListWrapper_NextItem(&g_LoadedModelTextureList, NULL); entry != NULL;
+         entry = IntrusiveListWrapper_NextItem(&g_LoadedModelTextureList, entry)) {
         if (entry->mFile != NULL) {
-            NNS_G3dResDefaultRelease(entry->mFile);
+            MaybeDisposeCommonHeaderFileData(entry->mFile);
         }
     }
 }
@@ -404,25 +404,25 @@ void InitKartEffectTables(void *heap) {
     u16 kartIndex;
     u16 effectIndex;
 
-    kartCount = gRaceSetup->mKartCount;
-    gKartEffectIdSetIndex = HeapAlloc(heap, kartCount * 2);
-    gKartStarEffects = HeapAlloc(heap, kartCount * 12);
-    gKartAheadEffects = HeapAlloc(heap, kartCount * 4);
-    gKartNearRankEffects = HeapAlloc(heap, kartCount * 4);
+    kartCount = g_GlobalCO->mKartCount;
+    gKartEffectIdSetIndex = Mem_AllocateHeap(heap, kartCount * 2);
+    gKartStarEffects = Mem_AllocateHeap(heap, kartCount * 12);
+    gKartAheadEffects = Mem_AllocateHeap(heap, kartCount * 4);
+    gKartNearRankEffects = Mem_AllocateHeap(heap, kartCount * 4);
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
         for (effectIndex = 0; effectIndex < 3; effectIndex++) {
             gKartStarEffects[kartIndex].mEffects[effectIndex] = NULL;
         }
         gKartAheadEffects[kartIndex] = NULL;
         gKartNearRankEffects[kartIndex] = NULL;
-        if (kartIndex == gRaceSetup->mEntryIndex) {
+        if (kartIndex == g_GlobalCO->mEntryIndex) {
             gKartEffectIdSetIndex[kartIndex] = 0;
         } else {
             gKartEffectIdSetIndex[kartIndex] = 1;
         }
     }
     gKartEffectColor = 0x7fff;
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_MANSION:
         case COURSE_ID_KOOPA:
             gKartEffectColor = 0x1667;
@@ -434,10 +434,10 @@ void InitKartEffectTables(void *heap) {
             gKartEffectColor = 0x3e67;
             break;
     }
-    gOtherKartFullPairCount = (gRaceSetup->mKartCount - 1) / 2;
-    gOtherKartOddCount = (gRaceSetup->mKartCount - 1) % 2;
+    gOtherKartFullPairCount = (g_GlobalCO->mKartCount - 1) / 2;
+    gOtherKartOddCount = (g_GlobalCO->mKartCount - 1) % 2;
     gStarEffectEngineScale = 0x1000;
-    switch (gRaceSetup->mEngineIndex) {
+    switch (g_GlobalCO->mEngineIndex) {
         case ENGINE_CLASS_SLOW:
             gStarEffectEngineScale = 0xb33;
             break;

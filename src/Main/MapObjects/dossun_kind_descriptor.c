@@ -66,7 +66,7 @@ void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     drawMatrix = &dossun->mMapObject.mMatrix;
     if (dossun->mHitState != DOSSUN_HIT_NONE) {
         drawMatrix = &gDossunDrawMatrix;
-        MTX_RotY33_(&gDossunDrawMatrix.mAxes, FX_SinIdx((u16) dossun->mSpinAngle), FX_CosIdx((u16) dossun->mSpinAngle));
+        MTX_RotY33__from_thumb(&gDossunDrawMatrix.mAxes, FX_SinIdx((u16) dossun->mSpinAngle), FX_CosIdx((u16) dossun->mSpinAngle));
         MTX_Concat33(&gDossunDrawMatrix.mAxes, &dossun->mMapObject.mMatrix.mAxes, &gDossunDrawMatrix.mAxes);
     }
     drawMatrix->mRows[3].x = dossun->mMapObject.mPos.x >> 4;
@@ -270,11 +270,11 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
     s64 horizontalScaledSquared;
     follower = &dossun->mFollower;
     if (*firstResponsePtr == 1) {
-        if ((dossun->mKartMask & (1 << kart->mIndex)) == 0 || dossun->mLastHitFrame + 0xf < GetRaceUpdateFrames()) {
-            VEC_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &kartOffset);
-            VEC_Subtract(&follower->mToEntry->mPos, &dossun->mMapObject.mPos, &toNextEntry);
+        if ((dossun->mKartMask & (1 << kart->mIndex)) == 0 || dossun->mLastHitFrame + 0xf < GetSomeTimeOrDuration()) {
+            VecFx32_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &kartOffset);
+            VecFx32_Subtract(&follower->mToEntry->mPos, &dossun->mMapObject.mPos, &toNextEntry);
             toNextEntry.y += dossun->mHeightOffset;
-            if (Vec3DotUnrounded(&kartOffset, &toNextEntry) > 0) {
+            if (VecFx32_CrossProduct_0(&kartOffset, &toNextEntry) > 0) {
                 ReverseGroupFollower(follower);
             }
             if (dossun->mState < DOSSUN_STATE_FOLLOW_ACCELERATING) {
@@ -293,11 +293,11 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
             }
             StartSoundIfKartStarOrKiller(&dossun->mMapObject, kart);
             dossun->mKartMask |= 1 << kart->mIndex;
-            dossun->mLastHitFrame = GetRaceUpdateFrames();
+            dossun->mLastHitFrame = GetSomeTimeOrDuration();
         }
     }
     if (dossun->mState == DOSSUN_STATE_FOLLOW_ACCELERATING || dossun->mEnteredWaitBeforeFollow != FALSE) {
-        VEC_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &centerOffset);
+        VecFx32_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &centerOffset);
         horizontalScaledSquared = (HORIZONTAL_LENGTH_SQUARED(centerOffset)) * 5;
         verticalOffset = centerOffset.y;
         verticalScaledSquared = ((s64) verticalOffset * verticalOffset) << 2;
@@ -375,9 +375,9 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
 
 #pragma thumb on
 void CreateDossunAndDossunShadow(void) {
-    CreateNsbmd(&gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
-    CreateShadowModel(&gDossunShadow, FindCourseMapObjFile("dossun_shadow.nsbmd"), 0x3f);
-    SetNsbmdPolygonIdLightEmiAll(gDossun, 0x3f, 2, 0x294a);
+    CreateNsbmd(&gDossun, FormatFindMapObjFileBuffer_from_thumb("dossun.nsbmd"), NULL);
+    CreateShadowModel(&gDossunShadow, FormatFindMapObjFileBuffer_from_thumb("dossun_shadow.nsbmd"), 0x3f);
+    StructML_SomeFn_1(gDossun, 0x3f, 2, 0x294a);
 }
 #pragma thumb off
 

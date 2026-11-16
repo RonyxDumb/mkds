@@ -73,7 +73,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
         lowestOffsetValue.y = radius * 2;
     }
     gCollisionHitCount = 0;
-    courseCollision = &gCourseCollision;
+    courseCollision = &g_LoadedCourseKclHeader;
     positionCopy = *position;
     if (prevPosition != NULL) {
         prevPositionCopy = *prevPosition;
@@ -111,11 +111,11 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
     while ((triangleIndex = *++triangleIndexCursor) != 0) {
         triangle = triangles[triangleIndex];
         trianglePoint = points[triangle.mPointIndex];
-        VEC_Subtract(&positionCopy, &trianglePoint, &relativePosition);
+        VecFx32_Subtract(&positionCopy, &trianglePoint, &relativePosition);
         triangleNormals[3].x = normals[triangle.mThirdEdgeNormalIndex].x;
         triangleNormals[3].y = normals[triangle.mThirdEdgeNormalIndex].y;
         triangleNormals[3].z = normals[triangle.mThirdEdgeNormalIndex].z;
-        dot = Vec3DotUnrounded(&relativePosition, &triangleNormals[3]);
+        dot = VecFx32_CrossProduct_0(&relativePosition, &triangleNormals[3]);
         if (dot < -radius) {
             continue;
         }
@@ -126,21 +126,21 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
         triangleNormals[1].x = normals[triangle.mFirstEdgeNormalIndex].x;
         triangleNormals[1].y = normals[triangle.mFirstEdgeNormalIndex].y;
         triangleNormals[1].z = normals[triangle.mFirstEdgeNormalIndex].z;
-        firstEdgeDistance = Vec3DotUnrounded(&relativePosition, &triangleNormals[1]);
+        firstEdgeDistance = VecFx32_CrossProduct_0(&relativePosition, &triangleNormals[1]);
         if (firstEdgeDistance >= radius) {
             continue;
         }
         triangleNormals[2].x = normals[triangle.mSecondEdgeNormalIndex].x;
         triangleNormals[2].y = normals[triangle.mSecondEdgeNormalIndex].y;
         triangleNormals[2].z = normals[triangle.mSecondEdgeNormalIndex].z;
-        secondEdgeDistance = Vec3DotUnrounded(&relativePosition, &triangleNormals[2]);
+        secondEdgeDistance = VecFx32_CrossProduct_0(&relativePosition, &triangleNormals[2]);
         if (secondEdgeDistance >= radius) {
             continue;
         }
         triangleNormals[0].x = normals[triangle.mPlaneNormalIndex].x;
         triangleNormals[0].y = normals[triangle.mPlaneNormalIndex].y;
         triangleNormals[0].z = normals[triangle.mPlaneNormalIndex].z;
-        planeDistance = Vec3DotUnrounded(&relativePosition, &triangleNormals[0]);
+        planeDistance = VecFx32_CrossProduct_0(&relativePosition, &triangleNormals[0]);
         penetration = radius - planeDistance;
         if (penetration >= 0 && penetration <= 0x1e000) {
             triangleFlags = triangle.mHitValue;
@@ -180,23 +180,23 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 if (prevPosition == NULL) {
                     continue;
                 }
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
+                VecFx32_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[1]) > 0) {
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[1]) > 0) {
                     continue;
                 }
             }
             if (secondEdgeDistance > thirdEdgeDistance) {
-                dot = Vec3DotUnrounded(&triangleNormals[1], &triangleNormals[2]);
+                dot = VecFx32_CrossProduct_0(&triangleNormals[1], &triangleNormals[2]);
                 if (MUL_FIXED12_NO_ROUND(dot, firstEdgeDistance) > secondEdgeDistance) {
                     goto ld;
                 } else {
                     goto lg;
                 }
             } else {
-                dot = Vec3DotUnrounded(&triangleNormals[1], &triangleNormals[3]);
+                dot = VecFx32_CrossProduct_0(&triangleNormals[1], &triangleNormals[3]);
                 if (MUL_FIXED12_NO_ROUND(dot, firstEdgeDistance) > thirdEdgeDistance) {
                     goto ld;
                 } else {
@@ -211,23 +211,23 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 if (prevPosition == NULL) {
                     continue;
                 }
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
+                VecFx32_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[2]) > 0) {
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[2]) > 0) {
                     continue;
                 }
             }
             if (thirdEdgeDistance > firstEdgeDistance) {
-                dot = Vec3DotUnrounded(&triangleNormals[2], &triangleNormals[3]);
+                dot = VecFx32_CrossProduct_0(&triangleNormals[2], &triangleNormals[3]);
                 if (MUL_FIXED12_NO_ROUND(dot, secondEdgeDistance) > thirdEdgeDistance) {
                     goto le;
                 } else {
                     goto lh;
                 }
             } else {
-                dot = Vec3DotUnrounded(&triangleNormals[2], &triangleNormals[1]);
+                dot = VecFx32_CrossProduct_0(&triangleNormals[2], &triangleNormals[1]);
                 if (MUL_FIXED12_NO_ROUND(dot, secondEdgeDistance) > firstEdgeDistance) {
                     goto le;
                 } else {
@@ -242,23 +242,23 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 if (prevPosition == NULL) {
                     continue;
                 }
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
+                VecFx32_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
                     continue;
                 }
             }
             if (firstEdgeDistance > secondEdgeDistance) {
-                dot = Vec3DotUnrounded(&triangleNormals[3], &triangleNormals[1]);
+                dot = VecFx32_CrossProduct_0(&triangleNormals[3], &triangleNormals[1]);
                 if (MUL_FIXED12_NO_ROUND(dot, thirdEdgeDistance) > firstEdgeDistance) {
                     goto lf;
                 } else {
                     goto li;
                 }
             } else {
-                dot = Vec3DotUnrounded(&triangleNormals[3], &triangleNormals[2]);
+                dot = VecFx32_CrossProduct_0(&triangleNormals[3], &triangleNormals[2]);
                 if (MUL_FIXED12_NO_ROUND(dot, thirdEdgeDistance) > secondEdgeDistance) {
                     goto lf;
                 } else {
@@ -271,7 +271,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 value = 0;
             }
             if (lowestOffset != NULL) {
-                VEC_MultAdd(-firstEdgeDistance, &triangleNormals[1], &offset, &offset);
+                VecFx32_AddScale1(-firstEdgeDistance, &triangleNormals[1], &offset, &offset);
             }
             goto lk;
         le:
@@ -280,7 +280,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 value = 0;
             }
             if (lowestOffset != NULL) {
-                VEC_MultAdd(-secondEdgeDistance, &triangleNormals[2], &offset, &offset);
+                VecFx32_AddScale1(-secondEdgeDistance, &triangleNormals[2], &offset, &offset);
             }
             goto lk;
         lf:
@@ -289,7 +289,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 value = 0;
             }
             if (lowestOffset != NULL) {
-                VEC_MultAdd(-thirdEdgeDistance, &triangleNormals[3], &offset, &offset);
+                VecFx32_AddScale1(-thirdEdgeDistance, &triangleNormals[3], &offset, &offset);
             }
             goto lk;
         lg:
@@ -309,7 +309,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 continue;
             }
             if (lowestOffset != NULL) {
-                VEC_Subtract(&offset, &relativePosition, &offset);
+                VecFx32_Subtract(&offset, &relativePosition, &offset);
             }
             value = 0;
         lk:
@@ -325,18 +325,18 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
             goto ln;
         lm:
             if (planeDistance < 0 && prevPosition != NULL) {
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
+                VecFx32_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[0]) < 0) {
                     if (queryFlags & 0x20) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&relativeVector, &triangleNormals[1]) > 0) {
+                    if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[1]) > 0) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&relativeVector, &triangleNormals[2]) > 0) {
+                    if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[2]) > 0) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&relativeVector, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
+                    if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
                         continue;
                     }
                 }
@@ -347,8 +347,8 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
             triangleHitBits |= 1 << (((triangleFlags & 0xc) >> 2) + 0x1a);
             triangleHitBits |= (triangleFlags & 2) << 0x17;
             if (prevPosition != NULL) {
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
-                dot = Vec3DotUnrounded(&relativeVector, &triangleNormals[0]);
+                VecFx32_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                dot = VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[0]);
                 if (dot < 0) {
                     if (value && (triangleHitBits & 0x214300) && vector != 0) {
                         relativePosition.x = ((s64) penetration * triangleNormals[0].x) >> 2;
@@ -371,8 +371,8 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                         continue;
                     }
                 }
-                VEC_Subtract(&positionCopy, &prevPositionCopy, &relativeVector);
-                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) > 0x333) {
+                VecFx32_Subtract(&positionCopy, &prevPositionCopy, &relativeVector);
+                if (VecFx32_CrossProduct_0(&relativeVector, &triangleNormals[0]) > 0x333) {
                     if (value && (triangleHitBits & 0x214300) && vector != 0) {
                         relativePosition.x = ((s64) penetration * triangleNormals[0].x) >> 2;
                         relativePosition.z = ((s64) penetration * triangleNormals[0].z) >> 2;
@@ -509,7 +509,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
             FindCollisionSlotsOverlappingSlot(collisionSlotIndex, 0x1000);
         }
         for (foundObjectIndex = 0; foundObjectIndex < gFoundCollisionSlotCount; foundObjectIndex++) {
-            foundObject = gFoundCollisionSlotObjects[foundObjectIndex];
+            foundObject = g_SomePointer7Size200[foundObjectIndex];
             if (ComputeSphereHitOnCollisionData(foundObject, position, radius, queryFlags, &firstHitRecord,
                                                 &secondHitRecord, lowestOffset != NULL ? &lowestOffsetValue : 0,
                                                 &hitBitIndex, pointMotion, angleChange)) {
@@ -613,10 +613,10 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 minXZOffset.z = MUL_FIXED12_NO_ROUND(maxXZOffset.z, (vector)->z);
                 maxXZOffset.x = maxXZOffset.x - MUL_FIXED12_NO_ROUND(minXZOffset.x, (vector)->x);
                 maxXZOffset.z = maxXZOffset.z - MUL_FIXED12_NO_ROUND(minXZOffset.z, (vector)->z);
-                VEC_Add(&firstHitRecord.mMaxOffset, &firstHitRecord.mMinOffset, &relativePosition);
-                if (Vec3DotUnrounded(&maxXZOffset, &relativePosition) >= 0) {
+                VecFx32_Add(&firstHitRecord.mMaxOffset, &firstHitRecord.mMinOffset, &relativePosition);
+                if (VecFx32_CrossProduct_0(&maxXZOffset, &relativePosition) >= 0) {
                     if (LENGTH_SQUARED(maxXZOffset) >= 16) {
-                        Vec3NormalizeAndGetLengthUnchecked(&maxXZOffset, &maxXZOffset);
+                        Vector3_MaybeNormalize(&maxXZOffset, &maxXZOffset);
                     }
                     maxXZOffset.x = MUL_FIXED12_NO_ROUND(maxXZOffset.x, radius >> 5);
                     maxXZOffset.y = MUL_FIXED12_NO_ROUND(maxXZOffset.y, radius >> 5);

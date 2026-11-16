@@ -3,9 +3,9 @@
 #include "types.h"
 #include "Main/Menu/menu_screens_work.h"
 
-void ReleaseSceneText(void);
+void DisposeNavigationContext_from_thumb(void);
 
-// Argument block of InitSceneText (ten words read from it).
+// Argument block of InitializeNavigationContext_from_thumb (ten words read from it).
 typedef struct SceneTextInitParams {
     /* 00 */ BOOL mUseTxtSystem;
     /* 04 */ void *mTxtSystemFont;
@@ -19,9 +19,9 @@ typedef struct SceneTextInitParams {
     /* 24 */ s32 mBackScreenKind;
 } SceneTextInitParams;
 
-// SceneText.mSubCharOffset before InitTxtSystem returns the real offset.
+// SceneText.mSubCharOffset before TextSystemContext_Initialize_from_thumb returns the real offset.
 #define SCENE_TEXT_SUB_CHAR_OFFSET 0x5800
 
-void InitSceneText(void *heap, SceneTextInitParams *config);
+void InitializeNavigationContext_from_thumb(void *heap, SceneTextInitParams *config);
 
-extern struct SceneText *gSceneText;
+extern struct SceneText *g_NavigationContext;

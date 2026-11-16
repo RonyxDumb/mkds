@@ -44,24 +44,24 @@ const StemSetParams gCountStartStems[3] = {{1, 1, 1, 2, {gStemNameCount, gStemNa
 const u16 gTimedQuadVertices[12] = {0xf000, 0x1000, 0, 0xf000, 0xf000, 0, 0x1000, 0xf000, 0, 0x1000, 0x1000, 0};
 void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *timedQuad) = {UpdateTimedQuad};
 void (*const gTimedQuadStartFunctions[1])(TimedQuad *timedQuad) = {StartTimedQuad};
-StemSets *gStemSets;
+StemSets *g_GlobalBO;
 
-void InitStemSets(void *heap) {
+void CreateGlobalBO(void *heap) {
     TimedQuad *timedQuad;
 
-    gStemSets = HeapAlloc(heap, sizeof(StemSets));
-    InitStemSetArray(heap);
-    gStemSets->mShownIndex = STEM_SET_NONE;
+    g_GlobalBO = Mem_AllocateHeap(heap, sizeof(StemSets));
+    LoadSeveralBMModels(heap);
+    g_GlobalBO->mShownIndex = STEM_SET_NONE;
     reg_G3_MTX_MODE = 0;
-    G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x200, 1, &gStemSets->mOrthoMtx);
-    timedQuad = &gStemSets->mTimedQuad;
-    gStemSets->mTimedQuad.mTimer = 0;
+    G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x200, 1, &g_GlobalBO->mOrthoMtx);
+    timedQuad = &g_GlobalBO->mTimedQuad;
+    g_GlobalBO->mTimedQuad.mTimer = 0;
     timedQuad->mAlpha = 0;
     timedQuad->mColor = TIMED_QUAD_COLOR_WHITE;
     timedQuad->mEnabled = FALSE;
 }
 
-void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex) {
+void LoadModelBMFromMD(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex) {
     char fileName[0x80];
     void *lastNsbmdFile;
     u16 nsbmdIndex;
@@ -81,94 +81,94 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     stemSet->mNsbcaNsbmaNsbtp[0] = stemSet->mNsbcaNsbmaNsbtp[1] = stemSet->mNsbcaNsbmaNsbtp[2] = NULL;
     useOneNsbtpAnimation = FALSE;
     if (stemSetParams->mNsbmdCount != 0) {
-        stemSet->mNsbmds = HeapAlloc(heap, stemSetParams->mNsbmdCount * sizeof(Nsbmd));
+        stemSet->mNsbmds = Mem_AllocateHeap(heap, stemSetParams->mNsbmdCount * sizeof(Nsbmd));
     }
     if (stemSetParams->mNsbcaCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[0] = HeapAlloc(heap, stemSetParams->mNsbcaCount * sizeof(ModelAnimation));
+        stemSet->mNsbcaNsbmaNsbtp[0] = Mem_AllocateHeap(heap, stemSetParams->mNsbcaCount * sizeof(ModelAnimation));
     }
     if (stemSetParams->mNsbmaCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[1] = HeapAlloc(heap, stemSetParams->mNsbmaCount * sizeof(ModelAnimation));
+        stemSet->mNsbcaNsbmaNsbtp[1] = Mem_AllocateHeap(heap, stemSetParams->mNsbmaCount * sizeof(ModelAnimation));
     }
     if (stemSetParams->mNsbmdCount == 1 && stemSetParams->mNsbtpCount > 1) {
-        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, sizeof(ModelAnimation));
+        stemSet->mNsbcaNsbmaNsbtp[2] = Mem_AllocateHeap(heap, sizeof(ModelAnimation));
         useOneNsbtpAnimation = TRUE;
     } else if (stemSetParams->mNsbtpCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, stemSetParams->mNsbtpCount * sizeof(ModelAnimation));
+        stemSet->mNsbcaNsbmaNsbtp[2] = Mem_AllocateHeap(heap, stemSetParams->mNsbtpCount * sizeof(ModelAnimation));
     }
     for (nsbmdIndex = 0; nsbmdIndex < stemSetParams->mNsbmdCount; nsbmdIndex++) {
         nsbmd = &stemSet->mNsbmds[nsbmdIndex];
-        snprintf(fileName, 0x80, "%s.nsbmd", stemSetParams->mStems[nsbmdIndex]);
-        lastNsbmdFile = FindSceneFile(fileName);
-        InitNsbmdWithoutCullSwap(nsbmd, lastNsbmdFile);
+        _snprintf(fileName, 0x80, "%s.nsbmd", stemSetParams->mStems[nsbmdIndex]);
+        lastNsbmdFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(fileName);
+        StructML_LoadModel(nsbmd, lastNsbmdFile);
     }
     for (nsbcaIndex = 0; nsbcaIndex < stemSetParams->mNsbcaCount; nsbcaIndex++) {
         nsbcaModel = &stemSet->mNsbmds[nsbcaIndex];
         nsbcaAnimation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
-        snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
-        InitModelAnimation(0, nsbcaAnimation, nsbcaModel, 1, heap, NULL);
-        InitModelAnimationEntries(nsbcaAnimation, FindSceneFile(fileName), heap);
-        SetModelAnimation(nsbcaAnimation, 0);
+        _snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
+        StructAM_CreateFrom(0, nsbcaAnimation, nsbcaModel, 1, heap, NULL);
+        StructAM_MaybeLoadAnimation(nsbcaAnimation, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(fileName), heap);
+        StructAM_SomeFn_MaybeLoadFrame(nsbcaAnimation, 0);
     }
     for (nsbmaIndex = 0; nsbmaIndex < stemSetParams->mNsbmaCount; nsbmaIndex++) {
         nsbmaModel = &stemSet->mNsbmds[nsbmaIndex];
         nsbmaAnimation = &stemSet->mNsbcaNsbmaNsbtp[1][nsbmaIndex];
-        snprintf(fileName, 0x80, "%s.nsbma", stemSetParams->mStems[nsbmaIndex]);
-        InitModelAnimation(4, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
-        InitModelAnimationEntries(nsbmaAnimation, FindSceneFile(fileName), heap);
-        SetModelAnimation(nsbmaAnimation, 0);
+        _snprintf(fileName, 0x80, "%s.nsbma", stemSetParams->mStems[nsbmaIndex]);
+        StructAM_CreateFrom(4, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
+        StructAM_MaybeLoadAnimation(nsbmaAnimation, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(fileName), heap);
+        StructAM_SomeFn_MaybeLoadFrame(nsbmaAnimation, 0);
     }
     if (useOneNsbtpAnimation != FALSE) {
         nsbcaAnimation = stemSet->mNsbcaNsbmaNsbtp[2];
-        InitModelAnimation(2, nsbcaAnimation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
+        StructAM_CreateFrom(2, nsbcaAnimation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
         for (nsbtpIndex = 0; nsbtpIndex < stemSetParams->mNsbtpCount; nsbtpIndex++) {
-            snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
-            InitModelAnimationEntry(nsbcaAnimation, nsbtpIndex,
-                                    NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(FindSceneFile(fileName)), 0), 0,
+            _snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
+            StructAM_SomeFn_2(nsbcaAnimation, nsbtpIndex,
+                                    BTP0_LoadRawData(MaybeLoadBTP0Format(FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(fileName)), 0), 0,
                                     heap);
         }
-        SetModelAnimation(nsbcaAnimation, 0);
+        StructAM_SomeFn_MaybeLoadFrame(nsbcaAnimation, 0);
     }
 }
 
-void InitStemSetArray(void *heap) {
+void LoadSeveralBMModels(void *heap) {
     s16 setIndex;
     StemSet *sourceSet;
     StemSet *copiedSet;
 
     for (setIndex = 0; setIndex < STEM_SET_FAILED + 1; setIndex++) {
-        gStemSets->mSets[setIndex] = NULL;
+        g_GlobalBO->mSets[setIndex] = NULL;
     }
-    if (IsRaceAwardOrStaffRoll() != 0) {
+    if (IsAwardOrStaffRoll_0() != 0) {
         return;
     }
     for (setIndex = 0; setIndex <= STEM_SET_COUNT_COPY; setIndex++) {
         if (setIndex == STEM_SET_COUNT_COPY) {
-            gStemSets->mSets[setIndex] = HeapAlloc(heap, sizeof(StemSet));
-            sourceSet = gStemSets->mSets[STEM_SET_COUNT];
-            copiedSet = gStemSets->mSets[STEM_SET_COUNT_COPY];
+            g_GlobalBO->mSets[setIndex] = Mem_AllocateHeap(heap, sizeof(StemSet));
+            sourceSet = g_GlobalBO->mSets[STEM_SET_COUNT];
+            copiedSet = g_GlobalBO->mSets[STEM_SET_COUNT_COPY];
             copiedSet->mNsbmds = sourceSet->mNsbmds;
             copiedSet->mNsbcaNsbmaNsbtp[0] = NULL;
             copiedSet->mNsbcaNsbmaNsbtp[1] = sourceSet->mNsbcaNsbmaNsbtp[1];
             copiedSet->mNsbcaNsbmaNsbtp[2] = sourceSet->mNsbcaNsbmaNsbtp[2];
             copiedSet->mNsbmdCount = sourceSet->mNsbmdCount;
         } else {
-            gStemSets->mSets[setIndex] = HeapAlloc(heap, sizeof(StemSet));
-            InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[setIndex], GetCountStartStem(setIndex), setIndex);
+            g_GlobalBO->mSets[setIndex] = Mem_AllocateHeap(heap, sizeof(StemSet));
+            LoadModelBMFromMD(heap, g_GlobalBO->mSets[setIndex], GetCountStartStem(setIndex), setIndex);
         }
     }
-    if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
-        gStemSets->mSets[STEM_SET_WIN] = HeapAlloc(heap, sizeof(StemSet));
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_WIN], &gWinStems, STEM_SET_WIN);
-        gStemSets->mSets[STEM_SET_LOSE] = HeapAlloc(heap, sizeof(StemSet));
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_LOSE], &gLoseStems, STEM_SET_LOSE);
-    } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        gStemSets->mSets[STEM_SET_COMPLETE] = HeapAlloc(heap, sizeof(StemSet));
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_COMPLETE], &gCompleteStems, STEM_SET_COMPLETE);
-        gStemSets->mSets[STEM_SET_FAILED] = HeapAlloc(heap, sizeof(StemSet));
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_FAILED], &gFailedStems, STEM_SET_FAILED);
+    if (g_GlobalCO->mMode == MODE_BATTLE || g_GlobalCO->mRuleKind == RULE_KIND_WIN_COUNT) {
+        g_GlobalBO->mSets[STEM_SET_WIN] = Mem_AllocateHeap(heap, sizeof(StemSet));
+        LoadModelBMFromMD(heap, g_GlobalBO->mSets[STEM_SET_WIN], &g_WinModelMD, STEM_SET_WIN);
+        g_GlobalBO->mSets[STEM_SET_LOSE] = Mem_AllocateHeap(heap, sizeof(StemSet));
+        LoadModelBMFromMD(heap, g_GlobalBO->mSets[STEM_SET_LOSE], &g_LoseModelMD, STEM_SET_LOSE);
+    } else if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        g_GlobalBO->mSets[STEM_SET_COMPLETE] = Mem_AllocateHeap(heap, sizeof(StemSet));
+        LoadModelBMFromMD(heap, g_GlobalBO->mSets[STEM_SET_COMPLETE], &g_CompleteModelMD, STEM_SET_COMPLETE);
+        g_GlobalBO->mSets[STEM_SET_FAILED] = Mem_AllocateHeap(heap, sizeof(StemSet));
+        LoadModelBMFromMD(heap, g_GlobalBO->mSets[STEM_SET_FAILED], &g_FailedModelMD, STEM_SET_FAILED);
     } else {
-        gStemSets->mSets[STEM_SET_GOAL] = HeapAlloc(heap, sizeof(StemSet));
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_GOAL], &gGoalStems, STEM_SET_GOAL);
+        g_GlobalBO->mSets[STEM_SET_GOAL] = Mem_AllocateHeap(heap, sizeof(StemSet));
+        LoadModelBMFromMD(heap, g_GlobalBO->mSets[STEM_SET_GOAL], &g_GoalModelMD, STEM_SET_GOAL);
     }
 }
 
@@ -179,19 +179,19 @@ void StartStemSet(s32 setIndex) {
     s32 animationIndex;
     s32 loopCount;
 
-    gStemSets->mSets[STEM_SET_CURRENT] = gStemSets->mSets[setIndex];
-    stemSet = gStemSets->mSets[STEM_SET_CURRENT];
+    g_GlobalBO->mSets[STEM_SET_CURRENT] = g_GlobalBO->mSets[setIndex];
+    stemSet = g_GlobalBO->mSets[STEM_SET_CURRENT];
     if (stemSet == NULL) {
-        gStemSets->mShownIndex = STEM_SET_NONE;
+        g_GlobalBO->mShownIndex = STEM_SET_NONE;
         return;
     }
-    gStemSets->mShownIndex = setIndex;
+    g_GlobalBO->mShownIndex = setIndex;
     for (nsbmdIndex = 0; nsbmdIndex < stemSet->mNsbmdCount; nsbmdIndex++) {
         if (stemSet->mNsbcaNsbmaNsbtp[0] != NULL) {
-            SetModelAnimation(&stemSet->mNsbcaNsbmaNsbtp[0][nsbmdIndex], 0);
+            StructAM_SomeFn_MaybeLoadFrame(&stemSet->mNsbcaNsbmaNsbtp[0][nsbmdIndex], 0);
         }
         if (stemSet->mNsbcaNsbmaNsbtp[1] != NULL) {
-            SetModelAnimation(&stemSet->mNsbcaNsbmaNsbtp[1][nsbmdIndex], 0);
+            StructAM_SomeFn_MaybeLoadFrame(&stemSet->mNsbcaNsbmaNsbtp[1][nsbmdIndex], 0);
         }
         if (setIndex == STEM_SET_COUNT || setIndex == STEM_SET_COUNT_COPY) {
             if (setIndex == STEM_SET_COUNT_COPY) {
@@ -204,7 +204,7 @@ void StartStemSet(s32 setIndex) {
             } else {
                 loopCount = 3;
             }
-            SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
+            StructAM_SomeFn_MaybeLoadFrame(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
             animations = stemSet->mNsbcaNsbmaNsbtp[0];
             if (animations != NULL) {
                 animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
@@ -223,28 +223,28 @@ void UpdateStemSets(void) {
     StemSet *stemSet;
     u16 nsbmdIndex;
 
-    if (gStemSets->mShownIndex == STEM_SET_START || gStemSets->mShownIndex == STEM_SET_GOAL) {
-        gStemSets->mShownFrames++;
-        if (gStemSets->mShownFrames > gStemSets->mShownFrameCount) {
-            gStemSets->mShownIndex = STEM_SET_NONE;
+    if (g_GlobalBO->mShownIndex == STEM_SET_START || g_GlobalBO->mShownIndex == STEM_SET_GOAL) {
+        g_GlobalBO->mShownFrames++;
+        if (g_GlobalBO->mShownFrames > g_GlobalBO->mShownFrameCount) {
+            g_GlobalBO->mShownIndex = STEM_SET_NONE;
         }
     }
-    if (gStemSets->mShownIndex != STEM_SET_NONE) {
-        stemSet = gStemSets->mSets[STEM_SET_CURRENT];
+    if (g_GlobalBO->mShownIndex != STEM_SET_NONE) {
+        stemSet = g_GlobalBO->mSets[STEM_SET_CURRENT];
         for (nsbmdIndex = 0; nsbmdIndex < stemSet->mNsbmdCount; nsbmdIndex++) {
             if (stemSet->mNsbcaNsbmaNsbtp[0] != NULL) {
-                AdvanceModelAnimation(stemSet->mNsbcaNsbmaNsbtp[0]);
+                StructAM_SomeFn_MaybeMoveNextFrame(stemSet->mNsbcaNsbmaNsbtp[0]);
             }
             if (stemSet->mNsbcaNsbmaNsbtp[1] != NULL) {
-                AdvanceModelAnimation(stemSet->mNsbcaNsbmaNsbtp[1]);
+                StructAM_SomeFn_MaybeMoveNextFrame(stemSet->mNsbcaNsbmaNsbtp[1]);
             }
             if (stemSet->mNsbcaNsbmaNsbtp[2] != NULL) {
-                AdvanceModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2]);
+                StructAM_SomeFn_MaybeMoveNextFrame(stemSet->mNsbcaNsbmaNsbtp[2]);
             }
         }
     }
-    if (gStemSets->mTimedQuad.mEnabled != FALSE) {
-        gStemSets->mUpdateFunction(&gStemSets->mTimedQuad);
+    if (g_GlobalBO->mTimedQuad.mEnabled != FALSE) {
+        g_GlobalBO->mUpdateFunction(&g_GlobalBO->mTimedQuad);
     }
 }
 
@@ -257,60 +257,60 @@ void DrawStemSets(void) {
     Nsbmd *nsbmd;
 
     MTX_Identity43_(&identityMatrix);
-    NNS_G3dGlb.mCameraMtx = identityMatrix;
-    if (gRaceSetup->mRaceKind != RACE_KIND_NORMAL) {
+    g_GlobalG3.mCameraMtx = identityMatrix;
+    if (g_GlobalCO->mRaceKind != RACE_KIND_NORMAL) {
         return;
     }
-    if (gStemSets->mShownIndex != STEM_SET_NONE) {
+    if (g_GlobalBO->mShownIndex != STEM_SET_NONE) {
         baseTranslation = &baseTransform.mRows[3];
         baseTranslation->x = 0;
         baseTranslation->y = 0;
         baseTranslation->z = 0;
         baseScale = gStemBaseScale;
         baseTransform.mRows[3].y = gStemBaseTranslationY;
-        if (gStemSets->mShownIndex == STEM_SET_COUNT_COPY) {
+        if (g_GlobalBO->mShownIndex == STEM_SET_COUNT_COPY) {
             baseTransform.mRows[3].y = 0x50000;
         }
         MTX_Identity33_(&baseTransform.mAxes);
-        for (nsbmdIndex = 0; nsbmdIndex < gStemSets->mSets[STEM_SET_CURRENT]->mNsbmdCount; nsbmdIndex++) {
-            nsbmd = &gStemSets->mSets[STEM_SET_CURRENT]->mNsbmds[nsbmdIndex];
-            G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0, &NNS_G3dGlb.mProjMtx);
-            NNS_G3dGlb.mFlag &= ~0x50;
+        for (nsbmdIndex = 0; nsbmdIndex < g_GlobalBO->mSets[STEM_SET_CURRENT]->mNsbmdCount; nsbmdIndex++) {
+            nsbmd = &g_GlobalBO->mSets[STEM_SET_CURRENT]->mNsbmds[nsbmdIndex];
+            G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0, &g_GlobalG3.mProjMtx);
+            g_GlobalG3.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
-            MI_Copy36B(&baseTransform, &NNS_G3dGlb.mPrmBaseRot);
-            NNS_G3dGlb.mFlag &= ~0xa4;
+            asm_MI_Copy36B(&baseTransform, &g_GlobalG3.mPrmBaseRot);
+            g_GlobalG3.mFlag &= ~0xa4;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mRows[3]);
             NNS_G3dGlbFlushP();
             NNS_G3dDraw(&nsbmd->mRenderObj);
         }
     }
-    if (gStemSets->mTimedQuad.mEnabled != FALSE) {
+    if (g_GlobalBO->mTimedQuad.mEnabled != FALSE) {
         reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
         reg_G3_SPE_EMI = 0x4210;
         reg_G3_DIF_AMB = 0x42100000;
         reg_G3_MTX_MODE = 0;
-        G3_LoadMtx44(&gStemSets->mOrthoMtx);
+        G3_LoadMtx44(&g_GlobalBO->mOrthoMtx);
         reg_G3_TEXIMAGE_PARAM = 0x20000000;
         reg_G3_MTX_MODE = 2;
         reg_G3_MTX_IDENTITY = 0;
-        DrawTimedQuad(&gStemSets->mTimedQuad);
+        DrawTimedQuad(&g_GlobalBO->mTimedQuad);
     }
 }
 
-void Nop(void) {}
+void nullsub_7(void) {}
 
 void SetStemSet(s32 setIndex) {
     if (setIndex == STEM_SET_NONE) {
-        gStemSets->mShownIndex = setIndex;
+        g_GlobalBO->mShownIndex = setIndex;
         return;
     }
-    if (gStemSets->mShownIndex != setIndex || setIndex == STEM_SET_COUNT_COPY) {
+    if (g_GlobalBO->mShownIndex != setIndex || setIndex == STEM_SET_COUNT_COPY) {
         StartStemSet(setIndex);
     }
-    gStemSets->mShownFrames = 0;
-    if (gStemSets->mShownIndex == STEM_SET_START || gStemSets->mShownIndex == STEM_SET_GOAL) {
-        gStemSets->mShownFrameCount =
-            FROM_FIXED12(GetModelAnimationFrameCountFixed(gStemSets->mSets[STEM_SET_CURRENT]->mNsbcaNsbmaNsbtp[0]));
+    g_GlobalBO->mShownFrames = 0;
+    if (g_GlobalBO->mShownIndex == STEM_SET_START || g_GlobalBO->mShownIndex == STEM_SET_GOAL) {
+        g_GlobalBO->mShownFrameCount =
+            FROM_FIXED12(StructAM_GetFrameCount_Times4096(g_GlobalBO->mSets[STEM_SET_CURRENT]->mNsbcaNsbmaNsbtp[0]));
     }
 }
 
@@ -353,7 +353,7 @@ void DrawTimedQuad(TimedQuad *timedQuad) {
 }
 
 void StartTimedQuadFromTable(u32 tableIndex) {
-    gStemSets->mStartFunction = gTimedQuadStartFunctions[tableIndex];
-    gStemSets->mUpdateFunction = gTimedQuadUpdateFunctions[tableIndex];
-    gStemSets->mStartFunction(&gStemSets->mTimedQuad);
+    g_GlobalBO->mStartFunction = gTimedQuadStartFunctions[tableIndex];
+    g_GlobalBO->mUpdateFunction = gTimedQuadUpdateFunctions[tableIndex];
+    g_GlobalBO->mStartFunction(&g_GlobalBO->mTimedQuad);
 }

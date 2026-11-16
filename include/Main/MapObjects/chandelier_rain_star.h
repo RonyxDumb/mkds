@@ -43,7 +43,7 @@ MapObjectList *CreateRainStarDrawList(void);
 void UpdateRainStar(void *mapObjectList,
                     RainStar *rainStar); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawRainStar(void *mapObjectList, RainStar *rainStar);
-void CreateRainStar(void *mapObjectList);
+void LoadRainStarMapObject(void *mapObjectList);
 MapObjectList *CreateChandelierUpdateList(void);
 MapObjectList *CreateChandelierDrawList(void);
 void UpdateChandelier(void *mapObjectList,

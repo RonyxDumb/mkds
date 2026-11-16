@@ -10,47 +10,47 @@
 
 #pragma thumb on
 
-void EnterMPWaitMenuArchives(void *stateObject) {
+void StructZE_E7Fn_21_1_from_thumb(void *stateObject) {
     int connectionMode;
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
     } else {
-        connectionMode = gConnectionWork->mConnectionMode;
+        connectionMode = g_GlobalZE->mConnectionMode;
     }
     if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }
 
-void UpdateMPWaitMenuArchives(void *stateObject) {
+void StructZE_E7Fn_21_2_from_thumb(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceMenuDLArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_REQUEST_DONE;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterMPWaitResultArchives(void *stateObject) {
+void StructZE_E7Fn_18_1_from_thumb(void *stateObject) {
     int connectionMode;
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
     } else {
-        connectionMode = gConnectionWork->mConnectionMode;
+        connectionMode = g_GlobalZE->mConnectionMode;
     }
     if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }
 
-void UpdateMPWaitResultArchives(void *stateObject) {
+void StructZE_E7Fn_18_2_from_thumb(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceResultDLArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_RESULT_SOUND;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -60,15 +60,15 @@ void UpdateMPWaitResultArchives(void *stateObject) {
 
 #pragma thumb on
 
-void EnterMPLoadResultSound(void *stateObject) {
-    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
-    gConnectionWork->mCallbackFailed = 0;
+void StructZE_E7Fn_19_1_from_thumb(void *stateObject) {
+    g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+    g_GlobalZE->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    g_GlobalZE->mCallbackFailed = 0;
 }
 
 void LoadResultSceneSoundSetCallback(void) {
     if (LoadResultSceneSoundSet() == 0) {
-        gConnectionWork->mCallbackFailed = 1;
+        g_GlobalZE->mCallbackFailed = 1;
     }
 }
 
@@ -76,12 +76,12 @@ void LoadResultSceneSoundSetCallback(void) {
 
 #pragma thumb on
 
-void UpdateMPLoadResultSound(void *stateObject) {
+void StructZE_E7Fn_19_2_from_thumb(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadResultSceneSoundSetCallback);
     if (result == 1) {
-        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine = &g_GlobalZE->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = MP_STATE_READY;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -103,7 +103,7 @@ void LoadSndDataFromFileCallback(void) {
     int result;
     result = LoadSndDataFromFile();
     if (result == 0) {
-        gConnectionWork->mCallbackFailed = 1;
+        g_GlobalZE->mCallbackFailed = 1;
     }
 }
 

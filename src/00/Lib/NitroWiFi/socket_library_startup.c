@@ -48,7 +48,7 @@ u32 SOCLiDhcpState;
 CPSConfig SOCLiCPSConfig;
 
 s32 SOCL_Startup(SOCLConfig *config) {
-    OSi_ReferSymbol(BuildInfo.mWifi);
+    Os_ReferSymbol(g_StartModuleParams.mWifi);
     if (SOCLiConfigPtr != NULL) {
         return 0;
     }
@@ -73,7 +73,7 @@ void SOCLi_StartupCPS(void) {
     s32 value;
     s32 rwin;
 
-    MI_CpuFill8(cfgBlock, 0, sizeof(CPSConfig));
+    Mem_CpuFill8(cfgBlock, 0, sizeof(CPSConfig));
     cfgBlock->mAlloc = config->mAlloc;
     cfgBlock->mFree = config->mFree;
     cfgBlock->mLinkIsOn = SOCL_LinkIsOn;

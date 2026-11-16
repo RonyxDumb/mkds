@@ -89,14 +89,14 @@ MtxFx43 gDossunDrawMatrix;
 
 MapObjectKindData *CreateKuriboKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gKuriboKindData;
     return kindData;
 }
 
 KuriboDrawList *CreateKuriboDrawList(void) {
     KuriboDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(KuriboDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(KuriboDrawList));
     gKuriboDrawList = drawList;
     *drawList = gKuriboDrawListData;
     SetDrawListSlot(&gKuriboDrawList);
@@ -105,7 +105,7 @@ KuriboDrawList *CreateKuriboDrawList(void) {
 
 MapObjectList *CreateKuriboUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gKuriboUpdateList = updateList;
     *updateList = gKuriboUpdateListData;
     SetUpdateListSlot(&gKuriboUpdateList);
@@ -173,12 +173,12 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
         if (kuribo->mFrameRandomized != 0) {
             kuribo->mFrameIndex = 0;
         } else {
-            random = &gRaceProgress->mRandom;
+            random = &g_GlobalMV->mRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             kuribo->mFrameIndex = ((u64) (u32) (random->mValue >> 32) * 0x28) >> 32;
             kuribo->mFrameRandomized = 1;
         }
     }
-    AdvanceStateMachine(&kuribo->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&kuribo->mMapObject.mStateMachine);
 }
 

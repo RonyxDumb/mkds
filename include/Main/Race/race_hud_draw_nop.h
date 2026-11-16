@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void RaceHudDrawNop(void);
+void nullsub_9(void);

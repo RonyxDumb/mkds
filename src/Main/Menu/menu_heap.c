@@ -1,9 +1,9 @@
 #include "Main/Menu/menu_heap.h"
 #include "Main/System/heap_call.h"
 
-void *MenuGetCurrentHeap(void) {
+void *GetActiveExecutionContextHeapHandle(void) {
     void *heap;
-    heap = GetCurrentHeapCall();
-    heap = GetHeap(heap);
+    heap = GetActiveExecutionContext();
+    heap = ExecutionContext_GetHeapHandle(heap);
     return heap;
 }

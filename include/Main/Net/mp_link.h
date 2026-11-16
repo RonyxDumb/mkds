@@ -168,7 +168,7 @@ void ScanConnectStartScan(void);
 void StartRepeatedScan(ScanEventCallback callback, u32 param);
 void SetScanConnectStateAndNotify(u32 state, void *info);
 void SetScanConnectStateCallback(ScanConnectStateFunc callback);
-unsigned int GetScanConnectWorkSize(void);
+unsigned int Const5F20_from_thumb(void);
 void FinishScanConnect(void);
 void CloseScanConnect(void);
 void InitScanConnectWork(ScanConnectWork *work, void *initData);

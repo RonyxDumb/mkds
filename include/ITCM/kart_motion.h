@@ -17,7 +17,7 @@ void UpdateKartSpeedLimit(Kart *kart);
 void UpdateKartSpeedLimitGoal(Kart *kart);
 // Stores the previous collision center: the point mRadius plus 0x400 along the up vector from mDrawMatrixPos. Slot 5 of
 // Kart.mSlotFunctions for every Kart except the remote Karts of mode 5; also called once from
-// ApplyParticipantKartRecord.
+// StructMQRacerEntry_SomeFn_19.
 void SetKartPrevCollisionCenter(Kart *kart);
 // Writes the point mRadius + c along the vector at 0x15c, starting from b plus the move since the last step, to a.
 void ComputeKartCollisionCenter(Vec3 *result, const Vec3 *drawPos, s32 extra, Kart *kart);

@@ -11,7 +11,7 @@ typedef struct CourseNameEntry {
     /* 05 */ u8 mUnk_05[0x3];
 } CourseNameEntry;
 
-// Slot numbers of gArchiveSlotInfos and gArchiveSlots->mSlots: one per archive the game keeps mounted. Each slot has a
+// Slot numbers of gArchiveSlotInfos and g_MountManager->mSlots: one per archive the game keeps mounted. Each slot has a
 // mount name in gArchiveNames. The "language" slots load the same archive with the language code in the file name.
 typedef enum ArchiveSlotIndex {
     ARCHIVE_SLOT_NONE = -1,
@@ -19,7 +19,7 @@ typedef enum ArchiveSlotIndex {
     ARCHIVE_SLOT_MAIN_2D = 1,
     ARCHIVE_SLOT_MAIN_2D_LANGUAGE = 2,
     ARCHIVE_SLOT_COURSE = 3,
-    // Has no path and is never loaded through LoadArchiveSlotForScene.
+    // Has no path and is never loaded through Arc_MountArchive_from_thumb.
     ARCHIVE_SLOT_SND = 4,
     ARCHIVE_SLOT_SCENE = 5,
     ARCHIVE_SLOT_KART_MODEL_MAIN_A = 6,
@@ -40,7 +40,7 @@ typedef enum ArchiveSlotIndex {
     ARCHIVE_SLOT_COUNT = 20,
 } ArchiveSlotIndex;
 
-// Buffer numbers of gArchiveSlots->mBuffers, named after the archive each one is requested for.
+// Buffer numbers of g_MountManager->mBuffers, named after the archive each one is requested for.
 typedef enum ArchiveBufferIndex {
     ARCHIVE_BUFFER_NONE = -1,
     ARCHIVE_BUFFER_MENU_DL = 0,
@@ -65,15 +65,15 @@ typedef enum ArchiveBufferIndex {
 // Longest archive path, in bytes with the terminator.
 #define ARCHIVE_PATH_SIZE 0x80
 
-void BuildSceneArchivePath(char *path, const char *sceneName);
-void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName);
-u32 GetMPLanguageCode(void);
-u32 GetLanguageCode(void);
-void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture);
-void *LoadFileAligned(const char *path, s32 alignment);
-u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData);
-u32 ReadFileBytes(void *path, void *buffer, u32 size);
-int ReadWholeFile(const char *path, void *buffer, u32 maxSize);
-void InitArchiveSlots(void *heap);
+void FormatSceneArchive_from_thumb(char *path, const char *sceneName);
+void FormatCarcWithLanguage2_from_thumb(char *path, const char *sceneName);
+u32 GetSomeLanguage_from_thumb(void);
+u32 GetLanguageIdentifierString_from_thumb(void);
+void FormatCourseCarc_from_thumb(char *path, s32 courseId, s32 useTexture);
+void *AllocateReadFileBuffer_from_thumb(const char *path, s32 alignment);
+u32 ReadFileFromMountManagerHandle_from_thumb(char *path, NNSiFndHeapHead *heap, void **outData);
+u32 OpenReadFileBufferSize_from_thumb(void *path, void *buffer, u32 size);
+int OpenReadEntireFileBuffer_from_thumb(const char *path, void *buffer, u32 maxSize);
+void CreateMountManager_from_thumb(void *heap);
 
 

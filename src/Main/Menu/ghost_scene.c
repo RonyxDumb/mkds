@@ -53,7 +53,7 @@ GhostScene *gGhostScene;
 #pragma thumb on
 
 u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex) {
-    return gCupCourseIdTable[cupCourseIndex / 4][cupCourseIndex % 4];
+    return g_InternalCourseIdOrderedTable[cupCourseIndex / 4][cupCourseIndex % 4];
 }
 
 #pragma thumb off
@@ -71,54 +71,54 @@ void LoadGhostSceneFiles(void) {
     palette = NULL;
     cells = NULL;
     screenMaps[0] = NULL;
-    file = FindSceneFile("TimeAttack_ghost_get_m_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_get_s_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_send_m_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_send_s_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_get_m.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_get_s.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_send_m.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_send_s.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("TimeAttack_ghost_get_m.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("TimeAttack_ghost_get_s.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("TimeAttack_ghost_send_m.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("TimeAttack_ghost_send_s.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("TimeAttack_ghost_get_m_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_get_m_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_get_s_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_get_s_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_send_m_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_send_s_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_send_m_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_send_s_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("TimeAttack_ghost_get_m.NSCR");
-    LoadNscrData(screenMaps, file);
-    file = FindSceneFile("TimeAttack_ghost_get_s.NSCR");
-    LoadNscrData(screenMaps, file);
-    file = FindSceneFile("TimeAttack_ghost_send_m.NSCR");
-    LoadNscrData(screenMaps, file);
-    file = FindSceneFile("TimeAttack_ghost_send_s.NSCR");
-    LoadNscrData(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_m_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_s_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_m_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_s_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_m.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_m.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_m.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_s.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_m.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_s.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_m_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_m_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_s_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_s_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_m_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_s_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_m_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_s_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_m.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_get_s.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_m.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("TimeAttack_ghost_send_s.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
     LoadKartIconData();
 }
 
@@ -133,17 +133,17 @@ void InitGhostScene(void *heap) {
     u32 courseId;
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
-    gGhostScene = HeapAlloc(heap, sizeof(GhostScene));
+    gGhostScene = Mem_AllocateHeap(heap, sizeof(GhostScene));
     MemFillWordsByBlock_inline(gGhostScene, 0x8dc);
-    gGhostScene->mCourseGhostBuffer = HeapAllocAligned(heap, 0xe00, HEAP_ALIGN_CACHE_LINE);
-    gGhostScene->mSlotGhostBuffer = HeapAllocAligned(heap, 0x1000, HEAP_ALIGN_CACHE_LINE);
-    displaySettings = CreateDisplaySettings(heap, gGhostSceneDisplaySettingsDesc);
-    SetBg0Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
-    InitDisplayFromSettings(displaySettings);
+    gGhostScene->mCourseGhostBuffer = Mem_AllocateHeapAligned(heap, 0xe00, HEAP_ALIGN_CACHE_LINE);
+    gGhostScene->mSlotGhostBuffer = Mem_AllocateHeapAligned(heap, 0x1000, HEAP_ALIGN_CACHE_LINE);
+    displaySettings = CreateDisplayConfig(heap, gGhostSceneDisplaySettingsDesc);
+    DisplayEngineConfig_SetBg0Config(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
+    SetGlobalDisplayConfig(displaySettings);
     LoadGhostSceneFiles();
     arg.mUseTxtSystem = 1;
-    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mTxtSystemFont = GetLoadedFont_from_thumb(1);
     arg.mUseCanvas1 = 1;
     arg.mUseCanvas2 = 1;
     arg.mUseCanvas3 = 0;
@@ -152,10 +152,10 @@ void InitGhostScene(void *heap) {
     arg.mUseSelectReturn = 1;
     arg.mUseBackScreen = 1;
     arg.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &arg);
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(heap, &arg);
     SetTxtSystemMode(1);
-    InitLinkLevelIcons(heap, gGhostScene);
+    CreateGlobalNN_from_thumb(heap, gGhostScene);
     CreateKartIcon(heap);
     for (index = 0; index < 0x20; index++) {
         gGhostScene->mCupCourseIndices[index] = -1;
@@ -163,22 +163,22 @@ void InitGhostScene(void *heap) {
     for (index = 0; index < 10; index++) {
         gGhostScene->mSlotIndices[index] = -1;
     }
-    gGhostScene->mCourseGhostRecords = CreateCourseGhostRecords(heap);
-    StartReadCourseGhostRecords(gGhostScene->mCourseGhostRecords);
-    WaitThreadFunctionsDone();
+    gGhostScene->mCourseGhostRecords = AllocateStructYE(heap);
+    SetStructYE_RunATFunction(gGhostScene->mCourseGhostRecords);
+    WaitForWorkerTask();
     for (index = 0; index < 0x20; index++) {
         courseId = GhostSceneGetCupCourseIdAtIndex(index);
         courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
+        cupCourseIndex = GetCourseIdFromInternalId(courseId);
         if (IsGhostRecordFilled(&courseRecords[cupCourseIndex]) != FALSE) {
             gGhostScene->mCupCourseIndices[gGhostScene->mCourseGhostCount] = index;
             gGhostScene->mGhostCount++;
             gGhostScene->mCourseGhostCount++;
         }
     }
-    gGhostScene->mSlotGhostRecords = CreateSlotGhostRecords(heap);
-    StartReadSlotGhostRecords(gGhostScene->mSlotGhostRecords);
-    WaitThreadFunctionsDone();
+    gGhostScene->mSlotGhostRecords = AllocateFX(heap);
+    RunSomeATFunction(gGhostScene->mSlotGhostRecords);
+    WaitForWorkerTask();
     for (index = 0; index < 10; index++) {
         if (IsGhostRecordFilled(GetSlotGhostRecordHead(index)) != FALSE) {
             gGhostScene->mSlotIndices[gGhostScene->mSlotGhostCount] = index;
@@ -186,13 +186,13 @@ void InitGhostScene(void *heap) {
             gGhostScene->mSlotGhostCount++;
         }
     }
-    ResetOamLists(gGhostScene, gGhostScene->mSubOam);
+    OamBuffer_SomeFn_from_thumb(gGhostScene, gGhostScene->mSubOam);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
                      REG_GX_DISPCNT_OBJMAP_CH_MASK;
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
         REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
-    switch (gMenuShared->mGhostSceneInitialCallbacksIndex) {
+    switch (g_GlobalB488->mGhostSceneInitialCallbacksIndex) {
         case 0:
             gGhostScene->mRequestedCallbacksIndex = 0;
             break;
@@ -202,7 +202,7 @@ void InitGhostScene(void *heap) {
     }
     gGhostScene->mCurrentCallbacksIndex = gGhostScene->mRequestedCallbacksIndex;
     gGhostScene->mCurrentCallbacks = gGhostSceneCallbacks[gGhostScene->mRequestedCallbacksIndex];
-    gGhostScene->mHeap = CreateExpHeapFromMaxFree(heap);
+    gGhostScene->mHeap = Mem_CreateChildExpHeap(heap);
     gGhostScene->mCurrentCallbacks->mInit(gGhostScene->mHeap, gGhostScene, gGhostScene->mSubOam);
 }
 
@@ -220,14 +220,14 @@ void AdvanceGhostScene(s32 sceneNumbers) {
         oldCallbacks->mRelease();
         gGhostScene->mCurrentCallbacks->mInit(gGhostScene->mHeap, gGhostScene, gGhostScene->mSubOam);
     } else {
-        ClearOamListCounts(gGhostScene, gGhostScene->mSubOam);
+        OamBuffer_ResetValues16_from_thumb(gGhostScene, gGhostScene->mSubOam);
         nextIndex = gGhostScene->mCurrentCallbacks->mAdvance(sceneNumbers);
         if (nextIndex != -1) {
             gGhostScene->mRequestedCallbacksIndex = nextIndex;
         }
-        HideUnusedOams(gGhostScene, gGhostScene->mSubOam);
+        OamBuffer_SomeFn2_from_thumb(gGhostScene, gGhostScene->mSubOam);
     }
-    AdvanceSceneText();
+    NavigationContext_OnSceneUpdate_from_thumb();
     AdvanceLinkLevelIcons();
 }
 
@@ -235,16 +235,16 @@ void ReleaseGhostScene(void) {
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     reg_GXS_DB_DISPCNT =
         reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
-    ReleaseSceneText();
-    ClearLinkLevelIconsPointer();
+    DisposeNavigationContext_from_thumb();
+    ResetGlobalNN_from_thumb();
     ClearKartIconPointer();
     SendLedPatternNone();
 }
 
 void WriteGhostSceneRegisters(void) {
-    WriteSceneTextRegisters();
+    NavigationContext_OnSceneVblank_from_thumb();
     gGhostScene->mCurrentCallbacks->mWriteRegisters();
-    UploadOamLists(gGhostScene, gGhostScene->mSubOam);
+    CopyOamBuffersToMemory_from_thumb(gGhostScene, gGhostScene->mSubOam);
 }
 
 #pragma thumb off
@@ -258,12 +258,12 @@ void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, const s16 (*labelRows)[4]
     CellFileSet *cellFileSet;
     cellFileSet = &fileSets->mCellFileSets[2];
     PrintLabelLayoutTextNoFixedAdvance(0, labelRows[0][0], fileSets->mCellFileSets[0].mLabelLayout,
-                                       GetBmgEntry(fileSets->mCommonMessages, GetCourseMessageIndex(courseId)),
+                                       Bmg_GetRawStringPointer_from_thumb(fileSets->mCommonMessages, GetBmgIndexFromCircuitIndex_from_thumb(courseId)),
                                        fileSets->mCellFileSets[0].mCellLayout, fileSets->mCellFileSets[0].mCellTable);
     WriteMinuteSecondMillisecondText((s16 *) timeText, time->mMinute, time->mSecond, time->mMillisecond);
     PrintLabelLayoutTextFixedDigits(0, labelRows[1][0], fileSets->mCellFileSets[0].mLabelLayout, timeText,
                                     fileSets->mCellFileSets[0].mCellLayout, fileSets->mCellFileSets[0].mCellTable, 7);
-    MIi_CpuCopy16(name, terminatedName, 0x14);
+    CopyMemory16(name, terminatedName, 0x14);
     terminatedName[10] = 0;
     PrintLabelLayoutTextNoFixedAdvance(0, labelRows[2][0], fileSets->mCellFileSets[0].mLabelLayout, terminatedName,
                                        fileSets->mCellFileSets[0].mCellLayout, fileSets->mCellFileSets[0].mCellTable);

@@ -24,13 +24,13 @@ QueueMPDataToPortParams gPacketPortParams = {PacketPortSendCallback, 0, {0, 0}, 
 
 #pragma thumb on
 void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
-    gConnectionWork->mBlockEntries[entryIndex].mBuffer = buffer;
+    g_GlobalZE->mBlockEntries[entryIndex].mBuffer = buffer;
 }
 #pragma thumb off
 
 #pragma thumb on
 void PacketPortSendCallback(void) {
-    gConnectionWork->mTransferFlags &= ~1;
+    g_GlobalZE->mTransferFlags &= ~1;
 }
 #pragma thumb off
 
@@ -39,29 +39,29 @@ void PacketPortSendCallback(void) {
 void QueuePacketToPort(void) {
     u16 packetSize;
     u16 destMask;
-    if (!(gConnectionWork->mTransferFlags & 1)) {
+    if (!(g_GlobalZE->mTransferFlags & 1)) {
         u32 connectionMode;
-        if (gConnectionWork == NULL) {
+        if (g_GlobalZE == NULL) {
             connectionMode = CONNECTION_MODE_NONE;
         } else {
-            connectionMode = gConnectionWork->mConnectionMode;
+            connectionMode = g_GlobalZE->mConnectionMode;
         }
         switch (connectionMode) {
             case CONNECTION_MODE_PARENT:
                 gPacketPortParams.mMaxDataSize = PACKET_PORT_PARENT_PACKET_SIZE;
-                packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, PACKET_PORT_PARENT_PACKET_SIZE);
-                destMask = gConnectionWork->mChildren.mChildMask;
+                packetSize = WBT_MpParentSendHook(g_GlobalZE->mPacketBuffer, PACKET_PORT_PARENT_PACKET_SIZE);
+                destMask = g_GlobalZE->mChildren.mChildMask;
                 break;
             case CONNECTION_MODE_CHILD:
                 gPacketPortParams.mMaxDataSize = PACKET_PORT_CHILD_PACKET_SIZE;
-                packetSize = WBT_MpChildSendHook(gConnectionWork->mPacketBuffer, PACKET_PORT_CHILD_PACKET_SIZE);
+                packetSize = WBT_MpChildSendHook(g_GlobalZE->mPacketBuffer, PACKET_PORT_CHILD_PACKET_SIZE);
                 destMask = 1;
                 break;
         }
-        if (QueueMPDataToPort(gConnectionWork->mPacketBuffer, packetSize, destMask, NULL, &gPacketPortParams) ==
+        if (QueueMPDataToPort(g_GlobalZE->mPacketBuffer, packetSize, destMask, NULL, &gPacketPortParams) ==
             FALSE) {
-            gConnectionWork->mSendTimer = gPacketSendTimerFrames;
-            gConnectionWork->mTransferFlags &= ~1;
+            g_GlobalZE->mSendTimer = gPacketSendTimerFrames;
+            g_GlobalZE->mTransferFlags &= ~1;
         }
     }
 }
@@ -71,8 +71,8 @@ void PacketPortCallback(void *portMessage) {
     u8 packet[0x192];
     u32 connectionMode;
     if (result->mResultCode == 0 && result->mData != NULL && result->mLength <= PACKET_PORT_PARENT_PACKET_SIZE) {
-        DC_InvalidateRange(result->mData, result->mLength);
-        MI_CpuCopy8(result->mData, packet, result->mLength);
+        DC_InvalidateRangeNoClean(result->mData, result->mLength);
+        Mem_CpuCopy8(result->mData, packet, result->mLength);
         if (result->mState == WIRELESS_STATE_LINKED) {
             return;
         }
@@ -80,10 +80,10 @@ void PacketPortCallback(void *portMessage) {
             return;
         }
         if (result->mState == WIRELESS_STATE_PORT_DATA_ARRIVED) {
-            if (gConnectionWork == NULL) {
+            if (g_GlobalZE == NULL) {
                 connectionMode = CONNECTION_MODE_NONE;
             } else {
-                connectionMode = gConnectionWork->mConnectionMode;
+                connectionMode = g_GlobalZE->mConnectionMode;
             }
             switch (connectionMode) {
                 case CONNECTION_MODE_PARENT:

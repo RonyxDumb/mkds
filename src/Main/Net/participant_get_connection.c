@@ -18,10 +18,10 @@ const u8 gDefaultParentParameter[64] = {0, 0, 0,    0, 0, 0, 0, 0, 0x25, 0, 0,  
 #pragma opt_rebuildconditionals off
 
 static inline u32 ParticipantGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline u32 ParticipantGetWorkConnectionMode(ConnectionWork *connectionWork) {
@@ -36,14 +36,14 @@ u16 GetParticipantPadKeys(u32 participantIndex) {
     u32 result;
 
     stateMatches = FALSE;
-    switch (gConnectionWork->mState) {
+    switch (g_GlobalZE->mState) {
         case CONNECTION_STATE_SYNCED:
         case CONNECTION_STATE_SYNCED_RACE:
             stateMatches = TRUE;
             break;
     }
     if (stateMatches != FALSE) {
-        result = gConnectionWork->mSharingReceiveRecords[participantIndex].mPadKeys;
+        result = g_GlobalZE->mSharingReceiveRecords[participantIndex].mPadKeys;
     } else {
         result = 0;
     }
@@ -54,7 +54,7 @@ BOOL IsDataSharingSyncDone(void) {
     BOOL result;
 
     result = FALSE;
-    switch (gConnectionWork->mState) {
+    switch (g_GlobalZE->mState) {
         case CONNECTION_STATE_SYNCED:
         case CONNECTION_STATE_SYNCED_RACE:
             result = TRUE;
@@ -67,7 +67,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
     ConnectionWork *connectionWork;
     BOOL result;
 
-    connectionWork = gConnectionWork;
+    connectionWork = g_GlobalZE;
     result = FALSE;
     if (ParticipantGetWorkConnectionMode(connectionWork) != 2) {
         return FALSE;
@@ -77,7 +77,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
     }
     if (connectionWork->mScanSlots[entryIndex].mInUse != 0) {
         if (destination != NULL) {
-            MI_CpuCopy8(connectionWork->mScanSlots[entryIndex].mName, destination, PLAYER_NAME_BYTES);
+            Mem_CpuCopy8(connectionWork->mScanSlots[entryIndex].mName, destination, PLAYER_NAME_BYTES);
         }
         result = TRUE;
     }
@@ -94,11 +94,11 @@ BOOL IsScanSlotMultiBoot(u16 entryIndex) {
         entryValid = FALSE;
     } else if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         entryValid = FALSE;
-    } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
+    } else if (g_GlobalZE->mScanSlots[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        if (gConnectionWork->mScanSlots[entryIndex].mMultiBoot != 0) {
+        if (g_GlobalZE->mScanSlots[entryIndex].mMultiBoot != 0) {
             result = TRUE;
         }
     }
@@ -115,11 +115,11 @@ s32 GetScanSlotChildCount(u16 entryIndex) {
         entryValid = FALSE;
     } else if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         entryValid = FALSE;
-    } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
+    } else if (g_GlobalZE->mScanSlots[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        result = gConnectionWork->mScanSlots[entryIndex].mChildCount;
+        result = g_GlobalZE->mScanSlots[entryIndex].mChildCount;
     }
     return result;
 }
@@ -132,26 +132,26 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
     switch (ParticipantGetConnectionMode()) {
         case CONNECTION_MODE_PARENT:
             result = FALSE;
-            if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+            if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 childUser = MB_CommGetChildUser(entryIndex);
-                if (BIT_IS_SET(gConnectionWork->mWaitToSendMask, entryIndex) && childUser != NULL) {
+                if (BIT_IS_SET(g_GlobalZE->mWaitToSendMask, entryIndex) && childUser != NULL) {
                     if (destination != NULL) {
-                        MI_CpuCopy8(childUser->mName, destination, PLAYER_NAME_BYTES);
+                        Mem_CpuCopy8(childUser->mName, destination, PLAYER_NAME_BYTES);
                     }
                     result = TRUE;
                 }
-            } else if (BIT_IS_SET(gConnectionWork->mChildren.mChildMask, entryIndex)) {
+            } else if (BIT_IS_SET(g_GlobalZE->mChildren.mChildMask, entryIndex)) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, PLAYER_NAME_BYTES);
+                    Mem_CpuCopy8(&g_GlobalZE->mPlayerRecords[entryIndex], destination, PLAYER_NAME_BYTES);
                 }
                 result = TRUE;
             }
             break;
         case CONNECTION_MODE_CHILD:
             result = FALSE;
-            if (BIT_IS_SET(gConnectionWork->mReceivedNameMask, entryIndex)) {
+            if (BIT_IS_SET(g_GlobalZE->mReceivedNameMask, entryIndex)) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, PLAYER_NAME_BYTES);
+                    Mem_CpuCopy8(&g_GlobalZE->mPlayerRecords[entryIndex], destination, PLAYER_NAME_BYTES);
                 }
                 result = TRUE;
             }
@@ -169,9 +169,9 @@ void FillParentParameter(s32 flag) {
     u64 generatorState;
     u64 highWord;
 
-    parentParameter = gConnectionWork->mParentParameter;
-    MIi_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
-    gameInfo = gConnectionWork->mChildren.mGameInfo;
+    parentParameter = g_GlobalZE->mParentParameter;
+    Mem_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
+    gameInfo = g_GlobalZE->mChildren.mGameInfo;
     gameInfo->mGameInfoPart.mHasGhost = 0;
     gameInfo->mGameInfoPart.mKartIndex = 0;
     gameInfo->mCharacterIndex = CHARACTER_MARIO;
@@ -180,10 +180,10 @@ void FillParentParameter(s32 flag) {
     gameInfo->mSecond = 0;
     gameInfo->mMillisecond = 0;
     gameInfo->mGameInfoPart.mChildCount = 0;
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        parentParameter->mTgid = (gConnectionWork->mParentTgid + 7) & 0x7fff;
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+        parentParameter->mTgid = (g_GlobalZE->mParentTgid + 7) & 0x7fff;
     } else {
-        GetClockTimeOrZero(&time);
+        GetCurrentTime(&time);
         hour = time.mHour;
         if (hour >= 0x12) {
             hour -= 0x12;
@@ -194,9 +194,9 @@ void FillParentParameter(s32 flag) {
         highWord = generatorState >> 32;
         parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
     }
-    parentParameter->mChannel = gConnectionWork->mParentChannel;
-    parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
+    parentParameter->mChannel = g_GlobalZE->mParentChannel;
+    parentParameter->mBeaconPeriod = MaybeGeneratePseudoRandomValue();
+    parentParameter->mUserGameInfo = g_GlobalZE->mChildren.mGameInfo;
     parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = CHILD_LIST_MAX_CHILDREN;
     parentParameter->mEntryFlag = flag != 0 ? 1 : 0;
@@ -211,18 +211,18 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     u64 generatorState;
     u64 highWord;
 
-    parentParameter = gConnectionWork->mParentParameter;
-    MIi_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
-    gameInfo = gConnectionWork->mChildren.mGameInfo;
+    parentParameter = g_GlobalZE->mParentParameter;
+    Mem_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
+    gameInfo = g_GlobalZE->mChildren.mGameInfo;
     gameInfo->mGameInfoPart.mHasGhost = 1;
-    MI_CpuCopy8(ghostRecord->mName, gameInfo, PLAYER_NAME_BYTES);
+    Mem_CpuCopy8(ghostRecord->mName, gameInfo, PLAYER_NAME_BYTES);
     gameInfo->mGameInfoPart.mKartIndex = ghostRecord->mKartIndex;
     gameInfo->mCharacterIndex = ghostRecord->mCharacterIndex;
-    gameInfo->mCupCourseIndex = (u8) FindCupCourseIndex(ghostRecord->mCourseId);
+    gameInfo->mCupCourseIndex = (u8) GetCourseIdFromInternalId(ghostRecord->mCourseId);
     gameInfo->mMinute = ghostRecord->mMinute;
     gameInfo->mSecond = ghostRecord->mSecond;
     gameInfo->mMillisecond = ghostRecord->mMillisecond;
-    GetClockTimeOrZero(&time);
+    GetCurrentTime(&time);
     hour = time.mHour;
     if (hour >= 0x12) {
         hour -= 0x12;
@@ -232,9 +232,9 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
     highWord = generatorState >> 32;
     parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
-    parentParameter->mChannel = gConnectionWork->mParentChannel;
-    parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
+    parentParameter->mChannel = g_GlobalZE->mParentChannel;
+    parentParameter->mBeaconPeriod = MaybeGeneratePseudoRandomValue();
+    parentParameter->mUserGameInfo = g_GlobalZE->mChildren.mGameInfo;
     parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = 1;
     parentParameter->mParentMaxSize = CONNECTION_PARENT_MAX_SIZE;
@@ -246,7 +246,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     BOOL allowed;
 
     proceed = FALSE;
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
         if (ParticipantGetConnectionMode() != CONNECTION_MODE_PARENT) {
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -275,17 +275,17 @@ void SetParentChannelLowestSum(void) {
     lowestIndex = -1;
     lowest = 0x7fff;
     for (index = 1; index < 14; index++) {
-        value = gConnectionWork->mChannelSums[index];
+        value = g_GlobalZE->mChannelSums[index];
         if (value != -1 && value < lowest) {
             lowest = value;
             lowestIndex = index;
         }
     }
     if (lowestIndex != -1) {
-        gConnectionWork->mParentChannel = lowestIndex;
+        g_GlobalZE->mParentChannel = lowestIndex;
         return;
     }
-    gConnectionWork->mParentChannel = -1;
-    gConnectionWork->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mParentChannel = -1;
+    g_GlobalZE->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
+    g_GlobalZE->mRequestPending = 0;
 }

@@ -6,17 +6,17 @@
 
 #pragma thumb on
 
-void SetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
-    PackGrandPrixRecord(&gBackupBuffers->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
+void CopyCupEntryFrom_from_thumb(int cup, int engineClass, TimeRecord *record) {
+    StructNKGPCupEntry_CopyFrom_from_thumb(&g_SaveDataHolder->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void UnpackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
+void StructNKGPCupEntry_CopyTo_from_thumb(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
     if (packedGrandPrixRecord->mFilled != 0) {
-        MI_CpuCopy8(packedGrandPrixRecord->mName, timeRecord->mName, sizeof(timeRecord->mName));
+        Mem_CpuCopy8(packedGrandPrixRecord->mName, timeRecord->mName, sizeof(timeRecord->mName));
         timeRecord->mCharacterIndex = packedGrandPrixRecord->mCharacterIndex;
         timeRecord->mKartIndex = packedGrandPrixRecord->mKartIndex;
         timeRecord->mMinute = packedGrandPrixRecord->mMinute;
@@ -35,8 +35,8 @@ void UnpackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRec
 
 #pragma thumb on
 
-u32 GetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
-    UnpackGrandPrixRecord(&gBackupBuffers->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
+u32 CopyCupEntryTo_from_thumb(int cup, int engineClass, TimeRecord *record) {
+    StructNKGPCupEntry_CopyTo_from_thumb(&g_SaveDataHolder->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
     return 1;
 }
 

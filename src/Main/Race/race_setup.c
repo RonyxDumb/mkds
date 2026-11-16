@@ -25,70 +25,70 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-RaceSetupCopy *gRaceSetupCopy;
+RaceSetupCopy *g_GlobalCA;
 
 #pragma thumb on
 
-void CreateRaceSetupCopy(void *heap) {
-    gRaceSetupCopy = HeapAlloc(heap, (0x00000110u));
-    ResetRaceSetupCopy();
+void InitializeGlobalCA_from_thumb(void *heap) {
+    g_GlobalCA = Mem_AllocateHeap(heap, (0x00000110u));
+    DoInitializeGlobalCA_from_thumb();
 }
 
 #pragma thumb off
 
-void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size) {
+void Mem_CpuFastMemorySet2(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
-    MIi_CpuClearFast(valueCopy, destination, size);
+    Mem_CpuFastMemorySet(valueCopy, destination, size);
 }
 
-void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size) {
-    RaceSetupCopyMI_CpuFillFast(destination, 0, size);
+void CpuFastMemoryZero(void *destination, u32 size) {
+    Mem_CpuFastMemorySet2(destination, 0, size);
 }
 
-u32 RaceSetupCopyGetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+u32 GetPMaybeState(void) {
+    return (g_GlobalP->mConnectionKind);
 }
 
 #pragma optimize_for_size on
-u16 *RaceSetupCopyMB_GetMultiBootParam(void) {
+u16 *GetBootIndicatorPointer(void) {
     return &gBootInfo->mBootType;
 }
 
-u32 RaceSetupCopyMB_IsMultiBootChild(void) {
-    if (*RaceSetupCopyMB_GetMultiBootParam() == 2) {
+u32 IsDwc(void) {
+    if (*GetBootIndicatorPointer() == 2) {
         return 1;
     }
     return 0;
 }
 
-u32 RaceSetupCopyMB_IsMultiBootChildWrapper(void) {
-    return RaceSetupCopyMB_IsMultiBootChild();
+u32 j_IsDwc(void) {
+    return IsDwc();
 }
 
 #pragma thumb on
 
-void ResetRaceSetupCopy(void) {
+void DoInitializeGlobalCA_from_thumb(void) {
     s32 entryIndex;
-    RaceSetupCopyMI_CpuClearFast(gRaceSetupCopy, 0x110);
+    CpuFastMemoryZero(g_GlobalCA, 0x110);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mKartIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_NONE;
-        gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = KART_ENTRY_LISTED_CPU_SLOT_NONE;
+        g_GlobalCA->mEntries[entryIndex].mCharacterIndex = -1;
+        g_GlobalCA->mEntries[entryIndex].mKartIndex = -1;
+        g_GlobalCA->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_NONE;
+        g_GlobalCA->mEntries[entryIndex].mTeamIndex = -1;
+        g_GlobalCA->mEntries[entryIndex].mListedCpuSlot = KART_ENTRY_LISTED_CPU_SLOT_NONE;
     }
-    gRaceSetupCopy->mMissionTableRow = 1;
-    gRaceSetupCopy->mMissionTableColumn = 1;
-    if (RaceSetupCopyGetConnectionKind() == 0) {
-        if (RaceSetupCopyMB_IsMultiBootChildWrapper() == 0) {
-            gRaceSetupCopy->mMissionFile = FindSceneFile("mission.mr");
+    g_GlobalCA->mMissionTableRow = 1;
+    g_GlobalCA->mMissionTableColumn = 1;
+    if (GetPMaybeState() == 0) {
+        if (j_IsDwc() == 0) {
+            g_GlobalCA->mMissionFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mission.mr");
         } else {
-            gRaceSetupCopy->mMissionFile = NULL;
+            g_GlobalCA->mMissionFile = NULL;
         }
-        if (gRaceSetupCopy->mMissionFile != NULL) {
-            gRaceSetupCopy->mMissionFileRows = (MissionFileRow *) (gRaceSetupCopy->mMissionFile + 8);
+        if (g_GlobalCA->mMissionFile != NULL) {
+            g_GlobalCA->mMissionFileRows = (MissionFileRow *) (g_GlobalCA->mMissionFile + 8);
         } else {
-            gRaceSetupCopy->mMissionFileRows = NULL;
+            g_GlobalCA->mMissionFileRows = NULL;
         }
     }
 }
@@ -96,42 +96,42 @@ void ResetRaceSetupCopy(void) {
 
 #pragma thumb on
 
-RaceSetupCopy *GetRaceSetupCopy(void) {
-    return gRaceSetupCopy;
+RaceSetupCopy *GetGlobalCA_from_thumb(void) {
+    return g_GlobalCA;
 }
 
 #pragma thumb off
 
 void WiFiSetNextCpuDifficulty(u32 cpuDifficulty) {
-    gRaceSetup->mNextHeader.mCpuDifficulty = cpuDifficulty;
+    g_GlobalCO->mNextHeader.mCpuDifficulty = cpuDifficulty;
 }
 
 void WiFiSetNextMode(u32 mode) {
-    gRaceSetup->mNextHeader.mMode = mode;
+    g_GlobalCO->mNextHeader.mMode = mode;
 }
 
 void WiFiSetNextCourseId(u32 courseId) {
-    gRaceSetup->mNextHeader.mCourseId = courseId;
+    g_GlobalCO->mNextHeader.mCourseId = courseId;
 }
 
 void WiFiSetNextEngineIndex(u32 engineIndex) {
-    gRaceSetup->mNextHeader.mEngineIndex = engineIndex;
+    g_GlobalCO->mNextHeader.mEngineIndex = engineIndex;
 }
 
 void WiFiSetNextMirrorMode(u32 mirrorMode) {
-    gRaceSetup->mNextHeader.mMirrorMode = (u8) mirrorMode;
+    g_GlobalCO->mNextHeader.mMirrorMode = (u8) mirrorMode;
 }
 
 void WiFiSetNextUseTeams(u32 useTeams) {
-    gRaceSetup->mNextHeader.mUseTeams = useTeams;
+    g_GlobalCO->mNextHeader.mUseTeams = useTeams;
 }
 
 void WiFiSetNextRuleKind(u32 ruleKind) {
-    gRaceSetup->mNextHeader.mRuleKind = ruleKind;
+    g_GlobalCO->mNextHeader.mRuleKind = ruleKind;
 }
 
 void WiFiSetNextCourseListMode(u32 courseListMode) {
-    gRaceSetup->mNextHeader.mCourseListMode = courseListMode;
+    g_GlobalCO->mNextHeader.mCourseListMode = courseListMode;
 }
 
 #pragma optimize_for_size on
@@ -146,17 +146,17 @@ void SetNextRaceSetupFromKartMask(void) {
     WiFiSetNextCpuDifficulty(0);
     for (packedIndex = 0; packedIndex < 4; packedIndex++) {
         if (GetKartMaskBitOfPackedIndex(packedIndex) != 0) {
-            SetNextRaceEntry(nextEntryIndex, gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex,
-                             gRaceSetupCopy->mEntries[packedIndex].mKartIndex,
-                             gRaceSetupCopy->mEntries[packedIndex].mPlayerKind, -1, 3);
+            StructCO_ConfigureRacerDefault(nextEntryIndex, g_GlobalCA->mEntries[packedIndex].mCharacterIndex,
+                             g_GlobalCA->mEntries[packedIndex].mKartIndex,
+                             g_GlobalCA->mEntries[packedIndex].mPlayerKind, -1, 3);
             nextEntryIndex++;
         }
     }
     for (; nextEntryIndex < 8; nextEntryIndex++) {
-        SetNextRaceEntry(nextEntryIndex, -1, -1, PLAYER_KIND_NONE, -1, 3);
+        StructCO_ConfigureRacerDefault(nextEntryIndex, -1, -1, PLAYER_KIND_NONE, -1, 3);
     }
     WiFiSetNextMode(5);
-    WiFiSetNextCourseId(gRaceSetupCopy->mCourseId);
+    WiFiSetNextCourseId(g_GlobalCA->mCourseId);
     WiFiSetNextEngineIndex(1);
     WiFiSetNextMirrorMode(0);
     WiFiSetNextUseTeams(0);
@@ -177,9 +177,9 @@ void CopyRaceSetupCopyToEntries(void) {
     for (packedIndex = 0; packedIndex < 4; packedIndex++) {
         if (GetKartMaskBitOfPackedIndex(packedIndex) != 0) {
             index = GetIndexOfPackedIndex(packedIndex);
-            gMenuShared->mEntries[index].mCharacterIndex = gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex;
-            gMenuShared->mEntries[index].mKartIndex = gRaceSetupCopy->mEntries[packedIndex].mKartIndex;
-            gMenuShared->mEntries[index].mPlayerKind = gRaceSetupCopy->mEntries[packedIndex].mPlayerKind;
+            g_GlobalB488->mEntries[index].mCharacterIndex = g_GlobalCA->mEntries[packedIndex].mCharacterIndex;
+            g_GlobalB488->mEntries[index].mKartIndex = g_GlobalCA->mEntries[packedIndex].mKartIndex;
+            g_GlobalB488->mEntries[index].mPlayerKind = g_GlobalCA->mEntries[packedIndex].mPlayerKind;
         }
     }
 }
@@ -190,9 +190,9 @@ void CopyEntriesToRaceSetupCopy(void) {
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
             packedIndex = GetPackedIndex(index);
-            gRaceSetupCopy->mEntries[packedIndex].mCharacterIndex = gMenuShared->mEntries[index].mCharacterIndex;
-            gRaceSetupCopy->mEntries[packedIndex].mKartIndex = gMenuShared->mEntries[index].mKartIndex;
-            gRaceSetupCopy->mEntries[packedIndex].mPlayerKind = gMenuShared->mEntries[index].mPlayerKind;
+            g_GlobalCA->mEntries[packedIndex].mCharacterIndex = g_GlobalB488->mEntries[index].mCharacterIndex;
+            g_GlobalCA->mEntries[packedIndex].mKartIndex = g_GlobalB488->mEntries[index].mKartIndex;
+            g_GlobalCA->mEntries[packedIndex].mPlayerKind = g_GlobalB488->mEntries[index].mPlayerKind;
         }
     }
 }
@@ -202,115 +202,115 @@ void CopyEntriesToRaceSetupCopy(void) {
 #pragma thumb on
 
 u32 GetCourseId(void) {
-    return (gRaceSetupCopy->mCourseId);
+    return (g_GlobalCA->mCourseId);
 }
 
 u32 GetCharacterIndex(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex);
+    return (g_GlobalCA->mEntries[entryIndex].mCharacterIndex);
 }
 
 u32 GetKartIndex(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mKartIndex);
+    return (g_GlobalCA->mEntries[entryIndex].mKartIndex);
 }
 
 u32 GetPlayerKind(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mPlayerKind);
+    return (g_GlobalCA->mEntries[entryIndex].mPlayerKind);
 }
 
 u32 GetEngineIndex(void) {
-    return (gRaceSetupCopy->mEngineIndex);
+    return (g_GlobalCA->mEngineIndex);
 }
 
-u32 GetCupIndex(void) {
-    return (gRaceSetupCopy->mCupIndex);
+u32 GetSelectedCup_from_thumb(void) {
+    return (g_GlobalCA->mCupIndex);
 }
 
 u32 GetMirrorMode(void) {
-    return (gRaceSetupCopy->mMirrorMode);
+    return (g_GlobalCA->mMirrorMode);
 }
 
 u32 GetCpuDifficulty(void) {
-    return (gRaceSetupCopy->mCpuDifficulty);
+    return (g_GlobalCA->mCpuDifficulty);
 }
 
 u32 GetCourseListMode(void) {
-    return (gRaceSetupCopy->mCourseListMode);
+    return (g_GlobalCA->mCourseListMode);
 }
 
 u32 GetRaceSetupCopyCourseCount(void) {
-    return (gRaceSetupCopy->mCourseCount);
+    return (g_GlobalCA->mCourseCount);
 }
 
 u32 GetRuleKind(void) {
-    return (gRaceSetupCopy->mRuleKind);
+    return (g_GlobalCA->mRuleKind);
 }
 
 u32 GetUseTeams(void) {
-    return (gRaceSetupCopy->mUseTeams);
+    return (g_GlobalCA->mUseTeams);
 }
 
 u32 GetTeamIndex(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mTeamIndex);
+    return (g_GlobalCA->mEntries[entryIndex].mTeamIndex);
 }
 
 u32 GetMissionTableRow(void) {
-    return (gRaceSetupCopy->mMissionTableRow);
+    return (g_GlobalCA->mMissionTableRow);
 }
 
 u32 GetMissionTableColumn(void) {
-    return (gRaceSetupCopy->mMissionTableColumn);
+    return (g_GlobalCA->mMissionTableColumn);
 }
 
 u32 GetRaceSetupCopyEntryIndex(void) {
-    return (gRaceSetupCopy->mEntryIndex);
+    return (g_GlobalCA->mEntryIndex);
 }
 
 u32 GetSessionKartCount(void) {
-    return (gRaceSetupCopy->mSessionKartCount);
+    return (g_GlobalCA->mSessionKartCount);
 }
 
 void SetEngineIndex(u32 engineIndex) {
-    gRaceSetupCopy->mEngineIndex = engineIndex;
+    g_GlobalCA->mEngineIndex = engineIndex;
 }
 
 void SetMirrorMode(void) {
-    gRaceSetupCopy->mMirrorMode = 1;
+    g_GlobalCA->mMirrorMode = 1;
 }
 
 void ClearMirrorMode(void) {
-    gRaceSetupCopy->mMirrorMode = 0;
+    g_GlobalCA->mMirrorMode = 0;
 }
 
 void SetCupIndex(u32 cupIndex) {
-    gRaceSetupCopy->mCupIndex = cupIndex;
+    g_GlobalCA->mCupIndex = cupIndex;
 }
 
 void SetCourseId(u32 courseId) {
-    gRaceSetupCopy->mCourseId = courseId;
+    g_GlobalCA->mCourseId = courseId;
 }
 
 void SetCpuDifficulty(u32 cpuDifficulty) {
-    gRaceSetupCopy->mCpuDifficulty = cpuDifficulty;
+    g_GlobalCA->mCpuDifficulty = cpuDifficulty;
 }
 
 void SetCourseListMode(u32 courseListMode) {
-    gRaceSetupCopy->mCourseListMode = courseListMode;
+    g_GlobalCA->mCourseListMode = courseListMode;
 }
 
 void SetRaceSetupCopyCourseCount(u16 courseCount) {
-    gRaceSetupCopy->mCourseCount = courseCount;
+    g_GlobalCA->mCourseCount = courseCount;
 }
 
 void SetRuleKind(u32 ruleKind) {
-    gRaceSetupCopy->mRuleKind = ruleKind;
+    g_GlobalCA->mRuleKind = ruleKind;
 }
 
 void SetUseTeams(void) {
-    gRaceSetupCopy->mUseTeams = 1;
+    g_GlobalCA->mUseTeams = 1;
 }
 
 void ClearUseTeams(void) {
-    gRaceSetupCopy->mUseTeams = 0;
+    g_GlobalCA->mUseTeams = 0;
 }
 
 #pragma thumb off
@@ -318,27 +318,27 @@ void ClearUseTeams(void) {
 #pragma thumb on
 
 void SetTeamIndex(u16 entryIndex, u32 teamIndex) {
-    gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = teamIndex;
+    g_GlobalCA->mEntries[entryIndex].mTeamIndex = teamIndex;
 }
 
 void SetCharacterIndex(u16 entryIndex, u32 characterIndex) {
-    gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex = characterIndex;
+    g_GlobalCA->mEntries[entryIndex].mCharacterIndex = characterIndex;
 }
 
 void SetKartIndex(u16 entryIndex, u32 kartIndex) {
-    gRaceSetupCopy->mEntries[entryIndex].mKartIndex = kartIndex;
+    g_GlobalCA->mEntries[entryIndex].mKartIndex = kartIndex;
 }
 
 void SetPlayerKind(u16 entryIndex, u32 playerKind) {
-    gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = playerKind;
+    g_GlobalCA->mEntries[entryIndex].mPlayerKind = playerKind;
 }
 
 void SetListedCpuSlot(u16 entryIndex, u32 cpuSlot) {
-    gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = cpuSlot;
+    g_GlobalCA->mEntries[entryIndex].mListedCpuSlot = cpuSlot;
 }
 
 void SetKartStored(u16 entryIndex, u32 kartStored) {
-    gRaceSetupCopy->mEntries[entryIndex].mKartStored = kartStored;
+    g_GlobalCA->mEntries[entryIndex].mKartStored = kartStored;
 }
 
 #pragma thumb off
@@ -346,27 +346,27 @@ void SetKartStored(u16 entryIndex, u32 kartStored) {
 #pragma thumb on
 
 void SetRaceSetupCopyGhostRecordIndex(u32 ghostRecordIndex) {
-    gRaceSetupCopy->mGhostRecordIndex = ghostRecordIndex;
+    g_GlobalCA->mGhostRecordIndex = ghostRecordIndex;
 }
 
 void SetMissionTableRow(u32 missionTableRow) {
-    gRaceSetupCopy->mMissionTableRow = (u8) missionTableRow;
+    g_GlobalCA->mMissionTableRow = (u8) missionTableRow;
 }
 
 void SetMissionTableColumn(u32 missionTableColumn) {
-    gRaceSetupCopy->mMissionTableColumn = (u8) missionTableColumn;
+    g_GlobalCA->mMissionTableColumn = (u8) missionTableColumn;
 }
 
 void SetMissionFileRowIndex(u32 missionFileRowIndex) {
-    gRaceSetupCopy->mMissionFileRowIndex = missionFileRowIndex;
+    g_GlobalCA->mMissionFileRowIndex = missionFileRowIndex;
 }
 
 void SetRaceSetupCopyEntryIndex(u32 entryIndex) {
-    gRaceSetupCopy->mEntryIndex = entryIndex;
+    g_GlobalCA->mEntryIndex = entryIndex;
 }
 
 void SetSessionKartCount(u32 sessionKartCount) {
-    gRaceSetupCopy->mSessionKartCount = sessionKartCount;
+    g_GlobalCA->mSessionKartCount = sessionKartCount;
 }
 
 #pragma thumb off

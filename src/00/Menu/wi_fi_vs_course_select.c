@@ -32,7 +32,7 @@ WiFiVSCourseSelectHeapHolder *gWiFiVSCourseSelectState;
 void InitWiFiVSCourseSelectState(void *heap) {
     void *firstOamList;
     void *secondOamList;
-    gWiFiVSCourseSelectState = HeapAlloc(heap, 8);
+    gWiFiVSCourseSelectState = Mem_AllocateHeap(heap, 8);
     gWiFiVSCourseSelectState->mHeap = heap;
     InitWiFiVSCourseSelectNop();
     firstOamList = GetWiFiMenuMainOamList();
@@ -58,13 +58,13 @@ void AdvanceWiFiVSCourseSelectState(void) {
             RequestWiFiState(WIFI_STATE_CONNECTION_LOST);
             return;
         }
-        kartCount = gWiFiSession->mKartCount;
-        GetRaceSetupCopy()->mKartCount = kartCount;
+        kartCount = g_GlobalB->mKartCount;
+        GetGlobalCA_from_thumb()->mKartCount = kartCount;
         SetNextRaceSetupFromKartMask();
-        if ((u32) gMenuShared->mWiFiMenuStartKind <= WIFI_MENU_START_SELECT_CHARACTER) {
+        if ((u32) g_GlobalB488->mWiFiMenuStartKind <= WIFI_MENU_START_SELECT_CHARACTER) {
             AssignCpuNumbersAndSetupFirstCourse();
             AddOtherKartCountToSecondTotal();
-            gMenuShared->mOtherKartCountAdded = TRUE;
+            g_GlobalB488->mOtherKartCountAdded = TRUE;
         }
         CopyRaceSetupCopyToEntries();
         SetWiFiNextScene(2);

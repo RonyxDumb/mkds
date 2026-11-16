@@ -24,7 +24,7 @@ u16 *wcscpy(u16 *dst, const u16 *src) {
 }
 
 // Copies at most n elements of src to dst, then fills the rest of the n elements with 0; returns dst.
-u16 *wcsncpy(u16 *dst, const u16 *src, u32 count) {
+u16 *CopyString16(u16 *dst, const u16 *src, u32 count) {
     u16 *out = dst;
 
     if (count != 0) {
@@ -43,7 +43,7 @@ u16 *wcsncpy(u16 *dst, const u16 *src, u32 count) {
 }
 
 // Appends at most n elements of src after the 0 terminator of dst, then writes a 0 terminator; returns dst.
-u16 *wcsncat(u16 *dst, const u16 *src, u32 count) {
+u16 *SomeStrcat16(u16 *dst, const u16 *src, u32 count) {
     u16 *out = dst;
 
     while (*out++ != 0) {

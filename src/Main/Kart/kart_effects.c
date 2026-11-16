@@ -56,7 +56,7 @@ ParticleEmitter *gFirstCourseCameraEffect;
 s32 gCourseCameraEffectSpeedReciprocal;
 KartStarEffects *gKartStarEffects;
 s32 gOtherKartFullPairCount;
-KartEffects *gKartEffects;
+KartEffects *g_SomeH;
 ParticleEmitter *gSecondCourseCameraEffect;
 OtherKartPairs gOtherKartPairsCopy;
 
@@ -98,7 +98,7 @@ const OtherKartEffectKind gOtherKartEffectKinds[2] = {{0, AdvanceOtherKartEffect
 s32 gOldLuigiAgbFirstChaseEffectBaseDistance = 0x5800;
 
 KartEffects *GetKartEffects(int kartIndex) {
-    return &gKartEffects[kartIndex];
+    return &g_SomeH[kartIndex];
 }
 
 void InitKartEffects(u32 kartCount) {
@@ -107,10 +107,10 @@ void InitKartEffects(u32 kartCount) {
     u16 pairIndex;
 
     kartIndex = 0;
-    gKartEffects = HeapAlloc(GetHeap(GetCurrentHeapCall()), kartCount * 0x58);
+    g_SomeH = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), kartCount * 0x58);
     gKartEffectsCount = kartCount;
     for (; kartIndex < kartCount; kartIndex++) {
-        kartEffects = &gKartEffects[kartIndex];
+        kartEffects = &g_SomeH[kartIndex];
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mContactEffect = NULL;
         kartEffects->mKillerEffect = NULL;
@@ -125,14 +125,14 @@ void InitKartEffects(u32 kartCount) {
     gKartBoostCameraEffect = NULL;
 }
 
-void ComputeKartSidePoints(Kart *kart) {
+void StructMQRacerEntry_SomeFn_61(Kart *kart) {
     u16 sideIndex;
     KartEffects *kartEffects;
     Vec3 scaledPoint;
     Vec3 sideDirection;
     Vec3 modelPoint;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     kart->mDrawBaseRow3 = *kart->mPosSource;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         modelPoint = kart->mKartModelsEntry->mKartOffsetData->mTireOffsets[sideIndex + 2];
@@ -155,32 +155,32 @@ void ComputeKartSidePoints(Kart *kart) {
 void SurfaceEffectStopKartCurrentEffects(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 0);
+    StructMQRacerEntry_SomeFn_18(kart, 0);
 }
 
 void ApplyKartCurrentEffectRow0(Kart *kart) {
     gKartSurfaceEffectRows[0].mStartEffects(
         &gKartSurfaceEffectRows[0].mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
         gKartSurfaceEffectRows[0].mVelocityFactorIndex, kart);
-    StopKartEffectPairs(kart, 0);
+    StructMQRacerEntry_SomeFn_18(kart, 0);
 }
 
 void ApplyKartCurrentEffectRow1(Kart *kart) {
     const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[1];
     row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
-    StopKartEffectPairs(kart, 0);
+    StructMQRacerEntry_SomeFn_18(kart, 0);
 }
 
 void ApplyKartSideEffectsRow2(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
@@ -192,7 +192,7 @@ void ApplyKartSideEffectsRow2(Kart *kart) {
 void ApplyKartSideEffectsRow3(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
@@ -207,7 +207,7 @@ void ApplyKartSideEffectsRow3(Kart *kart) {
 void ApplyKartSideEffectsRow4(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
@@ -222,7 +222,7 @@ void ApplyKartSideEffectsRow4(Kart *kart) {
 void ApplyKartSideEffectsRow5(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
@@ -237,7 +237,7 @@ void ApplyKartSideEffectsRow5(Kart *kart) {
 void ApplyKartSideEffectsRow6(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
@@ -252,7 +252,7 @@ void ApplyKartSideEffectsRow6(Kart *kart) {
 void ApplyKartCurrentEffectRow7(Kart *kart) {
     const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[7];
     row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
-    StopKartEffectPairs(kart, 0);
+    StructMQRacerEntry_SomeFn_18(kart, 0);
 }
 
 // Starts the boost effect in front of the chase camera; the previous one is told to end.
@@ -262,11 +262,11 @@ void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
     if (GetCurrentCameraKind() != 0) {
         return;
     }
-    GetChaseCamera();
+    GetGlobalHD5();
     if (gKartBoostCameraEffect != NULL) {
         gKartBoostCameraEffect->mFlags.mEnding = 1;
     }
-    effect = StartEffect(gKartBoostCameraEffectIds[effectIdIndex], &gKartEffectVec3Zero);
+    effect = StartEffect(gKartBoostCameraEffectIds[effectIdIndex], &g_SomeVec);
     effect->mCallbackState = 0;
     effect->mCallbackData = kart;
     effect->mCallback = AdvanceKartBoostCameraEffect;
@@ -281,14 +281,14 @@ void ApplyKartSurfaceEffect(u16 functionIndex, Kart *kart) {
         gKartSurfaceEffectFunctions[functionIndex](kart);
         return;
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 0);
-    kartEffects = &gKartEffects[kart->mIndex];
+    StructMQRacerEntry_SomeFn_18(kart, 0);
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         kartEffects->mWaterEffect0->mCallbackBytes.mCounting = 1;
         kartEffects->mWaterEffect0 = 0;
@@ -307,7 +307,7 @@ void ApplyKartWaterEffects(Kart *kart) {
         StartKartWaterEffects(&gKartSurfaceEffectRows[3].mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], 1, kart);
         return;
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         kartEffects->mWaterEffect0->mCallbackBytes.mCounting = 1;
         kartEffects->mWaterEffect0 = 0;
@@ -330,7 +330,7 @@ void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart) {
     if (row->mStartEffects(effectIdSet, row->mVelocityFactorIndex, kart) == 0) {
         return;
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     for (pairIndex = 0; pairIndex < effectIdSet->mCount; pairIndex++) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
             if (kartEffects->mEffectPairs[pairIndex].mEffects[sideIndex] != 0) {
@@ -344,14 +344,14 @@ BOOL StartKartCurrentEffect(const KartEffectIdSet *effectIdSet, s32 velocityFact
     KartEffects *kartEffects;
     ParticleEmitter *effect;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (effectIdSet->mEffectIds[0] == kartEffects->mCurrentEffectId) {
         return FALSE;
     }
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
     }
-    effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
+    effect = StartEffect(effectIdSet->mEffectIds[0], &g_SomeVec);
     kartEffects->mCurrentEffect = effect;
     kartEffects->mCurrentEffectId = effectIdSet->mEffectIds[0];
     effect->mCallbackData = kart;
@@ -370,7 +370,7 @@ s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityF
 
     started = pairIndex = 0;
     for (; pairIndex < effectIdSet->mCount; pairIndex++) {
-        kartEffects = &gKartEffects[kart->mIndex];
+        kartEffects = &g_SomeH[kart->mIndex];
         sideIndex = 0;
         if (effectIdSet->mEffectIds[pairIndex] != kartEffects->mEffectIds[pairIndex]) {
             if (kartEffects->mEffectPairs[pairIndex].mEffect0 != 0) {
@@ -381,8 +381,8 @@ s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityF
             }
             kartEffects->mEffectIds[pairIndex] = effectIdSet->mEffectIds[pairIndex];
             do {
-                effect = StartEffect(kartEffects->mEffectIds[pairIndex], &gKartEffectVec3Zero);
-                gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
+                effect = StartEffect(kartEffects->mEffectIds[pairIndex], &g_SomeVec);
+                g_SomeH[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
                 effect->mCallbackData = kart;
                 effect->mCallbackBytes.mSideIndex = sideIndex;
                 sideIndex++;
@@ -403,7 +403,7 @@ s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 vel
 
     started = pairIndex = 0;
     for (; pairIndex < effectIdSet->mCount; pairIndex++) {
-        kartEffects = &gKartEffects[kart->mIndex];
+        kartEffects = &g_SomeH[kart->mIndex];
         sideIndex = 0;
         if (effectIdSet->mEffectIds[pairIndex] != kartEffects->mEffectIds[pairIndex]) {
             if (kartEffects->mEffectPairs[pairIndex].mEffect0 != 0) {
@@ -414,8 +414,8 @@ s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 vel
             }
             kartEffects->mEffectIds[pairIndex] = effectIdSet->mEffectIds[pairIndex];
             do {
-                effect = StartEffect(kartEffects->mEffectIds[pairIndex], &gKartEffectVec3Zero);
-                gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
+                effect = StartEffect(kartEffects->mEffectIds[pairIndex], &g_SomeVec);
+                g_SomeH[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
                 effect->mCallbackData = kart;
                 effect->mCallbackBytes.mSideIndex = sideIndex;
                 sideIndex++;
@@ -433,13 +433,13 @@ BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFacto
     ParticleEmitter *effect;
     u16 sideIndex;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0 || kartEffects->mWaterEffect1 != 0) {
         return FALSE;
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
-        gKartEffects[kart->mIndex].mWaterEffects[sideIndex] = effect;
+        effect = StartEffect(effectIdSet->mEffectIds[0], &g_SomeVec);
+        g_SomeH[kart->mIndex].mWaterEffects[sideIndex] = effect;
         effect->mCallbackData = kart;
         effect->mCallbackBytes.mSideIndex = sideIndex;
         effect->mVelocityFactorIndex = velocityFactorIndex;
@@ -451,20 +451,20 @@ BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFacto
 void StopKartCurrentEffects(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mCallbackBytes.mCounting = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 0);
+    StructMQRacerEntry_SomeFn_18(kart, 0);
 }
 
-void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce) {
+void StructMQRacerEntry_SomeFn_18(Kart *kart, s32 deleteAtOnce) {
     u16 pairIndex;
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     for (pairIndex = 0; pairIndex < 2; pairIndex++) {
         if (kartEffects->mEffectPairs[pairIndex].mEffect0 != 0 || kartEffects->mEffectPairs[pairIndex].mEffect1 != 0) {
             if (deleteAtOnce == 0) {
@@ -483,7 +483,7 @@ void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce) {
 void StopKartWaterEffects(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         kartEffects->mWaterEffect0->mCallbackBytes.mCounting = 1;
         kartEffects->mWaterEffect0 = 0;
@@ -495,17 +495,17 @@ void StopKartWaterEffects(Kart *kart) {
 }
 
 // Deletes the current, side and water effects of the kart at once.
-void ReleaseKartSurfaceEffects(Kart *kart) {
+void StructMQRacerEntry_SomeFn_17(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         DeleteEffect(kartEffects->mCurrentEffect);
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 1);
-    kartEffects = &gKartEffects[kart->mIndex];
+    StructMQRacerEntry_SomeFn_18(kart, 1);
+    kartEffects = &g_SomeH[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         DeleteEffect(kartEffects->mWaterEffect0);
         kartEffects->mWaterEffect0 = 0;
@@ -528,7 +528,7 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
+    chaseCamera = GetGlobalHD5();
     kart = effect->mCallbackData;
     if (GetCurrentCameraKind() != 0 ||
         (effect->mFlags.mEmissionStopped != 0 && (effect->mCallbackState = effect->mCallbackState + 1,
@@ -544,7 +544,7 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
     forwardOffset.x = MUL_FIXED12_NO_ROUND(chaseCamera->mForward.x, 0x5000);
     forwardOffset.y = MUL_FIXED12_NO_ROUND(chaseCamera->mForward.y, 0x5000);
     forwardOffset.z = MUL_FIXED12_NO_ROUND(chaseCamera->mForward.z, 0x5000);
-    VEC_Add(&forwardOffset, &viewPos, &effectPos);
+    VecFx32_Add(&forwardOffset, &viewPos, &effectPos);
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = effectPos.z + effect->mResource->mHeader->mPositionOffset.z;
@@ -574,7 +574,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
     stepCount = effect->mCallbackBytes.mStepCount;
     counting = effect->mCallbackBytes.mCounting;
     stopsEmission = 1;
-    if (IsKartTurnEffectsActive(kart) == 0) {
+    if (StructMQRacerEntry_SomeFn_51(kart) == 0) {
         if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             stopsEmission = 0;
         }
@@ -591,7 +591,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
         }
     }
     effect->mCallbackBytes.mStepCount = stepCount;
-    VEC_Add(kart->mPosSource, &offsetBehind, &effectPos);
+    VecFx32_Add(kart->mPosSource, &offsetBehind, &effectPos);
     effectPos.x = effectPos.x >> 4;
     effectPos.y = effectPos.y >> 4;
     effectPos.z = effectPos.z >> 4;
@@ -617,12 +617,12 @@ void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kart = effect->mCallbackData;
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     stepCount = effect->mCallbackBytes.mStepCount;
     counting = effect->mCallbackBytes.mCounting;
     sideIndex = effect->mCallbackBytes.mSideIndex;
     stopsEmission = 1;
-    if (IsKartTurnEffectsActive(kart) == 0) {
+    if (StructMQRacerEntry_SomeFn_51(kart) == 0) {
         if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             stopsEmission = 0;
         }
@@ -659,14 +659,14 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kart = effect->mCallbackData;
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     velocity = kart->mEffectVelocity;
     stepCount = effect->mCallbackBytes.mStepCount;
     counting = effect->mCallbackBytes.mCounting;
     sideIndex = effect->mCallbackBytes.mSideIndex;
     velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
     stopsEmission = 1;
-    if (IsKartTurnEffectsActive(kart) == 0) {
+    if (StructMQRacerEntry_SomeFn_51(kart) == 0) {
         if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             stopsEmission = 0;
         }
@@ -709,7 +709,7 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kart = effect->mCallbackData;
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     velocity = kart->mEffectVelocity;
     stopsEmission = 1;
     isSlowOrTurning = 1;
@@ -717,7 +717,7 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
     counting = effect->mCallbackBytes.mCounting;
     sideIndex = effect->mCallbackBytes.mSideIndex;
     velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
-    if (IsKartTurnEffectsActive(kart) == 0) {
+    if (StructMQRacerEntry_SomeFn_51(kart) == 0) {
         if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             isSlowOrTurning = 0;
         }
@@ -795,7 +795,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
             if (pair->mFirst < 0) {
                 break;
             }
-            effect = StartRaceFogOffEffect(effectKind->mEffectId, &gKartEffectVec3Zero);
+            effect = StartRaceFogOffEffect(effectKind->mEffectId, &g_SomeVec);
             startedCount++;
             effect->mCallback = effectKind->mAdvance;
             effect->mOtherKartBytes.mFirstKartIndex = pair->mFirst;
@@ -832,7 +832,7 @@ void PlaceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
         }
         kartIndex = state->mFirstKartIndex;
     }
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     pointX = kart->mPointAlongUp.x;
     pointY = kart->mPointAlongUp.y;
     pointZ = kart->mPointAlongUp.z;
@@ -854,7 +854,7 @@ void InitCourseCameraEffects(void) {
     s32 engineScale;
     s32 engineIndex;
 
-    engineIndex = gRaceSetup->mEngineIndex;
+    engineIndex = g_GlobalCO->mEngineIndex;
     engineScale = 0x1000;
     switch (engineIndex) {
         case ENGINE_CLASS_MEDIUM:
@@ -867,29 +867,29 @@ void InitCourseCameraEffects(void) {
     gCourseCameraEffectSpeedReciprocal = FX_Div(0x1000, MUL_FIXED12_ROUNDED(engineScale, 0x779a));
     gSecondCourseCameraEffect = NULL;
     gFirstCourseCameraEffect = NULL;
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_OLD_LUIGI_AGB: {
             ParticleEmitter *effect;
 
-            if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                effect = StartEffect(0x24, &gKartEffectVec3Zero);
+            if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
+                effect = StartEffect(0x24, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbFirstChaseEffect;
-                effect = StartEffect(0x27, &gKartEffectVec3Zero);
+                effect = StartEffect(0x27, &g_SomeVec);
                 gSecondCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbSecondChaseEffect;
-            } else if (GetRaceUseChainCameras() != 0) {
-                effect = StartEffect(0x3d, &gKartEffectVec3Zero);
+            } else if (IsNotStaffRoll() != 0) {
+                effect = StartEffect(0x3d, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
-                effect = StartEffect(0x3f, &gKartEffectVec3Zero);
+                effect = StartEffect(0x3f, &g_SomeVec);
                 gSecondCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             } else {
-                effect = StartEffect(0x3c, &gKartEffectVec3Zero);
+                effect = StartEffect(0x3c, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
-                effect = StartEffect(0x3f, &gKartEffectVec3Zero);
+                effect = StartEffect(0x3f, &g_SomeVec);
                 gSecondCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             }
@@ -898,19 +898,19 @@ void InitCourseCameraEffects(void) {
         case 0x10: {
             ParticleEmitter *effect;
 
-            if (GetRaceUseChainCameras() != 0) {
-                effect = StartEffect(0x3e, &gKartEffectVec3Zero);
+            if (IsNotStaffRoll() != 0) {
+                effect = StartEffect(0x3e, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldFrappe64FirstCurrentCameraEffect;
-            } else if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                effect = StartEffect(0x29, &gKartEffectVec3Zero);
+            } else if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
+                effect = StartEffect(0x29, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldFrappe64FirstChaseEffect;
-                effect = StartEffect(0x25, &gKartEffectVec3Zero);
+                effect = StartEffect(0x25, &g_SomeVec);
                 gSecondCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldFrappe64SecondChaseEffect;
             } else {
-                effect = StartEffect(0x29, &gKartEffectVec3Zero);
+                effect = StartEffect(0x29, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldFrappe64FirstCurrentCameraEffect;
             }
@@ -927,15 +927,15 @@ void AdvanceOldLuigiAgbSecondChaseEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
+    chaseCamera = GetGlobalHD5();
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
-    VEC_MultAdd(0x5800, &forwardFlat, &chaseCamera->mViewPos, &effectPos);
+    VecFx32_AddScale1(0x5800, &forwardFlat, &chaseCamera->mViewPos, &effectPos);
     effectPos.y = 0x1f400;
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
@@ -959,16 +959,16 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
-    kart = GetKart(gRaceSetup->mEntryIndex);
+    chaseCamera = GetGlobalHD5();
+    kart = GetRacerMQEntry(g_GlobalCO->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
-    VEC_CrossProduct(&gKartEffectVec3UnitY, &forwardFlat, &axis);
+    VecFx32_CrossProduct(&gKartEffectVec3UnitY, &forwardFlat, &axis);
     speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
     rotatedVector = gOldLuigiAgbFirstChaseEffectDirection;
     extraDistance = 0;
@@ -988,10 +988,10 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     effect->mAxisSpeed = (s16) (MUL_FIXED12_ROUNDED(0x1000 - speedRatio, 0x800) + 0x800);
     effect->mDirection = directionHalfwords;
     distanceSlope = gOldLuigiAgbFirstChaseEffectDistanceSlope + extraDistance;
-    VEC_MultAdd(gOldLuigiAgbFirstChaseEffectBaseDistance +
+    VecFx32_AddScale1(gOldLuigiAgbFirstChaseEffectBaseDistance +
                     (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12),
                 &forwardFlat, &chaseCamera->mViewPos, &effectPos);
-    effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
+    effectPos.y = GetRacerMQEntry(g_GlobalCO->mEntryIndex)->mPosSource->y >> 4;
     effectPos.y = effectPos.y - MUL_FIXED12_ROUNDED(gOldLuigiAgbFirstChaseEffectHeightDrop, speedRatio);
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
@@ -1006,15 +1006,15 @@ void AdvanceOldLuigiAgbSecondCurrentCameraEffect(ParticleEmitter *effect, s32 ph
     if (phase != 0) {
         return;
     }
-    currentCamera = GetCurrentCamera();
+    currentCamera = GetGlobalHD4();
     forwardFlat = currentCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
-    VEC_MultAdd(gKartCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
+    VecFx32_AddScale1(gKartCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y = 0x1f400;
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
@@ -1032,24 +1032,24 @@ void AdvanceOldLuigiAgbFirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     if (phase != 0) {
         return;
     }
-    currentCamera = GetCurrentCamera();
-    GetKart(gRaceSetup->mEntryIndex);
+    currentCamera = GetGlobalHD4();
+    GetRacerMQEntry(g_GlobalCO->mEntryIndex);
     forwardFlat = currentCamera->mForward;
     negatedUnitY = gKartEffectVec3UnitY;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
-    VEC_CrossProduct(&gKartEffectVec3UnitY, &forwardFlat, &axis);
+    VecFx32_CrossProduct(&gKartEffectVec3UnitY, &forwardFlat, &axis);
     negatedUnitY.y = negatedUnitY.y * 0xffffffff;
     directionHalfwords.x = negatedUnitY.x;
     directionHalfwords.y = negatedUnitY.y;
     directionHalfwords.z = negatedUnitY.z;
     effect->mAxisSpeed = TO_FIXED12(1);
     effect->mDirection = directionHalfwords;
-    VEC_MultAdd(gOldLuigiAgbFirstCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
+    VecFx32_AddScale1(gOldLuigiAgbFirstCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y =
         effectPos.y + (gOldLuigiAgbFirstCameraEffectHeightOffset +
                        MUL_FIXED12_ROUNDED(currentCamera->mForward.y, gOldLuigiAgbFirstCameraEffectForwardYScale));
@@ -1068,17 +1068,17 @@ void AdvanceOldFrappe64SecondChaseEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
-    kart = GetKart(gRaceSetup->mEntryIndex);
+    chaseCamera = GetGlobalHD5();
+    kart = GetRacerMQEntry(g_GlobalCO->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
-    VEC_MultAdd(0x5800, &forwardFlat, &chaseCamera->mViewPos, &effectPos);
-    effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
+    VecFx32_AddScale1(0x5800, &forwardFlat, &chaseCamera->mViewPos, &effectPos);
+    effectPos.y = GetRacerMQEntry(g_GlobalCO->mEntryIndex)->mPosSource->y >> 4;
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = effectPos.z + effect->mResource->mHeader->mPositionOffset.z;
@@ -1100,8 +1100,8 @@ void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
-    kart = GetKart(gRaceSetup->mEntryIndex);
+    chaseCamera = GetGlobalHD5();
+    kart = GetRacerMQEntry(g_GlobalCO->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
     speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
     extraDistance = 0;
@@ -1115,12 +1115,12 @@ void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
     extraDistance = extraDistance * 3;
-    VEC_MultAdd((s32) (((s64) extraDistance * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat,
+    VecFx32_AddScale1((s32) (((s64) extraDistance * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
-    effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
+    effectPos.y = GetRacerMQEntry(g_GlobalCO->mEntryIndex)->mPosSource->y >> 4;
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = effectPos.z + effect->mResource->mHeader->mPositionOffset.z;
@@ -1136,12 +1136,12 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     if (phase != 0) {
         return;
     }
-    currentCamera = GetCurrentCamera();
+    currentCamera = GetGlobalHD4();
     forwardFlat = currentCamera->mForward;
-    extraOffset = gKartEffectVec3Zero;
+    extraOffset = g_SomeVec;
     if (GetEntryRaceEnded() != 0) {
-        FX_Atan2Idx(currentCamera->mHalfFovPairFirst, currentCamera->mHalfFovPairSecond);
-        VEC_Subtract(&currentCamera->mPos, &currentCamera->mPrevPos, &extraOffset);
+        FX_Atan2(currentCamera->mHalfFovPairFirst, currentCamera->mHalfFovPairSecond);
+        VecFx32_Subtract(&currentCamera->mPos, &currentCamera->mPrevPos, &extraOffset);
         extraOffset.x = extraOffset.x >> 4;
         extraOffset.y = extraOffset.y >> 4;
         extraOffset.z = extraOffset.z >> 4;
@@ -1150,13 +1150,13 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     if ((s64) forwardFlat.z * forwardFlat.z +
             SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        Vector3_MaybeNormalize(&forwardFlat, &forwardFlat);
     }
-    VEC_MultAdd(gKartCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
+    VecFx32_AddScale1(gKartCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y =
         effectPos.y + (gOldFrappe64FirstCameraEffectHeightOffset +
                        MUL_FIXED12_ROUNDED(currentCamera->mForward.y, gOldFrappe64FirstCameraEffectForwardYScale));
-    VEC_Add(&effectPos, &extraOffset, &effectPos);
+    VecFx32_Add(&effectPos, &extraOffset, &effectPos);
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = effectPos.z + effect->mResource->mHeader->mPositionOffset.z;
@@ -1166,11 +1166,11 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
 void SwitchCourseCameraEffectsToCurrentCamera(void) {
     ParticleEmitter *effect;
 
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_OLD_LUIGI_AGB:
             if (gFirstCourseCameraEffect != NULL) {
                 DeleteEffect(gFirstCourseCameraEffect);
-                effect = StartEffect(0x3c, &gKartEffectVec3Zero);
+                effect = StartEffect(0x3c, &g_SomeVec);
                 gFirstCourseCameraEffect = effect;
                 effect->mCallback = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
             }
@@ -1178,7 +1178,7 @@ void SwitchCourseCameraEffectsToCurrentCamera(void) {
                 return;
             }
             DeleteEffect(gSecondCourseCameraEffect);
-            effect = StartEffect(0x3f, &gKartEffectVec3Zero);
+            effect = StartEffect(0x3f, &g_SomeVec);
             gSecondCourseCameraEffect = effect;
             effect->mCallback = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             break;
@@ -1216,7 +1216,7 @@ void AdvanceKartFollowEffect(ParticleEmitter *effect, s32 phase) {
     }
     kartIndex = effect->mKartIndex;
     stepCount = effect->mStepCount;
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     kartPos = kart->mPosSource;
     posX = kartPos->x;
     posY = kartPos->y;
@@ -1254,7 +1254,7 @@ void AdvanceKartFollowEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
     }
     kartIndex = effect->mKartIndex;
     stepCount = effect->mStepCount;
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     kartPos = kart->mPosSource;
     posX = kartPos->x;
     posY = kartPos->y;
@@ -1303,12 +1303,12 @@ void PlaceEffectAheadAndUpOfKart(ParticleEmitter *effect, Kart *kart, s32 upDist
     position.x = kartPos->x >> 4;
     position.y = kartPos->y >> 4;
     position.z = kartPos->z >> 4;
-    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.z, aheadDistance), &kart->mRotationRow2, &position, &position);
-    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, upDistance), &kart->mRotationRow1, &position, &position);
+    VecFx32_AddScale1(MUL_FIXED12_ROUNDED(kart->mScale.z, aheadDistance), &kart->mRotationRow2, &position, &position);
+    VecFx32_AddScale1(MUL_FIXED12_ROUNDED(kart->mScale.y, upDistance), &kart->mRotationRow1, &position, &position);
     effect->mPosition.x = position.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = position.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = position.z + effect->mResource->mHeader->mPositionOffset.z;
-    GetKartForward(kart, &direction);
+    GetMQRacerVector333(kart, &direction);
     direction.x = -direction.x;
     direction.y = -direction.y;
     direction.z = -direction.z;
@@ -1322,7 +1322,7 @@ void AdvanceKartAheadEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    PlaceKartAheadEffect(effect, GetKart(effect->mKartIndex), effect->mCallbackData);
+    PlaceKartAheadEffect(effect, GetRacerMQEntry(effect->mKartIndex), effect->mCallbackData);
 }
 
 void AdvanceKartAheadEffectWithLimit(ParticleEmitter *effect, s32 phase) {
@@ -1334,7 +1334,7 @@ void AdvanceKartAheadEffectWithLimit(ParticleEmitter *effect, s32 phase) {
     }
     kartIndex = effect->mKartIndex;
     stepCount = effect->mStepCount;
-    PlaceKartAheadEffect(effect, GetKart(kartIndex), effect->mCallbackData);
+    PlaceKartAheadEffect(effect, GetRacerMQEntry(kartIndex), effect->mCallbackData);
     if (stepCount >= effect->mStepLimit) {
         if (stepCount == effect->mStepLimit) {
             effect->mFlags.mEnding = 1;
@@ -1354,7 +1354,7 @@ void StartKartStarEffects(s32 kartIndex) {
             DeleteEffect(starEffects->mEffects[starIndex]);
         }
         starEffects->mEffects[starIndex] =
-            StartEffect(gKartStarEffectIds[starIndex], &GetKart(kartIndex)->mPointAlongUp);
+            StartEffect(gKartStarEffectIds[starIndex], &GetRacerMQEntry(kartIndex)->mPointAlongUp);
         starIndex = starIndex + 1;
     } while (starIndex < 3);
 }
@@ -1372,7 +1372,7 @@ void AdvanceKartStarEffects(s32 kartIndex) {
     Vec3 velocity;
     Vec3 effectPos;
 
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     secondValue = MulFixed12Rounded(
         gKartStarEffectAxisSpeedMin +
             MulFixed12Rounded(kart->mVelocityLengthRatio, gKartStarEffectAxisSpeedMax - gKartStarEffectAxisSpeedMin),
@@ -1385,7 +1385,7 @@ void AdvanceKartStarEffects(s32 kartIndex) {
     starIndex = 0;
     do {
         if (starEffects->mEffects[starIndex] != NULL) {
-            VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y,
+            VecFx32_AddScale1(MUL_FIXED12_ROUNDED(kart->mScale.y,
                                             gKartStarEffectOffsetByCharacter[kart->mKartModelsEntry->mCharacterIndex]),
                         &kart->mRotationRow1, &kart->mPos, &effectPos);
             PlaceEffect(starEffects->mEffects[starIndex], &effectPos);
@@ -1430,17 +1430,17 @@ void ReleaseKartStarEffects(s32 kartIndex) {
 }
 
 void StartKartKillerEffect(s32 kartIndex) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    KartEffects *kartEffects = &g_SomeH[kartIndex];
 
     if (kartEffects->mKillerEffect != NULL) {
         DeleteEffect(kartEffects->mKillerEffect);
     }
-    kartEffects->mKillerEffect = StartEffect(0x63, &gKartEffectVec3Zero);
+    kartEffects->mKillerEffect = StartEffect(0x63, &g_SomeVec);
 }
 
 // Moves the Killer effect to point b and gives it the kart's velocity.
 void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    KartEffects *kartEffects = &g_SomeH[kartIndex];
     ParticleEmitter *effect = kartEffects->mKillerEffect;
     Kart *kart;
     Vec3 *kartVelocity;
@@ -1452,7 +1452,7 @@ void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position) {
     effect->mPosition.x = position->x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = position->y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = position->z + effect->mResource->mHeader->mPositionOffset.z;
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     kartVelocity = &kart->mEffectVelocity;
     velocity.x = MUL_FIXED12_NO_ROUND(kartVelocity->x, 0xe66);
     velocity.y = MUL_FIXED12_NO_ROUND(kartVelocity->y, 0xe66);

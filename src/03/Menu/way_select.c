@@ -83,9 +83,9 @@ void SetupWay(void) {
 
 void LoadWayFilesAndSetBgCnt(void) {
     WayPaletteFileName ybBgStep21NclName = gYbBgStep21NclName2;
-    LoadFileToVram("char/jbBgStep2.ncg.l", GX_LoadBG2Char);
-    LoadFileToVram("char/ybBgStep2.ncl.l", GX_LoadBGPltt);
-    LoadFileToVram("char/jb3Way.nsc.l", GX_LoadBG2Scr);
+    LoadFileToVram("char/jbBgStep2.ncg.l", CopyBgData_Bg2_Top);
+    LoadFileToVram("char/ybBgStep2.ncl.l", CopyPaletteTop);
+    LoadFileToVram("char/jb3Way.nsc.l", TEQSub_Fn10Impl_Fn12Impl);
     gYbBgStep21Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep21NclName), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;

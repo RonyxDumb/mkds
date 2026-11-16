@@ -25,16 +25,16 @@ NNSG3dRSOnGlb NNS_G3dRSOnGlb;
 BOOL (*NNS_G3dFuncBlendMatDefault)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendMat;
 BOOL (*NNS_G3dFuncBlendJntDefault)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendJnt;
 BOOL (*NNS_G3dFuncBlendVisDefault)(NNSG3dVisAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendVis;
-void (*NNS_G3dFuncAnmMatNsBmaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBma;
-void (*NNS_G3dFuncAnmMatNsBtpDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBtp;
-void (*NNS_G3dFuncAnmMatNsBtaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBta;
-void (*NNS_G3dFuncAnmJntNsBcaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBca;
-void (*NNS_G3dFuncAnmVisNsBvaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBva;
+void (*NNS_G3dFuncAnmMatNsBmaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) Anim_UnkFnPtr_BMA;
+void (*NNS_G3dFuncAnmMatNsBtpDefault)(void *, NNSG3dAnmObj *, u32) = (void *) Anim_UnkFnPtr_BTP;
+void (*NNS_G3dFuncAnmMatNsBtaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) Anim_UnkFnPtr_BTA;
+void (*NNS_G3dFuncAnmJntNsBcaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) Anim_UnkFnPtr_BCA;
+void (*NNS_G3dFuncAnmVisNsBvaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) Anim_UnkFnPtr_BVA;
 u32 NNS_G3dAnmFmtNum = 5;
-NNSG3dAnmObjInitFunc NNS_G3dAnmObjInitFuncArray[10] = {
-    {'M', 0, 'MA', NNSi_G3dAnmObjInitNsBma}, {'M', 0, 'TP', NNSi_G3dAnmObjInitNsBtp},
-    {'M', 0, 'TA', NNSi_G3dAnmObjInitNsBta}, {'V', 0, 'VA', NNSi_G3dAnmObjInitNsBva},
-    {'J', 0, 'CA', NNSi_G3dAnmObjInitNsBca},
+NNSG3dAnmObjInitFunc g_AnimObjectMagics[10] = {
+    {'M', 0, 'MA', CreateAnimBlock_BMA}, {'M', 0, 'TP', CreateAnimBlock_BTP},
+    {'M', 0, 'TA', CreateAnimBlock_BTA}, {'V', 0, 'VA', CreateAnimBlock_BVA},
+    {'J', 0, 'CA', Anim_CreateBlock_BCA},
 };
 
 // Draws one shape of the model, first sending the material and the texture matrix when sendMat is set.
@@ -168,26 +168,26 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         reg_G3X_GXFIFO = 0;
         while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
+        if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
             MTX_Concat44(&clipMtx, &invWV, &clipMtx);
-        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
-            MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
+        } else if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
+            MTX_Copy43To44_(&g_GlobalG3.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
         pos->x = clipMtx.mRows[3].x;
         pos->y = clipMtx.mRows[3].y;
         pos->z = clipMtx.mRows[3].z;
-        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mRows[0]);
-        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mRows[1]);
-        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mRows[2]);
-        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
+        scaleVec->x = VecFx32_Norm((Vec3 *) &clipMtx.mRows[0]);
+        scaleVec->y = VecFx32_Norm((Vec3 *) &clipMtx.mRows[1]);
+        scaleVec->z = VecFx32_Norm((Vec3 *) &clipMtx.mRows[2]);
+        if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
             MIi_CpuSend32(gSbcBillboardMatrix, &reg_G3X_GXFIFO, 0x3c);
-        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
+        } else if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
@@ -260,35 +260,35 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         reg_G3X_GXFIFO = 0;
         while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
+        if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
             MTX_Concat44(&clipMtx, &invWV, &clipMtx);
-        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
-            MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
+        } else if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
+            MTX_Copy43To44_(&g_GlobalG3.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
         pos->x = clipMtx.mRows[3].x;
         pos->y = clipMtx.mRows[3].y;
         pos->z = clipMtx.mRows[3].z;
-        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mRows[0]);
-        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mRows[1]);
-        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mRows[2]);
+        scaleVec->x = VecFx32_Norm((Vec3 *) &clipMtx.mRows[0]);
+        scaleVec->y = VecFx32_Norm((Vec3 *) &clipMtx.mRows[1]);
+        scaleVec->z = VecFx32_Norm((Vec3 *) &clipMtx.mRows[2]);
         if (clipMtx.mRows[1].y != 0 || clipMtx.mRows[1].z != 0) {
-            VEC_Normalize((Vec3 *) &clipMtx.mRows[1], &axes[1]);
+            VecFx32_Normalize((Vec3 *) &clipMtx.mRows[1], &axes[1]);
             axes[2].y = -axes[1].z;
             axes[2].z = axes[1].y;
         } else {
-            VEC_Normalize((Vec3 *) &clipMtx.mRows[2], &axes[2]);
+            VecFx32_Normalize((Vec3 *) &clipMtx.mRows[2], &axes[2]);
             axes[1].z = -axes[2].y;
             axes[1].y = axes[2].z;
         }
-        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
+        if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardYOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
             MIi_CpuSend32(gSbcBillboardYAxes, &reg_G3X_GXFIFO, 0x3c);
-        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
+        } else if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardYOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
@@ -500,12 +500,12 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             NNS_G3dGetCurrentMtx(0, &nrm);
             texModeAfterNormal = G3D_MTX_MODE_TEXTURE;
             NNS_G3dGeBufferOP_N(0x10, &texModeAfterNormal, 1);
-            if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
-                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
-                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
+            if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
+                NNS_G3dGeBufferOP_N(0x1a, &g_GlobalG3.mCameraMtx, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &g_GlobalG3.mPrmBaseRot, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
-            } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
-                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
+            } else if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
+                NNS_G3dGeBufferOP_N(0x1a, &g_GlobalG3.mCameraMtx, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
             } else {
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
@@ -582,11 +582,11 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
             timing = 0;
         }
         if (timing == 0) {
-            if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
-                NNS_G3dGeBufferOP_N(0x1c, &NNS_G3dGlb.mPrmBaseTrans, 3);
-                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
+            if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
+                NNS_G3dGeBufferOP_N(0x1c, &g_GlobalG3.mPrmBaseTrans, 3);
+                NNS_G3dGeBufferOP_N(0x1a, &g_GlobalG3.mPrmBaseRot, 9);
                 NNS_G3dGeBufferOP_N(0x19, &curMatrix, 0xc);
-            } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
+            } else if (g_GlobalG3.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
                 NNS_G3dGeBufferOP_N(0x19, &curMatrix, 0xc);
             } else {
                 NNS_G3dGeBufferOP_N(0x19, NNS_G3dGlbGetInvV(), 0xc);
@@ -716,10 +716,10 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
         }
         anmObj = anmObj->mNext;
     } while (anmObj != 0);
-    VEC_CrossProduct(&result->mRot.mRows[0], &result->mRot.mRows[1], &result->mRot.mRows[2]);
-    VEC_Normalize(&result->mRot.mRows[0], &result->mRot.mRows[0]);
-    VEC_Normalize(&result->mRot.mRows[2], &result->mRot.mRows[2]);
-    VEC_CrossProduct(&result->mRot.mRows[2], &result->mRot.mRows[0], &result->mRot.mRows[1]);
+    VecFx32_CrossProduct(&result->mRot.mRows[0], &result->mRot.mRows[1], &result->mRot.mRows[2]);
+    VecFx32_Normalize(&result->mRot.mRows[0], &result->mRot.mRows[0]);
+    VecFx32_Normalize(&result->mRot.mRows[2], &result->mRot.mRows[2]);
+    VecFx32_CrossProduct(&result->mRot.mRows[2], &result->mRot.mRows[0], &result->mRot.mRows[1]);
     return 1;
 }
 
@@ -744,133 +744,133 @@ BOOL NNSi_G3dAnmBlendVis(NNSG3dVisAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
 
 // Sets the global state to its defaults: command words, identity matrices, lights, colors, viewport and base transform.
 void NNS_G3dGlbInit(void) {
-    NNS_G3dGlb.mCmd0 = 0x17101610;
-    NNS_G3dGlb.mMtxModeProj = 0;
-    NNS_G3dGlb.mMtxModePosVec = G3D_MTX_MODE_POS_VEC;
-    NNS_G3dGlb.mCmd1 = 0x32323232;
-    NNS_G3dGlb.mCmd2 = 0x60293130;
-    NNS_G3dGlb.mCmd3 = 0x33333333;
-    NNS_G3dGlb.mCmd4 = 0x2a1b19;
-    MTX_Identity43_(&NNS_G3dGlb.mCameraMtx);
-    MTX_Identity44_(&NNS_G3dGlb.mProjMtx);
-    NNS_G3dGlb.mLightVec[0] = 0x2d8b62d8;
-    NNS_G3dGlb.mLightVec[1] = 0x40000200;
-    NNS_G3dGlb.mLightVec[2] = 0x800001ff;
-    NNS_G3dGlb.mLightVec[3] = 0xc0080000;
-    NNS_G3dGlb.mPrmMatColor0 = 0x4210c210;
-    NNS_G3dGlb.mPrmMatColor1 = 0x4210c210;
-    NNS_G3dGlb.mPrmPolygonAttr = 0x1f008f;
-    NNS_G3dGlb.mPrmViewPort = VIEWPORT_WHOLE_SCREEN;
-    NNS_G3dGlb.mLightColor[0] = 0x7fff;
-    NNS_G3dGlb.mLightColor[1] = 0x4000001f;
-    NNS_G3dGlb.mLightColor[2] = 0x800003e0;
-    NNS_G3dGlb.mLightColor[3] = 0xc0007c00;
-    NNS_G3dGlb.mPrmBaseTrans.x = 0;
-    NNS_G3dGlb.mPrmBaseTrans.y = 0;
-    NNS_G3dGlb.mPrmBaseTrans.z = 0;
-    MTX_Identity33_(&NNS_G3dGlb.mPrmBaseRot);
-    NNS_G3dGlb.mPrmBaseScale.x = FIXED12_UNIT;
-    NNS_G3dGlb.mPrmBaseScale.y = FIXED12_UNIT;
-    NNS_G3dGlb.mPrmBaseScale.z = FIXED12_UNIT;
-    NNS_G3dGlb.mPrmTexImageParam = 0;
-    NNS_G3dGlb.mFlag = 0;
-    NNS_G3dGlb.mCamPos.z = 0;
-    NNS_G3dGlb.mCamPos.y = 0;
-    NNS_G3dGlb.mCamPos.x = 0;
-    NNS_G3dGlb.mCamUp.z = 0;
-    NNS_G3dGlb.mCamUp.x = 0;
-    NNS_G3dGlb.mCamUp.y = 0x1000;
-    NNS_G3dGlb.mCamTarget.y = 0;
-    NNS_G3dGlb.mCamTarget.x = 0;
-    NNS_G3dGlb.mCamTarget.z = -0x1000;
+    g_GlobalG3.mCmd0 = 0x17101610;
+    g_GlobalG3.mMtxModeProj = 0;
+    g_GlobalG3.mMtxModePosVec = G3D_MTX_MODE_POS_VEC;
+    g_GlobalG3.mCmd1 = 0x32323232;
+    g_GlobalG3.mCmd2 = 0x60293130;
+    g_GlobalG3.mCmd3 = 0x33333333;
+    g_GlobalG3.mCmd4 = 0x2a1b19;
+    MTX_Identity43_(&g_GlobalG3.mCameraMtx);
+    MTX_Identity44_(&g_GlobalG3.mProjMtx);
+    g_GlobalG3.mLightVec[0] = 0x2d8b62d8;
+    g_GlobalG3.mLightVec[1] = 0x40000200;
+    g_GlobalG3.mLightVec[2] = 0x800001ff;
+    g_GlobalG3.mLightVec[3] = 0xc0080000;
+    g_GlobalG3.mPrmMatColor0 = 0x4210c210;
+    g_GlobalG3.mPrmMatColor1 = 0x4210c210;
+    g_GlobalG3.mPrmPolygonAttr = 0x1f008f;
+    g_GlobalG3.mPrmViewPort = VIEWPORT_WHOLE_SCREEN;
+    g_GlobalG3.mLightColor[0] = 0x7fff;
+    g_GlobalG3.mLightColor[1] = 0x4000001f;
+    g_GlobalG3.mLightColor[2] = 0x800003e0;
+    g_GlobalG3.mLightColor[3] = 0xc0007c00;
+    g_GlobalG3.mPrmBaseTrans.x = 0;
+    g_GlobalG3.mPrmBaseTrans.y = 0;
+    g_GlobalG3.mPrmBaseTrans.z = 0;
+    MTX_Identity33_(&g_GlobalG3.mPrmBaseRot);
+    g_GlobalG3.mPrmBaseScale.x = FIXED12_UNIT;
+    g_GlobalG3.mPrmBaseScale.y = FIXED12_UNIT;
+    g_GlobalG3.mPrmBaseScale.z = FIXED12_UNIT;
+    g_GlobalG3.mPrmTexImageParam = 0;
+    g_GlobalG3.mFlag = 0;
+    g_GlobalG3.mCamPos.z = 0;
+    g_GlobalG3.mCamPos.y = 0;
+    g_GlobalG3.mCamPos.x = 0;
+    g_GlobalG3.mCamUp.z = 0;
+    g_GlobalG3.mCamUp.x = 0;
+    g_GlobalG3.mCamUp.y = 0x1000;
+    g_GlobalG3.mCamTarget.y = 0;
+    g_GlobalG3.mCamTarget.x = 0;
+    g_GlobalG3.mCamTarget.z = -0x1000;
 }
 
 // Sends the matrices, lights, colors, viewport and base transform to the geometry engine as one block.
 void NNS_G3dGlbFlushP(void) {
-    u32 *words = (u32 *) &NNS_G3dGlb;
+    u32 *words = (u32 *) &g_GlobalG3;
     u32 command = *words++;
 
     NNS_G3dGeBufferOP_N(command, words, 0x3e);
-    NNS_G3dGlb.mFlag &= ~G3D_GLB_FLAG_USE_BASE_SRT_CAMERA;
-    NNS_G3dGlb.mFlag &= ~G3D_GLB_FLAG_USE_CAMERA;
+    g_GlobalG3.mFlag &= ~G3D_GLB_FLAG_USE_BASE_SRT_CAMERA;
+    g_GlobalG3.mFlag &= ~G3D_GLB_FLAG_USE_CAMERA;
 }
 
 // Sets the base translation and drops the cached matrices that depend on it.
 void NNS_G3dGlbSetBaseTrans(const Vec3 *trans) {
-    NNS_G3dGlb.mPrmBaseTrans = *trans;
-    NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
+    g_GlobalG3.mPrmBaseTrans = *trans;
+    g_GlobalG3.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
 }
 
 // Sets the base scale and drops the cached matrices that depend on it.
 void NNS_G3dGlbSetBaseScale(const Vec3 *scale) {
-    NNS_G3dGlb.mPrmBaseScale = *scale;
-    NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
+    g_GlobalG3.mPrmBaseScale = *scale;
+    g_GlobalG3.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
 }
 
 // Sets the direction of a light.
 void NNS_G3dGlbLightVector(u32 lightId, s32 vectorX, s32 vectorY, s32 vectorZ) {
-    NNS_G3dGlb.mLightVec[lightId] = ((vectorX >> 3) & 0x3ff) | (((vectorY >> 3) & 0x3ff) << 10) |
+    g_GlobalG3.mLightVec[lightId] = ((vectorX >> 3) & 0x3ff) | (((vectorY >> 3) & 0x3ff) << 10) |
                                     (((vectorZ >> 3) & 0x3ff) << 20) | (lightId << 30);
 }
 
 // Sets the color of a light.
 void NNS_G3dGlbLightColor(u32 lightId, u32 rgb) {
-    NNS_G3dGlb.mLightColor[lightId] = rgb | (lightId << 30);
+    g_GlobalG3.mLightColor[lightId] = rgb | (lightId << 30);
 }
 
 // Sets the diffuse and ambient colors.
 void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 vtxColor) {
-    NNS_G3dGlb.mPrmMatColor0 = diffuse | (ambient << 16) | ((vtxColor != 0) << 15);
+    g_GlobalG3.mPrmMatColor0 = diffuse | (ambient << 16) | ((vtxColor != 0) << 15);
 }
 
 // Sets the specular and emission colors.
 void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 shininess) {
-    NNS_G3dGlb.mPrmMatColor1 = specular | (emission << 16) | ((shininess != 0) << 15);
+    g_GlobalG3.mPrmMatColor1 = specular | (emission << 16) | ((shininess != 0) << 15);
 }
 
 // Sets the polygon attributes.
 void NNS_G3dGlbPolygonAttr(u32 light, u32 polyMode, u32 cullMode, u32 polygonId, u32 alpha, u32 extra) {
-    NNS_G3dGlb.mPrmPolygonAttr =
+    g_GlobalG3.mPrmPolygonAttr =
         (extra | (light | (polyMode << 4) | (cullMode << 6))) | (polygonId << 24) | (alpha << 16);
 }
 
 // Returns the inverse of the camera matrix, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetInvV(void) {
-    if (!(NNS_G3dGlb.mFlag & G3D_GLB_FLAG_INV_CAMERA_VALID)) {
-        MTX_Inverse43(&NNS_G3dGlb.mCameraMtx, &NNS_G3dGlb.mInvCameraMtx);
-        NNS_G3dGlb.mFlag |= G3D_GLB_FLAG_INV_CAMERA_VALID;
+    if (!(g_GlobalG3.mFlag & G3D_GLB_FLAG_INV_CAMERA_VALID)) {
+        MTX_Inverse43(&g_GlobalG3.mCameraMtx, &g_GlobalG3.mInvCameraMtx);
+        g_GlobalG3.mFlag |= G3D_GLB_FLAG_INV_CAMERA_VALID;
     }
-    return &NNS_G3dGlb.mInvCameraMtx;
+    return &g_GlobalG3.mInvCameraMtx;
 }
 
 // Computes the camera matrix with the base transform applied, and its inverse.
 void calcSrtCameraMtx_(void) {
-    MTX_Concat43((MtxFx43 *) &NNS_G3dGlb.mPrmBaseRot, &NNS_G3dGlb.mCameraMtx, &NNS_G3dGlb.mSrtCameraMtx);
-    MTX_ScaleApply43(&NNS_G3dGlb.mSrtCameraMtx, &NNS_G3dGlb.mSrtCameraMtx, NNS_G3dGlb.mPrmBaseScale.x,
-                     NNS_G3dGlb.mPrmBaseScale.y, NNS_G3dGlb.mPrmBaseScale.z);
-    MTX_Inverse43(&NNS_G3dGlb.mSrtCameraMtx, &NNS_G3dGlb.mInvSrtCameraMtx);
+    MTX_Concat43((MtxFx43 *) &g_GlobalG3.mPrmBaseRot, &g_GlobalG3.mCameraMtx, &g_GlobalG3.mSrtCameraMtx);
+    MTX_ScaleApply43(&g_GlobalG3.mSrtCameraMtx, &g_GlobalG3.mSrtCameraMtx, g_GlobalG3.mPrmBaseScale.x,
+                     g_GlobalG3.mPrmBaseScale.y, g_GlobalG3.mPrmBaseScale.z);
+    MTX_Inverse43(&g_GlobalG3.mSrtCameraMtx, &g_GlobalG3.mInvSrtCameraMtx);
 }
 
 // Returns the camera matrix with the base transform applied, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetWV(void) {
-    if (!(NNS_G3dGlb.mFlag & G3D_GLB_FLAG_SRT_CAMERA_VALID)) {
+    if (!(g_GlobalG3.mFlag & G3D_GLB_FLAG_SRT_CAMERA_VALID)) {
         calcSrtCameraMtx_();
-        NNS_G3dGlb.mFlag |= G3D_GLB_FLAG_SRT_CAMERA_VALID;
+        g_GlobalG3.mFlag |= G3D_GLB_FLAG_SRT_CAMERA_VALID;
     }
-    return &NNS_G3dGlb.mSrtCameraMtx;
+    return &g_GlobalG3.mSrtCameraMtx;
 }
 
 // Returns the inverse of the camera matrix with the base transform applied, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetInvWV(void) {
-    if (!(NNS_G3dGlb.mFlag & G3D_GLB_FLAG_SRT_CAMERA_VALID)) {
+    if (!(g_GlobalG3.mFlag & G3D_GLB_FLAG_SRT_CAMERA_VALID)) {
         calcSrtCameraMtx_();
-        NNS_G3dGlb.mFlag |= G3D_GLB_FLAG_SRT_CAMERA_VALID;
+        g_GlobalG3.mFlag |= G3D_GLB_FLAG_SRT_CAMERA_VALID;
     }
-    return &NNS_G3dGlb.mInvSrtCameraMtx;
+    return &g_GlobalG3.mInvSrtCameraMtx;
 }
 
 // Returns the size of an animation object for the animation and the model.
-u32 NNS_G3dAnmObjCalcSizeRequired(const NNSG3dResAnmHeader *anm, const NNSG3dResMdl *mdl) {
+u32 Anim_GetNeededBlockSize(const NNSG3dResAnmHeader *anm, const NNSG3dResMdl *mdl) {
     switch (anm->mCategory0) {
         case 'M':
             return ((mdl->mInfo.mNumMat << 1) + 0x1c) & ~3;
@@ -882,8 +882,8 @@ u32 NNS_G3dAnmObjCalcSizeRequired(const NNSG3dResAnmHeader *anm, const NNSG3dRes
     }
 }
 
-// Starts an animation object for the animation and selects the init function of its format.
-void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *resMdl, void *resTex) {
+// Starts an animation object for the animation and selects the StructDC_SomeFn_from_thumb function of its format.
+void MaybeCreateAnimationBlock(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *resMdl, void *resTex) {
     const NNSG3dResAnmHeader *animHeader;
     u32 funcIndex;
 
@@ -895,16 +895,16 @@ void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *r
     anmObj->mResTex = resTex;
     animHeader = resAnm;
     for (funcIndex = 0; funcIndex < NNS_G3dAnmFmtNum; funcIndex++) {
-        if (animHeader->mCategory0 == NNS_G3dAnmObjInitFuncArray[funcIndex].mCategory0 &&
-            animHeader->mCategory1 == NNS_G3dAnmObjInitFuncArray[funcIndex].mCategory1) {
-            NNS_G3dAnmObjInitFuncArray[funcIndex].mFunc(anmObj, resAnm, resMdl);
+        if (animHeader->mCategory0 == g_AnimObjectMagics[funcIndex].mCategory0 &&
+            animHeader->mCategory1 == g_AnimObjectMagics[funcIndex].mCategory1) {
+            g_AnimObjectMagics[funcIndex].mFunc(anmObj, resAnm, resMdl);
             return;
         }
     }
 }
 
 // Clears the render object and sets the default blend functions and the model.
-void NNS_G3dRenderObjInit(NNSG3dRenderObj *renderObj, NNSG3dResMdl *resMdl) {
+void StructML_MaybeSetModel(NNSG3dRenderObj *renderObj, NNSG3dResMdl *resMdl) {
     volatile u32 zero = 0;
 
     MIi_CpuClear32(zero, renderObj, 0x54);

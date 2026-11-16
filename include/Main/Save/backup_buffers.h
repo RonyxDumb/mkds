@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitBackupBuffers(void *heap);
+void InitializeSaveDataHolder_from_thumb(void *heap);

@@ -47,7 +47,7 @@ typedef enum PlayerEntryListMode {
     PLAYER_ENTRY_LIST_MODE_WIFI_SESSION = 2,
 } PlayerEntryListMode;
 
-// One entry of RaceSetupCopy: character, kart, team and player kind; mListedCpuSlot goes to SetNextRaceEntry.
+// One entry of RaceSetupCopy: character, kart, team and player kind; mListedCpuSlot goes to StructCO_ConfigureRacerDefault.
 typedef struct RaceSetupCopyEntry {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -65,7 +65,7 @@ typedef struct RaceSetupCopyEntry {
 #define ENTRY_TRANSITION_FROM_CHARACTER 1
 #define ENTRY_TRANSITION_FROM_KART 2
 
-// A copy of the race setup that the screens edit; it is written to the next half of gRaceSetup when they finish.
+// A copy of the race setup that the screens edit; it is written to the next half of g_GlobalCO when they finish.
 typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
@@ -151,7 +151,7 @@ typedef struct SelectKart {
     // Position of the kart in the table gKartIndexTable that the player steps through; mKartIndex is the kart at that
     // position, -1 when the kart is not in the table.
     /* 09c */ s32 mKartTableIndex;
-    // Index of the entry (element of the array behind gRaceSetupCopy) whose character and kart this screen edits.
+    // Index of the entry (element of the array behind g_GlobalCA) whose character and kart this screen edits.
     /* 0a0 */ s32 mEntryIndex;
     /* 0a4 */ s32 mCharacterIndex;
     /* 0a8 */ s32 mKartIndex;
@@ -326,7 +326,7 @@ typedef struct ResultsBattle {
 // The info of a ghost record: name, character, kart, course and time; one is read and compared with the stored one.
 typedef struct GhostRecordInfo {
     /* 00 */ u16 mName[11];
-    /* 16 */ u8 mUnk_16[2];
+    /* 16 */ u8 mainFunc[2];
     /* 18 */ s32 mCharacterIndex;
     /* 1c */ s32 mKartIndex;
     /* 20 */ s32 mCourseId;
@@ -541,7 +541,7 @@ typedef struct TimeAttackGhostGetSlot {
 
 struct WLMenuMessage;
 
-// Object at gStartupMemory: mHeap is the pointer GetArenaHeap returns.
+// Object at g_GlobalGG: mHeap is the pointer GetGlobalHeapHandle returns.
 typedef struct StartupMemory {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mArm9TextStart;
@@ -551,7 +551,7 @@ typedef struct StartupMemory {
     /* 24 */ u32 mUnk_24;
 } StartupMemory;
 
-extern StartupMemory gStartupMemory;
+extern StartupMemory g_GlobalGG;
 
 extern u8 gDwcInitWork[];
 

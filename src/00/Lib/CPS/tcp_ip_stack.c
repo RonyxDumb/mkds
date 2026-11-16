@@ -89,8 +89,8 @@ void reset_network_vars(u32 reason) {
     CPSDnsIp[1] = 0;
     CPSDhcpServerIp = 0;
     if (addressSeen != 0) {
-        MI_CpuFill8(gArpCache, 0, sizeof(gArpCache));
-        thread = OSi_ThreadInfo.mListHead;
+        Mem_CpuFill8(gArpCache, 0, sizeof(gArpCache));
+        thread = g_Os_ThreadInfo.mListHead;
         if (thread != NULL) {
             do {
                 socket = thread->mSpecific[0];
@@ -100,7 +100,7 @@ void reset_network_vars(u32 reason) {
                     }
                     if (socket->mBlockType != SOCKET_BLOCK_NONE) {
                         socket->mBlockType = SOCKET_BLOCK_NONE;
-                        OS_WakeupThreadDirect(socket->mThread);
+                        Os_Thread_WakeUpDirect(socket->mThread);
                     }
                 }
                 thread = thread->mNext;
@@ -123,7 +123,7 @@ void yield_thread(void) {
     if (gYieldWait == 0) {
         OS_YieldThread();
     } else {
-        OS_Sleep(gYieldWait);
+        Os_Sleep(gYieldWait);
     }
 }
 
@@ -134,13 +134,13 @@ BOOL default_link_is_on(void) {
 }
 
 void CPS_Startup(CPSConfig *config) {
-    OSi_ReferSymbol(BuildInfo.mCps);
+    Os_ReferSymbol(g_StartModuleParams.mCps);
     if (config->mRandomSeed != 0) {
         CPSiRand32ctx[0] = config->mRandomSeed;
         CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
         CPSiRand32ctx[2] = 0x269ec3;
     } else {
-        CPSiRand32ctx[0] = OS_GetTick();
+        CPSiRand32ctx[0] = Os_GetTick();
         CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
         CPSiRand32ctx[2] = 0x269ec3;
     }
@@ -173,28 +173,28 @@ void CPS_Startup(CPSConfig *config) {
     gWlanBufLen = config->mLanBufLen;
     gWlanGetPnt = 0;
     gWlanPutPnt = 0;
-    CPSiRand32ctx[0] = _ll_mul(CPSiRand32ctx[1], CPSiRand32ctx[0]) + CPSiRand32ctx[2];
-    gEport = (_ll_mul(CPSiRand32ctx[0] >> 32, 0xf88) >> 32) + 0x400;
-    OS_GetMacAddress(CPSMyMac);
+    CPSiRand32ctx[0] = Multiply64(CPSiRand32ctx[1], CPSiRand32ctx[0]) + CPSiRand32ctx[2];
+    gEport = (Multiply64(CPSiRand32ctx[0] >> 32, 0xf88) >> 32) + 0x400;
+    Os_GetMacAddress(CPSMyMac);
     gIpConflict = 0;
-    OS_CreateThread(&gTcpipThread, (void (*)(void *)) tcpip, NULL, TCPIP_STACK_TOP, 0x800, gHelperThreadsPriority);
-    OS_CreateThread(&gScavengerThread, (void (*)(void *)) scavenger, NULL, gScavengerStack + 0x800, 0x800,
+    Os_Thread_Create(&gTcpipThread, (void (*)(void *)) tcpip, NULL, TCPIP_STACK_TOP, 0x800, gHelperThreadsPriority);
+    Os_Thread_Create(&gScavengerThread, (void (*)(void *)) scavenger, NULL, gScavengerStack + 0x800, 0x800,
                     gHelperThreadsPriority);
-    OS_WakeupThreadDirect(&gTcpipThread);
-    OS_WakeupThreadDirect(&gScavengerThread);
+    Os_Thread_WakeUpDirect(&gTcpipThread);
+    Os_Thread_WakeUpDirect(&gScavengerThread);
 }
 
 s32 CPS_CalmDown(void) {
     u32 interruptState;
     s32 isTerminated;
 
-    interruptState = OS_DisableInterrupts();
-    isTerminated = OS_IsThreadTerminated(&gScavengerThread);
+    interruptState = Os_DisableIrq();
+    isTerminated = Os_Thread_IsTerminated(&gScavengerThread);
     if (isTerminated == 0 && gScavengerForceExit == 0) {
         gScavengerForceExit = 1;
-        OS_WakeupThreadDirect(&gScavengerThread);
+        Os_Thread_WakeUpDirect(&gScavengerThread);
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return isTerminated;
 }
 
@@ -207,7 +207,7 @@ void CPS_SetScavengerCallback(void (*callback)(void)) {
 
 void CPS_Cleanup(void) {
     CPS_CalmDown();
-    OS_JoinThread(&gScavengerThread);
+    Os_Thread_Join(&gScavengerThread);
     OS_DestroyThread(&gTcpipThread);
     gReceiverThread = NULL;
     reset_network_vars(0);
@@ -217,8 +217,8 @@ void CPS_Cleanup(void) {
 
 void CPS_SetThreadPriority(s32 priority) {
     gHelperThreadsPriority = priority;
-    OS_SetThreadPriority(&gTcpipThread, priority);
-    OS_SetThreadPriority(&gScavengerThread, priority);
+    Os_Thread_SetPriority(&gTcpipThread, priority);
+    Os_Thread_SetPriority(&gScavengerThread, priority);
 }
 
 u32 calc_checksum_do(const void *buffer, u32 length, u32 sum) {
@@ -322,9 +322,9 @@ void send_packet(u8 *header, u32 headerLength, const void *body, u32 bodyLength)
     u8 failed;
 
     if (header + headerLength != body) {
-        MI_CpuCopy8(body, header + headerLength, bodyLength);
+        Mem_CpuCopy8(body, header + headerLength, bodyLength);
     }
-    MI_CpuCopy8(gIpv4LlcSnapHeader, header + 6, 6);
+    Mem_CpuCopy8(gIpv4LlcSnapHeader, header + 6, 6);
     if (WCM_SendDCFData(header, header + 6, headerLength + bodyLength - 6) < 0) {
         failed = 1;
     } else {
@@ -393,11 +393,11 @@ void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *first
     }
     gWlanBuf[gWlanPutPnt] = blockLength;
     (gWlanBuf + gWlanPutPnt)[1] = blockLength >> 8;
-    MI_CpuCopy8(destAddress, gWlanBuf + gWlanPutPnt + 2, 6);
-    MI_CpuCopy8(sourceAddress, gWlanBuf + gWlanPutPnt + 8, 6);
-    MI_CpuCopy8(firstBuffer + 6, gWlanBuf + gWlanPutPnt + 0xe, firstSize - 6);
+    Mem_CpuCopy8(destAddress, gWlanBuf + gWlanPutPnt + 2, 6);
+    Mem_CpuCopy8(sourceAddress, gWlanBuf + gWlanPutPnt + 8, 6);
+    Mem_CpuCopy8(firstBuffer + 6, gWlanBuf + gWlanPutPnt + 0xe, firstSize - 6);
     if (secondBuffer != NULL && secondSize != 0) {
-        MI_CpuCopy8(secondBuffer, gWlanBuf + gWlanPutPnt + 8 + firstSize, secondSize);
+        Mem_CpuCopy8(secondBuffer, gWlanBuf + gWlanPutPnt + 8 + firstSize, secondSize);
     }
     gWlanPutPnt = newPutPos;
 }
@@ -405,7 +405,7 @@ void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *first
 void CPSi_RecvCallbackFunc(void *sourceAddress, void *destAddress, void *buffer, u16 size) {
     put_in_buffer(sourceAddress, destAddress, buffer, size, NULL, 0);
     if (gReceiverThread != NULL) {
-        OS_WakeupThreadDirect(gReceiverThread);
+        Os_Thread_WakeUpDirect(gReceiverThread);
     }
 }
 
@@ -415,8 +415,8 @@ u8 *receive_packet(u32 *length) {
     u8 *ringBuffer;
 
     while (gWlanGetPnt == gWlanPutPnt) {
-        gReceiverThread = OSi_ThreadInfo.mCurrentThread;
-        OS_SleepThread(NULL);
+        gReceiverThread = g_Os_ThreadInfo.mCurrentThread;
+        Os_Thread_Sleep(NULL);
         gReceiverThread = NULL;
     }
     ringSize = gWlanBufLen;
@@ -439,14 +439,14 @@ void throw_packet(void) {
     u32 getPos;
     u8 *ringBuffer;
 
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     getPos = gWlanGetPnt;
     ringBuffer = gWlanBuf;
     gWlanGetPnt = getPos + (ringBuffer[getPos] + ((ringBuffer + getPos)[1] << 8));
     if (gWlanGetPnt >= gWlanBufLen) {
         gWlanGetPnt = 0;
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
 }
 
 u8 *inq_arpcache(u32 address) {
@@ -455,7 +455,7 @@ u8 *inq_arpcache(u32 address) {
     u32 index;
     u16 tick;
 
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     mac = NULL;
     if (address == 0x7f000001 || address == CPSMyIp) {
         mac = (u8 *) CPSMyMac;
@@ -464,29 +464,29 @@ u8 *inq_arpcache(u32 address) {
     } else {
         for (index = 0; index < 8; index++) {
             if (address == gArpCache[index].mIp) {
-                tick = OS_GetTick() >> 16;
+                tick = Os_GetTick() >> 16;
                 gArpCache[index].mWhen = tick;
                 mac = gArpCache[index].mMac;
                 break;
             }
         }
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return mac;
 }
 
 void send_arprequest(u32 address) {
     ArpRequestFrame frame;
 
-    MI_CpuFill8(&frame, 0, sizeof(frame));
-    MI_CpuFill8(&frame, 0xff, 6);
-    MI_CpuCopy8(CPSMyMac, frame.mSourceMac, 6);
+    Mem_CpuFill8(&frame, 0, sizeof(frame));
+    Mem_CpuFill8(&frame, 0xff, 6);
+    Mem_CpuCopy8(CPSMyMac, frame.mSourceMac, 6);
     frame.mEtherType = ETHERTYPE_ARP_SWAPPED;
     frame.mHardwareTypeLow = 1;
     frame.mProtocolTypeHigh = ETHERTYPE_IPV4 >> 8;
     frame.mAddressLengths = ARP_ADDRESS_LENGTHS_ETHERNET_IPV4;
     frame.mOperationLow = 1;
-    MI_CpuCopy8(CPSMyMac, frame.mSenderMac, 6);
+    Mem_CpuCopy8(CPSMyMac, frame.mSenderMac, 6);
     frame.mSenderAddressHigh = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
     frame.mSenderAddressLow = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     frame.mTargetAddressHigh = ((u16) (address >> 16) >> 8) | ((u16) (address >> 16) << 8);
@@ -502,7 +502,7 @@ u8 *arprequest(u32 address) {
     for (outerRetry = 0; outerRetry < 8; outerRetry++) {
         send_arprequest(address);
         for (innerRetry = 0; innerRetry < 0x14; innerRetry++) {
-            OS_Sleep(100);
+            Os_Sleep(100);
             mac = inq_arpcache(address);
             if (mac != NULL) {
                 return mac;
@@ -522,11 +522,11 @@ void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
     if (address == 0x7f000001 || address == CPSMyIp || ip_islocal(address) == FALSE || is_multicast(address) != FALSE) {
         return;
     }
-    now = OS_GetTick() >> 16;
+    now = Os_GetTick() >> 16;
     for (index = 0; index < 8; index++) {
         if (address == gArpCache[index].mIp) {
             gArpCache[index].mWhen = now;
-            MI_CpuCopy8(mac, gArpCache[index].mMac, 6);
+            Mem_CpuCopy8(mac, gArpCache[index].mMac, 6);
             return;
         }
     }
@@ -545,7 +545,7 @@ void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
             entry++;
         }
         gArpCache[victimIndex].mIp = address;
-        MI_CpuCopy8(mac, gArpCache[victimIndex].mMac, 6);
+        Mem_CpuCopy8(mac, gArpCache[victimIndex].mMac, 6);
         gArpCache[victimIndex].mWhen = now;
     }
 }
@@ -566,7 +566,7 @@ void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 ad
         if (destMac == NULL) {
             return;
         }
-        MI_CpuCopy8(destMac, header - 0xe, 6);
+        Mem_CpuCopy8(destMac, header - 0xe, 6);
     } else {
         header[-0xe] = 1;
         header[-0xd] = 0;
@@ -575,7 +575,7 @@ void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 ad
         header[-0xa] = addressTo >> 8;
         header[-9] = addressTo;
     }
-    MI_CpuCopy8(CPSMyMac, header - 8, 6);
+    Mem_CpuCopy8(CPSMyMac, header - 8, 6);
     send_packet(header - 0xe, headerLength + 0xe, body, bodyLength);
 }
 
@@ -594,10 +594,10 @@ void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 
         send_ether(header - 0x14, headerLength + 0x14, body, bodyLength, addressTo, 0x800);
     }
     if (addressTo == 0x7f000001 || addressTo == CPSMyIp || is_multicast(addressTo) != FALSE) {
-        MI_CpuCopy8(gIpv4LlcSnapHeader, header - 0x1c, 8);
-        interruptState = OS_DisableInterrupts();
+        Mem_CpuCopy8(gIpv4LlcSnapHeader, header - 0x1c, 8);
+        interruptState = Os_DisableIrq();
         put_in_buffer(CPSMyMac, CPSMyMac, header - 0x1c, headerLength + 0x1c, body, bodyLength);
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
     }
 }
 
@@ -660,7 +660,7 @@ void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
     sendBuffer = socket->mSendBuffer.mStart;
     icmpHeader = OFFSET_PTR(IcmpHeader, sendBuffer, 0x22);
     icmpHeader->mTypeAndCode = ICMP_ECHO_REQUEST;
-    icmpHeader->mIdentifier = (u32) OSi_ThreadInfo.mCurrentThread;
+    icmpHeader->mIdentifier = (u32) g_Os_ThreadInfo.mCurrentThread;
     icmpHeader->mChecksum = 0;
     sequence = gPingSequence;
     socket->mLocalPort = sequence;
@@ -711,7 +711,7 @@ void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) 
     if (socket->mState == SOCKET_STATE_CLOSED) {
         return;
     }
-    if (OSi_ThreadInfo.mCurrentThread == &gTcpipThread) {
+    if (g_Os_ThreadInfo.mCurrentThread == &gTcpipThread) {
         header = gTmpBuf + 0x22;
     } else {
         header = socket->mSendBuffer.mStart + 0x22;
@@ -758,12 +758,12 @@ void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) 
 
 void reply_arp(ArpPacket *packet) {
     packet->mOperation = ARP_OPERATION_REPLY_SWAPPED;
-    MI_CpuCopy8(packet->mSenderMac, packet->mTargetMac, 10);
-    MI_CpuCopy8(CPSMyMac, packet->mSenderMac, 6);
+    Mem_CpuCopy8(packet->mSenderMac, packet->mTargetMac, 10);
+    Mem_CpuCopy8(CPSMyMac, packet->mSenderMac, 6);
     packet->mSenderAddressHigh = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
     packet->mSenderAddressLow = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    MI_CpuCopy8(packet->mTargetMac, (u8 *) packet - 0xe, 6);
-    MI_CpuCopy8(CPSMyMac, (u8 *) packet - 8, 6);
+    Mem_CpuCopy8(packet->mTargetMac, (u8 *) packet - 0xe, 6);
+    Mem_CpuCopy8(CPSMyMac, (u8 *) packet - 8, 6);
     send_packet((u8 *) packet - 0xe, 0x2a, NULL, 0);
 }
 
@@ -854,7 +854,7 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
     OSThread *thread;
     CPSSoc *socket;
 
-    for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+    for (thread = g_Os_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mSpecific[0];
         if (socket == NULL || socket->mThread == NULL || socket->mState != SOCKET_STATE_PING ||
             (u16) (u32) socket->mThread != icmp->mIdentifier) {
@@ -874,10 +874,10 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
         } else {
             socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8(icmp + 1, socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength);
+        Mem_CpuCopy8(icmp + 1, socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength);
         if (socket->mBlockType == SOCKET_BLOCK_DATAGRAM) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
-            OS_WakeupThreadDirect(socket->mThread);
+            Os_Thread_WakeUpDirect(socket->mThread);
             return;
         }
         return;
@@ -915,7 +915,7 @@ CPSSoc *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
     CPSSoc *socket;
     OSThread *thread;
 
-    for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+    for (thread = g_Os_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mSpecific[0];
         if (socket == NULL || socket->mThread == NULL || socket->mState != SOCKET_STATE_LISTENING ||
             socket->mLocalPort != (u16) ((tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8))) {
@@ -969,7 +969,7 @@ CPSSoc *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
     CPSSoc *socket;
     OSThread *thread;
 
-    thread = OSi_ThreadInfo.mListHead;
+    thread = g_Os_ThreadInfo.mListHead;
     while (thread != NULL) {
         socket = thread->mSpecific[0];
         if (socket != NULL && socket->mThread != NULL && check_socket(ipHeader, tcpHeader, socket) != 0) {
@@ -1023,7 +1023,7 @@ u32 no_need_inq(u32 address) {
 }
 
 void tcp_send_handshake(CPSSoc *socket, u32 flag, u16 urgent) {
-    if (no_need_inq(socket->mRemoteIp) != 0 || OSi_ThreadInfo.mCurrentThread != &gTcpipThread) {
+    if (no_need_inq(socket->mRemoteIp) != 0 || g_Os_ThreadInfo.mCurrentThread != &gTcpipThread) {
         send_tcp(NULL, 0, socket, flag, urgent);
     } else {
         send_arprequest(get_targetip(socket->mRemoteIp));
@@ -1042,7 +1042,7 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
     CPSSoc *socket;
 
     socket = &gTmpSoc;
-    MI_CpuFill8(socket, 0, sizeof(*socket));
+    Mem_CpuFill8(socket, 0, sizeof(*socket));
     socket->mLocalPort = (tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8);
     socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
     socket->mRemoteIp = ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
@@ -1064,7 +1064,7 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
 
 void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
     socket->mState = SOCKET_STATE_SYN_RECEIVED;
-    socket->mStateStartTime = OS_GetTick() >> 16;
+    socket->mStateStartTime = Os_GetTick() >> 16;
     socket->mLocalIpReal = ((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
                            (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8));
     socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
@@ -1137,7 +1137,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     socket->mState = SOCKET_STATE_ESTABLISHED;
     if (socket->mBlockType == SOCKET_BLOCK_CONNECT) {
         socket->mBlockType = SOCKET_BLOCK_NONE;
-        OS_WakeupThreadDirect(socket->mThread);
+        Os_Thread_WakeUpDirect(socket->mThread);
     }
 }
 
@@ -1176,7 +1176,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             socket->mState = SOCKET_STATE_ESTABLISHED;
             if (socket->mBlockType == SOCKET_BLOCK_CONNECT) {
                 socket->mBlockType = SOCKET_BLOCK_NONE;
-                OS_WakeupThreadDirect(socket->mThread);
+                Os_Thread_WakeUpDirect(socket->mThread);
             }
             if (length == 0) {
                 break;
@@ -1191,15 +1191,15 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 value = 1;
             }
             if (length != 0) {
-                interruptState = OS_DisableInterrupts();
-                MI_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & TCP_DATA_OFFSET_MASK) / 4,
+                interruptState = Os_DisableIrq();
+                Mem_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & TCP_DATA_OFFSET_MASK) / 4,
                             socket->mReceiveBuffer.mStart + socket->mReceiveBufferLength, length);
                 socket->mReceiveBufferLength += length;
                 socket->mAckNo += length;
-                OS_RestoreInterrupts(interruptState);
+                Os_RestoreIrq(interruptState);
                 if (socket->mBlockType == SOCKET_BLOCK_TCP_DATA) {
                     socket->mBlockType = SOCKET_BLOCK_NONE;
-                    OS_WakeupThreadDirect(socket->mThread);
+                    Os_Thread_WakeUpDirect(socket->mThread);
                 }
             }
             if (value != 0 && (flags & 1) != 0) {
@@ -1208,7 +1208,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xb);
                 if (length == 0 && socket->mBlockType == SOCKET_BLOCK_TCP_DATA) {
                     socket->mBlockType = SOCKET_BLOCK_NONE;
-                    OS_WakeupThreadDirect(socket->mThread);
+                    Os_Thread_WakeUpDirect(socket->mThread);
                 }
                 break;
             }
@@ -1224,7 +1224,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 socket->mState = SOCKET_STATE_CLOSED;
                 if (socket->mBlockType == SOCKET_BLOCK_TCP_DATA) {
                     socket->mBlockType = SOCKET_BLOCK_NONE;
-                    OS_WakeupThreadDirect(socket->mThread);
+                    Os_Thread_WakeUpDirect(socket->mThread);
                 }
                 break;
             }
@@ -1239,7 +1239,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             socket->mState = SOCKET_STATE_CLOSED;
             if (socket->mBlockType == SOCKET_BLOCK_TCP_DATA) {
                 socket->mBlockType = SOCKET_BLOCK_NONE;
-                OS_WakeupThreadDirect(socket->mThread);
+                Os_Thread_WakeUpDirect(socket->mThread);
             }
             break;
         default:
@@ -1271,7 +1271,7 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             socket->mState = SOCKET_STATE_CLOSED;
             if (socket->mBlockType == SOCKET_BLOCK_TCP_DATA) {
                 socket->mBlockType = SOCKET_BLOCK_NONE;
-                OS_WakeupThreadDirect(socket->mThread);
+                Os_Thread_WakeUpDirect(socket->mThread);
                 return;
             }
             return;
@@ -1295,7 +1295,7 @@ void dt_rst(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
         socket->mState = SOCKET_STATE_CLOSED;
         if (socket->mBlockType - SOCKET_BLOCK_CONNECT <= SOCKET_BLOCK_TCP_DATA - SOCKET_BLOCK_CONNECT) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
-            OS_WakeupThreadDirect(socket->mThread);
+            Os_Thread_WakeUpDirect(socket->mThread);
         }
     }
 }
@@ -1342,7 +1342,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
     if (udpHeader->mChecksum != 0 && check_tcpudpsum(udpHeader, length, ipHeader, 0x11) != FALSE) {
         return;
     }
-    for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+    for (thread = g_Os_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mSpecific[0];
         if (socket == NULL || socket->mThread == NULL || socket->mState != SOCKET_STATE_DATAGRAM ||
             socket->mLocalPort != (u16) ((udpHeader->mDestPort >> 8) | (udpHeader->mDestPort << 8))) {
@@ -1375,10 +1375,10 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
         } else {
             socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8(udpHeader + 1, socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength);
+        Mem_CpuCopy8(udpHeader + 1, socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength);
         if (socket->mBlockType == SOCKET_BLOCK_DATAGRAM) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
-            OS_WakeupThreadDirect(socket->mThread);
+            Os_Thread_WakeUpDirect(socket->mThread);
             return;
         }
         if (socket->mReceiveCallback != NULL &&
@@ -1442,9 +1442,9 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
         freeSlot->mIpFrom = sourceAddress;
         freeSlot->mId = identifier;
         freeSlot->mLast = 0;
-        freeSlot->mWhen = OS_GetTick() >> 16;
+        freeSlot->mWhen = Os_GetTick() >> 16;
         freeSlot->mOfs0 = freeSlot->mBuf + 0xe + headerLength;
-        MI_CpuCopy8(packet, freeSlot->mBuf + 0xe, headerLength);
+        Mem_CpuCopy8(packet, freeSlot->mBuf + 0xe, headerLength);
     }
     if (slot->mFrags == CPS_MAX_IPFRAG || size > CPS_MAX_IPSIZE) {
         slot->mFrags = 0;
@@ -1460,7 +1460,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
     slot->mFrom[slot->mFrags] = fragOffset;
     slot->mTo[slot->mFrags] = fragEnd;
     slot->mFrags++;
-    MI_CpuCopy8((u8 *) packet + headerLength, slot->mOfs0 + byteOffset, fragmentBytes);
+    Mem_CpuCopy8((u8 *) packet + headerLength, slot->mOfs0 + byteOffset, fragmentBytes);
     last = slot->mLast;
     if (last == 0) {
         return NULL;
@@ -1568,7 +1568,7 @@ u16 CPS_SocGetEport(void) {
         if (gEport < 0x400 || gEport >= 0x1388) {
             gEport = 0x400;
         }
-        for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
+        for (thread = g_Os_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
             socket = thread->mSpecific[0];
             if (socket != NULL && socket->mThread != NULL && socket->mLocalPort == gEport) {
                 inUse = 1;
@@ -1587,19 +1587,19 @@ u32 get_seqno(void) {
 void CPS_SocRegister(void *socket) {
     u32 socketAddress = (u32) socket;
     u32 slotAddress;
-    slotAddress = (u32) &OSi_ThreadInfo;
+    slotAddress = (u32) &g_Os_ThreadInfo;
     slotAddress = *(const u32 *) ((slotAddress) + 4u);
     slotAddress = (slotAddress) + 164u;
     *(u32 *) ((slotAddress) + 0u) = socketAddress;
 }
 
 void CPS_SocUnRegister(void) {
-    OSi_ThreadInfo.mCurrentThread->mSpecific[0] = NULL;
+    g_Os_ThreadInfo.mCurrentThread->mSpecific[0] = NULL;
 }
 
 void CPS_SocDatagramMode(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mState = SOCKET_STATE_DATAGRAM;
         socket->mReceiveBufferLength = 0;
@@ -1609,7 +1609,7 @@ void CPS_SocDatagramMode(void) {
 void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
     u16 ephemeralPort;
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (remoteAddress == 0x7f000001) {
             remoteAddress = CPSMyIp;
@@ -1629,9 +1629,9 @@ void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
 
 void CPS_SocUse(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        socket->mThread = OSi_ThreadInfo.mCurrentThread;
+        socket->mThread = g_Os_ThreadInfo.mCurrentThread;
         socket->mState = SOCKET_STATE_CLOSED;
         socket->mReceiveBufferLength = 0;
         socket->mOutBufferLength = 0;
@@ -1641,14 +1641,14 @@ void CPS_SocUse(void) {
 
 void CPS_SocRelease(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mThread = NULL;
     }
 }
 
 void CPS_SocDup(OSThread *thread) {
-    thread->mSpecific[0] = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    thread->mSpecific[0] = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
 }
 
 void CPSi_TcpListenRaw(CPSSoc *socket) {
@@ -1657,12 +1657,12 @@ void CPSi_TcpListenRaw(CPSSoc *socket) {
     socket->mSeqNo = seqNo;
     socket->mState = SOCKET_STATE_LISTENING;
     socket->mBlockType = SOCKET_BLOCK_CONNECT;
-    OS_SleepThread(NULL);
+    Os_Thread_Sleep(NULL);
 }
 
 void CPS_SetUdpCallback(CPSUDPReadCallback callback) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mReceiveCallback = (ConnectionReceiveFn) callback;
     }
@@ -1671,7 +1671,7 @@ void CPS_SetUdpCallback(CPSUDPReadCallback callback) {
 void CPS_TcpListen(void) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             RunSetupAfterReadingOfferRecordUntilDone(socket);
@@ -1690,14 +1690,14 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
     for (attempt = 0; attempt < 3; attempt++) {
         socket->mSeqNo = seqNo;
         socket->mState = SOCKET_STATE_SYN_SENT;
-        socket->mStateStartTime = OS_GetTick() >> 16;
+        socket->mStateStartTime = Os_GetTick() >> 16;
         tcp_send_handshake(socket, TCP_FLAG_SYN, 24);
-        interruptState = OS_DisableInterrupts();
+        interruptState = Os_DisableIrq();
         if (CPSMyIp != 0) {
             socket->mBlockType = SOCKET_BLOCK_CONNECT;
-            OS_SleepThread(NULL);
+            Os_Thread_Sleep(NULL);
         }
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
         if (socket->mState == SOCKET_STATE_ESTABLISHED) {
             return 0;
         }
@@ -1711,7 +1711,7 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
 u32 CPS_TcpConnect(void) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             return CPSi_SslConnect(socket);
@@ -1723,7 +1723,7 @@ u32 CPS_TcpConnect(void) {
 
 u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if ((socket != NULL) &&
         ((socket->mState == SOCKET_STATE_ESTABLISHED || (socket->mState == SOCKET_STATE_DATAGRAM)))) {
         if (remotePort != NULL) {
@@ -1752,7 +1752,7 @@ void CPSi_TcpShutdownRaw(CPSSoc *socket) {
 void CPS_TcpShutdown(void) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             CPSi_SslShutdown(socket);
@@ -1766,11 +1766,11 @@ void CPS_TcpClose(void) {
     CPSSoc *socket;
     s32 startTick;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        startTick = OS_GetTick() >> 16;
+        startTick = Os_GetTick() >> 16;
         while (gLinkIsOn() != 0 && socket->mState != SOCKET_STATE_CLOSED &&
-               (s32) (OS_GetTick() >> 16) - startTick < 0x27) {
+               (s32) (Os_GetTick() >> 16) - startTick < 0x27) {
             yield_thread();
         }
     }
@@ -1781,7 +1781,7 @@ u8 *udp_read_raw(u32 *length, CPSSoc *socket) {
     received = socket->mReceiveBufferLength;
     while (received == 0) {
         socket->mBlockType = SOCKET_BLOCK_DATAGRAM;
-        OS_SleepThread(0);
+        Os_Thread_Sleep(0);
         received = socket->mReceiveBufferLength;
     }
     *length = received;
@@ -1792,7 +1792,7 @@ u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
     if (socket->mReceiveBufferLength == 0 && socket->mState == SOCKET_STATE_ESTABLISHED) {
         while (socket->mReceiveBufferLength == 0 && socket->mState == SOCKET_STATE_ESTABLISHED) {
             socket->mBlockType = SOCKET_BLOCK_TCP_DATA;
-            OS_SleepThread(NULL);
+            Os_Thread_Sleep(NULL);
         }
     } else {
         OS_YieldThread();
@@ -1807,7 +1807,7 @@ u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
 u8 *CPS_SocRead(u32 *length) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if ((u8) (socket->mState + (0x100 - SOCKET_STATE_DATAGRAM)) <= 1) {
             return udp_read_raw(length, socket);
@@ -1827,7 +1827,7 @@ void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
     u8 *buffer;
     u8 *source;
 
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     receiveLength = socket->mReceiveBufferLength;
     if (length >= receiveLength) {
         socket->mReceiveBufferLength = 0;
@@ -1838,7 +1838,7 @@ void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
         socket->mReceiveBufferLength = (receiveLength -= length);
         memmove(buffer, &(*source), receiveLength);
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     if (socket->mState != SOCKET_STATE_DATAGRAM && socket->mState != SOCKET_STATE_PING &&
         socket->mReceiveBufferLength == 0) {
         tcp_send_ack(socket, 0x1b);
@@ -1848,7 +1848,7 @@ void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
 void CPS_SocConsume(u32 length) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             SkipHttpsReceivedBytes(length, socket);
@@ -1924,27 +1924,27 @@ s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 
     bytesWritten = 0;
     socket->mAckRcvd = 0;
     probeFlag = FALSE;
-    startTime = OS_GetTick() >> 16;
+    startTime = Os_GetTick() >> 16;
     while (gLinkIsOn() != 0 && length != 0 && socket->mState == SOCKET_STATE_ESTABLISHED &&
-           (s32) ((u32) (OS_GetTick() >> 16) - startTime) < 0x9f) {
+           (s32) ((u32) (Os_GetTick() >> 16) - startTime) < 0x9f) {
         seqNoBefore = socket->mSeqNo;
         tcp_write_do2(buffer, length, secondBuffer, secondLength, socket, probeFlag);
-        retryTime = OS_GetTick() >> 16;
+        retryTime = Os_GetTick() >> 16;
         do {
             yield_thread();
         } while (gLinkIsOn() != 0 && socket->mState == SOCKET_STATE_ESTABLISHED &&
-                 socket->mSeqNo != socket->mRemoteAckNo && (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf &&
+                 socket->mSeqNo != socket->mRemoteAckNo && (s32) ((u32) (Os_GetTick() >> 16) - retryTime) < 0xf &&
                  (probeFlag == FALSE || socket->mRemoteWin == 0));
         ackedLength = socket->mRemoteAckNo - seqNoBefore;
         bytesWritten += ackedLength;
         if (ackedLength != 0) {
-            startTime = OS_GetTick() >> 16;
+            startTime = Os_GetTick() >> 16;
         }
         socket->mSeqNo = socket->mRemoteAckNo;
         if (socket->mState == SOCKET_STATE_ESTABLISHED && socket->mRemoteWin == 0 && ackedLength == 0) {
             if (probeFlag == FALSE) {
-                retryTime = OS_GetTick() >> 16;
-                while (gLinkIsOn() != 0 && (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf) {
+                retryTime = Os_GetTick() >> 16;
+                while (gLinkIsOn() != 0 && (s32) ((u32) (Os_GetTick() >> 16) - retryTime) < 0xf) {
                     yield_thread();
                     if (socket->mRemoteWin != 0) {
                         break;
@@ -1976,7 +1976,7 @@ s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
     u8 state;
     s32 bytesWritten;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         state = socket->mState;
         if (state == SOCKET_STATE_DATAGRAM) {
@@ -2011,7 +2011,7 @@ s32 CPS_SocWrite(const u8 *buffer, s32 length) {
     CPSSoc *socket;
     s32 bytesWritten;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mOutBufferLength != 0) {
             bytesWritten = CPSi_SocWrite2(socket->mOutBuffer.mStart, socket->mOutBufferLength, buffer, length);
@@ -2034,7 +2034,7 @@ s32 CPS_SocGetLength(void) {
     CPSSoc *socket;
     s32 count;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             count = ReadHttpsRecordIfBufferedAndGetUnreadByteCount(socket);
@@ -2052,7 +2052,7 @@ s32 CPS_SocGetLength(void) {
 
 void CPS_SocFlush(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
+    socket = g_Os_ThreadInfo.mCurrentThread->mSpecific[0];
     if ((socket != NULL) && (socket->mOutBufferLength != 0)) {
         CPSi_SocWrite2((socket->mOutBuffer.mStart), socket->mOutBufferLength, NULL, 0);
         socket->mOutBufferLength = 0;
@@ -2065,15 +2065,15 @@ void set_fixed_ip(void) {
     gDhcpCallback();
     if (CPSMyIp != 0) {
         send_arprequest(CPSMyIp);
-        OS_Sleep(100);
+        Os_Sleep(100);
         send_arprequest(CPSMyIp);
-        startTick = OS_GetTick() >> 16;
-        while (gLinkIsOn() != 0 && (s32) (OS_GetTick() >> 16) - startTick < 0x17) {
+        startTick = Os_GetTick() >> 16;
+        while (gLinkIsOn() != 0 && (s32) (Os_GetTick() >> 16) - startTick < 0x17) {
             if (gIpConflict != 0) {
                 reset_network_vars(4);
                 return;
             }
-            OS_Sleep(100);
+            Os_Sleep(100);
         }
     }
 }
@@ -2091,7 +2091,7 @@ void scavenger(void) {
     CPSFragTable *fragment;
 
     gScavengerForceExit = 0;
-    MI_CpuFill8(&gScavengerSoc, 0, sizeof(gScavengerSoc));
+    Mem_CpuFill8(&gScavengerSoc, 0, sizeof(gScavengerSoc));
     gScavengerSoc.mReceiveBuffer.mSize = 0x180;
     gScavengerSoc.mReceiveBuffer.mStart = gScavengerReceiveBuffer;
     gScavengerSoc.mSendBuffer.mSize = 0x180;
@@ -2102,11 +2102,11 @@ void scavenger(void) {
     dhcpDelay = 1;
     CPSNoIpReason = 1;
     while (1) {
-        OS_Sleep(1000);
+        Os_Sleep(1000);
         if (gScavengerForceExit != 0) {
             break;
         }
-        now = OS_GetTick() >> 16;
+        now = Os_GetTick() >> 16;
         if (gLinkIsOn() != 0) {
             dhcpDelay--;
             if (dhcpDelay == 0) {
@@ -2162,7 +2162,7 @@ void scavenger(void) {
             }
             arpEntry++;
         }
-        thread = OSi_ThreadInfo.mListHead;
+        thread = g_Os_ThreadInfo.mListHead;
         if (thread != NULL) {
             do {
                 socket = thread->mSpecific[0];
@@ -2177,7 +2177,7 @@ void scavenger(void) {
                                socket->mBlockType == SOCKET_BLOCK_CONNECT) {
                         socket->mState = SOCKET_STATE_CLOSED;
                         socket->mBlockType = SOCKET_BLOCK_NONE;
-                        OS_WakeupThreadDirect(socket->mThread);
+                        Os_Thread_WakeUpDirect(socket->mThread);
                     }
                 }
                 thread = thread->mNext;
@@ -2207,7 +2207,7 @@ u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
     DhcpMessage *message = (DhcpMessage *) buffer;
     u32 transactionId;
 
-    MI_CpuFill8(buffer, 0, 0xec);
+    Mem_CpuFill8(buffer, 0, 0xec);
     *(u16 *) buffer = 0x101;
     buffer[2] = 6;
     CPSiRand32ctx[0] = (s64) CPSiRand32ctx[1] * (s64) CPSiRand32ctx[0] + CPSiRand32ctx[2];
@@ -2219,7 +2219,7 @@ u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
     message->mTransactionIdLow = (u16) transactionId >> 8 | (u16) transactionId << 8;
     message->mClientAddressHigh = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
     message->mClientAddressLow = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
-    MI_CpuCopy8(CPSMyMac, buffer + 0x1c, 6);
+    Mem_CpuCopy8(CPSMyMac, buffer + 0x1c, 6);
     *(u16 *) (buffer + 0xec) = 0x8263;
     *(u16 *) (buffer + 0xee) = 0x6353;
     *(u16 *) (buffer + 0xf0) = 0x135;
@@ -2227,10 +2227,10 @@ u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
     buffer[0xf3] = 0x3d;
     buffer[0xf4] = 7;
     buffer[0xf5] = 1;
-    MI_CpuCopy8(CPSMyMac, buffer + 0xf6, 6);
+    Mem_CpuCopy8(CPSMyMac, buffer + 0xf6, 6);
     buffer[0xfc] = 0xc;
     buffer[0xfd] = 10;
-    MI_CpuCopy8(gDhcpHostname, buffer + 0xfe, 10);
+    Mem_CpuCopy8(gDhcpHostname, buffer + 0xfe, 10);
     buffer[0x108] = 0x37;
     buffer[0x109] = 3;
     buffer[0x10a] = 1;
@@ -2241,7 +2241,7 @@ u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
 
 u8 *pad_mem(u8 pattern, u32 minimum, u8 *position, u32 currentLength) {
     if (currentLength < minimum) {
-        MI_CpuFill8(position, pattern, minimum - currentLength);
+        Mem_CpuFill8(position, pattern, minimum - currentLength);
         position = position + (minimum - currentLength);
     }
     return position;
@@ -2313,10 +2313,10 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
     s32 option;
 
     waitTicks = (retry + 1) * 15;
-    startTick = OS_GetTick() >> 16;
+    startTick = Os_GetTick() >> 16;
     result = 0;
     dnsServers = CPSDnsIp;
-    while (gLinkIsOn() != 0 && result == 0 && (s32) ((u32) (OS_GetTick() >> 16) - startTick) < waitTicks) {
+    while (gLinkIsOn() != 0 && result == 0 && (s32) ((u32) (Os_GetTick() >> 16) - startTick) < waitTicks) {
         if (CPS_SocGetLength() == 0) {
             yield_thread();
             continue;
@@ -2545,9 +2545,9 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
     labelWrite[4] = 1;
     CPS_SocWrite((u8 *) &query.mUnk_04, labelWrite + 5 - (u8 *) &query.mUnk_04);
     result = 0;
-    startTick = OS_GetTick() >> 16;
+    startTick = Os_GetTick() >> 16;
     failure = -1;
-    while (gLinkIsOn() != 0 && result == 0 && (s32) ((u32) (OS_GetTick() >> 16) - startTick) < 0xf) {
+    while (gLinkIsOn() != 0 && result == 0 && (s32) ((u32) (Os_GetTick() >> 16) - startTick) < 0xf) {
         if (CPS_SocGetLength() == 0) {
             yield_thread();
             continue;

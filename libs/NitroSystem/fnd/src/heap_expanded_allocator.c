@@ -5,13 +5,13 @@
 #include "print_memory_multibyte_write.h"
 #include "00/Lib/DWC/access_point_manager.h"
 
-void GetRegionOfMBlock(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block) {
+void Mem_GetMemoryBlockRegion(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block) {
     region->mStart = (u8 *) block - (u16) ((block->mAttribute >> 8) & 0x7f);
     region->mEnd = (void *) (block->mBlockSize + (u32) (block + 1));
 }
 
 // Unlinks block from list and returns the block before it.
-NNSiFndExpHeapMBlockHead *RemoveMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *block) {
+NNSiFndExpHeapMBlockHead *Mem_ExpHeapMemoryBlockList_Remove(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *block) {
     NNSiFndExpHeapMBlockHead *prev;
     NNSiFndExpHeapMBlockHead *next;
 
@@ -31,7 +31,7 @@ NNSiFndExpHeapMBlockHead *RemoveMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHea
 }
 
 // Links target into list after prev, or at the start when prev is NULL, and returns it.
-NNSiFndExpHeapMBlockHead *InsertMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *target,
+NNSiFndExpHeapMBlockHead *Mem_ExpHeapMemoryBlockList_Insert(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *target,
                                        NNSiFndExpHeapMBlockHead *prev) {
     NNSiFndExpHeapMBlockHead *next;
 
@@ -52,7 +52,7 @@ NNSiFndExpHeapMBlockHead *InsertMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHea
     return target;
 }
 
-NNSiFndExpHeapMBlockHead *InitMBlock(const NNSiMemRegion *region, u16 signature) {
+NNSiFndExpHeapMBlockHead *Mem_Exp_InitializeMemoryBlock(const NNSiMemRegion *region, u16 signature) {
     NNSiFndExpHeapMBlockHead *newBlock;
 
     newBlock = region->mStart;
@@ -64,7 +64,7 @@ NNSiFndExpHeapMBlockHead *InitMBlock(const NNSiMemRegion *region, u16 signature)
     return newBlock;
 }
 
-NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) {
+NNSiFndHeapHead *Mem_Exp_Initialize(void *startAddress, void *endAddress, u16 optFlag) {
     NNSiFndHeapHead *heap;
     NNSiFndExpHeapHead *expHeap;
     NNSiMemRegion range;
@@ -72,13 +72,13 @@ NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) 
 
     heap = startAddress;
     expHeap = EXP_HEAP_HEAD(heap);
-    NNSi_FndInitHeapHead(heap, HEAP_SIGNATURE_EXP_HEAP, expHeap + 1, endAddress, optFlag);
+    Mem_InitializeHeapHead(heap, HEAP_SIGNATURE_EXP_HEAP, expHeap + 1, endAddress, optFlag);
     expHeap->mGroupID = 0;
     expHeap->mFeature = 0;
     expHeap->mFeature &= ~1;
     range.mStart = heap->mHeapStart;
     range.mEnd = heap->mHeapEnd;
-    block = InitMBlock(&range, 0x4652);
+    block = Mem_Exp_InitializeMemoryBlock(&range, 0x4652);
     expHeap->mMbFreeList.mHead = block;
     expHeap->mMbFreeList.mTail = block;
     expHeap->mMbUsedList.mHead = 0;
@@ -88,7 +88,7 @@ NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) 
 
 // Cuts a used block of size bytes with its data at mblock out of freeBlock, putting what is left in front of and behind
 // it back on the free list, and links the used block to the end of the used list.
-void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBlockHead *freeBlock, void *mblock,
+void *Mem_Exp_ConvertFreeBlockToUsedBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBlockHead *freeBlock, void *mblock,
                                   u32 size, u16 direction) {
     NNSiMemRegion freeRegion;
     NNSiMemRegion rightRegion;
@@ -97,21 +97,21 @@ void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBl
     NNSiFndExpHeapMBlockHead *usedBlock;
     u32 clearSize;
 
-    GetRegionOfMBlock(&freeRegion, freeBlock);
+    Mem_GetMemoryBlockRegion(&freeRegion, freeBlock);
     usedBlock = (NNSiFndExpHeapMBlockHead *) ((u32) mblock - 0x10);
     rightRegion.mEnd = freeRegion.mEnd;
     freeRegion.mEnd = usedBlock;
     rightRegion.mStart = (void *) (size + (u32) mblock);
-    prev = RemoveMBlock(&expHeap->mMbFreeList, freeBlock);
+    prev = Mem_ExpHeapMemoryBlockList_Remove(&expHeap->mMbFreeList, freeBlock);
     if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
         freeRegion.mEnd = freeRegion.mStart;
     } else {
-        prev = InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&freeRegion, 0x4652), prev);
+        prev = Mem_ExpHeapMemoryBlockList_Insert(&expHeap->mMbFreeList, Mem_Exp_InitializeMemoryBlock(&freeRegion, 0x4652), prev);
     }
     if ((u32) rightRegion.mEnd - (u32) rightRegion.mStart < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
         rightRegion.mStart = rightRegion.mEnd;
     } else {
-        InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&rightRegion, 0x4652), prev);
+        Mem_ExpHeapMemoryBlockList_Insert(&expHeap->mMbFreeList, Mem_Exp_InitializeMemoryBlock(&rightRegion, 0x4652), prev);
     }
     clearSize = (u32) rightRegion.mStart - (u32) freeRegion.mEnd;
     {
@@ -124,7 +124,7 @@ void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBl
     }
     usedRegion.mStart = usedBlock;
     usedRegion.mEnd = rightRegion.mStart;
-    usedBlock = InitMBlock(&usedRegion, 0x5544);
+    usedBlock = Mem_Exp_InitializeMemoryBlock(&usedRegion, 0x5544);
     usedBlock->mAttribute &= ~0x8000;
     usedBlock->mAttribute |= (direction & 1) << 15;
     {
@@ -139,13 +139,13 @@ void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBl
         usedBlock->mAttribute &= ~0xff;
         usedBlock->mAttribute |= id;
     }
-    InsertMBlock(&expHeap->mMbUsedList, usedBlock, expHeap->mMbUsedList.mTail);
+    Mem_ExpHeapMemoryBlockList_Insert(&expHeap->mMbUsedList, usedBlock, expHeap->mMbUsedList.mTail);
     return mblock;
 }
 
 // Takes size bytes from the start of a free block, aligned to alignment, and returns them or NULL. In the first-fit
 // allocation mode the first block that fits is used, otherwise the smallest one.
-void *AllocFromHead(NNSiFndHeapHead *heap, u32 size, int alignment) {
+void *Mem_Exp_AllocFromHead(NNSiFndHeapHead *heap, u32 size, int alignment) {
     NNSiFndExpHeapHead *expHeap;
     NNSiFndExpHeapMBlockHead *block;
     NNSiFndExpHeapMBlockHead *bestBlock;
@@ -184,12 +184,12 @@ void *AllocFromHead(NNSiFndHeapHead *heap, u32 size, int alignment) {
     if (bestBlock == 0) {
         return 0;
     }
-    return AllocUsedBlockFromFreeBlock(expHeap, bestBlock, (void *) bestStart, size, 0);
+    return Mem_Exp_ConvertFreeBlockToUsedBlock(expHeap, bestBlock, (void *) bestStart, size, 0);
 }
 
 // Takes size bytes from the end of a free block, aligned to alignment, and returns them or NULL. In the first-fit
 // allocation mode the first block that fits is used, otherwise the smallest one.
-void *AllocFromTail(NNSiFndHeapHead *heap, u32 size, int alignment) {
+void *Mem_Exp_AllocFromTail(NNSiFndHeapHead *heap, u32 size, int alignment) {
     int blockSize;
     u32 mask;
     u32 start;
@@ -232,12 +232,12 @@ void *AllocFromTail(NNSiFndHeapHead *heap, u32 size, int alignment) {
     if (bestBlock == 0) {
         return 0;
     }
-    return AllocUsedBlockFromFreeBlock(expHeap, bestBlock, (void *) bestStart, size, 1);
+    return Mem_Exp_ConvertFreeBlockToUsedBlock(expHeap, bestBlock, (void *) bestStart, size, 1);
 }
 
 // Puts the region back on the free list, merged with a free block right before or behind it. Returns 0 when what is
 // left is smaller than a block header.
-BOOL RecycleRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region) {
+BOOL Mem_Exp_CoalesceFreedRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region) {
     NNSiMemRegion merged;
     NNSiFndExpHeapMBlockHead *block;
     NNSiFndExpHeapMBlockHead *prev;
@@ -252,7 +252,7 @@ BOOL RecycleRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region) {
             } else {
                 if ((void *) block == region->mEnd) {
                     merged.mEnd = (void *) (block->mBlockSize + ((u32) (block + 1)));
-                    RemoveMBlock(&expHeap->mMbFreeList, block);
+                    Mem_ExpHeapMemoryBlockList_Remove(&expHeap->mMbFreeList, block);
                 }
                 break;
             }
@@ -264,18 +264,18 @@ BOOL RecycleRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region) {
 
         if (end == (u32) region->mStart) {
             merged.mStart = prev;
-            prev = RemoveMBlock(&expHeap->mMbFreeList, prev);
+            prev = Mem_ExpHeapMemoryBlockList_Remove(&expHeap->mMbFreeList, prev);
         }
     }
     if ((u32) merged.mEnd - (u32) merged.mStart < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
         return 0;
     }
-    InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&merged, 0x4652), prev);
+    Mem_ExpHeapMemoryBlockList_Insert(&expHeap->mMbFreeList, Mem_Exp_InitializeMemoryBlock(&merged, 0x4652), prev);
     return 1;
 }
 
 // Sets up an Exp heap in the memory of size bytes at startAddress, or returns NULL when it is too small.
-NNSFndHeapHandle NNS_FndCreateExpHeapEx(void *startAddress, u32 size, u16 optFlag) {
+NNSFndHeapHandle Mem_Exp_Create(void *startAddress, u32 size, u16 optFlag) {
     void *bufferEnd;
 
     bufferEnd = (void *) ((size + (u32) startAddress) & ~3);
@@ -283,29 +283,29 @@ NNSFndHeapHandle NNS_FndCreateExpHeapEx(void *startAddress, u32 size, u16 optFla
     if (startAddress > bufferEnd || (u32) bufferEnd - (u32) startAddress < 0x4c) {
         return 0;
     }
-    return InitExpHeap(startAddress, bufferEnd, optFlag);
+    return Mem_Exp_Initialize(startAddress, bufferEnd, optFlag);
 }
 
 // Takes the heap out of the heap list; its memory stays with the caller.
-void NNS_FndDestroyExpHeap(NNSFndHeapHandle heap) {
-    NNSi_FndFinalizeHeap(heap);
+void Mem_Exp_Finalize(NNSFndHeapHandle heap) {
+    Mem_FinalizeHeapHead(heap);
 }
 
 // Allocates size bytes, rounded up to a multiple of 4 and at least 4, from the front of the heap, or from the back when
 // alignment is negative.
-void *NNS_FndAllocFromExpHeapEx(NNSFndHeapHandle heap, u32 size, int alignment) {
+void *Mem_Exp_Allocate(NNSFndHeapHandle heap, u32 size, int alignment) {
     if (size == 0) {
         size = 1;
     }
     size = (size + 3) & ~3;
     if (alignment >= 0) {
-        return AllocFromHead(heap, size, alignment);
+        return Mem_Exp_AllocFromHead(heap, size, alignment);
     }
-    return AllocFromTail(heap, size, -alignment);
+    return Mem_Exp_AllocFromTail(heap, size, -alignment);
 }
 
 // Grows or shrinks the used block at memBlock to size bytes and returns its new size, or 0 when it cannot grow.
-u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 size) {
+u32 Mem_ResizeExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 size) {
     NNSiMemRegion freeRegion;
     u32 freeStart;
     NNSiFndExpHeapMBlockHead *freeBlock;
@@ -339,8 +339,8 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
         if (freeBlock == 0 || size > oldSize + 0x10 + freeBlock->mBlockSize) {
             return 0;
         }
-        GetRegionOfMBlock(&freeRegion, freeBlock);
-        prev = RemoveMBlock(&expHeap->mMbFreeList, freeBlock);
+        Mem_GetMemoryBlockRegion(&freeRegion, freeBlock);
+        prev = Mem_ExpHeapMemoryBlockList_Remove(&expHeap->mMbFreeList, freeBlock);
         newEnd = size + (u32) memBlock;
         freeStart = (u32) freeRegion.mStart;
         freeRegion.mStart = (void *) newEnd;
@@ -349,7 +349,7 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
         }
         blockHead->mBlockSize = (u32) freeRegion.mStart - (u32) memBlock;
         if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart >= EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
-            InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&freeRegion, 0x4652), prev);
+            Mem_ExpHeapMemoryBlockList_Insert(&expHeap->mMbFreeList, Mem_Exp_InitializeMemoryBlock(&freeRegion, 0x4652), prev);
         }
         clearSize = (u32) freeRegion.mStart - freeStart;
         {
@@ -364,7 +364,7 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
         cutRegion.mStart = (void *) (size + (u32) memBlock);
         cutRegion.mEnd = (void *) (blockHead->mBlockSize + ((u32) (blockHead + 1)));
         blockHead->mBlockSize = size;
-        if (RecycleRegion(expHeap, &cutRegion) == 0) {
+        if (Mem_Exp_CoalesceFreedRegion(expHeap, &cutRegion) == 0) {
             blockHead->mBlockSize = oldSize;
         }
     }
@@ -372,20 +372,20 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
 }
 
 // Returns the used block at memBlock to the free list.
-void NNS_FndFreeToExpHeap(NNSFndHeapHandle heap, void *memBlock) {
+void Mem_Exp_Free(NNSFndHeapHandle heap, void *memBlock) {
     NNSiFndExpHeapHead *expHeap;
     NNSiFndExpHeapMBlockHead *block;
     NNSiMemRegion range;
 
     block = (NNSiFndExpHeapMBlockHead *) ((u8 *) memBlock - 0x10);
     expHeap = EXP_HEAP_HEAD(heap);
-    GetRegionOfMBlock(&range, block);
-    RemoveMBlock(&expHeap->mMbUsedList, block);
-    RecycleRegion(expHeap, &range);
+    Mem_GetMemoryBlockRegion(&range, block);
+    Mem_ExpHeapMemoryBlockList_Remove(&expHeap->mMbUsedList, block);
+    Mem_Exp_CoalesceFreedRegion(expHeap, &range);
 }
 
 // Returns the sum of the sizes of all free blocks.
-u32 NNS_FndGetTotalFreeSizeForExpHeap(NNSFndHeapHandle heap) {
+u32 Mem_GetExpHeapTotalFreeSize(NNSFndHeapHandle heap) {
     NNSiFndExpHeapMBlockHead *block;
     u32 total;
 
@@ -402,7 +402,7 @@ u32 NNS_FndGetTotalFreeSizeForExpHeap(NNSFndHeapHandle heap) {
 }
 
 // Returns the size of the largest block that can be allocated with the given alignment (its sign is ignored).
-u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment) {
+u32 Mem_Exp_GetAllocatableSize(NNSFndHeapHandle heap, int alignment) {
     u32 mask;
     u32 bestSize;
     u32 bestOffset;
@@ -413,7 +413,7 @@ u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment) 
     u32 fitSize;
     u32 offset;
 
-    mask = Abs(alignment);
+    mask = abs(alignment);
     bestSize = 0;
     bestOffset = -1;
     for (block = EXP_HEAP_HEAD(heap)->mMbFreeList.mHead; block != 0; block = block->mMBHeadNext) {
@@ -432,7 +432,7 @@ u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment) 
     return bestSize;
 }
 
-u16 NNS_FndSetGroupIDForExpHeap(NNSFndHeapHandle heap, u16 groupID) {
+u16 Mem_SetExpHeapGroupId(NNSFndHeapHandle heap, u16 groupID) {
     NNSiFndExpHeapHead *expHeap;
     u16 oldId;
 

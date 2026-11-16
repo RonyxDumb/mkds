@@ -57,7 +57,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     s32 valueZ;
 
     if (sourcePosition != NULL && sourceDirection != NULL) {
-        VEC_Subtract(&crab->mMapObject.mPos, sourcePosition, &sideDirection);
+        VecFx32_Subtract(&crab->mMapObject.mPos, sourcePosition, &sideDirection);
         valueZ = sourceDirection->z;
         valueX = sourceDirection->x;
         if ((s64) sideDirection.z * valueX - (s64) sideDirection.x * valueZ < 0) {
@@ -121,14 +121,14 @@ u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8
                     (s64) itemObject->mVelocity.y * itemObject->mVelocity.y +
                     (s64) itemObject->mVelocity.z * itemObject->mVelocity.z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&itemObject->mVelocity, &direction);
+                Vector3_MaybeNormalize(&itemObject->mVelocity, &direction);
                 StartCrabLaunch(crab, &itemObject->mPos, &direction, NULL);
             } else {
                 StartCrabLaunch(crab, NULL, NULL, NULL);
             }
             StartMissionRunKouraEffects(itemObject);
         } else {
-            entryKart = GetKart((u16) gRaceSetup->mEntryIndex);
+            entryKart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
             StartCrabLaunch(crab, &entryKart->mPos, &entryKart->mEasedTurnedForward, &entryKart->mVelocity);
         }
     }
@@ -136,10 +136,10 @@ u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8
 }
 
 void CreateCrabAndCrabHand(void *mapObjectList) {
-    gCrab = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "crab.nsbmd", "crab.nsbtp");
-    gCrabHand = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "crab_hand.nsbmd", "crab_hand.nsbtp");
-    SetMapObjectModelPolygonId(gCrab, 0x3f);
-    SetMapObjectModelPolygonId(gCrabHand, 0x3f);
+    gCrab = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "crab.nsbmd", "crab.nsbtp");
+    gCrabHand = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "crab_hand.nsbmd", "crab_hand.nsbtp");
+    StructMapObject_MaybeSetPolygonId(gCrab, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gCrabHand, 0x3f);
 }
 
 void CrabSetupDrawNop(void) {}
@@ -154,17 +154,17 @@ void DrawCrab(void *mapObjectList, Crab *crab) {
     BuildYAxisMatrix(&crab->mMapObject.mMatrix.mRows[1]);
     NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mMapObject.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
-        MTX_RotZ33_(&crabRotation, FX_SinIdx(crab->mRotateZAngle), FX_CosIdx(crab->mRotateZAngle));
+        MTX_RotZ33__from_thumb(&crabRotation, FX_SinIdx(crab->mRotateZAngle), FX_CosIdx(crab->mRotateZAngle));
         NNS_G3dGeBufferOP_N(0x1a, &crabRotation, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &crab->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCrab, FROM_FIXED12(crab->mCrabNsbtpFrameIndexFixed12));
-    QueueMapObjectModelMaterial(mapObjectList, gCrab);
+    StructMapObject_SomeFn_0(gCrab, FROM_FIXED12(crab->mCrabNsbtpFrameIndexFixed12));
+    StructMapObject_SomeFn_9(mapObjectList, gCrab);
     DrawMapObjectModel(mapObjectList, gCrab, crab);
-    MTX_RotZ33_(&handRotation, FX_SinIdx((u16) crab->mHandWobble.mValue), FX_CosIdx((u16) crab->mHandWobble.mValue));
+    MTX_RotZ33__from_thumb(&handRotation, FX_SinIdx((u16) crab->mHandWobble.mValue), FX_CosIdx((u16) crab->mHandWobble.mValue));
     NNS_G3dGeBufferOP_N(0x1a, &handRotation, 9);
-    SetMapObjectModelNsbtpFrameIndex(gCrabHand, FROM_FIXED12(crab->mHandNsbtpFrameIndexFixed12));
-    QueueMapObjectModelMaterial(mapObjectList, gCrabHand);
+    StructMapObject_SomeFn_0(gCrabHand, FROM_FIXED12(crab->mHandNsbtpFrameIndexFixed12));
+    StructMapObject_SomeFn_9(mapObjectList, gCrabHand);
     DrawMapObjectModel(mapObjectList, gCrabHand, crab);
 }
 
@@ -243,9 +243,9 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
         case CRAB_STATE_WAIT:
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
-                (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
-                           ? 0.5f + TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand))
-                           : TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand)) - 0.5f)) {
+                (s32) (StructMapObject_SomeFn_1(gCrabHand) > 0
+                           ? 0.5f + TO_FIXED12(StructMapObject_SomeFn_1(gCrabHand))
+                           : TO_FIXED12(StructMapObject_SomeFn_1(gCrabHand)) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
             if (crab->mTimer-- > 0) {
@@ -274,31 +274,31 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             }
             crab->mCrabNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mCrabNsbtpFrameIndexFixed12 >=
-                (s32) (GetMapObjectModelNsbtpFrameCount(gCrab) > 0
-                           ? 0.5f + TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrab))
-                           : TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrab)) - 0.5f)) {
+                (s32) (StructMapObject_SomeFn_1(gCrab) > 0
+                           ? 0.5f + TO_FIXED12(StructMapObject_SomeFn_1(gCrab))
+                           : TO_FIXED12(StructMapObject_SomeFn_1(gCrab)) - 0.5f)) {
                 crab->mCrabNsbtpFrameIndexFixed12 = 0;
             }
             AdvanceCrabWobble(&crab->mHandWobble);
             GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mMapObject.mPos);
             upVector = *GetGroupFollowerSegmentUp(&crab->mFollower);
-            VEC_Subtract(&upVector, &crab->mMapObject.mMatrix.mRows[1], &upVector);
+            VecFx32_Subtract(&upVector, &crab->mMapObject.mMatrix.mRows[1], &upVector);
             upVector.x = MUL_FIXED12_NO_ROUND(upVector.x, 0x800);
             upVector.y = MUL_FIXED12_NO_ROUND(upVector.y, 0x800);
             upVector.z = MUL_FIXED12_NO_ROUND(upVector.z, 0x800);
-            VEC_Add(&crab->mMapObject.mMatrix.mRows[1], &upVector, &crab->mMapObject.mMatrix.mRows[1]);
+            VecFx32_Add(&crab->mMapObject.mMatrix.mRows[1], &upVector, &crab->mMapObject.mMatrix.mRows[1]);
             if ((s64) crab->mMapObject.mMatrix.mRows[1].x * crab->mMapObject.mMatrix.mRows[1].x +
                     (s64) crab->mMapObject.mMatrix.mRows[1].y * crab->mMapObject.mMatrix.mRows[1].y +
                     (s64) crab->mMapObject.mMatrix.mRows[1].z * crab->mMapObject.mMatrix.mRows[1].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&crab->mMapObject.mMatrix.mRows[1],
+                Vector3_MaybeNormalize(&crab->mMapObject.mMatrix.mRows[1],
                                                    &crab->mMapObject.mMatrix.mRows[1]);
             }
             break;
         case CRAB_STATE_FLUNG:
             if (crab->mTimer-- > 0) {
                 crab->mMapObject.mPosStep.y -= 0x400;
-                VEC_Add(&crab->mMapObject.mPos, &crab->mMapObject.mPosStep, &crab->mMapObject.mPos);
+                VecFx32_Add(&crab->mMapObject.mPos, &crab->mMapObject.mPosStep, &crab->mMapObject.mPos);
                 crab->mRotateZAngle += crab->mRotateZAnglePerFrame;
                 return;
             }
@@ -318,9 +318,9 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
         case CRAB_STATE_RISE:
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
-                (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
-                           ? 0.5f + TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand))
-                           : TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand)) - 0.5f)) {
+                (s32) (StructMapObject_SomeFn_1(gCrabHand) > 0
+                           ? 0.5f + TO_FIXED12(StructMapObject_SomeFn_1(gCrabHand))
+                           : TO_FIXED12(StructMapObject_SomeFn_1(gCrabHand)) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
             AdvanceCrabWobble(&crab->mCrabWobble);
@@ -359,7 +359,7 @@ MapObjectKindData *CreateCrabKindData(void) {
 }
 
 MapObjectList *CreateCrabDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, CrabSetupDrawNop);
+    return CreateAllocateMapObject_from_thumb(CreateCrabAndCrabHand, DrawCrab, CrabSetupDrawNop);
 }
 
 MapObjectList *CreateCrabUpdateList(void) {

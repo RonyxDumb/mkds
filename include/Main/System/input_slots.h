@@ -53,7 +53,7 @@
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 
-// Slots of gInputSlots that the code addresses through a constant, named after the source kind each one gets.
+// Slots of g_GlobalCYT that the code addresses through a constant, named after the source kind each one gets.
 typedef enum InputSlotIndex { INPUT_SLOT_PAD_OR_PARTICIPANT = 8, INPUT_SLOT_PAD_AND_TOUCH = 9 } InputSlotIndex;
 
 // The recorded key pairs (bits, repeat count) and their byte count.
@@ -112,7 +112,7 @@ typedef struct InputSlotPair {
 // A touch pair lost for fewer samples than this still counts as recently lost.
 #define INPUT_PAIR_LOSS_SAMPLES 5
 
-// The key state of an input slot: pressed, held and cleared bits and repeat state; gKeysInputSlot is only this part.
+// The key state of an input slot: pressed, held and cleared bits and repeat state; g_GlobalG is only this part.
 typedef struct InputSlotHead {
     /* 00 */ u16 mPressedBits;
     /* 02 */ u16 mBits;
@@ -177,7 +177,7 @@ typedef struct InputSlot {
     /* 48 */ InputSlotPair mPair;
 } InputSlot;
 
-extern InputSlot gInputSlots[10];
+extern InputSlot g_GlobalCYT[10];
 
 // A view of an input slot that starts at its cleared bits.
 typedef struct InputSlotAtClearedBits {
@@ -185,31 +185,31 @@ typedef struct InputSlotAtClearedBits {
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtClearedBits;
 
-// A view of gInputSlots that starts at the pair x member.
+// A view of g_GlobalCYT that starts at the pair x member.
 typedef struct InputSlotAtPairX {
     /* 00 */ u16 mPairX;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtPairX;
 
-// A view of gInputSlots that starts at the pair y member.
+// A view of g_GlobalCYT that starts at the pair y member.
 typedef struct InputSlotAtPairY {
     /* 00 */ u16 mPairY;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtPairY;
 
-// A view of gInputSlots that starts at the has-pair flag.
+// A view of g_GlobalCYT that starts at the has-pair flag.
 typedef struct InputSlotAtHasPair {
     /* 00 */ u16 mHasPair;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtHasPair;
 
-// A view of gInputSlots that starts at the previous has-pair flag.
+// A view of g_GlobalCYT that starts at the previous has-pair flag.
 typedef struct InputSlotAtPrevHasPair {
     /* 00 */ u16 mPrevHasPair;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtPrevHasPair;
 
-// A view of gInputSlots that starts at the no-pair count.
+// A view of g_GlobalCYT that starts at the no-pair count.
 typedef struct InputSlotAtNoPairCount {
     /* 00 */ u16 mNoPairCount;
     /* 02 */ u8 mRest[0x5a];
@@ -227,16 +227,16 @@ typedef struct PadOrParticipantSlotPairView {
     /* 28 */ volatile InputSlotPair mPair;
 } PadOrParticipantSlotPairView;
 
-#define gInputClearedBitsSlots ((InputSlotAtClearedBits *) &gInputSlots[0].mClearedBits)
-#define gInputPairXs ((InputSlotAtPairX *) &gInputSlots[0].mPair.mPairX)
-#define gInputPairYs ((InputSlotAtPairY *) &gInputSlots[0].mPair.mPairY)
-#define gInputHasPairs ((InputSlotAtHasPair *) &gInputSlots[0].mPair.mHasPair)
-#define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
-#define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
-#define gEmblemInputSlotView ((EmblemInputSlotView *) &gInputSlots[7].mSourceKind)
+#define gInputClearedBitsSlots ((InputSlotAtClearedBits *) &g_GlobalCYT[0].mClearedBits)
+#define gInputPairXs ((InputSlotAtPairX *) &g_GlobalCYT[0].mPair.mPairX)
+#define gInputPairYs ((InputSlotAtPairY *) &g_GlobalCYT[0].mPair.mPairY)
+#define gInputHasPairs ((InputSlotAtHasPair *) &g_GlobalCYT[0].mPair.mHasPair)
+#define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &g_GlobalCYT[0].mPair.mPrevHasPair)
+#define gInputNoPairCounts ((InputSlotAtNoPairCount *) &g_GlobalCYT[0].mPair.mNoPairCount)
+#define gEmblemInputSlotView ((EmblemInputSlotView *) &g_GlobalCYT[7].mSourceKind)
 #define gPadOrParticipantSlotPairView                                                                                  \
-    ((PadOrParticipantSlotPairView *) &gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mWritesKeyBits)
+    ((PadOrParticipantSlotPairView *) &g_GlobalCYT[INPUT_SLOT_PAD_OR_PARTICIPANT].mWritesKeyBits)
 
 static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
-    return &gInputSlots[inputSlotIndex];
+    return &g_GlobalCYT[inputSlotIndex];
 }

@@ -20,19 +20,19 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     MBGameRegistry *registry;
     u8 slotIndex;
     entryIndex = 0xff;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (MBi_IsStarted() == 0) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     work = mbc;
     if (work->mEntryCount + 1 > 0x10) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     for (slotIndex = 0; slotIndex < 0x10; slotIndex++) {
         if ((OFFSET_PTR(MB_CommPWork, work, slotIndex * 0x5d4))->mGameReg == rangeTable) {
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 0;
         }
         if ((OFFSET_PTR(MB_CommPWork, work, slotIndex * 0x5d4))->mEntryUsed == 0) {
@@ -41,7 +41,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
         }
     }
     if (slotIndex == 0x10) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     entryOffset = entryIndex * 0x5d4;
@@ -49,9 +49,9 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     record = (MBDownloadFileInfo *) (mbc->mFileInfo + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
     registry = rangeTable;
-    MI_CpuCopy8(registry->mUserParam, record->mReserved, sizeof(record->mReserved));
+    Mem_CpuCopy8(registry->mUserParam, record->mReserved, sizeof(record->mReserved));
     if (MBi_MakeBlockInfoTable((MB_BlockInfoTable *) (mbc->mBlockInfoTable + entryOffset), record) == 0) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     MBi_MakeGameInfo((GameInfoEntry *) (mbc->mFileInfo + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
@@ -63,14 +63,14 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList = &source->mCacheList;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCardMapping = source->mCardMapping;
     if ((OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList->mList[3].mState != 0) {
-        if (MBi_IsTaskAvailable() == 0) {
-            MBi_InitTaskInfo(&mbc->mCurTask);
-            MBi_InitTaskThread(&mbc->mTaskWork, 0x800);
+        if (IsGlobalANSet_from_thumb() == 0) {
+            StructANN_Create_from_thumb(&mbc->mCurTask);
+            InitializeSetGlobalAN_from_thumb(&mbc->mTaskWork, 0x800);
         }
     }
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mEntryUsed = 1;
     mbc->mEntryCount++;
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 1;
 }
 
@@ -91,7 +91,7 @@ void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source)
         range++;
         kinds++;
     }
-    MI_CpuCopy8(headerTail, record->mAuthCode, sizeof(record->mAuthCode));
+    Mem_CpuCopy8(headerTail, record->mAuthCode, sizeof(record->mAuthCode));
 }
 
 void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress) {
@@ -110,7 +110,7 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
                 range->mTarget &= ~1;
                 return;
             }
-            OS_Terminate();
+            Os_Terminate();
             return;
         case MULTIBOOT_SEGMENT_SUB_RAM:
             outOfBounds = 0;
@@ -135,7 +135,7 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
                 outOfBounds = 1;
             }
             if (outOfBounds == 1) {
-                OS_Terminate();
+                Os_Terminate();
             }
             range->mSize = pair[1];
             range->mLoadAddr = pair[0];
@@ -286,7 +286,7 @@ void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 ch
     u32 csAttribute;
     u32 ksAttribute;
     BootInfo *bootInfo = gBootInfo;
-    MI_CpuCopy8(bootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? bootInfo->mParentBssDesc : NULL, bssDesc, 0x3c);
+    Mem_CpuCopy8(bootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? bootInfo->mParentBssDesc : NULL, bssDesc, 0x3c);
     bssDesc->mGameInfoLength = MULTIBOOT_BEACON_GAME_INFO_LENGTH;
     bssDesc->mGameInfo.mGgid = bssDesc->mSsidHalfwords[0] | (bssDesc->mSsidHalfwords[1] << 16);
     bssDesc->mGameInfo.mTgid = bssDesc->mSsidHalfwords[2];

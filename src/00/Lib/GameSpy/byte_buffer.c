@@ -24,7 +24,7 @@ int GetBufferUnusedSize(Gt2Buffer *gt2Buffer) {
 void AppendBufferByte(Gt2Buffer *buffer, u8 byteValue) {
     int writeIndex;
     if (buffer->mLength >= buffer->mSize) {
-        AssertionFailed("buffer->len < buffer->size", "gt2Buffer.c", NULL, 0x23);
+        LogThrowAssertion("buffer->len < buffer->size", "gt2Buffer.c", NULL, 0x23);
     }
     writeIndex = buffer->mLength;
     buffer->mLength = writeIndex + 1;
@@ -34,7 +34,7 @@ void AppendBufferByte(Gt2Buffer *buffer, u8 byteValue) {
 void AppendBufferU16(Gt2Buffer *buffer, s32 value) {
     int writeIndex;
     if (buffer->mLength + 2 > buffer->mSize) {
-        AssertionFailed("(buffer->len + 2) <= buffer->size", "gt2Buffer.c", NULL, 0x2e);
+        LogThrowAssertion("(buffer->len + 2) <= buffer->size", "gt2Buffer.c", NULL, 0x2e);
     }
     writeIndex = buffer->mLength;
     buffer->mLength = writeIndex + 1;
@@ -50,7 +50,7 @@ void AppendBufferBytes(Gt2Buffer *buffer, const u8 *data, int len) {
             len = strlen((const char *) data);
         }
         if (buffer->mLength + len > buffer->mSize) {
-            AssertionFailed("(buffer->len + len) <= buffer->size", "gt2Buffer.c", NULL, 0x40);
+            LogThrowAssertion("(buffer->len + len) <= buffer->size", "gt2Buffer.c", NULL, 0x40);
         }
         memcpy(buffer->mData + buffer->mLength, data, len);
         buffer->mLength = buffer->mLength + len;
@@ -62,10 +62,10 @@ void RemoveBufferBytes(Gt2Buffer *buffer, int start, int shortenBy) {
         start = buffer->mLength - shortenBy;
     }
     if (start > buffer->mLength) {
-        AssertionFailed("start <= buffer->len", "gt2Buffer.c", NULL, 0x4f);
+        LogThrowAssertion("start <= buffer->len", "gt2Buffer.c", NULL, 0x4f);
     }
     if (shortenBy > buffer->mLength - start) {
-        AssertionFailed("shortenBy <= (buffer->len - start)", "gt2Buffer.c", NULL, 0x50);
+        LogThrowAssertion("shortenBy <= (buffer->len - start)", "gt2Buffer.c", NULL, 0x50);
     }
     memmove(buffer->mData + start, buffer->mData + start + shortenBy, buffer->mLength - start - shortenBy);
     buffer->mLength = buffer->mLength - shortenBy;

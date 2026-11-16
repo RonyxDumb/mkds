@@ -39,7 +39,7 @@ void SetupConnectMessage(void) {
 
 void LoadConnectMessageFileAndSetBgCnt(void) {
     void *nscName = &gXb4NoneNscName2;
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));

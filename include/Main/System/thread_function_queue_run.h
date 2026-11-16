@@ -2,11 +2,11 @@
 
 #include "types.h"
 
-unsigned int GetThreadFunctionQueueRunRequested(void);
+unsigned int WorkerHasPendingTask(void);
 
 u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex);
 
-void RequestThreadFunctionQueueRun(void);
+void WorkerNotifyTaskPending(void);
 
 extern s32 gCupPictureNitroOrRetroTable[1];
 extern s32 gCupPictureNumberTable[81];

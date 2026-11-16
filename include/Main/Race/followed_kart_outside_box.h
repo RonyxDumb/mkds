@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-BOOL IsFollowedKartOutsideBox(void);
+BOOL CheckCourseSomeVectorBounds(void);

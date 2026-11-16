@@ -4,7 +4,7 @@
 
 const Vec3 gKartNameTagInitialPos = {0, 0, 0};
 
-void ResetModelAnimationLooping(ModelAnimationFrameLoop *animation, u32 frameCountFixed) {
+void StructAM_InitializeImpl(ModelAnimationFrameLoop *animation, u32 frameCountFixed) {
     animation->mLoopMode = MODEL_ANIMATION_LOOP_MODE_WRAP;
     animation->mDone = 0;
     animation->mFrameStep = FIXED12_UNIT;

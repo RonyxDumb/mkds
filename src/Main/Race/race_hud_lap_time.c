@@ -62,10 +62,10 @@ void StartRaceHudLapTimeDisplay(void) {
     u8 totalsIndex;
     u8 lap;
 
-    if (gRaceSetup->mMode == MODE_GRAND_PRIX || gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        gRaceHud->mShowLapTime = 1;
+    if (g_GlobalCO->mMode == MODE_GRAND_PRIX || g_GlobalCO->mMode == MODE_TIME_ATTACK) {
+        g_GlobalB350->mShowLapTime = 1;
     }
-    if (gRaceHud->mUseTimeDifference == 0) {
+    if (g_GlobalB350->mUseTimeDifference == 0) {
         return;
     }
     for (totalsIndex = 0; totalsIndex < 2; totalsIndex++) {
@@ -73,19 +73,19 @@ void StartRaceHudLapTimeDisplay(void) {
         totals[totalsIndex].mSeconds = 0;
         totals[totalsIndex].mMilliseconds = 0;
     }
-    for (lap = 1; lap <= GetFollowedKartLastEndedLap(); lap++) {
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            MI_CpuCopy8(&gRaceSetup->mGhostLapTimes[lap - 1], &referenceLap, 4);
+    for (lap = 1; lap <= GetSomeLapCount(); lap++) {
+        if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
+            Mem_CpuCopy8(&g_GlobalCO->mGhostLapTimes[lap - 1], &referenceLap, 4);
         }
         totals[0].mMinutes += referenceLap.mMinute;
         totals[0].mSeconds += referenceLap.mSecond;
         totals[0].mMilliseconds += referenceLap.mMillisecond;
-        GetKartLapTime(GetFollowedKartOrEntryIndex(), lap, &kartLap.mMinute, &kartLap.mSecond, &kartLap.mMillisecond);
+        MaybeGetPlayerLapTime(GetCurrentPlayerRacerId(), lap, &kartLap.mMinute, &kartLap.mSecond, &kartLap.mMillisecond);
         totals[1].mMinutes += kartLap.mMinute;
         totals[1].mSeconds += kartLap.mSecond;
         totals[1].mMilliseconds += kartLap.mMillisecond;
     }
-    gRaceHud->mTimeDifferenceSign = ComputeTimeDifference(&totals[1], &totals[0], &difference);
+    g_GlobalB350->mTimeDifferenceSign = ComputeTimeDifference(&totals[1], &totals[0], &difference);
     SplitTimeDigits(difference.mMinute, difference.mSecond, difference.mMillisecond, &digits);
-    gRaceHud->mTimeDifferenceDigits = digits;
+    g_GlobalB350->mTimeDifferenceDigits = digits;
 }

@@ -27,7 +27,7 @@ const SOCConfig gAcSocConfig = {{0, 0, 0, 1},
 void MakeSOCConfig(const ACHOLD *hold, ACWORK *work, SOCConfig *config) {
     DWCMemPage *info;
 
-    MI_CpuCopy8(&gAcSocConfig, config, sizeof(gAcSocConfig));
+    Mem_CpuCopy8(&gAcSocConfig, config, sizeof(gAcSocConfig));
     config->mAlloc = hold->mAlloc;
     config->mFree = hold->mFree;
     if (work->mConnectApType < AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID) {

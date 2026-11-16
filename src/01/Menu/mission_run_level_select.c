@@ -72,12 +72,12 @@ void LoadMissionRunLVselData(void) {
     Nscr *missionRunLVselMNscr = NULL;
     Nclr *missionRunLVselMBNclr = NULL;
 
-    LoadNcgrData(&missionRunLVselMBNcgr, FindSceneFile(gMissionRunLVselMBNcgrName));
-    LoadNscrData(&missionRunLVselMNscr, FindSceneFile(gMissionRunLVselMNscrName));
-    LoadNclrData(&missionRunLVselMBNclr, FindSceneFile(gMissionRunLVselMBNclrName));
-    LoadNcgrData2(&missionRunLVselSNcgr, FindSceneFile(gMissionRunLVselSNcgrName));
-    LoadNcerData(&missionRunLVselSNcer, FindSceneFile(gMissionRunLVselSNcerName));
-    LoadNclrData(&missionRunLVselSONclr, FindSceneFile(gMissionRunLVselSONclrName));
+    Gfx_ReadCharGraphicsV2(&missionRunLVselMBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselMBNcgrName));
+    MaybeReadScreenBlock_0(&missionRunLVselMNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselMNscrName));
+    Gfx_ReadPalette(&missionRunLVselMBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselMBNclrName));
+    Gfx_ReadCharGraphics(&missionRunLVselSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselSNcgrName));
+    LoadCellBankFrom(&missionRunLVselSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselSNcerName));
+    Gfx_ReadPalette(&missionRunLVselSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselSONclrName));
 }
 
 void LocateAndQueueMissionRunLVsel(void) {
@@ -87,28 +87,28 @@ void LocateAndQueueMissionRunLVsel(void) {
     Nscr *missionRunLVselMNscr = NULL;
     Nclr *missionRunLVselMBNclr = NULL;
 
-    LocateNcgr(&missionRunLVselMBNcgr, FindSceneFile(gMissionRunLVselMBNcgrName));
-    LocateNscr(&missionRunLVselMNscr, FindSceneFile(gMissionRunLVselMNscrName));
-    LocateNclr(&missionRunLVselMBNclr, FindSceneFile(gMissionRunLVselMBNclrName));
+    MaybeReadCharBlock_1(&missionRunLVselMBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselMBNcgrName));
+    MaybeReadScreenBlock(&missionRunLVselMNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselMNscrName));
+    Gfx_ReadPaletteRelative(&missionRunLVselMBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselMBNclrName));
     if (gMissionRunLVsel->mReachedLevel >= MISSION_RUN_LVSEL_LAST_LEVEL_INDEX) {
-        gMissionRunLVsel->mMissionRunLVselS7Or6Bncl = FindSceneFile(gMissionRunLVselS7BnclName);
-        gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl = FindSceneFile(gMissionRunLVselS7BnblName);
-        gMissionRunLVsel->mMissionRunLVselS7Or6Bnll = FindSceneFile(gMissionRunLVselS7BnllName);
+        gMissionRunLVsel->mMissionRunLVselS7Or6Bncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselS7BnclName);
+        gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselS7BnblName);
+        gMissionRunLVsel->mMissionRunLVselS7Or6Bnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselS7BnllName);
     } else {
-        gMissionRunLVsel->mMissionRunLVselS7Or6Bncl = FindSceneFile(gMissionRunLVselS6BnclName);
-        gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl = FindSceneFile(gMissionRunLVselS6BnblName);
-        gMissionRunLVsel->mMissionRunLVselS7Or6Bnll = FindSceneFile(gMissionRunLVselS6BnllName);
+        gMissionRunLVsel->mMissionRunLVselS7Or6Bncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselS6BnclName);
+        gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselS6BnblName);
+        gMissionRunLVsel->mMissionRunLVselS7Or6Bnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselS6BnllName);
     }
-    LocateNcgr2(&missionRunLVselSNcgr, FindSceneFile(gMissionRunLVselSNcgrName));
-    LocateNcer(&gMissionRunLVsel->mMissionRunLVselSNcer, FindSceneFile(gMissionRunLVselSNcerName));
-    LocateNclr(&missionRunLVselSONclr, FindSceneFile(gMissionRunLVselSONclrName));
-    gMissionRunLVsel->mVramTransferBuffer = HeapAlloc(gMissionRunLVsel->mHeap, SECOND_SCREEN_MAP_BYTES);
-    NNS_GfdRegisterNewVramTransferTask(4, 0, missionRunLVselMBNcgr->mData, missionRunLVselMBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, missionRunLVselMNscr->mData, missionRunLVselMNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunLVsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, missionRunLVselMBNclr->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, missionRunLVselSNcgr->mData, missionRunLVselSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, missionRunLVselSONclr->mData, missionRunLVselSONclr->mDataSize);
+    Gfx_ReadCharGraphicsRelative(&missionRunLVselSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselSNcgrName));
+    LocateNcer(&gMissionRunLVsel->mMissionRunLVselSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselSNcerName));
+    Gfx_ReadPaletteRelative(&missionRunLVselSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunLVselSONclrName));
+    gMissionRunLVsel->mVramTransferBuffer = Mem_AllocateHeap(gMissionRunLVsel->mHeap, SECOND_SCREEN_MAP_BYTES);
+    AllocateReserveTEQSub(4, 0, missionRunLVselMBNcgr->mData, missionRunLVselMBNcgr->mDataSize);
+    AllocateReserveTEQSub(8, 0, missionRunLVselMNscr->mData, missionRunLVselMNscr->mDataSize);
+    AllocateReserveTEQSub(8, 0x800, gMissionRunLVsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
+    AllocateReserveTEQSub(0xf, 0, missionRunLVselMBNclr->mData, 0x40);
+    AllocateReserveTEQSub(0x23, 0, missionRunLVselSNcgr->mData, missionRunLVselSNcgr->mDataSize);
+    AllocateReserveTEQSub(0x1e, 0, missionRunLVselSONclr->mData, missionRunLVselSONclr->mDataSize);
 }
 
 s32 GetMissionRunLVselMinRecordValue(s16 levelIndex) {
@@ -122,7 +122,7 @@ s32 GetMissionRunLVselMinRecordValue(s16 levelIndex) {
     levelNumber = levelIndex + 1;
 
     for (; columnIndex < 9; columnIndex++) {
-        if (GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue)) {
+        if (IsMissionStageBeaten(levelNumber, (u8) (columnIndex + 1), &recordValue)) {
             if (recordValue < result) {
                 result = recordValue;
             }
@@ -184,7 +184,7 @@ void RefreshMissionRunLVselLevelCells(void) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][6]].mVisible = 1;
         }
-        SetCellOamModeXlu(gMissionRunLVselLevelCellIndices[levelIndex][0], 1, gMissionRunLVsel->mMissionRunLVselSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gMissionRunLVselLevelCellIndices[levelIndex][0], 1, gMissionRunLVsel->mMissionRunLVselSNcer,
                           gMissionRunLVsel->mMissionRunLVselS7Or6Bncl);
     }
 }
@@ -225,7 +225,7 @@ void RefreshMissionRunLVselReachedLevel(void) {
         columnIndex = 0;
         levelNumber = levelIndex + 1;
         for (; columnIndex < 9; columnIndex++) {
-            ok &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
+            ok &= IsMissionStageBeaten(levelNumber, (u8) (columnIndex + 1), &recordValue);
             if (!ok || recordValue < 5) {
                 all = FALSE;
             }
@@ -254,9 +254,9 @@ BOOL IsMissionRunLVselLastRecordMissing(void) {
     s32 recordValue;
 
     for (columnIndex = 0; columnIndex < 8; columnIndex++) {
-        ok &= GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), (u8) (columnIndex + 1), &recordValue);
+        ok &= IsMissionStageBeaten((u8) (gMissionRunLVsel->mIndex + 1), (u8) (columnIndex + 1), &recordValue);
     }
-    result = GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
+    result = IsMissionStageBeaten((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
     if (ok != 0 && result == 0) {
         return TRUE;
     }
@@ -311,7 +311,7 @@ void RequestMissionRunLVselHoldChosen(void) {
     gMissionRunLVsel->mStateFrames = 0;
     gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     SetMissionTableToSelectedLevel();
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
 }
 
 void RequestMissionRunLVselSlideOut(void) {
@@ -337,9 +337,9 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
     {
-        void *heap = CreateFrmHeapFromMaxFree(parentHeap);
+        void *heap = Mem_CreateOrphanChildHeap(parentHeap);
 
-        gMissionRunLVsel = HeapAlloc(heap, sizeof(MissionRunLVsel));
+        gMissionRunLVsel = Mem_AllocateHeap(heap, sizeof(MissionRunLVsel));
         gMissionRunLVsel->mHeap = heap;
     }
     gMissionRunLVsel->mState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;
@@ -349,9 +349,9 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         gMissionRunLVsel->mHighlightTimers[levelIndex] = 0;
     }
-    if (gMenuShared->mLVselIndex6Requested != 0) {
+    if (g_GlobalB488->mLVselIndex6Requested != 0) {
         gMissionRunLVsel->mIndex = MISSION_RUN_LVSEL_LAST_LEVEL_INDEX;
-        gMenuShared->mLVselIndex6Requested = 0;
+        g_GlobalB488->mLVselIndex6Requested = 0;
         StartMissionRunLVselSeq(2);
     } else {
         gMissionRunLVsel->mIndex = GetMissionTableRow() - 1;
@@ -363,7 +363,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     }
     RefreshMissionRunLVselReachedLevel();
     LocateAndQueueMissionRunLVsel();
-    ResetOamLists(gMissionRunLVsel->mMainOam, gMissionRunLVsel->mSubOam);
+    OamBuffer_SomeFn_from_thumb(gMissionRunLVsel->mMainOam, gMissionRunLVsel->mSubOam);
     InitLayoutTable(gMissionRunLVsel->mHeap, gMissionRunLVsel->mMissionRunLVselS7Or6Bncl,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Bnll, &gMissionRunLVsel->mMissionRunLVselS7Or6Table);
     remainingSize = GX_GetSizeOfSubOBJ();
@@ -394,14 +394,14 @@ void ReleaseMissionRunLVsel(void) {
             StartSceneSeqAfterMissionRunLVsel(4);
             break;
     }
-    HeapDestroy(gMissionRunLVsel->mHeap);
+    Mem_DestroyHeap(gMissionRunLVsel->mHeap);
     gMissionRunLVsel = NULL;
 }
 
 void AdvanceMissionRunLVselWaitFade(void) {
     int fadesClear;
     StartSceneSeqIfIdle();
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestMissionRunLVselSlideIn();
     }
@@ -416,9 +416,9 @@ void AdvanceMissionRunLVselSlideIn(void) {
     StartSceneSeqIfIdle();
     layoutCount = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
-    offsetX = InterpolateS16(1, gMissionRunLVsel->mSlideOffsetX, 0, gMissionRunLVsel->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, gMissionRunLVsel->mSlideOffsetX, 0, gMissionRunLVsel->mStateFrames,
                              MISSION_RUN_LVSEL_SLIDE_FRAMES);
-    gMissionRunLVsel->mBg0Offset = InterpolateS16(1, -MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE, 0,
+    gMissionRunLVsel->mBg0Offset = ComputeValueInterpolation_from_thumb(1, -MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE, 0,
                                                   gMissionRunLVsel->mStateFrames, MISSION_RUN_LVSEL_SLIDE_FRAMES);
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         for (cellIndex = 0; cellIndex < 11; cellIndex++) {
@@ -452,32 +452,32 @@ void AdvanceMissionRunLVselSelect(void) {
     StartSceneSeqIfIdle();
     touchBegan = FALSE;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
         touchedRect = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl,
-                                              gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
+                                              g_GlobalCYT[slotIndex].mPair.mPairX, g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         BOOL touchBeganAgain = FALSE;
         BOOL recentlyLostAgain = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLostAgain = TRUE;
         }
-        if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (recentlyLostAgain == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -495,11 +495,11 @@ next:
             gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
             RequestMissionRunLVselHoldChosen();
         } else {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x16);
         }
         return;
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
         RequestMissionRunLVselHoldChosen();
         return;
@@ -510,7 +510,7 @@ next:
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
@@ -519,7 +519,7 @@ next:
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
@@ -528,7 +528,7 @@ next:
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
@@ -537,7 +537,7 @@ next:
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             }
         }
     }
@@ -561,9 +561,9 @@ void AdvanceMissionRunLVselSlideOut(void) {
 
     layoutCount = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
-    offsetX = InterpolateS16(1, 0, gMissionRunLVsel->mSlideOffsetX, gMissionRunLVsel->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, gMissionRunLVsel->mSlideOffsetX, gMissionRunLVsel->mStateFrames,
                              MISSION_RUN_LVSEL_SLIDE_FRAMES);
-    gMissionRunLVsel->mBg0Offset = InterpolateS16(1, 0, -MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE,
+    gMissionRunLVsel->mBg0Offset = ComputeValueInterpolation_from_thumb(1, 0, -MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE,
                                                   gMissionRunLVsel->mStateFrames, MISSION_RUN_LVSEL_SLIDE_FRAMES);
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         for (cellIndex = 0; cellIndex < 11; cellIndex++) {

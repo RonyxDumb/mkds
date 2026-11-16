@@ -34,13 +34,13 @@ unsigned int IsAnySeqVariableEnabled(void);
 typedef struct SoundSetPlayer SoundSetPlayer;
 
 void StartThunderShrinkSound(void *kartAddress, int secondArgument);
-void RequestThunderShrinkSound(Kart *kart);
-void InitSoundSetPlayerWithVariables(SoundSetPlayer *player, s32 seqId, s32 firstBankId);
+void StructMQRacerEntry_SomeFn_28(Kart *kart);
+void LoadSomeSseq(SoundSetPlayer *player, s32 seqId, s32 firstBankId);
 void SetSeqVariableEnabled(u32 slot, u32 enabled);
 
 u32 *ResetThunderShrinkSoundCounter(void);
 
-void KartThunderShrinkNop(void);
+void nullsub_16(void);
 
 void SetThunderShrinkSoundFlag(u32 enabled);
 void SetTeresaSoundFlag(u32 enabled, u32 isSelectedEntry);

@@ -75,7 +75,7 @@ void SetupYb5MultiNext(void) {
 
 void LoadYb5MultiNextFileAndSetBgCnt(void) {
     void *yb5MultiNscName2 = &gYb5MultiNscName2;
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 loadFileResult = LoadFileToVram(yb5MultiNscName2, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));

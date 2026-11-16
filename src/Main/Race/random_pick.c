@@ -26,15 +26,15 @@ void PickRandomKarts(CharacterKartPicks *picks) {
 
     givenBits = picks->mKartGivenBits;
     useSharedRandom = FALSE;
-    if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
-        gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if ((g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode) != CONNECTION_MODE_NONE &&
+        g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &gConnectionWork->mRandomState;
+        random = &g_GlobalZE->mRandomState;
     } else {
-        firstTick = OS_GetTick();
-        secondTick = OS_GetTick();
+        firstTick = Os_GetTick();
+        secondTick = Os_GetTick();
         localRandom.mValue = ((u32) firstTick << 24) + (u32) (secondTick >> 8);
         localRandom.mMultiplier = RANDOM_STATE64_MULTIPLIER;
         localRandom.mIncrement = RANDOM_STATE64_INCREMENT;
@@ -68,7 +68,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
                     }
                 }
             }
-            candidateCount = CountSetBits(candidateBits);
+            candidateCount = Math_CountPopulation(candidateBits);
             if (candidateCount == 0) {
                 pick = 0;
             } else {
@@ -116,19 +116,19 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     availableBits = 0;
     givenBits = picks->mCharacterGivenBits;
     useSharedRandom = FALSE;
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
     } else {
-        connectionMode = gConnectionWork->mConnectionMode;
+        connectionMode = g_GlobalZE->mConnectionMode;
     }
-    if (connectionMode != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if (connectionMode != CONNECTION_MODE_NONE && g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &gConnectionWork->mRandomState;
+        random = &g_GlobalZE->mRandomState;
     } else {
-        firstTick = OS_GetTick();
-        secondTick = OS_GetTick();
+        firstTick = Os_GetTick();
+        secondTick = Os_GetTick();
         localRandom.mValue = ((u32) firstTick << 24) + (u32) (secondTick >> 8);
         localRandom.mMultiplier = RANDOM_STATE64_MULTIPLIER;
         localRandom.mIncrement = RANDOM_STATE64_INCREMENT;
@@ -164,7 +164,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     }
     for (entry = 0; entry < 8; entry++) {
         pickedCharacter = -1;
-        availableCount = CountSetBits(availableBits);
+        availableCount = Math_CountPopulation(availableBits);
         seen = 0;
         if ((givenBits & (1 << entry)) == 0) {
             picks->mCharacterIndices[entry] = -1;

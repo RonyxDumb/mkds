@@ -5,4 +5,4 @@
 
 typedef struct KartAppear KartAppear;
 
-KartAppear *CreateKartAppear(void *heap);
+KartAppear *LoadKartAppearTablePointer_from_thumb(void *heap);

@@ -8,7 +8,7 @@
 
 typedef struct MtxFx43 MtxFx43;
 
-// A loaded model resource file with its texture, kept in the list gResFileEntries.
+// A loaded model resource file with its texture, kept in the list g_LoadedModelTextureList.
 typedef struct ResFileEntry {
     /* 00 */ void *mUnk_00;
     /* 04 */ void *mUnk_04;
@@ -32,27 +32,27 @@ typedef struct Nsbmd {
 } Nsbmd;
 
 void InitKartEffectTables(void *heap);
-void ReleaseAllResFiles(void);
-void SetNsbmdCullModeAll(Nsbmd *nsbmd, u32 cullMode);
-void SetNsbmdPolygonIdLightEmiAll(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color);
-void SetNsbmdEmiAll(Nsbmd *nsbmd, u32 color);
-void SetNsbmdLightEnableFlagAll(Nsbmd *nsbmd, u32 light);
-void SetNsbmdPolygonIdAll(Nsbmd *nsbmd, u32 polygonId);
+void MaybeDisposeLoadedModelTextures(void);
+void StructML_SomeFn_0(Nsbmd *nsbmd, u32 cullMode);
+void StructML_SomeFn_1(Nsbmd *nsbmd, u32 polygonId, u32 light, u32 color);
+void StructML_SomeFn_7(Nsbmd *nsbmd, u32 color);
+void StructML_SomeFn_8(Nsbmd *nsbmd, u32 light);
+void StructML_MaybeProcessModelAnimations(Nsbmd *nsbmd, u32 polygonId);
 void DrawNsbmd(Nsbmd *nsbmd);
 void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, const Vec3 *scale);
 void SetNsbmdSecondDrawMaterial(Nsbmd *nsbmd, u8 alpha, u8 polygonId);
 void SetNsbmdFirstDrawMaterial(Nsbmd *nsbmd, u8 alpha);
-NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
+NNSG3dResMdl *StructML_LoadModelAndTextures(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
                                            NNSG3dResFileHeader *textureFile);
-NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
-NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
-NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
-void InitNsbmdRenderObjWrapper(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
+NNSG3dResMdl *StructML_LoadModel(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
+NNSG3dResMdl *StructML_LoadModelAndTextures2(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
+NNSG3dResMdl *StructML_LoadModel2(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
+void StructML_SomeFn(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
 void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd);
 void SetNsbmdCullModeMirrored(Nsbmd *nsbmd);
-void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);
-u32 UploadResTexture(NNSG3dResTex *texture);
-void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
+void StructML_MaybeInnerLoadModel(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);
+u32 Tex0Block_MaybePrepareFields(NNSG3dResTex *texture);
+void LoadedModelTexture_SomeFn(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
 
 extern const Vec3 gKartEffectVec3UnitY;
-extern const Vec3 gKartEffectVec3Zero;
+extern const Vec3 g_SomeVec;

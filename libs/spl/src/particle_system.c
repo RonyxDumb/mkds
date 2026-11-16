@@ -27,14 +27,14 @@ void SPLRandom_VecFx32(Vec3 *vec) {
     vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     vec->y = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     vec->z = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
-    VEC_Normalize(vec, vec);
+    VecFx32_Normalize(vec, vec);
 }
 
 void SPLRandom_VecFx32_XY(Vec3 *vec) {
     vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     vec->y = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     vec->z = 0;
-    VEC_Normalize(vec, vec);
+    VecFx32_Normalize(vec, vec);
 }
 
 void SPLList_PushFront(ParticleList *list, ParticleInstance *node) {
@@ -131,13 +131,13 @@ void SPLBehavior_ApplySpin(const ParticleBehaviorSpin *spin, ParticleInstance *p
 
     switch (spin->mAxis) {
         case PARTICLE_SPIN_AXIS_X:
-            MTX_RotX33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
+            MTX_RotX33__from_thumb(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
         case PARTICLE_SPIN_AXIS_Y:
-            MTX_RotY33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
+            MTX_RotY33__from_thumb(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
         case PARTICLE_SPIN_AXIS_Z:
-            MTX_RotZ33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
+            MTX_RotZ33__from_thumb(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
     }
     MTX_MultVec33(&ptcl->mOffset, &buf, &ptcl->mOffset);
@@ -361,10 +361,10 @@ void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr) {
             axis.z = 0x1000;
             break;
         default:
-            VEC_Fx16Normalize(&emtr->mDirection, &axis);
+            VecFx16_Normalize(&emtr->mDirection, &axis);
             break;
     }
-    dot = VEC_Fx16DotProduct(&up, &axis);
+    dot = VecFx16_DotProduct(&up, &axis);
     if (dot == 0x1000 || dot == -0x1000) {
         up.x = 0x1000;
         up.y = 0;
@@ -376,15 +376,15 @@ void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr) {
     emtr->mAxisY.x = MUL_FIXED12_ROUNDED(axis.y, emtr->mAxisX.z) - MUL_FIXED12_ROUNDED(axis.z, emtr->mAxisX.y);
     emtr->mAxisY.y = MUL_FIXED12_ROUNDED(axis.z, emtr->mAxisX.x) - MUL_FIXED12_ROUNDED(axis.x, emtr->mAxisX.z);
     emtr->mAxisY.z = MUL_FIXED12_ROUNDED(axis.x, emtr->mAxisX.y) - MUL_FIXED12_ROUNDED(axis.y, emtr->mAxisX.x);
-    VEC_Fx16Normalize(&emtr->mAxisX, &emtr->mAxisX);
-    VEC_Fx16Normalize(&emtr->mAxisY, &emtr->mAxisY);
+    VecFx16_Normalize(&emtr->mAxisX, &emtr->mAxisX);
+    VecFx16_Normalize(&emtr->mAxisY, &emtr->mAxisY);
 }
 
 void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, ParticleEmitter *emtr) {
     Vec3s16 cross;
 
-    VEC_Fx16CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &cross);
-    VEC_Fx16Normalize(&cross, &cross);
+    VecFx16_CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &cross);
+    VecFx16_Normalize(&cross, &cross);
     ptclPos->x = MUL_FIXED12_ROUNDED(pos->z, cross.x) +
                  (MUL_FIXED12_ROUNDED(pos->x, emtr->mAxisX.x) + MUL_FIXED12_ROUNDED(pos->y, emtr->mAxisY.x));
     ptclPos->y = MUL_FIXED12_ROUNDED(pos->z, cross.y) +
@@ -507,11 +507,11 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                 }
                 case PARTICLE_EMIT_SHAPE_HEMISPHERE_SURFACE: {
                     SPLRandom_VecFx32(&particle->mOffset);
-                    VEC_Fx16CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &normalFx16A);
+                    VecFx16_CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &normalFx16A);
                     normalA.x = normalFx16A.x;
                     normalA.y = normalFx16A.y;
                     normalA.z = normalFx16A.z;
-                    if (VEC_DotProduct(&normalA, &particle->mOffset) <= 0) {
+                    if (Vector3_DotProduct(&normalA, &particle->mOffset) <= 0) {
                         particle->mOffset.x = -particle->mOffset.x;
                         particle->mOffset.y = -particle->mOffset.y;
                         particle->mOffset.z = -particle->mOffset.z;
@@ -523,11 +523,11 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                 }
                 case PARTICLE_EMIT_SHAPE_HEMISPHERE_FILLED: {
                     SPLRandom_VecFx32(&particle->mOffset);
-                    VEC_Fx16CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &normalFx16B);
+                    VecFx16_CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &normalFx16B);
                     normalB.x = normalFx16B.x;
                     normalB.y = normalFx16B.y;
                     normalB.z = normalFx16B.z;
-                    if (VEC_DotProduct(&normalB, &particle->mOffset) < 0) {
+                    if (Vector3_DotProduct(&normalB, &particle->mOffset) < 0) {
                         particle->mOffset.x = -particle->mOffset.x;
                         particle->mOffset.y = -particle->mOffset.y;
                         particle->mOffset.z = -particle->mOffset.z;
@@ -604,11 +604,11 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                                  MUL_FIXED12_ROUNDED(particle->mVelocity.y, emtr->mAxisY.y);
                 tiltedOffset.z = MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mAxisX.z) +
                                  MUL_FIXED12_ROUNDED(particle->mVelocity.y, emtr->mAxisY.z);
-                VEC_Normalize(&tiltedOffset, &direction);
+                VecFx32_Normalize(&tiltedOffset, &direction);
             } else if (particle->mOffset.x == 0 && particle->mOffset.y == 0 && particle->mOffset.z == 0) {
                 SPLRandom_VecFx32(&direction);
             } else {
-                VEC_Normalize(&particle->mOffset, &direction);
+                VecFx32_Normalize(&particle->mOffset, &direction);
             }
 
             particle->mVelocity.x = emtr->mVelocity.x + (MUL_FIXED12_ROUNDED(direction.x, directionSpeed) +
@@ -1108,16 +1108,16 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
         viewForward.z = viewMtx->mRows[2].z;
-        VEC_CrossProduct(&sideVec, &viewForward, &sideVec);
+        VecFx32_CrossProduct(&sideVec, &viewForward, &sideVec);
         if (sideVec.x == 0 && sideVec.y == 0 && sideVec.z == 0) {
             return;
         }
-        VEC_Normalize(&sideVec, &sideVec);
-        MI_Copy36B(viewMtx, &viewMtx33);
+        VecFx32_Normalize(&sideVec, &sideVec);
+        asm_MI_Copy36B(viewMtx, &viewMtx33);
         MTX_MultVec33(&sideVec, &viewMtx33, &sideVec);
         MTX_MultVec43(&pos, viewMtx, &pos);
         dirNorm = ptcl->mVelocity;
-        VEC_Normalize(&dirNorm, &dirNorm);
+        VecFx32_Normalize(&dirNorm, &dirNorm);
         facing = MUL_FIXED12_ROUNDED(dirNorm.x, -viewMtx->mRows[0].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.y, -viewMtx->mRows[1].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.z, -viewMtx->mRows[2].z);
@@ -1152,16 +1152,16 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
         viewForward.z = viewMtx->mRows[2].z;
-        VEC_CrossProduct(&sideVec, &viewForward, &sideVec);
+        VecFx32_CrossProduct(&sideVec, &viewForward, &sideVec);
         if (sideVec.x == 0 && sideVec.y == 0 && sideVec.z == 0) {
             return;
         }
-        VEC_Normalize(&sideVec, &sideVec);
-        MI_Copy36B(viewMtx, &viewMtx33);
+        VecFx32_Normalize(&sideVec, &sideVec);
+        asm_MI_Copy36B(viewMtx, &viewMtx33);
         MTX_MultVec33(&sideVec, &viewMtx33, &sideVec);
         MTX_MultVec43(&pos, viewMtx, &pos);
         dirNorm = ptcl->mVelocity;
-        VEC_Normalize(&dirNorm, &dirNorm);
+        VecFx32_Normalize(&dirNorm, &dirNorm);
         facing = MUL_FIXED12_ROUNDED(dirNorm.x, -viewMtx->mRows[0].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.y, -viewMtx->mRows[1].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.z, -viewMtx->mRows[2].z);
@@ -1253,16 +1253,16 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
         viewForward.z = viewMtx->mRows[2].z;
-        VEC_CrossProduct(&sideVec, &viewForward, &sideVec);
+        VecFx32_CrossProduct(&sideVec, &viewForward, &sideVec);
         if (sideVec.x == 0 && sideVec.y == 0 && sideVec.z == 0) {
             return;
         }
-        VEC_Normalize(&sideVec, &sideVec);
-        MI_Copy36B(viewMtx, &viewMtx33);
+        VecFx32_Normalize(&sideVec, &sideVec);
+        asm_MI_Copy36B(viewMtx, &viewMtx33);
         MTX_MultVec33(&sideVec, &viewMtx33, &sideVec);
         MTX_MultVec43(&pos, viewMtx, &pos);
         dirNorm = ptcl->mVelocity;
-        VEC_Normalize(&dirNorm, &dirNorm);
+        VecFx32_Normalize(&dirNorm, &dirNorm);
         facing = MUL_FIXED12_ROUNDED(dirNorm.x, -viewMtx->mRows[0].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.y, -viewMtx->mRows[1].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.z, -viewMtx->mRows[2].z);
@@ -1297,16 +1297,16 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
         viewForward.z = viewMtx->mRows[2].z;
-        VEC_CrossProduct(&sideVec, &viewForward, &sideVec);
+        VecFx32_CrossProduct(&sideVec, &viewForward, &sideVec);
         if (sideVec.x == 0 && sideVec.y == 0 && sideVec.z == 0) {
             return;
         }
-        VEC_Normalize(&sideVec, &sideVec);
-        MI_Copy36B(viewMtx, &viewMtx33);
+        VecFx32_Normalize(&sideVec, &sideVec);
+        asm_MI_Copy36B(viewMtx, &viewMtx33);
         MTX_MultVec33(&sideVec, &viewMtx33, &sideVec);
         MTX_MultVec43(&pos, viewMtx, &pos);
         dirNorm = ptcl->mVelocity;
-        VEC_Normalize(&dirNorm, &dirNorm);
+        VecFx32_Normalize(&dirNorm, &dirNorm);
         facing = MUL_FIXED12_ROUNDED(dirNorm.x, -viewMtx->mRows[0].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.y, -viewMtx->mRows[1].z) +
                  MUL_FIXED12_ROUNDED(dirNorm.z, -viewMtx->mRows[2].z);
@@ -1380,7 +1380,7 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
-    MTX_Scale43_(&scaleMtx, width, height, height);
+    MTX_Scale43__from_thumb(&scaleMtx, width, height, height);
     MTX_Concat43(&scaleMtx, &rotationMtx, &worldMtx);
     if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
@@ -1451,7 +1451,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
-    MTX_Scale43_(&scaleMtx, width, height, height);
+    MTX_Scale43__from_thumb(&scaleMtx, width, height, height);
     MTX_Concat43(&rotationMtx, &scaleMtx, &worldMtx);
     if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
@@ -1514,9 +1514,9 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
         FX_SinIdx(ptcl->mAngle), FX_CosIdx(ptcl->mAngle), &rotationMtx);
     MTX_Identity43_(&axisMtx);
     if (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mForwardFromOffset == 0) {
-        VEC_Normalize(&ptcl->mVelocity, &forward);
+        VecFx32_Normalize(&ptcl->mVelocity, &forward);
     } else {
-        VEC_Normalize(&ptcl->mOffset, &forward);
+        VecFx32_Normalize(&ptcl->mOffset, &forward);
         forward.x = -forward.x;
         forward.y = -forward.y;
         forward.z = -forward.z;
@@ -1524,14 +1524,14 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     refAxis.x = 0;
     refAxis.y = 0x1000;
     refAxis.z = 0;
-    facing = VEC_DotProduct(&forward, &refAxis);
+    facing = Vector3_DotProduct(&forward, &refAxis);
     if (facing > 0xccd || facing < -0xccd) {
         refAxis.x = 0x1000;
         refAxis.y = 0;
         refAxis.z = 0;
     }
-    VEC_CrossProduct(&forward, &refAxis, &sideAxis);
-    VEC_CrossProduct(&forward, &sideAxis, &upAxis);
+    VecFx32_CrossProduct(&forward, &refAxis, &sideAxis);
+    VecFx32_CrossProduct(&forward, &sideAxis, &upAxis);
     axisMtx.mRows[0].x = sideAxis.x;
     axisMtx.mRows[0].y = sideAxis.y;
     axisMtx.mRows[0].z = sideAxis.z;
@@ -1556,7 +1556,7 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
-    MTX_Scale43_(&scaleMtx, width, height, height);
+    MTX_Scale43__from_thumb(&scaleMtx, width, height, height);
     MTX_Concat43(&scaleMtx, &rotationMtx, &worldMtx);
     if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
@@ -1621,9 +1621,9 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
                                                                          FX_CosIdx(ptcl->mAngle), &rotationMtx);
     MTX_Identity43_(&axisMtx);
     if (mgr->mRenderStateEmitter->mResource->mChildAnim->mTexParams.mForwardFromOffset == 0) {
-        VEC_Normalize(&ptcl->mVelocity, &forward);
+        VecFx32_Normalize(&ptcl->mVelocity, &forward);
     } else {
-        VEC_Normalize(&ptcl->mOffset, &forward);
+        VecFx32_Normalize(&ptcl->mOffset, &forward);
         forward.x = -forward.x;
         forward.y = -forward.y;
         forward.z = -forward.z;
@@ -1631,14 +1631,14 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     refAxis.x = 0;
     refAxis.y = 0x1000;
     refAxis.z = 0;
-    facing = VEC_DotProduct(&forward, &refAxis);
+    facing = Vector3_DotProduct(&forward, &refAxis);
     if (facing > 0xccd || facing < -0xccd) {
         refAxis.x = 0x1000;
         refAxis.y = 0;
         refAxis.z = 0;
     }
-    VEC_CrossProduct(&forward, &refAxis, &sideAxis);
-    VEC_CrossProduct(&forward, &sideAxis, &upAxis);
+    VecFx32_CrossProduct(&forward, &refAxis, &sideAxis);
+    VecFx32_CrossProduct(&forward, &sideAxis, &upAxis);
     axisMtx.mRows[0].x = sideAxis.x;
     axisMtx.mRows[0].y = sideAxis.y;
     axisMtx.mRows[0].z = sideAxis.z;
@@ -1663,7 +1663,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
-    MTX_Scale43_(&scaleMtx, width, height, height);
+    MTX_Scale43__from_thumb(&scaleMtx, width, height, height);
     MTX_Concat43(&rotationMtx, &scaleMtx, &worldMtx);
     if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
@@ -1725,7 +1725,7 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     reg_G3_MTX_MODE = 1;
 }
 
-void SPLUtil_SetTexture_Stub(ParticleTexture *tex) {}
+void nullsub_3(ParticleTexture *tex) {}
 
 void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     ParticleResourceHeader *header;
@@ -1971,7 +1971,7 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     if (header->mFlags.mHasTextureAnim) {
         textureFunc = SPLUtil_SetTexture;
     } else {
-        textureFunc = SPLUtil_SetTexture_Stub;
+        textureFunc = nullsub_3;
     }
     for (particle = emitter->mParticles.mFront; particle != 0; particle = particle->mNext) {
         textureFunc(mgr->mTextures + particle->mTextureIndex);
@@ -2041,11 +2041,11 @@ void SPLUtil_SetCylinderEmitterDir(ParticleEmitter *emtr, Vec3 *pointA, Vec3 *po
     emtr->mPosition.x = (pointB->x + pointA->x) / 2;
     emtr->mPosition.y = (pointB->y + pointA->y) / 2;
     emtr->mPosition.z = (pointB->z + pointA->z) / 2;
-    emtr->mHalfLength = VEC_Distance(pointA, pointB) / 2;
+    emtr->mHalfLength = VecFx32_Distance(pointA, pointB) / 2;
     dir.x = pointB->x - pointA->x;
     dir.y = pointB->y - pointA->y;
     dir.z = pointB->z - pointA->z;
-    VEC_Normalize(&dir, &dir);
+    VecFx32_Normalize(&dir, &dir);
     emtr->mDirection.x = dir.x;
     emtr->mDirection.y = dir.y;
     emtr->mDirection.z = dir.z;
@@ -2066,7 +2066,7 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     u8 *block;
 
     mgr = alloc(sizeof(SPLManager));
-    MI_CpuFill8(mgr, 0, sizeof(SPLManager));
+    Mem_CpuFill8(mgr, 0, sizeof(SPLManager));
     mgr->mMaxEmitters = maxEmitters;
     mgr->mMaxParticles = maxParticles;
     mgr->mPolygonIDMin = minPolyId;
@@ -2085,13 +2085,13 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     mgr->mMiscPolygonAttr = 0;
     mgr->mCurrentCycle = 0;
     block = alloc(maxEmitters * sizeof(ParticleEmitter));
-    MI_CpuFill8(block, 0, maxEmitters * sizeof(ParticleEmitter));
+    Mem_CpuFill8(block, 0, maxEmitters * sizeof(ParticleEmitter));
     for (index = 0; index < maxEmitters; index++) {
         SPLList_PushFront(&mgr->mLists[1], (ParticleInstance *) block);
         block += sizeof(ParticleEmitter);
     }
     block = alloc(maxParticles * sizeof(ParticleInstance));
-    MI_CpuFill8(block, 0, maxParticles * sizeof(ParticleInstance));
+    Mem_CpuFill8(block, 0, maxParticles * sizeof(ParticleInstance));
     for (index = 0; index < maxParticles; index++) {
         SPLList_PushFront(&mgr->mLists[2], (ParticleInstance *) block);
         block += 0x44;
@@ -2116,7 +2116,7 @@ void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
     mgr->mResCount = data->mResCount;
     mgr->mTexCount = data->mTexCount;
     mgr->mResources = mgr->mAlloc(mgr->mResCount << 5);
-    MI_CpuFill8(mgr->mResources, 0, mgr->mResCount << 5);
+    Mem_CpuFill8(mgr->mResources, 0, mgr->mResCount << 5);
     for (index = 0; index < mgr->mResCount; index++) {
         resource = mgr->mResources + index;
         resource->mHeader = OFFSET_PTR(ParticleResourceHeader, data, off);
@@ -2197,7 +2197,7 @@ void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
         }
     }
     mgr->mTextures = mgr->mAlloc(mgr->mTexCount * sizeof(ParticleTexture));
-    MI_CpuFill8(mgr->mTextures, 0, mgr->mTexCount * sizeof(ParticleTexture));
+    Mem_CpuFill8(mgr->mTextures, 0, mgr->mTexCount * sizeof(ParticleTexture));
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
         textureHeader = OFFSET_PTR(ParticleTextureHeader, data, off);
@@ -2246,7 +2246,7 @@ s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         if (textureHeader->mPaletteSize != 0) {
             vramAddr = vramAlloc(textureHeader->mPaletteSize,
                                  textureHeader->mImageParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0);
-            GX_LoadTexPltt((u8 *) texture->mHeader + textureHeader->mPaletteOffset, vramAddr,
+            SomeDmaCopy_0((u8 *) texture->mHeader + textureHeader->mPaletteOffset, vramAddr,
                            textureHeader->mPaletteSize);
         }
         texture->mPaletteVramAddr = vramAddr;

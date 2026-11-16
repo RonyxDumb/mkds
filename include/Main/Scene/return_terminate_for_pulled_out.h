@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int ReturnTerminateForPulledOut(void);
+unsigned int InitGlobal_UserCardPulledOutCallback(void);

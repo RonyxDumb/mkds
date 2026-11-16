@@ -41,15 +41,15 @@ void LoadCupMarkData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gCupMarkNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkNcgrName);
+    Gfx_ReadCharGraphicsV2(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkNcerName);
+    LoadCellBankFrom(&cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkNclrName);
+    Gfx_ReadPalette(palette, sceneFile);
 }
 
-void LoadCommonCupMarkData(void) {
+void VerifyCupMarkFiles_from_thumb(void) {
     void *sceneFile;
     Ncgr *chars;
     NNSG2dCellDataBank *cells;
@@ -57,37 +57,37 @@ void LoadCommonCupMarkData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gCommonCupMarkNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkNcgrName);
+    Gfx_ReadCharGraphicsV2(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkNcerName);
+    LoadCellBankFrom(&cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkNclrName);
+    Gfx_ReadPalette(palette, sceneFile);
 }
 
 void CreateCupMark(void *heap) {
     void *sceneFile;
-    gCupMark = HeapAlloc(heap, sizeof(*gCupMark));
-    sceneFile = FindSceneFile(gCupMarkNcgrName);
-    LocateNcgr2(&gCupMark->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNcerName);
+    gCupMark = Mem_AllocateHeap(heap, sizeof(*gCupMark));
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkNcgrName);
+    Gfx_ReadCharGraphicsRelative(&gCupMark->mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkNcerName);
     LocateNcer(&gCupMark->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNclrName);
-    LocateNclr(&gCupMark->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkBnclName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkNclrName);
+    Gfx_ReadPaletteRelative(&gCupMark->mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCupMarkBnclName);
     gCupMark->mBncl = sceneFile;
 }
 
 void CreateCommonCupMark(void *heap) {
     void *sceneFile;
-    gCupMark = HeapAlloc(heap, sizeof(*gCupMark));
-    sceneFile = FindSceneFile(gCommonCupMarkNcgrName);
-    LocateNcgr2(&gCupMark->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNcerName);
+    gCupMark = Mem_AllocateHeap(heap, sizeof(*gCupMark));
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkNcgrName);
+    Gfx_ReadCharGraphicsRelative(&gCupMark->mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkNcerName);
     LocateNcer(&gCupMark->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNclrName);
-    LocateNclr(&gCupMark->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkBnclName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkNclrName);
+    Gfx_ReadPaletteRelative(&gCupMark->mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonCupMarkBnclName);
     gCupMark->mBncl = sceneFile;
 }
 
@@ -120,29 +120,29 @@ void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable 
     cupMark = gCupMark;
     dst = cupMark->mNclr->mBytes;
     paletteIndex = GetCellPaletteIndex(id, cupMark->mNcer, cupMark->mBncl);
-    NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5, dst + (paletteIndex << 5), 32);
+    AllocateReserveTEQSub(transferKind, paletteSlot << 5, dst + (paletteIndex << 5), 32);
 }
 
-void LoadSelectCupNameMData(void) {
+void VerifySelectCupNameFiles_from_thumb(void) {
     void *sceneFile;
     Ncgr *chars;
     NNSG2dCellDataBank *cells[1];
     chars = NULL;
     cells[0] = NULL;
-    sceneFile = FindSceneFile(gSelectCupNameMNcgrName);
-    LoadNcgrData2(&chars, sceneFile);
-    sceneFile = FindSceneFile(gSelectCupNameMNcerName);
-    LoadNcerData(cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupNameMNcgrName);
+    Gfx_ReadCharGraphics(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupNameMNcerName);
+    LoadCellBankFrom(cells, sceneFile);
 }
 
 void CreateSelectCupNameM(void *heap) {
     void *sceneFile;
-    gSelectCupNameM = HeapAlloc(heap, 0xc);
-    sceneFile = FindSceneFile(gSelectCupNameMNcgrName);
-    LocateNcgr2(&gSelectCupNameM->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gSelectCupNameMNcerName);
+    gSelectCupNameM = Mem_AllocateHeap(heap, 0xc);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupNameMNcgrName);
+    Gfx_ReadCharGraphicsRelative(&gSelectCupNameM->mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupNameMNcerName);
     LocateNcer(&gSelectCupNameM->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gSelectCupNameMBnclName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupNameMBnclName);
     gSelectCupNameM->mBncl = sceneFile;
 }
 

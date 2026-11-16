@@ -18,7 +18,7 @@ typedef struct WorkerTask {
     /* 0c */ void *mDone;
 } WorkerTask;
 
-// What gWorkerQueue points to: the OSThread, then the first and the last object of the list.
+// What g_GlobalAN points to: the OSThread, then the first and the last object of the list.
 typedef struct WorkerQueue {
     /* 00 */ OSThread mThread;
     /* c0 */ WorkerTask *volatile mFirstTask;
@@ -29,13 +29,13 @@ typedef struct WorkerQueue {
 typedef struct WorkerQueue WorkerQueue;
 
 void MBi_EndTaskThread(void *done);
-void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority);
+void StructANN_SomeFn_from_thumb(WorkerTask *task, void *run, void *done, u32 priority);
 u32 MBi_IsTaskBusy(WorkerTask *task);
-void MBi_InitTaskInfo(void *taskInfo);
-u32 MBi_IsTaskAvailable(void);
-void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize);
+void StructANN_Create_from_thumb(void *taskInfo);
+u32 IsGlobalANSet_from_thumb(void);
+void InitializeSetGlobalAN_from_thumb(WorkerQueue *workerQueue, u32 totalSize);
 void MBi_TaskThread(void *argument);
 u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
                              u32 flagTwo);
 
-extern struct WorkerQueue *gWorkerQueue;
+extern struct WorkerQueue *g_GlobalAN;

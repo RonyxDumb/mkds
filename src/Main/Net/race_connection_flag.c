@@ -2,5 +2,5 @@
 #include "Main/System/backup_net_camera_work.h"
 
 void ClearRaceConnectionFlag(void) {
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_RACE;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_RACE;
 }

@@ -12,14 +12,14 @@
 #include "Main/Race/point_along_line.h"
 #include "Main/Kart/karts.h"
 
-BOOL IsFollowedKartOutsideBox(void) {
+BOOL CheckCourseSomeVectorBounds(void) {
     s32 isOutside = 1;
     Vec3 position;
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = GetCurrentInternalCourseId_0();
 
     if (courseId == COURSE_ID_CLOCK || courseId == COURSE_ID_AIRSHIP) {
-        GetKartPosFromPosSourceCopy(&position, GetFollowedKartOrEntryIndex());
-        isOutside = IsPositionOutsideBox(&position);
+        LoadRacerMQVectorC(&position, GetCurrentPlayerRacerId());
+        isOutside = CheckVectorBounds_Clock_Airship(&position);
     }
     return isOutside;
 }

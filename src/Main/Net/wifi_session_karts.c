@@ -7,8 +7,8 @@
 
 void ResetWiFiConnectionLost(void) {
     StateMachine *stateMachine;
-    gWiFiSession->mConnectionLost = FALSE;
-    stateMachine = &gWiFiSession->mStateMachine;
+    g_GlobalB->mConnectionLost = FALSE;
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_IDLE;
     stateMachine->mNextStateRequested = 1;
 }
@@ -18,65 +18,65 @@ void ResetWiFiConnectionLost(void) {
 void RemoveWiFiSessionKarts(void) {
     u8 participantIndex;
     u32 bit;
-    if (gWiFiSession->mStep == WIFI_SESSION_STEP_LEAVING || gWiFiSession->mStep == WIFI_SESSION_STEP_ENDED) {
+    if (g_GlobalB->mStep == WIFI_SESSION_STEP_LEAVING || g_GlobalB->mStep == WIFI_SESSION_STEP_ENDED) {
         return;
     }
-    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+    for (participantIndex = 0; participantIndex < g_GlobalB->mStartKartCount; participantIndex++) {
         bit = 1 << participantIndex;
-        if ((gWiFiSession->mKartMask & bit) != 0 && (gWiFiSession->mKartRemoveMask & bit) != 0) {
+        if ((g_GlobalB->mKartMask & bit) != 0 && (g_GlobalB->mKartRemoveMask & bit) != 0) {
             if (participantIndex == DWC_GetMyAID()) {
-                gWiFiSession->mConnectionLost = TRUE;
+                g_GlobalB->mConnectionLost = TRUE;
                 DWC_RegisterMatchingStatus();
                 DWC_CloseAllConnectionsHard();
-                gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
+                g_GlobalB->mStep = WIFI_SESSION_STEP_LEAVING;
                 return;
             }
-            gWiFiSession->mKartMask &= ~bit;
-            gWiFiSession->mKartRemoveMask &= ~bit;
-            gWiFiSession->mKartCount--;
+            g_GlobalB->mKartMask &= ~bit;
+            g_GlobalB->mKartRemoveMask &= ~bit;
+            g_GlobalB->mKartCount--;
         }
     }
-    if (gWiFiSession->mKartCount <= 1) {
-        gWiFiSession->mConnectionLost = TRUE;
+    if (g_GlobalB->mKartCount <= 1) {
+        g_GlobalB->mConnectionLost = TRUE;
         DWC_RegisterMatchingStatus();
         DWC_CloseAllConnectionsHard();
-        gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
+        g_GlobalB->mStep = WIFI_SESSION_STEP_LEAVING;
     }
 }
 
 void UpdateWiFiSessionKartTimeouts(void) {
     u8 participantIndex;
     u8 ownIndex;
-    if (gWiFiSession->mStep > WIFI_SESSION_STEP_WAIT_BACKUP && gWiFiSession->mStep < WIFI_SESSION_STEP_VERIFY_RESULT) {
-        if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
+    if (g_GlobalB->mStep > WIFI_SESSION_STEP_WAIT_BACKUP && g_GlobalB->mStep < WIFI_SESSION_STEP_VERIFY_RESULT) {
+        if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
             ownIndex = DWC_GetMyAID();
-            if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice != WIFI_CONTINUE_CHOICE_CONTINUE) {
+            if (g_GlobalB->mIndexMessages[ownIndex].mContinueChoice != WIFI_CONTINUE_CHOICE_CONTINUE) {
                 return;
             }
         }
-        for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-            if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
-                if (gWiFiSession->mSinceCallbackFrames[participantIndex] > WIFI_SESSION_KART_TIMEOUT_FRAMES) {
-                    BIT_SET(gWiFiSession->mKartRemoveMask, participantIndex);
+        for (participantIndex = 0; participantIndex < g_GlobalB->mStartKartCount; participantIndex++) {
+            if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(g_GlobalB->mKartMask, participantIndex)) {
+                if (g_GlobalB->mSinceCallbackFrames[participantIndex] > WIFI_SESSION_KART_TIMEOUT_FRAMES) {
+                    BIT_SET(g_GlobalB->mKartRemoveMask, participantIndex);
                 }
             }
         }
     }
-    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
-            gWiFiSession->mSinceCallbackFrames[participantIndex]++;
+    for (participantIndex = 0; participantIndex < g_GlobalB->mStartKartCount; participantIndex++) {
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(g_GlobalB->mKartMask, participantIndex)) {
+            g_GlobalB->mSinceCallbackFrames[participantIndex]++;
         }
     }
 }
 
 u32 GetKartMaskBit(u32 index) {
-    return gWiFiSession->mKartMask & (1 << index);
+    return g_GlobalB->mKartMask & (1 << index);
 }
 
 u32 GetKartMaskBitOfPackedIndex(u8 packedIndex) {
     s8 slotIndex;
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
-        if (packedIndex == gWiFiSession->mPackedIndices[slotIndex]) {
+        if (packedIndex == g_GlobalB->mPackedIndices[slotIndex]) {
             goto found;
         }
     }
@@ -85,5 +85,5 @@ found:
     if (slotIndex == -1) {
         return 0;
     }
-    return gWiFiSession->mKartMask & (1 << (u8) slotIndex);
+    return g_GlobalB->mKartMask & (1 << (u8) slotIndex);
 }

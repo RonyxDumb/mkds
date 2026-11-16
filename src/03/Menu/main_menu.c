@@ -48,20 +48,20 @@ void LoadMainFilesAndSetBgCnt(void) {
     }
     LoadNceFile(1, BuildFilePathWithLanguage((u8 *) "char/jtMain.nce.l"));
     LoadNceFile(0, BuildFilePathWithLanguage((u8 *) "char/jbMain.nce.l"));
-    LoadFileToVram("char/jtBgMain.ncg.l", GXS_LoadBG1Char);
-    LoadFileToVram("char/jtBgMain.ncl.l", GXS_LoadBGPltt);
-    LoadFileToVram("char/jtObjMain.ncg.l", GXS_LoadOBJ);
-    LoadFileToVram("char/xtObjMain.ncl.l", GXS_LoadOBJPltt);
-    LoadFileToVram("char/jbBgStep1.ncg.l", GX_LoadBG2Char);
-    LoadFileToVram("char/jbBgStep1.ncl.l", GX_LoadBGPltt);
-    LoadFileToVram("char/jbObjMain.ncg.l", GX_LoadOBJ);
-    LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
+    LoadFileToVram("char/jtBgMain.ncg.l", CopyBgData_Bg1_Bottom);
+    LoadFileToVram("char/jtBgMain.ncl.l", CopyPaletteBottom);
+    LoadFileToVram("char/jtObjMain.ncg.l", TEQSub_Fn35Impl);
+    LoadFileToVram("char/xtObjMain.ncl.l", TEQSub_Fn30Impl);
+    LoadFileToVram("char/jbBgStep1.ncg.l", CopyBgData_Bg2_Top);
+    LoadFileToVram("char/jbBgStep1.ncl.l", CopyPaletteTop);
+    LoadFileToVram("char/jbObjMain.ncg.l", CopyTileDataTop_0);
+    LoadFileToVram("char/ybObjMain.ncl.l", CopySomePaletteData);
     switch (GetMode()) {
         case 0:
-            LoadFileToVram("char/jtTop.nsc.l", GXS_LoadBG1Scr);
+            LoadFileToVram("char/jtTop.nsc.l", TEQSub_Fn25Impl);
             break;
         case 1:
-            LoadFileToVram("char/jtStep1.nsc.l", GXS_LoadBG1Scr);
+            LoadFileToVram("char/jtStep1.nsc.l", TEQSub_Fn25Impl);
             break;
     }
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;

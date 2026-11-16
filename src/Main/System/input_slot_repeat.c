@@ -3,7 +3,7 @@
 #include "Main/System/input_keys.h"
 #include "tick_counter.h"
 
-void ResetInputSlot(InputSlot *slot) {
+void StructCY_SomeFn(InputSlot *slot) {
     slot->mPressedBits = 0x0u;
     slot->mBits = 0x0u;
     slot->mClearedBits = 0x0u;
@@ -20,7 +20,7 @@ void ResetInputSlot(InputSlot *slot) {
     slot->mReadsKeyBits = 0x0u;
 }
 
-void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
+void StructCY_SomeFn_1(InputSlot *slot) {
     slot->mPressedBits = 0x0u;
     slot->mBits = 0x0u;
     slot->mClearedBits = 0x0u;
@@ -29,7 +29,7 @@ void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
     slot->mRepeatCallCount = 0x0u;
 }
 
-void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
+void StructG_UpdateInput(u32 keys, InputSlotHead *slot) {
     u16 maskedBits;
     if (slot->mWritesKeyBits != 0) {
         WriteKeyBitsToStream(keys);
@@ -73,14 +73,14 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
     maskedBits = slot->mBits & PAD_KEYS_SHOULDER_AND_MENU;
     if (slot->mLongHoldEnabled != 0 && maskedBits == PAD_KEYS_SHOULDER_AND_MENU) {
         if (slot->mPressedBits & PAD_KEYS_SHOULDER_AND_MENU) {
-            slot->mHoldStartTick = OS_GetTick();
+            slot->mHoldStartTick = Os_GetTick();
             slot->mHoldLong = 0;
             return;
         }
         if (slot->mHoldLong != 0) {
             return;
         }
-        if ((u32) (OS_GetTick() - slot->mHoldStartTick) > 0x3fec4) {
+        if ((u32) (Os_GetTick() - slot->mHoldStartTick) > 0x3fec4) {
             slot->mHoldLong = 1;
         }
         return;
@@ -91,7 +91,7 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
     slot->mHoldLong = 0;
 }
 
-void SetInputSlotRepeat(InputSlot *slot, u32 mask, u32 delayLimit, u32 intervalLimit) {
+void StructCY_SomeFn_0(InputSlot *slot, u32 mask, u32 delayLimit, u32 intervalLimit) {
     slot->mRepeatMask = mask;
     slot->mRepeatDelayLimit = delayLimit;
     slot->mRepeatIntervalLimit = intervalLimit;

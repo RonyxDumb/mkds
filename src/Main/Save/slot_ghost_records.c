@@ -8,37 +8,37 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Save/ghost_record_file.h"
 
-GhostListEntry *CreateSlotGhostRecords(void *heap) {
-    return HeapAlloc(heap, 0x15e0u);
+GhostListEntry *AllocateFX(void *heap) {
+    return Mem_AllocateHeap(heap, 0x15e0u);
 }
 
-void ReadSlotGhostRecords(void) {
+void Task_StructFXRelated(void) {
     u8 slotIndex;
     GhostListEntry *records;
     GhostRecordHead *record;
 
-    records = gBackupBuffers->mReadDestination;
+    records = g_SaveDataHolder->mReadDestination;
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         record = &records[slotIndex].mHead;
         if (IsSlotGhostBitSet(slotIndex) != 0) {
             ReadBackupGhostListEntry(0, slotIndex, record);
-            if (gBackupAccess->mBackupEnabled != 0) {
-                CARD_WaitBackupAsync();
+            if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                j_WaitForPendingCardOperation();
             }
-            if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
+            if (g_SaveDataIoManager->mErrorCode != BACKUP_ERROR_NONE) {
                 record->mFilled = 0;
             }
         } else {
             record->mFilled = 0;
         }
     }
-    ClearBackupBusy();
-    gBackupBuffers->mReadDestination = NULL;
+    ResetSaveDataHolderTaskPendingFlag_from_thumb();
+    g_SaveDataHolder->mReadDestination = NULL;
 }
 
-void StartReadSlotGhostRecords(void *records) {
-    gBackupBuffers->mReadDestination = records;
-    SetBackupBusy();
-    QueueThreadFunction(ReadSlotGhostRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void RunSomeATFunction(void *records) {
+    g_SaveDataHolder->mReadDestination = records;
+    EnableMKDSSVSomeFlag_from_thumb();
+    WorkerInsertTask(Task_StructFXRelated);
+    g_WorkerContext->mRunRequested = 1;
 }

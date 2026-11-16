@@ -12,5 +12,5 @@
 
 extern void *gRaceDisplaySettingsDescs[7];
 
-extern SceneCallbacks gRaceSceneCallbacks;
+extern SceneCallbacks g_Scene_Race;
 

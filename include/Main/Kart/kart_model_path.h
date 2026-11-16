@@ -2,19 +2,19 @@
 
 #include "types.h"
 
-char *BuildTeamEmblemNsbtxPath(s32 teamIndex);
-char *BuildEmblemNsbtxPath(u16 characterIndex);
-s8 *BuildPFaceanimNsbtpPath(void);
-char *BuildCharacterDirPath(s32 characterIndex);
-const char *LookupCharacterPOrEName(s32 characterIndex, s32 usePNames);
-char *BuildKartShadowNsbmdPath(u16 kartIndex);
-char *BuildTireNsbtxPath(u16 unusedValue, const char *name);
-char *BuildTireNsbmdPath(u16 unusedValue, const char *name);
-char *BuildKartNsbtxPath(u16 kartIndex);
-char *BuildKartNsbmdPath(u16 kartIndex);
-char *BuildCharacterNsbtxPath(u16 characterIndex, s32 usePNames);
-char *BuildCharacterNsbmdPath(u16 characterIndex, s32 usePNames);
-void SetKartModelPathPrefix(int value);
+char *FormatTeamEmblemNsbtx(s32 teamIndex);
+char *FormatEmblemNsbtx(u16 characterIndex);
+s8 *FormatCharacterFaceAnimationNsbtpPath(void);
+char *FormatCharacterPath(s32 characterIndex);
+const char *FormatCharacterEmblemName(s32 characterIndex, s32 usePNames);
+char *FormatKartShadowNsbmdPath(u16 kartIndex);
+char *FormatKartTireNsbtxPath(u16 unusedValue, const char *name);
+char *FormatKartTireNsbmdPath(u16 unusedValue, const char *name);
+char *FormatCharacterKartNsbtxPath(u16 kartIndex);
+char *FormatCharacterKartNsbmdPath(u16 kartIndex);
+char *FormatCharacterEmblemNsbtxPath(u16 characterIndex, s32 usePNames);
+char *FormatCharacterEmblemNsbmdPath(u16 characterIndex, s32 usePNames);
+void SetCurrentlyInKartModelMenu(int value);
 
 // 12-byte rows, one per character.
 typedef struct CharacterNames {
@@ -30,9 +30,9 @@ typedef struct KartNames {
 } KartNames;
 
 extern const CharacterNames gCharacterNames[13];
-extern const KartNames gKartNames[37];
-extern const char *gTeamEmblemNames[2];
-extern const char *gCharacterSubDirNames[13];
+extern const KartNames g_str_MR_a[37];
+extern const char *g_TeamNameTable[2];
+extern const char *g_str_characters[13];
 extern const char *gCharacterDirName;
 extern const char *gKartDirName;
 extern char gCharacterEmblemNameMR[];
@@ -48,7 +48,7 @@ extern char gCharacterEmblemNameKA[];
 extern char gCharacterEmblemNamePC[];
 extern char gCharacterEmblemNameRB[];
 extern char gCharacterEmblemNameLG[];
-extern char gTeamEmblemNameRed[];
+extern char g_str_Red[];
 extern char gKartShadowNameWLC32[];
 extern char gKartNameKAC26[];
 extern char gKartNameMRA33[];
@@ -127,7 +127,7 @@ extern char gCharacterNamePDS[];
 extern char gKartNameMRA36[];
 extern char gCharacterNameEKA[];
 extern char gCharacterNamePKA[];
-extern char gTeamEmblemNameBlue[];
+extern char g_str_Blue[];
 extern char gCharacterNameELG[];
 extern char gCharacterNamePLG[];
 extern char gKartNameWLC32[];
@@ -151,7 +151,7 @@ extern char gCharacterNamePDK[];
 extern char gKartNameKPB10[];
 extern char gCharacterNameEMR[];
 extern char gCharacterSubDirRobo[];
-extern char gKartDirKart[];
+extern char g_str_kart[];
 extern char gCharacterSubDirLuigi[];
 extern char gCharacterSubDirKaron[];
 extern char gCharacterSubDirDaisy[];
@@ -164,4 +164,4 @@ extern char gCharacterSubDirYoshi[];
 extern char gCharacterSubDirDonkey[];
 extern char gCharacterSubDirWaluigi[];
 extern char gCharacterSubDirKinopio[];
-extern char gCharacterDirCharacter[];
+extern char g_dir_character[];

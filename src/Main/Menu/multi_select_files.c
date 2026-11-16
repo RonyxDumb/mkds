@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-void LoadMultiSelectFiles(void) {
+void MaybeVerifyMultiSelectFiles_from_thumb(void) {
     void *file;
     Ncgr *chars;
     Nclr *palette;
@@ -16,38 +16,38 @@ void LoadMultiSelectFiles(void) {
     palette = NULL;
     cells = NULL;
     screenMaps[0] = NULL;
-    file = FindSceneFile("multi_select_member_s_b.NCGR");
-    LoadNcgrData(&chars, file);
-    file = FindSceneFile("multi_select_member_m.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("multi_select_member_group_s.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("multi_select_member_register_s.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("multi_select_NS_s.nce.ncgr");
-    LoadNcgrData2(&chars, file);
-    file = FindSceneFile("multi_select_member_m.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("multi_select_member_group_s.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("multi_select_member_register_s.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("multi_select_NS_s.nce.ncer");
-    LoadNcerData(&cells, file);
-    file = FindSceneFile("multi_select_member_m_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("multi_select_member_s_b.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("multi_select_member_group_s_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("multi_select_member_register_s_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("multi_select_NS_s_o.NCLR");
-    LoadNclrData(&palette, file);
-    file = FindSceneFile("multi_select_member_s_register.NSCR");
-    LoadNscrData(screenMaps, file);
-    file = FindSceneFile("multi_select_member_s_group.NSCR");
-    LoadNscrData(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_s_b.NCGR");
+    Gfx_ReadCharGraphicsV2(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_m.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_group_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_register_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&chars, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_m.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_group_s.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_register_s.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.nce.ncer");
+    LoadCellBankFrom(&cells, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_m_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_s_b.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_group_s_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_register_s_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s_o.NCLR");
+    Gfx_ReadPalette(&palette, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_s_register.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_member_s_group.NSCR");
+    MaybeReadScreenBlock_0(screenMaps, file);
 }
 
 #pragma thumb off

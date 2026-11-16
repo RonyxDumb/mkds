@@ -9,8 +9,8 @@ typedef struct ItemBox ItemBox;
 extern const MapObjectKindDescriptor gPooledItemBoxKindDescriptor;
 extern const MapObjectKindData gPooledItemBoxKindData;
 
-BOOL IsRaceSceneNormalOrReplay(void);
-BOOL IsMissionRunBossColumn(void);
+BOOL IsInRaceSceneNormalOrReplay(void);
+BOOL IsInBossMissionStage(void);
 MapObjectKindData *CreatePooledItemBoxKindData(void);
 void InitPooledItemBox(void *mapObject, struct CourseMapRow *row, void *unused);
 MapObject *AllocPooledMapObject(void);

@@ -103,17 +103,17 @@ typedef NNSG3dResAnmSet NNSG3dResTexPatAnmSet;
 typedef NNSG3dResAnmSet NNSG3dResTexSRTAnmSet;
 typedef NNSG3dResAnmSet NNSG3dResJntAnmSet;
 
-NNSG3dResDataBlockHeader *NNS_G3dGetDataBlockHeaderByIdx(const NNSG3dResFileHeader *header, u32 idx);
-int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name);
+NNSG3dResDataBlockHeader *Anim_GetBlock(const NNSG3dResFileHeader *header, u32 idx);
+int Dict_SomeFn_0(const void *dict, const u32 *name);
 void *NNS_G3dGetResDataByName(const void *dict, const u32 *name);
-NNSG3dResJntAnmSet *NNS_G3dGetJntAnmSet(const u8 *pFileHead);
-NNSG3dResJntAnm *NNS_G3dGetJntAnmByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx);
-NNSG3dResMatCAnmSet *NNS_G3dGetMatCAnmSet(const u8 *pFileHead);
-NNSG3dResMatCAnm *NNS_G3dGetMatCAnmByIdx(NNSG3dResMatCAnmSet *pAnmSet, u8 idx);
-NNSG3dResTexSRTAnmSet *NNS_G3dGetTexSRTAnmSet(const u8 *pFileHead);
-NNSG3dResTexSRTAnm *NNS_G3dGetTexSRTAnmByIdx(NNSG3dResTexSRTAnmSet *pTexSRTSet, u8 idx);
-NNSG3dResTexPatAnmSet *NNS_G3dGetTexPatAnmSet(const u8 *pFileHead);
-NNSG3dResTexPatAnm *NNS_G3dGetTexPatAnmByIdx(NNSG3dResTexPatAnmSet *pAnmSet, u8 idx);
+NNSG3dResJntAnmSet *Anim_NSBCA_LoadGetJNT0Block(const u8 *pFileHead);
+NNSG3dResJntAnm *JNT0_LoadJointByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx);
+NNSG3dResMatCAnmSet *MaybeLoadBMA0Format(const u8 *pFileHead);
+NNSG3dResMatCAnm *BMA0_LoadRawData(NNSG3dResMatCAnmSet *pAnmSet, u8 idx);
+NNSG3dResTexSRTAnmSet *MaybeLoadBTA0Format(const u8 *pFileHead);
+NNSG3dResTexSRTAnm *BTA0_LoadRawData(NNSG3dResTexSRTAnmSet *pTexSRTSet, u8 idx);
+NNSG3dResTexPatAnmSet *MaybeLoadBTP0Format(const u8 *pFileHead);
+NNSG3dResTexPatAnm *BTP0_LoadRawData(NNSG3dResTexPatAnmSet *pAnmSet, u8 idx);
 
 extern Vec3 gSbcBillboardPosition;
 extern Vec3 gSbcBillboardScale;

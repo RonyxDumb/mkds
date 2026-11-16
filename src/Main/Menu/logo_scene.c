@@ -30,49 +30,49 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
+void LoadLogoScreenGraphics(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName) {
-    LoadNclrData(&files->mPalette, FindSceneFile(paletteFileName));
-    DC_StoreRange(files->mPalette->mData, files->mPalette->mDataSize);
+    Gfx_ReadPalette(&files->mPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(paletteFileName));
+    DC_SomeClean(files->mPalette->mData, files->mPalette->mDataSize);
     if (mainScreen != 0) {
-        GX_LoadBGPltt(files->mPalette->mData, 0, files->mPalette->mDataSize);
+        CopyPaletteTop(files->mPalette->mData, 0, files->mPalette->mDataSize);
     } else {
-        GXS_LoadBGPltt(files->mPalette->mData, 0, files->mPalette->mDataSize);
+        CopyPaletteBottom(files->mPalette->mData, 0, files->mPalette->mDataSize);
     }
-    LoadNcgrData2(&files->mChars, FindSceneFile(charsFileName));
-    DC_StoreRange(files->mChars->mData, files->mChars->mDataSize);
+    Gfx_ReadCharGraphics(&files->mChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(charsFileName));
+    DC_SomeClean(files->mChars->mData, files->mChars->mDataSize);
     if (mainScreen != 0) {
-        GX_LoadBG1Char(files->mChars->mData, 0, files->mChars->mDataSize);
+        CopyBgData_Bg1_Top(files->mChars->mData, 0, files->mChars->mDataSize);
     } else {
-        GXS_LoadBG1Char(files->mChars->mData, 0, files->mChars->mDataSize);
+        CopyBgData_Bg1_Bottom(files->mChars->mData, 0, files->mChars->mDataSize);
     }
-    LoadNscrData(&files->mScreenMap, FindSceneFile(screenMapFileName));
-    DC_StoreRange(files->mScreenMap->mData, files->mScreenMap->mDataSize);
+    MaybeReadScreenBlock_0(&files->mScreenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(screenMapFileName));
+    DC_SomeClean(files->mScreenMap->mData, files->mScreenMap->mDataSize);
     if (mainScreen != 0) {
-        GX_LoadBG1Scr(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
+        TEQSub_Fn9Impl(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
     } else {
-        GXS_LoadBG1Scr(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
+        TEQSub_Fn25Impl(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
     }
 }
 
-void InitLogoScene(void *heap) {
+void InitializeLogoContext(void *heap) {
     SceneTextInitParams arg;
     DisplaySettings *displaySettings;
-    gLogoScene = HeapAlloc(heap, 60);
-    displaySettings = CreateDisplaySettings(heap, gLogoSceneDisplaySettingsDesc);
-    SetBg1Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
-    SetBg1Record(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0, 2, 0);
-    InitDisplayFromSettings(displaySettings);
-    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, gLogoMainBgPaletteFileName, gLogoMainBgCharsFileName,
+    g_LogoContext = Mem_AllocateHeap(heap, 60);
+    displaySettings = CreateDisplayConfig(heap, gLogoSceneDisplaySettingsDesc);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0, 2, 0);
+    SetGlobalDisplayConfig(displaySettings);
+    LoadLogoScreenGraphics(&g_LogoContext->mMainBg, 1, gLogoMainBgPaletteFileName, gLogoMainBgCharsFileName,
                           gLogoMainBgScreenMapFileName);
-    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, gLogoSubBgPaletteFileName, gLogoSubBgCharsFileName,
+    LoadLogoScreenGraphics(&g_LogoContext->mSubBg, 0, gLogoSubBgPaletteFileName, gLogoSubBgCharsFileName,
                           gLogoSubBgScreenMapFileName);
-    InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
-    gLogoScene->mResetBackupRequested = 0;
-    gLogoScene->mReadBackupFrames = 0;
-    gLogoScene->mCommonMessages = FindFileInLoadedArchives(gLogoSceneCommonBmgFileName);
+    StateDualHandler_Create(&g_LogoContext->mStateMachine, g_E7FnList0, 12, NULL);
+    g_LogoContext->mResetBackupRequested = 0;
+    g_LogoContext->mReadBackupFrames = 0;
+    g_LogoContext->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(gLogoSceneCommonBmgFileName);
     arg.mUseTxtSystem = TRUE;
-    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mTxtSystemFont = GetLoadedFont_from_thumb(1);
     arg.mUseCanvas1 = 0;
     arg.mUseCanvas3 = 0;
     arg.mUseSelectChoises = FALSE;
@@ -81,16 +81,16 @@ void InitLogoScene(void *heap) {
     arg.mUseBackScreen = FALSE;
     arg.mBackScreenKind = 0;
     arg.mUseCanvas2 = 1;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &arg);
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(heap, &arg);
 }
 
-void ApplySavedSoundMode(void) {
+void Scene_Logo_FinalizeImpl(void) {
     s32 outputEffect;
     s32 soundMode;
     outputEffect = 0;
-    gLogoScene = NULL;
-    soundMode = gBackupBuffers->mFirstBlock->mSoundMode;
+    g_LogoContext = NULL;
+    soundMode = g_SaveDataHolder->mFirstBlock->mSoundMode;
     switch (soundMode) {
         case SOUND_MODE_STEREO:
             break;
@@ -103,15 +103,15 @@ void ApplySavedSoundMode(void) {
             break;
     }
     SetSoundOutputEffect(outputEffect);
-    ReleaseSceneText();
+    DisposeNavigationContext_from_thumb();
 }
 
-void WriteLogoSceneRegisters(void) {
+void Scene_Logo_VBlankImpl(void) {
     s32 brightness;
     s32 frames;
     brightness = 0;
-    WriteSceneTextRegisters();
-    frames = gLogoScene->mReadBackupFrames;
+    NavigationContext_OnSceneVblank_from_thumb();
+    frames = g_LogoContext->mReadBackupFrames;
     if (frames > 90) {
         brightness = (-(frames - 90) * 16) / 30;
     }
@@ -119,31 +119,31 @@ void WriteLogoSceneRegisters(void) {
     G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 2, brightness);
 }
 
-void UpdateLogoScene(SceneNumbers *sceneNumbers) {
-    AdvanceStateMachine(&gLogoScene->mStateMachine);
-    if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == LOGO_STATE_END) {
+void Scene_Logo_UpdateImpl(SceneNumbers *sceneNumbers) {
+    StateDualHandler_Execute(&g_LogoContext->mStateMachine);
+    if (sceneNumbers != NULL && g_LogoContext->mStateMachine.mState == LOGO_STATE_END) {
         sceneNumbers->mNextScene = 0;
     }
-    AdvanceSceneText();
+    NavigationContext_OnSceneUpdate_from_thumb();
 }
 
-void EnterLogoReadBackup(void *stateObject) {
-    StartReadBackupFirstBlockAndRecords();
-    gLogoScene->mUnk_2c_1 = 0;
+void Logo_StateHandler_ReadSaveData_First(void *stateObject) {
+    ReadSaveData_NonGhost_from_thumb();
+    g_LogoContext->mUnk_2c_1 = 0;
 }
 
-void UpdateLogoReadBackup(void *stateObject) {
+void Logo_StateHandler_ReadSaveData_Second(void *stateObject) {
     s32 slotIndex;
     StateMachine *stateMachine;
-    gLogoScene->mReadBackupFrames = gLogoScene->mReadBackupFrames + 1;
-    if (gLogoScene->mReadBackupFrames > LOGO_READ_BACKUP_FRAMES) {
-        stateMachine = &gLogoScene->mStateMachine;
+    g_LogoContext->mReadBackupFrames = g_LogoContext->mReadBackupFrames + 1;
+    if (g_LogoContext->mReadBackupFrames > LOGO_READ_BACKUP_FRAMES) {
+        stateMachine = &g_LogoContext->mStateMachine;
         stateMachine->mNextState = LOGO_STATE_WAIT_BACKUP_READ;
         stateMachine->mNextStateRequested = 1;
     }
-    slotIndex = GetPadInputSlot();
-    if ((gInputSlots[slotIndex].mBits & PAD_KEYS_FACE_AND_SHOULDER) != PAD_KEYS_FACE_AND_SHOULDER) {
+    slotIndex = GetSomeCYId_9();
+    if ((g_GlobalCYT[slotIndex].mBits & PAD_KEYS_FACE_AND_SHOULDER) != PAD_KEYS_FACE_AND_SHOULDER) {
         return;
     }
-    gLogoScene->mResetBackupRequested = 1;
+    g_LogoContext->mResetBackupRequested = 1;
 }

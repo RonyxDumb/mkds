@@ -69,15 +69,15 @@ void LoadSelectEngineData(void) {
     Nscr *selectEngineMScreenMap = NULL;
     Nclr *selectEngineMBPalette = NULL;
 
-    LoadNcgrData(&selectEngineMBChars, FindSceneFile(gSelectEngineMBNcgrName));
-    LoadNclrData(&selectEngineMBPalette, FindSceneFile(gSelectEngineMBNclrName));
-    LoadNscrData(&selectEngineMScreenMap, FindSceneFile(gSelectEngineMNscrName));
-    LoadNcgrData2(&selectEngineMChars, FindSceneFile(gSelectEngineMNcgrName));
-    LoadNcerData(&selectEngineMCells, FindSceneFile(gSelectEngineMNcerName));
-    LoadNclrData(&selectEngineMOPalette, FindSceneFile(gSelectEngineMONclrName));
-    LoadNcgrData2(&selectEngineSChars, FindSceneFile(gSelectEngineSNcgrName));
-    LoadNcerData(&selectEngineSCells, FindSceneFile(gSelectEngineSNcerName));
-    LoadNclrData(&selectEngineSOPalette, FindSceneFile(gSelectEngineSONclrName));
+    Gfx_ReadCharGraphicsV2(&selectEngineMBChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMBNcgrName));
+    Gfx_ReadPalette(&selectEngineMBPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMBNclrName));
+    MaybeReadScreenBlock_0(&selectEngineMScreenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMNscrName));
+    Gfx_ReadCharGraphics(&selectEngineMChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMNcgrName));
+    LoadCellBankFrom(&selectEngineMCells, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMNcerName));
+    Gfx_ReadPalette(&selectEngineMOPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMONclrName));
+    Gfx_ReadCharGraphics(&selectEngineSChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineSNcgrName));
+    LoadCellBankFrom(&selectEngineSCells, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineSNcerName));
+    Gfx_ReadPalette(&selectEngineSOPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineSONclrName));
 }
 
 void LocateAndQueueSelectEngine(void) {
@@ -90,34 +90,34 @@ void LocateAndQueueSelectEngine(void) {
     Nclr *selectEngineMBPalette = NULL;
     u16 *paletteData;
 
-    LocateNcgr(&selectEngineMBChars, FindSceneFile(gSelectEngineMBNcgrName));
-    LocateNclr(&selectEngineMBPalette, FindSceneFile(gSelectEngineMBNclrName));
-    LocateNscr(&selectEngineMScreenMap, FindSceneFile(gSelectEngineMNscrName));
-    gSelectEngine->mVramTransferBuffer = HeapAlloc(gSelectEngine->mHeap, SECOND_SCREEN_MAP_BYTES);
-    gSelectEngine->mSelectEngineMBncl = FindSceneFile(gSelectEngineMBnclName);
-    LocateNcgr2(&selectEngineMChars, FindSceneFile(gSelectEngineMNcgrName));
-    LocateNcer(&gSelectEngine->mSelectEngineMNcer, FindSceneFile(gSelectEngineMNcerName));
-    LocateNclr(&selectEngineMOPalette, FindSceneFile(gSelectEngineMONclrName));
-    LocateNcgr2(&selectEngineSChars, FindSceneFile(gSelectEngineSNcgrName));
-    LocateNcer(&gSelectEngine->mSelectEngineSNcer, FindSceneFile(gSelectEngineSNcerName));
-    LocateNclr(&selectEngineSOPalette, FindSceneFile(gSelectEngineSONclrName));
-    if (IsBackupFlagSet(0x10) != 0) {
-        gSelectEngine->mSelectEngineAOrBSBncl = FindSceneFile(gSelectEngineBSBnclName);
-        gSelectEngine->mSelectEngineAOrBSBnbl = FindSceneFile(gSelectEngineBSBnblName);
+    MaybeReadCharBlock_1(&selectEngineMBChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMBNcgrName));
+    Gfx_ReadPaletteRelative(&selectEngineMBPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMBNclrName));
+    MaybeReadScreenBlock(&selectEngineMScreenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMNscrName));
+    gSelectEngine->mVramTransferBuffer = Mem_AllocateHeap(gSelectEngine->mHeap, SECOND_SCREEN_MAP_BYTES);
+    gSelectEngine->mSelectEngineMBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMBnclName);
+    Gfx_ReadCharGraphicsRelative(&selectEngineMChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMNcgrName));
+    LocateNcer(&gSelectEngine->mSelectEngineMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMNcerName));
+    Gfx_ReadPaletteRelative(&selectEngineMOPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineMONclrName));
+    Gfx_ReadCharGraphicsRelative(&selectEngineSChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineSNcgrName));
+    LocateNcer(&gSelectEngine->mSelectEngineSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineSNcerName));
+    Gfx_ReadPaletteRelative(&selectEngineSOPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineSONclrName));
+    if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
+        gSelectEngine->mSelectEngineAOrBSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineBSBnclName);
+        gSelectEngine->mSelectEngineAOrBSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineBSBnblName);
     } else {
-        gSelectEngine->mSelectEngineAOrBSBncl = FindSceneFile(gSelectEngineASBnclName);
-        gSelectEngine->mSelectEngineAOrBSBnbl = FindSceneFile(gSelectEngineASBnblName);
+        gSelectEngine->mSelectEngineAOrBSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineASBnclName);
+        gSelectEngine->mSelectEngineAOrBSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectEngineASBnblName);
     }
     paletteData = selectEngineMOPalette->mData;
-    NNS_GfdRegisterNewVramTransferTask(4, 0, selectEngineMBChars->mData, selectEngineMBChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectEngineMBPalette->mData, 0x100);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, selectEngineMScreenMap->mData, selectEngineMScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectEngineMChars->mData, selectEngineMChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectEngineMOPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectEngineSChars->mData, selectEngineSChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, selectEngineSOPalette->mData, selectEngineSOPalette->mDataSize);
+    AllocateReserveTEQSub(4, 0, selectEngineMBChars->mData, selectEngineMBChars->mDataSize);
+    AllocateReserveTEQSub(0xf, 0, selectEngineMBPalette->mData, 0x100);
+    AllocateReserveTEQSub(8, 0, selectEngineMScreenMap->mData, selectEngineMScreenMap->mDataSize);
+    AllocateReserveTEQSub(8, 0x800, gSelectEngine->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
+    AllocateReserveTEQSub(0x13, 0, selectEngineMChars->mData, selectEngineMChars->mDataSize);
+    AllocateReserveTEQSub(0xe, 0, selectEngineMOPalette->mData, 0x1a0);
+    AllocateReserveTEQSub(0xe, 0x1c0, paletteData + 0xe0, 0x40);
+    AllocateReserveTEQSub(0x23, 0, selectEngineSChars->mData, selectEngineSChars->mDataSize);
+    AllocateReserveTEQSub(0x1e, 0, selectEngineSOPalette->mData, selectEngineSOPalette->mDataSize);
 }
 
 void InitSelectEngineCells(void) {
@@ -137,10 +137,10 @@ void InitSelectEngineCells(void) {
     gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[gSelectEngine->mIndex]].mVisible = 1;
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][0]].mVisible = 1;
-        SetCellOamModeXlu(gSelectEngineAOrBSTableIndices[slotIndex][0], 1, gSelectEngine->mSelectEngineSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gSelectEngineAOrBSTableIndices[slotIndex][0], 1, gSelectEngine->mSelectEngineSNcer,
                           gSelectEngine->mSelectEngineAOrBSBncl);
     }
-    SetCellOamModeXlu(2, 1, gSelectEngine->mSelectEngineMNcer, gSelectEngine->mSelectEngineMBncl);
+    CellBank_ResetSomeMetatileObjectsMode_from_thumb(2, 1, gSelectEngine->mSelectEngineMNcer, gSelectEngine->mSelectEngineMBncl);
 }
 
 void UpdateSelectEngineIndexCells(void) {
@@ -155,7 +155,7 @@ void UpdateSelectEngineIndexCells(void) {
             gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][1]].mVisible = 1;
         }
     }
-    if (IsBackupFlagSet(0x10) == 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x10) == 0) {
         for (slotIndex = 0; slotIndex < 3; slotIndex++) {
             gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[3][slotIndex]].mVisible = 0;
         }
@@ -228,7 +228,7 @@ void ResetSelectEngineOffsets(void) {
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY =
             SELECT_ENGINE_SLIDE_DISTANCE_Y;
-        if (IsBackupFlagSet(0x10) != 0) {
+        if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
             switch (slotIndex) {
                 case SELECT_ENGINE_ENTRY_SLOW:
                 case SELECT_ENGINE_ENTRY_FAST:
@@ -286,7 +286,7 @@ void RequestSelectEnginePress(void) {
     gSelectEngine->mStateFrames = 0;
     gSelectEngine->mResult = SELECT_ENGINE_RESULT_CHOSEN;
     SetEngineFromSelectEngine();
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
@@ -308,8 +308,8 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     *bg1Control = (*bg1Control & 0x43) | 0x9204;
     reg_G2_BG0OFS = 0xc00000;
     reg_G2_BG1OFS = 0xc00000;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    selectEngine = HeapAlloc(heap, sizeof(SelectEngine));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    selectEngine = Mem_AllocateHeap(heap, sizeof(SelectEngine));
     gSelectEngine = selectEngine;
     selectEngine->mHeap = heap;
     gSelectEngine->mState = SELECT_ENGINE_STATE_WAIT_FADE;
@@ -325,7 +325,7 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     }
     gSelectEngine->mLastChangeIndex = gSelectEngine->mIndex;
     LocateAndQueueSelectEngine();
-    ResetOamLists(gSelectEngine->mMainOamList, gSelectEngine->mSubOamList);
+    OamBuffer_SomeFn_from_thumb(gSelectEngine->mMainOamList, gSelectEngine->mSubOamList);
     InitLayoutTable(gSelectEngine->mHeap, gSelectEngine->mSelectEngineMBncl, NULL, &gSelectEngine->mSelectEngineMTable);
     InitLayoutTable(gSelectEngine->mHeap, gSelectEngine->mSelectEngineAOrBSBncl, NULL,
                     &gSelectEngine->mSelectEngineAOrBSTable);
@@ -336,13 +336,13 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
 }
 
 void ReleaseSelectEngine(void) {
-    HeapDestroy(gSelectEngine->mHeap);
+    Mem_DestroyHeap(gSelectEngine->mHeap);
     gSelectEngine = NULL;
 }
 
 void AdvanceSelectEngineWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestSelectEngineSlideIn();
     }
@@ -354,10 +354,10 @@ void AdvanceSelectEngineSlideIn(void) {
     s32 cellSlot;
     s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
-    slideX = InterpolateS16(1, SELECT_ENGINE_SLIDE_IN_DISTANCE_X, 0, gSelectEngine->mStateFrames,
+    slideX = ComputeValueInterpolation_from_thumb(1, SELECT_ENGINE_SLIDE_IN_DISTANCE_X, 0, gSelectEngine->mStateFrames,
                             SELECT_ENGINE_SLIDE_FRAMES);
     slideY =
-        InterpolateS16(1, -SELECT_ENGINE_SLIDE_DISTANCE_Y, 0, gSelectEngine->mStateFrames, SELECT_ENGINE_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, -SELECT_ENGINE_SLIDE_DISTANCE_Y, 0, gSelectEngine->mStateFrames, SELECT_ENGINE_SLIDE_FRAMES);
     gSelectEngine->mBg0Offset = -slideY;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = -slideY;
@@ -365,7 +365,7 @@ void AdvanceSelectEngineSlideIn(void) {
     gSelectEngine->mSelectEngineMTable[6].mOffsetY = slideY;
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = -slideY;
-        if (IsBackupFlagSet(0x10)) {
+        if (CheckSavedSecretFlag_from_thumb(0x10)) {
             switch (slotIndex) {
                 case SELECT_ENGINE_ENTRY_SLOW:
                 case SELECT_ENGINE_ENTRY_FAST:
@@ -434,30 +434,30 @@ void AdvanceSelectEngineInput(void) {
 
     AdvanceSelectEngineIndexChange();
     recentlyNoPair = pairStarted = FALSE;
-    hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[inputSlotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyNoPair = 1;
     }
-    if (recentlyNoPair == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (recentlyNoPair == 0 && g_GlobalCYT[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         pairStarted = TRUE;
     }
     if (pairStarted != FALSE) {
         touchedRectIndex =
-            RectTableFindContaining(gSelectEngine->mSelectEngineAOrBSBnbl, gInputSlots[inputSlotIndex].mPair.mPairX,
-                                    gInputSlots[inputSlotIndex].mPair.mPairY);
+            RectTableFindContaining(gSelectEngine->mSelectEngineAOrBSBnbl, g_GlobalCYT[inputSlotIndex].mPair.mPairX,
+                                    g_GlobalCYT[inputSlotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
         recentlyNoPairAgain = pairStartedAgain = FALSE;
-        hasPairAgain = gInputSlots[inputSlotIndex].mPair.mHasPair;
-        if (hasPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPairAgain = g_GlobalCYT[inputSlotIndex].mPair.mHasPair;
+        if (hasPairAgain == 0 && g_GlobalCYT[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyNoPairAgain = 1;
         }
-        if (recentlyNoPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPairAgain != 0) {
+        if (recentlyNoPairAgain == 0 && g_GlobalCYT[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPairAgain != 0) {
             pairStartedAgain = TRUE;
         }
         if (pairStartedAgain == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
-                                                  gInputSlots[inputSlotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[inputSlotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[inputSlotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -479,13 +479,13 @@ next:
         RequestSelectEnginePress();
         return;
     }
-    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (g_GlobalCYT[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
         gSelectEngine->mAlternateCellShown = FALSE;
         RequestSelectEnginePress();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
-        if (IsBackupFlagSet(0x10) != 0) {
+        if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
             value = gSelectEngineUpStepsFlagSet[currentIndex];
@@ -496,10 +496,10 @@ next:
         }
         if (value != 0) {
             selectEngine->mIndex = currentIndex + value;
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
-        if (IsBackupFlagSet(0x10) != 0) {
+        if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
             value = gSelectEngineDownStepsFlagSet[currentIndex];
@@ -510,10 +510,10 @@ next:
         }
         if (value != 0) {
             selectEngine->mIndex = currentIndex + value;
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
-        if (IsBackupFlagSet(0x10) != 0) {
+        if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
             value = gSelectEngineLeftStepsFlagSet[currentIndex];
@@ -524,10 +524,10 @@ next:
         }
         if (value != 0) {
             selectEngine->mIndex = currentIndex + value;
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-        if (IsBackupFlagSet(0x10) != 0) {
+        if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
             value = gSelectEngineRightStepsFlagSet[currentIndex];
@@ -538,7 +538,7 @@ next:
         }
         if (value != 0) {
             selectEngine->mIndex = currentIndex + value;
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         }
     }
 }
@@ -563,10 +563,10 @@ void AdvanceSelectEngineSlideOut(void) {
     s32 cellSlot;
 
     gSelectEngine->mStateFrames++;
-    slideX = InterpolateS16(1, 0, SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, gSelectEngine->mStateFrames,
+    slideX = ComputeValueInterpolation_from_thumb(1, 0, SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, gSelectEngine->mStateFrames,
                             SELECT_ENGINE_SLIDE_FRAMES);
     slideY =
-        InterpolateS16(1, 0, -SELECT_ENGINE_SLIDE_DISTANCE_Y, gSelectEngine->mStateFrames, SELECT_ENGINE_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, 0, -SELECT_ENGINE_SLIDE_DISTANCE_Y, gSelectEngine->mStateFrames, SELECT_ENGINE_SLIDE_FRAMES);
     gSelectEngine->mBg0Offset = -slideY;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = -slideY;
@@ -574,7 +574,7 @@ void AdvanceSelectEngineSlideOut(void) {
     gSelectEngine->mSelectEngineMTable[6].mOffsetY = slideY;
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = -slideY;
-        if (IsBackupFlagSet(0x10) != 0) {
+        if (CheckSavedSecretFlag_from_thumb(0x10) != 0) {
             switch (slotIndex) {
                 case SELECT_ENGINE_ENTRY_SLOW:
                 case SELECT_ENGINE_ENTRY_FAST:

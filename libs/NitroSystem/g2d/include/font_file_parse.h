@@ -19,16 +19,16 @@ enum {
     FONT_BLOCK_GLYPHS = 0x43474c50,
 };
 
-// The body of a font file part: file offsets that NNSi_G2dUnpackNFT relocates to addresses.
+// The body of a font file part: file offsets that NFTR_MakeAbsoluteOffsets relocates to addresses.
 typedef struct FontBlockData {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u32 mFileOffsets[4];
 } FontBlockData;
 
-void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file);
-u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation **fontOut);
+void NFTR_MakeAbsoluteOffsets(NNSG2dBinaryFileHeader *file);
+u32 NFTR_Process(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation **fontOut);
 u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *reader, s32 bitCount);
-u16 NNSi_G2dSplitChar1Byte(u8 **stringPtr);
-u16 NNSi_G2dSplitCharShiftJIS(u8 **stringPtr);
-u16 NNSi_G2dSplitCharUTF8(u8 **stringPtr);
-u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr);
+u16 FontEncoding_CP1252_NextCharacter(u8 **stringPtr);
+u16 FontEncoding_SJIS_NextCharacter(u8 **stringPtr);
+u16 FontEncoding_UTF8_NextCharacter(u8 **stringPtr);
+u16 FontEncoding_Unicode_NextCharacter(u16 **stringPtr);

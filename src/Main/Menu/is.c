@@ -27,7 +27,7 @@ BOOL MenuIsPairNewUnlessRecentlyLost(InputSlotPair *pair) {
 }
 
 BOOL MenuIsSlotPairNew(u32 slotIndex) {
-    return MenuIsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
+    return MenuIsPairNewUnlessRecentlyLost(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u32 MenuGetPairX(InputSlotPair *pairAddress) {
@@ -35,7 +35,7 @@ u32 MenuGetPairX(InputSlotPair *pairAddress) {
 }
 
 u32 MenuGetSlotPairX(u32 slotIndex) {
-    return MenuGetPairX(&gInputSlots[slotIndex].mPair);
+    return MenuGetPairX(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u32 MenuGetPairY(InputSlotPair *pairAddress) {
@@ -43,5 +43,5 @@ u32 MenuGetPairY(InputSlotPair *pairAddress) {
 }
 
 u32 MenuGetSlotPairY(u32 slotIndex) {
-    return MenuGetPairY(&gInputSlots[slotIndex].mPair);
+    return MenuGetPairY(&g_GlobalCYT[slotIndex].mPair);
 }

@@ -25,7 +25,7 @@ PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outR
 // Looks up the respawn spot of slot a: writes its position to b and its rotation angles to c (a default position and
 // angles when there is none) and returns its element of mRacePointLinks (mPointIndex), NULL for -1.
 void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation);
-u16 GetCourseMapRespawnSlot(u32 checkpointIndex);
+u16 GetCourseCpoiRespawnId(u32 checkpointIndex);
 // Returns CourseMapShape.mCameraIndex of the first shape of mKind 1 that contains position a, or -1 when there is none.
 s32 GetCourseMapCameraIndexAtPos(Vec3 *pos);
 // Returns the element of mBattlePointLinks given by mPointIndex of the first mKind 4 shape that contains position a, or

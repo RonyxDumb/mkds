@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearThreeWords(u32 *words);
+void StructMQChild_Create(u32 *words);

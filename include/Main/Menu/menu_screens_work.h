@@ -234,7 +234,7 @@ typedef struct SeqRowState {
     /* 0c */ u32 mFinishResult;
 } SeqRowState;
 
-// Values of RecordVS.mState: the main screen slides in, the lower screen rows slide in, the page is browsed, and the
+// Values of RecordVS.mState: the NtrMain screen slides in, the lower screen rows slide in, the page is browsed, and the
 // reverse on leaving. SLIDE_OUT states move the objects off screen, SLIDE_IN states move them back.
 enum {
     RECORD_VS_STATE_WAIT_FADE,
@@ -261,12 +261,12 @@ typedef struct RecordVS {
     /* 08 */ LayoutEntryTable *mRecordVSMBncl;
     /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
     /* 10 */ struct Nscr *mRecordVSM02Nscr;
-    // Object table of the main part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
+    // Object table of the NtrMain part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
     /* 14 */ LayoutTableEntry *mRecordVSMTable;
     /* 18 */ LayoutEntryTable *mRecordVSMTransientBncl;
     /* 1c */ struct LayoutEntryTable *mRecordVSMTransientBnll;
     /* 20 */ struct Nscr *mRecordVSM03Nscr;
-    // Object table of the transient part of the main screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
+    // Object table of the transient part of the NtrMain screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
     /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
     /* 28 */ struct Ncgr *mRecordVSSNcgr;
     /* 2c */ struct NNSG2dCellDataBank *mRecordVSSNcer;
@@ -281,13 +281,13 @@ typedef struct RecordVS {
     /* 4c */ s32 mState;
     /* 50 */ s32 mNextState;
     /* 54 */ s32 mStateFrames; /* counts only in states 1, 2, 5 to 11 */
-    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // X half of reg_G2_BG0OFS (0x04000010, NtrMain engine BG0), stored negated
     /* 58 */ s32 mBg0OffsetX;
-    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // Y half of reg_G2_BG0OFS (0x04000010, NtrMain engine BG0), stored negated
     /* 5c */ s32 mBg0OffsetY;
-    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // X half of reg_G2_BG1OFS (0x04000014, NtrMain engine BG1), stored negated
     /* 60 */ s32 mBg1OffsetX;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // Y half of reg_G2_BG1OFS (0x04000014, NtrMain engine BG1), stored negated
     /* 64 */ s32 mBg1OffsetY;
     // Position of the highlight among the six items: 0 to 4 are the records of the page, 5 the extra item; -1 can be
     // stored (count % 5 - 1 in RefreshRecordVSPage).
@@ -307,7 +307,7 @@ typedef struct RecordVS {
     /* 80 */ s32 mOffsetTimers[2];
     /* 88 */ BOOL mPageDecrementRepeat;
     /* 8c */ BOOL mPageIncrementRepeat;
-    // Screen to request when the exit ends; 6 sets the next scene instead.
+    // Screen to request when the CheckZetaInvokeBeta ends; 6 sets the next scene instead.
     /* 90 */ s32 mNextScreen;
 } RecordVS;
 
@@ -343,7 +343,7 @@ typedef enum SelectCupGridMode {
 // mStateFrames at which state WAIT_CHOSEN shows the highlight.
 #define SELECT_CUP_GRID_HIGHLIGHT_STEP 5
 
-// The screen that picks one of eight cups; choosing stores the cup in gRaceSetupCopy.
+// The screen that picks one of eight cups; choosing stores the cup in g_GlobalCA.
 typedef struct SelectCupGrid {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupMBncl;
@@ -432,7 +432,7 @@ typedef struct SelectCupCourse {
     /* 3c */ s32 mStateFrames; /* counts only in states 1, 4, 5, 7, 8 */
     /* 40 */ s32 mMode;
     /* 44 */ s32 mBg0Offset;
-    /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the main engine's */
+    /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the NtrMain engine's */
     /* 4c */ u8 mUnk_4c[4];
     /* 50 */ s16
         mIndex; /* 0..3 position among the four courses of the cup: the course is gCupRowCourseIds[row][mIndex] */
@@ -649,12 +649,12 @@ typedef struct GhostRecordSet {
     /* 10 */ s16 mSlotIndex;
 } GhostRecordSet;
 
-// Y offset of one screen height: the main objects slide down by it and the lower objects start its negative. The lower
+// Y offset of one screen height: the NtrMain objects slide down by it and the lower objects start its negative. The lower
 // objects end the slide at SELECT_CUP_M_SUB_END_OFFSET_Y.
 #define SELECT_CUP_M_OFFSCREEN_Y 0xc0
 #define SELECT_CUP_M_SUB_END_OFFSET_Y (-0x20)
 
-// Values of SelectCupM.mState and mNextState: the main objects slide down off the screen while the lower objects come
+// Values of SelectCupM.mState and mNextState: the NtrMain objects slide down off the screen while the lower objects come
 // in from above (SCROLL_DOWN), or the same slide runs backwards (SCROLL_UP).
 enum {
     SELECT_CUP_M_STATE_SCROLL_DOWN,
@@ -664,7 +664,7 @@ enum {
 // Steps of the scroll of the cup list; mStateFrames counts them.
 #define SELECT_CUP_M_SCROLL_STEPS 10
 
-// The cup select screen: its main and sub layout files, state and scroll offsets.
+// The cup select screen: its NtrMain and sub layout files, state and scroll offsets.
 typedef struct SelectCupM {
     /* 00 */ struct NNSG2dCellDataBank *mMainNcer;
     /* 04 */ LayoutEntryTable *mMainBncl;
@@ -736,7 +736,7 @@ enum {
 #define TXT_SYSTEM_ANIM_FRAME_TICKS 4
 #define TXT_SYSTEM_ANIM_FRAME_COUNT 3
 
-// The text box system InitTxtSystem allocates: its state, requests, screen buffers, offsets, blend settings, canvases.
+// The text box system TextSystemContext_Initialize_from_thumb allocates: its state, requests, screen buffers, offsets, blend settings, canvases.
 typedef struct TxtSystem {
     /* 0000 */ u32 mState;
     /* 0004 */ u32 mNextState;
@@ -827,13 +827,13 @@ typedef struct SelectChoises {
     /* 894 */ u8 *mCharBuffers[2];
     /* 89c */ s32 mFirstTileIndex;
     /* 8a0 */ u32 mUseCharBuffers;
-    // Non-zero when the display bit was set at init; also gates the choice sounds.
+    // Non-zero when the display bit was set at StructDC_SomeFn_from_thumb; also gates the choice sounds.
     /* 8a4 */ u32 mDisplayBitOn;
     /* 8a8 */ s32 mSoundIds[2];
     /* 8b0 */ s32 mIndexNoneSoundId;
 } SelectChoises;
 
-// Object behind gSelectReturn: 0x828 bytes allocated by InitSelectReturn.
+// Object behind g_SelectReturn: 0x828 bytes allocated by InitializeSelectReturn_from_thumb.
 // Values of SelectReturn.mState and mNextState: the return button is hidden, slides in, waits, plays its press, or
 // slides out.
 enum {
@@ -852,7 +852,7 @@ enum {
 
 // The return button: its state, slide and press requests, screen map copy and sound id.
 typedef struct SelectReturn {
-    /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
+    /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitializeSelectReturn_from_thumb; the off path does not run in this build */
     /* 004 */ s32 mState;
     /* 008 */ s32 mNextState;
     /* 00c */ s32 mStateFrames; /* counts only in states 1, 3, 4 */
@@ -872,7 +872,7 @@ typedef struct LinkLevelIconOam {
     /* 06 */ u8 mUnk_06[2];
 } LinkLevelIconOam;
 
-// The OAM lists of the keyboard scene: one for the main and one for the sub screen.
+// The OAM lists of the keyboard scene: one for the NtrMain and one for the sub screen.
 typedef struct KeyboardScene {
     /* 000 */ RaceHudOamBuffer mMainOam;
     /* 404 */ RaceHudOamBuffer mSubOam;
@@ -952,7 +952,7 @@ typedef struct Keyboard {
     /* 1c */ BOOL mButtonEnabled[2];
     /* 24 */ BOOL mTextEntryEnabled;
     // Calls spent in the current state: counted up by the handlers of states 1, 3, 4, 6, 8, 9 and 11, and by state 10
-    // only while GetTxtSystemDone or IsTxtSystemClosedNoOpenRequest returns non-zero; zeroed by the handler that
+    // only while TextSystem_WasAnyDialogButtonPressed_from_thumb or TextSystem_IsDialogFinished_from_thumb returns non-zero; zeroed by the handler that
     // leaves; the slide states hold it at 0xf.
     /* 28 */ s32 mStateFrames;
     /* 2c */ KeyboardRecord mRecords[3];
@@ -1100,6 +1100,6 @@ extern OSMessageQueue sMesgQ;
 
 extern EffectInfo sEffectInfoBuffer[8];
 
-extern struct NNSSndArc *sCurrent;
+extern struct NNSSndArc *g_ActiveSdat;
 
 extern SeqQueue gSeqQueue;

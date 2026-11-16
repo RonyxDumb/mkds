@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Screen numbers: the first argument of SwitchMenuScreen (stored as the current screen number, member 0xc of the object
-// behind gMenuScene) and the number GetPreviousMenuScreenNumber returns for the previous screen. The screens that
+// behind g_GlobalB43C) and the number GetPreviousMenuScreenNumber returns for the previous screen. The screens that
 // InitCurrentMenuScreen and ReleasePreviousMenuScreen start and release are named after their Init class and the race
 // mode whose entry path leads to them (RaceSetup.mMode, set up in menu.c).
 // The single play mode select, in four steps: the cells slide in, the mode is chosen, the cells slide out (to the

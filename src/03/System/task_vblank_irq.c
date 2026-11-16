@@ -13,13 +13,13 @@ void EnableTaskVBlankIrq(void) {
     u16 previousIme;
 
     gSavedIrqMask = reg_OS_IE;
-    OS_SetIrqMask(0x40018);
-    OS_EnableIrqMask(1);
-    gSavedIrqFunction = OS_GetIrqFunction(1);
-    OS_SetIrqFunction(1, TaskVBlankIrqHandler);
+    SetIE(0x40018);
+    Os_EnableIrqHandler(1);
+    gSavedIrqFunction = Os_GetIrqHandler(1);
+    Os_SetIrqHandler(1, TaskVBlankIrqHandler);
     previousIme = reg_OS_IME;
     reg_OS_IME = 1;
-    OS_EnableInterrupts();
+    Os_EnableIrq();
 }
 
 void RestoreTaskVBlankIrq(void) {
@@ -27,8 +27,8 @@ void RestoreTaskVBlankIrq(void) {
 
     previousIme = reg_OS_IME;
     reg_OS_IME = 0;
-    OS_SetIrqMask(gSavedIrqMask);
-    OS_SetIrqFunction(1, gSavedIrqFunction);
+    SetIE(gSavedIrqMask);
+    Os_SetIrqHandler(1, gSavedIrqFunction);
 }
 
 void TaskVBlankIrqHandler(void) {

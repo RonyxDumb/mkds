@@ -8,52 +8,52 @@
 NNSiFndHeapHead *gExpHeap;
 
 void CreateExpHeapOverBuffer(void *buffer) {
-    MI_CpuFill8(buffer, 0, EXP_HEAP_BYTES);
-    gExpHeap = NNS_FndCreateExpHeapEx(buffer, EXP_HEAP_BYTES, 0);
+    Mem_CpuFill8(buffer, 0, EXP_HEAP_BYTES);
+    gExpHeap = Mem_Exp_Create(buffer, EXP_HEAP_BYTES, 0);
     if (gExpHeap == NULL) {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
 void ReleaseExpHeap(void) {
-    NNS_FndDestroyExpHeap(gExpHeap);
+    Mem_Exp_Finalize(gExpHeap);
     gExpHeap = NULL;
 }
 
 void *AllocExpHeapBlock(u32 size, s32 alignment) {
-    u32 interrupts = OS_DisableIrqMask(1);
-    void *block = NNS_FndAllocFromExpHeapEx(gExpHeap, size, alignment);
+    u32 interrupts = Os_DisableIrqHandler(1);
+    void *block = Mem_Exp_Allocate(gExpHeap, size, alignment);
 
     if (block == NULL) {
-        OS_Terminate();
+        Os_Terminate();
     }
-    OS_EnableIrqMask(interrupts);
+    Os_EnableIrqHandler(interrupts);
     return block;
 }
 
 void *AllocZeroedExpHeapBlock(u32 size, s32 alignment) {
     void *block = AllocExpHeapBlock(size, alignment);
 
-    MI_CpuFill8(block, 0, size);
+    Mem_CpuFill8(block, 0, size);
     return block;
 }
 
 void FreeExpHeapBlockAndClearPointer(void *storage) {
     void **block = storage;
-    u32 interrupts = OS_DisableIrqMask(1);
+    u32 interrupts = Os_DisableIrqHandler(1);
 
     if (*block != NULL) {
-        NNS_FndFreeToExpHeap(gExpHeap, *block);
-        OS_EnableIrqMask(interrupts);
+        Mem_Exp_Free(gExpHeap, *block);
+        Os_EnableIrqHandler(interrupts);
         *block = NULL;
     }
 }
 
 void FreeExpHeapBlock(void *block) {
-    u32 interrupts = OS_DisableIrqMask(1);
+    u32 interrupts = Os_DisableIrqHandler(1);
 
     if (block != NULL) {
-        NNS_FndFreeToExpHeap(gExpHeap, block);
-        OS_EnableIrqMask(interrupts);
+        Mem_Exp_Free(gExpHeap, block);
+        Os_EnableIrqHandler(interrupts);
     }
 }

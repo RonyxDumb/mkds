@@ -293,7 +293,7 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
     }
     buddyInfo = profileRec->mBuddyStatus;
     if (buddyInfo == NULL) {
-        AssertionFailed("buddyStatus", "gp.c", NULL, 0x5cf);
+        LogThrowAssertion("buddyStatus", "gp.c", NULL, 0x5cf);
     }
     status->mProfileId = profileRec->mProfileId;
     status->mStatus = buddyInfo->mStatus;

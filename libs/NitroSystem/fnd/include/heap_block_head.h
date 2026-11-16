@@ -15,11 +15,11 @@ typedef struct NNSiFndExpHeapMBlockHead {
     /* 0c */ struct NNSiFndExpHeapMBlockHead *mMBHeadNext;
 } NNSiFndExpHeapMBlockHead;
 
-// Start and end of a block of memory: GetRegionOfMBlock writes the start of a block (minus its offset) and the end of
+// Start and end of a block of memory: Mem_GetMemoryBlockRegion writes the start of a block (minus its offset) and the end of
 // its data.
 typedef struct NNSiMemRegion {
     /* 00 */ void *mStart;
     /* 04 */ void *mEnd;
 } NNSiMemRegion;
 
-NNSiFndExpHeapMBlockHead *InitMBlock(const NNSiMemRegion *region, u16 signature);
+NNSiFndExpHeapMBlockHead *Mem_Exp_InitializeMemoryBlock(const NNSiMemRegion *region, u16 signature);

@@ -5,11 +5,11 @@
 #pragma thumb on
 
 void SetTitleState(u32 state, u32 nextState) {
-    gTitleScene->mStateFrames = 0;
-    gTitleScene->mStateChanged = TRUE;
-    gTitleScene->mPrevState = gTitleScene->mState;
-    gTitleScene->mState = state;
-    gTitleScene->mNextState = nextState;
+    g_SceneTitleContext->mStateFrames = 0;
+    g_SceneTitleContext->mStateChanged = TRUE;
+    g_SceneTitleContext->mPrevState = g_SceneTitleContext->mState;
+    g_SceneTitleContext->mState = state;
+    g_SceneTitleContext->mNextState = nextState;
 }
 
 #pragma thumb off

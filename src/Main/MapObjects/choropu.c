@@ -143,28 +143,28 @@ ModelAnimation *gTruckANsbtp;
 
 
 MapObjectKindData *CreateCarAKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    MapObjectKindData *kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
 
     *kindData = gCarAKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateTruckAKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    MapObjectKindData *kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
 
     *kindData = gTruckAKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateBusAKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    MapObjectKindData *kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
 
     *kindData = gBusAKindData;
     return kindData;
 }
 
 MapObjectList *CreateVehicleDrawList(void) {
-    VehicleDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(VehicleDrawList));
+    VehicleDrawList *drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(VehicleDrawList));
 
     gVehicleDrawList = drawList;
     *drawList = gVehicleDrawListData;
@@ -173,7 +173,7 @@ MapObjectList *CreateVehicleDrawList(void) {
 }
 
 MapObjectList *CreateVehicleUpdateList(void) {
-    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    MapObjectList *updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
 
     gVehicleUpdateList = updateList;
     *updateList = gVehicleUpdateListData;
@@ -184,14 +184,14 @@ MapObjectList *CreateVehicleUpdateList(void) {
 void SetVehicleLinkDirection(VehicleDrawList *drawList) {
     u16 entryIndex;
 
-    entryIndex = gRaceSetup->mEntryIndex;
+    entryIndex = g_GlobalCO->mEntryIndex;
     if (drawList->mLinkCullEnabled == FALSE) {
         return;
     }
     if (entryIndex < 8) {
         GetItemPointLinkDirection(gKartItems[entryIndex].mItemLink.mLink, &drawList->mEntryKartLinkDirection);
         drawList->mLinkCullActive =
-            Vec3DotUnrounded(&drawList->mEntryKartLinkDirection, GetViewTransposeMatrixAxis2()) < 0;
+            VecFx32_CrossProduct_0(&drawList->mEntryKartLinkDirection, GetViewTransposeMatrixAxis2()) < 0;
     } else {
         drawList->mLinkCullActive = FALSE;
     }
@@ -212,7 +212,7 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
     s32 tireCos;
 
     if (drawList->mLinkCullActive != FALSE) {
-        dotAxis2 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mRows[2], &drawList->mEntryKartLinkDirection);
+        dotAxis2 = VecFx32_CrossProduct_0(&vehicle->mMapObject.mMatrix.mRows[2], &drawList->mEntryKartLinkDirection);
         directionFlag = vehicle->mMapObject.mCourseMapRow->mSettings[3];
         dotLimit = vehicle->mFollower.mFromEntry->mCullDotLimit;
         if (directionFlag == 0) {
@@ -251,10 +251,10 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
         return;
     }
     angleIndex = vehicle->mTireAngle >> 4;
-    anglePairs = FX_SinCosTable_;
+    anglePairs = g_SinFx16Table_AndCos;
     tireSin = MUL_FIXED12_ROUNDED(vehicle->mTireRadius, anglePairs[angleIndex * 2]);
     tireCos = MUL_FIXED12_ROUNDED(vehicle->mTireRadius, anglePairs[angleIndex * 2 + 1]);
-    MTX_RotX43_(&tireMatrix, tireSin, tireCos);
+    MTX_RotX43__from_thumb(&tireMatrix, tireSin, tireCos);
     tireMatrix.mRows[0].x = vehicle->mTireOffset[0];
     tireMatrix.mRows[3].y = vehicle->mTireOffset[1];
     tireMatrix.mRows[3].z = vehicle->mTireOffset[2];
@@ -296,7 +296,7 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
     AdvanceGroupFollower(&vehicle->mFollower);
     if (!isInHitReaction) {
         GetGroupFollowerCurveXzLinearY(&vehicle->mFollower, &vehicle->mMapObject.mPos);
-        VEC_Subtract(&vehicle->mMapObject.mPos, &previousPosition, &vehicle->mMapObject.mPosStep);
+        VecFx32_Subtract(&vehicle->mMapObject.mPos, &previousPosition, &vehicle->mMapObject.mPosStep);
     } else {
         GetGroupFollowerCurveXzLinearY(&vehicle->mFollower, &vehicle->mFollowerPosition);
         vehicle->mMapObject.mPos.x = vehicle->mFollowerPosition.x;
@@ -396,16 +396,16 @@ void StartVehicleHitReaction(Vehicle *vehicle, Vec3 *hitterPosition) {
     s32 upwardSpeed;
 
     direction = vehicle->mMapObject.mPos;
-    VEC_Subtract(&direction, hitterPosition, &direction);
-    dotAxis0 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mRows[0], &direction);
-    dotAxis2 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mRows[2], &direction);
+    VecFx32_Subtract(&direction, hitterPosition, &direction);
+    dotAxis0 = VecFx32_CrossProduct_0(&vehicle->mMapObject.mMatrix.mRows[0], &direction);
+    dotAxis2 = VecFx32_CrossProduct_0(&vehicle->mMapObject.mMatrix.mRows[2], &direction);
     direction.x = (dotAxis0 > 0 ? vehicle->mMapObject.mMatrix.mRows[0].x : -vehicle->mMapObject.mMatrix.mRows[0].x) * 2;
     direction.x += dotAxis2 > 0 ? vehicle->mMapObject.mMatrix.mRows[2].x : -vehicle->mMapObject.mMatrix.mRows[2].x;
     direction.z = (dotAxis0 > 0 ? vehicle->mMapObject.mMatrix.mRows[0].z : -vehicle->mMapObject.mMatrix.mRows[0].z) * 2;
     direction.z += dotAxis2 > 0 ? vehicle->mMapObject.mMatrix.mRows[2].z : -vehicle->mMapObject.mMatrix.mRows[2].z;
     direction.y = ((vehicle->mExtentPositive.y - 0x14000) >> 4) + 0x2000;
     if (LENGTH_SQUARED(direction) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+        Vector3_MaybeNormalize(&direction, &direction);
     }
     QuaternionFromYAxisToVec3(&direction, &vehicle->mHitRotation);
     vehicle->mRotationBlendRate = VEHICLE_BLEND_RATE_HIT;
@@ -482,10 +482,10 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
         groupIndex = vehicle->mMapObject.mCourseMapRow->mGroupIndex;
         vehicle->mUpdateIndex = index;
         if ((seenGroupMask & (1 << groupIndex)) == 0) {
-            entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
+            entryCount = g_GlobalPE->mEntryGroups[groupIndex].mEntryCount;
             BIT_SET(seenGroupMask, groupIndex);
             for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-                entry = GetCourseMapGroupEntry(groupIndex, entryIndex);
+                entry = GetLoadedNkmPathEntryPOIT(groupIndex, entryIndex);
                 angleDegrees = entry->mValue;
                 if (angleDegrees != 0) {
                     if (angleDegrees > 0) {
@@ -523,41 +523,41 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     ModelAnimation **animationSlot;
     s32 count;
 
-    carFile = FindCourseMapObjFile("car_a.nsbmd");
-    truckFile = FindCourseMapObjFile("truck_a.nsbmd");
+    carFile = FormatFindMapObjFileBuffer_from_thumb("car_a.nsbmd");
+    truckFile = FormatFindMapObjFileBuffer_from_thumb("truck_a.nsbmd");
     drawList->mLinkCullEnabled =
-        gRaceSetup->mMode != MODE_MISSION_RUN && GetEntryRaceEnded() == 0 && (u16) gRaceSetup->mEntryIndex < 8;
+        g_GlobalCO->mMode != MODE_MISSION_RUN && GetEntryRaceEnded() == 0 && (u16) g_GlobalCO->mEntryIndex < 8;
     drawList->mLinkCullActive = FALSE;
     CreateNsbmd(&gCarA, carFile, NULL);
     CreateNsbmd(&gTruckA, truckFile, NULL);
-    CreateNsbmd(&gBusA, FindCourseMapObjFile("bus_a.nsbmd"), NULL);
-    CreateNsbmd(&gCarTire, FindCourseMapObjFile("car_tire.nsbmd"), NULL);
-    CreateShadowModel(&gCarAShadow, FindCourseMapObjFile("car_a_shadow.nsbmd"), 7);
-    CreateShadowModel(&gTruckAShadow, FindCourseMapObjFile("truck_a_shadow.nsbmd"), 7);
-    CreateShadowModel(&gBusAShadow, FindCourseMapObjFile("bus_a_shadow.nsbmd"), 7);
-    CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile("car_a.nsbtp"));
-    CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile("truck_a.nsbtp"));
-    SetNsbmdPolygonIdLightEmiAll(gCarA, 0x3f, 2, 0x294a);
+    CreateNsbmd(&gBusA, FormatFindMapObjFileBuffer_from_thumb("bus_a.nsbmd"), NULL);
+    CreateNsbmd(&gCarTire, FormatFindMapObjFileBuffer_from_thumb("car_tire.nsbmd"), NULL);
+    CreateShadowModel(&gCarAShadow, FormatFindMapObjFileBuffer_from_thumb("car_a_shadow.nsbmd"), 7);
+    CreateShadowModel(&gTruckAShadow, FormatFindMapObjFileBuffer_from_thumb("truck_a_shadow.nsbmd"), 7);
+    CreateShadowModel(&gBusAShadow, FormatFindMapObjFileBuffer_from_thumb("bus_a_shadow.nsbmd"), 7);
+    CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FormatFindMapObjFileBuffer_from_thumb("car_a.nsbtp"));
+    CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FormatFindMapObjFileBuffer_from_thumb("truck_a.nsbtp"));
+    StructML_SomeFn_1(gCarA, 0x3f, 2, 0x294a);
     for (carMaterialIndex = 0, carModel = gCarA->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {
-        NNS_G3dMdlSetMdlPolygonID(carModel, carMaterialIndex, 7);
+        ModelBlock_SomeTexPltFn_3(carModel, carMaterialIndex, 7);
     }
-    SetNsbmdPolygonIdLightEmiAll(gTruckA, 0x3f, 2, 0x294a);
+    StructML_SomeFn_1(gTruckA, 0x3f, 2, 0x294a);
     for (truckMaterialIndex = 0, truckModel = gTruckA->mResMdl; truckMaterialIndex < truckModel->mInfo.mNumMat;
          truckMaterialIndex++) {
-        NNS_G3dMdlSetMdlPolygonID(truckModel, truckMaterialIndex, 7);
+        ModelBlock_SomeTexPltFn_3(truckModel, truckMaterialIndex, 7);
     }
-    SetNsbmdPolygonIdLightEmiAll(gBusA, 0x3f, 2, 0x294a);
+    StructML_SomeFn_1(gBusA, 0x3f, 2, 0x294a);
     for (busMaterialIndex = 0, busModel = gBusA->mResMdl; busMaterialIndex < busModel->mInfo.mNumMat;
          busMaterialIndex++) {
-        NNS_G3dMdlSetMdlPolygonID(busModel, busMaterialIndex, 7);
+        ModelBlock_SomeTexPltFn_3(busModel, busMaterialIndex, 7);
     }
-    SetNsbmdPolygonIdLightEmiAll(gCarTire, 0x3f, 2, 0x294a);
+    StructML_SomeFn_1(gCarTire, 0x3f, 2, 0x294a);
     for (tireMaterialIndex = 0, tireModel = gCarTire->mResMdl; tireMaterialIndex < tireModel->mInfo.mNumMat;
          tireMaterialIndex++) {
-        NNS_G3dMdlSetMdlPolygonID(tireModel, tireMaterialIndex, 7);
+        ModelBlock_SomeTexPltFn_3(tireModel, tireMaterialIndex, 7);
     }
-    SetNsbmdLightEnableFlagAll(gCarTire, 0);
+    StructML_SomeFn_8(gCarTire, 0);
     count = gVehicleDrawList->mMapObjectList.mMapObjectCount;
     for (index = 0; index < count; index++) {
         vehicle = gVehicleDrawList->mMapObjectList.mMapObjects[index];
@@ -575,7 +575,7 @@ void InitVehicle(Vehicle *vehicle, struct CourseMapRow *courseRow, VehicleKindIn
     InitGroupFollower(&vehicle->mFollower, courseRow, (s16) courseRow->mSettings[0] * 0x3000 / 100);
     vehicle->mStartEntryIndex = courseRow->mSettings[1];
     vehicle->mAnimationFrame = courseRow->mSettings[2];
-    vehicle->mStartEntryY = GetCourseMapGroupEntry(courseRow->mGroupIndex, vehicle->mStartEntryIndex)->mPos.y;
+    vehicle->mStartEntryY = GetLoadedNkmPathEntryPOIT(courseRow->mGroupIndex, vehicle->mStartEntryIndex)->mPos.y;
     vehicle->mExtentPositive.x = MUL_FIXED12_NO_ROUND(kindInfo->mExtentX, vehicle->mMapObject.mScale.x);
     vehicle->mExtentPositive.y = MUL_FIXED12_NO_ROUND(kindInfo->mExtentY, vehicle->mMapObject.mScale.y);
     vehicle->mExtentPositive.z = MUL_FIXED12_NO_ROUND(kindInfo->mExtentZ, vehicle->mMapObject.mScale.z);
@@ -795,7 +795,7 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 secondOffset,
     secondPush.x = MUL_FIXED12_NO_ROUND(secondNormal->x, secondOffset);
     secondPush.y = MUL_FIXED12_NO_ROUND(secondNormal->y, secondOffset);
     secondPush.z = MUL_FIXED12_NO_ROUND(secondNormal->z, secondOffset);
-    VEC_Add(&firstPush, &secondPush, &firstPush);
+    VecFx32_Add(&firstPush, &secondPush, &firstPush);
     firstPush.x <<= 10;
     firstPush.y <<= 10;
     firstPush.z <<= 10;
@@ -810,8 +810,8 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 secondOffset,
         firstPush.x >>= 10;
         firstPush.y >>= 10;
         firstPush.z >>= 10;
-        VEC_Subtract(&secondPush, &firstPush, &secondPush);
-        secondOffset = VEC_Mag(&secondPush);
+        VecFx32_Subtract(&secondPush, &firstPush, &secondPush);
+        secondOffset = VecFx32_Norm(&secondPush);
     } else {
         direction = *secondNormal;
         secondPush.x = MUL_FIXED12_NO_ROUND(direction.x, sphereRadius);
@@ -890,8 +890,8 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
     s32 value;
 
     regionFlags = 0;
-    VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &offset);
-    distanceAxis0 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
+    VecFx32_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &offset);
+    distanceAxis0 = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[0]);
     if (distanceAxis0 > 0) {
         if (distanceAxis0 > object->mCollisionData.mHalfSizeX + sphereRadius) {
             return FALSE;
@@ -911,7 +911,7 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
             regionFlags |= 0x500;
         }
     }
-    distanceAxis1 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[1]);
+    distanceAxis1 = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[1]);
     if (distanceAxis1 > 0) {
         if (distanceAxis1 > object->mCollisionData.mHalfSizeY + sphereRadius) {
             return FALSE;
@@ -931,7 +931,7 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
             regionFlags |= 0x50;
         }
     }
-    distanceAxis2 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]);
+    distanceAxis2 = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[2]);
     if (distanceAxis2 > 0) {
         if (distanceAxis2 > object->mCollisionData.mPositiveHalfSizeZ + sphereRadius) {
             return FALSE;
@@ -1148,11 +1148,11 @@ rest:
     normal.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[1].x, distanceAxis1);
     normal.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[1].y, distanceAxis1);
     normal.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[1].z, distanceAxis1);
-    VEC_Add(&normal, &offset, &offset);
+    VecFx32_Add(&normal, &offset, &offset);
     normal.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[2].x, distanceAxis2);
     normal.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[2].y, distanceAxis2);
     normal.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[2].z, distanceAxis2);
-    VEC_Add(&normal, &offset, &offset);
+    VecFx32_Add(&normal, &offset, &offset);
     offset.x <<= 10;
     offset.y <<= 10;
     offset.z <<= 10;
@@ -1167,8 +1167,8 @@ rest:
         offset.x >>= 10;
         offset.y >>= 10;
         offset.z >>= 10;
-        VEC_Subtract(&pushVec, &offset, &pushVec);
-        sphereRadius = VEC_Mag(&pushVec);
+        VecFx32_Subtract(&pushVec, &offset, &pushVec);
+        sphereRadius = VecFx32_Norm(&pushVec);
     } else {
         normal = object->mMapObject.mMatrix.mRows[1];
         pushVec.x = MUL_FIXED12_NO_ROUND(normal.x, sphereRadius);
@@ -1239,9 +1239,9 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
     s32 distanceAxis1;
 
     regionFlags = 0;
-    VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &offset);
-    distanceAxis0 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
-    alongAxis2 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]);
+    VecFx32_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &offset);
+    distanceAxis0 = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[0]);
+    alongAxis2 = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[2]);
     squaredRadialDistance = SQUARE_SUM2(distanceAxis0, alongAxis2);
     combinedRadius = object->mCollisionData.mHalfSizeX + sphereRadius;
     if ((s64) combinedRadius * combinedRadius < squaredRadialDistance) {
@@ -1252,7 +1252,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
     } else {
         regionFlags |= gCylinderInnerRegionFlag;
     }
-    distanceAxis1 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[1]);
+    distanceAxis1 = VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[1]);
     if (distanceAxis1 > 0) {
         if (distanceAxis1 > object->mCollisionData.mHalfSizeY + sphereRadius) {
             return FALSE;
@@ -1297,7 +1297,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
             normal.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].x, offset.x);
             normal.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].y, offset.x);
             normal.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].z, offset.x);
-            VEC_MultAdd(offset.z, &object->mMapObject.mMatrix.mRows[2], &normal, &normal);
+            VecFx32_AddScale1(offset.z, &object->mMapObject.mMatrix.mRows[2], &normal, &normal);
         }
         goto cmp;
     }
@@ -1312,7 +1312,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
         normal.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].x, offset.x);
         normal.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].y, offset.x);
         normal.z = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].z, offset.x);
-        VEC_MultAdd(offset.z, &object->mMapObject.mMatrix.mRows[2], &normal, &normal);
+        VecFx32_AddScale1(offset.z, &object->mMapObject.mMatrix.mRows[2], &normal, &normal);
     }
     if (regionFlags & 0x10) {
         goto apply3000;
@@ -1355,17 +1355,17 @@ void ComputeCollisionPointMotion(CollisionMapObject *object, Vec3 *position, Vec
         pointMotion->x = -object->mMapObject.mPosStep.x;
         pointMotion->y = -object->mMapObject.mPosStep.y;
         pointMotion->z = -object->mMapObject.mPosStep.z;
-        VEC_Subtract(position, &object->mMapObject.mPos, &offset);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]),
+        VecFx32_Subtract(position, &object->mMapObject.mPos, &offset);
+        VecFx32_AddScale1(VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[0]),
                     &object->mCollisionData.mPrevMatrix.mRows[0], pointMotion, pointMotion);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[1]),
+        VecFx32_AddScale1(VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[1]),
                     &object->mCollisionData.mPrevMatrix.mRows[1], pointMotion, pointMotion);
-        VEC_MultAdd(Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]),
+        VecFx32_AddScale1(VecFx32_CrossProduct_0(&offset, &object->mMapObject.mMatrix.mRows[2]),
                     &object->mCollisionData.mPrevMatrix.mRows[2], pointMotion, pointMotion);
-        VEC_Subtract(&offset, pointMotion, pointMotion);
+        VecFx32_Subtract(&offset, pointMotion, pointMotion);
     }
     if (angleChange != NULL) {
-        *angleChange = Vec3DotUnrounded(&object->mCollisionData.mAngleChangeVector, contactNormal);
+        *angleChange = VecFx32_CrossProduct_0(&object->mCollisionData.mAngleChangeVector, contactNormal);
     }
 }
 

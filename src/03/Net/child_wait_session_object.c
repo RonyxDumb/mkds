@@ -29,7 +29,7 @@ void CreateChildWaitSession(void (*callback)(s32)) {
     params.mHandshakeByte = GetLanguageIndex() + 0x31;
     InitChildWaitSession(&gChildWaitSession->mSession, &params);
     if (StartChildWaitSession() == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
     gChildWaitSession->mStepTask = AddTask(0, AdvanceChildWaitSession, NULL, 0x78);
 }
@@ -71,7 +71,7 @@ u8 *GetChildUserBuffer(void) {
 }
 
 static inline void MI_CpuCopy16(const void *source, void *destination, s32 size) {
-    MIi_CpuCopy16(source, destination, size);
+    CopyMemory16(source, destination, size);
 }
 
 void AdvanceChildWaitSession(TaskEntry *task, void *arg) {

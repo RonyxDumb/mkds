@@ -6,7 +6,7 @@ BOOL IsInParticipantMask(s32 bitIndex) {
     BOOL isSet;
 
     isSet = TRUE;
-    if (!(gWiFiRaceSync->mParticipantMask & (1 << bitIndex))) {
+    if (!(g_GlobalAA->mParticipantMask & (1 << bitIndex))) {
         isSet = FALSE;
     }
     return isSet;

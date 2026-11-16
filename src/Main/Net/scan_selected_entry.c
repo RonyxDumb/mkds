@@ -8,7 +8,7 @@ void SetSelectedScanEntry(u16 entryIndex) {
     int result;
     result = TrySelectScanSlot(entryIndex);
     if (result != 0) {
-        gConnectionWork->mSelectedScanEntry = entryIndex;
+        g_GlobalZE->mSelectedScanEntry = entryIndex;
     }
 }
 

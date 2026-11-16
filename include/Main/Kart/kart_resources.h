@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-void InitKartResources(Kart *kart);
+void StructMQRacerEntry_Fn0(Kart *kart);
 void InitKartMapObjectResponses(void);
 
 extern u32 gCoursePushStrongEnabled;

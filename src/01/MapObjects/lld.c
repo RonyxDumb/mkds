@@ -41,10 +41,10 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     LldRecord *rec;
     NNSG2dCellDataWithBR *cell;
 
-    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Lld));
-    data = FindSceneFile((fileName));
+    list = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(Lld));
+    data = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb((fileName));
     list->mEntryCount = data->mEntryCount;
-    list->mEntries = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mEntryCount * sizeof(LldEntry));
+    list->mEntries = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), list->mEntryCount * sizeof(LldEntry));
     list->mCells = cells;
     list->mCellAnims = cellAnims;
     rec = data->mRecords;
@@ -115,14 +115,14 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     scaledPos[0] = TO_FIXED12(screenX);
                     scaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount +=
-                        NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
+                        MaybeMakeOamSlot((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
                                               0x80 - oamBuffer->mOamCount, cell, &mtx, scaledPos, idx, 1);
                 } else {
                     cell = entry->mCellAnim.mPCurrentCell;
                     unscaledPos[0] = TO_FIXED12(screenX);
                     unscaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount +=
-                        NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
+                        MaybeMakeOamSlot((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
                                               0x80 - oamBuffer->mOamCount, cell, NULL, unscaledPos, 0, 0);
                 }
             }

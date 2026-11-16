@@ -81,7 +81,7 @@ void GetGroupFollowerLinearPosStep(GroupFollower *follower, Vec3 *position, Vec3
     position->x = position->x + MUL_FIXED24_NO_ROUND(segment->mPoints[3].x, progress);
     position->y = position->y + MUL_FIXED24_NO_ROUND(segment->mPoints[3].y, progress);
     position->z = position->z + MUL_FIXED24_NO_ROUND(segment->mPoints[3].z, progress);
-    VEC_Subtract(&segment->mPoints[3], &segment->mPoints[0], step);
+    VecFx32_Subtract(&segment->mPoints[3], &segment->mPoints[0], step);
     rate = follower->mProgressStep;
     step->x = MUL_FIXED24_NO_ROUND(step->x, rate);
     step->y = MUL_FIXED24_NO_ROUND(step->y, rate);
@@ -163,27 +163,27 @@ Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     s32 savedZ;
     groupIndex = row->mGroupIndex;
-    entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
-    sideVectors = HeapAlloc(GetHeap(GetCurrentHeapCall()), entryCount * 12);
+    entryCount = g_GlobalPE->mEntryGroups[groupIndex].mEntryCount;
+    sideVectors = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), entryCount * 12);
     for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
         if (entryIndex == entryCount - 1) {
-            if (*(u8 *) ((u32) gCourseMap->mEntryGroups + groupIndex * 4 + 1) == 0) {
+            if (*(u8 *) ((u32) g_GlobalPE->mEntryGroups + groupIndex * 4 + 1) == 0) {
                 continue;
             }
-            endEntry = GetCourseMapGroupEntry(groupIndex, 0);
-            startEntry = GetCourseMapGroupEntry(groupIndex, entryCount - 1);
-            VEC_Subtract(&endEntry->mPos, &startEntry->mPos, &direction);
+            endEntry = GetLoadedNkmPathEntryPOIT(groupIndex, 0);
+            startEntry = GetLoadedNkmPathEntryPOIT(groupIndex, entryCount - 1);
+            VecFx32_Subtract(&endEntry->mPos, &startEntry->mPos, &direction);
         } else {
-            endEntry = GetCourseMapGroupEntry(groupIndex, entryIndex + 1);
-            startEntry = GetCourseMapGroupEntry(groupIndex, entryIndex);
-            VEC_Subtract(&endEntry->mPos, &startEntry->mPos, &direction);
+            endEntry = GetLoadedNkmPathEntryPOIT(groupIndex, entryIndex + 1);
+            startEntry = GetLoadedNkmPathEntryPOIT(groupIndex, entryIndex);
+            VecFx32_Subtract(&endEntry->mPos, &startEntry->mPos, &direction);
         }
         savedZ = direction.z;
         direction.z = -direction.x;
         direction.y = 0;
         direction.x = savedZ;
         direction.y = 0;
-        Vec3NormalizeAndGetLengthUnchecked(&direction, &sideVectors[entryIndex]);
+        Vector3_MaybeNormalize(&direction, &sideVectors[entryIndex]);
     }
     return sideVectors;
 }

@@ -25,7 +25,7 @@ typedef enum ResultsGpGrade {
     RESULTS_GP_GRADE_BEST = 7,
 } ResultsGpGrade;
 
-// Values GetLowestGrandPrixRecordValue returns once every Grand Prix record has a grade of at least the third best: the
+// Values GetWorstStarRank_from_thumb returns once every Grand Prix record has a grade of at least the third best: the
 // lowest grade over all records is the third best, the second best or the best (0 when a record is lower or missing).
 #define GP_LOWEST_RECORD_THIRD_BEST 1
 #define GP_LOWEST_RECORD_SECOND_BEST 2
@@ -56,13 +56,13 @@ typedef struct ResultsGp {
 
 
 
-void AdvanceResultsGp(SceneNumbers *sceneNumbers);
-void InitResultsGp(void *heap, void *firstOamList, void *secondOamList);
+void HandleEarnedSecrets_from_thumb(SceneNumbers *sceneNumbers);
+void InstanceStructM_from_thumb(void *heap, void *firstOamList, void *secondOamList);
 
-extern const u16 gEngineMessageIndexTable[4];
+extern const u16 g_CommonBmgCircuitCcTable[4];
 extern const u16 gCupNameLeftCharIndices[8];
 extern const u16 gCupRankCellIndexTable[8];
 extern const u16 gResultsGpGradeCellIndices[8];
 extern const u32 gResultsGpCupCourseIds[8][4];
 extern const LabelCanvasEntry gResultsGpSubLabelCanvasEntries[16];
-extern ResultsGp *gResultsGp;
+extern ResultsGp *g_GlobalM;

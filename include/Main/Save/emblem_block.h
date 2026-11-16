@@ -12,9 +12,9 @@ typedef struct EmblemBlock {
     /* 04 */ EmblemBlockData mBlockData;
 } EmblemBlock;
 
-void CreateShapeMapObjectCountList(void *heap);
-// Scene function of gSceneFuncs[13] (scene 'Ghost' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
+void SomethingMissionModeType5Areas(void *heap);
+// Scene function of g_SceneFnTable[13] (scene 'Ghost' in g_SceneArchiveNameTable): copies the callbacks and calls
+// OnSceneLoop. Returns 0.
 s32 RunGhostScene(SceneNumbers *sceneNumbers);
 void UpdateGhostSceneCallback(u32 sceneNumbers);
 void WriteGhostSceneRegistersCallback(void);
@@ -22,10 +22,10 @@ void ReleaseGhostSceneCallback(void);
 void InitGhostSceneCallback(void);
 u8 CountEmblemEntries(void);
 void StartCopyOtherEmblems(s32 useConnection);
-void CopyWiFiOtherEmblemsToBlocks(void);
-void CopyOtherPlayerEmblemsToBlocks(void);
+void GlobalATFunction_1(void);
+void GlobalATFunction_0(void);
 void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex);
 BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *emblemData);
 EmblemBlock *CreateEmblemBlock(void *heap);
 
-extern SceneCallbacks gRunGhostSceneCallbacks;
+extern SceneCallbacks g_Scene_Ghost;

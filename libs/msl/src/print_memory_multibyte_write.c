@@ -116,31 +116,31 @@ void *FormatPutBuffer(void *arg, const char *text, u32 count) {
     return (void *) 1;
 }
 
-int printf(const char *fmt, ...) {
+int SomeSprintf(const char *fmt, ...) {
     int result;
 
     if (fwide(&gStdioFiles[1], -1) >= 0) {
         return -1;
     }
-    if (OS_TryLockMutex((OSMutex *) gLockMutexes[3]) == 0) {
-        gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[3] = 1;
-    } else if (gLockOwnerThreadIds[3] == OSi_ThreadInfo.mListHead->mId) {
-        gLockHoldCounts[3]++;
+    if (Os_Mutex_TryLock((OSMutex *) g_AnotherMutex[3]) == 0) {
+        g_SomeThreadId[3] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[3] = 1;
+    } else if (g_SomeThreadId[3] == g_Os_ThreadInfo.mListHead->mId) {
+        g_SomeCounter[3]++;
     } else {
-        OS_LockMutex((OSMutex *) gLockMutexes[3]);
-        gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[3] = 1;
+        Os_Mutex_Lock((OSMutex *) g_AnotherMutex[3]);
+        g_SomeThreadId[3] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[3] = 1;
     }
     result = FormatWithPutFunc(FormatPutFwrite, &gStdioFiles[1], fmt, (char *) (((int) &fmt & ~3) + 4));
-    gLockHoldCounts[3]--;
-    if (gLockHoldCounts[3] == 0) {
-        OS_UnlockMutex((OSMutex *) gLockMutexes[3]);
+    g_SomeCounter[3]--;
+    if (g_SomeCounter[3] == 0) {
+        Os_Mutex_Unlock((OSMutex *) g_AnotherMutex[3]);
     }
     return result;
 }
 
-int vsnprintf(char *buf, u32 size, const char *fmt, char *va) {
+int SomeSnprintfImpl(char *buf, u32 size, const char *fmt, char *va) {
     FormatPutTarget st;
     int result;
 
@@ -159,17 +159,17 @@ int vsnprintf(char *buf, u32 size, const char *fmt, char *va) {
     return result;
 }
 
-int snprintf(char *buf, u32 size, const char *fmt, ...) {
-    return vsnprintf(buf, size, fmt, (char *) (((int) &fmt & ~3) + 4));
+int _snprintf(char *buf, u32 size, const char *fmt, ...) {
+    return SomeSnprintfImpl(buf, size, fmt, (char *) (((int) &fmt & ~3) + 4));
 }
 
-int sprintf(char *buf, const char *fmt, ...) {
-    return vsnprintf(buf, -1, fmt, (char *) (((int) &fmt & ~3) + 4));
+int MaybeStrcpy(char *buf, const char *fmt, ...) {
+    return SomeSnprintfImpl(buf, -1, fmt, (char *) (((int) &fmt & ~3) + 4));
 }
 
 #pragma avoid_byte all
 
-void NopWriteHook(void) {}
+void nullsub_18(void) {}
 
 void MemsetBody(u8 *dst, int fill, u32 count) {
     u32 *wordPtr;
@@ -269,7 +269,7 @@ void *MemChrBackward(const void *buffer, int value, u32 count) {
     return 0;
 }
 
-int memcmp(const void *left, const void *right, u32 count) {
+int StructDC_SomeFn_6(const void *left, const void *right, u32 count) {
     const u8 *leftBytes = left;
     const u8 *rightBytes = right;
 
@@ -365,7 +365,7 @@ int wcstombs(char *dst, const u16 *src, u32 count) {
         if (written + len > count) {
             break;
         }
-        strncpy(dst + written, encoded, len);
+        SomeStrncpy_0(dst + written, encoded, len);
         written += len;
         if (written > count) {
             break;
@@ -429,25 +429,25 @@ u32 fwrite(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
     } else {
         lockIndex = 5;
     }
-    mutex = (OSMutex *) gLockMutexes[lockIndex];
-    if (OS_TryLockMutex(mutex) == 0) {
-        gLockOwnerThreadIds[lockIndex] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[lockIndex] = 1;
+    mutex = (OSMutex *) g_AnotherMutex[lockIndex];
+    if (Os_Mutex_TryLock(mutex) == 0) {
+        g_SomeThreadId[lockIndex] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[lockIndex] = 1;
     } else {
         u32 ownerId;
 
-        ownerId = gLockOwnerThreadIds[lockIndex];
-        if (ownerId == OSi_ThreadInfo.mListHead->mId) {
-            gLockHoldCounts[lockIndex]++;
+        ownerId = g_SomeThreadId[lockIndex];
+        if (ownerId == g_Os_ThreadInfo.mListHead->mId) {
+            g_SomeCounter[lockIndex]++;
         } else {
-            OS_LockMutex(mutex);
-            gLockOwnerThreadIds[lockIndex] = OSi_ThreadInfo.mListHead->mId;
-            gLockHoldCounts[lockIndex] = 1;
+            Os_Mutex_Lock(mutex);
+            g_SomeThreadId[lockIndex] = g_Os_ThreadInfo.mListHead->mId;
+            g_SomeCounter[lockIndex] = 1;
         }
     }
     result = FwriteBody(data, itemSize, itemCount, stream);
-    if (--gLockHoldCounts[lockIndex] == 0) {
-        OS_UnlockMutex(mutex);
+    if (--g_SomeCounter[lockIndex] == 0) {
+        Os_Mutex_Unlock(mutex);
     }
     return result;
 }
@@ -474,7 +474,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
         return 0;
     }
     if (stream->mKind == FILE_KIND_WITH_WRITE_HOOK) {
-        NopWriteHook();
+        nullsub_18();
     }
     bufferedMode = 1;
     if (stream->mNoNewlineConversion != 0) {
@@ -548,7 +548,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
     return written / itemSize;
 }
 
-void ConvertTextNewlinesNop(u8 *buffer, u32 *length) {}
+void nullsub_17(u8 *buffer, u32 *length) {}
 
 void FileResetBuffer(FILE *stream) {
     stream->mBufferNext = stream->mBuffer;
@@ -565,7 +565,7 @@ int FileFlushBuffer(FILE *stream, u32 *writtenOut) {
     if (pending != 0) {
         stream->mBufferRemaining = pending;
         if (stream->mNoNewlineConversion == 0) {
-            ConvertTextNewlinesNop(stream->mBuffer, &stream->mBufferRemaining);
+            nullsub_17(stream->mBuffer, &stream->mBufferRemaining);
         }
         result = stream->mWriteFunc(stream->mWriteFuncFirstArg, stream->mBuffer, &stream->mBufferRemaining,
                                     stream->mWriteFuncLastArg);
@@ -581,13 +581,13 @@ int FileFlushBuffer(FILE *stream, u32 *writtenOut) {
     return 0;
 }
 
-void AssertionFailed(const char *expression, const char *fileName, const char *functionName, int lineNumber) {
-    printf("Assertion (%s) failed in \"%s\", function \"%s\", line %d\n", expression, fileName, functionName,
+void LogThrowAssertion(const char *expression, const char *fileName, const char *functionName, int lineNumber) {
+    SomeSprintf("Assertion (%s) failed in \"%s\", function \"%s\", line %d\n", expression, fileName, functionName,
            lineNumber);
-    abort();
+    OnAssertionFailed();
 }
 
-u32 Abs(u32 value) {
+u32 abs(u32 value) {
     u32 absValue = value;
     s32 left;
     s32 right;

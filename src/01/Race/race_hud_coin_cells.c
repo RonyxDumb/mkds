@@ -26,8 +26,8 @@ RaceHudSubScreenCells *gRaceHudSubScreenCoinCells;
 s32 GetMissionRunMapObjectAlphaLimit(void) {
     MissionRunMapObject *mapObject;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        mapObject = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        mapObject = GetMissionRunMapObject(g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
     } else {
         mapObject = NULL;
     }
@@ -59,9 +59,9 @@ void UpdateRaceHudSubScreenCoinCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1)) {
-                gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x58);
+                gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x58);
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 cellCount++;
             }
         }

@@ -6,8 +6,8 @@
 #include "Main/Scene/display_settings.h" // DisplaySettings
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
 
-// Scene function of gSceneFuncs[5] (scene 'Test' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
+// Scene function of g_SceneFnTable[5] (scene 'Test' in g_SceneArchiveNameTable): copies the callbacks and calls
+// OnSceneLoop. Returns 0.
 int RunTestScene(void *sceneNumbers);
 void UpdateTestScene(SceneNumbers *sceneNumbers);
 void DrawTestSceneWrapper(void);

@@ -14,7 +14,7 @@ typedef struct BuildInfoLayout {
     char mCps[1028];
 } BuildInfoLayout;
 
-extern BuildInfoLayout BuildInfo;
+extern BuildInfoLayout g_StartModuleParams;
 
 // Defined by the linker script.
 extern u8 ARM9_TEXT_START[];

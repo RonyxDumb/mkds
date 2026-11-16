@@ -12,45 +12,45 @@ void CombineParticipantBits(void) {
     u8 *bitsByte;
     PlayerRecord *entry;
 
-    ClearParticipantBits();
+    CleanSaveDataHolderFlagBytes_from_thumb();
     for (participantIndex = 0; participantIndex < 8; participantIndex++) {
-        if (BIT_IS_SET(gConnectionWork->mParticipantMask, participantIndex)) {
+        if (BIT_IS_SET(g_GlobalZE->mParticipantMask, participantIndex)) {
             for (byteIndex = 0; byteIndex < 4; byteIndex++) {
-                entry = &gConnectionWork->mPlayerRecords[participantIndex];
+                entry = &g_GlobalZE->mPlayerRecords[participantIndex];
                 bitsByte = &entry->mBits[byteIndex];
                 if (participantIndex == 0) {
-                    gBackupBuffers->mParticipantAndBits[byteIndex] = *bitsByte;
-                    gBackupBuffers->mParticipantOrBits[byteIndex] = *bitsByte;
+                    g_SaveDataHolder->mParticipantAndBits[byteIndex] = *bitsByte;
+                    g_SaveDataHolder->mParticipantOrBits[byteIndex] = *bitsByte;
                 } else {
-                    gBackupBuffers->mParticipantAndBits[byteIndex] &= *bitsByte;
-                    gBackupBuffers->mParticipantOrBits[byteIndex] |= *bitsByte;
+                    g_SaveDataHolder->mParticipantAndBits[byteIndex] &= *bitsByte;
+                    g_SaveDataHolder->mParticipantOrBits[byteIndex] |= *bitsByte;
                 }
             }
-            entry = &gConnectionWork->mPlayerRecords[participantIndex];
-            value = GetKartAppearLimitFromBits(entry->mBits);
+            entry = &g_GlobalZE->mPlayerRecords[participantIndex];
+            value = CheckExtraKartUnlockFlagsWith_from_thumb(entry->mBits);
             if (participantIndex == 0) {
-                gBackupBuffers->mParticipantMaxValue = value;
-                gBackupBuffers->mParticipantMinValue = value;
+                g_SaveDataHolder->mParticipantMaxValue = value;
+                g_SaveDataHolder->mParticipantMinValue = value;
             } else {
-                if (value > gBackupBuffers->mParticipantMaxValue) {
-                    gBackupBuffers->mParticipantMaxValue = value;
+                if (value > g_SaveDataHolder->mParticipantMaxValue) {
+                    g_SaveDataHolder->mParticipantMaxValue = value;
                 }
-                if (value < gBackupBuffers->mParticipantMinValue) {
-                    gBackupBuffers->mParticipantMinValue = value;
+                if (value < g_SaveDataHolder->mParticipantMinValue) {
+                    g_SaveDataHolder->mParticipantMinValue = value;
                 }
             }
         }
     }
 }
 
-void ClearParticipantBits(void) {
+void CleanSaveDataHolderFlagBytes_from_thumb(void) {
     u8 byteIndex;
 
     for (byteIndex = 0; byteIndex < 4; byteIndex++) {
-        gBackupBuffers->mParticipantAndBits[byteIndex] = 0;
-        gBackupBuffers->mParticipantOrBits[byteIndex] = 0;
+        g_SaveDataHolder->mParticipantAndBits[byteIndex] = 0;
+        g_SaveDataHolder->mParticipantOrBits[byteIndex] = 0;
     }
-    gBackupBuffers->mParticipantMaxValue = 0;
-    gBackupBuffers->mParticipantMinValue = 0;
+    g_SaveDataHolder->mParticipantMaxValue = 0;
+    g_SaveDataHolder->mParticipantMinValue = 0;
 }
 #pragma thumb off

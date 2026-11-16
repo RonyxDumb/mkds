@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-u32 GetKartMatrixRow0(Kart *kart, Vec3 *out);
+u32 GetMQRacerVector444(Kart *kart, Vec3 *out);

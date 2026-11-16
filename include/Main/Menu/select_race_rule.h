@@ -8,7 +8,7 @@ void RefreshSelectCupCourseForIndex(void);
 void AdvanceSelectCupCourseHighlight(void);
 void SetupSelectCupCourseObjects(void);
 void LocateAndQueueSelectCupCourse(void);
-void LoadSelectCupCourseData(void);
+void VerifySelectCupCourseFiles_from_thumb(void);
 void WriteSelectRaceRuleRegisters(void);
 s32 AdvanceSelectRaceRule(void);
 void DrawSelectRaceRuleRowOffsetLabels(s32 row);

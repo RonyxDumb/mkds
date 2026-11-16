@@ -47,7 +47,7 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
+const u16 g_CommonBmgCircuitCcTable[4] = {0x6e, 0x6f, 0x70, 0};
 const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const u16 gCupRankCellIndexTable[8] = {0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13};
 const u16 gResultsGpGradeCellIndices[8] = {0xb, 0xa, 9, 8, 7, 6, 5, 4};
@@ -59,12 +59,12 @@ const LabelCanvasEntry gResultsGpSubLabelCanvasEntries[16] = {
     {4, 0xaf, 0xd, 5, -1},     {5, 0xaf, 0xd, 6, -1},     {6, 0xaf, 0xd, 7, -1},     {7, 0xaf, 0xd, 8, -1},
     {8, 0x40, 0xd, 9, -1},     {9, 0x40, 0xd, 0xa, -1},   {0xa, 0x40, 0xd, 0xb, -1}, {0xb, 0x40, 0xd, 0xc, -1},
     {0xc, 0x40, 0xd, 0xd, -1}, {0xd, 0x40, 0xd, 0xe, -1}, {0xe, 0x40, 0xd, 0xf, -1}, {0xf, 0x40, 0xd, 0x10, -1}};
-ResultsGp *gResultsGp;
+ResultsGp *g_GlobalM;
 
 #pragma thumb on
 
 // Sets up the Grand Prix results screen: loads its files and lays out the cup, course and time texts.
-void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
+void InstanceStructM_from_thumb(void *heap, void *firstOamList, void *secondOamList) {
     s16 timeText[10];
     SceneTextInitParams config;
     ScreenMapFileSet mainScreenMapFileSet;
@@ -87,26 +87,26 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     const LabelCanvasEntry *tableEntry;
 
     labelTableIndex = 0;
-    gResultsGp = HeapAlloc(heap, sizeof(ResultsGp));
-    MemFillWordsByBlock_inline(gResultsGp, 0x60);
-    gResultsGp->mOamLists[0] = firstOamList;
-    gResultsGp->mOamLists[1] = secondOamList;
-    gResultsGp->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gResultsGp->mSecretMessages = FindSceneFile("secret.bmg");
-    gResultsGp->mCupIndex = gMenuShared->mCupIndex;
-    gResultsGp->mCupRankIndex = gMenuShared->mCupRankIndex;
-    if (gResultsGp->mCupRankIndex < 0) {
-        gResultsGp->mCupRankIndex = 0;
+    g_GlobalM = Mem_AllocateHeap(heap, sizeof(ResultsGp));
+    MemFillWordsByBlock_inline(g_GlobalM, 0x60);
+    g_GlobalM->mOamLists[0] = firstOamList;
+    g_GlobalM->mOamLists[1] = secondOamList;
+    g_GlobalM->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    g_GlobalM->mSecretMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("secret.bmg");
+    g_GlobalM->mCupIndex = g_GlobalB488->mCupIndex;
+    g_GlobalM->mCupRankIndex = g_GlobalB488->mCupRankIndex;
+    if (g_GlobalM->mCupRankIndex < 0) {
+        g_GlobalM->mCupRankIndex = 0;
     }
-    gResultsGp->mGrade = gMenuShared->mGrade;
+    g_GlobalM->mGrade = g_GlobalB488->mGrade;
     Init3dEngine();
-    displaySettings = CreateDisplaySettings(heap, gResultsDisplaySettingsDesc);
-    SetBg1Record(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
-    SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = CreateDisplayConfig(heap, gResultsDisplaySettingsDesc);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
+    SetGlobalDisplayConfig(displaySettings);
     config.mUseTxtSystem = 1;
-    config.mTxtSystemFont = GetFontByIndex(1);
+    config.mTxtSystemFont = GetLoadedFont_from_thumb(1);
     config.mUseCanvas1 = 0;
     config.mUseCanvas2 = 1;
     config.mUseCanvas3 = 0;
@@ -115,19 +115,19 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mUseSelectReturn = 0;
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &config);
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(heap, &config);
     LoadAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, &mainScreenMapFileSet, "results_gp_m_b.NCGR", "results_gp_m_b.NCLR",
-                                 "results_gp_m1.NSCR", 1, FindSceneFile);
-    LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile("results_gp_m2.NSCR"));
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG3_MAP, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
+                                 "results_gp_m1.NSCR", 1, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
+    MaybeReadScreenBlock_0(&mainScreenMapFileSet.mScreenMaps[3], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("results_gp_m2.NSCR"));
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG3_MAP, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
                                        mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
     mainObjSize = GX_GetSizeOfOBJ();
-    mainFileSet = &gResultsGp->mCellFileSets[0];
-    LoadCellFileSet(mainFileSet, "results_gp_m.nce.ncgr", "results_gp_m.nce.ncer", "results_gp_m_o.NCLR",
-                    "results_gp_m.bncl", "results_gp_m.bnll", NULL, FindSceneFile);
+    mainFileSet = &g_GlobalM->mCellFileSets[0];
+    PlayerGfxData_Create_from_thumb(mainFileSet, "results_gp_m.nce.ncgr", "results_gp_m.nce.ncer", "results_gp_m_o.NCLR",
+                    "results_gp_m.bncl", "results_gp_m.bnll", NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainFileSet);
-    MIi_CpuCopy16(&gBackupBuffers->mFirstBlock->mPlayerName, playerName, 0x14);
+    CopyMemory16(&g_SaveDataHolder->mFirstBlock->mPlayerName, playerName, 0x14);
     playerName[10] = 0;
     InitLabelCanvas(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
                     mainFileSet->mCellTable, mainObjSize);
@@ -135,7 +135,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
                                        mainFileSet->mCellTable);
     SetLabelPriority(0, 1, mainFileSet->mLabelLayout, mainFileSet->mCellTable, mainFileSet->mCellLayout);
     for (index = 0; index < 8; index++) {
-        if (index == gResultsGp->mCupRankIndex) {
+        if (index == g_GlobalM->mCupRankIndex) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
@@ -143,14 +143,14 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         mainFileSet->mCellTable[gCupRankCellIndexTable[index]].mVisible = cellFlag;
     }
     for (index = 0; index < 8; index++) {
-        if (index == gResultsGp->mGrade) {
+        if (index == g_GlobalM->mGrade) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
         }
         mainFileSet->mCellTable[gResultsGpGradeCellIndices[index]].mVisible = cellFlag;
     }
-    if (gResultsGp->mCupRankIndex >= CUP_RANK_TROPHY_COUNT) {
+    if (g_GlobalM->mCupRankIndex >= CUP_RANK_TROPHY_COUNT) {
         cellFlag = 1;
     } else {
         cellFlag = 0;
@@ -159,17 +159,17 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     mainFileSet->mCellTable[2].mVisible = mainFileSet->mCellTable[3].mVisible;
     mainFileSet->mCellTable[1].mVisible = (mainFileSet->mCellTable[2].mVisible == 0) ? 1 : 0;
     mainFileSet->mCellTable[0].mVisible = mainFileSet->mCellTable[1].mVisible;
-    characterIndex = gMenuShared->mCharacterIndex;
-    mainFileSet = &gResultsGp->mCellFileSets[0];
-    SetPlayerCharacterCellFileSet(1, &cellFileSet);
+    characterIndex = g_GlobalB488->mCharacterIndex;
+    mainFileSet = &g_GlobalM->mCellFileSets[0];
+    LoadPlayerGfxData_from_thumb(1, &cellFileSet);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet.mCells, cellFileSet.mChars, cellFileSet.mPalette,
                                   cellFileSet.mCellLayout, 0, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout);
     LoadAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &subScreenMapFileSet, "results_gp_s_b.NCGR", "results_gp_s_b.NCLR",
-                                 "results_gp_s.NSCR", 3, FindSceneFile);
+                                 "results_gp_s.NSCR", 3, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
-    subFileSet = &gResultsGp->mCellFileSets[1];
-    LoadCellFileSet(subFileSet, "results_gp_s.nce.ncgr", "results_gp_s.nce.ncer", "results_gp_s_o.NCLR",
-                    "results_gp_s.bncl", "results_gp_s.bnll", NULL, FindSceneFile);
+    subFileSet = &g_GlobalM->mCellFileSets[1];
+    PlayerGfxData_Create_from_thumb(subFileSet, "results_gp_s.nce.ncgr", "results_gp_s.nce.ncer", "results_gp_s_o.NCLR",
+                    "results_gp_s.bncl", "results_gp_s.bnll", NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_SUB, heap, subFileSet);
     loopIndex = 0;
     tableEntry = gResultsGpSubLabelCanvasEntries;
@@ -177,15 +177,15 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
-    message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[gMenuShared->mEngineIndex]);
+    message = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mCommonMessages, g_CommonBmgCircuitCcTable[g_GlobalB488->mEngineIndex]);
     for (loopIndex = 0; loopIndex < 2; loopIndex++) {
         PrintLabelLayoutTextNoFixedAdvance(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex,
                                            subFileSet->mLabelLayout, message, subFileSet->mCellLayout,
                                            subFileSet->mCellTable);
         labelTableIndex++;
     }
-    if (gMenuShared->mMirrorMode != 0) {
-        message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
+    if (g_GlobalB488->mMirrorMode != 0) {
+        message = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mCommonMessages, 0x71);
         for (loopIndex = 0; loopIndex < 2; loopIndex++) {
             PrintLabelLayoutTextNoFixedAdvance(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex,
                                                subFileSet->mLabelLayout, message, subFileSet->mCellLayout,
@@ -196,8 +196,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         labelTableIndex += 2;
     }
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
-        message = GetBmgEntry(gResultsGp->mCommonMessages,
-                              GetCourseMessageIndex(gResultsGpCupCourseIds[gResultsGp->mCupIndex][courseIndex]));
+        message = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mCommonMessages,
+                              GetBmgIndexFromCircuitIndex_from_thumb(gResultsGpCupCourseIds[g_GlobalM->mCupIndex][courseIndex]));
         PrintLabelLayoutTextNoFixedAdvance(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex,
                                            subFileSet->mLabelLayout, message, subFileSet->mCellLayout,
                                            subFileSet->mCellTable);
@@ -213,15 +213,15 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
                                         subFileSet->mCellTable, 7);
         labelTableIndex++;
     }
-    subFileSet = &gResultsGp->mCellFileSets[1];
-    LoadCellFileSet(&cupNameFileSet, "cup_name_left.nce.ncgr", "cup_name_left.nce.ncer", NULL, "cup_name_left.bncl",
-                    NULL, NULL, FindSceneFile);
-    QueueCellChars(gCupNameLeftCharIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
+    subFileSet = &g_GlobalM->mCellFileSets[1];
+    PlayerGfxData_Create_from_thumb(&cupNameFileSet, "cup_name_left.nce.ncgr", "cup_name_left.nce.ncer", NULL, "cup_name_left.bncl",
+                    NULL, NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
+    QueueCellChars(gCupNameLeftCharIndices[g_GlobalM->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
     InitFrmVramManagers();
-    InitTrophy(gResultsGp->mCupIndex, gResultsGp->mCupRankIndex);
+    LoadCupTrophyModel(g_GlobalM->mCupIndex, g_GlobalM->mCupRankIndex);
     index = -1;
-    switch (gResultsGp->mGrade) {
+    switch (g_GlobalM->mGrade) {
         case RESULTS_GP_GRADE_THIRD_BEST:
             index = 0x1e;
             break;
@@ -233,59 +233,59 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
             break;
     }
     if (index >= 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) index);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, (u16) index);
     }
-    if (TrySetGrandPrixRecord()) {
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
-            CARD_WaitBackupAsync();
+    if (CheckUpdateGrandPrixResult()) {
+        WaitForWorkerTask();
+        if (g_SaveDataIoManager->mBackupEnabled != 0) {
+            j_WaitForPendingCardOperation();
         }
-        gResultsGp->mSecretMessageMask = SetAndWriteSecretMessageFlags();
+        g_GlobalM->mSecretMessageMask = GetCurrentUnlockedSecretFlagsAndSaveIfResultScene();
     }
 }
 
 // Draws the Grand Prix results; after a delay and a button press or touch, shows each pending secret message, then
 // picks the next scene.
-void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
+void HandleEarnedSecrets_from_thumb(SceneNumbers *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;
     s32 screenIndex;
-    inputSlotIndex = GetPadInputSlot();
+    inputSlotIndex = GetSomeCYId_9();
     secretMessage = NULL;
     for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-        DrawLayoutTable(gResultsGp->mCellFileSets[screenIndex].mCellLayout,
-                        gResultsGp->mCellFileSets[screenIndex].mCells,
-                        gResultsGp->mCellFileSets[screenIndex].mLabelLayout, gResultsGp->mOamLists[screenIndex],
-                        gResultsGp->mCellFileSets[screenIndex].mCellTable);
+        DrawLayoutTable(g_GlobalM->mCellFileSets[screenIndex].mCellLayout,
+                        g_GlobalM->mCellFileSets[screenIndex].mCells,
+                        g_GlobalM->mCellFileSets[screenIndex].mLabelLayout, g_GlobalM->mOamLists[screenIndex],
+                        g_GlobalM->mCellFileSets[screenIndex].mCellTable);
     }
-    if (gResultsGp->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
+    if (g_GlobalM->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
         AdvanceTrophy();
         DrawTrophy();
     }
-    switch (gResultsGp->mState) {
+    switch (g_GlobalM->mState) {
         case RESULTS_GP_STATE_TIMELINE: {
             s32 frameLimit;
             s32 frames;
-            frameLimit = GetResultsGpFrameLimit(gResultsGp->mCupRankIndex);
-            frames = gResultsGp->mStateFrames;
-            gResultsGp->mStateFrames = frames + 1;
+            frameLimit = GetResultsGpFrameLimit(g_GlobalM->mCupRankIndex);
+            frames = g_GlobalM->mStateFrames;
+            g_GlobalM->mStateFrames = frames + 1;
             if (frames >= frameLimit) {
                 void *commonMessage;
                 u32 messageMask;
-                if (!(u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
+                if (!(u16) (g_GlobalCYT[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
                     BOOL newlyPaired;
                     BOOL recentlyUnpaired;
                     u16 hasPair;
                     newlyPaired = FALSE;
                     recentlyUnpaired = FALSE;
-                    hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
+                    hasPair = g_GlobalCYT[inputSlotIndex].mPair.mHasPair;
                     if (hasPair == 0) {
-                        if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+                        if (g_GlobalCYT[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
                             recentlyUnpaired = TRUE;
                         }
                     }
                     if (recentlyUnpaired == FALSE) {
-                        if (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0) {
+                        if (g_GlobalCYT[inputSlotIndex].mPair.mPrevHasPair == 0) {
                             if (hasPair != 0) {
                                 newlyPaired = TRUE;
                             }
@@ -295,49 +295,49 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                         break;
                     }
                 }
-                commonMessage = GetBmgEntry(gResultsGp->mCommonMessages, 4);
-                messageMask = gResultsGp->mSecretMessageMask;
+                commonMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mCommonMessages, 4);
+                messageMask = g_GlobalM->mSecretMessageMask;
                 if (messageMask != 0) {
                     if (messageMask & 0x1) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 0);
-                        gResultsGp->mSecretMessageMask &= ~0x1;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 0);
+                        g_GlobalM->mSecretMessageMask &= ~0x1;
                     } else if (messageMask & 0x2) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 1);
-                        gResultsGp->mSecretMessageMask &= ~0x2;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 1);
+                        g_GlobalM->mSecretMessageMask &= ~0x2;
                     } else if (messageMask & 0x4) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 2);
-                        gResultsGp->mSecretMessageMask &= ~0x4;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 2);
+                        g_GlobalM->mSecretMessageMask &= ~0x4;
                     } else if (messageMask & 0x8) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 3);
-                        gResultsGp->mSecretMessageMask &= ~0x8;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 3);
+                        g_GlobalM->mSecretMessageMask &= ~0x8;
                     } else if (messageMask & 0x10) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 4);
-                        gResultsGp->mSecretMessageMask &= ~0x10;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 4);
+                        g_GlobalM->mSecretMessageMask &= ~0x10;
                     } else if (messageMask & 0x20) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 5);
-                        gResultsGp->mSecretMessageMask &= ~0x20;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 5);
+                        g_GlobalM->mSecretMessageMask &= ~0x20;
                     } else if (messageMask & 0x40) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 6);
-                        gResultsGp->mSecretMessageMask &= ~0x40;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 6);
+                        g_GlobalM->mSecretMessageMask &= ~0x40;
                     } else if (messageMask & 0x80) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 7);
-                        gResultsGp->mSecretMessageMask &= ~0x80;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 7);
+                        g_GlobalM->mSecretMessageMask &= ~0x80;
                     } else if (messageMask & 0x100) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 8);
-                        gResultsGp->mSecretMessageMask &= ~0x100;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 8);
+                        g_GlobalM->mSecretMessageMask &= ~0x100;
                     } else if (messageMask & 0x200) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 9);
-                        gResultsGp->mSecretMessageMask &= ~0x200;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 9);
+                        g_GlobalM->mSecretMessageMask &= ~0x200;
                     } else if (messageMask & 0x400) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 10);
-                        gResultsGp->mSecretMessageMask &= ~0x400;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 10);
+                        g_GlobalM->mSecretMessageMask &= ~0x400;
                     } else if (messageMask & 0x800) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 11);
-                        gResultsGp->mSecretMessageMask &= ~0x800;
+                        secretMessage = Bmg_GetRawStringPointer_from_thumb(g_GlobalM->mSecretMessages, 11);
+                        g_GlobalM->mSecretMessageMask &= ~0x800;
                     }
-                    SetTxtSystemOpenSoundId(0x53);
-                    SetupTxtSystemSubTextButtonEx(secretMessage, commonMessage, 0, 1, 1, 0);
-                    gResultsGp->mState = RESULTS_GP_STATE_TEXT_OPEN;
+                    TextSystem_SetFadeInSseqId_from_thumb(0x53);
+                    TextSystem_DisplaySingleButtonDialog_from_thumb(secretMessage, commonMessage, 0, 1, 1, 0);
+                    g_GlobalM->mState = RESULTS_GP_STATE_TEXT_OPEN;
                 } else {
                     switch (GetStaffRollKindAfterGp()) {
                         case STAFF_ROLL_AFTER_GP_NONE:
@@ -358,19 +358,19 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                             }
                             break;
                     }
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
-                    gResultsGp->mState = RESULTS_GP_STATE_LEFT;
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
+                    g_GlobalM->mState = RESULTS_GP_STATE_LEFT;
                 }
             }
         } break;
         case RESULTS_GP_STATE_TEXT_OPEN:
-            if (GetTxtSystemDone()) {
-                RequestTxtSystemClose();
-                gResultsGp->mState = RESULTS_GP_STATE_TIMELINE;
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb()) {
+                TextSystem_CloseDialog_from_thumb();
+                g_GlobalM->mState = RESULTS_GP_STATE_TIMELINE;
             }
             break;
     }
-    AdvanceSceneText();
+    NavigationContext_OnSceneUpdate_from_thumb();
 }
 
 #pragma thumb off

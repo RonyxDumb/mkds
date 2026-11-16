@@ -32,7 +32,7 @@ enum {
     ITEM_KOURA_W_STATE_COUNT,
 };
 
-// Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
+// Stack object of InitItemKouraWFromData: the two vectors Vector3_MaybeNormalize and
 // QuaternionFromYAxisToVec3 write.
 typedef struct DirectionQuaternion {
     /* 00 */ Vec3 mDirection;
@@ -116,7 +116,7 @@ void RefreshItemObjectScaleExact(ItemObject *item);
 void RefreshItemObjectScale(ItemObject *item);
 s32 GrowItemObjectScale(ItemObject *item, s32 limit, s32 step);
 s32 GetItemDataSize(s32 itemKind, s32 messageKind);
-void InitItems(void);
+void MaybeLoadSlotListAndRacerPrs_from_thumb(void);
 void StartCourseMapItemObjects(void);
 // Takes an object of the given kind from its pool, reserves, starts and places it; returns 0 when the pool is full
 // (mLimit - mReservedCount <= 0).

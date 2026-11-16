@@ -10,9 +10,9 @@
 void *gEndingSceneUnusedBlock;
 
 void InitEndingScene(void) {
-    void *heap = GetHeap(GetCurrentHeapCall());
+    void *heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
 
-    gEndingSceneUnusedBlock = HeapAlloc(heap, 4);
+    gEndingSceneUnusedBlock = Mem_AllocateHeap(heap, 4);
     CreateEndingScene(heap);
 }
 

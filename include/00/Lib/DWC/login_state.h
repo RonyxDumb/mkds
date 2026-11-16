@@ -36,13 +36,13 @@ typedef struct WiFiLogin {
     // Http (0x1a60 bytes; declared void *) of the running request: made by DWCi_RemoteLogin, freed when the reply
     // or an error ends the request and by DWCi_ShutdownLogin.
     /* 28 */ void *mHttp;
-    // u64 tick reading (OS_GetTick) taken when the HTTP request started;
+    // u64 tick reading (Os_GetTick) taken when the HTTP request started;
     // DWCi_RemoteLoginProcess reports error 2 when (ticks << 6) / 0x82ea, the milliseconds since then, exceeds 10000.
     /* 2c */ u64 mRequestStartTime;
     // TRUE from DWCi_GPConnect until the GP connect callback or an error; DWCi_LoginProcess times the connect
     // out while it is TRUE.
     /* 34 */ BOOL mConnectPending;
-    // OS_GetTick reading when the GP connect started; (ticks << 6) / 0x82ea is ms, limit 60000 ms (DWCi_LoginProcess).
+    // Os_GetTick reading when the GP connect started; (ticks << 6) / 0x82ea is ms, limit 60000 ms (DWCi_LoginProcess).
     /* 38 */ u64 mConnectStartTime;
     /* 40 */ DWCAccFriendData mTempLoginId;
     // First string of the HTTP reply (0x100 buffer): given to the GP connect as its first credential, which

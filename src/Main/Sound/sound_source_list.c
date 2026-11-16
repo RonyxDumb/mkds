@@ -38,18 +38,18 @@ void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 so
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;
     void *trackParamsFunction;
-    NNS_FndInitList(&source->mPlayingSounds, 8);
-    startFunction = (void *) StartPlayingSoundSeqArc;
+    IntrusiveListWrapper_InitializeEmpty(&source->mPlayingSounds, 8);
+    startFunction = (void *) StructMQ_FnPtr1;
     source->mRegistered = 1;
-    trackParamsFunction = (void *) SetPlayingSoundTrackParams;
+    trackParamsFunction = (void *) StructMQ_FnPtr2;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
     source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
-    ClearThreeWords(source->mUnk_1c);
-    ClearThreeWords((u32 *) source);
-    TryAppendListObject(&gSoundSources, source);
+    StructMQChild_Create(source->mUnk_1c);
+    StructMQChild_Create((u32 *) source);
+    StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSources, source);
 }
 
 void UnlinkSoundSourceSounds(SoundSource *source) {
@@ -79,7 +79,7 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
 
     updateListIndex = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
-         sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
+         sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound)) {
         soundFlags = sound->mFlags;
         if (soundFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             updateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
@@ -95,7 +95,7 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         if (updateListIndex != SOUND_SOURCE_LIST_NONE) {
-            TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);
+            StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSourceUpdateLists[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
     }

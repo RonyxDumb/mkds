@@ -14,7 +14,7 @@ u32 G2_GetBG0ScrPtr(void) {
     return offset + 0x6000000 + (control << 11);
 }
 
-u32 G2S_GetBG0ScrPtr(void) {
+u32 GetAnotherSubEngineBGOffset(void) {
     u32 control;
 
     control = reg_G2S_DB_BG0CNT;
@@ -99,7 +99,7 @@ u32 G2S_GetBG2ScrPtr(void) {
     return 0;
 }
 
-// Returns the main engine BG VRAM address of the screen base block set in BG3CNT.
+// Returns the NtrMain engine BG VRAM address of the screen base block set in BG3CNT.
 u32 G2_GetBG3ScrPtr(void) {
     u32 mode;
     u32 control;
@@ -155,8 +155,8 @@ u32 G2S_GetBG3ScrPtr(void) {
     return 0;
 }
 
-// Returns the main engine BG VRAM address of the character base block set in BG0CNT.
-u32 G2_GetBG0CharPtr(void) {
+// Returns the NtrMain engine BG VRAM address of the character base block set in BG0CNT.
+u32 GetVramBg0BaseOffset_Top(void) {
     u32 control;
     u32 offset;
 
@@ -168,7 +168,7 @@ u32 G2_GetBG0CharPtr(void) {
     return offset + 0x6000000 + (control << 14);
 }
 
-u32 G2S_GetBG0CharPtr(void) {
+u32 GetVramBg0BaseOffset_Bottom(void) {
     u32 control;
 
     control = reg_G2S_DB_BG0CNT;
@@ -177,7 +177,7 @@ u32 G2S_GetBG0CharPtr(void) {
     return (control << 14) + 0x6200000;
 }
 
-u32 G2_GetBG1CharPtr(void) {
+u32 GetVramBg1BaseOffset_Top(void) {
     u32 control;
     u32 offset;
 
@@ -189,7 +189,7 @@ u32 G2_GetBG1CharPtr(void) {
     return offset + 0x6000000 + (control << 14);
 }
 
-u32 G2S_GetBG1CharPtr(void) {
+u32 GetVramBg1BaseOffset_Bottom(void) {
     u32 control;
 
     control = reg_G2S_DB_BG1CNT;
@@ -198,7 +198,7 @@ u32 G2S_GetBG1CharPtr(void) {
     return (control << 14) + 0x6200000;
 }
 
-u32 G2_GetBG2CharPtr(void) {
+u32 GetVramBg2BaseOffset_Top(void) {
     s32 mode;
     u32 control;
 
@@ -212,7 +212,7 @@ u32 G2_GetBG2CharPtr(void) {
 
 // Returns the sub engine BG VRAM address of the character base block set in BG2CNT,
 // or 0 in mode 5 or 6 with the 256 color bit set.
-u32 G2S_GetBG2CharPtr(void) {
+u32 GetVramBg2BaseOffset_Bottom(void) {
     s32 mode;
     u32 control;
 
@@ -224,9 +224,9 @@ u32 G2S_GetBG2CharPtr(void) {
     return 0;
 }
 
-// Returns the main engine BG VRAM address of the character base block set in BG3CNT,
+// Returns the NtrMain engine BG VRAM address of the character base block set in BG3CNT,
 // or 0 when the mode is 6 or higher or in mode 3 to 5 with the 256 color bit set.
-u32 G2_GetBG3CharPtr(void) {
+u32 GetVramBg3BaseOffset_Top(void) {
     s32 mode;
     u32 control;
 
@@ -240,7 +240,7 @@ u32 G2_GetBG3CharPtr(void) {
 
 // Returns the sub engine BG VRAM address of the character base block set in BG3CNT,
 // or 0 when the mode is 6 or higher or in mode 3 to 5 with the 256 color bit set.
-u32 G2S_GetBG3CharPtr(void) {
+u32 GetVramBg3BaseOffset_Bottom(void) {
     s32 mode;
     u32 control;
 

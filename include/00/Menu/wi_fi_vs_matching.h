@@ -35,7 +35,7 @@ void InitWiFiVSMatching(void *heap);
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 #include "vram_transfer_queue.h"
 
-extern MenuShared *gMenuShared;
+extern MenuShared *g_GlobalB488;
 extern u8 gWiFiVSMatchingTotalScalePercents[30];
 extern u8 gWiFiVSMatchingEmblemScalePercents[40];
 

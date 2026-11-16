@@ -16,7 +16,7 @@ void *FormatPutWideBuffer(void *context, const u16 *source, u32 count) {
     return copyResult;
 }
 
-int swprintf(u16 *buf, u32 maxCount, const u16 *fmt, ...) {
+int ParticularSnprintf16(u16 *buf, u32 maxCount, const u16 *fmt, ...) {
     return vswprintf(buf, maxCount, fmt, (char *) (((int) &fmt & ~3) + 4));
 }
 

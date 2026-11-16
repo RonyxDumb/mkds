@@ -55,22 +55,22 @@
 
 const EloChangeRow gEloChangeTable[9] = {{0x3e8, 8, 0}, {0x1f4, 7, -1}, {0xfa, 6, -2},  {0x64, 5, -3},  {-100, 4, -4},
                                          {-250, 3, -5}, {-500, 2, -6},  {-1000, 1, -7}, {-30000, 0, -8}};
-StateCallbacks gWiFiRaceSyncStateTable[WIFI_RACE_SYNC_STATE_COUNT] = {
+StateCallbacks g_E7FnList4[WIFI_RACE_SYNC_STATE_COUNT] = {
     {NULL, NULL},
-    {EnterWiFiRaceSyncProbe, UpdateWiFiRaceSyncProbe},
-    {EnterWiFiRaceSyncReady, UpdateWiFiRaceSyncReady},
-    {EnterWiFiRaceSyncCountdown, UpdateWiFiRaceSyncCountdown},
-    {EnterWiFiRaceSyncRace, UpdateWiFiRaceSyncRace},
-    {EnterWiFiRaceSyncAfterChoice, UpdateWiFiRaceSyncAfterChoice}};
+    {E7FnList4_Fn2, E7FnList4_Fn3},
+    {E7FnList4_Fn4, E7FnList4_Fn5},
+    {E7FnList4_Fn6, E7FnList4_Fn7},
+    {E7FnList4_Fn8, E7FnList4_Fn9},
+    {E7FnList4_Fn10, E7FnList4_Fn11}};
 
-void ResetParticipantKartMap(void) {
+void CreateGlobalRE(void) {
     s32 index;
 
     for (index = 0; index < 4; index++) {
-        gParticipantKartMap->mParticipantOfKart[index] = -1;
-        gParticipantKartMap->mKartOfParticipant[index] = -1;
+        g_GlobalRE->mParticipantOfKart[index] = -1;
+        g_GlobalRE->mKartOfParticipant[index] = -1;
     }
-    gParticipantKartMap->mUnk_05 = 0;
+    g_GlobalRE->mUnk_05 = 0;
 }
 
 void SetParticipantKartMapFromMask(u32 participantMask) {
@@ -78,16 +78,16 @@ void SetParticipantKartMapFromMask(u32 participantMask) {
     u8 kart;
 
     for (participant = 0, kart = 0; participant < 4; participant++) {
-        gParticipantKartMap->mKartOfParticipant[participant] = -1;
+        g_GlobalRE->mKartOfParticipant[participant] = -1;
         if (BIT_IS_SET(participantMask, participant)) {
-            gParticipantKartMap->mParticipantOfKart[kart] = participant;
-            gParticipantKartMap->mKartOfParticipant[participant] = kart;
+            g_GlobalRE->mParticipantOfKart[kart] = participant;
+            g_GlobalRE->mKartOfParticipant[participant] = kart;
             kart++;
         }
     }
-    gParticipantKartMap->mParticipantMask = participantMask;
+    g_GlobalRE->mParticipantMask = participantMask;
     while (kart < 4) {
-        gParticipantKartMap->mParticipantOfKart[kart] = -1;
+        g_GlobalRE->mParticipantOfKart[kart] = -1;
         kart++;
     }
 }
@@ -97,16 +97,16 @@ static inline BOOL ReplyToWiFiRaceSyncProbe(void) {
     WiFiRaceSync *sync;
     WiFiRaceSyncRecord *payload;
 
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     payload = &sync->mSendBuffer->mRecord;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
         if (sync->mPeers[participant].mProbePending != FALSE) {
-            MI_CpuCopy8(&sync->mPeers[participant], payload, WIFI_RACE_SYNC_PROBE_SIZE);
-            *(u64 *) &payload->mProbeWords[3] = OS_GetTick();
+            Mem_CpuCopy8(&sync->mPeers[participant], payload, WIFI_RACE_SYNC_PROBE_SIZE);
+            *(u64 *) &payload->mProbeWords[3] = Os_GetTick();
             if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_PROBE, WIFI_RACE_SYNC_PROBE_SIZE) != 0) {
-                gWiFiRaceSync->mPeers[participant].mProbePending = FALSE;
+                g_GlobalAA->mPeers[participant].mProbePending = FALSE;
             } else {
-                MI_CpuFill8(payload, 0, WIFI_RACE_SYNC_PROBE_SIZE);
+                Mem_CpuFill8(payload, 0, WIFI_RACE_SYNC_PROBE_SIZE);
             }
             return TRUE;
         }
@@ -114,7 +114,7 @@ static inline BOOL ReplyToWiFiRaceSyncProbe(void) {
     return FALSE;
 }
 
-void InitWiFiRaceSync(void *heap) {
+void InitializeGlobalAA(void *heap) {
     s32 slotIndex;
     s32 index;
     u8 participantIndex;
@@ -122,56 +122,56 @@ void InitWiFiRaceSync(void *heap) {
     u8 participant;
     WiFiRaceSync *sync;
 
-    if (gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_WIFI) {
         return;
     }
-    gWiFiRaceSync = HeapAlloc(heap, sizeof(*gWiFiRaceSync));
-    gWiFiRaceSync->mSendBuffer = HeapAllocAligned(heap, WIFI_RACE_SYNC_SEND_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalAA = Mem_AllocateHeap(heap, sizeof(*g_GlobalAA));
+    g_GlobalAA->mSendBuffer = Mem_AllocateHeapAligned(heap, WIFI_RACE_SYNC_SEND_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        gWiFiRaceSync->mItemDataSlots[slotIndex].mData = HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
+        g_GlobalAA->mItemDataSlots[slotIndex].mData = Mem_AllocateHeapAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
         for (index = 0; index < WIFI_RACE_SYNC_PARTICIPANT_COUNT; index++) {
-            gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][index].mData =
-                HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
+            g_GlobalAA->mReceivedItemDataSlots[slotIndex][index].mData =
+                Mem_AllocateHeapAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
         }
     }
-    gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mParticipantMask;
-    MI_CpuFill8(gWiFiRaceSync->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
+    g_GlobalAA->mStartParticipantMask = g_GlobalRE->mParticipantMask;
+    Mem_CpuFill8(g_GlobalAA->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
     for (entryIndex = 0; entryIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; entryIndex++) {
         // Clears the record part of the entry.
-        MI_CpuFill8(&gWiFiRaceSync->mEntries[entryIndex], 0, WIFI_RACE_SYNC_RECORD_SIZE);
-        gWiFiRaceSync->mEntries[entryIndex].mRecordReceived = 0;
+        Mem_CpuFill8(&g_GlobalAA->mEntries[entryIndex], 0, WIFI_RACE_SYNC_RECORD_SIZE);
+        g_GlobalAA->mEntries[entryIndex].mRecordReceived = 0;
     }
-    participantIndex = gWiFiRaceSync->mStartParticipantMask;
-    gWiFiRaceSync->mDroppedParticipantMask = 0;
-    gWiFiRaceSync->mParticipantMask = participantIndex;
+    participantIndex = g_GlobalAA->mStartParticipantMask;
+    g_GlobalAA->mDroppedParticipantMask = 0;
+    g_GlobalAA->mParticipantMask = participantIndex;
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
-        gWiFiRaceSync->mPeerDroppedMasks[participantIndex] = 0;
-        gWiFiRaceSync->mTimeoutFrames[participantIndex] = 0;
+        g_GlobalAA->mPeerDroppedMasks[participantIndex] = 0;
+        g_GlobalAA->mTimeoutFrames[participantIndex] = 0;
     }
     ResetItemDataSlots();
     InitSlotResultSyncStates();
-    gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A;
-    gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B;
-    sync = gWiFiRaceSync;
+    g_GlobalAA->mFlags |= WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A;
+    g_GlobalAA->mFlags |= WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B;
+    sync = g_GlobalAA;
     sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_IDLE;
     sync->mStateMachine.mNextStateRequested = 1;
-    gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_IDLE;
+    g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_IDLE;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        index = gParticipantKartMap->mKartOfParticipant[participant];
-        gWiFiRaceSync->mEntries[participant].mLastProgressWord = 0;
+        index = g_GlobalRE->mKartOfParticipant[participant];
+        g_GlobalAA->mEntries[participant].mLastProgressWord = 0;
         if (index >= 0) {
-            gWiFiRaceSync->mEntries[participant].mRank = GetKartStartRank((u8) index);
+            g_GlobalAA->mEntries[participant].mRank = GetKartStartRank((u8) index);
         } else {
-            gWiFiRaceSync->mEntries[participant].mRank = 0;
+            g_GlobalAA->mEntries[participant].mRank = 0;
         }
     }
-    InitStateMachine(&gWiFiRaceSync->mStateMachine, gWiFiRaceSyncStateTable, WIFI_RACE_SYNC_STATE_COUNT, NULL);
+    StateDualHandler_Create(&g_GlobalAA->mStateMachine, g_E7FnList4, WIFI_RACE_SYNC_STATE_COUNT, NULL);
 }
 
 void AdvanceWiFiRaceSyncFrames(void) {
     WiFiRaceSync *sync;
 
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     if (sync == NULL) {
         return;
     }
@@ -183,13 +183,13 @@ void AdvanceWiFiRaceSyncFrames(void) {
     }
 }
 
-void EnterWiFiRaceSyncProbe(void *stateObject) {
+void E7FnList4_Fn2(void *stateObject) {
     u8 participant;
     s32 *probeCopy;
     WiFiRaceSync *sync;
 
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        probeCopy = &gWiFiRaceSync->mPeers[participant].mProbeSentTickLow;
+        probeCopy = &g_GlobalAA->mPeers[participant].mProbeSentTickLow;
         probeCopy[0] = 0;
         probeCopy[1] = 0;
         probeCopy[2] = 0;
@@ -199,24 +199,24 @@ void EnterWiFiRaceSyncProbe(void *stateObject) {
         probeCopy[6] = 0;
         probeCopy[7] = 0;
         probeCopy[8] = 0;
-        sync = gWiFiRaceSync;
+        sync = g_GlobalAA;
         sync->mPeers[participant].mRoundTripTotal = 0;
         sync->mPeers[participant].mSampleCount = 0;
-        gWiFiRaceSync->mPeers[participant].mRejectedSampleCount = 0;
-        gWiFiRaceSync->mPeers[participant].mEmptyPacketPhase = 0;
+        g_GlobalAA->mPeers[participant].mRejectedSampleCount = 0;
+        g_GlobalAA->mPeers[participant].mEmptyPacketPhase = 0;
     }
-    gWiFiRaceSync->mSendParticipantIndex = 0;
-    gWiFiRaceSync->mSampledMask = 0;
-    gWiFiRaceSync->mUnk_0fd = 0;
-    gWiFiRaceSync->mCountdownDrift = 0;
-    gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
-    gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PROBING;
-    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_IN_RACE;
-    gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED;
-    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE;
+    g_GlobalAA->mSendParticipantIndex = 0;
+    g_GlobalAA->mSampledMask = 0;
+    g_GlobalAA->mUnk_0fd = 0;
+    g_GlobalAA->mCountdownDrift = 0;
+    g_GlobalAA->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
+    g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_PROBING;
+    g_GlobalAA->mFlags &= ~WIFI_RACE_SYNC_FLAG_IN_RACE;
+    g_GlobalAA->mFlags |= WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED;
+    g_GlobalAA->mFlags &= ~WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE;
 }
 
-void UpdateWiFiRaceSyncProbe(void *stateObject) {
+void E7FnList4_Fn3(void *stateObject) {
     u16 participant;
     u8 mask;
     u16 sendParticipantIndex;
@@ -228,31 +228,31 @@ void UpdateWiFiRaceSyncProbe(void *stateObject) {
     mask = 0;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
         if (participant == DWC_GetMyAID() ||
-            gWiFiRaceSync->mPeers[participant].mSampleCount >= WIFI_RACE_SYNC_SAMPLE_COUNT) {
+            g_GlobalAA->mPeers[participant].mSampleCount >= WIFI_RACE_SYNC_SAMPLE_COUNT) {
             mask = mask | (1 << participant);
         }
     }
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     if (sync->mParticipantMask == (sync->mParticipantMask & mask)) {
         sync->mSampledMask = mask;
-        sync = gWiFiRaceSync;
+        sync = g_GlobalAA;
         sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_READY;
         sync->mStateMachine.mNextStateRequested = 1;
     }
     if (ReplyToWiFiRaceSyncProbe() != FALSE) {
         return;
     }
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     sendParticipantIndex = sync->mSendParticipantIndex;
     if (sendParticipantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT) {
         targetParticipant = sendParticipantIndex;
         if (BIT_IS_SET(sync->mParticipantMask, targetParticipant) && targetParticipant != DWC_GetMyAID()) {
-            sync = gWiFiRaceSync;
+            sync = g_GlobalAA;
             if (sync->mPeers[targetParticipant].mSampleCount < WIFI_RACE_SYNC_SAMPLE_COUNT) {
                 sendBuffer = sync->mSendBuffer;
                 payload = &sendBuffer->mRecord;
                 sendBuffer->mRecord.mLeadHalfword = DWC_GetMyAID();
-                *(u64 *) &payload->mProgressWord = OS_GetTick();
+                *(u64 *) &payload->mProgressWord = Os_GetTick();
                 payload->mProbeWords[1] = 0;
                 payload->mProbeWords[2] = 0;
                 payload->mProbeWords[3] = 0;
@@ -264,29 +264,29 @@ void UpdateWiFiRaceSyncProbe(void *stateObject) {
                 if (sync->mPeers[targetParticipant].mEmptyPacketPhase == 0) {
                     SendWiFiRaceSyncPacket(targetParticipant, WIFI_RACE_SYNC_PACKET_EMPTY, 0);
                 }
-                gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase++;
-                if (gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase > WIFI_RACE_SYNC_EMPTY_PHASE_LAST) {
-                    gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase = 0;
+                g_GlobalAA->mPeers[targetParticipant].mEmptyPacketPhase++;
+                if (g_GlobalAA->mPeers[targetParticipant].mEmptyPacketPhase > WIFI_RACE_SYNC_EMPTY_PHASE_LAST) {
+                    g_GlobalAA->mPeers[targetParticipant].mEmptyPacketPhase = 0;
                 }
             }
         }
-        gWiFiRaceSync->mSendParticipantIndex++;
+        g_GlobalAA->mSendParticipantIndex++;
     } else {
         sync->mSendParticipantIndex = 0;
     }
 }
 
-void EnterWiFiRaceSyncReady(void *stateObject) {
+void E7FnList4_Fn4(void *stateObject) {
     s32 participant;
     WiFiRaceSync *sync;
     u8 sampleCount;
     u64 roundTripTotal;
 
-    gWiFiRaceSync->mReadyMask = 1 << DWC_GetMyAID();
-    gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
-    gWiFiRaceSync->mSendParticipantIndex = 0;
+    g_GlobalAA->mReadyMask = 1 << DWC_GetMyAID();
+    g_GlobalAA->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
+    g_GlobalAA->mSendParticipantIndex = 0;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        sync = gWiFiRaceSync;
+        sync = g_GlobalAA;
         sampleCount = sync->mPeers[participant].mSampleCount;
         roundTripTotal = sync->mPeers[participant].mRoundTripTotal;
         if (sampleCount == 0) {
@@ -308,7 +308,7 @@ void CallWithNextWiFiRaceSyncParticipant(u16 previousParticipant, void (*callbac
         if (participant >= 4) {
             participant = participant - 4;
         }
-        if (participant != DWC_GetMyAID() && (gWiFiRaceSync->mParticipantMask & (1 << (u8) participant)) != 0) {
+        if (participant != DWC_GetMyAID() && (g_GlobalAA->mParticipantMask & (1 << (u8) participant)) != 0) {
             nextParticipant = participant;
             break;
         }
@@ -325,33 +325,33 @@ void SendWiFiRaceSyncReady(u32 participant) {
         return;
     }
     index = participant;
-    if (gWiFiRaceSync->mParticipantMask & (1 << index)) {
+    if (g_GlobalAA->mParticipantMask & (1 << index)) {
         if (SendWiFiRaceSyncPacket(index, WIFI_RACE_SYNC_PACKET_READY, 8) != 0) {
-            gWiFiRaceSync->mSendParticipantIndex = index;
+            g_GlobalAA->mSendParticipantIndex = index;
         }
     }
 }
 
-void UpdateWiFiRaceSyncReady(void *stateObject) {
+void E7FnList4_Fn5(void *stateObject) {
     WiFiRaceSync *sync;
     u8 participant;
     WiFiRaceSyncRecord *payload;
 
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     payload = &sync->mSendBuffer->mRecord;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
         if (sync->mPeers[participant].mProbePending != FALSE) {
-            MI_CpuCopy8(&sync->mPeers[participant], payload, WIFI_RACE_SYNC_PROBE_SIZE);
-            *(u64 *) &payload->mProbeWords[3] = OS_GetTick();
+            Mem_CpuCopy8(&sync->mPeers[participant], payload, WIFI_RACE_SYNC_PROBE_SIZE);
+            *(u64 *) &payload->mProbeWords[3] = Os_GetTick();
             if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_PROBE, WIFI_RACE_SYNC_PROBE_SIZE) != 0) {
-                gWiFiRaceSync->mPeers[participant].mProbePending = FALSE;
+                g_GlobalAA->mPeers[participant].mProbePending = FALSE;
             } else {
-                MI_CpuFill8(payload, 0, WIFI_RACE_SYNC_PROBE_SIZE);
+                Mem_CpuFill8(payload, 0, WIFI_RACE_SYNC_PROBE_SIZE);
             }
             break;
         }
     }
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     if (sync->mParticipantMask == (sync->mParticipantMask & sync->mReadyMask)) {
         sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_COUNTDOWN;
         sync->mStateMachine.mNextStateRequested = 1;
@@ -360,59 +360,59 @@ void UpdateWiFiRaceSyncReady(void *stateObject) {
     CallWithNextWiFiRaceSyncParticipant(sync->mSendParticipantIndex, SendWiFiRaceSyncReady);
 }
 
-void EnterWiFiRaceSyncCountdown(void *stateObject) {
-    gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_COUNTDOWN_TIME;
-    gWiFiRaceSync->mCountdownSendIndex = 0;
+void E7FnList4_Fn6(void *stateObject) {
+    g_GlobalAA->mCountdownTimer = WIFI_RACE_SYNC_COUNTDOWN_TIME;
+    g_GlobalAA->mCountdownSendIndex = 0;
 }
 
 void SendWiFiRaceSyncCountdown(u32 participant) {
     WiFiRaceSyncSendBuffer *sendBuffer;
     WiFiRaceSyncRecord *payload;
 
-    sendBuffer = gWiFiRaceSync->mSendBuffer;
+    sendBuffer = g_GlobalAA->mSendBuffer;
     payload = &sendBuffer->mRecord;
-    payload->mLeadHalfword = gWiFiRaceSync->mCountdownTimer - gWiFiRaceSync->mEntries[participant].mRoundTripAverage;
-    payload->mCountdownBytes[0] = gWiFiRaceSync->mSampledMask;
+    payload->mLeadHalfword = g_GlobalAA->mCountdownTimer - g_GlobalAA->mEntries[participant].mRoundTripAverage;
+    payload->mCountdownBytes[0] = g_GlobalAA->mSampledMask;
     if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_COUNTDOWN, 8) != 0) {
-        gWiFiRaceSync->mCountdownSendIndex = participant;
+        g_GlobalAA->mCountdownSendIndex = participant;
     }
 }
 
-void UpdateWiFiRaceSyncCountdown(void *stateObject) {
+void E7FnList4_Fn7(void *stateObject) {
     WiFiRaceSync *sync;
 
-    gWiFiRaceSync->mCountdownTimer = gWiFiRaceSync->mCountdownTimer - 1;
-    if (gWiFiRaceSync->mCountdownTimer <= 0) {
-        gWiFiRaceSync->mCountdownTimer = -1;
-        sync = gWiFiRaceSync;
+    g_GlobalAA->mCountdownTimer = g_GlobalAA->mCountdownTimer - 1;
+    if (g_GlobalAA->mCountdownTimer <= 0) {
+        g_GlobalAA->mCountdownTimer = -1;
+        sync = g_GlobalAA;
         sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_RACE;
         sync->mStateMachine.mNextStateRequested = 1;
         return;
     }
-    CallWithNextWiFiRaceSyncParticipant(gWiFiRaceSync->mCountdownSendIndex, SendWiFiRaceSyncCountdown);
+    CallWithNextWiFiRaceSyncParticipant(g_GlobalAA->mCountdownSendIndex, SendWiFiRaceSyncCountdown);
 }
 
-void EnterWiFiRaceSyncRace(void *stateObject) {
+void E7FnList4_Fn8(void *stateObject) {
     u8 participant;
 
-    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_IN_RACE;
-    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags & ~WIFI_RACE_SYNC_FLAG_CLEARED_UNREAD;
-    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags & ~WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT;
-    gWiFiRaceSync->mSyncFrames = 0;
-    gWiFiRaceSync->mRecordSendCursor = 0;
-    gWiFiRaceSync->mUnk_73d = 0;
-    gWiFiRaceSync->mUnk_73b = 0;
-    gWiFiRaceSync->mFinishedMask = 0;
-    gWiFiRaceSync->mFinishRecorded = FALSE;
-    gWiFiRaceSync->mIdleFrames = 0;
-    gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_RACING;
-    MI_CpuFill8(gWiFiRaceSync->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
+    g_GlobalAA->mFlags = g_GlobalAA->mFlags | WIFI_RACE_SYNC_FLAG_IN_RACE;
+    g_GlobalAA->mFlags = g_GlobalAA->mFlags & ~WIFI_RACE_SYNC_FLAG_CLEARED_UNREAD;
+    g_GlobalAA->mFlags = g_GlobalAA->mFlags & ~WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT;
+    g_GlobalAA->mSyncFrames = 0;
+    g_GlobalAA->mRecordSendCursor = 0;
+    g_GlobalAA->mUnk_73d = 0;
+    g_GlobalAA->mUnk_73b = 0;
+    g_GlobalAA->mFinishedMask = 0;
+    g_GlobalAA->mFinishRecorded = FALSE;
+    g_GlobalAA->mIdleFrames = 0;
+    g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_RACING;
+    Mem_CpuFill8(g_GlobalAA->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        if (BIT_IS_SET(gWiFiRaceSync->mStartParticipantMask, participant) &&
-            (gWiFiRaceSync->mParticipantMask & (1 << participant)) == 0) {
-            if (gParticipantKartMap->mKartOfParticipant[participant] >= 0) {
-                gWiFiRaceSync->mEntries[participant].mLastProgressWord =
-                    (GetKartStartRank((u8) gParticipantKartMap->mKartOfParticipant[participant]) - 1) |
+        if (BIT_IS_SET(g_GlobalAA->mStartParticipantMask, participant) &&
+            (g_GlobalAA->mParticipantMask & (1 << participant)) == 0) {
+            if (g_GlobalRE->mKartOfParticipant[participant] >= 0) {
+                g_GlobalAA->mEntries[participant].mLastProgressWord =
+                    (GetKartStartRank((u8) g_GlobalRE->mKartOfParticipant[participant]) - 1) |
                     WIFI_RACE_SYNC_PROGRESS_DROPPED;
             }
         }
@@ -424,22 +424,22 @@ int SendWiFiRaceSyncPacket(u8 participant, u32 kind, int dataSize) {
     int result;
 
     result = 1;
-    if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_SENDING) != 0) {
+    if ((g_GlobalAA->mFlags & WIFI_RACE_SYNC_FLAG_SENDING) != 0) {
         return 0;
     }
     if (participant != DWC_GetMyAID()) {
         result = dataSize + 4;
-        packet = &gWiFiRaceSync->mSendBuffer->mPacket;
-        gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_SENDING;
+        packet = &g_GlobalAA->mSendBuffer->mPacket;
+        g_GlobalAA->mFlags = g_GlobalAA->mFlags | WIFI_RACE_SYNC_FLAG_SENDING;
         packet->mSender = DWC_GetMyAID();
         packet->mTarget = participant;
         packet->mKind = kind;
-        packet->mSharedState = gWiFiRaceSync->mSharedState;
-        packet->mDroppedParticipantMask = gWiFiRaceSync->mDroppedParticipantMask;
-        DC_StoreRange(packet, result);
+        packet->mSharedState = g_GlobalAA->mSharedState;
+        packet->mDroppedParticipantMask = g_GlobalAA->mDroppedParticipantMask;
+        DC_SomeClean(packet, result);
         result = SendWiFiPacketToParticipant(participant, packet, result, FinishWiFiRaceSyncSend);
         if (result == 0) {
-            gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags & ~WIFI_RACE_SYNC_FLAG_SENDING;
+            g_GlobalAA->mFlags = g_GlobalAA->mFlags & ~WIFI_RACE_SYNC_FLAG_SENDING;
         }
     }
     return result;
@@ -452,9 +452,9 @@ void SendWiFiRaceSyncRecord(s32 dataSize) {
     u8 sendCursor;
 
     sentCount = 0;
-    sendCursor = gWiFiRaceSync->mRecordSendCursor;
+    sendCursor = g_GlobalAA->mRecordSendCursor;
     if ((sendCursor & 1) == 0) {
-        gWiFiRaceSync->mRecordSendCursor = sendCursor + 1;
+        g_GlobalAA->mRecordSendCursor = sendCursor + 1;
         return;
     }
     participant = sendCursor >> 1;
@@ -463,7 +463,7 @@ void SendWiFiRaceSyncRecord(s32 dataSize) {
         lastParticipant = lastParticipant + 4;
     }
     while (sentCount < 1 && participant != lastParticipant) {
-        if (participant != DWC_GetMyAID() && BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participant)) {
+        if (participant != DWC_GetMyAID() && BIT_IS_SET(g_GlobalAA->mParticipantMask, participant)) {
             if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_RECORD, dataSize) != 0) {
                 participant = participant + 1;
                 if (participant >= 4) {
@@ -483,7 +483,7 @@ void SendWiFiRaceSyncRecord(s32 dataSize) {
             }
         }
     }
-    gWiFiRaceSync->mRecordSendCursor = participant << 1;
+    g_GlobalAA->mRecordSendCursor = participant << 1;
 }
 
 void UpdateWiFiRaceSyncRanks(void) {
@@ -514,7 +514,7 @@ void UpdateWiFiRaceSyncRanks(void) {
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
         sortKeys[participant] = -1;
         participantOrder[participant] = participant;
-        sync = gWiFiRaceSync;
+        sync = g_GlobalAA;
         participantBit = 1 << participant;
         inMaskBit = sync->mParticipantMask & participantBit;
         if (inMaskBit != 0) {
@@ -528,36 +528,36 @@ void UpdateWiFiRaceSyncRanks(void) {
             } else {
                 if (participant == DWC_GetMyAID()) {
                     recordWord = PackOwnKartProgress();
-                    participantFinishedMask = gWiFiRaceSync->mFinishedMask;
+                    participantFinishedMask = g_GlobalAA->mFinishedMask;
                 } else {
-                    recordWord = gWiFiRaceSync->mEntries[participant].mProgressWord;
+                    recordWord = g_GlobalAA->mEntries[participant].mProgressWord;
                     participantFinishedMask = (u8) ((recordWord & WIFI_RACE_SYNC_PROGRESS_FINISHED_MASK) >>
                                                     WIFI_RACE_SYNC_PROGRESS_FINISHED_SHIFT);
                 }
                 finishedMask = finishedMask & participantFinishedMask;
-                if (recordWord == 0 && IsRaceStarted() == 0) {
-                    if (gParticipantKartMap->mKartOfParticipant[participant] != -1) {
+                if (recordWord == 0 && IsAwardOrStaffRoll() == 0) {
+                    if (g_GlobalRE->mKartOfParticipant[participant] != -1) {
                         recordWord =
-                            (GetKartStartRank((u16) gParticipantKartMap->mKartOfParticipant[participant]) - 1) |
+                            (GetKartStartRank((u16) g_GlobalRE->mKartOfParticipant[participant]) - 1) |
                             WIFI_RACE_SYNC_PROGRESS_DROPPED;
                     }
                 }
                 if (recordWord != 0) {
                     if ((u8) ((recordWord & WIFI_RACE_SYNC_PROGRESS_RACING_MASK) >>
                               WIFI_RACE_SYNC_PROGRESS_RACING_SHIFT) == 0) {
-                        gWiFiRaceSync->mFinishedMask = gWiFiRaceSync->mFinishedMask | participantBit;
+                        g_GlobalAA->mFinishedMask = g_GlobalAA->mFinishedMask | participantBit;
                     }
-                    gWiFiRaceSync->mEntries[participant].mLastProgressWord = recordWord;
+                    g_GlobalAA->mEntries[participant].mLastProgressWord = recordWord;
                     sortKeys[participant] =
-                        gWiFiRaceSync->mEntries[participant].mLastProgressWord & WIFI_RACE_SYNC_PROGRESS_SORT_KEY_MASK;
+                        g_GlobalAA->mEntries[participant].mLastProgressWord & WIFI_RACE_SYNC_PROGRESS_SORT_KEY_MASK;
                 }
             }
         }
     }
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        sync = gWiFiRaceSync;
+        sync = g_GlobalAA;
         participantBit = 1 << participant;
-        kart = *(u8 *) &gParticipantKartMap->mKartOfParticipant[participant];
+        kart = *(u8 *) &g_GlobalRE->mKartOfParticipant[participant];
         entryRecord = sync->mEntries[participant].mLastProgressWord;
         inMaskBit = sync->mParticipantMask & participantBit;
         if (inMaskBit != 0) {
@@ -565,7 +565,7 @@ void UpdateWiFiRaceSyncRanks(void) {
             if ((sync->mStartParticipantMask & participantBit) != 0) {
                 skipFlag = inMaskBit == 0;
             }
-            if (skipFlag == 0 && (finishedMask & participantBit) != 0 && IsKartEnded(kart) == 0) {
+            if (skipFlag == 0 && (finishedMask & participantBit) != 0 && IsRacerFinishedRace(kart) == 0) {
                 SetRaceProgressKartFinishRequest(kart, (entryRecord & WIFI_RACE_SYNC_PROGRESS_TIME_MASK) !=
                                                            WIFI_RACE_SYNC_PROGRESS_DID_NOT_FINISH);
             }
@@ -586,7 +586,7 @@ void UpdateWiFiRaceSyncRanks(void) {
     for (orderIndex = 0; orderIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; orderIndex++) {
         participant = participantOrder[orderIndex];
         rank = 0;
-        sync = gWiFiRaceSync;
+        sync = g_GlobalAA;
         startMask = sync->mStartParticipantMask;
         if (BIT_IS_SET(startMask, participant)) {
             if ((u8) (((u32) sync->mEntries[participant].mLastProgressWord & WIFI_RACE_SYNC_PROGRESS_RACING_MASK) >>
@@ -602,8 +602,8 @@ void UpdateWiFiRaceSyncRanks(void) {
             } else {
                 u16 ownKartIndex;
 
-                ownKartIndex = gParticipantKartMap->mKartOfParticipant[participant];
-                kartRank = gRaceProgress->mKarts[ownKartIndex].mRank;
+                ownKartIndex = g_GlobalRE->mKartOfParticipant[participant];
+                kartRank = g_GlobalMV->mKarts[ownKartIndex].mRank;
                 rank = kartRank;
                 for (otherParticipant = 0; otherParticipant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; otherParticipant++) {
                     u32 isRacing;
@@ -619,10 +619,10 @@ void UpdateWiFiRaceSyncRanks(void) {
                         u16 otherKartIndex;
                         u32 otherRank;
 
-                        otherKartIndex = gParticipantKartMap->mKartOfParticipant[otherParticipant];
+                        otherKartIndex = g_GlobalRE->mKartOfParticipant[otherParticipant];
                         otherKartIndex = (u16) otherKartIndex;
-                        otherRank = gRaceProgress->mKarts[otherKartIndex].mRank;
-                        if (gRaceProgress->mKarts[otherKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED &&
+                        otherRank = g_GlobalMV->mKarts[otherKartIndex].mRank;
+                        if (g_GlobalMV->mKarts[otherKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED &&
                             isRacing != 0 && otherRank > kartRank) {
                             rank = rank + 1;
                         }
@@ -634,7 +634,7 @@ void UpdateWiFiRaceSyncRanks(void) {
     }
 }
 
-void UpdateWiFiRaceSyncRace(void *stateObject) {
+void E7FnList4_Fn9(void *stateObject) {
     u16 recordSize;
     u32 progressWord;
     WiFiRaceSync *sync;
@@ -643,46 +643,46 @@ void UpdateWiFiRaceSyncRace(void *stateObject) {
 
     UpdateItemDataSlots();
     UpdateSlotResultSyncs();
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     sendBuffer = sync->mSendBuffer;
     payload = &sendBuffer->mRecord;
     recordSize = WIFI_RACE_SYNC_RECORD_SIZE - sync->mUnusedItemDataBytes;
     sendBuffer->mRecord.mSyncFrames = sync->mSyncFrames;
     payload->mHeaderBytes[3] = recordSize;
-    if (gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()] < 0) {
+    if (g_GlobalRE->mKartOfParticipant[DWC_GetMyAID()] < 0) {
         payload->mProgressWord = 0;
     } else {
         progressWord = PackOwnKartProgress();
         payload->mProgressWord =
-            progressWord | ((gWiFiRaceSync->mFinishedMask << WIFI_RACE_SYNC_PROGRESS_FINISHED_SHIFT) &
+            progressWord | ((g_GlobalAA->mFinishedMask << WIFI_RACE_SYNC_PROGRESS_FINISHED_SHIFT) &
                             WIFI_RACE_SYNC_PROGRESS_FINISHED_MASK);
     }
     SendWiFiRaceSyncRecord(recordSize);
     UpdateWiFiRaceSyncRanks();
-    if (IsKartEnded(*(u8 *) &gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()]) == 0 &&
-        (gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT) == 0) {
-        if (gInputSlots[GetPadInputSlot()].mBits == 0) {
-            gWiFiRaceSync->mIdleFrames = gWiFiRaceSync->mIdleFrames + 1;
-            if (gWiFiRaceSync->mIdleFrames > WIFI_RACE_SYNC_IDLE_FRAMES) {
-                gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT;
+    if (IsRacerFinishedRace(*(u8 *) &g_GlobalRE->mKartOfParticipant[DWC_GetMyAID()]) == 0 &&
+        (g_GlobalAA->mFlags & WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT) == 0) {
+        if (g_GlobalCYT[GetSomeCYId_9()].mBits == 0) {
+            g_GlobalAA->mIdleFrames = g_GlobalAA->mIdleFrames + 1;
+            if (g_GlobalAA->mIdleFrames > WIFI_RACE_SYNC_IDLE_FRAMES) {
+                g_GlobalAA->mFlags = g_GlobalAA->mFlags | WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT;
                 SetWiFiDisconnectKind(WIFI_DISCONNECT_NO_INPUT);
             }
         } else {
-            gWiFiRaceSync->mIdleFrames = 0;
+            g_GlobalAA->mIdleFrames = 0;
         }
     }
-    if (gWiFiRaceSync->mSharedState == WIFI_RACE_SHARED_STATE_RACING) {
+    if (g_GlobalAA->mSharedState == WIFI_RACE_SHARED_STATE_RACING) {
         switch (GetChoisesSPickedValue()) {
             case CHOISES_S_PICK_NEXT:
             case CHOISES_S_PICK_NEXT_LAST:
-                gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PICKED_NEXT;
-                sync = gWiFiRaceSync;
+                g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_PICKED_NEXT;
+                sync = g_GlobalAA;
                 sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_AFTER_CHOICE;
                 sync->mStateMachine.mNextStateRequested = 1;
                 break;
             case CHOISES_S_PICK_QUIT:
-                gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PICKED_QUIT;
-                sync = gWiFiRaceSync;
+                g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_PICKED_QUIT;
+                sync = g_GlobalAA;
                 sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_AFTER_CHOICE;
                 sync->mStateMachine.mNextStateRequested = 1;
                 break;
@@ -690,15 +690,15 @@ void UpdateWiFiRaceSyncRace(void *stateObject) {
     }
 }
 
-void EnterWiFiRaceSyncAfterChoice(void *stateObject) {
-    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
+void E7FnList4_Fn10(void *stateObject) {
+    g_GlobalAA->mFlags &= ~WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
 }
 
 u32 GetWiFiRaceSyncPickedValue(void) {
     u32 result;
     WiFiRaceSync *wiFiRaceSync;
 
-    wiFiRaceSync = gWiFiRaceSync;
+    wiFiRaceSync = g_GlobalAA;
     result = 0;
     if (wiFiRaceSync->mSharedState != WIFI_RACE_SHARED_STATE_PICKED_QUIT) {
         if (wiFiRaceSync->mSharedState != WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED) {
@@ -721,21 +721,21 @@ void UpdateWiFiRaceSyncSharedState(void) {
 
     value = 0;
     allPeersPickedMask = 0;
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     switch (sync->mSharedState) {
         case WIFI_RACE_SHARED_STATE_PICKED_QUIT:
         case WIFI_RACE_SHARED_STATE_PICKED_NEXT:
             for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
                 participantBit = 1 << participant;
-                if ((gWiFiRaceSync->mParticipantMask & participantBit) != 0 && participant != DWC_GetMyAID()) {
-                    if (gWiFiRaceSync->mPeerSharedStates[participant] != WIFI_RACE_SHARED_STATE_PICKED_NEXT &&
-                        gWiFiRaceSync->mPeerSharedStates[participant] != WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED) {
+                if ((g_GlobalAA->mParticipantMask & participantBit) != 0 && participant != DWC_GetMyAID()) {
+                    if (g_GlobalAA->mPeerSharedStates[participant] != WIFI_RACE_SHARED_STATE_PICKED_NEXT &&
+                        g_GlobalAA->mPeerSharedStates[participant] != WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED) {
                         value = value | participantBit;
                     }
                 }
             }
             if (value == 0) {
-                gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED;
+                g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED;
             }
             break;
         case WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED:
@@ -749,17 +749,17 @@ void UpdateWiFiRaceSyncSharedState(void) {
             if ((sync->mParticipantMask & ~allPeersPickedMask) == 0) {
                 sync->mFlags = sync->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
             }
-            if ((gWiFiRaceSync->mParticipantMask | ~allPeersPickedMask) != 0) {
-                gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
+            if ((g_GlobalAA->mParticipantMask | ~allPeersPickedMask) != 0) {
+                g_GlobalAA->mFlags = g_GlobalAA->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
             }
             break;
     }
-    if ((gWiFiRaceSync->mParticipantMask & ~allPeersPickedMask) == 0) {
-        gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED;
+    if ((g_GlobalAA->mParticipantMask & ~allPeersPickedMask) == 0) {
+        g_GlobalAA->mSharedState = WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED;
     }
 }
 
-void UpdateWiFiRaceSyncAfterChoice(void *stateObject) {
+void E7FnList4_Fn11(void *stateObject) {
     u16 recordSize;
     WiFiRaceSync *sync;
     WiFiRaceSyncSendBuffer *sendBuffer;
@@ -768,18 +768,18 @@ void UpdateWiFiRaceSyncAfterChoice(void *stateObject) {
 
     UpdateItemDataSlots();
     UpdateSlotResultSyncs();
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     sendBuffer = sync->mSendBuffer;
     payload = &sendBuffer->mRecord;
     recordSize = WIFI_RACE_SYNC_RECORD_SIZE - sync->mUnusedItemDataBytes;
     sendBuffer->mRecord.mSyncFrames = sync->mSyncFrames;
     payload->mHeaderBytes[3] = recordSize;
-    if (gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()] < 0) {
+    if (g_GlobalRE->mKartOfParticipant[DWC_GetMyAID()] < 0) {
         payload->mProgressWord = 0;
     } else {
         progressWord = PackOwnKartProgress();
         payload->mProgressWord =
-            progressWord | ((gWiFiRaceSync->mFinishedMask << WIFI_RACE_SYNC_PROGRESS_FINISHED_SHIFT) &
+            progressWord | ((g_GlobalAA->mFinishedMask << WIFI_RACE_SYNC_PROGRESS_FINISHED_SHIFT) &
                             WIFI_RACE_SYNC_PROGRESS_FINISHED_MASK);
     }
     SendWiFiRaceSyncRecord(recordSize);
@@ -790,7 +790,7 @@ void UpdateWiFiRaceSyncAfterChoice(void *stateObject) {
 WiFiRaceSyncEntry *GetParticipantEntryAtSyncFrames(s32 participant, u32 syncFrames) {
     WiFiRaceSyncEntry *entry;
 
-    entry = &gWiFiRaceSync->mEntries[participant];
+    entry = &g_GlobalAA->mEntries[participant];
     if (syncFrames != entry->mSyncFrames) {
         return NULL;
     }
@@ -798,7 +798,7 @@ WiFiRaceSyncEntry *GetParticipantEntryAtSyncFrames(s32 participant, u32 syncFram
 }
 
 s32 GetParticipantSyncFrames(s32 participant) {
-    return gWiFiRaceSync->mEntries[participant].mSyncFrames;
+    return g_GlobalAA->mEntries[participant].mSyncFrames;
 }
 
 void AddWiFiRaceSyncRoundTrip(const u64 *ticks, s32 participant) {
@@ -807,7 +807,7 @@ void AddWiFiRaceSyncRoundTrip(const u64 *ticks, s32 participant) {
     WiFiRaceSync *sync;
     BOOL accepted;
 
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     sampleCount = sync->mPeers[participant].mSampleCount;
     if (sampleCount >= WIFI_RACE_SYNC_SAMPLE_COUNT) {
         return;
@@ -819,9 +819,9 @@ void AddWiFiRaceSyncRoundTrip(const u64 *ticks, s32 participant) {
             accepted = TRUE;
         } else {
             accepted = FALSE;
-            gWiFiRaceSync->mPeers[participant].mRejectedSampleCount++;
-            if (gWiFiRaceSync->mPeers[participant].mRejectedSampleCount > WIFI_RACE_SYNC_MAX_REJECTED_SAMPLES) {
-                BIT_SET(gWiFiRaceSync->mDroppedParticipantMask, participant);
+            g_GlobalAA->mPeers[participant].mRejectedSampleCount++;
+            if (g_GlobalAA->mPeers[participant].mRejectedSampleCount > WIFI_RACE_SYNC_MAX_REJECTED_SAMPLES) {
+                BIT_SET(g_GlobalAA->mDroppedParticipantMask, participant);
             }
         }
     } else {
@@ -830,7 +830,7 @@ void AddWiFiRaceSyncRoundTrip(const u64 *ticks, s32 participant) {
     if (accepted != FALSE) {
         sampleCount = sampleCount + 1;
     }
-    gWiFiRaceSync->mPeers[participant].mSampleCount = sampleCount;
+    g_GlobalAA->mPeers[participant].mSampleCount = sampleCount;
 }
 
 void ReceiveWiFiRaceSyncRecord(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size) {
@@ -843,7 +843,7 @@ void ReceiveWiFiRaceSyncRecord(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
     u32 entryFrames;
 
     participant = packet->mSender;
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     bodyBytes = packet->mBody.mHeaderBytes;
     packetFrames = packet->mBody.mSyncFrames;
     entryFrames = sync->mEntries[participant].mSyncFrames;
@@ -859,7 +859,7 @@ void ReceiveWiFiRaceSyncRecord(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
     if (sync->mEntries[participant].mRecordReceived == 0) {
         sync->mEntries[participant].mRecordReceived = 1;
     }
-    MI_CpuCopy8(bodyBytes, entry, recordSize);
+    Mem_CpuCopy8(bodyBytes, entry, recordSize);
 }
 
 void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size) {
@@ -871,7 +871,7 @@ void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32
     u32 participantBit;
 
     senderCountdown = packet->mBody.mCountdown;
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     ownCountdown = sync->mCountdownTimer;
     if (sync->mStateMachine.mState == WIFI_RACE_SYNC_STATE_READY) {
         participantBit = 1 << packet->mSender;
@@ -889,9 +889,9 @@ void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32
     } else if (difference < 0) {
         difference = (difference - 1) >> 1;
     }
-    smoothed = (difference << 11) + (gWiFiRaceSync->mCountdownDrift >> 1);
-    gWiFiRaceSync->mCountdownDrift = smoothed;
-    gWiFiRaceSync->mCountdownTimer += (s16) FROM_FIXED12(smoothed + 0x800);
+    smoothed = (difference << 11) + (g_GlobalAA->mCountdownDrift >> 1);
+    g_GlobalAA->mCountdownDrift = smoothed;
+    g_GlobalAA->mCountdownTimer += (s16) FROM_FIXED12(smoothed + 0x800);
 }
 
 void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size, u32 unusedFourth) {
@@ -903,7 +903,7 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
     u64 tick;
     u8 ownParticipant;
 
-    sync = gWiFiRaceSync;
+    sync = g_GlobalAA;
     if (sync == NULL) {
         return;
     }
@@ -912,30 +912,30 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
         return;
     }
     sync->mTimeoutFrames[participant] = 0;
-    gWiFiRaceSync->mPeerDroppedMasks[packet->mSender] = packet->mDroppedParticipantMask;
-    gWiFiRaceSync->mPeerSharedStates[packet->mSender] = packet->mSharedState;
+    g_GlobalAA->mPeerDroppedMasks[packet->mSender] = packet->mDroppedParticipantMask;
+    g_GlobalAA->mPeerSharedStates[packet->mSender] = packet->mSharedState;
     switch (((volatile WiFiRaceSyncPacket *) packet)->mKind) {
         case WIFI_RACE_SYNC_PACKET_PROBE:
             body = &packet->mBody;
             sender = packet->mSender;
             ownParticipant = DWC_GetMyAID();
             if (body->mProbeOrigin == ownParticipant) {
-                body->mProbeTicks[3] = OS_GetTick();
+                body->mProbeTicks[3] = Os_GetTick();
                 AddWiFiRaceSyncRoundTrip(body->mProbeTicks, sender);
                 return;
             }
             if (body->mProbeOrigin >= WIFI_RACE_SYNC_PARTICIPANT_COUNT) {
                 return;
             }
-            peer = &gWiFiRaceSync->mPeers[sender];
-            MI_CpuCopy8(body, peer, WIFI_RACE_SYNC_PROBE_SIZE);
-            tick = OS_GetTick();
+            peer = &g_GlobalAA->mPeers[sender];
+            Mem_CpuCopy8(body, peer, WIFI_RACE_SYNC_PROBE_SIZE);
+            tick = Os_GetTick();
             peer->mProbeReceivedTickLow = tick;
             peer->mProbeReceivedTickHigh = tick >> 32;
-            gWiFiRaceSync->mPeers[sender].mProbePending = TRUE;
+            g_GlobalAA->mPeers[sender].mProbePending = TRUE;
             break;
         case WIFI_RACE_SYNC_PACKET_READY:
-            gWiFiRaceSync->mReadyMask = gWiFiRaceSync->mReadyMask | (1 << packet->mSender);
+            g_GlobalAA->mReadyMask = g_GlobalAA->mReadyMask | (1 << packet->mSender);
             break;
         case WIFI_RACE_SYNC_PACKET_COUNTDOWN:
             ReceiveWiFiRaceSyncCountdown(fromIndex, packet, size);
@@ -966,26 +966,26 @@ void UpdateParticipantElos(void) {
     s16 eloDifference;
 
     for (participant = 0; participant < 4; participant++) {
-        if (gParticipantKartMap->mKartOfParticipant[participant] == -1) {
+        if (g_GlobalRE->mKartOfParticipant[participant] == -1) {
             elos[participant] = 5000;
         } else {
-            elos[participant] = GetPlayerRecordElo(participant);
+            elos[participant] = GetTKSomeSize(participant);
         }
     }
     for (participant = 0; participant < 4; participant++) {
-        kart = gParticipantKartMap->mKartOfParticipant[participant];
+        kart = g_GlobalRE->mKartOfParticipant[participant];
         if (kart == -1) {
             continue;
         }
         newElos[participant] = elos[participant];
         for (otherParticipant = 0; otherParticipant < 4; otherParticipant++) {
             rankedNotWorse = 1;
-            otherKart = gParticipantKartMap->mKartOfParticipant[otherParticipant];
+            otherKart = g_GlobalRE->mKartOfParticipant[otherParticipant];
             if (otherKart == -1 || kart == otherKart) {
                 continue;
             }
-            kartRank = GetKartRank((u16) kart);
-            otherKartRank = GetKartRank((u16) otherKart);
+            kartRank = GetSomeRacerFlags((u16) kart);
+            otherKartRank = GetSomeRacerFlags((u16) otherKart);
             if (kartRank > otherKartRank) {
                 rankedNotWorse = 0;
             }
@@ -1009,7 +1009,7 @@ void UpdateParticipantElos(void) {
                 newElos[participant] = 10000;
             }
         }
-        SetPlayerRecordElo(participant, newElos[participant]);
+        SetTKSomeSize(participant, newElos[participant]);
     }
 }
 
@@ -1028,24 +1028,24 @@ void RemoveDroppedParticipants(void) {
 
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
         participantBit = 1 << participant;
-        if ((gWiFiRaceSync->mParticipantMask & participantBit) != 0 && participant != DWC_GetMyAID() &&
-            (gWiFiRaceSync->mDroppedParticipantMask & participantBit) == 0) {
+        if ((g_GlobalAA->mParticipantMask & participantBit) != 0 && participant != DWC_GetMyAID() &&
+            (g_GlobalAA->mDroppedParticipantMask & participantBit) == 0) {
             timeoutLimit = WIFI_RACE_SYNC_TIMEOUT_FRAMES;
-            if (gWiFiRaceSync->mPeers[participant].mSampleCount == 0) {
+            if (g_GlobalAA->mPeers[participant].mSampleCount == 0) {
                 timeoutLimit = WIFI_RACE_SYNC_FIRST_TIMEOUT_FRAMES;
             }
-            gWiFiRaceSync->mTimeoutFrames[participant]++;
-            if (gWiFiRaceSync->mTimeoutFrames[participant] > timeoutLimit) {
-                gWiFiRaceSync->mDroppedParticipantMask |= participantBit;
+            g_GlobalAA->mTimeoutFrames[participant]++;
+            if (g_GlobalAA->mTimeoutFrames[participant] > timeoutLimit) {
+                g_GlobalAA->mDroppedParticipantMask |= participantBit;
             }
         }
     }
-    agreedDroppedMask = gWiFiRaceSync->mDroppedParticipantMask;
+    agreedDroppedMask = g_GlobalAA->mDroppedParticipantMask;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        if (BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participant)) {
+        if (BIT_IS_SET(g_GlobalAA->mParticipantMask, participant)) {
             if (participant != DWC_GetMyAID()) {
-                if ((gWiFiRaceSync->mDroppedParticipantMask & (1 << participant)) == 0) {
-                    peerMask = gWiFiRaceSync->mPeerDroppedMasks[participant] | (1u << participant);
+                if ((g_GlobalAA->mDroppedParticipantMask & (1 << participant)) == 0) {
+                    peerMask = g_GlobalAA->mPeerDroppedMasks[participant] | (1u << participant);
                     agreedDroppedMask = agreedDroppedMask & peerMask;
                 }
             }
@@ -1056,20 +1056,20 @@ void RemoveDroppedParticipants(void) {
     }
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
         participantBit = 1 << participant;
-        if ((agreedDroppedMask & participantBit) != 0 && (gWiFiRaceSync->mParticipantMask & participantBit) != 0 &&
-            gParticipantKartMap->mKartOfParticipant[participant] != -1) {
-            RemoveRaceProgressKart(gParticipantKartMap->mKartOfParticipant[participant]);
-            gWiFiRaceSync->mParticipantMask = gWiFiRaceSync->mParticipantMask & ~participantBit;
+        if ((agreedDroppedMask & participantBit) != 0 && (g_GlobalAA->mParticipantMask & participantBit) != 0 &&
+            g_GlobalRE->mKartOfParticipant[participant] != -1) {
+            RemoveRaceProgressKart(g_GlobalRE->mKartOfParticipant[participant]);
+            g_GlobalAA->mParticipantMask = g_GlobalAA->mParticipantMask & ~participantBit;
         }
     }
-    if (CountSetBits(gWiFiRaceSync->mParticipantMask) > 1) {
+    if (Math_CountPopulation(g_GlobalAA->mParticipantMask) > 1) {
         return;
     }
-    sessionState = gWiFiSession->mStateMachine.mState;
-    firstBlock = gBackupBuffers->mFirstBlock;
+    sessionState = g_GlobalB->mStateMachine.mState;
+    firstBlock = g_SaveDataHolder->mFirstBlock;
     firstBlockCount = firstBlock->mTotals[5];
     if (sessionState != WIFI_SESSION_STATE_OFF) {
-        s8 otherKartCount = gWiFiSession->mKartCountCopy - 1;
+        s8 otherKartCount = g_GlobalB->mKartCountCopy - 1;
         if (otherKartCount > 0) {
             if (firstBlockCount < otherKartCount) {
                 firstBlockCount = 0;
@@ -1078,18 +1078,18 @@ void RemoveDroppedParticipants(void) {
             }
         }
         firstBlock->mTotals[5] = firstBlockCount;
-        WriteBackupFirstBlockWrapper();
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
-            CARD_WaitBackupAsync();
+        WriteSaveDataSectionHeaderToSaveData_from_thumb();
+        WaitForWorkerTask();
+        if (g_SaveDataIoManager->mBackupEnabled != 0) {
+            j_WaitForPendingCardOperation();
         }
     }
     SetWiFiDisconnectKind(WIFI_DISCONNECT_OPPONENT_LEFT);
 }
 
-void AdvanceWiFiRaceSync(void) {
-    if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED) != 0) {
+void GlobalB_E7Fn_5BImpl(void) {
+    if ((g_GlobalAA->mFlags & WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED) != 0) {
         RemoveDroppedParticipants();
     }
-    AdvanceStateMachine(&gWiFiRaceSync->mStateMachine);
+    StateDualHandler_Execute(&g_GlobalAA->mStateMachine);
 }

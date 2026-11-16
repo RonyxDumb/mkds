@@ -13,42 +13,42 @@
 
 #pragma thumb on
 
-void ResetBackupFirstBlockAndRecords(u32 copyOwnerName) {
-    ClearEmblemRecord();
-    ClearGrandPrixRecordBlock();
-    ClearCourseTimeRecordBlock();
-    ClearMissionRecordBlock();
-    ClearCourseAndFirstSlotGhost();
-    ClearBuddyRecordBlock();
-    ResetBackupFirstBlock(copyOwnerName);
+void ClearAllSaveDataSections_from_thumb(u32 copyOwnerName) {
+    ClearSaveDataSection_Emblem_from_thumb();
+    ClearSaveDataSection_GrandPrix_from_thumb();
+    ClearSaveDataSection_TimeTrials_from_thumb();
+    ClearSaveDataSection_MissionRun_from_thumb();
+    ClearSaveDataGhosts_from_thumb();
+    ClearSaveDataSection_FriendList_from_thumb();
+    ClearSaveDataSection_Header_from_thumb(copyOwnerName);
 }
 
-void WriteBackupFirstBlockAndRecords(void) {
-    WriteBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+void Task_WriteNonGhostSaveData_from_thumb(void) {
+    WriteSaveDataSection_Emblem_from_thumb(g_SaveDataHolder->mEmblemRecord);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    WriteBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    WriteSaveDataSection_GrandPrix_from_thumb(g_SaveDataHolder->mGrandPrixRecordBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    WriteSaveDataSection_TimeTrials_from_thumb(g_SaveDataHolder->mCourseTimeRecordBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    WriteBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    WriteSaveDataSection_MissionRun_from_thumb(g_SaveDataHolder->mMissionRecordBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    WriteBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    WriteSaveDataSection_FriendList_from_thumb(g_SaveDataHolder->mBuddyRecordBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    WriteSaveDataSection_Header_from_thumb(g_SaveDataHolder->mFirstBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    ClearBackupBusy();
+    ResetSaveDataHolderTaskPendingFlag_from_thumb();
 }
 
 #pragma thumb off

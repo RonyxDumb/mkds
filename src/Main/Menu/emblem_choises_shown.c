@@ -33,7 +33,7 @@ s32 MoveEmblemChoisesIndex(s32 step) {
         choisesCount = gEmblemChoises->mChoisesCount;
         if (step != 0) {
             gEmblemChoises->mCycleFrames = 0;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         }
         gEmblemChoises->mChoisesIndex = (previousIndex + step + choisesCount) % choisesCount;
     }
@@ -168,7 +168,7 @@ void EmblemChoisesWriteSubBg0Offset(u32 offsetX, u32 offsetY) {
 }
 
 void WriteSubBlendBrightness(u32 plane1, u32 plane2, u32 ev1, u32 ev2, s32 brightness) {
-    G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, plane1, plane2, ev1, ev2, brightness);
+    UpdateBldcntBldalphaBldy(&reg_G2S_DB_BLDCNT, plane1, plane2, ev1, ev2, brightness);
 }
 
 void EmblemChoisesWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
@@ -179,12 +179,12 @@ void EmblemChoisesWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
 #pragma optimize_for_size on
 void DrawEmblemChoises(void) {
     if (gEmblemChoises->mGraphicsUploadRequested != FALSE) {
-        GXS_LoadBGPltt(gEmblemChoises->mChoisesSBNclr->mData + 0xe0, 0x1c0, 0x40);
-        GXS_LoadBG0Char(gEmblemChoises->mChoisesSBNcgr->mData, 0, 0x3000);
+        CopyPaletteBottom(gEmblemChoises->mChoisesSBNclr->mData + 0xe0, 0x1c0, 0x40);
+        CopyBgData_Bg0_Bottom(gEmblemChoises->mChoisesSBNcgr->mData, 0, 0x3000);
         gEmblemChoises->mGraphicsUploadRequested = FALSE;
     }
     if (gEmblemChoises->mShown != 0) {
-        GXS_LoadBG0Scr(gEmblemChoises->mChoisesS3Nscr->mData, 0, 0x600);
+        TEQSub_Fn24Impl(gEmblemChoises->mChoisesS3Nscr->mData, 0, 0x600);
     }
     if (gEmblemChoises->mShown != gEmblemChoises->mDrawnShown) {
         if (gEmblemChoises->mShown != 0) {
@@ -213,11 +213,11 @@ u16 EmblemChoisesGetInputSlotNewBits(InputSlot *slot, u32 mask) {
 }
 
 u16 EmblemChoisesGetNewBits(u32 slotIndex, u32 mask) {
-    return EmblemChoisesGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return EmblemChoisesGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 u32 EmblemChoisesStartSeqArc(u32 seqIndex, u32 seqArcNo) {
-    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
+    return PlaySseqFromSarc(&gSharedSeqHandle, seqArcNo, seqIndex);
 }
 
 u32 StartEmblemChoisesSound(u32 seqIndex) {
@@ -292,8 +292,8 @@ void WriteEmblemChoisesScreenMapWrapper(void) {
 
 void *EmblemChoisesGetCurrentHeap(void) {
     void *heap;
-    heap = GetCurrentHeapCall();
-    heap = GetHeap(heap);
+    heap = GetActiveExecutionContext();
+    heap = ExecutionContext_GetHeapHandle(heap);
     return heap;
 }
 
@@ -306,7 +306,7 @@ void EmblemChoisesInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void 
 }
 
 u32 EmblemChoisesDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
-    return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
+    return G2d_Text_PrintString(textCanvas, textX, textY, color, flags, text);
 }
 
 #pragma thumb on
@@ -314,7 +314,7 @@ u32 EmblemChoisesDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, 
 void InitEmblemChoises(void) {
     EmblemChoises *emblemChoises;
 
-    gEmblemChoises = HeapAlloc(EmblemChoisesGetCurrentHeap(), sizeof(*gEmblemChoises));
+    gEmblemChoises = Mem_AllocateHeap(EmblemChoisesGetCurrentHeap(), sizeof(*gEmblemChoises));
     gEmblemChoises->mShown = 0;
     gEmblemChoises->mDrawnShown = 1;
     gEmblemChoises->mGraphicsUploadRequested = FALSE;
@@ -325,21 +325,21 @@ void InitEmblemChoises(void) {
     gEmblemChoises->mPickFrames = 0;
     gEmblemChoises->mCloseFrames = 0;
     gEmblemChoises->mChoisesCount = 3;
-    LoadNclrData(&gEmblemChoises->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
-    LoadNcgrData(&gEmblemChoises->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
-    LoadNscrData(&gEmblemChoises->mChoisesS3Nscr, FindSceneFileWrapper("choises_s_3.NSCR"));
-    gEmblemChoises->mFont = GetFontByIndex(2);
-    NNS_G2dCharCanvasInitForBG(&gEmblemChoises->mCharCanvas, gEmblemChoises->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
+    Gfx_ReadPalette(&gEmblemChoises->mChoisesSBNclr, j_FindFileBuffer_K2D_LOC_R2D_R2L("choises_s_b.NCLR"));
+    Gfx_ReadCharGraphicsV2(&gEmblemChoises->mChoisesSBNcgr, j_FindFileBuffer_K2D_LOC_R2D_R2L("choises_s_b.NCGR"));
+    MaybeReadScreenBlock_0(&gEmblemChoises->mChoisesS3Nscr, j_FindFileBuffer_K2D_LOC_R2D_R2L("choises_s_3.NSCR"));
+    gEmblemChoises->mFont = GetLoadedFont_from_thumb(2);
+    G2d_Sprite_CreateFromTiles(&gEmblemChoises->mCharCanvas, gEmblemChoises->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
     emblemChoises = gEmblemChoises;
     EmblemChoisesInitTextCanvas(&emblemChoises->mTextCanvas, &emblemChoises->mCharCanvas, emblemChoises->mFont,
-                                IsLanguageJa(), 0);
+                                ComputeSomeInterCharacterWidth(), 0);
     {
         s32 bmgIndices[3] = {2, 0, 1};
         s32 choiseIndex;
 
         for (choiseIndex = 0; choiseIndex < gEmblemChoises->mChoisesCount; choiseIndex++) {
             EmblemChoisesDrawTextOnCanvas(&gEmblemChoises->mTextCanvas, 0x90, choiseIndex * 16 + 9, 12, 0x412,
-                                          GetBmgEntry(FindSceneFileWrapper("emblem.bmg"), bmgIndices[choiseIndex]));
+                                          Bmg_GetRawStringPointer_from_thumb(j_FindFileBuffer_K2D_LOC_R2D_R2L("emblem.bmg"), bmgIndices[choiseIndex]));
         }
     }
 }

@@ -4,4 +4,4 @@
 
 typedef struct OSMutex OSMutex;
 
-void OS_InitMutex(OSMutex *mutex);
+void Os_Mutex_Initialize(OSMutex *mutex);

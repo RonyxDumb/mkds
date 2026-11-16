@@ -5,12 +5,12 @@
 typedef struct InputSlotPair InputSlotPair;
 
 u16 GetPackedTouchPoint(void);
-void ReleaseTouchMicInput(void);
+void ResetGlobal59C4(void);
 void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverThreshold);
 void UpdateTouchMicInput(void);
-void PostSleepMicInput(void);
+void Scene_Race_PostSleepImpl(void);
 void PreSleepMicInput(void);
-void StopMicInput(void);
+void ResetGlobal59C4Sub(void);
 void StopTouchAutoSampling(void);
-void StartMicInput(void *heap);
+void CreateGlobal59C4Sub(void *heap);
 void StartTouchAutoSampling(void);

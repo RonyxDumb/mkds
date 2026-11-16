@@ -48,14 +48,14 @@ typedef struct AnimBank {
 } AnimBank;
 
 // Header of the VRAM transfer data of a cell bank: mPCellTransferDataArray is an offset from the start of this
-// header that NNS_G2dUnpackNCE turns into the address of the table of NNSG2dCellVramTransferData, one per cell.
+// header that CellBank_InitializeLoad turns into the address of the table of NNSG2dCellVramTransferData, one per cell.
 typedef struct NNSG2dVramTransferData {
     /* 00 */ u32 mSzByteMax;
     /* 04 */ NNSG2dCellVramTransferData *mPCellTransferDataArray;
 } NNSG2dVramTransferData;
 
 // A cell bank: its cell count and attributes, the array of cells, the mapping mode and the VRAM transfer data.
-// mPCellDataArrayHead and mPVramTransferData are offsets until NNS_G2dUnpackNCE turns them into addresses.
+// mPCellDataArrayHead and mPVramTransferData are offsets until CellBank_InitializeLoad turns them into addresses.
 typedef struct NNSG2dCellDataBank {
     /* 00 */ u16 mNumCells;
     /* 02 */ u16 mCellBankAttr;

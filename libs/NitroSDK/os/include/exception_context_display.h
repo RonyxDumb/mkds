@@ -12,10 +12,10 @@ typedef struct DtcmTail {
     /* fdc */ void (*mExceptionHandler)(void);
 } DtcmTail;
 
-void OSi_SetExContext(u32 exinfo);
+void Os_SaveExceptionContext(u32 exinfo);
 void OSi_DisplayExContext(void);
 // Keeps the word at 0x027ffd9c as a saved handler when it lies in 0x02600000-0x027fffff (else clears it). Stores
-// OSi_ExceptionHandler at 0x027ffd9c and at 0x027e3fdc unless a saved handler exists and bit 30 of
-// OS_GetConsoleType() is set.
-// Clears the flag word OSi_UserExceptionHandler.
-void OS_InitException(void);
+// Os_ExceptionHandler at 0x027ffd9c and at 0x027e3fdc unless a saved handler exists and bit 30 of
+// Os_GetSystemFlags() is set.
+// Clears the flag word g_UserExceptionHandler.
+void Os_InitializeExceptionHandler(void);

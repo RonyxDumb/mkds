@@ -15,5 +15,5 @@ void FinishKeyRecording(KeyRecording *keyRecording) {
     }
     keyRecording->mBuffer->mPairByteCount = keyRecording->mPairIndex << 1;
     keyRecording->mStatus = KEY_RECORDING_IDLE;
-    DC_StoreRange(keyRecording->mBuffer, 0xdcc);
+    DC_SomeClean(keyRecording->mBuffer, 0xdcc);
 }

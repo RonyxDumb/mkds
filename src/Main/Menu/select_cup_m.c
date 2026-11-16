@@ -83,49 +83,49 @@ void LocateAndQueueSelectCupM(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    LocateNcgr(&firstBgChars, FindSceneFile(gSelectCupMBNcgrName3));
-    LocateNclr(&firstBgPalette, FindSceneFile(gSelectCupMBNclrName3));
-    LocateNscr(&firstBgScreenMap, FindSceneFile(gSelectCupMNscrName3));
-    LocateNcgr(&secondBgChars, FindSceneFile(gSelectCupMBNcgrName3));
-    LocateNclr(&secondBgPalette, FindSceneFile(gSelectCupMBNclrName3));
-    LocateNscr(&secondBgScreenMap, FindSceneFile(gSelectCupMNscrName3));
-    gSelectCupM->mSecondScreenMapBuffer = HeapAlloc(gSelectCupM->mHeap, SECOND_SCREEN_MAP_BYTES);
-    gSelectCupM->mMainBncl = FindSceneFile(gSelectCupMBnclName3);
-    gSelectCupM->mMainBnll = FindSceneFile(gSelectCupMBnllName3);
-    LocateNcgr2(&mainCellChars, FindSceneFile(gSelectCupMNcgrName3));
-    LocateNcer(&gSelectCupM->mMainNcer, FindSceneFile(gSelectCupMNcerName3));
-    LocateNclr(&mainCellPalette, FindSceneFile(gSelectCupMONclrName3));
-    gSelectCupM->mSubBncl = FindSceneFile(gSelectCupMBnclName3);
-    gSelectCupM->mSubBnll = FindSceneFile(gSelectCupMBnllName3);
-    LocateNcgr2(&subCellChars, FindSceneFile(gSelectCupMNcgrName3));
-    LocateNcer(&gSelectCupM->mSubNcer, FindSceneFile(gSelectCupMNcerName3));
-    LocateNclr(&subCellPalette, FindSceneFile(gSelectCupMONclrName3));
+    MaybeReadCharBlock_1(&firstBgChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBNcgrName3));
+    Gfx_ReadPaletteRelative(&firstBgPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBNclrName3));
+    MaybeReadScreenBlock(&firstBgScreenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMNscrName3));
+    MaybeReadCharBlock_1(&secondBgChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBNcgrName3));
+    Gfx_ReadPaletteRelative(&secondBgPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBNclrName3));
+    MaybeReadScreenBlock(&secondBgScreenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMNscrName3));
+    gSelectCupM->mSecondScreenMapBuffer = Mem_AllocateHeap(gSelectCupM->mHeap, SECOND_SCREEN_MAP_BYTES);
+    gSelectCupM->mMainBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBnclName3);
+    gSelectCupM->mMainBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBnllName3);
+    Gfx_ReadCharGraphicsRelative(&mainCellChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMNcgrName3));
+    LocateNcer(&gSelectCupM->mMainNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMNcerName3));
+    Gfx_ReadPaletteRelative(&mainCellPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMONclrName3));
+    gSelectCupM->mSubBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBnclName3);
+    gSelectCupM->mSubBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMBnllName3);
+    Gfx_ReadCharGraphicsRelative(&subCellChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMNcgrName3));
+    LocateNcer(&gSelectCupM->mSubNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMNcerName3));
+    Gfx_ReadPaletteRelative(&subCellPalette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupMONclrName3));
     mainCellPaletteData = mainCellPalette->mData;
     if (!(GetPreviousMenuScreenNumber() == 0x17 || GetPreviousMenuScreenNumber() == 0xb)) {
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0, firstBgChars->mData,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG0_TILES, 0, firstBgChars->mData,
                                            firstBgChars->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, firstBgPalette->mData, 0x140);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, firstBgScreenMap->mData,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, firstBgPalette->mData, 0x140);
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, firstBgScreenMap->mData,
                                            firstBgScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
                                            SECOND_SCREEN_MAP_BYTES);
     }
     if (!(GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd)) {
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, secondBgChars->mData,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, secondBgChars->mData,
                                            secondBgChars->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, secondBgPalette->mData, 0x140);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, secondBgScreenMap->mData,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, secondBgPalette->mData, 0x140);
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, secondBgScreenMap->mData,
                                            secondBgScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG3_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
                                            SECOND_SCREEN_MAP_BYTES);
     }
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, mainCellChars->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, mainCellChars->mData,
                                        mainCellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, mainCellPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0, mainCellPaletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, subCellChars->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, mainCellPalette->mData, 0x1a0);
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0, mainCellPaletteData + 0xe0, 0x40);
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, subCellChars->mData,
                                        subCellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, subCellPalette->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, subCellPalette->mData,
                                        subCellPalette->mDataSize);
 }
 
@@ -163,19 +163,19 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     gSelectCupM->mMainTable[19].mVisible = 1;
     gSelectCupM->mSubTable[20].mVisible = 0;
     gSelectCupM->mSubTable[19].mVisible = 1;
-    QueueSelectCupNameM(gSelectCupMCupIndices[GetCupIndex()], gSelectCupM->mMainNcer, gSelectCupM->mMainBncl, 0x13, 0);
-    QueueSelectCupNameM(gSelectCupMCupIndices[GetCupIndex()], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl, 0x13, 1);
+    QueueSelectCupNameM(gSelectCupMCupIndices[GetSelectedCup_from_thumb()], gSelectCupM->mMainNcer, gSelectCupM->mMainBncl, 0x13, 0);
+    QueueSelectCupNameM(gSelectCupMCupIndices[GetSelectedCup_from_thumb()], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl, 0x13, 1);
     screenId = FALSE;
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         PrintLabelLayoutTextNoFixedAdvance(
             screenId, gSelectCupMCourseLabels[courseIndex], gSelectCupM->mMainBnll,
-            GetBmgEntry(gSelectCupM->mCommonMessages,
-                        gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetCupIndex()]][courseIndex]),
+            Bmg_GetRawStringPointer_from_thumb(gSelectCupM->mCommonMessages,
+                        gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetSelectedCup_from_thumb()]][courseIndex]),
             gSelectCupM->mMainBncl, gSelectCupM->mMainTable);
         PrintLabelLayoutTextNoFixedAdvance(
             1, gSelectCupMCourseLabels[courseIndex], gSelectCupM->mSubBnll,
-            GetBmgEntry(gSelectCupM->mCommonMessages,
-                        gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetCupIndex()]][courseIndex]),
+            Bmg_GetRawStringPointer_from_thumb(gSelectCupM->mCommonMessages,
+                        gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetSelectedCup_from_thumb()]][courseIndex]),
             gSelectCupM->mSubBncl, gSelectCupM->mSubTable);
     }
     firstCellIndex = gSelectCupMCourseCells[0];
@@ -192,7 +192,7 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
         SetLabelPaletteIndex(gSelectCupMCourseLabels[nextCourseIndex], 0xf, gSelectCupM->mSubBnll,
                              gSelectCupM->mSubTable, gSelectCupM->mSubBncl);
     }
-    TrySetCupPictureIndexAndQueueLoads(gSelectCupMCourseIds[gSelectCupMCupIndices[GetCupIndex()]][0]);
+    TrySetCupPictureIndexAndQueueLoads(gSelectCupMCourseIds[gSelectCupMCupIndices[GetSelectedCup_from_thumb()]][0]);
     gSelectCupM->mCupPicturePending = TRUE;
 }
 
@@ -287,8 +287,8 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCupM = HeapAlloc(heap, sizeof(*gSelectCupM));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectCupM = Mem_AllocateHeap(heap, sizeof(*gSelectCupM));
     gSelectCupM->mHeap = heap;
     gSelectCupM->mCupPicturePending = FALSE;
     gSelectCupM->mMainOam = mainOamList;
@@ -300,7 +300,7 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
         gSelectCupM->mState = SELECT_CUP_M_STATE_SCROLL_DOWN;
     }
     LocateAndQueueSelectCupM();
-    gSelectCupM->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gSelectCupM->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mMainBncl, gSelectCupM->mMainBnll, &gSelectCupM->mMainTable);
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
@@ -338,7 +338,7 @@ void ReleaseSelectCupM(void) {
     } else {
         ClearSelectRaceRuleWaitPointer();
     }
-    HeapDestroy(gSelectCupM->mHeap);
+    Mem_DestroyHeap(gSelectCupM->mHeap);
     gSelectCupM = NULL;
 }
 
@@ -353,9 +353,9 @@ void AdvanceSelectCupMScrollDown(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = ComputeValueInterpolation_from_thumb(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
     subOffset =
-        InterpolateS16(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames, 0xa);
+        ComputeValueInterpolation_from_thumb(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames, 0xa);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;
@@ -397,9 +397,9 @@ void AdvanceSelectCupMScrollUp(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = ComputeValueInterpolation_from_thumb(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, 0xa);
     subOffset =
-        InterpolateS16(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
+        ComputeValueInterpolation_from_thumb(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;
@@ -449,21 +449,21 @@ s32 AdvanceSelectCupM(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupM->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             cupPictureScreenMap = GetCupPictureNscrData();
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG0_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
             transferKind = 8;
             transferSize = 0x14;
             for (index = 0; index < 0xb; index++) {
                 screenMapIndex = ((index + 8) << 5) + 0x16;
-                NNS_GfdRegisterNewVramTransferTask(transferKind, screenMapIndex << 1,
+                AllocateReserveTEQSub(transferKind, screenMapIndex << 1,
                                                    cupPictureScreenMap + screenMapIndex, transferSize);
             }
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG3_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
             transferKind = 0x1b;
             for (index = 0; index < 0xb; index++) {
                 screenMapIndex = ((index + 8) << 5) + 0x16;
-                NNS_GfdRegisterNewVramTransferTask(transferKind, screenMapIndex << 1,
+                AllocateReserveTEQSub(transferKind, screenMapIndex << 1,
                                                    cupPictureScreenMap + screenMapIndex, transferSize);
             }
             gSelectCupM->mCupPicturePending = FALSE;

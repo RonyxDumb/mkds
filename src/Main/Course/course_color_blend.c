@@ -19,7 +19,7 @@ CourseColorBlend *InitCourseColorBlend(CourseColorBlend *blend, u32 colorMask) {
             break;
         }
     }
-    color = gCourseMap->mSettings->mColors[colorIndex];
+    color = g_GlobalPE->mSettings->mColors[colorIndex];
     blend->mColor = color;
     blend->mColorBit = 1 << colorIndex;
     blend->mStartComponent0 = blend->mColor & 0x1f;
@@ -40,7 +40,7 @@ void SetCourseColorBlendColor(CourseColorBlend *blend, u32 colorMask) {
             break;
         }
     }
-    blend->mColor = gCourseMap->mSettings->mColors[colorIndex];
+    blend->mColor = g_GlobalPE->mSettings->mColors[colorIndex];
     blend->mColorBit = 1 << colorIndex;
 }
 
@@ -56,7 +56,7 @@ void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 step) {
                 break;
             }
         }
-        color = gCourseMap->mSettings->mColors[colorIndex];
+        color = g_GlobalPE->mSettings->mColors[colorIndex];
         blend->mStartComponent0 = blend->mColor & 0x1f;
         blend->mComponentDelta0 = (s16) (color & 0x1f) - blend->mStartComponent0;
         blend->mStartComponent1 = (blend->mColor >> 5) & 0x1f;

@@ -97,12 +97,12 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     record->mFrameIndex = 0;
     if (animation != NULL) {
         frameWork.mTexImageParam = matData->mTexImageParam;
-        frameCount = FROM_FIXED12(GetModelAnimationFrameCountFixed(animation));
+        frameCount = FROM_FIXED12(StructAM_GetFrameCount_Times4096(animation));
         record->mFrameCount = frameCount;
-        heap = GetHeap(GetCurrentHeapCall());
-        record->mTexImageParams = HeapAlloc(heap, frameCount * 4);
-        heap = GetHeap(GetCurrentHeapCall());
-        record->mTexPlttBases = HeapAlloc(heap, frameCount * 4);
+        heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+        record->mTexImageParams = Mem_AllocateHeap(heap, frameCount * 4);
+        heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+        record->mTexPlttBases = Mem_AllocateHeap(heap, frameCount * 4);
         frame = 0;
         if (frame < frameCount) {
             mask = 0xc00f0000;
@@ -111,7 +111,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
             do {
                 animation->mHead.mFrameIndex = TO_FIXED12(frame);
                 animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-                NNSi_G3dAnmCalcNsBtp(&frameWork.mResult, animation->mAnmObjs[0], frameWork.mDataIndex);
+                Anim_UnkFnPtr_BTP(&frameWork.mResult, animation->mAnmObjs[0], frameWork.mDataIndex);
                 record->mTexImageParams[frame] = frameWork.mResult.mPrmTexImage & 0x3ff0ffff;
                 record->mTexImageParams[frame] |= frameWork.mTexImageParam;
                 record->mTexPlttBases[frame] = frameWork.mResult.mPrmTexPltt;
@@ -120,42 +120,42 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
         }
     } else {
         record->mFrameCount = 1;
-        record->mTexImageParams = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(u32));
-        record->mTexPlttBases = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(u32));
+        record->mTexImageParams = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(u32));
+        record->mTexPlttBases = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(u32));
         record->mTexImageParams[0] = matData->mTexImageParam;
         record->mTexPlttBases[0] = matData->mTexPlttBase;
     }
 }
 
-void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused) {
-    record->mNsbmd = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*record->mNsbmd));
-    InitNsbmd(record->mNsbmd, nsbmdFile);
+void StructMapObjectSub_SomeFn_from_thumb(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused) {
+    record->mNsbmd = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*record->mNsbmd));
+    StructML_LoadModel2(record->mNsbmd, nsbmdFile);
     if (nsbtpFile != NULL) {
-        record->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*record->mNsbtpAnimation));
-        InitModelAnimationWithEntries(2, record->mNsbmd, record->mNsbtpAnimation, nsbmdFile, nsbtpFile);
+        record->mNsbtpAnimation = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*record->mNsbtpAnimation));
+        SomeAnimationLoadWrapper_from_thumb(2, record->mNsbmd, record->mNsbtpAnimation, nsbmdFile, nsbtpFile);
     } else {
         record->mNsbtpAnimation = NULL;
     }
     FillNsbmdModel(record->mNsbmd, record->mNsbtpAnimation, record);
 }
 
-void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused) {
-    *recordSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(NsbmdModel));
-    InitNsbmdModel(*recordSlot, nsbmdFile, nsbtpFile, unused);
+void CreateMapObjectSubFrom_from_thumb(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused) {
+    *recordSlot = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(NsbmdModel));
+    StructMapObjectSub_SomeFn_from_thumb(*recordSlot, nsbmdFile, nsbtpFile, unused);
 }
 
 #pragma thumb off
 
 MapObjectKindData *CreatePendulumKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*kindData));
     *kindData = gPendulumKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreatePendulumDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*drawList));
     gPendulumDrawList = drawList;
     *drawList = gPendulumDrawListData;
     SetDrawListSlot(&gPendulumDrawList);
@@ -164,7 +164,7 @@ MapObjectDrawList *CreatePendulumDrawList(void) {
 
 MapObjectList *CreatePendulumUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*updateList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*updateList));
     gPendulumUpdateList = updateList;
     *updateList = gPendulumUpdateListData;
     SetUpdateListSlot(&gPendulumUpdateList);
@@ -210,12 +210,12 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     }
     QuaternionMultiplyAngleAroundZ(&pendulum->mRotationQuaternion, swingAngle, &swingRotation);
     Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix.mAxes, &swingRotation);
-    VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
+    VecFx32_AddScale1(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mDrawPos.x = pendulum->mMapObject.mPos.x >> 4;
     pendulum->mDrawPos.y = pendulum->mMapObject.mPos.y >> 4;
     pendulum->mDrawPos.z = pendulum->mMapObject.mPos.z >> 4;
-    VEC_Subtract(&pendulum->mMapObject.mPos, &pendulum->mPrevPos, &pendulum->mMapObject.mPosStep);
+    VecFx32_Subtract(&pendulum->mMapObject.mPos, &pendulum->mPrevPos, &pendulum->mMapObject.mPosStep);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
 }
 
@@ -226,8 +226,8 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     s32 combinedRadius;
     s64 distanceSquared;
 
-    VEC_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &sphereOffset);
-    axisDistance = Vec3DotUnrounded(&sphereOffset, &pendulum->mMapObject.mMatrix.mRows[2]);
+    VecFx32_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &sphereOffset);
+    axisDistance = VecFx32_CrossProduct_0(&sphereOffset, &pendulum->mMapObject.mMatrix.mRows[2]);
     if (axisDistance > 0) {
         axisOverlap = pendulum->mHalfSizeZ + sphereRadius - axisDistance;
         if (axisOverlap < 0) {
@@ -261,7 +261,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         }
         distanceSquared = SQUARE_SUM3(sphereOffset.x, sphereOffset.y, sphereOffset.z);
         if (distanceSquared >= 16) {
-            Vec3NormalizeAndGetLengthUnchecked(&sphereOffset, &sphereOffset);
+            Vector3_MaybeNormalize(&sphereOffset, &sphereOffset);
         }
         out->x = MUL_FIXED12_NO_ROUND(sphereOffset.x, combinedRadius);
         out->y = MUL_FIXED12_NO_ROUND(sphereOffset.y, combinedRadius);
@@ -274,9 +274,9 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
 #pragma thumb on
 
 void CreatePendulumAndPendulumShadow(void) {
-    CreateNsbmd(&gPendulum, FindCourseMapObjFile("pendulum.nsbmd"), NULL);
-    CreateShadowModel(&gPendulumShadow, FindCourseMapObjFile("pendulum_shadow.nsbmd"), 0x3f);
-    SetNsbmdPolygonIdLightEmiAll(gPendulum, 0x3f, 2, 0x294a);
+    CreateNsbmd(&gPendulum, FormatFindMapObjFileBuffer_from_thumb("pendulum.nsbmd"), NULL);
+    CreateShadowModel(&gPendulumShadow, FormatFindMapObjFileBuffer_from_thumb("pendulum_shadow.nsbmd"), 0x3f);
+    StructML_SomeFn_1(gPendulum, 0x3f, 2, 0x294a);
 }
 
 void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
@@ -291,7 +291,7 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     pendulum->mCourseRowPos.x = courseRow->mPosition.x;
     pendulum->mCourseRowPos.y = courseRow->mPosition.y;
     pendulum->mCourseRowPos.z = courseRow->mPosition.z;
-    VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
+    VecFx32_AddScale1(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
     pendulum->mDrawPos.x = pendulum->mMapObject.mPos.x >> 4;
@@ -309,14 +309,14 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
 
 MapObjectKindData *CreateObPakkunSfKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*kindData));
     *kindData = gObPakkunSfKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateObPakkunSfDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*drawList));
     gObPakkunSfDrawList = drawList;
     *drawList = gObPakkunSfDrawListData;
     SetDrawListSlot(&gObPakkunSfDrawList);
@@ -325,7 +325,7 @@ MapObjectDrawList *CreateObPakkunSfDrawList(void) {
 
 MapObjectList *CreateObPakkunSfUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*updateList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*updateList));
     gObPakkunSfUpdateList = updateList;
     *updateList = gObPakkunSfUpdateListData;
     return updateList;

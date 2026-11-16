@@ -8,55 +8,55 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "power_management_commands.h"
 
-void InitSceneSoundSetPlayer(s32 seqId) {
-    if (gStartupWork->mSoundSetPlayerInitialized) {
+void SetSomeSceneSseqId(s32 seqId) {
+    if (g_GlobalP->mSoundSetPlayerInitialized) {
         return;
     }
-    gStartupWork->mSoundSetPlayerInitialized = 1;
-    InitSoundSetPlayerWithVariables(&gStartupWork->mSoundSetPlayer, seqId, 0xff);
+    g_GlobalP->mSoundSetPlayerInitialized = 1;
+    LoadSomeSseq(&g_GlobalP->mSoundSetPlayer, seqId, 0xff);
 }
 
 void StartSceneSoundSetSeq(void) {
-    if (!gStartupWork->mSoundSetPlayerInitialized) {
+    if (!g_GlobalP->mSoundSetPlayerInitialized) {
         return;
     }
-    if (gStartupWork->mSoundSetSeqPlaying) {
+    if (g_GlobalP->mSoundSetSeqPlaying) {
         return;
     }
-    gStartupWork->mSoundSetSeqPlaying = 1;
-    StartSoundSetSeq(&gStartupWork->mSoundSetPlayer, gSceneSeqVolume);
+    g_GlobalP->mSoundSetSeqPlaying = 1;
+    StartSoundSetSeq(&g_GlobalP->mSoundSetPlayer, gSceneSeqVolume);
 }
 
 void StopSceneSoundSetSeq(void) {
-    StartupWork *startupWork = gStartupWork;
+    StartupWork *startupWork = g_GlobalP;
 
     if (!startupWork->mSoundSetSeqPlaying) {
         return;
     }
     StopSoundSetSeq(&startupWork->mSoundSetPlayer, GetSoundFadeSteps());
-    gStartupWork->mSoundSetSeqPlaying = 0;
+    g_GlobalP->mSoundSetSeqPlaying = 0;
 }
 
 void ReleaseSceneSoundSetPlayer(void) {
-    if (gStartupWork->mSoundSetSeqPlaying) {
+    if (g_GlobalP->mSoundSetSeqPlaying) {
         return;
     }
-    if (!gStartupWork->mSoundSetPlayerInitialized) {
+    if (!g_GlobalP->mSoundSetPlayerInitialized) {
         return;
     }
-    ReleaseSoundSetPlayer(&gStartupWork->mSoundSetPlayer);
-    gStartupWork->mSoundSetPlayerInitialized = 0;
+    ReleaseSoundSetPlayer(&g_GlobalP->mSoundSetPlayer);
+    g_GlobalP->mSoundSetPlayerInitialized = 0;
 }
 
 void StopSceneSoundSetSeqWithSteps(u32 fadeSteps) {
-    if (!gStartupWork->mSoundSetSeqPlaying) {
+    if (!g_GlobalP->mSoundSetSeqPlaying) {
         return;
     }
-    StopSoundSetSeq(&gStartupWork->mSoundSetPlayer, fadeSteps);
+    StopSoundSetSeq(&g_GlobalP->mSoundSetPlayer, fadeSteps);
 }
 
 BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
-    StartupWork *startupWork = gStartupWork;
+    StartupWork *startupWork = g_GlobalP;
     s32 firstBackLightOn = startupWork->mFirstBackLightOn;
     s32 secondBackLightOn = startupWork->mSecondBackLightOn;
     BOOL allSet = TRUE;
@@ -73,14 +73,14 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
     }
     if (firstBackLightOn != startupWork->mFirstBackLightOn) {
         if (PM_SetBackLight(0, firstBackLightOn) == 0) {
-            gStartupWork->mFirstBackLightOn = firstBackLightOn;
+            g_GlobalP->mFirstBackLightOn = firstBackLightOn;
         } else {
             allSet = FALSE;
         }
     }
-    if (secondBackLightOn != gStartupWork->mSecondBackLightOn) {
+    if (secondBackLightOn != g_GlobalP->mSecondBackLightOn) {
         if (PM_SetBackLight(1, secondBackLightOn) == 0) {
-            gStartupWork->mSecondBackLightOn = secondBackLightOn;
+            g_GlobalP->mSecondBackLightOn = secondBackLightOn;
         } else {
             allSet = FALSE;
         }
@@ -90,7 +90,7 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
 
 RandomState64 *GetRandomState(void) {
     void *random = NULL;
-    StartupWork *startupWork = gStartupWork;
+    StartupWork *startupWork = g_GlobalP;
 
     switch (startupWork->mConnectionKind) {
         case CONNECTION_KIND_NONE:
@@ -99,7 +99,7 @@ RandomState64 *GetRandomState(void) {
             break;
         case CONNECTION_KIND_MEMBER_SELECT:
         case CONNECTION_KIND_WL_MENU:
-            random = &gConnectionWork->mRandomState;
+            random = &g_GlobalZE->mRandomState;
             break;
     }
     return random;

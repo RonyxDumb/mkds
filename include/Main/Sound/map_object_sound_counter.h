@@ -10,7 +10,7 @@ typedef struct SoundStartParams SoundStartParams;
 #include "Main/Sound/sound_source_list.h"
 
 
-void InitSceneSoundsNop(void);
+void nullsub_13(void);
 void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue);
 void StartIronBallBounceSound(struct MapObjectSound *soundSource, s32 fixedValue);
 void QueueBalloonSound(void *position, s32 distanceSquared);

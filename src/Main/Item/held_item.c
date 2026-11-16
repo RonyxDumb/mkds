@@ -51,8 +51,8 @@ void UpdateHeldItem(HeldItem *rec) {
     if (rec->mTimer != 0) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_WIFI) {
-        if (gRaceSetup->mEntryIndex == rec->mKartItems->mKartIndex) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
+        if (g_GlobalCO->mEntryIndex == rec->mKartItems->mKartIndex) {
             kind = (ItemInfoIndex) rec->mItemInfoIndex;
             AddItemDataFrameOnly(gItemInfos[kind].mObjectKind);
         }
@@ -136,7 +136,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     ItemInfoIndex kind = (ItemInfoIndex) rec->mItemInfoIndex;
     u32 poolIndex = gItemInfos[kind].mObjectKind;
 
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         objectCount = rec->mObjectCount;
         if (rec->mIsPeerEntry == FALSE) {
             for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
@@ -196,10 +196,10 @@ void TakeHeldItemObjects(HeldItem *rec) {
     s32 rowX;
     s32 rowY;
 
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        generator = &gRaceProgress->mLocalRandom;
+    if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
+        generator = &g_GlobalMV->mLocalRandom;
     } else {
-        generator = &gRaceProgress->mRandom;
+        generator = &g_GlobalMV->mRandom;
     }
     angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
     poolIndex = gItemInfos[kind].mObjectKind;
@@ -226,7 +226,7 @@ void TakeHeldItemObjects(HeldItem *rec) {
             object->mVelocity.x = MUL_FIXED12_NO_ROUND(dir->x, directionAmount);
             object->mVelocity.y = MUL_FIXED12_NO_ROUND(dir->y, directionAmount);
             object->mVelocity.z = MUL_FIXED12_NO_ROUND(dir->z, directionAmount);
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairSecond) +
+            VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairSecond) +
                             MUL_FIXED12_NO_ROUND(directionAmount, radiusTimesAnglePairFirst),
                         axis, &object->mVelocity, &object->mVelocity);
             object->mScale.x = 0xcd;
@@ -476,7 +476,7 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
     deltaY = FROM_FIXED12(linkPos->y - pos->y);
     deltaZ = FROM_FIXED12(linkPos->z - pos->z);
     startDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-    stepsLeft = gCourseMap->mItemPointCount;
+    stepsLeft = g_GlobalPE->mItemPointCount;
     posAlias = pos;
 
     current = node;
@@ -545,7 +545,7 @@ void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx,
     found = FALSE;
     bestDistanceSquared = 0x5f592e1;
     if (idx < 8) {
-        other = GetKart(idx);
+        other = GetRacerMQEntry(idx);
         pos = &other->mDrawMatrixPos;
         {
             s64 sq = (s64) (((const Vec3 *) pos)->x - ((const Vec3 *) origin)->x) *
@@ -620,14 +620,14 @@ u8 GetItemPointLinkIndex(ItemPointLinkRef *ref) {
     if (ref->mLink == NULL) {
         return 0xff;
     }
-    return ref->mLink - gCourseMap->mItemRoute0FirstLink;
+    return ref->mLink - g_GlobalPE->mItemRoute0FirstLink;
 }
 
 s32 SetItemPointLinkRefFromIndex(u32 index, ItemPointLinkRef *ref) {
     if (index >= 0xff) {
         ref->mLink = NULL;
     } else {
-        ref->mLink = gCourseMap->mItemRoute0FirstLink + index;
+        ref->mLink = g_GlobalPE->mItemRoute0FirstLink + index;
     }
     ref->mNextLinksUsed = 1;
     return 1;
@@ -657,8 +657,8 @@ void InitItemPointLinkDirections(void) {
     u32 linkCount;
     u16 linkIndex;
 
-    linkCount = gCourseMap->mItemPointCount;
-    link = gCourseMap->mItemPointLinks;
+    linkCount = g_GlobalPE->mItemPointCount;
+    link = g_GlobalPE->mItemPointLinks;
     linkIndex = 0;
     for (linkIndex = 0; linkIndex < 4; linkIndex++) {
         gItemPointLinksByIndex[linkIndex] = 0;
@@ -668,11 +668,11 @@ void InitItemPointLinkDirections(void) {
             gItemPointLinksByIndex[link->mLinkIndex] = (s32) link;
         }
     }
-    link = gCourseMap->mItemPointLinks;
+    link = g_GlobalPE->mItemPointLinks;
     for (linkIndex = 0; linkIndex < linkCount; linkIndex++, link++) {
-        VEC_Subtract(link->mNextLinks[0]->mPointPos, link->mPointPos, &direction);
+        VecFx32_Subtract(link->mNextLinks[0]->mPointPos, link->mPointPos, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+            Vector3_MaybeNormalize(&direction, &direction);
         }
         link->mDirectionX = direction.x >> 6;
         link->mDirectionY = direction.y >> 6;
@@ -698,7 +698,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     s32 alongY;
     s32 alongZ;
 
-    value = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mRows[2]);
+    value = VecFx32_CrossProduct_0(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mRows[2]);
     kartOnBoostSurface = (itemInUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0;
     value = MUL_FIXED12_NO_ROUND(value, 0x1ec);
     if (value < 0x666) {
@@ -715,8 +715,8 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
         }
     }
     if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_SPREAD_KART_SPEED) {
-        direction.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
-        direction.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
+        direction.z += ThrowBouncingItem_inline(&g_GlobalMV->mRandom, 0xf6) - 0x7b;
+        direction.x += ThrowBouncingItem_inline(&g_GlobalMV->mRandom, 0xf6) - 0x7b;
     }
     direction.x = MUL_FIXED12_NO_ROUND(direction.x, value);
     direction.y = MUL_FIXED12_NO_ROUND(direction.y, value);
@@ -730,20 +730,20 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             dx = itemInUse->mKartMovement.y > 0 ? 0x666 : 0x1333;
             value += MUL_FIXED12_NO_ROUND(dx, itemInUse->mKartMovement.y);
         }
-        VEC_MultAdd(value, &itemInUse->mKartOrientation.mRows[1], &direction, &item->mItemObject.mVelocity);
+        VecFx32_AddScale1(value, &itemInUse->mKartOrientation.mRows[1], &direction, &item->mItemObject.mVelocity);
     }
     if (throwForward == 0) {
-        VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mPointMotion, &item->mItemObject.mVelocity);
+        VecFx32_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mPointMotion, &item->mItemObject.mVelocity);
     }
     if (throwForward != 0) {
         item->mItemObject.mPos = itemInUse->mKart->mCollisionCenter;
-        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mRows[2], &item->mItemObject.mPos,
+        VecFx32_AddScale1(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mRows[2], &item->mItemObject.mPos,
                     &item->mItemObject.mPos);
     } else {
         if (itemInUse->mKartHopHeight != 0 && itemInUse->mKartVelocityLength < ITEM_THROW_HOP_OFFSET_KART_SPEED &&
             item->mItemObject.mScale.z < 0xccd) {
-            VEC_Subtract(&itemInUse->mKartOrientation.mRows[1], &itemInUse->mKartOrientation.mRows[2], &direction);
-            VEC_MultAdd(0x2000, &direction, &item->mItemObject.mPos, &item->mItemObject.mPos);
+            VecFx32_Subtract(&itemInUse->mKartOrientation.mRows[1], &itemInUse->mKartOrientation.mRows[2], &direction);
+            VecFx32_AddScale1(0x2000, &direction, &item->mItemObject.mPos, &item->mItemObject.mPos);
         }
     }
     if (item->mItemObject.mScale.z < 0xccd) {
@@ -759,14 +759,14 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     if (!kartOnBoostSurface) {
         return;
     }
-    value = VEC_DotProduct(&itemInUse->mKartOrientation.mRows[1], &item->mItemObject.mVelocity);
+    value = Vector3_DotProduct(&itemInUse->mKartOrientation.mRows[1], &item->mItemObject.mVelocity);
     dx = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mRows[1].x, value);
     alongY = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mRows[1].y, value);
     alongZ = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mRows[1].z, value);
     item->mItemObject.mVelocity.x -= dx;
     item->mItemObject.mVelocity.y -= alongY;
     item->mItemObject.mVelocity.z -= alongZ;
-    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mRows[1],
+    VecFx32_AddScale1(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mRows[1],
                 &item->mItemObject.mVelocity, &item->mItemObject.mVelocity);
     item->mBouncesRemaining = 0;
 }
@@ -798,14 +798,14 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
 
     velocity = &item->mItemObject.mVelocity;
     pos = &item->mItemObject.mPos;
-    VEC_Add(velocity, pos, pos);
+    VecFx32_Add(velocity, pos, pos);
     velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, velocityFactor);
     velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, velocityFactor);
     velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, velocityFactor);
     if (CollideSphereWithCourse(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mCourseRadius, 0x24,
                                 item->mItemObject.mCollisionSlotIndex, &offset, &hitNormal, &wallNormal,
                                 &item->mItemObject.mCollisionBits, NULL, NULL, NULL, collisionHitLink) != 0) {
-        VEC_Add(&offset, pos, pos);
+        VecFx32_Add(&offset, pos, pos);
         if (item->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
             value = item->mBouncesRemaining;
             item->mBouncesRemaining = value - 1;
@@ -813,7 +813,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
                 LandItemObjectIfOnGround(&item->mItemObject, pos, velocity, gravity, &hitNormal);
             } else {
                 item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_BOUNCED;
-                value = VEC_DotProduct(&hitNormal, velocity);
+                value = Vector3_DotProduct(&hitNormal, velocity);
                 offset.x = MUL_FIXED12_NO_ROUND(hitNormal.x, value);
                 offset.y = MUL_FIXED12_NO_ROUND(hitNormal.y, value);
                 offset.z = MUL_FIXED12_NO_ROUND(hitNormal.z, value);
@@ -823,7 +823,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
                 velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x8cd);
                 velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x8cd);
                 velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x8cd);
-                VEC_MultAdd(-reflectFactor, &offset, velocity, velocity);
+                VecFx32_AddScale1(-reflectFactor, &offset, velocity, velocity);
                 item->mItemObject.mNormal = hitNormal;
             }
         }

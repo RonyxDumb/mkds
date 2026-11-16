@@ -106,7 +106,7 @@ void InitItemFBoxFromData(ItemFBox *fbox) {
     if (fbox->mThrownForward == 0) {
         return;
     }
-    StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StructMQRacerEntry_SomeFn_8(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
 #pragma thumb on
@@ -172,13 +172,13 @@ u8 *CopyItemPrevPosOffset(u8 *cursor, Vec3 *position, Vec3 *prevPosition, void *
 
     if (prevPosition != NULL) {
         if (toData != NULL) {
-            VEC_Subtract(prevPosition, position, (Vec3 *) offset);
+            VecFx32_Subtract(prevPosition, position, (Vec3 *) offset);
         }
         cursor = CopyItemShiftedByteInline(cursor, &offset[0], toData, 10);
         cursor = CopyItemShiftedByteInline(cursor, &offset[1], toData, 9);
         cursor = CopyItemShiftedByteInline(cursor, &offset[2], toData, 10);
         if (toData == NULL) {
-            VEC_Add((Vec3 *) offset, position, prevPosition);
+            VecFx32_Add((Vec3 *) offset, position, prevPosition);
         }
     } else {
         cursor++;
@@ -349,7 +349,7 @@ void AddQueuedItemData(void) {
         return;
     }
     do {
-        available = gWiFiRaceSync->mUnusedItemDataBytes;
+        available = g_GlobalAA->mUnusedItemDataBytes;
         nextIndex = gItemDataQueueLinks[index][0];
         if (available < gItemDataQueueLinks[index][1]) {
             return;
@@ -375,7 +375,7 @@ void ProcessDelayedItemData(void) {
     u32 freeHead;
     ItemDataRecord *record;
 
-    raceUpdateFrames = GetRaceUpdateFrames();
+    raceUpdateFrames = GetSomeTimeOrDuration();
     index = gItemDataDelayedUsedHead[0];
     previousIndex = 0xff;
     while (index != 0xff) {
@@ -416,7 +416,7 @@ void QueueItemData(u32 kind, u32 messageKind, void *packet, u8 size) {
     record = &gItemDataQueue[index];
     record->mKind = kind;
     record->mMessageKind = messageKind;
-    MI_CpuCopy8(packet, record, size);
+    Mem_CpuCopy8(packet, record, size);
     gItemDataQueueFreeHead[0] = gItemDataQueueLinks[index][0];
     if (gItemDataQueueUsedHead[0] == 0xff) {
         gItemDataQueueUsedHead[0] = index;
@@ -449,7 +449,7 @@ void DelayItemData(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
     record->mKind = kind;
     record->mMessageKind = messageKind;
     record->mRaceUpdateFramesStamp = frameStamp;
-    MI_CpuCopy8(packet, record, sizeof(record->mData));
+    Mem_CpuCopy8(packet, record, sizeof(record->mData));
     gItemDataDelayedFreeHead[0] = gItemDataDelayedLinks[index][0];
     gItemDataDelayedLinks[index][0] = gItemDataDelayedUsedHead[0];
     if (frameStamp != 0) {
@@ -463,8 +463,8 @@ void DelayItemData(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
 u8 *AddItemDataFrameOnly(u32 kind) {
     s32 available;
 
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_START, gItemDataBuffer, 1);
     } else {
@@ -478,8 +478,8 @@ u8 *AddItemDataSizedByKind(u32 kind) {
     s32 available;
 
     dataSize = gItemKinds[kind].mDataSize & 0xff;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_START, gItemDataBuffer, dataSize + 1);
     } else {
@@ -492,8 +492,8 @@ u8 *AddItemDataNoItemId(u32 kind) {
     s32 available;
 
     gItemDataBuffer[1] = 0xff;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_START, gItemDataBuffer, 2);
     } else {
@@ -507,8 +507,8 @@ u8 *AddItemDataItemIdAndParts(u32 kind, u32 lowPart, u32 highPart, u32 itemId) {
 
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = lowPart | (highPart << 4);
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_EVENT, gItemDataBuffer, 3);
     } else {
@@ -522,8 +522,8 @@ u8 *AddItemDataItemIdAndKart(u32 kind, u32 kartIndex, u32 itemId) {
 
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = kartIndex;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_KART, gItemDataBuffer, 3);
     } else {
@@ -538,8 +538,8 @@ u8 *AddItemDataItemIdAndBytes(u32 kind, u32 itemId, u32 thirdByte, u32 fourthByt
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = thirdByte;
     gItemDataBuffer[3] = fourthByte;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_KART, gItemDataBuffer, 4);
     } else {
@@ -551,7 +551,7 @@ u8 *AddItemDataItemIdAndBytes(u32 kind, u32 itemId, u32 thirdByte, u32 fourthByt
 void ProcessItemDataMessage(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     s8 frameDifference;
 
-    frameDifference = (u8) GetRaceUpdateFrames() - packet[0];
+    frameDifference = (u8) GetSomeTimeOrDuration() - packet[0];
     if (frameDifference >= 0) {
         ProcessItemPoolMessage(gItemPools + kind, messageKind, frameDifference, packet, 0);
     } else {
@@ -574,7 +574,7 @@ void DelayItemDataWithFrameStamp(u32 kind, u32 messageKind, u32 frameDifference,
 
     storedFrameStamp = frameStamp;
     if (storedFrameStamp == 0) {
-        storedFrameStamp = GetRaceUpdateFrames();
+        storedFrameStamp = GetSomeTimeOrDuration();
     }
     DelayItemData(kind, messageKind, frameDifference, packet, storedFrameStamp);
 }
@@ -594,8 +594,8 @@ void *CopyItemObjectDataAndAdd(void *cursor, void *object, s32 toData) {
         return nextCursor;
     }
     kind = item->mKind;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = gWiFiRaceSync->mUnusedItemDataBytes;
+    gItemDataBuffer[0] = GetSomeTimeOrDuration();
+    available = g_GlobalAA->mUnusedItemDataBytes;
     if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, ITEM_DATA_MESSAGE_START_GENERIC, gItemDataBuffer, 0x12);
     } else {

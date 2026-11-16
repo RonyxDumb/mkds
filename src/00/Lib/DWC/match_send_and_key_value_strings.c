@@ -15,7 +15,7 @@
 MATHRandContext32 gRandContext32;
 
 u32 DWC_SetCommonKeyValueString(void *key, void *value, void *string, u32 separator) {
-    OS_SNPrintf(string, 0x1000, "%c%s%c%s", separator, key, separator, value);
+    Util_SNPrintF(string, 0x1000, "%c%s%c%s", separator, key, separator, value);
     return strlen(string);
 }
 
@@ -61,21 +61,21 @@ s32 DWC_GetCommonValueString(const char *key, char *value, const char *string, i
     } else {
         len = strlen(pair + 1);
     }
-    strncpy(value, pair + 1, len);
+    SomeStrncpy_0(value, pair + 1, len);
     value[len] = 0;
     return len;
 }
 
 u64 MatchingGetTickMilliseconds(void) {
-    return _ll_udiv(OS_GetTick() << 6, 0x82ea);
+    return _ll_udiv(Os_GetTick() << 6, 0x82ea);
 }
 
 u32 DWCi_GetMathRand32(u32 max) {
     u64 seed;
     u64 tick;
     if (gRandContext32.mX == 0 && gRandContext32.mMul == 0 && gRandContext32.mAdd == 0) {
-        OS_GetMacAddress(&seed);
-        tick = OS_GetTick();
+        Os_GetMacAddress(&seed);
+        tick = Os_GetTick();
         seed = ((seed >> 24) & 0xffffff) | (tick << 24);
         gRandContext32.mX = seed;
         gRandContext32.mMul = 0x5d588b656c078965;

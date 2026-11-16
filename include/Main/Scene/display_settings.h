@@ -14,7 +14,7 @@ typedef enum {
     BG23_MODE_NONE
 } Bg23Mode;
 
-// Background priority (the low two bits of the control halfword) InitDisplayBgRecords starts each background with.
+// Background priority (the low two bits of the control halfword) DisplayEngineConfig_SomeClearFn starts each background with.
 #define DISPLAY_BG0_DEFAULT_PRIORITY 0
 #define DISPLAY_BG1_DEFAULT_PRIORITY 1
 #define DISPLAY_BG23_DEFAULT_PRIORITY 2
@@ -29,7 +29,7 @@ typedef struct Bg23CntFields {
     /* 0a */ u16 mBgCntVal2;
 } Bg23CntFields;
 
-// Argument of ApplyBg3Cnt and ApplyBg2Cnt.
+// Argument of SetGlobalDisplayConfig_Bg3 and SetGlobalDisplayConfig_Bg2.
 typedef struct Bg23Cnt {
     /* 00 */ s32 mMode;
     /* 04 */ Bg23CntFields mFields;
@@ -59,7 +59,7 @@ typedef struct DisplayBgRecords {
     /* 42 */ u16 mObjVRamModeBmp;
 } DisplayBgRecords;
 
-// The description InitDisplaySettings copies into the display settings: masks, modes and VRAM banks.
+// The description DisplayConfig_SomeFn copies into the display settings: masks, modes and VRAM banks.
 typedef struct DisplaySettingsDesc {
     /* 00 */ u16 mWaitIrqCount;
     /* 02 */ u16 mMainDisplayMask;
@@ -90,7 +90,7 @@ enum { BRIGHTNESS_FADE_FADED, BRIGHTNESS_FADE_TO_CLEAR, BRIGHTNESS_FADE_CLEAR, B
 #define BRIGHTNESS_LEVEL_CLEAR 0
 #define BRIGHTNESS_LEVEL_FADED 0x10
 
-// Two of these sit at gSubBrightnessFade and gMainBrightnessFade; UpdateBrightnessFade steps one.
+// Two of these sit at g_BottomBrightnessContext and g_TopBrightnessContext; Bright_UpdateContext steps one.
 typedef struct BrightnessFade {
     /* 00 */ u16 mState;
     /* 02 */ u16 mPositive;
@@ -100,48 +100,48 @@ typedef struct BrightnessFade {
     /* 0a */ u16 mUnk_0a;
 } BrightnessFade;
 
-u32 AreBrightnessFadesClear(void);
-void SetBrightnessFadesClear(void);
-u32 AreBrightnessFadesFaded(void);
-void StartFadeToFadedPositive(s16 frameCount);
+u32 Bright_IsBothScreensFadedIn(void);
+void Bright_ResetBlackBothScreens(void);
+u32 Bright_IsBothScreensFadedOut(void);
+void Bright_FadeOutWhite(s16 frameCount);
 void StartFadeToFadedPositiveOneScreen(s16 frameCount, s32 isMainScreen);
-void StartFadeToFadedNegative(s16 frameCount);
-void StartFadeToFadedNegativeOneScreen(s32 frameCount, s32 isMainScreen);
+void Bright_FadeOutBlack(s16 frameCount);
+void BrightCtx_SomeFn_0(s32 frameCount, s32 isMainScreen);
 void StartFadeToClearNegative(s16 frameCount);
-void StartFadeToClearNegativeOneScreen(s32 frameCount, s32 isMainScreen);
-void StartFadeToClear(s16 frameCount);
+void BrightCtx_SomeFn_1(s32 frameCount, s32 isMainScreen);
+void BrightCtx_SomeFnTopBottom(s16 frameCount);
 void StartFadeToClearOneScreen(s16 frameCount, s32 isMainScreen);
-void RecordFrameTimes(void);
-void FinishDisplayFrameSwapIf(s32 doSwap);
+void LoopFn_DisplayConfig(void);
+void UpdateBrightnessContextsAndMore(s32 doSwap);
 void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned);
-void FinishDisplayFrame(void);
+void LoopFn_Brightness(void);
 void ClearFrameFinishedFlag(void);
 u32 IsFrameSpanningVBlank(void);
-void PrepareDisplayFrame(void);
-void DisableAllBanksAndNullDisplaySettings(void);
-void InitDisplayFromSettings(DisplaySettings *settings);
-void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen);
-void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen);
-void SetSubObjVRamModeBmp(DisplaySettings *settings, unsigned int value);
-void SetG3xSwapBits(DisplaySettings *settings, u32 sortMode, u32 bufferMode);
-void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void LoopFn_Some3D(void);
+void ResetDisplayConfig(void);
+void SetGlobalDisplayConfig(DisplaySettings *settings);
+void SetGlobalDisplayConfig_Bg3(Bg23Cnt *cnt, s32 isMainScreen);
+void SetGlobalDisplayConfig_Bg2(Bg23Cnt *cnt, s32 isMainScreen);
+void DisplayConfig_SetBottomEngineObjVramModeBmp(DisplaySettings *settings, unsigned int value);
+void DisplayConfig_SetSwapBufferValues(DisplaySettings *settings, u32 sortMode, u32 bufferMode);
+void DisplayEngineConfig_SetBg2Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                        u32 cntVal8);
-void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayEngineConfig_SetBg3Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                         u32 cntVal8, u32 cntVal2);
-void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayEngineConfig_SetBg2Config2(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                         u32 cntVal8, u32 cntVal2);
-void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void DisplayEngineConfig_SetBg1Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13);
-void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void DisplayEngineConfig_SetBg0Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13);
-DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor);
-void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase);
-void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode);
-void WaitIrqAndTurnOnDisplays(void);
-void InitBrightnessFades(void);
-void UpdateBrightnessFade(BrightnessFade *fade);
+DisplaySettings *CreateDisplayConfig(void *heap, void *descriptor);
+void DisplayConfig_SomeFn(DisplaySettings *settings, void *descriptorBase);
+void DisplayEngineConfig_SomeClearFn(DisplayBgRecords *records, u32 bgMode);
+void EnableGreenSwap(void);
+void InitializeBrightnessContexts(void);
+void Bright_UpdateContext(BrightnessFade *fade);
 
 void InitDisplaySettingsDesc(DisplaySettingsDesc *displaySettingsDesc);
 
-extern BrightnessFade gMainBrightnessFade;
-extern BrightnessFade gSubBrightnessFade;
+extern BrightnessFade g_TopBrightnessContext;
+extern BrightnessFade g_BottomBrightnessContext;

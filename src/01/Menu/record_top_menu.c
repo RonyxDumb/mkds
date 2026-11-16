@@ -56,30 +56,30 @@ void LocateAndQueueRecordTopMenu(void) {
     recordTopMenuMBNcgr = NULL;
     recordTopMenuMBNclr = NULL;
     recordTopMenuMNscr = NULL;
-    LocateNcgr(&recordTopMenuMBNcgr, FindSceneFile(gRecordTopMenuMBNcgrName));
-    LocateNclr(&recordTopMenuMBNclr, FindSceneFile(gRecordTopMenuMBNclrName));
-    LocateNscr(&recordTopMenuMNscr, FindSceneFile(gRecordTopMenuMNscrName));
-    gRecordTopMenu->mSecondScreenMapBuffer = HeapAlloc(gRecordTopMenu->mHeap, SECOND_SCREEN_MAP_BYTES);
-    gRecordTopMenu->mRecordTopMenuMBncl = FindSceneFile(gRecordTopMenuMBnclName);
-    gRecordTopMenu->mRecordTopMenuMBnll = FindSceneFile(gRecordTopMenuMBnllName);
-    LocateNcgr2(&recordTopMenuMNcgr, FindSceneFile(gRecordTopMenuMNcgrName));
-    LocateNcer(&gRecordTopMenu->mRecordTopMenuMNcer, FindSceneFile(gRecordTopMenuMNcerName));
-    LocateNclr(&recordTopMenuMONclr, FindSceneFile(gRecordTopMenuMONclrName));
-    gRecordTopMenu->mRecordTopMenuSBncl = FindSceneFile(gRecordTopMenuSBnclName);
-    gRecordTopMenu->mRecordTopMenuSBnbl = FindSceneFile(gRecordTopMenuSBnblName);
-    LocateNcgr2(&recordTopMenuSNcgr, FindSceneFile(gRecordTopMenuSNcgrName));
-    LocateNcer(&gRecordTopMenu->mRecordTopMenuSNcer, FindSceneFile(gRecordTopMenuSNcerName));
-    LocateNclr(&recordTopMenuSONclr, FindSceneFile(gRecordTopMenuSONclrName));
+    MaybeReadCharBlock_1(&recordTopMenuMBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMBNcgrName));
+    Gfx_ReadPaletteRelative(&recordTopMenuMBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMBNclrName));
+    MaybeReadScreenBlock(&recordTopMenuMNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMNscrName));
+    gRecordTopMenu->mSecondScreenMapBuffer = Mem_AllocateHeap(gRecordTopMenu->mHeap, SECOND_SCREEN_MAP_BYTES);
+    gRecordTopMenu->mRecordTopMenuMBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMBnclName);
+    gRecordTopMenu->mRecordTopMenuMBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMBnllName);
+    Gfx_ReadCharGraphicsRelative(&recordTopMenuMNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMNcgrName));
+    LocateNcer(&gRecordTopMenu->mRecordTopMenuMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMNcerName));
+    Gfx_ReadPaletteRelative(&recordTopMenuMONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMONclrName));
+    gRecordTopMenu->mRecordTopMenuSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSBnclName);
+    gRecordTopMenu->mRecordTopMenuSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSBnblName);
+    Gfx_ReadCharGraphicsRelative(&recordTopMenuSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSNcgrName));
+    LocateNcer(&gRecordTopMenu->mRecordTopMenuSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSNcerName));
+    Gfx_ReadPaletteRelative(&recordTopMenuSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSONclrName));
     paletteData = recordTopMenuMONclr->mData;
-    NNS_GfdRegisterNewVramTransferTask(4, 0, recordTopMenuMBNcgr->mData, recordTopMenuMBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(15, 0, recordTopMenuMBNclr->mData, 0x60);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, recordTopMenuMNscr->mData, recordTopMenuMNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, recordTopMenuMNcgr->mData, recordTopMenuMNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(14, 0, recordTopMenuMONclr->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, paletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, recordTopMenuSNcgr->mData, recordTopMenuSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, recordTopMenuSONclr->mData, recordTopMenuSONclr->mDataSize);
+    AllocateReserveTEQSub(4, 0, recordTopMenuMBNcgr->mData, recordTopMenuMBNcgr->mDataSize);
+    AllocateReserveTEQSub(15, 0, recordTopMenuMBNclr->mData, 0x60);
+    AllocateReserveTEQSub(8, 0, recordTopMenuMNscr->mData, recordTopMenuMNscr->mDataSize);
+    AllocateReserveTEQSub(8, 0x800, gRecordTopMenu->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
+    AllocateReserveTEQSub(0x13, 0, recordTopMenuMNcgr->mData, recordTopMenuMNcgr->mDataSize);
+    AllocateReserveTEQSub(14, 0, recordTopMenuMONclr->mData, 0x1a0);
+    AllocateReserveTEQSub(14, 0x1c0, paletteData + 0xe0, 0x40);
+    AllocateReserveTEQSub(0x23, 0, recordTopMenuSNcgr->mData, recordTopMenuSNcgr->mDataSize);
+    AllocateReserveTEQSub(0x1e, 0, recordTopMenuSONclr->mData, recordTopMenuSONclr->mDataSize);
 }
 
 void SetRecordTopMenuRowOn(s32 row) {
@@ -156,7 +156,7 @@ void RequestRecordTopMenuInput(void) {
 void RequestRecordTopMenuRowPress(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROW_PRESS;
     gRecordTopMenu->mStateFrames = 0;
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 6 for the next update.
@@ -174,19 +174,19 @@ void RequestRecordTopMenuRowsSlideOut(void) {
 void RequestRecordTopMenuWaitMessageOpen(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN;
     gRecordTopMenu->mStateFrames = 0;
-    SetupTxtSystemSubText(GetBmgEntry(gRecordTopMenu->mCommonMessages, 0x76));
+    TextSystem_DisplayProgressDialog_Simple_from_thumb(Bmg_GetRawStringPointer_from_thumb(gRecordTopMenu->mCommonMessages, 0x76));
 }
 
 void RequestRecordTopMenuMessageInput(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_MESSAGE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x15);
 }
 
 void RequestRecordTopMenuWaitMessageClose(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_CLOSE;
     gRecordTopMenu->mStateFrames = 0;
-    RequestTxtSystemClose();
+    TextSystem_CloseDialog_from_thumb();
 }
 
 // Requests state 11 for the next update.
@@ -200,7 +200,7 @@ void IncrementRecordTopMenuIndex(void) {
     if (gRecordTopMenu->mIndex >= RECORD_TOP_ROW_COUNT) {
         gRecordTopMenu->mIndex = RECORD_TOP_ROW_GPX;
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
 }
 
 void DecrementRecordTopMenuIndex(void) {
@@ -208,7 +208,7 @@ void DecrementRecordTopMenuIndex(void) {
     if (gRecordTopMenu->mIndex < 0) {
         gRecordTopMenu->mIndex = RECORD_TOP_ROW_VS;
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
 }
 
 void RefreshRecordTopMenuGradeCells(void) {
@@ -218,8 +218,8 @@ void RefreshRecordTopMenuGradeCells(void) {
 
     for (cup = 0; cup < 8; cup++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
-            if (IsGrandPrixRecordFilled(cup, engineClass)) {
-                s32 grade = GetGrandPrixRecordGrade(cup, engineClass);
+            if (CupHasRecord(cup, engineClass)) {
+                s32 grade = GetCupEntryRank(cup, engineClass);
                 if (best > grade) {
                     best = grade;
                 }
@@ -250,7 +250,7 @@ void InitRecordTopMenu(void *heap) {
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x8800;
     reg_G2S_DB_BG1CNT =
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
-    gRecordTopMenu = HeapAlloc(heap, sizeof(RecordTopMenu));
+    gRecordTopMenu = Mem_AllocateHeap(heap, sizeof(RecordTopMenu));
     gRecordTopMenu->mHeap = heap;
     gRecordTopMenu->mState = RECORD_TOP_MENU_STATE_WAIT_FADE;
     switch (GetRecordPrevScreen()) {
@@ -271,21 +271,21 @@ void InitRecordTopMenu(void *heap) {
     }
     LocateAndQueueRecordTopMenu();
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-        SetCellOamModeXlu(gRecordTopMenuXluCellIndices[rowIndex], 1, gRecordTopMenu->mRecordTopMenuSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gRecordTopMenuXluCellIndices[rowIndex], 1, gRecordTopMenu->mRecordTopMenuSNcer,
                           gRecordTopMenu->mRecordTopMenuSBncl);
     }
-    ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
+    OamBuffer_SomeFn_from_thumb(GetRecordMainOam(), GetRecordSubOam());
     InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMBnll,
                     &gRecordTopMenu->mRecordTopMenuMTable);
     InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuSBncl, NULL, &gRecordTopMenu->mRecordTopMenuSTable);
-    gRecordTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gRecordTopMenu->mRecordMessages = FindSceneFile("record.bmg");
+    gRecordTopMenu->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    gRecordTopMenu->mRecordMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("record.bmg");
     remainingSize = 0x8000;
     remainingSize -=
         InitLabelCanvas(heap, 0, gRecordTopMenu->mRecordTopMenuMBnll, 0xaa, 0xe, 0, gRecordTopMenu->mRecordTopMenuMNcer,
                         gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, remainingSize);
     PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordTopMenu->mRecordTopMenuMBnll,
-                                       GetBmgEntry(gRecordTopMenu->mRecordMessages, 9),
+                                       Bmg_GetRawStringPointer_from_thumb(gRecordTopMenu->mRecordMessages, 9),
                                        gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     labelEntryIndex = 1;
     mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
@@ -302,10 +302,10 @@ void InitRecordTopMenu(void *heap) {
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         PrintLabelLayoutTextNoFixedAdvance(
             0, gRecordTopMenuLabelIndices[0][rowIndex], gRecordTopMenu->mRecordTopMenuMBnll,
-            GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[rowIndex]),
+            Bmg_GetRawStringPointer_from_thumb(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[rowIndex]),
             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
-    firstBlock = &gBackupBuffers->mFirstBlock;
+    firstBlock = &g_SaveDataHolder->mFirstBlock;
     scores[1][0] = (*firstBlock)->mTotals[0];
     scores[2][0] = (*firstBlock)->mTotals[1];
     scores[1][1] = (*firstBlock)->mTotals[2];
@@ -317,7 +317,7 @@ void InitRecordTopMenu(void *heap) {
             if (scores[rowIndex][labelIndex] > 9999) {
                 scores[rowIndex][labelIndex] = 9999;
             }
-            FormatAsciiNumber(scores[rowIndex][labelIndex], buf);
+            FormatIntegerInString16_from_thumb(scores[rowIndex][labelIndex], buf);
             PrintLabelLayoutTextFixedAdvance(
                 0, gRecordTopMenuLabelIndices[rowIndex][labelIndex], gRecordTopMenu->mRecordTopMenuMBnll, buf,
                 gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, 6);
@@ -343,7 +343,7 @@ void ReleaseRecordTopMenu(void) {
 
 void AdvanceRecordTopMenuWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestRecordTopMenuSlideIn();
     }
@@ -358,9 +358,9 @@ void AdvanceRecordTopMenuSlideIn(void) {
     s32 mainLayoutCount;
 
     gRecordTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, RECORD_TOP_MENU_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, RECORD_TOP_MENU_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
-    offsetY = InterpolateS16(1, -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
+    offsetY = ComputeValueInterpolation_from_thumb(1, -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
     gRecordTopMenu->mBg0Offset = offsetY;
     mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
@@ -426,33 +426,33 @@ void AdvanceRecordTopMenuInput(void) {
     touchedRect = -1;
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchedRect = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                              gInputSlots[slotIndex].mPair.mPairY);
+        touchedRect = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                              g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    keyBPressed = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B;
     if (keyBPressed == 0) {
         touchBeganAgain = FALSE;
         recentlyLostAgain = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLostAgain = TRUE;
         }
-        if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (recentlyLostAgain == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto skip;
         }
     }
@@ -476,7 +476,7 @@ skip:
             RequestRecordTopMenuRowPress();
         }
     } else {
-        keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+        keyBPressed = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A;
         if (keyBPressed != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             RequestRecordTopMenuRowPress();
@@ -526,9 +526,9 @@ void AdvanceRecordTopMenuSlideOut(void) {
         SetRecordNextScene(0);
     }
     gRecordTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
-    offsetY = InterpolateS16(1, 0, -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
+    offsetY = ComputeValueInterpolation_from_thumb(1, 0, -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
     gRecordTopMenu->mBg0Offset = offsetY;
     mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
@@ -560,7 +560,7 @@ void AdvanceRecordTopMenuRowsSlideOut(void) {
     s32 rowIndex;
 
     gRecordTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;
@@ -575,7 +575,7 @@ void AdvanceRecordTopMenuRowsSlideOut(void) {
 
 void AdvanceRecordTopMenuWaitMessageOpen(void) {
     int txtSystemNoCloseRequest;
-    txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
+    txtSystemNoCloseRequest = TextSystem_IsDialogIdle_from_thumb();
     if (txtSystemNoCloseRequest != 0) {
         RequestRecordTopMenuMessageInput();
     }
@@ -588,22 +588,22 @@ void AdvanceRecordTopMenuMessageInput(void) {
     BOOL recentlyLost;
     u16 hasPair;
 
-    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                            gInputSlots[slotIndex].mPair.mPairY);
-    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                            g_GlobalCYT[slotIndex].mPair.mPairY);
+    keyBPressed = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B;
     if (keyBPressed == 0) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
-        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchBegan = TRUE;
         }
         if (touchBegan == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
@@ -613,7 +613,7 @@ void AdvanceRecordTopMenuMessageInput(void) {
 
 void AdvanceRecordTopMenuWaitMessageClose(void) {
     int txtSystemNoOpenRequest;
-    txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
+    txtSystemNoOpenRequest = TextSystem_IsDialogFinished_from_thumb();
     if (txtSystemNoOpenRequest != 0) {
         RequestRecordTopMenuRowsSlideIn();
     }
@@ -623,7 +623,7 @@ void AdvanceRecordTopMenuRowsSlideIn(void) {
     s32 rowIndex;
     s16 offsetX;
     gRecordTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, RECORD_TOP_MENU_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, RECORD_TOP_MENU_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;

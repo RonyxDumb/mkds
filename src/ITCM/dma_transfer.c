@@ -15,19 +15,19 @@
 
 void StartDmaTransfer(u32 channelIndex, const void *source, void *destination, u32 control) {
     vu32 *channelRegs;
-    u32 savedIrq = OS_DisableInterrupts();
+    u32 savedIrq = Os_DisableIrq();
 
     *(vu32 *) (0x4000000 + channelIndex * 12 + 0xb0) = (u32) source;
     channelRegs = (vu32 *) (0x40000b0 + channelIndex * 12);
     channelRegs[1] = (u32) destination;
     channelRegs[2] = control;
-    OS_RestoreInterrupts(savedIrq);
+    Os_RestoreIrq(savedIrq);
 }
 
 void StartDmaTransferAndChannel0Dummy(u32 channelIndex, const void *source, void *destination, u32 control) {
     vu32 *channel0Regs = (vu32 *) 0x40000b0;
     vu32 *channelRegs;
-    u32 savedIrq = OS_DisableInterrupts();
+    u32 savedIrq = Os_DisableIrq();
 
     *(vu32 *) (0x4000000 + channelIndex * 12 + 0xb0) = (u32) source;
     channelRegs = OFFSET_PTR(vu32, channel0Regs, channelIndex * 12);
@@ -40,7 +40,7 @@ void StartDmaTransferAndChannel0Dummy(u32 channelIndex, const void *source, void
         channelRegs[1] = 0;
         channelRegs[2] = 0x81400001;
     }
-    OS_RestoreInterrupts(savedIrq);
+    Os_RestoreIrq(savedIrq);
 }
 
 void StartDmaTransferWithoutIrqDisable(u32 channelIndex, const void *source, void *destination, u32 control) {
@@ -124,15 +124,15 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
             FindCollisionSlotsOverlappingSlot(itemObject->mCollisionSlotIndex, 0x6000);
         }
         for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
-            overlapFlags = gFoundCollisionSlotFlags[overlapIndex];
+            overlapFlags = g_SomePointer6Size100[overlapIndex];
             if (overlapFlags & COLLISION_SLOT_FLAG_ITEM_OBJECT) {
-                if (itemObject->mCollisionSlotIndex != gFoundCollisionSlotIndices[overlapIndex]) {
-                    CollideItemObjectWithItemObject(itemObject, gFoundCollisionSlotObjects[overlapIndex]);
+                if (itemObject->mCollisionSlotIndex != g_SomePointer5Size100[overlapIndex]) {
+                    CollideItemObjectWithItemObject(itemObject, g_SomePointer7Size200[overlapIndex]);
                 } else {
                     continue;
                 }
             } else if (overlapFlags & COLLISION_SLOT_FLAG_MAP_OBJECT) {
-                ApplyMapObjectHitToItemObject(itemObject, gFoundCollisionSlotObjects[overlapIndex]);
+                ApplyMapObjectHitToItemObject(itemObject, g_SomePointer7Size200[overlapIndex]);
             }
             if (itemObject->mCollisionSlotIndex == -1) {
                 break;

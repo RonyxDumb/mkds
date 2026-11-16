@@ -7,8 +7,8 @@ void InitRaceConnection(void);
 void ResetConnectionData(void);
 void ResetDataSharing(DataSharing *dataSharing);
 void FinishConnectionEnd(void);
-void InitConnectionBuffers(void *heap);
-void InitConnection(void *heap);
+void InitializeSomeZEPointers(void *heap);
+void InitializeGlobalZE(void *heap);
 // Results of GetZeroWordResult: children are still connected, the zero word arrived with no child left, or the
 // connection is not a parent or no child is left without a zero word.
 #define WORD_WAIT_RESULT_WAITING 0

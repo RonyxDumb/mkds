@@ -26,37 +26,37 @@
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"
 
-GhostRecordSet *gGhostRecordSet;
+GhostRecordSet *g_GlobalPK;
 
 #pragma thumb on
 
-void InitGhostRecordSet(void *heap) {
-    gGhostRecordSet = HeapAlloc(heap, sizeof(*gGhostRecordSet));
-    gGhostRecordSet->mCourseGhostRecords = CreateCourseGhostRecords(heap);
-    StartReadCourseGhostRecords(gGhostRecordSet->mCourseGhostRecords);
-    WaitThreadFunctionsDone();
-    gGhostRecordSet->mSlotGhostRecords = CreateSlotGhostRecords(heap);
-    StartReadSlotGhostRecords(gGhostRecordSet->mSlotGhostRecords);
-    WaitThreadFunctionsDone();
-    gGhostRecordSet->mGhostFileRecords = CreateGhostFileRecords(heap);
-    StartReadGhostFileRecords(gGhostRecordSet->mGhostFileRecords);
-    WaitThreadFunctionsDone();
-    LoadStaffGhostTime(heap);
+void InitializeGlobalPK_from_thumb(void *heap) {
+    g_GlobalPK = Mem_AllocateHeap(heap, sizeof(*g_GlobalPK));
+    g_GlobalPK->mCourseGhostRecords = AllocateStructYE(heap);
+    SetStructYE_RunATFunction(g_GlobalPK->mCourseGhostRecords);
+    WaitForWorkerTask();
+    g_GlobalPK->mSlotGhostRecords = AllocateFX(heap);
+    RunSomeATFunction(g_GlobalPK->mSlotGhostRecords);
+    WaitForWorkerTask();
+    g_GlobalPK->mGhostFileRecords = AllocateGhostHolder(heap);
+    RunReadGhostBinsFn(g_GlobalPK->mGhostFileRecords);
+    WaitForWorkerTask();
+    ReadStaffGhostTimeBin(heap);
 }
 
-void ClearGhostRecordSetPointer(void) {
-    gGhostRecordSet = NULL;
+void ResetGlobalPK_from_thumb(void) {
+    g_GlobalPK = NULL;
 }
 
 void SetupGhostRecordSetForCourse(u32 courseId) {
     s32 slotIndex;
 
-    gGhostRecordSet->mCourseId = courseId;
-    gGhostRecordSet->mSlotIndex = -1;
+    g_GlobalPK->mCourseId = courseId;
+    g_GlobalPK->mSlotIndex = -1;
     for (slotIndex = 0; slotIndex < 0xa; slotIndex++) {
         if (IsGhostRecordFilled(GetGhostRecordSetSlotHead(slotIndex)) != FALSE &&
             GetGhostRecordCourseId(GetGhostRecordSetSlotHead(slotIndex)) == courseId) {
-            gGhostRecordSet->mSlotIndex = slotIndex;
+            g_GlobalPK->mSlotIndex = slotIndex;
             return;
         }
     }
@@ -68,15 +68,15 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
 
     switch (kind) {
         case GHOST_RECORD_KIND_COURSE:
-            courseRecords = gGhostRecordSet->mCourseGhostRecords;
-            GetGhostRecordTime(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
+            courseRecords = g_GlobalPK->mCourseGhostRecords;
+            GetGhostRecordTime(&courseRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)], time);
             break;
         case GHOST_RECORD_KIND_SLOT:
-            GetGhostRecordTime(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex), time);
+            GetGhostRecordTime(GetGhostRecordSetSlotHead(g_GlobalPK->mSlotIndex), time);
             break;
         case GHOST_RECORD_KIND_GHOST_FILE:
-            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordTime(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, time);
+            ghostFileRecords = g_GlobalPK->mGhostFileRecords;
+            GetGhostRecordTime(&ghostFileRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)].mHead, time);
             break;
         case GHOST_RECORD_KIND_OUTSIDE_SET:
             break;
@@ -90,21 +90,21 @@ void GetGhostRecordSetName(u32 kind, void *name) {
 
     switch (kind) {
         case GHOST_RECORD_KIND_COURSE:
-            courseRecords = gGhostRecordSet->mCourseGhostRecords;
-            GetGhostRecordName(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
+            courseRecords = g_GlobalPK->mCourseGhostRecords;
+            GetGhostRecordName(&courseRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)], ghostName);
             break;
         case GHOST_RECORD_KIND_SLOT:
-            GetGhostRecordName(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex), ghostName);
+            GetGhostRecordName(GetGhostRecordSetSlotHead(g_GlobalPK->mSlotIndex), ghostName);
             break;
         case GHOST_RECORD_KIND_GHOST_FILE:
-            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordName(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, ghostName);
+            ghostFileRecords = g_GlobalPK->mGhostFileRecords;
+            GetGhostRecordName(&ghostFileRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)].mHead, ghostName);
             break;
         case GHOST_RECORD_KIND_OUTSIDE_SET:
             break;
     }
-    MI_CpuFill8(name, 0, 0x20);
-    MIi_CpuCopy16(ghostName, name, 0x14);
+    Mem_CpuFill8(name, 0, 0x20);
+    CopyMemory16(ghostName, name, 0x14);
 }
 
 s32 GetGhostRecordSetCharacterIndex(u32 kind) {
@@ -117,17 +117,17 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
             characterIndex = -1;
             break;
         case GHOST_RECORD_KIND_COURSE:
-            courseRecords = gGhostRecordSet->mCourseGhostRecords;
+            courseRecords = g_GlobalPK->mCourseGhostRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
+                GetGhostRecordCharacterIndex(&courseRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)]);
             break;
         case GHOST_RECORD_KIND_SLOT:
-            characterIndex = GetGhostRecordCharacterIndex(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex));
+            characterIndex = GetGhostRecordCharacterIndex(GetGhostRecordSetSlotHead(g_GlobalPK->mSlotIndex));
             break;
         case GHOST_RECORD_KIND_GHOST_FILE:
-            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
+            ghostFileRecords = g_GlobalPK->mGhostFileRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
+                GetGhostRecordCharacterIndex(&ghostFileRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)].mHead);
             break;
     }
     return characterIndex;
@@ -143,16 +143,16 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
             kartIndex = -1;
             break;
         case GHOST_RECORD_KIND_COURSE:
-            courseRecords = gGhostRecordSet->mCourseGhostRecords;
-            kartIndex = GetGhostRecordKartIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
+            courseRecords = g_GlobalPK->mCourseGhostRecords;
+            kartIndex = GetGhostRecordKartIndex(&courseRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)]);
             break;
         case GHOST_RECORD_KIND_SLOT:
-            kartIndex = GetGhostRecordKartIndex(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex));
+            kartIndex = GetGhostRecordKartIndex(GetGhostRecordSetSlotHead(g_GlobalPK->mSlotIndex));
             break;
         case GHOST_RECORD_KIND_GHOST_FILE:
-            ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
+            ghostFileRecords = g_GlobalPK->mGhostFileRecords;
             kartIndex =
-                GetGhostRecordKartIndex(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
+                GetGhostRecordKartIndex(&ghostFileRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)].mHead);
             break;
     }
     return kartIndex;
@@ -167,20 +167,20 @@ BOOL IsGhostRecordSetKindSelectable(u32 kind) {
             result = 1;
             break;
         case GHOST_RECORD_KIND_COURSE:
-            courseRecords = gGhostRecordSet->mCourseGhostRecords;
-            result = IsGhostRecordFilled(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
+            courseRecords = g_GlobalPK->mCourseGhostRecords;
+            result = IsGhostRecordFilled(&courseRecords[GetCourseIdFromInternalId(g_GlobalPK->mCourseId)]);
             break;
         case GHOST_RECORD_KIND_SLOT:
-            if (gGhostRecordSet->mSlotIndex != -1) {
+            if (g_GlobalPK->mSlotIndex != -1) {
                 result = 1;
             }
             break;
         case GHOST_RECORD_KIND_GHOST_FILE:
-            if (IsTimeRecordFilled(gGhostRecordSet->mCourseId, 0) != FALSE) {
+            if (IsTimeRecordFilled(g_GlobalPK->mCourseId, 0) != FALSE) {
                 MinuteSecondMillisecondTime time;
 
-                GetTimeRecordTime(gGhostRecordSet->mCourseId, 0, &time);
-                result = IsTimeLessThanStaffGhostTime(gGhostRecordSet->mCourseId, &time);
+                GetTimeRecordTime(g_GlobalPK->mCourseId, 0, &time);
+                result = IsTimeLessThanStaffGhostTime(g_GlobalPK->mCourseId, &time);
             } else {
                 result = 0;
             }
@@ -204,16 +204,16 @@ BOOL HasNoSelectableGhost(void) {
 void ReadGhostRecordsForKind(u32 kind) {
     switch (kind) {
         case GHOST_RECORD_KIND_OUTSIDE_SET:
-            SelectGhostReadCourseRecordAndWait(gGhostRecordSet->mCourseId);
+            SelectGhostReadCourseRecordAndWait(g_GlobalPK->mCourseId);
             break;
         case GHOST_RECORD_KIND_COURSE:
-            ReadCourseGhostRecordAndWait(gGhostRecordSet->mCourseId);
+            ReadCourseGhostRecordAndWait(g_GlobalPK->mCourseId);
             break;
         case GHOST_RECORD_KIND_SLOT:
-            ReadCourseAndSlotGhostRecords(gGhostRecordSet->mCourseId, gGhostRecordSet->mSlotIndex);
+            ReadCourseAndSlotGhostRecords(g_GlobalPK->mCourseId, g_GlobalPK->mSlotIndex);
             break;
         case GHOST_RECORD_KIND_GHOST_FILE:
-            ReadCourseGhostRecordAndLoadFile(gGhostRecordSet->mCourseId);
+            LoadStaffGhost(g_GlobalPK->mCourseId);
             break;
     }
 }

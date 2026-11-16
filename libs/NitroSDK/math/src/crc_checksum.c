@@ -1,6 +1,6 @@
 #include "crc_checksum.h"
 
-void Crc8InitTable(u8 *table, u32 polynomial) {
+void GenerateFriendCrcLookupTable(u8 *table, u32 polynomial) {
     u32 entry;
     u32 index;
     u32 bitIndex;
@@ -18,7 +18,7 @@ void Crc8InitTable(u8 *table, u32 polynomial) {
     }
 }
 
-void Crc8Continue(const u8 *table, u8 *crc, const u8 *data, u32 length) {
+void Friend_ComputeCrcImpl(const u8 *table, u8 *crc, const u8 *data, u32 length) {
     u32 crcValue;
     u32 index;
 
@@ -30,7 +30,7 @@ void Crc8Continue(const u8 *table, u8 *crc, const u8 *data, u32 length) {
     *crc = crcValue;
 }
 
-void Crc16InitTable(u16 *table, u32 polynomial) {
+void SomeHashing(u16 *table, u32 polynomial) {
     u32 entry;
     u32 index;
     u32 bitIndex;
@@ -60,7 +60,7 @@ void Crc16Continue(const u16 *table, u16 *crc, const u8 *data, u32 length) {
     *crc = crcValue;
 }
 
-void Crc32InitTable(u32 *table, u32 polynomial) {
+void GenerateProfileInfoCrcLookupTable(u32 *table, u32 polynomial) {
     u32 entry;
     u32 index;
     u32 bitIndex;
@@ -78,7 +78,7 @@ void Crc32InitTable(u32 *table, u32 polynomial) {
     }
 }
 
-void Crc32Continue(const u32 *table, u32 *crc, const u8 *data, u32 length) {
+void ComputeProfileInfoCrcImpl(const u32 *table, u32 *crc, const u8 *data, u32 length) {
     u32 crcValue;
     u32 index;
 
@@ -90,11 +90,11 @@ void Crc32Continue(const u32 *table, u32 *crc, const u8 *data, u32 length) {
     *crc = crcValue;
 }
 
-u8 Crc8(const u8 *table, const void *data, u32 length) {
+u8 ComputeFriendCrc(const u8 *table, const void *data, u32 length) {
     u8 crc;
 
     crc = 0;
-    Crc8Continue(table, &crc, data, length);
+    Friend_ComputeCrcImpl(table, &crc, data, length);
     return crc;
 }
 
@@ -106,10 +106,10 @@ u16 Crc16(const u16 *table, const u8 *data, u32 length) {
     return crc;
 }
 
-u32 Crc32(const u32 *table, const void *data, u32 length) {
+u32 ComputeProfileInfoCrc(const u32 *table, const void *data, u32 length) {
     u32 crc;
 
     crc = -1;
-    Crc32Continue(table, &crc, data, length);
+    ComputeProfileInfoCrcImpl(table, &crc, data, length);
     return ~crc;
 }

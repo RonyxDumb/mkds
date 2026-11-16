@@ -32,61 +32,61 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-struct RaceNewRecordTa *gRaceNewRecordTa;
+struct RaceNewRecordTa *g_GlobalE8;
 
-u32 GetRaceNewRecordTaBestLapNumber(void) {
-    return (gRaceNewRecordTa->mBestLapNumber);
+u32 GetLeastTimeLapId(void) {
+    return (g_GlobalE8->mBestLapNumber);
 }
 
-BOOL IsRaceNewRecordTaSaving(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mSaving : 0;
+BOOL IsSavingTimeTrialRecord(void) {
+    return g_GlobalE8 != NULL ? g_GlobalE8->mSaving : 0;
 }
 
 BOOL IsRaceNewRecordTaRunning(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mRunning : 0;
+    return g_GlobalE8 != NULL ? g_GlobalE8->mRunning : 0;
 }
 
-void InitRaceNewRecordTa(void) {
+void CreateGlobalE8(void) {
     s32 recordIndex;
 
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (g_GlobalCO->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    gRaceNewRecordTa = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceNewRecordTa));
-    gRaceNewRecordTa->mUpdate = StartRaceNewRecordTa;
-    gRaceNewRecordTa->mUpdateFrames = 0;
-    gRaceNewRecordTa->mFinishTimeIsRecord = 0;
-    gRaceNewRecordTa->mFinishRecordIndex = -1;
-    gRaceNewRecordTa->mBestLapIsRecord = 0;
-    gRaceNewRecordTa->mBestLapNumber = 0;
-    gRaceNewRecordTa->mSaving = 0;
+    g_GlobalE8 = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*g_GlobalE8));
+    g_GlobalE8->mUpdate = StructE8_SomeFnHandle;
+    g_GlobalE8->mUpdateFrames = 0;
+    g_GlobalE8->mFinishTimeIsRecord = 0;
+    g_GlobalE8->mFinishRecordIndex = -1;
+    g_GlobalE8->mBestLapIsRecord = 0;
+    g_GlobalE8->mBestLapNumber = 0;
+    g_GlobalE8->mSaving = 0;
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
-        GetCourseTimeRecord(gRaceSetup->mCourseId, recordIndex, &gRaceNewRecordTa->mRecords[recordIndex]);
+        TimeTrialRecord_CopyFrom_from_thumb(g_GlobalCO->mCourseId, recordIndex, &g_GlobalE8->mRecords[recordIndex]);
     }
-    gRaceNewRecordTa->mSaving = 0;
-    gRaceNewRecordTa->mRunning = 0;
-    gRaceNewRecordTa->mOffsetX = -0x100;
-    gRaceNewRecordTa->mCycleFrames = 0;
+    g_GlobalE8->mSaving = 0;
+    g_GlobalE8->mRunning = 0;
+    g_GlobalE8->mOffsetX = -0x100;
+    g_GlobalE8->mCycleFrames = 0;
 }
 
-void ClearRaceNewRecordTaPointer(void) {
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        gRaceNewRecordTa = NULL;
+void ResetGlobalE8(void) {
+    if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
+        g_GlobalE8 = NULL;
     }
 }
 
-void UpdateRaceNewRecordTa(void) {
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+void InvokeE8Handler(void) {
+    if (g_GlobalCO->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    gRaceNewRecordTa->mUpdate();
-    gRaceNewRecordTa->mCycleFrames = gRaceNewRecordTa->mCycleFrames + 1;
-    if (gRaceNewRecordTa->mCycleFrames >= RACE_NEW_RECORD_TA_CYCLE_FRAMES) {
-        gRaceNewRecordTa->mCycleFrames = 0;
+    g_GlobalE8->mUpdate();
+    g_GlobalE8->mCycleFrames = g_GlobalE8->mCycleFrames + 1;
+    if (g_GlobalE8->mCycleFrames >= RACE_NEW_RECORD_TA_CYCLE_FRAMES) {
+        g_GlobalE8->mCycleFrames = 0;
     }
 }
 
-void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, TimeRecord *record) {
+void StructRA_SomeFn_6(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, TimeRecord *record) {
     s32 digit0Position[2];
     s32 digit1Position[2];
     s32 firstSeparatorPosition[2];
@@ -107,64 +107,64 @@ void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, 
             digits.mDigits[5] = digits.mDigits[6] = RACE_NEW_RECORD_TA_BLANK_DIGIT;
     }
     if (digits.mDigits[0] != 0) {
-        cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[0] + 0xe);
+        cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[0] + 0xe);
         digit0Position[0] = TO_FIXED12(baseX + cellOffsets[0]);
         digit0Position[1] = TO_FIXED12(baseY);
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit0Position, 0, 1);
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit0Position, 0, 1);
     }
-    cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[1] + 0xe);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[1] + 0xe);
     digit1Position[0] = TO_FIXED12(baseX + cellOffsets[1]);
     digit1Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit1Position, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(0x18);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit1Position, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(0x18);
     firstSeparatorPosition[0] = TO_FIXED12(baseX + cellOffsets[2]);
     firstSeparatorPosition[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstSeparatorPosition, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[2] + 0xe);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstSeparatorPosition, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[2] + 0xe);
     digit2Position[0] = TO_FIXED12(baseX + cellOffsets[3]);
     digit2Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit2Position, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[3] + 0xe);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit2Position, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[3] + 0xe);
     digit3Position[0] = TO_FIXED12(baseX + cellOffsets[4]);
     digit3Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit3Position, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(0x18);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit3Position, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(0x18);
     secondSeparatorPosition[0] = TO_FIXED12(baseX + cellOffsets[5]);
     secondSeparatorPosition[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondSeparatorPosition, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[4] + 0xe);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondSeparatorPosition, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[4] + 0xe);
     digit4Position[0] = TO_FIXED12(baseX + cellOffsets[6]);
     digit4Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit4Position, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[5] + 0xe);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit4Position, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[5] + 0xe);
     digit5Position[0] = TO_FIXED12(baseX + cellOffsets[7]);
     digit5Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit5Position, 0, 1);
-    cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[6] + 0xe);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit5Position, 0, 1);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(digits.mDigits[6] + 0xe);
     digit6Position[0] = TO_FIXED12(baseX + cellOffsets[8]);
     digit6Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit6Position, 0, 1);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit6Position, 0, 1);
 }
 
-void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s32 baseY) {
+void StructRA_SomeFn_5(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s32 baseY) {
     s32 firstCellPosition[2];
     s32 secondCellPosition[2];
     TimeRecord record;
@@ -174,7 +174,7 @@ void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s
     void *cell;
     RaceNewRecordTa *newRecordTa;
 
-    newRecordTa = gRaceNewRecordTa;
+    newRecordTa = g_GlobalE8;
     cycleFrames = newRecordTa->mCycleFrames;
     isNewRecord = FALSE;
     record = newRecordTa->mRecords[index];
@@ -192,26 +192,26 @@ void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s
         isNewRecord = TRUE;
     }
     if (record.mFilled != 0) {
-        cell = GetRaceNewRecordTaSNcerEntry(index + 7);
+        cell = GetB3C4_Cell_RaceNewRecordTaS(index + 7);
         firstCellPosition[0] = TO_FIXED12(baseX + 0x32);
         firstCellPosition[1] = TO_FIXED12(baseY);
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstCellPosition, 0, 1);
-        cell = GetRaceNewRecordTaSNcerEntry(index + 0x1a);
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstCellPosition, 0, 1);
+        cell = GetB3C4_Cell_RaceNewRecordTaS(index + 0x1a);
         secondCellPosition[0] = TO_FIXED12(baseX + 0x3d);
         secondCellPosition[1] = TO_FIXED12(baseY);
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondCellPosition, 0, 1);
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondCellPosition, 0, 1);
     }
     if (isNewRecord != FALSE && cycleFrames >= 0x10) {
         return;
     }
-    DrawRaceNewRecordTaTime(oamBuffer, baseX + 0xab, baseY, &record);
+    StructRA_SomeFn_6(oamBuffer, baseX + 0xab, baseY, &record);
 }
 
-void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
+void StructRA_SomeFn_4(RaceHudOamBuffer *oamBuffer) {
     s32 headerPosition[2];
     s32 rowPosition[2];
     s32 lastRowPosition[2];
@@ -221,32 +221,32 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     s32 rowY;
     void *cell;
 
-    cell = GetRaceNewRecordTaSNcerEntry(0);
-    headerPosition[0] = TO_FIXED12(gRaceNewRecordTa->mOffsetX + 0x80);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(0);
+    headerPosition[0] = TO_FIXED12(g_GlobalE8->mOffsetX + 0x80);
     headerPosition[1] = 0xc000;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, headerPosition, 0, 1);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, headerPosition, 0, 1);
     for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-        cell = GetRaceNewRecordTaSNcerEntry(rowIndex + 1);
+        cell = GetB3C4_Cell_RaceNewRecordTaS(rowIndex + 1);
         rowY = rowIndex * 0x18 + 0x28;
-        rowPosition[0] = TO_FIXED12(gRaceNewRecordTa->mOffsetX);
+        rowPosition[0] = TO_FIXED12(g_GlobalE8->mOffsetX);
         rowPosition[1] = (rowIndex * 0x18 + 0x28) << 12;
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, rowPosition, 0, 1);
-        DrawRaceNewRecordTaRow(oamBuffer, rowIndex, gRaceNewRecordTa->mOffsetX, rowY);
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, rowPosition, 0, 1);
+        StructRA_SomeFn_5(oamBuffer, rowIndex, g_GlobalE8->mOffsetX, rowY);
     }
-    cell = GetRaceNewRecordTaSNcerEntry(6);
-    lastRowPosition[0] = TO_FIXED12(gRaceNewRecordTa->mOffsetX);
+    cell = GetB3C4_Cell_RaceNewRecordTaS(6);
+    lastRowPosition[0] = TO_FIXED12(g_GlobalE8->mOffsetX);
     lastRowPosition[1] = 0x9f000;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, lastRowPosition, 0, 1);
-    DrawRaceNewRecordTaRow(oamBuffer, rowIndex, gRaceNewRecordTa->mOffsetX + 1, 0xb4);
+        MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, lastRowPosition, 0, 1);
+    StructRA_SomeFn_5(oamBuffer, rowIndex, g_GlobalE8->mOffsetX + 1, 0xb4);
 }
 
-BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
+BOOL CheckHandleSaveTimeTrialRecord2(s32 store) {
     u8 minute;
     u8 second;
     u16 millisecond;
@@ -260,8 +260,8 @@ BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
     u8 copiedSecond;
     u16 copiedMillisecond;
 
-    GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
-    record = gRaceNewRecordTa->mRecords;
+    GetPlayerTotalTime(GetCurrentPlayerRacerId(), &minute, &second, &millisecond);
+    record = g_GlobalE8->mRecords;
     totalMilliseconds = TIME_TO_MS(minute, second, millisecond);
     recordIndex = 0;
     do {
@@ -276,32 +276,32 @@ BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
 found:
     if (store != 0) {
         for (shiftIndex = 4; shiftIndex > recordIndex; shiftIndex--) {
-            gRaceNewRecordTa->mRecords[shiftIndex] = gRaceNewRecordTa->mRecords[shiftIndex - 1];
-            SetCourseTimeRecord(gRaceSetup->mCourseId, shiftIndex, &gRaceNewRecordTa->mRecords[shiftIndex]);
+            g_GlobalE8->mRecords[shiftIndex] = g_GlobalE8->mRecords[shiftIndex - 1];
+            TimeTrialCopyToSaveData_from_thumb(g_GlobalCO->mCourseId, shiftIndex, &g_GlobalE8->mRecords[shiftIndex]);
         }
         copiedMillisecond = millisecond;
         copiedSecond = second;
         copiedMinute = minute;
-        records = gRaceNewRecordTa->mRecords;
+        records = g_GlobalE8->mRecords;
         slot = records + recordIndex;
         slot->mMinute = copiedMinute;
         slot->mSecond = copiedSecond;
         records[recordIndex].mMillisecond = copiedMillisecond;
-        MIi_CpuCopy16(gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mPlayer.mName, slot->mName, 0x14);
+        CopyMemory16(g_GlobalCO->mCurrentEntries[GetCurrentPlayerRacerId()].mPlayer.mName, slot->mName, 0x14);
         slot->mFilled = 1;
-        slot->mCharacterIndex = gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mCharacterIndex;
-        slot->mKartIndex = gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mKartIndex;
-        SetCourseTimeRecord(gRaceSetup->mCourseId, recordIndex, slot);
+        slot->mCharacterIndex = g_GlobalCO->mCurrentEntries[GetCurrentPlayerRacerId()].mCharacterIndex;
+        slot->mKartIndex = g_GlobalCO->mCurrentEntries[GetCurrentPlayerRacerId()].mKartIndex;
+        TimeTrialCopyToSaveData_from_thumb(g_GlobalCO->mCourseId, recordIndex, slot);
         if (recordIndex != 5) {
-            gRaceNewRecordTa->mFinishRecordIndex = recordIndex;
+            g_GlobalE8->mFinishRecordIndex = recordIndex;
         }
     } else {
-        gRaceNewRecordTa->mFinishRecordIndex = recordIndex;
+        g_GlobalE8->mFinishRecordIndex = recordIndex;
     }
     return TRUE;
 }
 
-BOOL TryStoreRaceNewRecordTaBestLap(s32 store) {
+BOOL CheckHandleSaveTimeTrialRecord_LeastLap(s32 store) {
     u8 minute;
     u8 second;
     u16 millisecond;
@@ -311,9 +311,9 @@ BOOL TryStoreRaceNewRecordTaBestLap(s32 store) {
     u8 copiedSecond;
     u16 copiedMillisecond;
 
-    record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
-    gRaceNewRecordTa->mBestLapNumber =
-        GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
+    record = &g_GlobalE8->mRecords[TIME_RECORD_BEST_LAP];
+    g_GlobalE8->mBestLapNumber =
+        GetLeastTimeLap(GetCurrentPlayerRacerId(), &minute, &second, &millisecond);
     if (record->mFilled != 0) {
         if (millisecond + (second * 1000 + minute * 60000) >=
             record->mMillisecond + (record->mSecond * 1000 + record->mMinute * 60000)) {
@@ -324,21 +324,21 @@ BOOL TryStoreRaceNewRecordTaBestLap(s32 store) {
         copiedMillisecond = millisecond;
         copiedSecond = second;
         copiedMinute = minute;
-        records = gRaceNewRecordTa->mRecords;
+        records = g_GlobalE8->mRecords;
         record = records + TIME_RECORD_BEST_LAP;
         record->mMinute = copiedMinute;
         record->mSecond = copiedSecond;
         records[TIME_RECORD_BEST_LAP].mMillisecond = copiedMillisecond;
-        MIi_CpuCopy16(gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mPlayer.mName, record->mName, 0x14);
+        CopyMemory16(g_GlobalCO->mCurrentEntries[GetCurrentPlayerRacerId()].mPlayer.mName, record->mName, 0x14);
         record->mFilled = 1;
-        record->mCharacterIndex = gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mCharacterIndex;
-        record->mKartIndex = gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mKartIndex;
-        SetCourseTimeRecord(gRaceSetup->mCourseId, TIME_RECORD_BEST_LAP, record);
+        record->mCharacterIndex = g_GlobalCO->mCurrentEntries[GetCurrentPlayerRacerId()].mCharacterIndex;
+        record->mKartIndex = g_GlobalCO->mCurrentEntries[GetCurrentPlayerRacerId()].mKartIndex;
+        TimeTrialCopyToSaveData_from_thumb(g_GlobalCO->mCourseId, TIME_RECORD_BEST_LAP, record);
     }
     return TRUE;
 }
 
-void StartRaceNewRecordTa(void) {
+void StructE8_SomeFnHandle(void) {
     MinuteSecondMillisecondTime setupTime;
     MinuteSecondMillisecondTime finishTime;
     u8 minute;
@@ -356,33 +356,33 @@ void StartRaceNewRecordTa(void) {
     TimeRecord *record;
     TimeRecord *records;
 
-    if (gRaceProgress->mRaceDone == 0) {
+    if (g_GlobalMV->mRaceDone == 0) {
         return;
     }
     if (GetShowLapTime() != 0) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        gRaceNewRecordTa->mFinishTimeIsRecord = TryStoreRaceNewRecordTaFinishTime(1);
-        gRaceNewRecordTa->mBestLapIsRecord = TryStoreRaceNewRecordTaBestLap(1);
-        if (gRaceNewRecordTa->mFinishTimeIsRecord != 0 || gRaceNewRecordTa->mBestLapIsRecord != 0) {
-            gRaceNewRecordTa->mSaving = 1;
-            WriteBackupCourseTimeRecords();
-            gRaceNewRecordTa->mUpdate = StoreRaceNewRecordTaGhost;
-            gRaceNewRecordTa->mUpdateFrames = 0;
+    if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
+        g_GlobalE8->mFinishTimeIsRecord = CheckHandleSaveTimeTrialRecord2(1);
+        g_GlobalE8->mBestLapIsRecord = CheckHandleSaveTimeTrialRecord_LeastLap(1);
+        if (g_GlobalE8->mFinishTimeIsRecord != 0 || g_GlobalE8->mBestLapIsRecord != 0) {
+            g_GlobalE8->mSaving = 1;
+            WriteTimeTrialsSaveDataSection_from_thumb();
+            g_GlobalE8->mUpdate = StructE8_SomeFnHandle4;
+            g_GlobalE8->mUpdateFrames = 0;
         } else {
             storeGhost = FALSE;
             if (IsRaceKeyRecordingNotFull() != 0) {
-                if (gRaceSetup->mMode == MODE_TIME_ATTACK && gRaceSetup->mFirstGhostRecordFilled == 1) {
-                    MI_CpuCopy8(&gRaceSetup->mFirstGhostRecordMillisecond, &setupTime, 4);
+                if (g_GlobalCO->mMode == MODE_TIME_ATTACK && g_GlobalCO->mFirstGhostRecordFilled == 1) {
+                    Mem_CpuCopy8(&g_GlobalCO->mFirstGhostRecordMillisecond, &setupTime, 4);
                     hasSetupTime = TRUE;
                 } else {
                     hasSetupTime = FALSE;
                 }
                 if (hasSetupTime != FALSE) {
-                    GetKartFinishTime((u16) gRaceSetup->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
+                    GetPlayerTotalTime((u16) g_GlobalCO->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
                                       &finishTime.mMillisecond);
-                    if (IsTimeLessThan(&finishTime, &setupTime) != FALSE) {
+                    if (StructRCTime_SmallerThan_from_thumb(&finishTime, &setupTime) != FALSE) {
                         storeGhost = TRUE;
                     }
                 } else {
@@ -390,18 +390,18 @@ void StartRaceNewRecordTa(void) {
                 }
             }
             if (storeGhost != FALSE) {
-                gRaceNewRecordTa->mSaving = 1;
-                FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
-                gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
-                gRaceNewRecordTa->mUpdateFrames = 0;
+                g_GlobalE8->mSaving = 1;
+                FillPersonalGhostData_from_thumb(g_GlobalCO->mCourseId, g_GlobalCO->mEntryIndex);
+                g_GlobalE8->mUpdate = StructE8_SomeFnHandle3;
+                g_GlobalE8->mUpdateFrames = 0;
             } else {
-                gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
-                gRaceNewRecordTa->mUpdateFrames = 0;
+                g_GlobalE8->mUpdate = StructE8_SomeFnHandle2;
+                g_GlobalE8->mUpdateFrames = 0;
             }
         }
     } else {
-        GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
-        records = gRaceNewRecordTa->mRecords;
+        GetPlayerTotalTime(GetCurrentPlayerRacerId(), &minute, &second, &millisecond);
+        records = g_GlobalE8->mRecords;
         totalMilliseconds = TIME_TO_MS(minute, second, millisecond);
         for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
             record = &records[recordIndex];
@@ -413,32 +413,32 @@ void StartRaceNewRecordTa(void) {
         }
         recordIndex = 0;
     found:
-        gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
-        record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
-        gRaceNewRecordTa->mBestLapNumber =
-            GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestLapMinute, &bestLapSecond, &bestLapMillisecond);
+        g_GlobalE8->mFinishTimeIsRecord = recordIndex;
+        record = &g_GlobalE8->mRecords[TIME_RECORD_BEST_LAP];
+        g_GlobalE8->mBestLapNumber =
+            GetLeastTimeLap(GetCurrentPlayerRacerId(), &bestLapMinute, &bestLapSecond, &bestLapMillisecond);
         if (bestLapMinute == record->mMinute && bestLapSecond == record->mSecond &&
             bestLapMillisecond == record->mMillisecond) {
             storeGhost = TRUE;
         } else {
             storeGhost = FALSE;
         }
-        gRaceNewRecordTa->mBestLapIsRecord = storeGhost;
-        gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
-        gRaceNewRecordTa->mUpdateFrames = 0;
+        g_GlobalE8->mBestLapIsRecord = storeGhost;
+        g_GlobalE8->mUpdate = StructE8_SomeFnHandle2;
+        g_GlobalE8->mUpdateFrames = 0;
     }
-    gRaceNewRecordTa->mRunning = 1;
+    g_GlobalE8->mRunning = 1;
 }
 
-void StoreRaceNewRecordTaGhost(void) {
+void StructE8_SomeFnHandle4(void) {
     MinuteSecondMillisecondTime setupTime;
     MinuteSecondMillisecondTime finishTime;
     BOOL storeGhost;
     BOOL hasSetupTime;
     s32 waiting;
 
-    if (gBackupBuffers->mBusy == 0) {
-        waiting = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
+    if (g_SaveDataHolder->mBusy == 0) {
+        waiting = g_SaveDataIoManager->mBackupEnabled != 0 ? g_SaveDataIoManager->mCommandRunning : 0;
     } else {
         waiting = 1;
     }
@@ -447,16 +447,16 @@ void StoreRaceNewRecordTaGhost(void) {
     }
     storeGhost = FALSE;
     if (IsRaceKeyRecordingNotFull() != 0) {
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK && gRaceSetup->mFirstGhostRecordFilled == 1) {
-            MI_CpuCopy8(&gRaceSetup->mFirstGhostRecordMillisecond, &setupTime, 4);
+        if (g_GlobalCO->mMode == MODE_TIME_ATTACK && g_GlobalCO->mFirstGhostRecordFilled == 1) {
+            Mem_CpuCopy8(&g_GlobalCO->mFirstGhostRecordMillisecond, &setupTime, 4);
             hasSetupTime = TRUE;
         } else {
             hasSetupTime = FALSE;
         }
         if (hasSetupTime != FALSE) {
-            GetKartFinishTime((u16) gRaceSetup->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
+            GetPlayerTotalTime((u16) g_GlobalCO->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
                               &finishTime.mMillisecond);
-            if (IsTimeLessThan(&finishTime, &setupTime) != FALSE) {
+            if (StructRCTime_SmallerThan_from_thumb(&finishTime, &setupTime) != FALSE) {
                 storeGhost = TRUE;
             }
         } else {
@@ -464,68 +464,68 @@ void StoreRaceNewRecordTaGhost(void) {
         }
     }
     if (storeGhost != FALSE) {
-        gRaceNewRecordTa->mSaving = 1;
-        FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
-        gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
-        gRaceNewRecordTa->mUpdateFrames = 0;
+        g_GlobalE8->mSaving = 1;
+        FillPersonalGhostData_from_thumb(g_GlobalCO->mCourseId, g_GlobalCO->mEntryIndex);
+        g_GlobalE8->mUpdate = StructE8_SomeFnHandle3;
+        g_GlobalE8->mUpdateFrames = 0;
     } else {
-        gRaceNewRecordTa->mSaving = 0;
-        gRaceNewRecordTa->mUpdate = ShowRaceNewRecordTaSubScreen;
-        gRaceNewRecordTa->mUpdateFrames = 0;
+        g_GlobalE8->mSaving = 0;
+        g_GlobalE8->mUpdate = StructE8_SomeFnHandle5;
+        g_GlobalE8->mUpdateFrames = 0;
     }
 }
 
-void AdvanceRaceNewRecordTaAfterSave(void) {
+void StructE8_SomeFnHandle3(void) {
     s32 waiting;
 
-    if (gBackupBuffers->mBusy == 0) {
-        waiting = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
+    if (g_SaveDataHolder->mBusy == 0) {
+        waiting = g_SaveDataIoManager->mBackupEnabled != 0 ? g_SaveDataIoManager->mCommandRunning : 0;
     } else {
         waiting = 1;
     }
     if (waiting != 0) {
         return;
     }
-    gRaceNewRecordTa->mSaving = 0;
-    gRaceNewRecordTa->mUpdate = ShowRaceNewRecordTaSubScreen;
-    gRaceNewRecordTa->mUpdateFrames = 0;
+    g_GlobalE8->mSaving = 0;
+    g_GlobalE8->mUpdate = StructE8_SomeFnHandle5;
+    g_GlobalE8->mUpdateFrames = 0;
 }
 
-void ShowRaceNewRecordTaSubScreen(void) {
+void StructE8_SomeFnHandle5(void) {
     if (GetShowLapTime() != 0) {
         return;
     }
     RequestRaceHudSubScreenNewRecord();
-    gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
-    gRaceNewRecordTa->mUpdateFrames = 0;
+    g_GlobalE8->mUpdate = StructE8_SomeFnHandle2;
+    g_GlobalE8->mUpdateFrames = 0;
 }
 
-void SlideInRaceNewRecordTa(void) {
+void StructE8_SomeFnHandle2(void) {
     s32 frame;
 
-    frame = gRaceNewRecordTa->mUpdateFrames;
-    gRaceNewRecordTa->mUpdateFrames = frame + 1;
+    frame = g_GlobalE8->mUpdateFrames;
+    g_GlobalE8->mUpdateFrames = frame + 1;
     if (frame < 0x14) {
-        gRaceNewRecordTa->mOffsetX = InterpolateS16(1, -0x100, 0, frame, 0x14);
+        g_GlobalE8->mOffsetX = ComputeValueInterpolation_from_thumb(1, -0x100, 0, frame, 0x14);
     } else {
-        gRaceNewRecordTa->mOffsetX = 0;
-        gRaceNewRecordTa->mUpdate = HoldRaceNewRecordTa;
-        gRaceNewRecordTa->mUpdateFrames = 0;
+        g_GlobalE8->mOffsetX = 0;
+        g_GlobalE8->mUpdate = StructE8_SomeFnHandle6;
+        g_GlobalE8->mUpdateFrames = 0;
     }
 }
 
-void HoldRaceNewRecordTa(void) {
+void StructE8_SomeFnHandle6(void) {
     s32 frame;
 
-    frame = gRaceNewRecordTa->mUpdateFrames;
-    gRaceNewRecordTa->mUpdateFrames = frame + 1;
+    frame = g_GlobalE8->mUpdateFrames;
+    g_GlobalE8->mUpdateFrames = frame + 1;
     if (frame < 0x3c) {
         return;
     }
-    gRaceNewRecordTa->mUpdate = FinishRaceNewRecordTa;
-    gRaceNewRecordTa->mUpdateFrames = 0;
+    g_GlobalE8->mUpdate = StructE8_SomeFnHandle7;
+    g_GlobalE8->mUpdateFrames = 0;
 }
 
-void FinishRaceNewRecordTa(void) {
-    gRaceNewRecordTa->mRunning = 0;
+void StructE8_SomeFnHandle7(void) {
+    g_GlobalE8->mRunning = 0;
 }

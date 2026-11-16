@@ -48,7 +48,7 @@ void GSIStartAvailableCheckA(const char *gamename) {
     SocketStartUp();
     customHost = gGsiAcHostname[0];
     if (customHost == 0) {
-        sprintf(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
+        MaybeStrcpy(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
     }
     if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, MASTER_PORT,
                        &gGsiAvailableCheck.mAddress) != FALSE) {
@@ -70,13 +70,13 @@ BOOL HandlePacket(const s8 *packet, s32 len, SOCSockAddrIn *address, u32 *disabl
     if (len < 7) {
         return TRUE;
     }
-    if (memcmp(&address->mAddr, &gGsiAvailableCheck.mAddress.mAddr, 4) != 0) {
+    if (StructDC_SomeFn_6(&address->mAddr, &gGsiAvailableCheck.mAddress.mAddr, 4) != 0) {
         return TRUE;
     }
     if (address->mPort != gGsiAvailableCheck.mAddress.mPort) {
         return TRUE;
     }
-    if (memcmp((const u8 *) packet, gAvailablePacketHeader, 3) != 0) {
+    if (StructDC_SomeFn_6((const u8 *) packet, gAvailablePacketHeader, 3) != 0) {
         return TRUE;
     }
     serviceMask = (packet[3] << 24) & 0xff000000;

@@ -33,7 +33,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
     InitSoundHandlePool(&gPlayingSoundPool, sounds, count, 0x1c);
     for (index = 0; index < count; index++) {
         ResetPlayingSoundHandle(sounds);
-        ClearThreeWords(&sounds->mUnk_08);
+        StructMQChild_Create(&sounds->mUnk_08);
         sounds->mSeqArcNo = 0;
         sounds->mSoundId = 0;
         sounds->mFlags = 0;
@@ -41,9 +41,9 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         sounds->mVolume = SOUND_VOLUME_MAX;
         sounds++;
     }
-    NNS_FndInitList(&gSoundSources, 0);
+    IntrusiveListWrapper_InitializeEmpty(&gSoundSources, 0);
     for (index = 0; index < 2; index++) {
-        NNS_FndInitList(&gSoundSourceUpdateLists[index], 0x1c);
+        IntrusiveListWrapper_InitializeEmpty(&gSoundSourceUpdateLists[index], 0x1c);
     }
     gSoundSourceUpdatePass[0] = 0;
     gSoundSourceCountThisPass[0] = 0;
@@ -63,7 +63,7 @@ void UpdateSoundSources(void) {
         return;
     }
     if (gExpireWhileRequestedSounds != 0) {
-        for (source = gSoundSources.mHead; source != NULL; source = NNS_FndGetNextListObject(&gSoundSources, source)) {
+        for (source = gSoundSources.mHead; source != NULL; source = IntrusiveListWrapper_NextItem(&gSoundSources, source)) {
             ExpireWhileRequestedSounds(source);
         }
         gExpireWhileRequestedSounds = 0;
@@ -87,7 +87,7 @@ void UpdateSoundSources(void) {
                 SetPlayingSoundsParams(source);
             } else if ((countThisPass & 1) == (gSoundSourceUpdatePass[0] & 1)) {
                 for (sound = source->mPlayingSounds.mHead; sound != NULL;
-                     sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
+                     sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound)) {
                     if (sound->mSeqPlayer != NULL) {
                         source->mTrackParamsFunction(source, sound, NULL);
                     }
@@ -132,7 +132,7 @@ void StopSoundsOnAllSources(u32 fadeSteps) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        source = NNS_FndGetNextListObject(&gSoundSources, source);
+        source = IntrusiveListWrapper_NextItem(&gSoundSources, source);
     } while (source != NULL);
 }
 
@@ -169,12 +169,12 @@ void ReleaseAllSoundSources(void) {
 }
 
 // Start slot of a source (offset 0x2c): starts the library sequence of the entry at the given priority.
-void StartPlayingSoundSeqArc(u32 unused, PlayingSound *sound, u32 priority) {
+void StructMQ_FnPtr1(u32 unused, PlayingSound *sound, u32 priority) {
     NNS_SndArcPlayerStartSeqArcEx(&sound->mSeqPlayer, -1, -1, priority, sound->mSeqArcNo, sound->mSoundId);
 }
 
 // Per-entry slot of a source (offset 0x30): sets track volume and pitch of a started sound.
-void SetPlayingSoundTrackParams(u32 unused, PlayingSound *sound) {
+void StructMQ_FnPtr2(u32 unused, PlayingSound *sound) {
     NNS_SndPlayerSetTrackVolume(&sound->mSeqPlayer, gSeqTrackMask, sound->mVolume);
     NNS_SndPlayerSetTrackPitch(&sound->mSeqPlayer, gSeqTrackMask, sound->mPitch);
 }
@@ -197,7 +197,7 @@ void SetSoundVolumeFunction(s32 (*volumeFunction)(SoundParams *)) {
 
 void ResetPlayingSound(PlayingSound *sound) {
     ResetPlayingSoundHandle(sound);
-    ClearThreeWords(&sound->mUnk_08);
+    StructMQChild_Create(&sound->mUnk_08);
     sound->mSeqArcNo = 0;
     sound->mSoundId = 0;
     sound->mFlags = 0;
@@ -206,7 +206,7 @@ void ResetPlayingSound(PlayingSound *sound) {
 }
 
 // Every caller passes bit 2 with 1: the sound pass then flips bit 0 and clears bit 2.
-void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value) {
+void StructMQRacerEntry_SomeFn_47(SoundSource *source, s32 bit, s32 value) {
     if (value == 1) {
         BIT_SET(source->mSourceFlags, bit);
     } else {
@@ -223,19 +223,19 @@ void SetSoundSourceEnabled(SoundSource *source, s32 enabled) {
     }
 }
 
-void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
+void StructMQRacerEntry_SomeFn_46(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;
     void *trackParamsFunction;
-    NNS_FndInitList(&source->mPlayingSounds, 8);
-    startFunction = (void *) StartPlayingSoundSeqArc;
+    IntrusiveListWrapper_InitializeEmpty(&source->mPlayingSounds, 8);
+    startFunction = (void *) StructMQ_FnPtr1;
     source->mRegistered = 1;
-    trackParamsFunction = (void *) SetPlayingSoundTrackParams;
+    trackParamsFunction = (void *) StructMQ_FnPtr2;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
     source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
-    ClearThreeWords(source->mUnk_1c);
-    ClearThreeWords((u32 *) source);
-    TryAppendListObject(&gSoundSources, source);
+    StructMQChild_Create(source->mUnk_1c);
+    StructMQChild_Create((u32 *) source);
+    StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSources, source);
 }

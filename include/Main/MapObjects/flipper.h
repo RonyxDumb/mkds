@@ -56,7 +56,7 @@ void UpdateFlipper(void *mapObjectList,
                    Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitFlipperObjects(MapObjectList *mapObjectList);
 void DrawFlipper(void *mapObjectList, Flipper *flipper);
-void CreateFlipper(void *mapObjectList);
+void LoadFlipperMapObject(void *mapObjectList);
 BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
 u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8 *response);
 void InitFlipper(Flipper *flipper); /* sets flag 0x200 and the ground matrix (RefreshMapObjectMatrixFromHitNormal) */
@@ -71,4 +71,4 @@ extern MapObjectKindDescriptor gFlipperKindDescriptor;
 extern const Vec3 gFlipperThirdBoxHalfSizesNegative[2];
 extern const u16 gCoverPooHoleInitMapObjectFlag;
 extern const Vec3 gFlipperSecondBoxHalfSizesNegative[2];
-extern struct MapObjectModel *gFlipper;
+extern struct MapObjectModel *g_FlipperMapObject;

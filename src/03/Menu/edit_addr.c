@@ -58,10 +58,10 @@ void CreateEditAddr(void) {
     GetSecondaryMenuPair(&secondaryPairFirst, NULL);
     textFuncs.mUnk_00[secondaryPairFirst](gEditAddr->mText);
     editAddr = gEditAddr;
-    if (memcmp(editAddr->mText, "  0", 3) != 0) {
+    if (StructDC_SomeFn_6(editAddr->mText, "  0", 3) != 0) {
         editAddr->mGroupIndex = EDIT_ADDR_LAST_GROUP;
     } else {
-        MI_CpuFill8(editAddr->mText, 0, 0xc);
+        Mem_CpuFill8(editAddr->mText, 0, 0xc);
         gEditAddr->mGroupIndex = 0;
     }
     LoadEditAddrFilesAndSetBgCnt();
@@ -78,16 +78,16 @@ void CreateEditAddr(void) {
 
 void LoadEditAddrFilesAndSetBgCnt(void) {
     void *ybObjKbNclName = &"char/ybObjKb.ncl.l";
-    void *objPlttLoader = &GX_LoadOBJPltt;
+    void *objPlttLoader = &CopySomePaletteData;
     u32 objPlttLoadResult = LoadFileToVram(ybObjKbNclName, objPlttLoader);
     void *jbBgStep3NcgName = &"char/jbBgStep3.ncg.l";
-    void *bg2CharLoader = &GX_LoadBG2Char;
+    void *bg2CharLoader = &CopyBgData_Bg2_Top;
     u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, bg2CharLoader);
     void *ybBgStep3NclName = &"char/ybBgStep3.ncl.l";
-    void *bgPlttLoader = &GX_LoadBGPltt;
+    void *bgPlttLoader = &CopyPaletteTop;
     u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, bgPlttLoader);
     void *xb4EditAddrNscName = &"char/xb4EditAddr.nsc.l";
-    void *bg2ScrLoader = &GX_LoadBG2Scr;
+    void *bg2ScrLoader = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4EditAddrNscName, bg2ScrLoader);
     u32 subBg0CntAddress = 0x4001008u;
     u32 subBg0CntValue = (*(u16 *) ((subBg0CntAddress) + (0)));
@@ -190,7 +190,7 @@ void UpdateEditAddrInput(void) {
             if (gEditAddr->mText[gEditAddr->mGroupIndex * 3 + 2] == 0) {
                 gEditAddr->mGroupIndex--;
             }
-            MI_CpuFill8(gEditAddr->mText + gEditAddr->mGroupIndex * 3, 0, 3);
+            Mem_CpuFill8(gEditAddr->mText + gEditAddr->mGroupIndex * 3, 0, 3);
             if (gEditAddr->mGroupIndex == 0 && gEditAddr->mText[2] == 0) {
                 SetEditAddrKeyboardRemoveCharEnabled(0);
             }
@@ -287,7 +287,7 @@ BOOL IsEditAddrGroupFull(s32 groupLimit) {
     if (firstChar != 0 && firstChar != 0x20) {
         return 1;
     }
-    MI_CpuCopy8(group, groupText, 3);
+    Mem_CpuCopy8(group, groupText, 3);
     groupText[3] = 0;
     group = groupText;
     for (charIndex = 0; charIndex < 3; charIndex++) {
@@ -343,7 +343,7 @@ void ReleaseEditAddr(void) {
     HideSubScreenMessage();
     DeleteOamEntry(gEditAddr->mOamEntry);
     ReleaseBgTextCanvasOfScreen(0);
-    LoadFileToVram(&"char/ybObjMain.ncl.l", &GX_LoadOBJPltt);
+    LoadFileToVram(&"char/ybObjMain.ncl.l", &CopySomePaletteData);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
     GetSecondaryMenuPair(secondaryPair, NULL);

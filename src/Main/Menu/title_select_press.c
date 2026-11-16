@@ -21,7 +21,7 @@ void UpdateTitleSelectPress(void) {
     s32 titleStateFrames;
 
     titleStateFrames = GetTitleStateFrames();
-    gTitleScene->mSelectedOffset = GetSelectedPressOffset(titleStateFrames);
+    g_SceneTitleContext->mSelectedOffset = GetSelectedPressOffset(titleStateFrames);
     if (titleStateFrames >= 10) {
         SetTitleState(TITLE_STATE_SLIDE_OUT, TITLE_STATE_LEAVE);
     }
@@ -32,10 +32,10 @@ void TitleLeaveNop(void) {}
 
 #pragma thumb off
 
-void SetConnectionKind(u32 value) {
-    gStartupWork->mConnectionKind = value;
+void SetGlobalPMaybeState(u32 value) {
+    g_GlobalP->mConnectionKind = value;
 }
 
 void TitleSetWLMenuKind(u32 value) {
-    gMenuShared->mWLMenuKind = value;
+    g_GlobalB488->mWLMenuKind = value;
 }

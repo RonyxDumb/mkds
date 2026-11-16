@@ -8,7 +8,7 @@ char gGameRegistryIntroduction[] = "";
 char gGameRegistryIconCharPath[] = "/data/boot/mkds_banner02.nbfc";
 char gGameRegistryIconPalettePath[] = "/data/boot/mkds_banner02.nbfp";
 
-void *const gGameRegistry[15] = {gGameRegistryRomPath,
+void *const g_GlobalBAN[15] = {gGameRegistryRomPath,
                                  gGameRegistryGameName,
                                  gGameRegistryIntroduction,
                                  gGameRegistryIconCharPath,

@@ -24,7 +24,7 @@ u8 gLanguagePathBuffer[64];
 u8 *BuildFilePathWithLanguage(const u8 *path) {
     u32 language;
 
-    strncpy((char *) gLanguagePathBuffer, (const char *) path, 0x3f);
+    SomeStrncpy_0((char *) gLanguagePathBuffer, (const char *) path, 0x3f);
     if (path[5] == 0x78) {
         return gLanguagePathBuffer;
     }
@@ -41,7 +41,7 @@ u32 LoadFileToVram(void *path, void *loader) {
     void *data;
 
     data = LoadFile(BuildFilePathWithLanguage(path), &size, 4);
-    DC_FlushRange(data, size);
+    Arm_FlushRange(data, size);
     ((void (*)(void *, u32, u32)) loader)(data, 0, size);
     DeleteLoadedFile(data);
 }

@@ -25,7 +25,7 @@ BOOL ShowSubScreenMessage(u32 index, s32 column, u32 value) {
     if (gSubScreenMessageShown != 0) {
         return 0;
     }
-    LoadFileToVram(gJtNullNscName, GXS_LoadBG0Scr);
+    LoadFileToVram(gJtNullNscName, TEQSub_Fn24Impl);
     reg_G2S_DB_BG0OFS = 0x1920000;
     canvas = InitBgTextCanvas(1, 0);
     message = GetMessageEntryAndWriteDigit(gMessages, index, column, value);

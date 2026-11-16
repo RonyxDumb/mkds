@@ -3,7 +3,7 @@
 #include "types.h"
 
 u32 DWCi_RetryReserving();
-u32 DWCi_SendResvCommandToFriend(s32 delay, s32 init);
+u32 DWCi_SendResvCommandToFriend(s32 delay, s32 StructDC_SomeFn_from_thumb);
 u32 DWCi_SendResvCommand(u32 profileId, s32 delay);
 u32 DWCi_HandleMatchCommandError(u32 result);
 void DWCi_MakeBackupServerData(u32 senderProfileId, u32 *values);

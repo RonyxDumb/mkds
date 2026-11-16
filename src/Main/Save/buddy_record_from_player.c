@@ -7,7 +7,7 @@
 s32 SetBuddyRecordFromPlayer(PlayerRecord *player, u32 addIfMissing) {
     u32 flag = player->mHasEmblem;
     DWCAccFriendData *friendData = &player->mFriendData;
-    u32 slot = AddOrUpdateBuddyRecord(gBackupBuffers->mBuddyRecordBlock->mFriendData, player, friendData, 0x0u, flag,
+    u32 slot = AddOrUpdateBuddyRecord(g_SaveDataHolder->mBuddyRecordBlock->mFriendData, player, friendData, 0x0u, flag,
                                       addIfMissing);
     return slot;
 }

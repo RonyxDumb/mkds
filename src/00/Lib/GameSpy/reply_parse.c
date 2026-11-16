@@ -10,12 +10,12 @@
 
 void GpiCopyString(char *dest, const char *src, s32 len) {
     if (dest == NULL) {
-        AssertionFailed("dest != NULL", "gpiUtility.c", NULL, 0x2f);
+        LogThrowAssertion("dest != NULL", "gpiUtility.c", NULL, 0x2f);
     }
     if (src == NULL) {
-        AssertionFailed("src != NULL", "gpiUtility.c", NULL, 0x30);
+        LogThrowAssertion("src != NULL", "gpiUtility.c", NULL, 0x30);
     }
-    strncpy(dest, src, len);
+    SomeStrncpy_0(dest, src, len);
     *(dest + len + -1) = 0;
 }
 
@@ -51,16 +51,16 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
     s8 character;
 
     if (command == NULL) {
-        AssertionFailed("command != NULL", "gpiUtility.c", NULL, 0x10d);
+        LogThrowAssertion("command != NULL", "gpiUtility.c", NULL, 0x10d);
     }
     if (key == NULL) {
-        AssertionFailed("key != NULL", "gpiUtility.c", NULL, 0x10e);
+        LogThrowAssertion("key != NULL", "gpiUtility.c", NULL, 0x10e);
     }
     if (value == NULL) {
-        AssertionFailed("value != NULL", "gpiUtility.c", NULL, 0x10f);
+        LogThrowAssertion("value != NULL", "gpiUtility.c", NULL, 0x10f);
     }
     if (len <= 0) {
-        AssertionFailed("len > 0", "gpiUtility.c", NULL, 0x110);
+        LogThrowAssertion("len > 0", "gpiUtility.c", NULL, 0x110);
     }
     stopChar = *key;
     keyStart = strstr(command, key);
@@ -110,13 +110,13 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key,
     s32 length;
 
     if (buffer == NULL) {
-        AssertionFailed("buffer != NULL", "gpiUtility.c", NULL, 0x199);
+        LogThrowAssertion("buffer != NULL", "gpiUtility.c", NULL, 0x199);
     }
     if (key == NULL) {
-        AssertionFailed("key != NULL", "gpiUtility.c", NULL, 0x19a);
+        LogThrowAssertion("key != NULL", "gpiUtility.c", NULL, 0x19a);
     }
     if (value == NULL) {
-        AssertionFailed("value != NULL", "gpiUtility.c", NULL, 0x19b);
+        LogThrowAssertion("value != NULL", "gpiUtility.c", NULL, 0x19b);
     }
     start = buffer + *index;
     if (*start != 0x5c) {

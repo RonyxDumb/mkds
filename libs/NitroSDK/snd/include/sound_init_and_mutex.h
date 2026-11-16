@@ -4,9 +4,9 @@
 
 typedef struct OSMutex OSMutex;
 
-extern u32 sSndInitialized;
-extern OSMutex sSndMutex;
+extern u32 g_SoundInnerInitialized;
+extern OSMutex g_SoundMutex;
 
-void SNDi_UnlockMutex(void);
-void SNDi_LockMutex(void);
-void SND_Init(void);
+void Sound_UnlockMutex(void);
+void Sound_LockMutex(void);
+void Sound_InitializeImpl(void);

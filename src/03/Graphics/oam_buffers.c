@@ -20,7 +20,7 @@ void ReleaseOamBuffers(void) {
 OamEntry *CreateOamEntry(int screen, u8 *source) {
     OamEntry *entry;
     entry = PopPointerStack(gOamBuffers->mFreeEntries[screen]);
-    MIi_CpuCopy32(source, entry, 8);
+    Mem_CpuCopy32(source, entry, 8);
     return entry;
 }
 
@@ -59,7 +59,7 @@ void DeleteNodeList(void *block, ...) {
 
 void RemoveNodeFromList(void *node) {
     u32 nodeAddress = (((u32) node) + (0x0u));
-    u32 savedIrqMask = OS_DisableIrqMask(0x1u);
+    u32 savedIrqMask = Os_DisableIrqHandler(0x1u);
     u32 next = (*(u32 *) ((nodeAddress) + (4)));
     u32 previous = (*(u32 *) ((nodeAddress) + (0)));
     u32 reloadedPrevious;
@@ -73,13 +73,13 @@ void RemoveNodeFromList(void *node) {
     *(u32 *) ((nodeAddress) + (4)) = 0x0u;
     nullLink = (*(u32 *) ((nodeAddress) + (4)));
     *(u32 *) ((nodeAddress) + (0)) = nullLink;
-    restoredIrqMask = OS_EnableIrqMask(savedIrqMask);
+    restoredIrqMask = Os_EnableIrqHandler(savedIrqMask);
 }
 
 void AddNodeBefore(void *node, void *newNode) {
     u32 nodeAddress = (((u32) node) + (0x0u));
     u32 newNodeAddress = (((u32) newNode) + (0x0u));
-    u32 savedIrqMask = OS_DisableIrqMask(0x1u);
+    u32 savedIrqMask = Os_DisableIrqHandler(0x1u);
     u32 previous = (*(u32 *) ((nodeAddress) + (0)));
     u32 reloadedPrevious;
     u32 restoredIrqMask;
@@ -88,7 +88,7 @@ void AddNodeBefore(void *node, void *newNode) {
     *(u32 *) ((newNodeAddress) + (0)) = reloadedPrevious;
     *(u32 *) ((newNodeAddress) + (4)) = nodeAddress;
     *(u32 *) ((nodeAddress) + (0)) = newNodeAddress;
-    restoredIrqMask = OS_EnableIrqMask(savedIrqMask);
+    restoredIrqMask = Os_EnableIrqHandler(savedIrqMask);
 }
 
 void AddNodeToListBack(void *list, void *node) {

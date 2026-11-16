@@ -10,7 +10,7 @@
 #include "formatted_text_to_buffer.h"
 
 
-u32 FormatGhostFilePath(u32 number, char *buffer, u32 size) {
-    OS_SNPrintf(buffer, size, "/data/ghost/ghost_%03d.bin", number);
+u32 FormatGhostBinPath(u32 number, char *buffer, u32 size) {
+    Util_SNPrintF(buffer, size, "/data/ghost/ghost_%03d.bin", number);
     return 1;
 }

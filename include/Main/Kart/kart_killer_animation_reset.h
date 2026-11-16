@@ -6,4 +6,4 @@
 #include "Main/Kart/karts.h"
 #include "Main/Kart/character_animation.h"
 
-void ResetKartKillerAnimationLooping(KartModelsEntry *kartModelsEntry);
+void StructAD00Sub_SomeFn_from_thumb(KartModelsEntry *kartModelsEntry);

@@ -23,14 +23,14 @@
 void WriteSlotGhostRecord(u8 index, SlotGhostRecord *source) {
     int slotBit;
     SlotGhostRecord *destination;
-    destination = gBackupBuffers->mSlotGhostRecords[0];
+    destination = g_SaveDataHolder->mSlotGhostRecords[0];
     source->mHead.mUnk_08 = source->mHead.mUnk_08 & ~GHOST_HEAD_FILLED_BIT | GHOST_HEAD_FILLED_BIT;
-    MI_CpuCopy8(source, destination, (0x00001000u));
+    Mem_CpuCopy8(source, destination, (0x00001000u));
     WriteBackupSlotGhost(index, destination);
     slotBit = IsSlotGhostBitSet(index);
     if (slotBit == 0) {
-        SetBitArrayBit(index, gBackupBuffers->mFirstBlock->mSlotGhostBits, 2);
-        StartWriteBackupFirstBlock();
+        MaybeSetPersonalGhostForCoursePresent_from_thumb(index, g_SaveDataHolder->mFirstBlock->mSlotGhostBits, 2);
+        WriteSaveDataHeader_from_thumb();
     }
 }
 
@@ -41,7 +41,7 @@ void WriteSlotGhostRecord(u8 index, SlotGhostRecord *source) {
 void ReadSlotGhostRecord(u32 slotIndex) {
     SlotGhostRecord *ghostRecord;
 
-    ghostRecord = gBackupBuffers->mSlotGhostRecords[0];
+    ghostRecord = g_SaveDataHolder->mSlotGhostRecords[0];
     if (IsSlotGhostBitSet(slotIndex) == 0) {
         ghostRecord->mHead.mFilled = 0;
     } else {
@@ -49,7 +49,7 @@ void ReadSlotGhostRecord(u32 slotIndex) {
     }
 }
 
-s32 GetGhostLapTime(GhostRecordHead *ghostRecord, s32 lapNumber, MinuteSecondMillisecondTime *lapTime) {
+s32 StructNKPG_AnotherCopyToTime_from_thumb(GhostRecordHead *ghostRecord, s32 lapNumber, MinuteSecondMillisecondTime *lapTime) {
     u8 byteOffset;
     u32 packedTime;
 
@@ -67,7 +67,7 @@ s32 GetGhostLapTime(GhostRecordHead *ghostRecord, s32 lapNumber, MinuteSecondMil
     return 1;
 }
 
-BOOL GetGhostFinishTime(GhostRecordHead *ghostRecord, MinuteSecondMillisecondTime *finishTime) {
+BOOL StructNKPG_CopyToTime_from_thumb(GhostRecordHead *ghostRecord, MinuteSecondMillisecondTime *finishTime) {
     if (ghostRecord->mFilled == 0) {
         return FALSE;
     }
@@ -83,10 +83,10 @@ s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMill
     result = 0;
     switch (ghostRecordIndex) {
         case GHOST_RECORD_INDEX_COURSE:
-            result = GetGhostLapTime(&gBackupBuffers->mCourseGhostRecord->mHead, lapNumber, lapTime);
+            result = StructNKPG_AnotherCopyToTime_from_thumb(&g_SaveDataHolder->mCourseGhostRecord->mHead, lapNumber, lapTime);
             break;
         case GHOST_RECORD_INDEX_FIRST_SLOT:
-            result = GetGhostLapTime(&gBackupBuffers->mSlotGhostRecords[0]->mHead, lapNumber, lapTime);
+            result = StructNKPG_AnotherCopyToTime_from_thumb(&g_SaveDataHolder->mSlotGhostRecords[0]->mHead, lapNumber, lapTime);
             break;
         case GHOST_RECORD_INDEX_SECOND_SLOT:
             break;
@@ -100,10 +100,10 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
     result = 0;
     switch (ghostRecordIndex) {
         case GHOST_RECORD_INDEX_COURSE:
-            result = GetGhostFinishTime(&gBackupBuffers->mCourseGhostRecord->mHead, finishTime);
+            result = StructNKPG_CopyToTime_from_thumb(&g_SaveDataHolder->mCourseGhostRecord->mHead, finishTime);
             break;
         case GHOST_RECORD_INDEX_FIRST_SLOT:
-            result = GetGhostFinishTime(&gBackupBuffers->mSlotGhostRecords[0]->mHead, finishTime);
+            result = StructNKPG_CopyToTime_from_thumb(&g_SaveDataHolder->mSlotGhostRecords[0]->mHead, finishTime);
             break;
         case GHOST_RECORD_INDEX_SECOND_SLOT:
             break;
@@ -111,24 +111,24 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
     return result;
 }
 
-void FillPlayerRecord(PlayerRecord *record) {
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, record->mName, sizeof(record->mName));
-    if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
+void StructTK_SomeFn_from_thumb(PlayerRecord *record) {
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mPlayerName, record->mName, sizeof(record->mName));
+    if (g_SaveDataHolder->mEmblemRecord->mFilled != 0 && g_SaveDataHolder->mFirstBlock->mEmblemOff == 0) {
         record->mHasEmblem = 1;
-        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, record->mEmblem, sizeof(record->mEmblem));
+        Mem_CpuCopy8(g_SaveDataHolder->mEmblemRecord->mEmblemData, record->mEmblem, sizeof(record->mEmblem));
     } else {
         record->mHasEmblem = 0;
-        MI_CpuFill8(record->mEmblem, 0, sizeof(record->mEmblem));
+        Mem_CpuFill8(record->mEmblem, 0, sizeof(record->mEmblem));
     }
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, record->mBits, sizeof(record->mBits));
-    record->mRegion = gStartupWork->mRegion;
-    record->mLanguageIndex = gStartupWork->mLanguageIndex;
-    record->mElo = gBackupBuffers->mFirstBlock->mElo;
-    record->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mFlags, record->mBits, sizeof(record->mBits));
+    record->mRegion = g_GlobalP->mRegion;
+    record->mLanguageIndex = g_GlobalP->mLanguageIndex;
+    record->mElo = g_SaveDataHolder->mFirstBlock->mElo;
+    record->mLowestGrandPrixRecordValue = GetWorstStarRank_from_thumb();
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        MI_CpuFill8(&record->mFriendData, 0, 0xc);
+        Mem_CpuFill8(&record->mFriendData, 0, 0xc);
     } else {
-        DWC_CreateExchangeToken(&gBackupBuffers->mFirstBlock->mUserData, &record->mFriendData);
+        PlayerProfileInfo_CopyFriendCode_from_thumb(&g_SaveDataHolder->mFirstBlock->mUserData, &record->mFriendData);
     }
 }
 

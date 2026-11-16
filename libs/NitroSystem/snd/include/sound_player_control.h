@@ -44,7 +44,7 @@ typedef struct NNSSndSeqPlayer {
 
 #include "sound_archive_load.h"
 
-// Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on mHeapStorage,
+// Memory NNS_SndPlayerCreateHeap gets from Sound_Context_Allocate: mHandle is the NNSSndHeap it sets up on mHeapStorage,
 // mPlayerNo the index of the sPlayer element whose heap list receives it.
 typedef struct NNSSndPlayerHeap {
     /* 00 */ u8 mLink[8];
@@ -62,7 +62,7 @@ extern NNSFndList sFreeList;
 extern NNSFndList sPrioList;
 
 void SetPlayerPriority(NNSSndSeqPlayer *seq, int priority);
-void PlayerHeapDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
+void SoundDtorFn(void *mem, u32 size, void *data1, u32 data2);
 void ShutdownPlayer(NNSSndSeqPlayer *seq);
 NNSSndSeqPlayer *AllocSeqPlayer(int priority);
 void ForceStopSeq(NNSSndSeqPlayer *seq);
@@ -85,7 +85,7 @@ void NNS_SndPlayerSetTrackModSpeed(NNSSndSeqPlayer **handle, u32 tracks, int spe
 u32 NNS_SndPlayerSetTrackPan(NNSSndSeqPlayer **handle, u32 tracks, int pan);
 void NNS_SndPlayerSetTrackPitch(NNSSndSeqPlayer **handle, u32 tracks, int pitch);
 void NNS_SndPlayerSetTrackVolume(NNSSndSeqPlayer **handle, u32 tracks, int volume);
-void NNS_SndPlayerSetTrackMuteEx(NNSSndSeqPlayer **handle, u32 tracks, int mute);
+void NNS_SndPlayerSetTrackMute(NNSSndSeqPlayer **handle, u32 tracks, int mute);
 void NNS_SndPlayerSetChannelPriority(NNSSndSeqPlayer **handle, int priority);
 void NNS_SndPlayerSetPlayerPriority(NNSSndSeqPlayer **handle, int priority);
 void NNS_SndPlayerMoveVolume(NNSSndSeqPlayer **handle, int target, int steps);

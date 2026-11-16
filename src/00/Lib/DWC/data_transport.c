@@ -42,15 +42,15 @@ void DWC_SetUserRecvCallback(void (*callback)(u32, void *, u32)) {
 }
 
 void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size) {
-    strncpy(header->mMagicStrings, gDwcMagicStrings, 2);
+    SomeStrncpy_0(header->mMagicStrings, gDwcMagicStrings, 2);
     header->mType = type;
     header->mSize = size;
 }
 
 u16 DWCs_DecodeHeader(const void *message) {
     DWCTransportHeader header;
-    MI_CpuCopy8(message, &header, 8);
-    if (memcmp(header.mMagicStrings, gDwcMagicStrings, 2) == 0) {
+    Mem_CpuCopy8(message, &header, 8);
+    if (StructDC_SomeFn_6(header.mMagicStrings, gDwcMagicStrings, 2) == 0) {
         return header.mType;
     }
     return 0;
@@ -70,7 +70,7 @@ s32 DWCs_GetRequiredHeaderSize(s32 type) {
 // Per login (called by DWC_InitFriendsMatch): stores gWiFiMessageLayer, zeroes the struct and sets mSendChunkSize.
 void DWCi_InitTransport(WiFiMessageLayer *state) {
     gWiFiMessageLayer = state;
-    MI_CpuFill8(state, 0, sizeof(WiFiMessageLayer));
+    Mem_CpuFill8(state, 0, sizeof(WiFiMessageLayer));
     gWiFiMessageLayer->mSendChunkSize = 0x5b9;
 }
 
@@ -131,7 +131,7 @@ void DWCi_TransportProcess(void) {
             if (DWC_IsValidAID(aid) != 0) {
                 peer = DWCs_GetTransConnection(aid);
                 if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && peer->mReceiveTimeoutTime != 0) {
-                    now = OS_GetTick();
+                    now = Os_GetTick();
                     if ((u32) _ll_udiv((now - peer->mPreviousReceiveTick) << 6, 0x82ea) > peer->mReceiveTimeoutTime) {
                         gWiFiMessageLayer->mReceiveTimeoutCallback(aid);
                         peer->mPreviousReceiveTick = now;
@@ -200,7 +200,7 @@ void DWCs_HandleReliableMessage(Gt2Connection *connection, void *message, s32 si
             gWiFiMessageLayer->mPeers[aid].mReceiveSize = 0;
             break;
         default:
-            OS_Terminate();
+            Os_Terminate();
             break;
     }
 }
@@ -212,12 +212,12 @@ void DWCs_HandleUnreliableMessage(Gt2Connection *connection, const void *message
     aid = DWCi_GetConnectionAID(connection);
     peer = &gWiFiMessageLayer->mPeers[aid];
     if ((peer->mReceiveBuffer != NULL) && (peer->mReceiveBufferSize >= size)) {
-        MI_CpuCopy8(message, peer->mReceiveBuffer, size);
+        Mem_CpuCopy8(message, peer->mReceiveBuffer, size);
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {
             gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
         }
         if ((gWiFiMessageLayer->mReceiveTimeoutCallback != NULL) && (peer->mReceiveTimeoutTime != 0)) {
-            receiveTick = OS_GetTick();
+            receiveTick = Os_GetTick();
             peer->mPreviousReceiveTick = receiveTick;
         }
     }
@@ -234,7 +234,7 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
             if (size != 8) {
                 return;
             }
-            MI_CpuCopy8(message, headerWords, 8);
+            Mem_CpuCopy8(message, headerWords, 8);
             connection->mReceiveSize = headerWords[0];
             connection->mReceivedSize = 0;
             if (connection->mReceiveBuffer != NULL && connection->mReceiveBufferSize >= connection->mReceiveSize) {
@@ -257,9 +257,9 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
     s32 expected;
     if (DWCs_GetRecvState(aid) == WIFI_PEER_RECEIVE_STATE_DATA_BODY) {
         if (connection->mReceivedSize + size > connection->mReceiveBufferSize) {
-            OS_Terminate();
+            Os_Terminate();
         }
-        MI_CpuCopy8(message, connection->mReceiveBuffer + connection->mReceivedSize, size);
+        Mem_CpuCopy8(message, connection->mReceiveBuffer + connection->mReceivedSize, size);
     }
     connection->mReceivedSize += size;
     expected = connection->mReceiveSize;
@@ -272,7 +272,7 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
         }
     }
     if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && connection->mReceiveTimeoutTime != 0) {
-        connection->mPreviousReceiveTick = OS_GetTick();
+        connection->mPreviousReceiveTick = Os_GetTick();
     }
 }
 

@@ -27,27 +27,27 @@
 #pragma thumb on
 #pragma optimize_for_size on
 
-NsbmdModel *gItemModels[14];
+NsbmdModel *g_ItemHolder[14];
 
-void *FindItemFile(char *fileName) {
+void *FindItemFileBuffer_from_thumb(char *fileName) {
     char buf[0x100];
 
     if (fileName == NULL) {
         return NULL;
     }
-    snprintf(buf, 0x100, "Item/%s", fileName);
-    return FindMainRaceOrMainEffectFile(buf);
+    _snprintf(buf, 0x100, "Item/%s", fileName);
+    return FindFileBuffer_MAR_EFT_from_thumb(buf);
 }
 
-NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureName) {
+NsbmdModel *CreateLoadItem_from_thumb(char *modelName, char *animationName, char *textureName) {
     NsbmdModel *model;
     void *modelFile;
     void *animationFile;
 
-    model = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*model));
-    modelFile = FindItemFile(modelName);
-    animationFile = FindItemFile(animationName);
-    InitNsbmdModel(model, modelFile, animationFile, 0);
+    model = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*model));
+    modelFile = FindItemFileBuffer_from_thumb(modelName);
+    animationFile = FindItemFileBuffer_from_thumb(animationName);
+    StructMapObjectSub_SomeFn_from_thumb(model, modelFile, animationFile, 0);
     model->mPolygonAttributes &= ~POLYGON_ATTR_ID_MASK;
     model->mPolygonAttributes |= ITEM_MODEL_POLYGON_ID << POLYGON_ATTR_ID_SHIFT;
     model->mPolygonAttributes &= ~0xf;
@@ -61,38 +61,38 @@ void *CreateItemNsbmd(char *modelName, char *textureName) {
     void *model;
     void *modelFile;
 
-    model = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Nsbmd));
-    modelFile = FindItemFile(modelName);
-    InitNsbmd(model, modelFile);
-    SetNsbmdPolygonIdLightEmiAll(model, 4, 2, 0x294a);
+    model = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(Nsbmd));
+    modelFile = FindItemFileBuffer_from_thumb(modelName);
+    StructML_LoadModel2(model, modelFile);
+    StructML_SomeFn_1(model, 4, 2, 0x294a);
     return model;
 }
 
-void CreateItemModels(void) {
+void LoadItems_from_thumb(void) {
     enum { INDEX_FIRST } i;
     ItemKind *itemKind;
     BOOL isRainbowCourse;
 
     i = 0;
     while (i < 0xe) {
-        gItemModels[i] = NULL;
+        g_ItemHolder[i] = NULL;
         i++;
     }
-    gItemModels[0] = CreateItemModel("it_koura_g.nsbmd", NULL, "it_koura_g.nsbtx");
-    gItemModels[1] = CreateItemModel("it_koura_r.nsbmd", NULL, "it_koura_r.nsbtx");
-    gItemModels[2] = CreateItemModel("it_banana.nsbmd", NULL, "it_banana.nsbtx");
-    gItemModels[3] = CreateItemModel("it_kinoko.nsbmd", NULL, "it_kinoko.nsbtx");
-    gItemModels[4] = CreateItemModel("it_star.nsbmd", NULL, "it_star.nsbtx");
-    gItemModels[5] = CreateItemModel("it_koura_w.nsbmd", NULL, "it_koura_w.nsbtx");
-    gItemModels[6] = CreateItemModel("it_thunder.nsbmd", NULL, "it_thunder.nsbtx");
-    gItemModels[7] = CreateItemModel("it_f_box.nsbmd", NULL, "it_f_box.nsbtx");
-    gItemModels[9] = CreateItemModel("it_bomb.nsbmd", "it_bomb.nsbtp", "it_bomb.nsbtx");
-    gItemModels[10] = CreateItemModel("it_gesso.nsbmd", NULL, "it_gesso.nsbtx");
-    gItemModels[11] = CreateItemModel("it_teresa.nsbmd", NULL, "it_teresa.nsbtx");
-    gItemModels[12] = CreateItemModel("it_kinoko_p.nsbmd", NULL, "it_kinoko_p.nsbtx");
-    gItemModels[13] = CreateItemModel("it_killer.nsbmd", NULL, "it_killer.nsbtx");
-    gItemModels[8] = gItemModels[7];
-    isRainbowCourse = (gRaceSetup->mCourseId == COURSE_ID_RAINBOW);
+    g_ItemHolder[0] = CreateLoadItem_from_thumb("it_koura_g.nsbmd", NULL, "it_koura_g.nsbtx");
+    g_ItemHolder[1] = CreateLoadItem_from_thumb("it_koura_r.nsbmd", NULL, "it_koura_r.nsbtx");
+    g_ItemHolder[2] = CreateLoadItem_from_thumb("it_banana.nsbmd", NULL, "it_banana.nsbtx");
+    g_ItemHolder[3] = CreateLoadItem_from_thumb("it_kinoko.nsbmd", NULL, "it_kinoko.nsbtx");
+    g_ItemHolder[4] = CreateLoadItem_from_thumb("it_star.nsbmd", NULL, "it_star.nsbtx");
+    g_ItemHolder[5] = CreateLoadItem_from_thumb("it_koura_w.nsbmd", NULL, "it_koura_w.nsbtx");
+    g_ItemHolder[6] = CreateLoadItem_from_thumb("it_thunder.nsbmd", NULL, "it_thunder.nsbtx");
+    g_ItemHolder[7] = CreateLoadItem_from_thumb("it_f_box.nsbmd", NULL, "it_f_box.nsbtx");
+    g_ItemHolder[9] = CreateLoadItem_from_thumb("it_bomb.nsbmd", "it_bomb.nsbtp", "it_bomb.nsbtx");
+    g_ItemHolder[10] = CreateLoadItem_from_thumb("it_gesso.nsbmd", NULL, "it_gesso.nsbtx");
+    g_ItemHolder[11] = CreateLoadItem_from_thumb("it_teresa.nsbmd", NULL, "it_teresa.nsbtx");
+    g_ItemHolder[12] = CreateLoadItem_from_thumb("it_kinoko_p.nsbmd", NULL, "it_kinoko_p.nsbtx");
+    g_ItemHolder[13] = CreateLoadItem_from_thumb("it_killer.nsbmd", NULL, "it_killer.nsbtx");
+    g_ItemHolder[8] = g_ItemHolder[7];
+    isRainbowCourse = (g_GlobalCO->mCourseId == COURSE_ID_RAINBOW);
     i = 0;
     while (i < 0xe) {
         itemKind = &gItemKinds[i];
@@ -100,7 +100,7 @@ void CreateItemModels(void) {
             itemKind->mSetup();
         }
         if (isRainbowCourse != FALSE) {
-            gItemModels[i]->mPolygonAttributes &= 0xffff7fff;
+            g_ItemHolder[i]->mPolygonAttributes &= 0xffff7fff;
         }
         i++;
     }
@@ -129,23 +129,23 @@ BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower) {
 
     pos = &follower->mDirectedItemObject.mItemObject.mPos;
     direction = &follower->mDirectedItemObject.mDirection;
-    VEC_Subtract(follower->mTargetLink.mLink->mPointPos, pos, &vectors[0]);
+    VecFx32_Subtract(follower->mTargetLink.mLink->mPointPos, pos, &vectors[0]);
     if (LENGTH_SQUARED(vectors[0]) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&vectors[0], &vectors[1]);
+        Vector3_MaybeNormalize(&vectors[0], &vectors[1]);
     }
-    alignment = Vec3DotUnrounded(direction, &vectors[1]);
+    alignment = VecFx32_CrossProduct_0(direction, &vectors[1]);
     if (alignment > 0xddb || follower->mDirectedItemObject.mPushOutMode != 0) {
         vectors[0].x >>= 2;
         vectors[0].y >>= 2;
         vectors[0].z >>= 2;
-        alongDirection = VEC_DotProduct(direction, &vectors[0]);
+        alongDirection = Vector3_DotProduct(direction, &vectors[0]);
         vectors[1].x = MUL_FIXED12_NO_ROUND(direction->x, alongDirection);
         vectors[1].y = MUL_FIXED12_NO_ROUND(direction->y, alongDirection);
         vectors[1].z = MUL_FIXED12_NO_ROUND(direction->z, alongDirection);
-        VEC_Add(&vectors[0], &vectors[1], &vectors[0]);
-        VEC_Subtract(pos, &vectors[1], &vectors[2]);
+        VecFx32_Add(&vectors[0], &vectors[1], &vectors[0]);
+        VecFx32_Subtract(pos, &vectors[1], &vectors[2]);
         vectors[3] = *pos;
-        VEC_Add(pos, &vectors[0], &vectors[4]);
+        VecFx32_Add(pos, &vectors[0], &vectors[4]);
         vectors[5] = *follower->mTargetLink.mLink->mPointPos;
         InitSegmentPoints(&follower->mSegmentPoints, &vectors[2], follower->mDirectedItemObject.mSpeed);
         return TRUE;
@@ -165,7 +165,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     if (follower->mDirectedItemObject.mPushOutMode != 0 &&
         (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) != 0) {
         value =
-            GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK))
+            GetRacerMQEntry((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK))
                 ->mDrawMatrixPos.y +
             0x1e000;
         if (follower->mDirectedItemObject.mItemObject.mPos.y < value) {
@@ -186,25 +186,25 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
                                    &follower->mDirectedItemObject.mItemObject.mPos) != FALSE) {
         PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
     }
-    VEC_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mDirectedItemObject.mItemObject.mPos, &toLink);
+    VecFx32_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mDirectedItemObject.mItemObject.mPos, &toLink);
     if (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_ON_BOOST_SURFACE) {
-        scalar = VEC_DotProduct(surfaceDirection, &toLink);
+        scalar = Vector3_DotProduct(surfaceDirection, &toLink);
         toLink.x -= MUL_FIXED12_NO_ROUND(surfaceDirection->x, scalar);
         toLink.y -= MUL_FIXED12_NO_ROUND(surfaceDirection->y, scalar);
         toLink.z -= MUL_FIXED12_NO_ROUND(surfaceDirection->z, scalar);
-        scalar = VEC_DotProduct(&follower->mDirectedItemObject.mItemObject.mNormal, &toLink);
+        scalar = Vector3_DotProduct(&follower->mDirectedItemObject.mItemObject.mNormal, &toLink);
         toLink.x -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.x, scalar);
         toLink.y -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.y, scalar);
         toLink.z -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.z, scalar);
-        VEC_MultAdd(0x29, &toLink, &follower->mDirectedItemObject.mItemObject.mPos,
+        VecFx32_AddScale1(0x29, &toLink, &follower->mDirectedItemObject.mItemObject.mPos,
                     &follower->mDirectedItemObject.mItemObject.mPos);
-        VEC_MultAdd(0x3, &toLink, surfaceDirection, surfaceDirection);
+        VecFx32_AddScale1(0x3, &toLink, surfaceDirection, surfaceDirection);
         return;
     }
-    if (Vec3DotUnrounded(surfaceDirection, &toLink) < 0) {
+    if (VecFx32_CrossProduct_0(surfaceDirection, &toLink) < 0) {
         sideDirection = &follower->mDirectedItemObject.mSideDirection;
-        Vec3CrossUnrounded(surfaceDirection, &follower->mDirectedItemObject.mItemObject.mNormal, sideDirection);
-        if (Vec3DotUnrounded(sideDirection, &toLink) > 0) {
+        Vector3_Cross(surfaceDirection, &follower->mDirectedItemObject.mItemObject.mNormal, sideDirection);
+        if (VecFx32_CrossProduct_0(sideDirection, &toLink) > 0) {
             toLink = *sideDirection;
         } else {
             toLink.x = -sideDirection->x;
@@ -214,7 +214,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
         follower->mLinkWasBehind = 1;
     }
     if (LENGTH_SQUARED(toLink) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&toLink, &toLink);
+        Vector3_MaybeNormalize(&toLink, &toLink);
     }
     scalar = 0x1000 - follower->mRampTimer * follower->mRampWeightPerCount;
     value = (follower->mLinkWasBehind != 0) ? 0x266 : 0x148;
@@ -254,10 +254,10 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         GetSegmentProgressPoint(&segmentPoints->mSegmentProgress, pos);
         velocity->y = 0;
         if (follower->mDirectedItemObject.mPushOutMode == 0) {
-            VEC_Subtract(pos, &prevPos, &prevPos);
-            alongNormal = Vec3DotUnrounded(&prevPos, &follower->mDirectedItemObject.mItemObject.mNormal);
+            VecFx32_Subtract(pos, &prevPos, &prevPos);
+            alongNormal = VecFx32_CrossProduct_0(&prevPos, &follower->mDirectedItemObject.mItemObject.mNormal);
             if (alongNormal > 0) {
-                VEC_MultAdd(-alongNormal, &follower->mDirectedItemObject.mItemObject.mNormal, pos, pos);
+                VecFx32_AddScale1(-alongNormal, &follower->mDirectedItemObject.mItemObject.mNormal, pos, pos);
             }
         }
     } else {
@@ -283,10 +283,10 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
                 pos->y = pos->y + vector.y;
             }
         } else {
-            VEC_Add(&vector, pos, pos);
+            VecFx32_Add(&vector, pos, pos);
         }
         if (follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
-            value = VEC_DotProduct(&hitNormal, velocity);
+            value = Vector3_DotProduct(&hitNormal, velocity);
             velocity->x -= MUL_FIXED12_NO_ROUND(hitNormal.x, value);
             velocity->y -= MUL_FIXED12_NO_ROUND(hitNormal.y, value);
             velocity->z -= MUL_FIXED12_NO_ROUND(hitNormal.z, value);
@@ -302,14 +302,14 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         }
         if ((follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_WALL) != 0 &&
             follower->mDirectedItemObject.mHasHitLimit != FALSE) {
-            value = VEC_DotProduct(&wallNormal, velocity);
+            value = Vector3_DotProduct(&wallNormal, velocity);
             vector.x = MUL_FIXED12_NO_ROUND(wallNormal.x, value);
             vector.y = MUL_FIXED12_NO_ROUND(wallNormal.y, value);
             vector.z = MUL_FIXED12_NO_ROUND(wallNormal.z, value);
             velocity->x -= vector.x;
             velocity->y -= vector.y;
             velocity->z -= vector.z;
-            VEC_Subtract(velocity, &vector, velocity);
+            VecFx32_Subtract(velocity, &vector, velocity);
             velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x23d);
             velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x23d);
             velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x23d);

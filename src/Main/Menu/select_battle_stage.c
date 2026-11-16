@@ -21,7 +21,7 @@ void UpdateSelectBattleStage(void) {
         case 3:
         case 4:
         case 5:
-            GetRaceSetupCopy()->mCourseId = courseIds[result];
+            GetGlobalCA_from_thumb()->mCourseId = courseIds[result];
             SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             break;
         case -3:

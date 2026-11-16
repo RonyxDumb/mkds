@@ -23,12 +23,12 @@ char *gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     if (ipAddress != 0) {
         inAddress.addr = ipAddress;
         if (port != 0) {
-            sprintf(addressString, "%s:%d", SOC_InetNtoA(inAddress), port);
+            MaybeStrcpy(addressString, "%s:%d", SOC_InetNtoA(inAddress), port);
         } else {
-            sprintf(addressString, "%s", SOC_InetNtoA(inAddress));
+            MaybeStrcpy(addressString, "%s", SOC_InetNtoA(inAddress));
         }
     } else if (port != 0) {
-        sprintf(addressString, ":%d", port);
+        MaybeStrcpy(addressString, ":%d", port);
     } else {
         addressString[0] = 0;
     }
@@ -59,7 +59,7 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
             } else {
                 value = portSeparator - string;
                 if (value >= 0x100) {
-                    AssertionFailed("len < GTI2_STACK_HOSTLEN_MAX", "gt2Utility.c", NULL, 0x81);
+                    LogThrowAssertion("len < GTI2_STACK_HOSTLEN_MAX", "gt2Utility.c", NULL, 0x81);
                 }
                 memcpy(hostCopy, string, value);
                 hostCopy[value] = 0;

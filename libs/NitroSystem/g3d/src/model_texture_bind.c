@@ -8,9 +8,9 @@
 #include "system_state_globals.h"
 #include "registers.h"
 
-u32 gVramBankLockedMask;
-u16 gVramBankLockIds[9];
-NNSG3dGlb NNS_G3dGlb;
+u32 g_VramExclusive;
+u16 g_VramLockId[9];
+NNSG3dGlb g_GlobalG3;
 
 // Sets the texture offset and size ratio of each material in the list.
 void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data, NNSG3dResTex *tex,
@@ -62,7 +62,7 @@ void releaseMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *da
 }
 
 // Returns 0 when the texture has no entry for one of the names.
-int NNS_G3dBindMdlTex(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
+int ModelBlock_SomeTexPltFn_10(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
     NNSG3dResMat *materials;
     NNSG3dResDict *list;
     int result;
@@ -109,7 +109,7 @@ int NNS_G3dBindMdlTexEx(NNSG3dResMdl *mdl, NNSG3dResTex *tex, const u32 *name) {
     return 0;
 }
 
-void NNS_G3dReleaseMdlTex(NNSG3dResMdl *mdl) {
+void ModelBlock_SomeTexPltFn_9(NNSG3dResMdl *mdl) {
     NNSG3dResMat *materials;
     NNSG3dResDict *list;
     NNSG3dResDictEntryHeader *table;
@@ -166,7 +166,7 @@ void bindMdlPltt_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data
 }
 
 // Returns 0 when the texture has no palette for one of the names.
-u32 NNS_G3dBindMdlPltt(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
+u32 ModelBlock_SomeTexPltFn_11(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
     NNSG3dResMat *materials;
     NNSG3dResDict *list;
     NNSG3dResDictEntryHeader *table;
@@ -258,8 +258,8 @@ u32 NNS_G3dBindMdlSet(NNSG3dResMdlSet *mdlSet, NNSG3dResTex *tex) {
         do {
             table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
             model = OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, table, modelIndex));
-            result &= NNS_G3dBindMdlTex(model, tex);
-            result &= NNS_G3dBindMdlPltt(model, tex);
+            result &= ModelBlock_SomeTexPltFn_10(model, tex);
+            result &= ModelBlock_SomeTexPltFn_11(model, tex);
             modelIndex++;
         } while (modelIndex < mdlSet->mDict.mNumEntry);
     }
@@ -276,7 +276,7 @@ void NNS_G3dReleaseMdlSet(NNSG3dResMdlSet *mdlSet) {
         do {
             table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
             model = OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, table, modelIndex));
-            NNS_G3dReleaseMdlTex(model);
+            ModelBlock_SomeTexPltFn_9(model);
             NNS_G3dReleaseMdlPltt(model);
             modelIndex++;
         } while (modelIndex < mdlSet->mDict.mNumEntry);
@@ -285,7 +285,7 @@ void NNS_G3dReleaseMdlSet(NNSG3dResMdlSet *mdlSet) {
 
 // Fills the eight words of buffer with values that change from run to run: the tick counter, the vertical counter,
 // the console's stored user data, the clock, the microphone, the touch panel and the buttons.
-void OS_GetLowEntropyData(LowEntropyData *buffer) {
+void Os_GenerateLowEntropyData(LowEntropyData *buffer) {
     u16 vcount;
     u8 *work;
     u8 *userInfo;
@@ -296,8 +296,8 @@ void OS_GetLowEntropyData(LowEntropyData *buffer) {
     macBytes = OFFSET_PTR(u8, userInfo, 0x74);
     vcount = reg_GX_VCOUNT;
     buffer->mTickAndVcount = OS_GetTickLo() | (vcount << 16);
-    buffer->mUserDataAndTickCounter = (*OFFSET_PTR(u16, macBytes, 4) << 16) ^ (u32) gTickOverflowCount;
-    buffer->mUserDataVblankAndGxStat = *OFFSET_PTR(u32, work, 0x3c) ^ ((gTickOverflowCount >> 32) ^ *(u32 *) macBytes);
+    buffer->mUserDataAndTickCounter = (*OFFSET_PTR(u16, macBytes, 4) << 16) ^ (u32) g_Os_TickCounter;
+    buffer->mUserDataVblankAndGxStat = *OFFSET_PTR(u32, work, 0x3c) ^ ((g_Os_TickCounter >> 32) ^ *(u32 *) macBytes);
     buffer->mUserDataVblankAndGxStat = buffer->mUserDataVblankAndGxStat ^ reg_G3X_GXSTAT;
     buffer->mClockFirst = *OFFSET_PTR(u32, work, 0x1e8);
     buffer->mClockSecond = *OFFSET_PTR(u32, work, 0x1ec);
@@ -310,72 +310,72 @@ void OS_GetLowEntropyData(LowEntropyData *buffer) {
 void OSi_InitVramExclusive(void) {
     s32 bankIndex;
 
-    gVramBankLockedMask = 0;
+    g_VramExclusive = 0;
     for (bankIndex = 0; bankIndex < 9; bankIndex++) {
-        gVramBankLockIds[bankIndex] = 0;
+        g_VramLockId[bankIndex] = 0;
     }
 }
 
-// Under OS_DisableInterrupts: returns 0 and changes nothing when a bank of bank is already locked with an id other
+// Under Os_DisableIrq: returns 0 and changes nothing when a bank of bank is already locked with an id other
 // than lockId. Otherwise locks every bank of bank & 0x1ff with lockId and returns 1.
 u32 OSi_TryLockVram(u32 bank, u16 lockId) {
     u32 remainingBanks;
     u32 enabled;
     s32 bankIndex;
 
-    enabled = OS_DisableInterrupts();
-    remainingBanks = bank & gVramBankLockedMask;
+    enabled = Os_DisableIrq();
+    remainingBanks = bank & g_VramExclusive;
     while (1) {
-        bankIndex = 31 - OsCountZeroBits(remainingBanks);
+        bankIndex = 31 - Os_CountLeadingZeroBits(remainingBanks);
         if (bankIndex < 0) {
             break;
         }
         BIT_CLEAR(remainingBanks, bankIndex);
-        if (lockId != gVramBankLockIds[bankIndex]) {
-            OS_RestoreInterrupts(enabled);
+        if (lockId != g_VramLockId[bankIndex]) {
+            Os_RestoreIrq(enabled);
             return 0;
         }
     }
     remainingBanks = bank & 0x1ff;
     while (1) {
-        bankIndex = 31 - OsCountZeroBits(remainingBanks);
+        bankIndex = 31 - Os_CountLeadingZeroBits(remainingBanks);
         if (bankIndex < 0) {
             break;
         }
         BIT_CLEAR(remainingBanks, bankIndex);
-        gVramBankLockIds[bankIndex] = lockId;
-        BIT_SET(gVramBankLockedMask, bankIndex);
+        g_VramLockId[bankIndex] = lockId;
+        BIT_SET(g_VramExclusive, bankIndex);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
-// Under OS_DisableInterrupts: for each locked bank of bank & 0x1ff whose lock id equals lockId, clears the lock bit
+// Under Os_DisableIrq: for each locked bank of bank & 0x1ff whose lock id equals lockId, clears the lock bit
 // and the id. Other banks are left alone.
-void OSi_UnlockVram(u32 bank, u16 lockId) {
+void Os_UnlockVram(u32 bank, u16 lockId) {
     u32 remainingBanks;
     u32 enabled;
     s32 bankIndex;
 
-    enabled = OS_DisableInterrupts();
-    remainingBanks = bank & gVramBankLockedMask & 0x1ff;
+    enabled = Os_DisableIrq();
+    remainingBanks = bank & g_VramExclusive & 0x1ff;
     while (1) {
-        bankIndex = 31 - OsCountZeroBits(remainingBanks);
+        bankIndex = 31 - Os_CountLeadingZeroBits(remainingBanks);
         if (bankIndex < 0) {
             break;
         }
         BIT_CLEAR(remainingBanks, bankIndex);
-        if (lockId == gVramBankLockIds[bankIndex]) {
-            gVramBankLockIds[bankIndex] = 0;
-            BIT_CLEAR(gVramBankLockedMask, bankIndex);
+        if (lockId == g_VramLockId[bankIndex]) {
+            g_VramLockId[bankIndex] = 0;
+            BIT_CLEAR(g_VramExclusive, bankIndex);
         }
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // clang-format off
 // Counts the leading zero bits of bitmap.
-asm u32 OsCountZeroBits(u32 bitmap) {
+asm u32 Os_CountLeadingZeroBits(u32 bitmap) {
     clz r0, r0
     bx lr
 }

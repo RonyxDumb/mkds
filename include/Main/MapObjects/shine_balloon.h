@@ -43,7 +43,7 @@ MapObjectKindData *CreateShineBalloonKindData(void);
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
 void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
 void SetupDrawShineBalloon(void *mapObjectList);
-void CreateShineBalloon(void *mapObjectList);
+void LoadShineBalloonMapObject(void *mapObjectList);
 
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
@@ -51,4 +51,4 @@ void InitShineBalloon(u32 mapObjectArg);
 
 extern const u16 gShineBalloonEndSecondFlag;
 extern const u16 gShineBalloonEndFlag;
-extern struct MapObjectModel *gShineBalloon;
+extern struct MapObjectModel *g_ShineBalloonMapObject;

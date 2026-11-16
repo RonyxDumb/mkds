@@ -48,9 +48,9 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/System/init_after_startup.h"
 
-const u8 gTxtSystemCanvasSizes[8][2] = {{0x16, 0xb}, {0x16, 7}, {0x16, 0xb}, {0x16, 7},
+const u8 g_TextSystemContextTileDimensionTable[8][2] = {{0x16, 0xb}, {0x16, 7}, {0x16, 0xb}, {0x16, 7},
                                         {0x16, 2},   {9, 2},    {9, 2},      {0, 0}};
-const s16 gTxtSystemBgOffsets[2] = {0xa0, -176};
+const s16 g_TextSystemContext_FadeYValues[2] = {0xa0, -176};
 const u16 gTxtSystemCanvasCharOffsets[8] = {4, 4, 4, 4, 9, 9, 0x1b, 0};
 const ByteRect gTxtSystemNscrRects[7] = {{3, 0x1c, 2, 0xe},       {3, 0x1c, 4, 0xc},        {4, 0x1b, 0x10, 0x13},
                                          {3, 0x1c, 0x10, 0x13},   {0x17, 0x1b, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13},
@@ -62,15 +62,15 @@ const ByteRect gTxtSystemHitRects[7] = {{0, 0, 0, 0},
                                         {0x20, 0xe0, 0x80, 0xa0},
                                         {0x18, 0x70, 0x80, 0xa0},
                                         {0x90, 0xe8, 0x80, 0xa0}};
-TxtSystem *gTxtSystem;
+TxtSystem *g_TextSystemContext;
 
 #pragma thumb on
 
-void ClearTxtSystemCanvasInUse(void) {
+void TextSystemContext_DisableAllSprites_from_thumb(void) {
     s32 canvasIndex;
 
     for (canvasIndex = 0; canvasIndex < 7; canvasIndex++) {
-        gTxtSystem->mCanvasInUse[canvasIndex] = 0;
+        g_TextSystemContext->mCanvasInUse[canvasIndex] = 0;
     }
 }
 
@@ -81,85 +81,85 @@ static inline void InitTxtSystemTextCanvas(TextCanvas *textCanvas, NNSG2dCharCan
     textCanvas->mLineSpacing = 1;
 }
 
-s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
+s32 TextSystemContext_Initialize_from_thumb(void *heap, TxtSystemArgs *args) {
     s32 subCharOffset;
     s32 index;
     NNSG2dCharCanvas *charCanvas;
 
     subCharOffset = args->mSubCharOffset;
-    gTxtSystem = HeapAlloc(heap, sizeof(*gTxtSystem));
+    g_TextSystemContext = Mem_AllocateHeap(heap, sizeof(*g_TextSystemContext));
     if (args->mUseCanvas1 != 0) {
-        gTxtSystem->mUseCanvas1 = 1;
+        g_TextSystemContext->mUseCanvas1 = 1;
     }
     if (args->mUseCanvas2 != 0) {
-        gTxtSystem->mUseCanvas2 = 1;
+        g_TextSystemContext->mUseCanvas2 = 1;
     }
     if (args->mUseCanvas3 != 0) {
-        gTxtSystem->mUseCanvas3 = 1;
+        g_TextSystemContext->mUseCanvas3 = 1;
     }
-    gTxtSystem->mEnabled = 1;
-    InitTxtSystemDisplay();
-    subCharOffset = LoadTxtSystem(subCharOffset);
+    g_TextSystemContext->mEnabled = 1;
+    TextSystemContext_InitializeBg_from_thumb();
+    subCharOffset = TextSystemContext_LoadGraphics_from_thumb(subCharOffset);
     for (index = 0; index < 7; index++) {
-        if (!((index == 1 && gTxtSystem->mUseCanvas1 == 0) || (index == 2 && gTxtSystem->mUseCanvas2 == 0) ||
-              (index == 3 && gTxtSystem->mUseCanvas3 == 0))) {
-            gTxtSystem->mCharBuffers[index] =
-                HeapAlloc(heap, (gTxtSystemCanvasSizes[index][0] * gTxtSystemCanvasSizes[index][1]) << 5);
-            NNS_G2dCharCanvasInitForBG(&gTxtSystem->mCharCanvases[index], gTxtSystem->mCharBuffers[index],
-                                       gTxtSystemCanvasSizes[index][0], gTxtSystemCanvasSizes[index][1], 4);
-            charCanvas = &gTxtSystem->mCharCanvases[index];
+        if (!((index == 1 && g_TextSystemContext->mUseCanvas1 == 0) || (index == 2 && g_TextSystemContext->mUseCanvas2 == 0) ||
+              (index == 3 && g_TextSystemContext->mUseCanvas3 == 0))) {
+            g_TextSystemContext->mCharBuffers[index] =
+                Mem_AllocateHeap(heap, (g_TextSystemContextTileDimensionTable[index][0] * g_TextSystemContextTileDimensionTable[index][1]) << 5);
+            G2d_Sprite_CreateFromTiles(&g_TextSystemContext->mCharCanvases[index], g_TextSystemContext->mCharBuffers[index],
+                                       g_TextSystemContextTileDimensionTable[index][0], g_TextSystemContextTileDimensionTable[index][1], 4);
+            charCanvas = &g_TextSystemContext->mCharCanvases[index];
             charCanvas->mPClear(charCanvas, 0);
-            InitTxtSystemTextCanvas(&gTxtSystem->mTextCanvases[index], &gTxtSystem->mCharCanvases[index], args->mFont);
+            InitTxtSystemTextCanvas(&g_TextSystemContext->mTextCanvases[index], &g_TextSystemContext->mCharCanvases[index], args->mFont);
         }
     }
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mState = TXT_SYSTEM_STATE_CLOSED;
-    gTxtSystem->mNextState = TXT_SYSTEM_STATE_CLOSED;
-    gTxtSystem->mPrevState = TXT_SYSTEM_STATE_CLOSED;
-    gTxtSystem->mStateFrames = 0;
-    gTxtSystem->mAnimFrameIndexFrames = 0;
-    gTxtSystem->mAnimFrameIndex = 0;
-    gTxtSystem->mAnimVisible[0] = 0;
-    gTxtSystem->mAnimVisible[1] = 0;
-    gTxtSystem->mAnimRequested[0] = 0;
-    gTxtSystem->mAnimRequested[1] = 0;
-    gTxtSystem->mBlendPlanesEnabled[0] = 0;
-    gTxtSystem->mBlendPlanesEnabled[1] = 0;
-    gTxtSystem->mBlendPlanesRequested[0] = 0;
-    gTxtSystem->mBlendPlanesRequested[1] = 0;
-    gTxtSystem->mOpenRequested = 0;
-    gTxtSystem->mCloseRequested = 0;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mInputAccepted = 0;
-    gTxtSystem->mInputSoundId = TXT_SYSTEM_INPUT_SOUND_ID;
-    gTxtSystem->mSecondInputSoundId = TXT_SYSTEM_SECOND_INPUT_SOUND_ID;
-    gTxtSystem->mOpenSoundId = TXT_SYSTEM_OPEN_SOUND_ID;
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mState = TXT_SYSTEM_STATE_CLOSED;
+    g_TextSystemContext->mNextState = TXT_SYSTEM_STATE_CLOSED;
+    g_TextSystemContext->mPrevState = TXT_SYSTEM_STATE_CLOSED;
+    g_TextSystemContext->mStateFrames = 0;
+    g_TextSystemContext->mAnimFrameIndexFrames = 0;
+    g_TextSystemContext->mAnimFrameIndex = 0;
+    g_TextSystemContext->mAnimVisible[0] = 0;
+    g_TextSystemContext->mAnimVisible[1] = 0;
+    g_TextSystemContext->mAnimRequested[0] = 0;
+    g_TextSystemContext->mAnimRequested[1] = 0;
+    g_TextSystemContext->mBlendPlanesEnabled[0] = 0;
+    g_TextSystemContext->mBlendPlanesEnabled[1] = 0;
+    g_TextSystemContext->mBlendPlanesRequested[0] = 0;
+    g_TextSystemContext->mBlendPlanesRequested[1] = 0;
+    g_TextSystemContext->mOpenRequested = 0;
+    g_TextSystemContext->mCloseRequested = 0;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mInputAccepted = 0;
+    g_TextSystemContext->mInputSoundId = TXT_SYSTEM_INPUT_SOUND_ID;
+    g_TextSystemContext->mSecondInputSoundId = TXT_SYSTEM_SECOND_INPUT_SOUND_ID;
+    g_TextSystemContext->mOpenSoundId = TXT_SYSTEM_OPEN_SOUND_ID;
     for (index = 0; index < 2; index++) {
-        gTxtSystem->mBgOffset[index] = -192;
-        gTxtSystem->mBgOffsetAtOpen[index] = 0;
-        gTxtSystem->mBgOffsetRequested[index] = 0;
+        g_TextSystemContext->mBgOffset[index] = -192;
+        g_TextSystemContext->mBgOffsetAtOpen[index] = 0;
+        g_TextSystemContext->mBgOffsetRequested[index] = 0;
     }
-    gTxtSystem->mBlendPlanes[0] = GX_PLANEMASK_BG0 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
-    gTxtSystem->mBlendPlanes[1] = GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
-    gTxtSystem->mBrightness = 0;
+    g_TextSystemContext->mBlendPlanes[0] = GX_PLANEMASK_BG0 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
+    g_TextSystemContext->mBlendPlanes[1] = GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
+    g_TextSystemContext->mBrightness = 0;
     for (index = 0; index < 2; index++) {
-        gTxtSystem->mBlendEv1[index] = MENU_BLEND_FIRST_COEFFICIENT;
-        gTxtSystem->mBlendEv2[index] = MENU_BLEND_SECOND_COEFFICIENT;
+        g_TextSystemContext->mBlendEv1[index] = MENU_BLEND_FIRST_COEFFICIENT;
+        g_TextSystemContext->mBlendEv2[index] = MENU_BLEND_SECOND_COEFFICIENT;
     }
-    gTxtSystem->mMode = 0;
+    g_TextSystemContext->mMode = 0;
     return subCharOffset;
 }
 #pragma thumb off
 
 #pragma thumb on
-void ClearTxtSystemPointer(void) {
-    gTxtSystem = NULL;
+void TextSystemContext_Dispose_from_thumb(void) {
+    g_TextSystemContext = NULL;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void InitTxtSystemDisplay(void) {
+void TextSystemContext_InitializeBg_from_thumb(void) {
     u32 mainDisplayBits;
     u32 subDisplayBits;
 
@@ -177,94 +177,94 @@ void InitTxtSystemDisplay(void) {
 static inline void FillScreenBuffer(void *dst, u16 value) {
     vu16 fillValue = value;
 
-    MIi_CpuClear16(fillValue, dst, 0x1000);
+    Mem_CpuFill16(fillValue, dst, 0x1000);
 }
 
-s32 LoadTxtSystem(s32 subCharOffset) {
+s32 TextSystemContext_LoadGraphics_from_thumb(s32 subCharOffset) {
     Ncgr *firstChars;
     Ncgr *secondChars;
     Nclr *palette;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        LocateNcgr(&firstChars, FindSceneFile("txt_system_b_00.ncgr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[0], FindSceneFile("txt_system_bg_00.nscr"));
-        LocateNclr(&palette, FindSceneFile("txt_system_b_00.nclr"));
+        MaybeReadCharBlock_1(&firstChars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("txt_system_b_00.ncgr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[0], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("txt_system_bg_00.nscr"));
+        Gfx_ReadPaletteRelative(&palette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("txt_system_b_00.nclr"));
     } else {
-        LocateNcgr(&firstChars, FindFileInLoadedArchives("txt_system_b_00.ncgr"));
-        LocateNcgr(&secondChars, FindFileInLoadedArchives("txt_system_b_01.ncgr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[0], FindFileInLoadedArchives("txt_system_bg_00.nscr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[1], FindFileInLoadedArchives("txt_system_bg_00_2.nscr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[2], FindFileInLoadedArchives("txt_system_bg_01_2.nscr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[3], FindFileInLoadedArchives("txt_system_bg_01.nscr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[4], FindFileInLoadedArchives("txt_system_bg_02.nscr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[5], FindFileInLoadedArchives("txt_system_bg_02_2.nscr"));
-        LocateNscr(&gTxtSystem->mBgNscrs[6], FindFileInLoadedArchives("txt_system_bg_02_3.nscr"));
-        LocateNclr(&palette, FindFileInLoadedArchives("txt_system_b_00.nclr"));
+        MaybeReadCharBlock_1(&firstChars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_b_00.ncgr"));
+        MaybeReadCharBlock_1(&secondChars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_b_01.ncgr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[0], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_00.nscr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[1], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_00_2.nscr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[2], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_01_2.nscr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[3], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_01.nscr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[4], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_02.nscr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[5], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_02_2.nscr"));
+        MaybeReadScreenBlock(&g_TextSystemContext->mBgNscrs[6], FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_bg_02_3.nscr"));
+        Gfx_ReadPaletteRelative(&palette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("txt_system_b_00.nclr"));
     }
-    gTxtSystem->mCanvasFileCharIndex[0] = 0;
-    DC_FlushRange(firstChars->mData, firstChars->mDataSize);
-    GX_LoadBG2Char(firstChars->mData, 0, firstChars->mDataSize);
-    if (gTxtSystem->mUseCanvas2 != 0) {
+    g_TextSystemContext->mCanvasFileCharIndex[0] = 0;
+    Arm_FlushRange(firstChars->mData, firstChars->mDataSize);
+    CopyBgData_Bg2_Top(firstChars->mData, 0, firstChars->mDataSize);
+    if (g_TextSystemContext->mUseCanvas2 != 0) {
         subCharOffset = subCharOffset - firstChars->mDataSize;
-        gTxtSystem->mCanvasFileCharIndex[2] = subCharOffset >> 5;
-        DC_FlushRange(firstChars->mData, firstChars->mDataSize);
-        GXS_LoadBG0Char(firstChars->mData, subCharOffset, firstChars->mDataSize);
+        g_TextSystemContext->mCanvasFileCharIndex[2] = subCharOffset >> 5;
+        Arm_FlushRange(firstChars->mData, firstChars->mDataSize);
+        CopyBgData_Bg0_Bottom(firstChars->mData, subCharOffset, firstChars->mDataSize);
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        if (gTxtSystem->mUseCanvas1 != 0) {
-            gTxtSystem->mCanvasFileCharIndex[1] = 0;
+        if (g_TextSystemContext->mUseCanvas1 != 0) {
+            g_TextSystemContext->mCanvasFileCharIndex[1] = 0;
         }
-        gTxtSystem->mB01CharIndex[0] = firstChars->mDataSize >> 5;
-        DC_FlushRange(secondChars->mData, secondChars->mDataSize);
-        GX_LoadBG2Char(secondChars->mData, gTxtSystem->mB01CharIndex[0] << 5, secondChars->mDataSize);
-        if (gTxtSystem->mUseCanvas3 != 0) {
-            gTxtSystem->mCanvasFileCharIndex[3] = gTxtSystem->mCanvasFileCharIndex[2];
+        g_TextSystemContext->mB01CharIndex[0] = firstChars->mDataSize >> 5;
+        Arm_FlushRange(secondChars->mData, secondChars->mDataSize);
+        CopyBgData_Bg2_Top(secondChars->mData, g_TextSystemContext->mB01CharIndex[0] << 5, secondChars->mDataSize);
+        if (g_TextSystemContext->mUseCanvas3 != 0) {
+            g_TextSystemContext->mCanvasFileCharIndex[3] = g_TextSystemContext->mCanvasFileCharIndex[2];
         }
         subCharOffset = subCharOffset - secondChars->mDataSize;
-        gTxtSystem->mCanvasFileCharIndex[4] = subCharOffset >> 5;
-        gTxtSystem->mCanvasFileCharIndex[5] = subCharOffset >> 5;
-        gTxtSystem->mCanvasFileCharIndex[6] = subCharOffset >> 5;
-        gTxtSystem->mB01CharIndex[1] = subCharOffset >> 5;
-        DC_FlushRange(secondChars->mData, secondChars->mDataSize);
-        GXS_LoadBG0Char(secondChars->mData, subCharOffset, secondChars->mDataSize);
+        g_TextSystemContext->mCanvasFileCharIndex[4] = subCharOffset >> 5;
+        g_TextSystemContext->mCanvasFileCharIndex[5] = subCharOffset >> 5;
+        g_TextSystemContext->mCanvasFileCharIndex[6] = subCharOffset >> 5;
+        g_TextSystemContext->mB01CharIndex[1] = subCharOffset >> 5;
+        Arm_FlushRange(secondChars->mData, secondChars->mDataSize);
+        CopyBgData_Bg0_Bottom(secondChars->mData, subCharOffset, secondChars->mDataSize);
     }
-    DC_FlushRange(palette->mData, 0x1c0);
-    GX_LoadBGPltt(palette->mData + 0xe0, 0x1c0, 0x40);
-    GXS_LoadBGPltt(palette->mData + 0xe0, 0x1c0, 0x40);
-    gTxtSystem->mUnselectedButtonColor = palette->mData[0xee];
-    gTxtSystem->mSelectedButtonColor = palette->mData[0xdf];
+    Arm_FlushRange(palette->mData, 0x1c0);
+    CopyPaletteTop(palette->mData + 0xe0, 0x1c0, 0x40);
+    CopyPaletteBottom(palette->mData + 0xe0, 0x1c0, 0x40);
+    g_TextSystemContext->mUnselectedButtonColor = palette->mData[0xee];
+    g_TextSystemContext->mSelectedButtonColor = palette->mData[0xdf];
     MemFillWordsByBlock_inline((void *) G2_GetBG2ScrPtr(), 0x1000);
-    FillScreenBuffer((void *) G2S_GetBG0ScrPtr(), gTxtSystem->mCanvasFileCharIndex[4]);
+    FillScreenBuffer((void *) GetAnotherSubEngineBGOffset(), g_TextSystemContext->mCanvasFileCharIndex[4]);
     return subCharOffset;
 }
 
-void RefreshTxtSystemAnim(void) {
+void TextSystemContext_UpdateAnimationGraphics_from_thumb(void) {
     s32 row;
     s32 screenIndex;
     s32 column;
     s32 rectIndex;
     u16 *screenBuffer;
 
-    rectIndex = gTxtSystem->mAnimFrameIndex + 4;
+    rectIndex = g_TextSystemContext->mAnimFrameIndex + 4;
     for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-        if (gTxtSystem->mAnimVisible[screenIndex] != 0) {
-            screenBuffer = gTxtSystem->mMainScreenBuffer;
+        if (g_TextSystemContext->mAnimVisible[screenIndex] != 0) {
+            screenBuffer = g_TextSystemContext->mMainScreenBuffer;
             if (screenIndex == 1) {
-                screenBuffer = gTxtSystem->mSubScreenBuffer;
+                screenBuffer = g_TextSystemContext->mSubScreenBuffer;
             }
             for (row = gTxtSystemNscrRects[rectIndex].mMinY; row <= gTxtSystemNscrRects[rectIndex].mMaxY; row++) {
                 for (column = gTxtSystemNscrRects[rectIndex].mMinX; column <= gTxtSystemNscrRects[rectIndex].mMaxX;
                      column++) {
                     *(screenBuffer + row * 32 + column) =
-                        gTxtSystem->mB01CharIndex[screenIndex] +
-                        *((u16 *) gTxtSystem->mBgNscrs[rectIndex]->mData + row * 32 + column);
+                        g_TextSystemContext->mB01CharIndex[screenIndex] +
+                        *((u16 *) g_TextSystemContext->mBgNscrs[rectIndex]->mData + row * 32 + column);
                 }
             }
         }
     }
 }
 
-void RefreshTxtSystemScreenBuffers(u32 *drawFlags) {
+void TextSystemContext_LoadEnabledSpritesAndAnimations_from_thumb(u32 *drawFlags) {
     u8 rectIndices[9] = {0, 1, 0, 1, 2, 3, 0, 0, 0};
     s32 index;
     s32 row;
@@ -272,24 +272,24 @@ void RefreshTxtSystemScreenBuffers(u32 *drawFlags) {
     s32 rectIndex;
     u16 *screenBuffer;
 
-    MemFillWordsByBlock_inline(gTxtSystem->mMainScreenBuffer, 0x1000);
-    FillScreenBuffer(&gTxtSystem->mSubScreenBuffer, gTxtSystem->mCanvasFileCharIndex[4]);
+    MemFillWordsByBlock_inline(g_TextSystemContext->mMainScreenBuffer, 0x1000);
+    FillScreenBuffer(&g_TextSystemContext->mSubScreenBuffer, g_TextSystemContext->mCanvasFileCharIndex[4]);
     for (index = 0; index < 9; index++) {
         if (*drawFlags != 0) {
             if ((u32) (index - 7) <= 1) {
-                RefreshTxtSystemAnim();
+                TextSystemContext_UpdateAnimationGraphics_from_thumb();
             } else if (index != 6) {
                 rectIndex = rectIndices[index];
-                screenBuffer = gTxtSystem->mSubScreenBuffer;
+                screenBuffer = g_TextSystemContext->mSubScreenBuffer;
                 if ((u32) index <= 1) {
-                    screenBuffer = gTxtSystem->mMainScreenBuffer;
+                    screenBuffer = g_TextSystemContext->mMainScreenBuffer;
                 }
                 for (row = gTxtSystemNscrRects[rectIndex].mMinY; row <= gTxtSystemNscrRects[rectIndex].mMaxY; row++) {
                     for (column = gTxtSystemNscrRects[rectIndex].mMinX; column <= gTxtSystemNscrRects[rectIndex].mMaxX;
                          column++) {
                         *(screenBuffer + row * 32 + column) =
-                            gTxtSystem->mCanvasFileCharIndex[index] +
-                            *((u16 *) gTxtSystem->mBgNscrs[rectIndex]->mData + row * 32 + column);
+                            g_TextSystemContext->mCanvasFileCharIndex[index] +
+                            *((u16 *) g_TextSystemContext->mBgNscrs[rectIndex]->mData + row * 32 + column);
                     }
                 }
             }
@@ -301,34 +301,34 @@ void RefreshTxtSystemScreenBuffers(u32 *drawFlags) {
 
 #pragma thumb on
 
-void QueueTxtSystemButtonColors(void) {
+void TextSystemContext_ReloadButtonGraphics_from_thumb(void) {
     TxtSystem *txtSystem;
-    txtSystem = gTxtSystem;
+    txtSystem = g_TextSystemContext;
     if (0 < txtSystem->mExtraCanvasCount) {
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, ((0xee - txtSystem->mSelectedIndex) * 2),
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, ((0xee - txtSystem->mSelectedIndex) * 2),
                                            &txtSystem->mSelectedButtonColor, 2);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, (0xfe - gTxtSystem->mSelectedIndex) * 2,
-                                           &gTxtSystem->mSelectedButtonColor, 2);
-        txtSystem = gTxtSystem;
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, (0xfe - g_TextSystemContext->mSelectedIndex) * 2,
+                                           &g_TextSystemContext->mSelectedButtonColor, 2);
+        txtSystem = g_TextSystemContext;
         if (txtSystem->mExtraCanvasCount == 2) {
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE,
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE,
                                                ((txtSystem->mSelectedIndex + 0xed) * 2),
                                                &txtSystem->mUnselectedButtonColor, 2);
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, (gTxtSystem->mSelectedIndex + 0xfd) * 2,
-                                               &gTxtSystem->mUnselectedButtonColor, 2);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, (g_TextSystemContext->mSelectedIndex + 0xfd) * 2,
+                                               &g_TextSystemContext->mUnselectedButtonColor, 2);
         }
     }
 }
 
-void ResetTxtSystemButtonColors(void) {
+void TextSystemContext_ReloadButtonGraphics2_from_thumb(void) {
     int buttonEntryIndex;
-    if (0 < gTxtSystem->mExtraCanvasCount) {
+    if (0 < g_TextSystemContext->mExtraCanvasCount) {
         buttonEntryIndex = 0;
         do {
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, ((buttonEntryIndex + 0xed) * 2),
-                                               &gTxtSystem->mUnselectedButtonColor, 2);
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, ((buttonEntryIndex + 0xfd) * 2),
-                                               &gTxtSystem->mUnselectedButtonColor, 2);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, ((buttonEntryIndex + 0xed) * 2),
+                                               &g_TextSystemContext->mUnselectedButtonColor, 2);
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, ((buttonEntryIndex + 0xfd) * 2),
+                                               &g_TextSystemContext->mUnselectedButtonColor, 2);
             buttonEntryIndex = buttonEntryIndex + 1;
         } while (buttonEntryIndex < 2);
     }
@@ -339,83 +339,83 @@ void ResetTxtSystemButtonColors(void) {
 #pragma thumb on
 
 // Closed: serves an open request by building the screens and queueing them.
-void AdvanceTxtSystemClosed(void) {
+void TextSystemContext_UpdateFn_State0_from_thumb(void) {
     u32 drawFlags[9];
     s32 index;
     s32 bufferSize;
     s32 queueCommand;
 
-    if (gTxtSystem->mOpenRequested != 0) {
+    if (g_TextSystemContext->mOpenRequested != 0) {
         for (index = 0; index < 9; index++) {
             if (index <= 6) {
-                if (gTxtSystem->mCanvasInUse[index] != 0) {
+                if (g_TextSystemContext->mCanvasInUse[index] != 0) {
                     drawFlags[index] = 1;
                 } else {
                     drawFlags[index] = 0;
                 }
             } else {
-                if ((&gTxtSystem->mNextState)[index] != 0) {
-                    (&gTxtSystem->mNextState)[index] = 0;
-                    *(&gTxtSystem->mState + index - 1) = 1;
+                if ((&g_TextSystemContext->mNextState)[index] != 0) {
+                    (&g_TextSystemContext->mNextState)[index] = 0;
+                    *(&g_TextSystemContext->mState + index - 1) = 1;
                     drawFlags[index] = 1;
                 } else {
                     drawFlags[index] = 0;
                 }
             }
         }
-        RefreshTxtSystemScreenBuffers(drawFlags);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG2_MAP, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
-        gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPENING;
-        gTxtSystem->mStateFrames = 0;
+        TextSystemContext_LoadEnabledSpritesAndAnimations_from_thumb(drawFlags);
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG2_MAP, 0, g_TextSystemContext->mMainScreenBuffer, 0x1000);
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, &g_TextSystemContext->mSubScreenBuffer, 0x1000);
+        g_TextSystemContext->mNextState = TXT_SYSTEM_STATE_OPENING;
+        g_TextSystemContext->mStateFrames = 0;
         for (index = 0; index < 2; index++) {
-            gTxtSystem->mBgOffsetAtOpen[index] = gTxtSystem->mBgOffsetRequested[index];
+            g_TextSystemContext->mBgOffsetAtOpen[index] = g_TextSystemContext->mBgOffsetRequested[index];
         }
         for (index = 0; index < 2; index++) {
-            gTxtSystem->mBlendPlanesEnabled[index] = gTxtSystem->mBlendPlanesRequested[index];
+            g_TextSystemContext->mBlendPlanesEnabled[index] = g_TextSystemContext->mBlendPlanesRequested[index];
         }
         for (index = 0; index < 7; index++) {
-            if (gTxtSystem->mCanvasInUse[index] != 0) {
-                bufferSize = (gTxtSystemCanvasSizes[index][0] * gTxtSystemCanvasSizes[index][1]) << 5;
+            if (g_TextSystemContext->mCanvasInUse[index] != 0) {
+                bufferSize = (g_TextSystemContextTileDimensionTable[index][0] * g_TextSystemContextTileDimensionTable[index][1]) << 5;
                 queueCommand = 0x14;
                 if ((u32) index <= 1) {
                     queueCommand = 6;
                 }
-                NNS_GfdRegisterNewVramTransferTask(
-                    queueCommand, (gTxtSystem->mCanvasFileCharIndex[index] + gTxtSystemCanvasCharOffsets[index]) << 5,
-                    gTxtSystem->mCharBuffers[index], bufferSize);
+                AllocateReserveTEQSub(
+                    queueCommand, (g_TextSystemContext->mCanvasFileCharIndex[index] + gTxtSystemCanvasCharOffsets[index]) << 5,
+                    g_TextSystemContext->mCharBuffers[index], bufferSize);
             }
         }
-        if (gTxtSystem->mExtraCanvasCount > 0) {
-            QueueTxtSystemButtonColors();
+        if (g_TextSystemContext->mExtraCanvasCount > 0) {
+            TextSystemContext_ReloadButtonGraphics_from_thumb();
         }
-        if (gTxtSystem->mAnimVisible[0] == 0 && gTxtSystem->mAnimVisible[1] == 0) {
-            if (gTxtSystem->mOpenSoundId != -1) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mOpenSoundId);
+        if (g_TextSystemContext->mAnimVisible[0] == 0 && g_TextSystemContext->mAnimVisible[1] == 0) {
+            if (g_TextSystemContext->mOpenSoundId != -1) {
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, (u16) g_TextSystemContext->mOpenSoundId);
             }
         }
     }
 }
 
 // Opening: slides the box in over 15 steps.
-void AdvanceTxtSystemOpening(void) {
+void TextSystemContext_UpdateFn_State1_from_thumb(void) {
     TxtSystem *txtSystem;
     s32 screenIndex;
 
-    gTxtSystem->mStateFrames++;
+    g_TextSystemContext->mStateFrames++;
     for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-        gTxtSystem->mBgOffset[screenIndex] =
-            InterpolateS16(1, gTxtSystemBgOffsets[gTxtSystem->mOpenFromIndex],
-                           -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystem->mStateFrames, TXT_SYSTEM_SLIDE_STEPS);
+        g_TextSystemContext->mBgOffset[screenIndex] =
+            ComputeValueInterpolation_from_thumb(1, g_TextSystemContext_FadeYValues[g_TextSystemContext->mOpenFromIndex],
+                           -g_TextSystemContext->mBgOffsetAtOpen[screenIndex], g_TextSystemContext->mStateFrames, TXT_SYSTEM_SLIDE_STEPS);
     }
-    txtSystem = gTxtSystem;
+    txtSystem = g_TextSystemContext;
     txtSystem->mBrightness = (txtSystem->mStateFrames * -10) / TXT_SYSTEM_SLIDE_STEPS;
-    if (gTxtSystem->mStateFrames >= TXT_SYSTEM_SLIDE_STEPS) {
-        if (gTxtSystem->mCloseRequested == 0) {
-            gTxtSystem->mOpenRequested = 0;
+    if (g_TextSystemContext->mStateFrames >= TXT_SYSTEM_SLIDE_STEPS) {
+        if (g_TextSystemContext->mCloseRequested == 0) {
+            g_TextSystemContext->mOpenRequested = 0;
         }
-        gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPEN;
-        gTxtSystem->mStateFrames = 0;
+        g_TextSystemContext->mNextState = TXT_SYSTEM_STATE_OPEN;
+        g_TextSystemContext->mStateFrames = 0;
     }
 }
 
@@ -430,19 +430,19 @@ static inline s32 TxtSystemIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
     BOOL recentlyLost = FALSE;
 
-    if (gInputSlots[inputSlotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (g_GlobalCYT[inputSlotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[inputSlotIndex].mPair.mHasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[inputSlotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[inputSlotIndex].mPair.mHasPair != 0) {
         result = TRUE;
     }
     return result;
 }
 
 // Open: answers a close request, or a touch or key press when the box has buttons.
-void AdvanceTxtSystemOpen(void) {
+void TextSystemContext_UpdateFn_State2_from_thumb(void) {
     s32 buttonCount;
     s32 offsetTouchY;
     u16 clampedTouchY;
@@ -452,17 +452,17 @@ void AdvanceTxtSystemOpen(void) {
     u32 inputSlotIndex;
     u16 keys;
 
-    switch (gTxtSystem->mMode) {
+    switch (g_TextSystemContext->mMode) {
         case 0:
             inputSlotIndex = 8;
             break;
         case 1:
-            inputSlotIndex = GetPadInputSlot();
+            inputSlotIndex = GetSomeCYId_9();
             break;
     }
-    touchX = gInputSlots[inputSlotIndex].mPair.mPairX;
-    txtSystem = gTxtSystem;
-    offsetTouchY = txtSystem->mBgOffset[1] + gInputSlots[inputSlotIndex].mPair.mPairY;
+    touchX = g_GlobalCYT[inputSlotIndex].mPair.mPairX;
+    txtSystem = g_TextSystemContext;
+    offsetTouchY = txtSystem->mBgOffset[1] + g_GlobalCYT[inputSlotIndex].mPair.mPairY;
     if (offsetTouchY < 0) {
         offsetTouchY = 0xff;
     }
@@ -491,7 +491,7 @@ void AdvanceTxtSystemOpen(void) {
             }
         }
     }
-    keys = gInputSlots[inputSlotIndex].mPressedBits;
+    keys = g_GlobalCYT[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) == 0) {
         if (TxtSystemIsPairNewUnlessLost(inputSlotIndex) == 0 || buttonCount != 1 ||
             IsPointInByteRect(touchX, clampedTouchY, gTxtSystemHitRects[4].mMinX, gTxtSystemHitRects[4].mMaxX,
@@ -502,204 +502,204 @@ void AdvanceTxtSystemOpen(void) {
         }
     }
     if (buttonCount == 1) {
-        ResetTxtSystemButtonColors();
+        TextSystemContext_ReloadButtonGraphics2_from_thumb();
     } else {
         if (hit == -1 || txtSystem->mSelectedIndex == hit) {
-            ResetTxtSystemButtonColors();
+            TextSystemContext_ReloadButtonGraphics2_from_thumb();
         } else {
             txtSystem->mSelectedIndex = hit;
-            QueueTxtSystemButtonColors();
+            TextSystemContext_ReloadButtonGraphics_from_thumb();
         }
     }
-    gTxtSystem->mNextState = TXT_SYSTEM_STATE_BUTTON_PRESSED;
-    if (gTxtSystem->mExtraCanvasCount == 2 && gTxtSystem->mSelectedIndex == 1) {
-        if (gTxtSystem->mSecondInputSoundId != -1) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mSecondInputSoundId);
+    g_TextSystemContext->mNextState = TXT_SYSTEM_STATE_BUTTON_PRESSED;
+    if (g_TextSystemContext->mExtraCanvasCount == 2 && g_TextSystemContext->mSelectedIndex == 1) {
+        if (g_TextSystemContext->mSecondInputSoundId != -1) {
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, (u16) g_TextSystemContext->mSecondInputSoundId);
         }
     } else {
-        if (gTxtSystem->mInputSoundId != -1) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mInputSoundId);
+        if (g_TextSystemContext->mInputSoundId != -1) {
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, (u16) g_TextSystemContext->mInputSoundId);
         }
     }
-    gTxtSystem->mInputAccepted = 1;
+    g_TextSystemContext->mInputAccepted = 1;
     return;
 L:
     if (buttonCount == 2) {
         if ((u16) (keys & PAD_KEY_LEFT) != 0 && txtSystem->mSelectedIndex == 1) {
             txtSystem->mSelectedIndex = 0;
-            QueueTxtSystemButtonColors();
-            StartSoundOncePerFrame(0);
+            TextSystemContext_ReloadButtonGraphics_from_thumb();
+            MaybePlaySomeSseqFromSarc0(0);
             return;
         }
         if ((u16) (keys & 0x10) != 0 && txtSystem->mSelectedIndex == 0) {
             txtSystem->mSelectedIndex = 1;
-            QueueTxtSystemButtonColors();
-            StartSoundOncePerFrame(0);
+            TextSystemContext_ReloadButtonGraphics_from_thumb();
+            MaybePlaySomeSseqFromSarc0(0);
         }
     }
 }
 
 // ButtonPressed: ten steps after an accepted input, then sets mDone.
-void AdvanceTxtSystemButtonPressed(void) {
-    gTxtSystem->mStateFrames++;
-    gTxtSystem->mInputAccepted = 0;
-    if (gTxtSystem->mStateFrames >= TXT_SYSTEM_PRESS_STEPS) {
-        gTxtSystem->mDone = 1;
-        gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPEN;
-        gTxtSystem->mStateFrames = 0;
-    } else if (gTxtSystem->mStateFrames >= TXT_SYSTEM_PRESS_COLOR_STEP) {
-        QueueTxtSystemButtonColors();
+void TextSystemContext_UpdateFn_State3_from_thumb(void) {
+    g_TextSystemContext->mStateFrames++;
+    g_TextSystemContext->mInputAccepted = 0;
+    if (g_TextSystemContext->mStateFrames >= TXT_SYSTEM_PRESS_STEPS) {
+        g_TextSystemContext->mDone = 1;
+        g_TextSystemContext->mNextState = TXT_SYSTEM_STATE_OPEN;
+        g_TextSystemContext->mStateFrames = 0;
+    } else if (g_TextSystemContext->mStateFrames >= TXT_SYSTEM_PRESS_COLOR_STEP) {
+        TextSystemContext_ReloadButtonGraphics_from_thumb();
     }
 }
 
 // Closing: slides the box out over 15 steps.
-void AdvanceTxtSystemClosing(void) {
+void TextSystemContext_UpdateFn_State4_from_thumb(void) {
     TxtSystem *txtSystem;
     s32 screenIndex;
 
-    gTxtSystem->mStateFrames++;
+    g_TextSystemContext->mStateFrames++;
     for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-        gTxtSystem->mBgOffset[screenIndex] =
-            InterpolateS16(1, -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystemBgOffsets[gTxtSystem->mCloseToIndex],
-                           gTxtSystem->mStateFrames, TXT_SYSTEM_SLIDE_STEPS);
+        g_TextSystemContext->mBgOffset[screenIndex] =
+            ComputeValueInterpolation_from_thumb(1, -g_TextSystemContext->mBgOffsetAtOpen[screenIndex], g_TextSystemContext_FadeYValues[g_TextSystemContext->mCloseToIndex],
+                           g_TextSystemContext->mStateFrames, TXT_SYSTEM_SLIDE_STEPS);
     }
-    txtSystem = gTxtSystem;
+    txtSystem = g_TextSystemContext;
     txtSystem->mBrightness = -10 - (txtSystem->mStateFrames * -10) / TXT_SYSTEM_SLIDE_STEPS;
-    if (gTxtSystem->mStateFrames >= TXT_SYSTEM_SLIDE_STEPS) {
+    if (g_TextSystemContext->mStateFrames >= TXT_SYSTEM_SLIDE_STEPS) {
         for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-            gTxtSystem->mBgOffset[screenIndex] = -192;
+            g_TextSystemContext->mBgOffset[screenIndex] = -192;
         }
-        gTxtSystem->mNextState = TXT_SYSTEM_STATE_CLOSED;
-        ResetTxtSystemButtonColors();
-        gTxtSystem->mStateFrames = 0;
-        gTxtSystem->mCloseRequested = 0;
-        gTxtSystem->mDone = 0;
-        gTxtSystem->mAnimVisible[0] = 0;
-        gTxtSystem->mAnimVisible[1] = 0;
+        g_TextSystemContext->mNextState = TXT_SYSTEM_STATE_CLOSED;
+        TextSystemContext_ReloadButtonGraphics2_from_thumb();
+        g_TextSystemContext->mStateFrames = 0;
+        g_TextSystemContext->mCloseRequested = 0;
+        g_TextSystemContext->mDone = 0;
+        g_TextSystemContext->mAnimVisible[0] = 0;
+        g_TextSystemContext->mAnimVisible[1] = 0;
     }
 }
 
-void AdvanceTxtSystem(void) {
-    if (gTxtSystem->mEnabled != 0) {
-        gTxtSystem->mPrevState = gTxtSystem->mState;
-        gTxtSystem->mState = gTxtSystem->mNextState;
-        switch (gTxtSystem->mState) {
+void TextSystemContext_OnSceneUpdate_from_thumb(void) {
+    if (g_TextSystemContext->mEnabled != 0) {
+        g_TextSystemContext->mPrevState = g_TextSystemContext->mState;
+        g_TextSystemContext->mState = g_TextSystemContext->mNextState;
+        switch (g_TextSystemContext->mState) {
             case TXT_SYSTEM_STATE_CLOSED:
-                AdvanceTxtSystemClosed();
+                TextSystemContext_UpdateFn_State0_from_thumb();
                 break;
             case TXT_SYSTEM_STATE_OPENING:
-                AdvanceTxtSystemOpening();
+                TextSystemContext_UpdateFn_State1_from_thumb();
                 break;
             case TXT_SYSTEM_STATE_OPEN:
-                AdvanceTxtSystemOpen();
+                TextSystemContext_UpdateFn_State2_from_thumb();
                 break;
             case TXT_SYSTEM_STATE_BUTTON_PRESSED:
-                AdvanceTxtSystemButtonPressed();
+                TextSystemContext_UpdateFn_State3_from_thumb();
                 break;
             case TXT_SYSTEM_STATE_CLOSING:
-                AdvanceTxtSystemClosing();
+                TextSystemContext_UpdateFn_State4_from_thumb();
                 break;
         }
-        if (gTxtSystem->mAnimVisible[0] != 0 || gTxtSystem->mAnimVisible[1] != 0) {
-            gTxtSystem->mAnimFrameIndexFrames++;
-            if (gTxtSystem->mAnimFrameIndexFrames >= TXT_SYSTEM_ANIM_FRAME_TICKS) {
-                gTxtSystem->mAnimFrameIndexFrames = 0;
-                gTxtSystem->mAnimFrameIndex++;
-                if (gTxtSystem->mAnimFrameIndex >= TXT_SYSTEM_ANIM_FRAME_COUNT) {
-                    gTxtSystem->mAnimFrameIndex = 0;
+        if (g_TextSystemContext->mAnimVisible[0] != 0 || g_TextSystemContext->mAnimVisible[1] != 0) {
+            g_TextSystemContext->mAnimFrameIndexFrames++;
+            if (g_TextSystemContext->mAnimFrameIndexFrames >= TXT_SYSTEM_ANIM_FRAME_TICKS) {
+                g_TextSystemContext->mAnimFrameIndexFrames = 0;
+                g_TextSystemContext->mAnimFrameIndex++;
+                if (g_TextSystemContext->mAnimFrameIndex >= TXT_SYSTEM_ANIM_FRAME_COUNT) {
+                    g_TextSystemContext->mAnimFrameIndex = 0;
                 }
-                RefreshTxtSystemAnim();
-                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG2_MAP, 0, gTxtSystem->mMainScreenBuffer,
+                TextSystemContext_UpdateAnimationGraphics_from_thumb();
+                AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_BG2_MAP, 0, g_TextSystemContext->mMainScreenBuffer,
                                                    0x1000);
-                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, &gTxtSystem->mSubScreenBuffer,
+                AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, &g_TextSystemContext->mSubScreenBuffer,
                                                    0x1000);
             }
         }
     }
 }
 
-void WriteTxtSystemRegisters(void) {
-    if (gTxtSystem->mEnabled != 0) {
-        reg_G2_BG2OFS = (gTxtSystem->mBgOffset[0] << 16) & 0x1ff0000;
-        reg_G2S_DB_BG0OFS = (gTxtSystem->mBgOffset[1] << 16) & 0x1ff0000;
-        if (gTxtSystem->mBlendPlanesEnabled[0] != 0) {
-            G2x_SetBlendBrightnessExt_(&reg_G2_BLDCNT, gTxtSystem->mBlendPlanes[0], 0x1f, gTxtSystem->mBlendEv1[0],
-                                       gTxtSystem->mBlendEv2[0], gTxtSystem->mBrightness);
+void TextSystemContext_OnSceneVblank_from_thumb(void) {
+    if (g_TextSystemContext->mEnabled != 0) {
+        reg_G2_BG2OFS = (g_TextSystemContext->mBgOffset[0] << 16) & 0x1ff0000;
+        reg_G2S_DB_BG0OFS = (g_TextSystemContext->mBgOffset[1] << 16) & 0x1ff0000;
+        if (g_TextSystemContext->mBlendPlanesEnabled[0] != 0) {
+            UpdateBldcntBldalphaBldy(&reg_G2_BLDCNT, g_TextSystemContext->mBlendPlanes[0], 0x1f, g_TextSystemContext->mBlendEv1[0],
+                                       g_TextSystemContext->mBlendEv2[0], g_TextSystemContext->mBrightness);
         } else {
-            G2x_SetBlendBrightnessExt_(&reg_G2_BLDCNT, 0, 0x1f, gTxtSystem->mBlendEv1[0], gTxtSystem->mBlendEv2[0],
-                                       gTxtSystem->mBrightness);
+            UpdateBldcntBldalphaBldy(&reg_G2_BLDCNT, 0, 0x1f, g_TextSystemContext->mBlendEv1[0], g_TextSystemContext->mBlendEv2[0],
+                                       g_TextSystemContext->mBrightness);
         }
-        if (gTxtSystem->mBlendPlanesEnabled[1] != 0) {
-            G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, gTxtSystem->mBlendPlanes[1], 0x1f, gTxtSystem->mBlendEv1[1],
-                                       gTxtSystem->mBlendEv2[1], gTxtSystem->mBrightness);
+        if (g_TextSystemContext->mBlendPlanesEnabled[1] != 0) {
+            UpdateBldcntBldalphaBldy(&reg_G2S_DB_BLDCNT, g_TextSystemContext->mBlendPlanes[1], 0x1f, g_TextSystemContext->mBlendEv1[1],
+                                       g_TextSystemContext->mBlendEv2[1], g_TextSystemContext->mBrightness);
         } else {
-            G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, 0, 0x1f, gTxtSystem->mBlendEv1[1], gTxtSystem->mBlendEv2[1],
-                                       gTxtSystem->mBrightness);
+            UpdateBldcntBldalphaBldy(&reg_G2S_DB_BLDCNT, 0, 0x1f, g_TextSystemContext->mBlendEv1[1], g_TextSystemContext->mBlendEv2[1],
+                                       g_TextSystemContext->mBrightness);
         }
     }
 }
 
-void RequestTxtSystemOpen(void) {
-    if ((gTxtSystem->mState == TXT_SYSTEM_STATE_CLOSED && gTxtSystem->mOpenRequested != 0) ||
-        gTxtSystem->mState == TXT_SYSTEM_STATE_OPENING || gTxtSystem->mState == TXT_SYSTEM_STATE_OPEN) {
-        gTxtSystem->mCloseRequested = 1;
+void TextSystemContext_StartDialog_from_thumb(void) {
+    if ((g_TextSystemContext->mState == TXT_SYSTEM_STATE_CLOSED && g_TextSystemContext->mOpenRequested != 0) ||
+        g_TextSystemContext->mState == TXT_SYSTEM_STATE_OPENING || g_TextSystemContext->mState == TXT_SYSTEM_STATE_OPEN) {
+        g_TextSystemContext->mCloseRequested = 1;
     } else {
-        gTxtSystem->mCloseRequested = 0;
+        g_TextSystemContext->mCloseRequested = 0;
     }
-    gTxtSystem->mOpenRequested = 1;
+    g_TextSystemContext->mOpenRequested = 1;
 }
 #pragma thumb off
 
 #pragma thumb on
 
 void SetupTxtSystemMainText(void *text) {
-    SetupTxtSystemMainTextEx(text, 1, 1, 1, 0, 0, 0);
+    TextSystem_DisplayProgressDialog_TopScreen_from_thumb(text, 1, 1, 1, 0, 0, 0);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemMainTextEx(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 openFromIndex, s32 closeToIndex,
+void TextSystem_DisplayProgressDialog_TopScreen_from_thumb(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 openFromIndex, s32 closeToIndex,
                               s32 mainAnim, s32 subAnim) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[0];
+    charCanvas = &g_TextSystemContext->mCharCanvases[0];
     charCanvas->mPClear(charCanvas, 0xf);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
-                                 gTxtSystemCanvasSizes[0][1] << 3, 1, 0x480, 1, text);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[0] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 0;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = mainAnim;
-    gTxtSystem->mAnimRequested[1] = subAnim;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[0], 0, 0, g_TextSystemContextTileDimensionTable[0][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[0][1] << 3, 1, 0x480, 1, text);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[0] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 0;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = mainAnim;
+    g_TextSystemContext->mAnimRequested[1] = subAnim;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 
 void SetupTxtSystemMainTextShort(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex,
                                  u32 closeToIndex, u32 mainAnim, u32 subAnim) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[1];
+    charCanvas = &g_TextSystemContext->mCharCanvases[1];
     charCanvas->mPClear(charCanvas, 0xf);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[1], 0, 0, gTxtSystemCanvasSizes[1][0] << 3,
-                                 gTxtSystemCanvasSizes[1][1] << 3, 1, 0x480, 1, text);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[1] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 0;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = mainAnim;
-    gTxtSystem->mAnimRequested[1] = subAnim;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[1], 0, 0, g_TextSystemContextTileDimensionTable[1][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[1][1] << 3, 1, 0x480, 1, text);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[1] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 0;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = mainAnim;
+    g_TextSystemContext->mAnimRequested[1] = subAnim;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 #pragma thumb off
 
@@ -718,27 +718,27 @@ void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendP
                                     u32 openFromIndex, u32 closeToIndex, u32 mainAnim) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[0];
+    charCanvas = &g_TextSystemContext->mCharCanvases[0];
     charCanvas->mPClear(charCanvas, 0xf);
-    charCanvas = &gTxtSystem->mCharCanvases[4];
+    charCanvas = &g_TextSystemContext->mCharCanvases[4];
     charCanvas->mPClear(charCanvas, 0xe);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
-                                 gTxtSystemCanvasSizes[0][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3,
-                         gTxtSystemCanvasSizes[4][1] << 3, 2, 0x480, 1, buttonText);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[0] = 1;
-    gTxtSystem->mCanvasInUse[4] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 1;
-    gTxtSystem->mSelectedIndex = 0;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = mainAnim;
-    gTxtSystem->mAnimRequested[1] = 0;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[0], 0, 0, g_TextSystemContextTileDimensionTable[0][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[0][1] << 3, 1, 0x480, 1, text);
+    G2d_Text_SomeFn_1_from_thumb(&g_TextSystemContext->mTextCanvases[4], 0, 0, g_TextSystemContextTileDimensionTable[4][0] << 3,
+                         g_TextSystemContextTileDimensionTable[4][1] << 3, 2, 0x480, 1, buttonText);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[0] = 1;
+    g_TextSystemContext->mCanvasInUse[4] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 1;
+    g_TextSystemContext->mSelectedIndex = 0;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = mainAnim;
+    g_TextSystemContext->mAnimRequested[1] = 0;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 
 void SetupTxtSystemMainTextTwoButtons(void *text, void *buttonText, void *secondButtonText, s32 selectedIndex) {
@@ -750,173 +750,173 @@ void SetupTxtSystemMainTextTwoButtonsEx(void *text, void *buttonText, void *seco
                                         u32 mainAnim) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[0];
+    charCanvas = &g_TextSystemContext->mCharCanvases[0];
     charCanvas->mPClear(charCanvas, 0xf);
-    charCanvas = &gTxtSystem->mCharCanvases[5];
+    charCanvas = &g_TextSystemContext->mCharCanvases[5];
     charCanvas->mPClear(charCanvas, 0xe);
-    charCanvas = &gTxtSystem->mCharCanvases[6];
+    charCanvas = &g_TextSystemContext->mCharCanvases[6];
     charCanvas->mPClear(charCanvas, 0xd);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
-                                 gTxtSystemCanvasSizes[0][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3,
-                         gTxtSystemCanvasSizes[5][1] << 3, 2, 0x480, 1, buttonText);
-    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3,
-                         gTxtSystemCanvasSizes[6][1] << 3, 2, 0x480, 1, secondButtonText);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[0] = 1;
-    gTxtSystem->mCanvasInUse[5] = 1;
-    gTxtSystem->mCanvasInUse[6] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 2;
-    gTxtSystem->mSelectedIndex = selectedIndex;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = mainAnim;
-    gTxtSystem->mAnimRequested[1] = 0;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[0], 0, 0, g_TextSystemContextTileDimensionTable[0][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[0][1] << 3, 1, 0x480, 1, text);
+    G2d_Text_SomeFn_1_from_thumb(&g_TextSystemContext->mTextCanvases[5], 0, 0, g_TextSystemContextTileDimensionTable[5][0] << 3,
+                         g_TextSystemContextTileDimensionTable[5][1] << 3, 2, 0x480, 1, buttonText);
+    G2d_Text_SomeFn_1_from_thumb(&g_TextSystemContext->mTextCanvases[6], 0, 0, g_TextSystemContextTileDimensionTable[6][0] << 3,
+                         g_TextSystemContextTileDimensionTable[6][1] << 3, 2, 0x480, 1, secondButtonText);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[0] = 1;
+    g_TextSystemContext->mCanvasInUse[5] = 1;
+    g_TextSystemContext->mCanvasInUse[6] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 2;
+    g_TextSystemContext->mSelectedIndex = selectedIndex;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = mainAnim;
+    g_TextSystemContext->mAnimRequested[1] = 0;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemSubText(void *text) {
-    SetupTxtSystemSubTextEx(text, 1, 1, 1, 0, 0);
+void TextSystem_DisplayProgressDialog_Simple_from_thumb(void *text) {
+    TextSystem_DisplayProgressDialog_from_thumb(text, 1, 1, 1, 0, 0);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
+void TextSystem_DisplayProgressDialog_from_thumb(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                              u32 subAnim) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[2];
+    charCanvas = &g_TextSystemContext->mCharCanvases[2];
     charCanvas->mPClear(charCanvas, 0xf);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
-                                 gTxtSystemCanvasSizes[2][1] << 3, 1, 0x480, 1, text);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[2] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 0;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = 0;
-    gTxtSystem->mAnimRequested[1] = subAnim;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[2], 0, 0, g_TextSystemContextTileDimensionTable[2][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[2][1] << 3, 1, 0x480, 1, text);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[2] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 0;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = 0;
+    g_TextSystemContext->mAnimRequested[1] = subAnim;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemSubTextButton(void *text, void *buttonText) {
+void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void *text, void *buttonText) {
     u32 subBlendPlanes = ((0x1u) + (0x0u));
-    SetupTxtSystemSubTextButtonEx(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u);
+    TextSystem_DisplaySingleButtonDialog_from_thumb(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
+void TextSystem_DisplaySingleButtonDialog_from_thumb(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                    u32 openFromIndex, u32 closeToIndex) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[2];
+    charCanvas = &g_TextSystemContext->mCharCanvases[2];
     charCanvas->mPClear(charCanvas, 0xf);
-    charCanvas = &gTxtSystem->mCharCanvases[4];
+    charCanvas = &g_TextSystemContext->mCharCanvases[4];
     charCanvas->mPClear(charCanvas, 0xe);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
-                                 gTxtSystemCanvasSizes[2][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3,
-                         gTxtSystemCanvasSizes[4][1] << 3, 2, 0x480, 1, buttonText);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[2] = 1;
-    gTxtSystem->mCanvasInUse[4] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 1;
-    gTxtSystem->mSelectedIndex = 0;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = 0;
-    gTxtSystem->mAnimRequested[1] = 0;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[2], 0, 0, g_TextSystemContextTileDimensionTable[2][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[2][1] << 3, 1, 0x480, 1, text);
+    G2d_Text_SomeFn_1_from_thumb(&g_TextSystemContext->mTextCanvases[4], 0, 0, g_TextSystemContextTileDimensionTable[4][0] << 3,
+                         g_TextSystemContextTileDimensionTable[4][1] << 3, 2, 0x480, 1, buttonText);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[2] = 1;
+    g_TextSystemContext->mCanvasInUse[4] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 1;
+    g_TextSystemContext->mSelectedIndex = 0;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = 0;
+    g_TextSystemContext->mAnimRequested[1] = 0;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 
-void SetupTxtSystemSubTextTwoButtons(void *text, void *buttonText, void *secondButtonText, s32 selectedIndex) {
-    SetupTxtSystemSubTextTwoButtonsEx(text, buttonText, secondButtonText, selectedIndex, 1, 1, 1, 0);
+void TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb(void *text, void *buttonText, void *secondButtonText, s32 selectedIndex) {
+    TextSystem_DisplayDoubleButtonDialog_from_thumb(text, buttonText, secondButtonText, selectedIndex, 1, 1, 1, 0);
 }
 
-void SetupTxtSystemSubTextTwoButtonsEx(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
+void TextSystem_DisplayDoubleButtonDialog_from_thumb(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
                                        u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex) {
     NNSG2dCharCanvas *charCanvas;
 
-    charCanvas = &gTxtSystem->mCharCanvases[2];
+    charCanvas = &g_TextSystemContext->mCharCanvases[2];
     charCanvas->mPClear(charCanvas, 0xf);
-    charCanvas = &gTxtSystem->mCharCanvases[5];
+    charCanvas = &g_TextSystemContext->mCharCanvases[5];
     charCanvas->mPClear(charCanvas, 0xe);
-    charCanvas = &gTxtSystem->mCharCanvases[6];
+    charCanvas = &g_TextSystemContext->mCharCanvases[6];
     charCanvas->mPClear(charCanvas, 0xd);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
-                                 gTxtSystemCanvasSizes[2][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3,
-                         gTxtSystemCanvasSizes[5][1] << 3, 2, 0x480, 1, buttonText);
-    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3,
-                         gTxtSystemCanvasSizes[6][1] << 3, 2, 0x480, 1, secondButtonText);
-    ClearTxtSystemCanvasInUse();
-    gTxtSystem->mCanvasInUse[2] = 1;
-    gTxtSystem->mCanvasInUse[5] = 1;
-    gTxtSystem->mCanvasInUse[6] = 1;
-    RequestTxtSystemOpen();
-    gTxtSystem->mExtraCanvasCount = 2;
-    gTxtSystem->mSelectedIndex = selectedIndex;
-    gTxtSystem->mDone = 0;
-    gTxtSystem->mAnimRequested[0] = 0;
-    gTxtSystem->mAnimRequested[1] = 0;
-    gTxtSystem->mBlendPlanesRequested[0] = mainBlendPlanes;
-    gTxtSystem->mBlendPlanesRequested[1] = subBlendPlanes;
-    gTxtSystem->mOpenFromIndex = openFromIndex;
-    gTxtSystem->mCloseToIndex = closeToIndex;
+    G2d_Text_SomeFn_from_thumb(&g_TextSystemContext->mTextCanvases[2], 0, 0, g_TextSystemContextTileDimensionTable[2][0] << 3,
+                                 g_TextSystemContextTileDimensionTable[2][1] << 3, 1, 0x480, 1, text);
+    G2d_Text_SomeFn_1_from_thumb(&g_TextSystemContext->mTextCanvases[5], 0, 0, g_TextSystemContextTileDimensionTable[5][0] << 3,
+                         g_TextSystemContextTileDimensionTable[5][1] << 3, 2, 0x480, 1, buttonText);
+    G2d_Text_SomeFn_1_from_thumb(&g_TextSystemContext->mTextCanvases[6], 0, 0, g_TextSystemContextTileDimensionTable[6][0] << 3,
+                         g_TextSystemContextTileDimensionTable[6][1] << 3, 2, 0x480, 1, secondButtonText);
+    TextSystemContext_DisableAllSprites_from_thumb();
+    g_TextSystemContext->mCanvasInUse[2] = 1;
+    g_TextSystemContext->mCanvasInUse[5] = 1;
+    g_TextSystemContext->mCanvasInUse[6] = 1;
+    TextSystemContext_StartDialog_from_thumb();
+    g_TextSystemContext->mExtraCanvasCount = 2;
+    g_TextSystemContext->mSelectedIndex = selectedIndex;
+    g_TextSystemContext->mDone = 0;
+    g_TextSystemContext->mAnimRequested[0] = 0;
+    g_TextSystemContext->mAnimRequested[1] = 0;
+    g_TextSystemContext->mBlendPlanesRequested[0] = mainBlendPlanes;
+    g_TextSystemContext->mBlendPlanesRequested[1] = subBlendPlanes;
+    g_TextSystemContext->mOpenFromIndex = openFromIndex;
+    g_TextSystemContext->mCloseToIndex = closeToIndex;
 }
 
-void RequestTxtSystemClose(void) {
-    gTxtSystem->mOpenRequested = 0;
-    gTxtSystem->mCloseRequested = 1;
+void TextSystem_CloseDialog_from_thumb(void) {
+    g_TextSystemContext->mOpenRequested = 0;
+    g_TextSystemContext->mCloseRequested = 1;
 }
 
-BOOL IsTxtSystemOpenNoCloseRequest(void) {
+BOOL TextSystem_IsDialogIdle_from_thumb(void) {
     BOOL result;
 
     result = FALSE;
-    if (gTxtSystem->mState == TXT_SYSTEM_STATE_OPEN && gTxtSystem->mCloseRequested == 0) {
+    if (g_TextSystemContext->mState == TXT_SYSTEM_STATE_OPEN && g_TextSystemContext->mCloseRequested == 0) {
         result = TRUE;
     }
     return result;
 }
 
-BOOL IsTxtSystemClosedNoOpenRequest(void) {
+BOOL TextSystem_IsDialogFinished_from_thumb(void) {
     BOOL result;
 
     result = FALSE;
-    if (gTxtSystem->mState == TXT_SYSTEM_STATE_CLOSED && gTxtSystem->mOpenRequested == 0) {
+    if (g_TextSystemContext->mState == TXT_SYSTEM_STATE_CLOSED && g_TextSystemContext->mOpenRequested == 0) {
         result = TRUE;
     }
     return result;
 }
 
-BOOL IsTxtSystemOpenAfterOpening(void) {
+BOOL TextSystem_JustFadedIn_from_thumb(void) {
     BOOL result;
 
     result = FALSE;
-    if (gTxtSystem->mPrevState == TXT_SYSTEM_STATE_OPENING && gTxtSystem->mState == TXT_SYSTEM_STATE_OPEN) {
+    if (g_TextSystemContext->mPrevState == TXT_SYSTEM_STATE_OPENING && g_TextSystemContext->mState == TXT_SYSTEM_STATE_OPEN) {
         result = TRUE;
     }
     return result;
@@ -925,17 +925,17 @@ BOOL IsTxtSystemOpenAfterOpening(void) {
 #pragma thumb off
 
 #pragma thumb on
-s32 GetTxtSystemSelectedIndex(void) {
+s32 TextSystem_IsButton2Focused_from_thumb(void) {
     u32 selectedIndex;
-    selectedIndex = gTxtSystem->mSelectedIndex;
+    selectedIndex = g_TextSystemContext->mSelectedIndex;
     return selectedIndex;
 }
 #pragma thumb off
 
 #pragma thumb on
-s32 GetTxtSystemDone(void) {
+s32 TextSystem_WasAnyDialogButtonPressed_from_thumb(void) {
     u32 done;
-    done = gTxtSystem->mDone;
+    done = g_TextSystemContext->mDone;
     return done;
 }
 #pragma thumb off
@@ -943,11 +943,11 @@ s32 GetTxtSystemDone(void) {
 #pragma thumb on
 
 u32 GetTxtSystemInputAccepted(void) {
-    return gTxtSystem->mInputAccepted;
+    return g_TextSystemContext->mInputAccepted;
 }
 
 void SetTxtSystemMode(u32 mode) {
-    gTxtSystem->mMode = mode;
+    g_TextSystemContext->mMode = mode;
 }
 
 #pragma thumb off
@@ -967,8 +967,8 @@ void SetTxtSystemBgOffsetRequested(int mainOffset, int subOffset) {
     if (subOffset > 0x96) {
         subOffset = 0x96;
     }
-    gTxtSystem->mBgOffsetRequested[0] = mainOffset;
-    gTxtSystem->mBgOffsetRequested[1] = subOffset;
+    g_TextSystemContext->mBgOffsetRequested[0] = mainOffset;
+    g_TextSystemContext->mBgOffsetRequested[1] = subOffset;
 }
 
 #pragma thumb off
@@ -978,7 +978,7 @@ void SetTxtSystemSoundId(int soundIndex, u32 soundId) {
     u32 offset = soundIndex;
     u32 soundIdCopy = soundId;
     u32 address;
-    address = (u32) &gTxtSystem;
+    address = (u32) &g_TextSystemContext;
     address = *(const u32 *) ((address) + 0u);
     offset = (offset << 2);
     address = (address) + (offset);
@@ -989,8 +989,8 @@ void SetTxtSystemSoundId(int soundIndex, u32 soundId) {
 
 #pragma thumb on
 
-void SetTxtSystemOpenSoundId(u32 soundId) {
-    gTxtSystem->mOpenSoundId = soundId;
+void TextSystem_SetFadeInSseqId_from_thumb(u32 soundId) {
+    g_TextSystemContext->mOpenSoundId = soundId;
 }
 
 #pragma thumb off

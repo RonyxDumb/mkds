@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// One entry of the table returned by GetCourseMapGroupEntry.
+// One entry of the table returned by GetLoadedNkmPathEntryPOIT.
 typedef struct CourseMapGroupEntry {
     /* 00 */ Vec3 mPos;
     /* 0c */ u8 mEntryIndex;
@@ -12,4 +12,4 @@ typedef struct CourseMapGroupEntry {
     /* 12 */ s16 mCullDotLimit;
 } CourseMapGroupEntry;
 
-CourseMapGroupEntry *GetCourseMapGroupEntry(u16 groupIndex, u16 entryIndex);
+CourseMapGroupEntry *GetLoadedNkmPathEntryPOIT(u16 groupIndex, u16 entryIndex);

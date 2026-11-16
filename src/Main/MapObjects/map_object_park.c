@@ -42,8 +42,8 @@ void UnparkMapObject(MapObject *mapObject) {
 }
 
 void SetRaceRandomPointers(void) {
-    gMapObjectRandom = gRaceSetup->mMode == MODE_WIFI ? &gRaceProgress->mFixedSeedRandom : &gRaceProgress->mRandom;
-    gRaceRandom = &gRaceProgress->mRandom;
+    gMapObjectRandom = g_GlobalCO->mMode == MODE_WIFI ? &g_GlobalMV->mFixedSeedRandom : &g_GlobalMV->mRandom;
+    gRaceRandom = &g_GlobalMV->mRandom;
 }
 
 RandomState64 *GetMapObjectRandom(void) {

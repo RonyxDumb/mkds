@@ -166,7 +166,7 @@ asm void MTX_Transpose33_(const void *src, void *dst) {
 #pragma thumb on
 
 // Sets dst to the rotation about the x axis: rows (0x1000, 0, 0), (0, cosVal, sinVal), (0, -sinVal, cosVal).
-asm void MTX_RotX33_(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotX33__from_thumb(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
     mov r3, #1
     lsl r3, r3, #12
     str r3, [r0]
@@ -184,7 +184,7 @@ asm void MTX_RotX33_(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
 }
 
 // Sets dst to the rotation about the y axis: rows (cosVal, 0, -sinVal), (0, 0x1000, 0), (sinVal, 0, cosVal).
-asm void MTX_RotY33_(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotY33__from_thumb(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
     str r2, [r0]
     str r2, [r0, #32]
     mov r3, #0
@@ -202,7 +202,7 @@ asm void MTX_RotY33_(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
 }
 
 // Sets dst to the rotation about the z axis: rows (cosVal, sinVal, 0), (-sinVal, cosVal, 0), (0, 0, 0x1000).
-asm void MTX_RotZ33_(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
+asm void MTX_RotZ33__from_thumb(MtxFx33 *dst, s32 sinVal, s32 cosVal) {
     stmia r0!, {r2}
     mov r3, #0
     stmia r0!, {r1, r3}

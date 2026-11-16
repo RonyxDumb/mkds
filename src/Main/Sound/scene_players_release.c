@@ -16,7 +16,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_sources.h"
 
-void UpdateScenePlayersNop(ScenePlayers *scenePlayers) {}
+void nullsub_15(ScenePlayers *scenePlayers) {}
 
 static inline void StartScenePlayersSeqIfSet(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
     if (handle == NULL) {
@@ -59,7 +59,7 @@ void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps) {
     NNS_SndPlayerStopSeq(&scenePlayers->mSeqPlayer, fadeSteps);
 }
 
-void ScenePlayersNop(ScenePlayers *scenePlayers) {}
+void nullsub_14(ScenePlayers *scenePlayers) {}
 
 void ReleaseScenePlayers(ScenePlayers *scenePlayers, s32 unused) {
     ReleaseAllSoundSources();

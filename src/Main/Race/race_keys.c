@@ -36,19 +36,19 @@ static inline s32 RaceKeysIsConnectionActive(ConnectionWork *connectionWork) {
     return result;
 }
 
-u16 GetPadInputSlot(void) {
+u16 GetSomeCYId_9(void) {
     return 9;
 }
 
-BOOL IsInputOpenDuringRace(void) {
-    return (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) != 0;
+BOOL Struct5624_HasXflag1(void) {
+    return (g_Global5624->mFlags & INPUT_STATE_OPEN_DURING_RACE) != 0;
 }
 
-void SetReadRaceKeys(u32 enable) {
-    if (GetCurrentSceneNumber() == 2 && enable != 0) {
-        gInputState->mFlags |= INPUT_STATE_READ_RACE_KEYS;
+void Struct5624_SetXflag2(u32 enable) {
+    if (GetCurrentSceneId() == 2 && enable != 0) {
+        g_Global5624->mFlags |= INPUT_STATE_READ_RACE_KEYS;
     } else {
-        gInputState->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;
+        g_Global5624->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;
     }
 }
 
@@ -59,26 +59,26 @@ void ResetInputSlotsFromParticipants(void) {
     InputSlot *inputSlot;
 
     for (slotIndex = 0; slotIndex < 8; slotIndex++) {
-        inputSlot = &gInputSlots[slotIndex];
-        ResetInputSlot(inputSlot);
-        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
+        inputSlot = &g_GlobalCYT[slotIndex];
+        StructCY_SomeFn(inputSlot);
+        StructCY_SomeFn_0(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = INPUT_SLOT_BIT_MASK_DEFAULT;
-        ResetKeyRecording(&inputSlot->mKeyRecording);
-        ResetInputSlotPair(&inputSlot->mPair);
+        StructCYB_SomeFn(&inputSlot->mKeyRecording);
+        StructCYA_SomeFn(&inputSlot->mPair);
     }
-    connectionWork = gConnectionWork;
+    connectionWork = g_GlobalZE;
     if (RaceKeysIsConnectionActive(connectionWork) != 0) {
         for (positionIndex = 0; positionIndex < 8; positionIndex++) {
             if (connectionWork->mParticipantMask & (1 << connectionWork->mParticipantIndexByPos[positionIndex])) {
-                gInputSlots[positionIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
+                g_GlobalCYT[positionIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
             }
         }
     }
-    gInputState->mParticipantPosition = 0;
-    gInputState->mUnk_0c = FALSE;
+    g_Global5624->mParticipantPosition = 0;
+    g_Global5624->mUnk_0c = FALSE;
 }
 
 void ResetInputSlotsFromRaceSetup(void) {
@@ -94,28 +94,28 @@ void ResetInputSlotsFromRaceSetup(void) {
 
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         inputSlot = GetInputSlot(slotIndex);
-        ResetInputSlot(inputSlot);
-        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
+        StructCY_SomeFn(inputSlot);
+        StructCY_SomeFn_0(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = INPUT_SLOT_BIT_MASK_DEFAULT;
-        ResetKeyRecording(&inputSlot->mKeyRecording);
-        ResetInputSlotPair(&inputSlot->mPair);
+        StructCYB_SomeFn(&inputSlot->mKeyRecording);
+        StructCYA_SomeFn(&inputSlot->mPair);
     }
-    gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mSourceKind = INPUT_SOURCE_PAD_OR_PARTICIPANT;
-    gInputSlots[INPUT_SLOT_PAD_AND_TOUCH].mSourceKind = INPUT_SOURCE_PAD_AND_TOUCH;
-    gInputState->mParticipantPosition = 0;
-    gInputState->mUnk_0c = FALSE;
-    inputSlot = gInputSlots;
+    g_GlobalCYT[INPUT_SLOT_PAD_OR_PARTICIPANT].mSourceKind = INPUT_SOURCE_PAD_OR_PARTICIPANT;
+    g_GlobalCYT[INPUT_SLOT_PAD_AND_TOUCH].mSourceKind = INPUT_SOURCE_PAD_AND_TOUCH;
+    g_Global5624->mParticipantPosition = 0;
+    g_Global5624->mUnk_0c = FALSE;
+    inputSlot = g_GlobalCYT;
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
-        ResetInputSlot(inputSlot);
+        StructCY_SomeFn(inputSlot);
         inputSlot->mRequestedBits = 0;
-        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
+        StructCY_SomeFn_0(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot++;
     }
-    raceSetup = gRaceSetup;
-    connectionWork = gConnectionWork;
+    raceSetup = g_GlobalCO;
+    connectionWork = g_GlobalZE;
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         playerKind = raceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
         isNonCpu = FALSE;
@@ -126,21 +126,21 @@ void ResetInputSlotsFromRaceSetup(void) {
         if (isNonCpu != FALSE) {
             if (entryIndex == raceSetup->mEntryIndex) {
                 if (RaceKeysIsConnectionActive(connectionWork) != 0) {
-                    gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
+                    g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
                 } else if (raceSetup->mRaceKind == RACE_KIND_REPLAY) {
-                    gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
+                    g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
                 } else {
-                    gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PAD_RECORDED;
+                    g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_PAD_RECORDED;
                 }
             } else if (playerKind == 2) {
-                gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
+                g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
             } else if (raceSetup->mMode == MODE_WIFI) {
-                gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_WIFI_REQUESTED_BITS;
+                g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_WIFI_REQUESTED_BITS;
             } else {
-                gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
+                g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
             }
         } else if (playerKind == 1) {
-            gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
+            g_GlobalCYT[inputSlotIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
         }
     }
 }

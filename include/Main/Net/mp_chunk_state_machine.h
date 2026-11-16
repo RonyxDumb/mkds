@@ -9,9 +9,9 @@ typedef struct SceneNumbers SceneNumbers;
 void InitMPStateMachine(void);
 void ProcessMPChunk(u8 *chunk);
 u32 IsAllMPChunksReceived(u32 slot);
-// Scene function of gSceneFuncs[10] (scene 'Result' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
-s32 RunResultScene(SceneNumbers *sceneNumbers);
+// Scene function of g_SceneFnTable[10] (scene 'Result' in g_SceneArchiveNameTable): copies the callbacks and calls
+// OnSceneLoop. Returns 0.
+s32 SceneFn_Result(SceneNumbers *sceneNumbers);
 
 void MPChunkPortCallback(void *portMessage);
 
@@ -27,7 +27,7 @@ void MPChunkPortCallback(void *portMessage);
 // Players a record exchange cycles through.
 #define MP_PARTICIPANT_SLOT_COUNT 8
 
-// States of gConnectionWork->mMPStateMachine, in the order of gMPStateTable.
+// States of g_GlobalZE->mMPStateMachine, in the order of g_E7FnList1.
 enum {
     MP_STATE_FILL_OWN_RECORD,
     MP_STATE_WAIT_ROM_ARCHIVE,
@@ -55,4 +55,4 @@ enum {
     MP_STATE_COUNT
 };
 
-extern StateCallbacks gMPStateTable[MP_STATE_COUNT];
+extern StateCallbacks g_E7FnList1[MP_STATE_COUNT];

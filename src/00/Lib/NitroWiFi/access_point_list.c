@@ -12,7 +12,7 @@ void WcmCpsifUnlockMutexInIRQ(OSMutex *mutex) {
         mutex->mLockCount--;
         if (mutex->mLockCount == 0) {
             mutex->mHolder = NULL;
-            OS_WakeupThread(&mutex->mQueue);
+            Os_Thread_WakeUp(&mutex->mQueue);
         }
     }
 }
@@ -21,16 +21,16 @@ void WCM_ClearApList(void) {
     u32 enabled;
     WCMWork *work;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     work = WCMi_GetSystemWork();
     if (work == NULL) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return;
     }
     if (work->mPbdBuffer != NULL && (s32) work->mNbdBuffer > 0) {
-        MI_CpuFill8(work->mPbdBuffer, 0, work->mNbdBuffer);
+        Mem_CpuFill8(work->mPbdBuffer, 0, work->mNbdBuffer);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 u32 WCM_CountApList(void) {
@@ -38,17 +38,17 @@ u32 WCM_CountApList(void) {
     u32 count;
     WCMWork *work;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     work = WCMi_GetSystemWork();
     count = 0;
     if (work == NULL) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return count;
     }
     if (work->mPbdBuffer != NULL && work->mNbdBuffer > 0xc) {
         count = work->mPbdBuffer->mCount;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return count;
 }
 
@@ -56,10 +56,10 @@ u32 WCM_LockApList(u32 lock) {
     u32 enabled;
     WCMWork *work;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     work = WCMi_GetSystemWork();
     if (work == NULL) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 0;
     }
     if (lock != 0) {
@@ -69,7 +69,7 @@ u32 WCM_LockApList(u32 lock) {
         lock = work->mApListLock != 0;
         work->mApListLock = 0;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return lock;
 }
 
@@ -77,17 +77,17 @@ u8 *WCM_PointApList(u16 index) {
     u32 enabled;
     WCMApList *apNode;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (WCMi_GetSystemWork() == NULL) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return NULL;
     }
     apNode = WcmSearchIndexedApList(index);
     if (apNode == NULL) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return NULL;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return apNode->mData;
 }
 

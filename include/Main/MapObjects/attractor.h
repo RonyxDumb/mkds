@@ -216,7 +216,7 @@ typedef struct ModelAnimation ModelAnimation;
 typedef struct MapObjectList MapObjectList;
 typedef struct SoundStartParams SoundStartParams;
 
-// The model and animation file names of a Jg kind; FindSceneFile looks up each non-zero name.
+// The model and animation file names of a Jg kind; FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb looks up each non-zero name.
 typedef struct JgKindFileNames {
     /* 00 */ const char *mNsbmdName;
     /* 04 */ const char *mNsbcaName;
@@ -231,7 +231,7 @@ typedef struct JgKindRow {
     /* 0c */ NsbmdModel *mLapModel;
 } JgKindRow;
 
-// Filled in by InitJg; UpdateJgReverse stores GetHorizontalCameraDistanceSquared's return value
+// Filled in by InitJg; E7Fn2_3 stores GetHorizontalCameraDistanceSquared's return value
 // at 0x0c and hands it to StartSndHandleSound.
 extern SoundStartParams gJgSoundStartParams;
 extern JgKindRow gJgKindRows[];
@@ -252,7 +252,7 @@ void SetJgFollowKart(void);
 
 Vec3 *GetAttractorPosition(u16 index);
 
-extern StateCallbacks gJgStateTable[7];
+extern StateCallbacks g_E7FnList2[7];
 extern struct MapObjectList *gAttractorUpdateList;
 extern Vec3 **gAttractorPositions;
 extern u16 *gAttractorStrengths;

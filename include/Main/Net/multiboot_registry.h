@@ -4,5 +4,5 @@
 
 typedef struct Bmg Bmg;
 
-void SetGameRegistryTexts(Bmg *bmg);
+void SetGlobalBAN_from_thumb(Bmg *bmg);
 u32 RegisterMultiBootSegment(void);

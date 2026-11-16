@@ -21,24 +21,24 @@
 #include "Main/System/heap_call.h"
 #include "Main/Scene/display_settings_descs.h"
 
-SceneCallbacks gSecondMenuSceneCallbacks = {InitSecondMenuScene,
-                                            SecondMenuUpdateNop,
-                                            SetNextRaceByModeWrapper,
-                                            SecondMenuAfterUpdateNop,
+SceneCallbacks g_Scene_Menu2 = {Scene_Menu2_Initialize,
+                                            Scene_Menu2_Update,
+                                            Scene_Menu2_Finalize,
+                                            Scene_Menu2_VBlank,
                                             NULL,
                                             NULL,
                                             0xa,
                                             0xa,
                                             0};
 
-void SetStateMachineState(StateMachine *stateMachine, u16 state) {
+void StateDualHandler_SetState(StateMachine *stateMachine, u16 state) {
     stateMachine->mStateFrames = 0;
     stateMachine->mNextStateRequested = 1;
     stateMachine->mState = state;
     stateMachine->mNextState = state;
 }
 
-void AdvanceStateMachine(StateMachine *stateMachine) {
+void StateDualHandler_Execute(StateMachine *stateMachine) {
     const StateCallbacks *callbacks;
 
     if (stateMachine->mNextStateRequested != 0) {
@@ -59,37 +59,37 @@ void AdvanceStateMachine(StateMachine *stateMachine) {
     stateMachine->mStateFrames++;
 }
 
-void InitSecondMenuScene(void) {
+void Scene_Menu2_Initialize(void) {
     DisplaySettings *displaySettings;
 
-    displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), gSecondMenuSceneDisplaySettingsDesc);
-    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 4, 0, 0);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = CreateDisplayConfig(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), gSecondMenuSceneDisplaySettingsDesc);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 4, 0, 0);
+    SetGlobalDisplayConfig(displaySettings);
 }
 
-void SetNextRaceByModeWrapper(void) {
-    SetNextRaceByMode();
+void Scene_Menu2_Finalize(void) {
+    Scene_Menu2_FinalizeImpl();
 }
 
-void SecondMenuAfterUpdateNop(void) {}
+void Scene_Menu2_VBlank(void) {}
 
-void SecondMenuUpdateNop(void) {}
+void Scene_Menu2_Update(void) {}
 
-s32 RunSecondMenuScene(void *sceneNumbers) {
-    SceneCallbacks callbacks = gSecondMenuSceneCallbacks;
+s32 SceneFn_Menu2(void *sceneNumbers) {
+    SceneCallbacks callbacks = g_Scene_Menu2;
 
-    RunScene(sceneNumbers, &callbacks);
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }
 
-void CreateRaceSetupObjects(void *heap) {
-    gRaceSetup = HeapAlloc(heap, sizeof(RaceSetup));
-    gRaceSetup->mCourseList = HeapAlloc(heap, RACE_SETUP_COURSE_LIST_LENGTH * sizeof(*gRaceSetup->mCourseList));
-    CreateParticipantKartMap(heap);
-    CreateCupRecords(heap);
+void InitializeGlobalCO(void *heap) {
+    g_GlobalCO = Mem_AllocateHeap(heap, sizeof(RaceSetup));
+    g_GlobalCO->mCourseList = Mem_AllocateHeap(heap, RACE_SETUP_COURSE_LIST_LENGTH * sizeof(*g_GlobalCO->mCourseList));
+    InitializeGlobalRE(heap);
+    InitializeGlobalLU(heap);
 }
 
-void RefreshRaceSetupKartCounts(s32 entryCount) {
+void MaybeSetRacerCount(s32 entryCount) {
     u8 teamCounts[2] = {0};
     s32 entryIndex;
     u8 humanAndPeerCount;
@@ -98,41 +98,41 @@ void RefreshRaceSetupKartCounts(s32 entryCount) {
     humanAndPeerCount = 0;
     kartCount = 0;
     for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-        if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind != PLAYER_KIND_NONE) {
-            if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN ||
-                gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_PEER) {
+        if (g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind != PLAYER_KIND_NONE) {
+            if (g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN ||
+                g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_PEER) {
                 humanAndPeerCount++;
             }
             kartCount++;
-            if (gRaceSetup->mUseTeams != 0) {
-                teamCounts[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex]++;
+            if (g_GlobalCO->mUseTeams != 0) {
+                teamCounts[g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mTeamIndex]++;
             }
         }
     }
-    gRaceSetup->mKartCount = kartCount;
-    gRaceSetup->mHumanAndPeerKartCount = humanAndPeerCount;
+    g_GlobalCO->mKartCount = kartCount;
+    g_GlobalCO->mHumanAndPeerKartCount = humanAndPeerCount;
     for (entryIndex = 0; entryIndex < 2; entryIndex++) {
-        gRaceSetup->mTeamKartCounts[entryIndex] = teamCounts[entryIndex];
+        g_GlobalCO->mTeamKartCounts[entryIndex] = teamCounts[entryIndex];
     }
 }
 
-void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex,
+void StructCO_ConfigureRacerDefault(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex,
                       int listedCpuSlot) {
-    gRaceSetup->mNextEntries[entryIndex].mCharacterIndex = characterIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mKind = playerKind;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
-    gRaceSetup->mNextEntries[entryIndex].mKartIndex = kartIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuSlot = listedCpuSlot;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex =
+    g_GlobalCO->mNextEntries[entryIndex].mCharacterIndex = characterIndex;
+    g_GlobalCO->mNextEntries[entryIndex].mPlayer.mKind = playerKind;
+    g_GlobalCO->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
+    g_GlobalCO->mNextEntries[entryIndex].mKartIndex = kartIndex;
+    g_GlobalCO->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
+    g_GlobalCO->mNextEntries[entryIndex].mPlayer.mListedCpuSlot = listedCpuSlot;
+    g_GlobalCO->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex =
         playerKind == PLAYER_KIND_GHOST ? GHOST_RECORD_INDEX_COURSE : GHOST_RECORD_INDEX_NONE;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags = 0;
+    g_GlobalCO->mNextEntries[entryIndex].mPlayer.mListedCpuFlags = 0;
     if (listedCpuSlot != 3) {
-        gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags |= KART_ENTRY_LISTED_CPU_FLAG;
+        g_GlobalCO->mNextEntries[entryIndex].mPlayer.mListedCpuFlags |= KART_ENTRY_LISTED_CPU_FLAG;
     }
 }
 
-s32 FindCupCourseIndex(s32 courseId) {
+s32 GetCourseIdFromInternalId(s32 courseId) {
     s32 rowIndex;
     s32 columnIndex;
     s8 courseIndex;
@@ -140,7 +140,7 @@ s32 FindCupCourseIndex(s32 courseId) {
     courseIndex = -1;
     for (rowIndex = 0; rowIndex < 8; rowIndex++) {
         for (columnIndex = 0; columnIndex < 4; columnIndex++) {
-            if (courseId == gCupCourseIdTable[rowIndex][columnIndex]) {
+            if (courseId == g_InternalCourseIdOrderedTable[rowIndex][columnIndex]) {
                 courseIndex = columnIndex + rowIndex * 4;
                 break;
             }
@@ -149,11 +149,11 @@ s32 FindCupCourseIndex(s32 courseId) {
     return courseIndex;
 }
 
-u32 GetCupCourseIdAtIndex(u8 courseIndex) {
-    return gCupCourseIdTable[(u32) courseIndex / 4][courseIndex % 4];
+u32 GetSomeInternalCourseId(u8 courseIndex) {
+    return g_InternalCourseIdOrderedTable[(u32) courseIndex / 4][courseIndex % 4];
 }
 
-s32 FindCupIndexOfCourse(s32 courseId) {
+s32 GetCupForCourse(s32 courseId) {
     s32 cupIndex;
     s32 rowIndex;
     s32 columnIndex;
@@ -161,7 +161,7 @@ s32 FindCupIndexOfCourse(s32 courseId) {
     cupIndex = 9;
     for (rowIndex = 0; rowIndex < 8; rowIndex++) {
         for (columnIndex = 0; columnIndex < 4; columnIndex++) {
-            if (courseId == gCupCourseIdTable[rowIndex][columnIndex]) {
+            if (courseId == g_InternalCourseIdOrderedTable[rowIndex][columnIndex]) {
                 cupIndex = rowIndex;
             }
         }

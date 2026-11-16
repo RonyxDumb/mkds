@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *AllocArrayFromCurrentHeap(s32 count, s32 elementSize);
+void *AllocateActiveHeapSizeCount_from_thumb(s32 count, s32 elementSize);

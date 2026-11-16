@@ -5,7 +5,7 @@
 double nan(const char *tag);
 int FflushAll(void);
 
-u32 Abs(u32 value);
+u32 abs(u32 value);
 
 // Function slots of a FILE; FileFlushBuffer calls the write one with a buffer and a count pointer.
 typedef int (*FileReadFunc)(s32 fileHandle, u8 *buffer, u32 *countPtr);
@@ -28,7 +28,7 @@ typedef enum FileWideMode {
 #define FILE_BUFFER_MODE_LINE 1
 #define FILE_BUFFER_MODE_FULL 2
 
-// FILE.mKind values: not usable, and the kind whose writes call NopWriteHook first.
+// FILE.mKind values: not usable, and the kind whose writes call nullsub_18 first.
 #define FILE_KIND_NONE 0
 #define FILE_KIND_WITH_WRITE_HOOK 2
 
@@ -69,31 +69,31 @@ typedef struct FILE {
     /* 48 */ u32 mWriteFuncLastArg;
 } FILE;
 
-void AssertionFailed(const char *expression, const char *fileName, const char *functionName, int lineNumber);
+void LogThrowAssertion(const char *expression, const char *fileName, const char *functionName, int lineNumber);
 int FileFlushBuffer(FILE *stream, u32 *writtenOut);
 void FileResetBuffer(FILE *stream);
 u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream);
 
-int memcmp(const void *left, const void *right, u32 count);
+int StructDC_SomeFn_6(const void *left, const void *right, u32 count);
 void *MemChrBackward(const void *buffer, int value, u32 count);
 void *memchr(const void *buffer, int value, u32 count);
 void *memmove(void *dst, const void *src, u32 count);
 void *memcpy(void *dst, const void *src, u32 count);
 void MemsetBody(u8 *dst, int fill, u32 count);
 
-// The output target of vsnprintf: the buffer, its size and the count written.
+// The output target of SomeSnprintfImpl: the buffer, its size and the count written.
 typedef struct FormatPutTarget {
     /* 00 */ char *mBuffer;
     /* 04 */ u32 mSize;
     /* 08 */ u32 mWrittenCount;
 } FormatPutTarget;
 
-int sprintf(char *buf, const char *fmt, ...);
-int snprintf(char *buf, u32 size, const char *fmt, ...);
-int vsnprintf(char *buf, u32 size, const char *fmt, char *va);
-int printf(const char *fmt, ...);
+int MaybeStrcpy(char *buf, const char *fmt, ...);
+int _snprintf(char *buf, u32 size, const char *fmt, ...);
+int SomeSnprintfImpl(char *buf, u32 size, const char *fmt, char *va);
+int SomeSprintf(const char *fmt, ...);
 void *FormatPutBuffer(void *arg, const char *text, u32 count);
 void *FormatPutFwrite(void *file, const char *text, u32 count);
 
-void ConvertTextNewlinesNop(u8 *buffer, u32 *length);
-void NopWriteHook(void);
+void nullsub_17(u8 *buffer, u32 *length);
+void nullsub_18(void);

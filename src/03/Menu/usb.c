@@ -44,10 +44,10 @@ void SetupUsb(void) {
     LoadUsbFilesAndSetBgCnt();
     LoadHlScr(8);
     CreateObjectsForMenuPair(2);
-    OS_GetOwnerInfo(&ownerInfo);
+    Os_GetPersonalData(&ownerInfo);
     ownerText[0] = 0;
-    MIi_CpuClear16(ownerText[0], &ownerText[1], 0x16);
-    MIi_CpuCopy16(ownerInfo.mNickName, &ownerText[1], ownerInfo.mNickNameLength * 2);
+    Mem_CpuFill16(ownerText[0], &ownerText[1], 0x16);
+    CopyMemory16(ownerInfo.mNickName, &ownerText[1], ownerInfo.mNickNameLength * 2);
     PrintMessageAndText(&ownerText[1], 0x6d);
     CreateAnimatedIcon(0);
     InitUsbScan(UsbEventCallback);
@@ -57,13 +57,13 @@ void SetupUsb(void) {
 
 void LoadUsbFilesAndSetBgCnt(void) {
     void *ncgName = &"char/jbBgStep3.ncg.l";
-    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    void *loadBg2CharFunc = &CopyBgData_Bg2_Top;
     u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
     void *nclName = &"char/ybBgStep3.ncl.l";
-    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    void *loadBgPlttFunc = &CopyPaletteTop;
     u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
     void *nscName = &"char/jb4Usb.nsc.l";
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));

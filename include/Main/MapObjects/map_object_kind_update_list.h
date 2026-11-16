@@ -85,12 +85,12 @@ extern MapObjectKindRow gMapObjectKindRows[];
 #define MAP_OBJECT_KIND_KURIKING 0x1f7
 #define MAP_OBJECT_KIND_BERRY 0x1b5
 
-// The descriptor of a map object kind: object count and size, init and list creation functions, kind data and lists.
+// The descriptor of a map object kind: object count and size, StructDC_SomeFn_from_thumb and list creation functions, kind data and lists.
 typedef struct MapObjectKindDescriptor {
     /* 00 */ u16 mObjectCount;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ s32 mObjectSize;
-    // Each kind's init takes its own object type and uses only some of the three arguments, so no parameter list.
+    // Each kind's StructDC_SomeFn_from_thumb takes its own object type and uses only some of the three arguments, so no parameter list.
     /* 08 */ void (*mInitObject)();
     /* 0c */ MapObjectKindData *(*mCreateKindData)(void);
     /* 10 */ MapObjectList *(*mCreateDrawList0)(void);

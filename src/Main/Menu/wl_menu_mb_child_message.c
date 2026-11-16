@@ -33,16 +33,16 @@ void InitWLMenuMessage(void *heap) {
     void *frameHeap;
     Ncgr *chars;
     Nclr *palette;
-    frameHeap = CreateFrmHeapFromMaxFree(heap);
-    gWLMenuMessage = HeapAlloc(frameHeap, (0x00000654u));
+    frameHeap = Mem_CreateOrphanChildHeap(heap);
+    gWLMenuMessage = Mem_AllocateHeap(frameHeap, (0x00000654u));
     WLMenuMessageMI_CpuClearFast(gWLMenuMessage, (0x00000654u));
     gWLMenuMessage->mHeap = frameHeap;
     SetSubBg1Cnt(0, 0, 0x10, 0, 0);
-    chars = GetDownloadScreenFiles()->mMultiDownloadChars;
-    palette = GetDownloadScreenFiles()->mMultiDownloadPalette;
-    GXS_LoadBG1Char(chars->mData, 0, chars->mDataSize);
-    GXS_LoadBG3Char(chars->mData, 0, chars->mDataSize);
-    GXS_LoadBGPltt(palette->mData, 0, palette->mDataSize);
+    chars = GetGlobal2DObject()->mMultiDownloadChars;
+    palette = GetGlobal2DObject()->mMultiDownloadPalette;
+    CopyBgData_Bg1_Bottom(chars->mData, 0, chars->mDataSize);
+    CopyBgData_Bg3_Bottom(chars->mData, 0, chars->mDataSize);
+    CopyPaletteBottom(palette->mData, 0, palette->mDataSize);
 }
 
 #pragma thumb off
@@ -60,12 +60,12 @@ void SetupWLMenuMBChildMessage(void *heap) {
 
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_SETUP_MULTI_BOOT;
-    SetMultiSimple(1);
-    gWLMenuMessage->mMBChildMessages = GetDownloadScreenFiles()->mMBChildMessages;
-    gWLMenuMessage->mFont = &GetDownloadScreenFiles()->mMBChildFont;
-    charBase = G2S_GetBG1CharPtr();
-    text = GetBmgEntry(gWLMenuMessage->mMBChildMessages, 1);
-    NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (void *) (charBase + 0x400), 0x20, 4, 4);
+    StructP_SetAFlag4_SkipBattleIntro(1);
+    gWLMenuMessage->mMBChildMessages = GetGlobal2DObject()->mMBChildMessages;
+    gWLMenuMessage->mFont = &GetGlobal2DObject()->mMBChildFont;
+    charBase = GetVramBg1BaseOffset_Bottom();
+    text = Bmg_GetRawStringPointer_from_thumb(gWLMenuMessage->mMBChildMessages, 1);
+    G2d_Sprite_CreateFromTiles(gWLMenuMessage->mCharCanvas, (void *) (charBase + 0x400), 0x20, 4, 4);
     WLMenuInitTextCanvas(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
     WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 0x80, 0, 3, 0x211, text);
     for (row = 7; row < 9; row++) {
@@ -75,16 +75,16 @@ void SetupWLMenuMBChildMessage(void *heap) {
             gWLMenuMessage->mScreenMap[column + (row + 7) * 0x20] = entry;
         }
     }
-    DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
-    GXS_LoadBG3Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
+    DC_SomeClean(gWLMenuMessage->mScreenMap, 0x600);
+    TEQSub_Fn27Impl_Fn29Impl(gWLMenuMessage->mScreenMap, 0, 0x600);
     WLMenuMessageMI_CpuClearFast(gWLMenuMessage->mScreenMap, 0x600);
     for (row = 10; row < 14; row++) {
         for (column = 0; column < 0x20; column++) {
             gWLMenuMessage->mScreenMap[column + row * 0x20] = column + (row - 10) * 0x20 + 0x20;
         }
     }
-    DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
-    GXS_LoadBG1Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
+    DC_SomeClean(gWLMenuMessage->mScreenMap, 0x600);
+    TEQSub_Fn25Impl(gWLMenuMessage->mScreenMap, 0, 0x600);
     StartSeqZeroLoopWrapper();
     FrmHeapShrinkInParent(gWLMenuMessage->mHeap);
 }
@@ -99,12 +99,12 @@ void WLMenuInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, 
 }
 
 u32 WLMenuDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
-    return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
+    return G2d_Text_PrintString(textCanvas, textX, textY, color, flags, text);
 }
 
 void WLMenuMessageMI_CpuFillFast(void *dest, u32 fillValue, u32 size) {
     volatile u32 fillData = fillValue;
-    MIi_CpuClearFast(fillData, dest, size);
+    Mem_CpuFastMemorySet(fillData, dest, size);
 }
 
 void WLMenuMessageMI_CpuClearFast(void *dest, u32 size) {

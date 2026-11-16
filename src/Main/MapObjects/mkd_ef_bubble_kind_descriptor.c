@@ -52,17 +52,17 @@ StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleLeap, UpdateMkdEfBu
 void CreateMkdEfBubble(void) {
     void *nsbmd;
 
-    nsbmd = FindCourseMapObjFile("mkd_ef_bubble.nsbmd");
+    nsbmd = FormatFindMapObjFileBuffer_from_thumb("mkd_ef_bubble.nsbmd");
     CreateNsbmd(&gMkdEfBubble, nsbmd, NULL);
-    SetNsbmdPolygonIdLightEmiAll(gMkdEfBubble, 0x3f, 2, 0x294a);
-    gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gMkdEfBubbleNsbta));
-    InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
-                                  FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
-    SetModelAnimationEntryLoopMode(gMkdEfBubbleNsbta, 0, 1);
+    StructML_SomeFn_1(gMkdEfBubble, 0x3f, 2, 0x294a);
+    gMkdEfBubbleNsbta = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gMkdEfBubbleNsbta));
+    SomeAnimationLoadWrapper_from_thumb(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
+                                  FormatFindMapObjFileBuffer_from_thumb("mkd_ef_bubble.nsbta"));
+    StructAM_SetSomeValueAt(gMkdEfBubbleNsbta, 0, 1);
 }
 
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
-    InitStateMachine(&bubble->mMapObject.mStateMachine, gMkdEfBubbleStateTable, 2, bubble);
+    StateDualHandler_Create(&bubble->mMapObject.mStateMachine, gMkdEfBubbleStateTable, 2, bubble);
     bubble->mDelayFrameCount = row->mSettings[0];
     bubble->mInitialY = bubble->mMapObject.mPos.y;
     bubble->mBottomY = bubble->mMapObject.mPos.y - 0x10000;

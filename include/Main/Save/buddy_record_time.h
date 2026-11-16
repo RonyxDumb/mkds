@@ -17,11 +17,11 @@ typedef struct KartAppear {
     /* 00 */ KartAppearFile *mFileData;
 } KartAppear;
 
-extern const u8 gTimeRecordCharTable[33];
-extern u32 gResultTotalMax;
+extern const u8 g_TimeTrialBase32Table[33];
+extern u32 g_dec_1000000;
 
 static inline u8 GetTimeRecordChar(u8 charIndex) {
-    return gTimeRecordCharTable[charIndex];
+    return g_TimeTrialBase32Table[charIndex];
 }
 
 // Third argument of AddBuddyRecordResult: the row of BuddyRecord.mResultCounts the result goes into.
@@ -35,24 +35,24 @@ static inline u8 GetTimeRecordChar(u8 charIndex) {
 #define BUDDY_RECORD_LATEST_MONTH 12
 #define BUDDY_RECORD_LATEST_DAY 31
 
-// MissionRecord values that ComputeMissionRecordValue gives for a cup score of 70 or more, 90 or more and 100 or more
+// MissionRecord values that ComputeMissionInternalScore gives for a cup score of 70 or more, 90 or more and 100 or more
 // (cup_records.c:379-387); the values 5 to 7 are the top tiers.
 #define MISSION_RECORD_VALUE_FIRST_HIGH_TIER 5
 #define MISSION_RECORD_VALUE_SECOND_HIGH_TIER 6
 #define MISSION_RECORD_VALUE_TOP_TIER 7
 
-u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut);
-void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord);
+u32 GlobalZ_GetOI(u32 recordIndex, BuddyRecord *buddyRecordOut);
+void GlobalZ_SetOI(u32 recordIndex, BuddyRecord *buddyRecord);
 void SetRaceResultRecords(void);
 void AddWiFiRaceBuddyRecordResults(void);
 void AddShineBattleBuddyRecordResults(void);
 void AddBattleBuddyRecordResults(void);
 void AddVSBuddyRecordResults(void);
 void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKind);
-s32 IsBitSetInAnyParticipant(s32 bitIndex);
+s32 CheckSecretFlag(s32 bitIndex);
 s32 IsBitSetInAllParticipants(s32 bitIndex);
 BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterIndex, u32 kartIndex);
 BOOL IsKartAppearWithinLimit(KartAppear *kartAppear, u32 characterIndex, u32 kartIndex);
-BOOL GetMissionRecordValue(s32 row, s32 column, s32 *out);
-BOOL FormatFirstCourseTimeRecord(s32 courseId, void *charsOut);
-BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId);
+BOOL IsMissionStageBeaten(s32 row, s32 column, s32 *out);
+BOOL GenerateTimeTrialCode(s32 courseId, void *charsOut);
+BOOL GenerateTimeTrialCodeImpl(u8 *charsOut, TimeRecord *timeRecord, s32 courseId);

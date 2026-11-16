@@ -7,9 +7,9 @@
 #include "font_glyph_layout.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-void InitFontIfLoaded(void *font, void *fontData) {
+void NFTR_Load(void *font, void *fontData) {
     if (fontData != NULL) {
-        NNS_G2dFontInitAuto(font, fontData);
+        NFTR_LoadImpl(font, fontData);
     }
 }
 
@@ -20,7 +20,7 @@ void CopyCharsBlock(void *source, s32 sourceTileX, s32 sourceTileY, s32 tileWidt
 
     for (columnIndex = 0; columnIndex < tileWidth; columnIndex++) {
         for (rowIndex = 0; rowIndex < tileHeight; rowIndex++) {
-            MIi_CpuCopy16((u8 *) source + (sourceTileX + columnIndex) * 32 + (sourceTileY + rowIndex) * 1024,
+            CopyMemory16((u8 *) source + (sourceTileX + columnIndex) * 32 + (sourceTileY + rowIndex) * 1024,
                           (u8 *) destination + (destinationTileX + columnIndex) * 32 +
                               (destinationTileY + rowIndex) * 1024,
                           0x20);
@@ -91,9 +91,9 @@ static inline u16 *GetCharsBlockTile(u16 *chars, s32 firstTile, s32 tileIndex) {
     return chars + (firstTile + tileIndex % 4) * 16 + tileIndex / 4 * 512;
 }
 
-void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow, u16 *charsDestination, s32 column,
+void MaybeSomePlayerTilePaletteCopy(u16 *paletteDestination, s32 paletteRow, u16 *charsDestination, s32 column,
                                         s32 row) {
-    RaceSetup *raceSetup = gRaceSetup;
+    RaceSetup *raceSetup = g_GlobalCO;
     Nclr *palette;
     Ncgr *chars;
     u16 *charsRightColumn;
@@ -111,15 +111,15 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     entryIndex = raceSetup->mRaceKind == RACE_KIND_DEMO ? raceSetup->mFollowedKartIndex : raceSetup->mEntryIndex;
     characterIndex = raceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
     if (characterIndex == 12) {
-        palette = GetPlayerCharacterShyguyNclr(1);
+        palette = GetPlayerCharacterShyGuyPalette_from_thumb(1);
     } else {
-        palette = GetPlayerCharacterNclr(1);
+        palette = GetPlayerCharacterPalette_from_thumb(1);
     }
-    chars = GetPlayerCharacterNcgr(1);
+    chars = GetPlayerCharacterNceNcgr_from_thumb(1);
     paletteColors = palette->mData;
     if (characterIndex == 12) {
-        paletteCharacterIndex = gMenuShared->mShuffledIndices[(
-            u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex : gRaceSetup->mEntryIndex)];
+        paletteCharacterIndex = g_GlobalB488->mShuffledIndices[(
+            u16) (g_GlobalCO->mRaceKind == RACE_KIND_DEMO ? g_GlobalCO->mFollowedKartIndex : g_GlobalCO->mEntryIndex)];
     } else {
         paletteCharacterIndex = characterIndex;
     }
@@ -128,19 +128,19 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     }
     charsBlock = chars->mData;
     for (tileIndex = 0; tileIndex < 16; tileIndex++) {
-        MIi_CpuCopy16(charsBlock + (characterIndex * 25 + tileIndex) * 16,
+        CopyMemory16(charsBlock + (characterIndex * 25 + tileIndex) * 16,
                       GetCharsBlockTile(charsDestination, column + row * 32, tileIndex), 0x20);
     }
     charsRightColumn = chars->mData;
     for (rightTileIndex = 0; rightTileIndex < 4; rightTileIndex++) {
-        MIi_CpuCopy16(charsRightColumn + (characterIndex * 25 + 16 + rightTileIndex) * 16,
+        CopyMemory16(charsRightColumn + (characterIndex * 25 + 16 + rightTileIndex) * 16,
                       charsDestination + (column + 4 + row * 32) * 16 + rightTileIndex * 512, 0x20);
     }
     charsBottomRow = chars->mData;
     for (bottomTileIndex = 0; bottomTileIndex < 4; bottomTileIndex++) {
-        MIi_CpuCopy16(charsBottomRow + (characterIndex * 25 + 20 + bottomTileIndex) * 16,
+        CopyMemory16(charsBottomRow + (characterIndex * 25 + 20 + bottomTileIndex) * 16,
                       GetCharsBlockTile(charsDestination, column + (row + 4) * 32, bottomTileIndex), 0x20);
     }
-    MIi_CpuCopy16(chars->mData + (characterIndex * 25 + 24) * 16, charsDestination + (column + 4 + (row + 4) * 32) * 16,
+    CopyMemory16(chars->mData + (characterIndex * 25 + 24) * 16, charsDestination + (column + 4 + (row + 4) * 32) * 16,
                   0x20);
 }

@@ -35,7 +35,7 @@ void CopyBg2ScrBufferRect(const void *source, int destOffset, int width, int row
     row = 0;
     if (rowCount > 0) {
         do {
-            MIi_CpuCopy16(source, (void *) dest, (u32) (width << 1));
+            CopyMemory16(source, (void *) dest, (u32) (width << 1));
             row = row + 1;
             source = (const u8 *) source + 0x40;
             dest = dest + 0x40;
@@ -45,8 +45,8 @@ void CopyBg2ScrBufferRect(const void *source, int destOffset, int width, int row
 
 void AdvanceBg2ScrUpload(TaskEntry *task, void *arg) {
     if (gBg2ScrBuffer->mUploadRequested != 0) {
-        DC_FlushRange(gBg2ScrBuffer->mScr, (0x00000600u));
-        GX_LoadBG2Scr(gBg2ScrBuffer->mScr, 0, (0x00000600u));
+        Arm_FlushRange(gBg2ScrBuffer->mScr, (0x00000600u));
+        TEQSub_Fn10Impl_Fn12Impl(gBg2ScrBuffer->mScr, 0, (0x00000600u));
         gBg2ScrBuffer->mUploadRequested = 0;
     }
 }
@@ -58,7 +58,7 @@ void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow) {
 }
 
 void AdvanceBgPaletteRowCopy(TaskEntry *entry, void *arg) {
-    MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, gBgPaletteCopyRequest.mDestination, 0x20);
+    CopyMemory16(gBgPaletteCopyRequest.mSource, gBgPaletteCopyRequest.mDestination, 0x20);
     RequestTaskRemoval(1, entry);
 }
 
@@ -68,6 +68,6 @@ void RequestBgPaletteCopy(const void *palette) {
 }
 
 void AdvanceBgPaletteCopy(TaskEntry *entry, void *arg) {
-    MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, (void *) ((0x05000000u)), (0x00000200u));
+    CopyMemory16(gBgPaletteCopyRequest.mSource, (void *) ((0x05000000u)), (0x00000200u));
     RequestTaskRemoval(1, entry);
 }

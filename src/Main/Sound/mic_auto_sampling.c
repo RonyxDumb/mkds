@@ -8,7 +8,7 @@ void TouchMicInputStopMicAutoSampling(MicBuffer *micBuffer) {
     MIC_StopAutoSampling();
 }
 
-void StartMicAutoSampling(MicBuffer *micBuffer) {
+void Struct59C4Sub_SomeFn(MicBuffer *micBuffer) {
     MIC_StartAutoSampling(&micBuffer->mAutoParam);
     StartMicSampleAnalysis();
 }

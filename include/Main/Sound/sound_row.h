@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Menu/menu_label_cell_rows.h"
 
-// Sound ids GetSceneSoundRowIndex writes into the row of a mission run: the sequence of the garden mission and of a
+// Sound ids MaybeGetMusicForMenu writes into the row of a mission run: the sequence of the garden mission and of a
 // mission that counts pending objects, the first bank by mission, and the second bank every one of them with a bank
 // gets.
 #define SOUND_SEQ_ID_MISSION_GARDEN 0x2a
@@ -17,8 +17,8 @@
 
 typedef struct SoundRow SoundRow;
 
-u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output);
-u32 GetCourseSoundRowIndex(u32 courseId, SoundRow *output);
-SoundRow GetSoundRow(u32 rowIndex);
+u32 MaybeGetMusicForMenu(s32 sceneNumber, SoundRow *output);
+u32 GetCourseBgmInfo(u32 courseId, SoundRow *output);
+SoundRow GetCourseBgmEntry(u32 rowIndex);
 
-extern const SoundRow gSoundRowTable[53];
+extern const SoundRow g_CourseBgmTable[53];

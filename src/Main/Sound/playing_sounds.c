@@ -67,7 +67,7 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
             if (sound->mFlags & PLAYING_SOUND_FLAG_WHILE_REQUESTED) {
                 if (wasRequestedAgain == 0) {
                     removedSound = sound;
-                    sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
+                    sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound);
                     NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, 0);
                     removedSound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
                     removedSound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
@@ -78,13 +78,13 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
                 }
             } else if (sound->mFlags & PLAYING_SOUND_FLAG_UPDATE_IN_TURNS) {
                 if (source->mUpdateListIndex == SOUND_SOURCE_LIST_NONE) {
-                    TryAppendListObject(&gSoundSourceSecondUpdateList, source);
+                    StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSourceSecondUpdateList, source);
                     source->mUpdateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
                 }
             }
         } else if ((sound->mFlags & PLAYING_SOUND_FLAG_START_PENDING) == 0) {
             removedSound = sound;
-            sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
+            sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound);
             NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, 0);
             removedSound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
             removedSound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
@@ -93,14 +93,14 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
             value = 1;
             continue;
         }
-        sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
+        sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound);
     }
     if (value == 0) {
         return;
     }
     value = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
-         sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
+         sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound)) {
         if (sound->mFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             value = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
@@ -115,7 +115,7 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         if (value != SOUND_SOURCE_LIST_NONE) {
-            TryAppendListObject(&gSoundSourceUpdateLists[value], source);
+            StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSourceUpdateLists[value], source);
             source->mUpdateListIndex = value;
         }
     }
@@ -160,7 +160,7 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
         return 0;
     }
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
-         sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
+         sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound)) {
         priority = -1;
         if (sound->mFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             priority = ComputeSoundPriority(params.mVolumeForPriority, sound->mSeqArcNo, sound->mSoundId);
@@ -180,7 +180,7 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
     return 1;
 }
 
-PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 volume, s16 pitch) {
+PlayingSound *StructMQRacerEntry_SomeFn_6(SoundSource *source, u32 seqArcNo, u32 soundId, u32 volume, s16 pitch) {
     PlayingSound *sound;
     PlayingSound *candidate;
     NNSFndList *sourceList;
@@ -194,12 +194,12 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
         return sound;
     }
     for (candidate = source->mPlayingSounds.mHead; candidate != NULL;
-         candidate = NNS_FndGetNextListObject(&source->mPlayingSounds, candidate)) {
+         candidate = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, candidate)) {
         matches = (candidate->mSoundId == soundId) && (candidate->mSeqArcNo == seqArcNo);
         if (matches) {
-            StopPlayingSound(source, candidate, 0);
+            StructMQRacerEntry_SomeFn_9(source, candidate, 0);
             ResetPlayingSoundHandle(candidate);
-            ClearThreeWords(&candidate->mUnk_08);
+            StructMQChild_Create(&candidate->mUnk_08);
             candidate->mSeqArcNo = 0;
             candidate->mSoundId = 0;
             candidate->mFlags = 0;
@@ -220,7 +220,7 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
         ResetPlayingSound(sound);
     }
     ResetPlayingSoundHandle(sound);
-    ClearThreeWords(&sound->mUnk_08);
+    StructMQChild_Create(&sound->mUnk_08);
     sound->mSeqArcNo = 0;
     sound->mSoundId = 0;
     sound->mFlags = 0;
@@ -231,13 +231,13 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     sound->mFlags |= PLAYING_SOUND_FLAG_START_PENDING;
     sound->mVolume = volume;
     sound->mPitch = pitch;
-    TryAppendListObject(&source->mPlayingSounds, sound);
+    StructMQRacerEntry_MaybeInsertChildEntry(&source->mPlayingSounds, sound);
     if (source->mUpdateListIndex != SOUND_SOURCE_LIST_EVERY_CALL) {
         if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        TryAppendListObject(gSoundSourceUpdateLists, source);
+        StructMQRacerEntry_MaybeInsertChildEntry(gSoundSourceUpdateLists, source);
         source->mUpdateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
     }
     return sound;
@@ -257,7 +257,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
         return sound;
     }
     for (candidate = source->mPlayingSounds.mHead; candidate != NULL;
-         candidate = NNS_FndGetNextListObject(&source->mPlayingSounds, candidate)) {
+         candidate = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, candidate)) {
         if (candidate->mFlags & PLAYING_SOUND_FLAG_WHILE_REQUESTED) {
             matches = (candidate->mSoundId == soundId) && (candidate->mSeqArcNo == seqArcNo);
             if (matches) {
@@ -266,14 +266,14 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
                     candidate->mVolume = volume;
                     candidate->mPitch = pitch;
                     if (source->mUpdateListIndex == SOUND_SOURCE_LIST_NONE) {
-                        TryAppendListObject(&gSoundSourceSecondUpdateList, source);
+                        StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSourceSecondUpdateList, source);
                         source->mUpdateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
                     }
                     return candidate;
                 }
-                StopPlayingSound(source, candidate, 0);
+                StructMQRacerEntry_SomeFn_9(source, candidate, 0);
                 ResetPlayingSoundHandle(candidate);
-                ClearThreeWords(&candidate->mUnk_08);
+                StructMQChild_Create(&candidate->mUnk_08);
                 candidate->mSeqArcNo = 0;
                 candidate->mSoundId = 0;
                 candidate->mFlags = 0;
@@ -295,7 +295,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
         ResetPlayingSound(sound);
     }
     ResetPlayingSoundHandle(sound);
-    ClearThreeWords(&sound->mUnk_08);
+    StructMQChild_Create(&sound->mUnk_08);
     sound->mSeqArcNo = 0;
     sound->mSoundId = 0;
     sound->mFlags = 0;
@@ -308,13 +308,13 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     sound->mPitch = pitch;
     sound->mFlags |= PLAYING_SOUND_FLAG_WHILE_REQUESTED;
     sound->mFlags |= PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
-    TryAppendListObject(&source->mPlayingSounds, sound);
+    StructMQRacerEntry_MaybeInsertChildEntry(&source->mPlayingSounds, sound);
     if (source->mUpdateListIndex != SOUND_SOURCE_LIST_EVERY_CALL) {
         if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        TryAppendListObject(gSoundSourceUpdateLists, source);
+        StructMQRacerEntry_MaybeInsertChildEntry(gSoundSourceUpdateLists, source);
         source->mUpdateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
     }
     return sound;
@@ -324,7 +324,7 @@ static inline u32 IsSameSound(PlayingSound *sound, u32 seqArcNo, u32 soundId) {
     return sound->mSoundId == soundId && sound->mSeqArcNo == seqArcNo;
 }
 
-void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) {
+void StructMQRacerEntry_SomeFn_75(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) {
     PlayingSound *sound;
     u32 matches;
 
@@ -335,14 +335,14 @@ void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) 
     while (sound != NULL) {
         matches = (sound->mSeqPlayer != NULL) && IsSameSound(sound, seqArcNo, soundId);
         if (matches) {
-            StopPlayingSound(source, sound, fadeSteps);
+            StructMQRacerEntry_SomeFn_9(source, sound, fadeSteps);
             return;
         }
-        sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
+        sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound);
     }
 }
 
-void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
+void StructMQRacerEntry_SomeFn_9(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
     PlayingSound *entry;
     void *unused;
     u32 updateListIndex;
@@ -355,7 +355,7 @@ void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
     RemoveListObject(&source->mPlayingSounds, sound);
     updateListIndex = SOUND_SOURCE_LIST_NONE;
     for (entry = source->mPlayingSounds.mHead; entry != NULL;
-         entry = NNS_FndGetNextListObject(&source->mPlayingSounds, entry)) {
+         entry = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, entry)) {
         soundFlags = entry->mFlags;
         if (soundFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             updateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
@@ -371,7 +371,7 @@ void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         if (updateListIndex != SOUND_SOURCE_LIST_NONE) {
-            TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);
+            StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSourceUpdateLists[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
     }
@@ -405,7 +405,7 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
     while (sound != NULL) {
         if (sound->mFlags & PLAYING_SOUND_FLAG_WHILE_REQUESTED) {
             removedSound = sound;
-            sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
+            sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound);
             NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, fadeSteps);
             removedSound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
             removedSound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
@@ -414,14 +414,14 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
             value = 1;
             continue;
         }
-        sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
+        sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound);
     }
     if (value == 0) {
         return;
     }
     value = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
-         sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
+         sound = IntrusiveListWrapper_NextItem(&source->mPlayingSounds, sound)) {
         soundFlags = sound->mFlags;
         if (soundFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             value = SOUND_SOURCE_LIST_EVERY_CALL;
@@ -437,7 +437,7 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         if (value != SOUND_SOURCE_LIST_NONE) {
-            TryAppendListObject(&gSoundSourceUpdateLists[value], source);
+            StructMQRacerEntry_MaybeInsertChildEntry(&gSoundSourceUpdateLists[value], source);
             source->mUpdateListIndex = value;
         }
     }

@@ -8,6 +8,6 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
-u32 MenuGetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+u32 GetPMaybeState_1(void) {
+    return (g_GlobalP->mConnectionKind);
 }

@@ -113,14 +113,14 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
         if (!(kart->mEntryFlags & KART_ENTRY_WIFI_PEER) && !(kart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT)) {
             kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_RESPAWN_WAIT;
             kartIndex = kart->mIndex;
-            if (gRaceSetup->mMode == MODE_BATTLE) {
-                respawnSlot = GetCourseMapRespawnSlot(0);
+            if (g_GlobalCO->mMode == MODE_BATTLE) {
+                respawnSlot = GetCourseCpoiRespawnId(0);
             } else {
-                respawnSlot = GetCourseMapRespawnSlot(gRaceProgress->mKarts[kartIndex].mCheckpoint);
+                respawnSlot = GetCourseCpoiRespawnId(g_GlobalMV->mKarts[kartIndex].mCheckpoint);
             }
             kart->mRespawnSlot = respawnSlot;
             if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-                if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (gRaceSoundKind & 1)) {
+                if (g_GlobalCO->mCourseId == COURSE_ID_RAINBOW && (gRaceSoundKind & 1)) {
                     soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
                     if (gSoundModeHolder.mSeqStartEnabled != 0) {
                         if (*(u32 *) soundHandleEntry != 0) {
@@ -129,7 +129,7 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
                         if (*(u32 *) soundHandleEntry != 0) {
                             NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                         }
-                        NNS_SndArcPlayerStartSeqArc(soundHandleEntry, 0, 0x1b7);
+                        PlaySseqFromSarc(soundHandleEntry, 0, 0x1b7);
                     }
                 }
             }
@@ -145,7 +145,7 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
 }
 
 void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
-    s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, direction);
+    s32 dot = VecFx32_CrossProduct_0(&kart->mGroundNormal, direction);
     s32 maxFactor;
 
     if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
@@ -199,13 +199,13 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     kart->mVelocityScaleFactor = TO_FIXED12(1);
     if (kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
-        ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
+        StructMQRacerEntry_SomeFn_88(kart, &kart->mAirTiltQuaternion);
     } else {
         AdvanceKartQuaternionFromVector(kart, direction);
     }
     QuaternionBlend(&kart->mTiltQuaternion, &kart->mAirTiltQuaternion, &kart->mTiltQuaternion,
                     kart->mQuaternionBlendFactor);
-    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset),
+    QuaternionFromAxisAngle(&g_UnitY_VecFx32, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset),
                             &kart->mHeadingQuaternion);
     QuaternionMultiply(&kart->mTiltQuaternion, &kart->mHeadingQuaternion, &kart->mCombinedQuaternion);
     if (kart->mMotionFlags & KART_MOTION_HOPPING) {
@@ -217,7 +217,7 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
         } else {
             kart->mHopTiltAngle = 0;
         }
-        QuaternionFromAxisAngle(&gKartVec3UnitX, -kart->mHopTiltAngle, &tiltQuaternion);
+        QuaternionFromAxisAngle(&g_UnitX_VecFx32, -kart->mHopTiltAngle, &tiltQuaternion);
         QuaternionMultiply(&kart->mCombinedQuaternion, &tiltQuaternion, &kart->mCombinedQuaternion);
     } else {
         kart->mHopTiltAngle = 0;
@@ -288,10 +288,10 @@ void AdvanceKartBoosts(Kart *kart) {
     if (!(kart->mEffectFlags & KART_EFFECT_RESPAWN_BOOST_WINDOW)) {
         return;
     }
-    raceUpdateFrames = GetRaceUpdateFrames();
+    raceUpdateFrames = GetSomeTimeOrDuration();
     if (kart->mRespawnPressRaceFrame == 0) {
         entryIndex = kart->mEntryIndex;
-        if ((u16) (gInputSlots[entryIndex].mPressedBits & PAD_KEY_A) != 0) {
+        if ((u16) (g_GlobalCYT[entryIndex].mPressedBits & PAD_KEY_A) != 0) {
             kart->mRespawnPressRaceFrame = raceUpdateFrames;
         }
     }
@@ -306,7 +306,7 @@ void AdvanceKartBoosts(Kart *kart) {
         frameDifference = -frameDifference;
     }
     if (frameDifference <= 2) {
-        StartKartBoost(kart, KART_BOOST_RESPAWN, 10);
+        StructMQRacerEntry_SomeFn_74(kart, KART_BOOST_RESPAWN, 10);
     }
     kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_RESPAWN_BOOST_WINDOW;
 }
@@ -315,7 +315,7 @@ void AdvanceKartBoosts(Kart *kart) {
 // link position; also requests surface sound entry 0 while the race runs.
 void StopKartStillHold(Kart *kart) {
     if (!(kart->mEffectFlags & KART_EFFECT_GROUND_SOUND_STEP)) {
-        if (IsRaceStarted() == 1) {
+        if (IsAwardOrStaffRoll() == 1) {
             AddKartSurfaceSoundRequest(kart, 0);
         }
     }

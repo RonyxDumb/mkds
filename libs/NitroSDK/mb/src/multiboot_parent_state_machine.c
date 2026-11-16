@@ -14,10 +14,10 @@ u8 prev_fid = 0xff;
 #pragma thumb on
 
 void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback) {
-    u32 enabled = (OS_DisableInterrupts());
+    u32 enabled = (Os_DisableIrq());
     u32 previousState;
     mbc->mCallback = parentStateCallback;
-    previousState = (OS_RestoreInterrupts(enabled));
+    previousState = (Os_RestoreIrq(enabled));
 }
 
 #pragma thumb off
@@ -26,13 +26,13 @@ void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback) {
 
 void *MB_CommGetChildUser(u32 child) {
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (mbc != NULL && IsChildAidValid(child) != 0) {
-        MI_CpuCopy8(&mbc->mChildUser[child - 1], mbc->mChildUserBuf, sizeof(MBUserInfo));
-        OS_RestoreInterrupts(savedInterrupts);
+        Mem_CpuCopy8(&mbc->mChildUser[child - 1], mbc->mChildUserBuf, sizeof(MBUserInfo));
+        Os_RestoreIrq(savedInterrupts);
         return mbc->mChildUserBuf;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return NULL;
 }
 
@@ -47,7 +47,7 @@ u32 MB_CommResponseRequest(u32 child, u32 pairIndex) {
     u32 savedInterrupts;
     u32 newValue;
     u32 expectedValue;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     switch (pairIndex) {
         case MULTIBOOT_RESPONSE_REFUSE:
             expectedValue = MULTIBOOT_PARENT_CHILD_REQUESTED;
@@ -66,15 +66,15 @@ u32 MB_CommResponseRequest(u32 child, u32 pairIndex) {
             newValue = MULTIBOOT_CHILD_REQUEST_BOOT;
             break;
         default:
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 0;
     }
     if (mbc != NULL && IsChildAidValid(child) != 0 && expectedValue == mbc->mPCommState[child - 1]) {
         mbc->mReq2child[child - 1] = newValue;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 1;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
@@ -117,8 +117,8 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
             aid = eventData->mLength;
             if (aid != 0 && aid < 16) {
                 mbc->mChildversion[eventData->mLength - 1] = 0;
-                MI_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
-                MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, sizeof(MBUserInfo));
+                Mem_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
+                Mem_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, sizeof(MBUserInfo));
                 MBi_ClearParentPieceBuffer(eventData->mLength);
                 value = 0;
                 mbc->mReq2child[eventData->mLength - 1] = value;
@@ -246,12 +246,12 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 if (payload == NULL) {
                     return;
                 }
-                MI_CpuCopy8(payload, &payloadCopy, 0x1d);
+                Mem_CpuCopy8(payload, &payloadCopy, 0x1d);
                 index = child - 1;
                 mbc->mChildggid[arrayIndex] = payloadCopy.mGgid;
                 mbc->mChildversion[index] = payloadCopy.mVersion;
                 index *= sizeof(MBUserInfo);
-                MI_CpuCopy8(payloadCopy.mUserInfo, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), sizeof(MBUserInfo));
+                Mem_CpuCopy8(payloadCopy.mUserInfo, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), sizeof(MBUserInfo));
                 OFFSET_PTR(MBUserInfo, mbc->mChildUser, index)->mPlayerNo = child;
                 MBi_CommChangeParentState(child, MULTIBOOT_PARENT_CHILD_REQUESTED, payloadCopy.mUserInfo);
             }
@@ -385,7 +385,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     u8 *sendBlock;
     childMask = 0;
     candidateFile = -1;
-    MI_CpuFill8(requestCounts, 0, 16);
+    Mem_CpuFill8(requestCounts, 0, 16);
     aid = 1;
     work = mbc;
     for (; aid <= 15; aid++) {
@@ -417,7 +417,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     message.mFid = candidateFile;
     sendBlock = MBi_MakeParentSendBuffer(&message, (u8 *) work);
     if (sendBlock != NULL) {
-        MI_CpuCopy8(mbc->mFileInfo + candidateFile * 0x5d4, sendBlock, 0xe4);
+        Mem_CpuCopy8(mbc->mFileInfo + candidateFile * 0x5d4, sendBlock, 0xe4);
     }
     return MBi_BlockHeaderEnd(0xea, childMask, (u32) mbc);
 }
@@ -429,17 +429,17 @@ void MBi_ReloadCache(DataRangeLoadJob *job) {
     u32 offset;
     range = job->mDataRange;
     table = job->mDataRangeTable;
-    FS_InitFile(&file);
+    Fs_File_Initialize(&file);
     offset = range->mSrc;
-    if (FS_OpenFileDirect(&file, FS_FindArchive(table->mArcName, table->mArcNameLen), offset, offset + range->mLen,
+    if (Fs_File_OpenRaw(&file, Fs_FindArchiveByMountName(table->mArcName, table->mArcNameLen), offset, offset + range->mLen,
                           -1) != 0) {
-        if (range->mLen == FS_ReadFile(&file, range->mPtr, range->mLen)) {
+        if (range->mLen == Fs_File_Read(&file, range->mPtr, range->mLen)) {
             range->mState = MULTIBOOT_CACHE_LOADED;
         }
-        FS_CloseFile(&file);
+        Fs_File_Close(&file);
     }
     if (range->mState != MULTIBOOT_CACHE_LOADED) {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
@@ -514,14 +514,14 @@ u32 MBi_CommParentSendBlock(void) {
                     }
                 }
                 if (lowestRange == NULL) {
-                    OS_Terminate();
+                    Os_Terminate();
                 }
                 rangeTable->mLifetime = 0;
                 lowestRange->mState = MULTIBOOT_CACHE_LOADING;
                 lowestRange->mSrc = readOffset & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
-                MBi_SetTask(&loadJob->mTask, (void *) MBi_ReloadCache, NULL, 4);
+                StructANN_SomeFn_from_thumb(&loadJob->mTask, (void *) MBi_ReloadCache, NULL, 4);
             }
         }
         return 21;
@@ -537,7 +537,7 @@ int MBi_CommParentSendData(void) {
     int result;
     MB_CommPWork *work;
     childMasks[0] = 0;
-    MIi_CpuClear16(childMasks[0], &childMasks[1], 10);
+    Mem_CpuFill16(childMasks[0], &childMasks[1], 10);
     childNo = 1;
     work = mbc;
     for (; childNo <= 15; childNo++) {

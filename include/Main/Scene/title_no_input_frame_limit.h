@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-unsigned int GetDemoRaceFrameLimit(void);
+unsigned int GetSomeFrameCount_2500(void);
 unsigned int GetTitleNoInputFrameLimit(void);

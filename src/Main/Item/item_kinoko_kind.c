@@ -116,10 +116,10 @@ const ItemKind gItemKindKinoko = {0x138,
 // Item hook of the mushroom: starts the kart boost, uses up one held object, marks the use,
 // and makes the event call when the mode is 5.
 void StartItemKinokoBoost(ItemInUse *itemInUse, HeldItem *heldItem) {
-    StartKartKinokoBoost(heldItem->mKartItems->mKart);
+    StructMQRacerEntry_SomeFn_57(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
     itemInUse->mKartItems->mKinokoBoostStarted = TRUE;
-    if (gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_WIFI) {
         return;
     }
     AddItemDataFrameOnly(3);
@@ -194,7 +194,7 @@ void ShowItemKinokoAt(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
         return;
     }
     kinoko->mBouncingItemObject.mItemObject.mPos = *pos;
-    VEC_Subtract(&kinoko->mBouncingItemObject.mItemObject.mPos, &kinoko->mBouncingItemObject.mItemObject.mPrevPos,
+    VecFx32_Subtract(&kinoko->mBouncingItemObject.mItemObject.mPos, &kinoko->mBouncingItemObject.mItemObject.mPrevPos,
                  &kinoko->mBouncingItemObject.mItemObject.mVelocity);
 }
 

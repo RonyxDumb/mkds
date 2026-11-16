@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void MenuMI_CpuClearFast(void *dest, u32 size);
-void MenuMI_CpuFillFast(void *dest, u32 value, u32 size);
+void SpecialMemoryZero_0(void *dest, u32 size);
+void SpecialMemoryMemsetV2(void *dest, u32 value, u32 size);

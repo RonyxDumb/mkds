@@ -2,11 +2,11 @@
 #include "linked_list_init.h"
 
 // Adds object at the end of list; an empty list gets it as its only object.
-void NNS_FndAppendListObject(NNSFndList *list, void *object) {
+void IntrusiveListWrapper_InsertLast(NNSFndList *list, void *object) {
     NNSFndLink *links;
 
     if (list->mHead == 0) {
-        SetFirstObject(list, object);
+        IntrusiveListWrapper_InsertFirstItem(list, object);
         return;
     }
     links = OFFSET_PTR(NNSFndLink, object, list->mLinkOffset);
@@ -18,11 +18,11 @@ void NNS_FndAppendListObject(NNSFndList *list, void *object) {
 }
 
 // Adds object at the start of list; an empty list gets it as its only object.
-void NNS_FndPrependListObject(NNSFndList *list, void *object) {
+void IntrusiveListWrapper_InsertFirst(NNSFndList *list, void *object) {
     NNSFndLink *links;
 
     if (list->mHead == 0) {
-        SetFirstObject(list, object);
+        IntrusiveListWrapper_InsertFirstItem(list, object);
         return;
     }
     links = OFFSET_PTR(NNSFndLink, object, list->mLinkOffset);
@@ -34,17 +34,17 @@ void NNS_FndPrependListObject(NNSFndList *list, void *object) {
 }
 
 // Puts object in front of target; a NULL target appends it at the end.
-void NNS_FndInsertListObject(NNSFndList *list, void *target, void *object) {
+void IntrusiveListWrapper_SomeFn_0(NNSFndList *list, void *target, void *object) {
     u32 linkOffset;
     NNSFndLink *links;
     void *prevElement;
 
     if (target == 0) {
-        NNS_FndAppendListObject(list, object);
+        IntrusiveListWrapper_InsertLast(list, object);
         return;
     }
     if (target == list->mHead) {
-        NNS_FndPrependListObject(list, object);
+        IntrusiveListWrapper_InsertFirst(list, object);
         return;
     }
     linkOffset = list->mLinkOffset;
@@ -58,7 +58,7 @@ void NNS_FndInsertListObject(NNSFndList *list, void *target, void *object) {
 }
 
 // Unlinks object from list and clears its links.
-void NNS_FndRemoveListObject(NNSFndList *list, void *object) {
+void IntrusiveListWrapper_RemoveItem(NNSFndList *list, void *object) {
     NNSFndLink *links;
     void *neighbor;
 
@@ -81,7 +81,7 @@ void NNS_FndRemoveListObject(NNSFndList *list, void *object) {
 }
 
 // Returns the element after object, or the first element when object is NULL.
-void *NNS_FndGetNextListObject(NNSFndList *list, void *object) {
+void *IntrusiveListWrapper_NextItem(NNSFndList *list, void *object) {
     if (object == 0) {
         return list->mHead;
     }
@@ -89,7 +89,7 @@ void *NNS_FndGetNextListObject(NNSFndList *list, void *object) {
 }
 
 // Returns the element before object, or the last element when object is NULL.
-void *NNS_FndGetPrevListObject(NNSFndList *list, void *object) {
+void *IntrusiveListWrapper_GetPrevItem(NNSFndList *list, void *object) {
     if (object == 0) {
         return list->mTail;
     }
@@ -97,22 +97,22 @@ void *NNS_FndGetPrevListObject(NNSFndList *list, void *object) {
 }
 
 // Returns the element at position index counted from the start of list, or NULL.
-void *NNS_FndGetNthListObject(NNSFndList *list, u16 index) {
+void *IntrusiveListWrapper_GetAtIndex(NNSFndList *list, u16 index) {
     s32 seen;
     void *element;
 
     seen = 0;
-    element = NNS_FndGetNextListObject(list, 0);
+    element = IntrusiveListWrapper_NextItem(list, 0);
     while (element != 0) {
         if (seen == index) {
             return element;
         }
         seen++;
-        element = NNS_FndGetNextListObject(list, element);
+        element = IntrusiveListWrapper_NextItem(list, element);
     }
     return 0;
 }
 
-s32 NNS_GfdGetLnkPlttVramManagerWorkSize(s32 blockCount) {
+s32 ComputeSomeAllocSize_1(s32 blockCount) {
     return blockCount << 4;
 }

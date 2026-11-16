@@ -59,13 +59,13 @@ void LoadSelectGhostAndKartIconData(void) {
     Nclr *selectGhostSBNclr = NULL;
     Nscr *selectGhostSNscr = NULL;
 
-    LoadNcgrData(&selectGhostSBNcgr, FindSceneFile(gSelectGhostSBNcgrName));
-    LoadNscrData(&selectGhostSNscr, FindSceneFile(gSelectGhostSNscrName));
-    LoadNclrData(&selectGhostSBNclr, FindSceneFile(gSelectGhostSBNclrName));
-    LoadNcgrData2(&selectGhostSONcgr, FindSceneFile(gSelectGhostSONcgrName));
-    LoadNcerData(&selectGhostSONcer, FindSceneFile(gSelectGhostSONcerName));
-    LoadNclrData(&selectGhostSONclr, FindSceneFile(gSelectGhostSONclrName));
-    LoadCommonKartIconData();
+    Gfx_ReadCharGraphicsV2(&selectGhostSBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBNcgrName));
+    MaybeReadScreenBlock_0(&selectGhostSNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSNscrName));
+    Gfx_ReadPalette(&selectGhostSBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBNclrName));
+    Gfx_ReadCharGraphics(&selectGhostSONcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSONcgrName));
+    LoadCellBankFrom(&selectGhostSONcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSONcerName));
+    Gfx_ReadPalette(&selectGhostSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSONclrName));
+    VerifyKartIconFiles_from_thumb();
 }
 
 void LocateAndQueueSelectGhost(void) {
@@ -78,29 +78,29 @@ void LocateAndQueueSelectGhost(void) {
     selectGhostSBNcgr = NULL;
     selectGhostSBNclr = NULL;
     selectGhostSNscr = NULL;
-    LocateNcgr(&selectGhostSBNcgr, FindSceneFile(gSelectGhostSBNcgrName));
-    LocateNscr(&selectGhostSNscr, FindSceneFile(gSelectGhostSNscrName));
-    LocateNclr(&selectGhostSBNclr, FindSceneFile(gSelectGhostSBNclrName));
-    gSelectGhost->mSecondScreenMapBuffer = HeapAlloc(gSelectGhost->mHeap, SECOND_SCREEN_MAP_BYTES);
-    gSelectGhost->mSelectCupCourseTaMBncl = FindSceneFile(gSelectCupCourseTaMBnclName);
-    gSelectGhost->mSelectCupCourseTaMBnll = FindSceneFile(gSelectCupCourseTaMBnllName);
-    LocateNcer(&gSelectGhost->mSelectCupCourseMNcer, FindSceneFile(gSelectCupCourseMNcerName));
-    gSelectGhost->mSelectGhostSBncl = FindSceneFile(gSelectGhostSBnclName);
-    gSelectGhost->mSelectGhostSBnbl = FindSceneFile(gSelectGhostSBnblName);
-    gSelectGhost->mSelectGhostSBnll = FindSceneFile(gSelectGhostSBnllName);
-    LocateNcgr2(&selectGhostSONcgr, FindSceneFile(gSelectGhostSONcgrName));
-    LocateNcer(&gSelectGhost->mSelectGhostSONcer, FindSceneFile(gSelectGhostSONcerName));
-    LocateNclr(&gSelectGhost->mSelectGhostSONclr, FindSceneFile(gSelectGhostSONclrName));
-    gSelectGhost->mPlayerCharacterMNcgr = GetPlayerCharacterNcgr(0);
-    gSelectGhost->mPlayerCharacterMNcer = GetPlayerCharacterNcer(0);
-    gSelectGhost->mPlayerCharacterMONclr = GetPlayerCharacterNclr(0);
-    gSelectGhost->mPlayerCharacterMBncl = GetPlayerCharacterBncl(0);
-    NNS_GfdRegisterNewVramTransferTask(0x17, 0, selectGhostSBNcgr->mData, selectGhostSBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, selectGhostSBNclr->mData, 0x20);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, selectGhostSNscr->mData, selectGhostSNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectGhostSONcgr->mData, selectGhostSONcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData,
+    MaybeReadCharBlock_1(&selectGhostSBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBNcgrName));
+    MaybeReadScreenBlock(&selectGhostSNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSNscrName));
+    Gfx_ReadPaletteRelative(&selectGhostSBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBNclrName));
+    gSelectGhost->mSecondScreenMapBuffer = Mem_AllocateHeap(gSelectGhost->mHeap, SECOND_SCREEN_MAP_BYTES);
+    gSelectGhost->mSelectCupCourseTaMBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupCourseTaMBnclName);
+    gSelectGhost->mSelectCupCourseTaMBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupCourseTaMBnllName);
+    LocateNcer(&gSelectGhost->mSelectCupCourseMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectCupCourseMNcerName));
+    gSelectGhost->mSelectGhostSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBnclName);
+    gSelectGhost->mSelectGhostSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBnblName);
+    gSelectGhost->mSelectGhostSBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSBnllName);
+    Gfx_ReadCharGraphicsRelative(&selectGhostSONcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSONcgrName));
+    LocateNcer(&gSelectGhost->mSelectGhostSONcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSONcerName));
+    Gfx_ReadPaletteRelative(&gSelectGhost->mSelectGhostSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gSelectGhostSONclrName));
+    gSelectGhost->mPlayerCharacterMNcgr = GetPlayerCharacterNceNcgr_from_thumb(0);
+    gSelectGhost->mPlayerCharacterMNcer = GetPlayerCharacterNceNcer_from_thumb(0);
+    gSelectGhost->mPlayerCharacterMONclr = GetPlayerCharacterPalette_from_thumb(0);
+    gSelectGhost->mPlayerCharacterMBncl = GetPlayerCharacterBNCL_from_thumb(0);
+    AllocateReserveTEQSub(0x17, 0, selectGhostSBNcgr->mData, selectGhostSBNcgr->mDataSize);
+    AllocateReserveTEQSub(0x1f, 0, selectGhostSBNclr->mData, 0x20);
+    AllocateReserveTEQSub(0x1b, 0, selectGhostSNscr->mData, selectGhostSNscr->mDataSize);
+    AllocateReserveTEQSub(0x1b, 0x800, gSelectGhost->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
+    AllocateReserveTEQSub(0x23, 0, selectGhostSONcgr->mData, selectGhostSONcgr->mDataSize);
+    AllocateReserveTEQSub(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData,
                                        gSelectGhost->mSelectGhostSONclr->mDataSize);
 }
 
@@ -144,13 +144,13 @@ void RequestSelectGhostPress(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_PRESS;
     gSelectGhost->mStateFrames = 0;
     StopPaletteBlend();
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
 }
 
 void RequestSelectGhostChoisesOpen(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_OPEN;
     gSelectGhost->mStateFrames = 0;
-    StartSelectChoises(GetBmgEntry(gSelectGhost->mCommonMessages, 4), GetBmgEntry(gSelectGhost->mCommonMessages, 2), 0);
+    StartSelectChoises(Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mCommonMessages, 4), Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mCommonMessages, 2), 0);
 }
 
 // Requests state 5.
@@ -217,7 +217,7 @@ void RefreshSelectGhostForIndex(void) {
     subLayoutCount = subLayout->mCount;
     PrintLabelLayoutTextNoFixedAdvance(
         1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
-        GetBmgEntry(selectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[selectGhost->mIndex]), subLayout,
+        Bmg_GetRawStringPointer_from_thumb(selectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[selectGhost->mIndex]), subLayout,
         selectGhost->mSelectGhostSTable);
     if (gSelectGhost->mIndex == 0) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[2]].mVisible = 0;
@@ -246,7 +246,7 @@ void RefreshSelectGhostForIndex(void) {
                    gSelectGhost->mPlayerCharacterMBncl, 1, characterCellIndex, gSelectGhost->mSelectGhostSONcer,
                    gSelectGhost->mSelectGhostSBncl);
     paletteData = gSelectGhost->mPlayerCharacterMONclr->mData;
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0x100,
+    AllocateReserveTEQSub(0x1e, 0x100,
                                        (u8 *) paletteData +
                                            (GetCellPaletteIndex(characterCell, gSelectGhost->mPlayerCharacterMNcer,
                                                                 gSelectGhost->mPlayerCharacterMBncl)
@@ -276,7 +276,7 @@ void IncrementSelectGhostIndex(void) {
     }
     gSelectGhost->mOffsetTimers[1] = SELECT_GHOST_OFFSET_TIMER_FRAMES;
     if (ok != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
     }
 }
@@ -293,7 +293,7 @@ void DecrementSelectGhostIndex(void) {
     }
     gSelectGhost->mOffsetTimers[0] = SELECT_GHOST_OFFSET_TIMER_FRAMES;
     if (ok != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
     }
 }
@@ -318,16 +318,16 @@ void SetupSelectGhostCupCells(void) {
     gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 3].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 4].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 5].mVisible = 1;
-    QueueSelectCupNameM(gSelectGhostCupIndices[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
+    QueueSelectCupNameM(gSelectGhostCupIndices[GetSelectedCup_from_thumb()], gSelectGhost->mSelectCupCourseMNcer,
                         gSelectGhost->mSelectCupCourseTaMBncl, 0, 0);
-    QueueCupMark(gSelectGhostCupIndices[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
+    QueueCupMark(gSelectGhostCupIndices[GetSelectedCup_from_thumb()], gSelectGhost->mSelectCupCourseMNcer,
                  gSelectGhost->mSelectCupCourseTaMBncl, 5,
                  GetCellPaletteIndex(5, gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl), 0);
     PrintLabelLayoutTextNoFixedAdvance(0, 2, gSelectGhost->mSelectCupCourseTaMBnll,
-                                       GetBmgEntry(gSelectGhost->mCommonMessages, 0x73),
+                                       Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mCommonMessages, 0x73),
                                        gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
     PrintLabelLayoutTextNoFixedAdvance(0, 4, gSelectGhost->mSelectCupCourseTaMBnll,
-                                       GetBmgEntry(gSelectGhost->mCommonMessages, 0x74),
+                                       Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mCommonMessages, 0x74),
                                        gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
     SetLabelOamModeXlu(0, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
                        gSelectGhost->mSelectCupCourseTaMBncl);
@@ -348,8 +348,8 @@ void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectGhost = HeapAlloc(heap, sizeof(SelectGhost));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectGhost = Mem_AllocateHeap(heap, sizeof(SelectGhost));
     gSelectGhost->mHeap = heap;
     gSelectGhost->mState = SELECT_GHOST_STATE_SLIDE_IN;
     gSelectGhost->mIndex = 0;
@@ -362,8 +362,8 @@ void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
                     &gSelectGhost->mSelectCupCourseTaMTable);
     InitLayoutTable(gSelectGhost->mHeap, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSBnll,
                     &gSelectGhost->mSelectGhostSTable);
-    gSelectGhost->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gSelectGhost->mMenuMessages = FindSceneFile("menu.bmg");
+    gSelectGhost->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    gSelectGhost->mMenuMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("menu.bmg");
     rem = 0x8000;
     rem -= InitLabelCanvas(gSelectGhost->mHeap, 0, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 0,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
@@ -394,16 +394,16 @@ void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
                     gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable,
                     rem);
     PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[0], gSelectGhost->mSelectGhostSBnll,
-                                       GetBmgEntry(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
+                                       Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
                                        gSelectGhost->mSelectGhostSTable);
     PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[3], gSelectGhost->mSelectGhostSBnll,
-                                       GetBmgEntry(gSelectGhost->mMenuMessages, 9), gSelectGhost->mSelectGhostSBncl,
+                                       Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mMenuMessages, 9), gSelectGhost->mSelectGhostSBncl,
                                        gSelectGhost->mSelectGhostSTable);
     PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
-                                       GetBmgEntry(gSelectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[0]),
+                                       Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[0]),
                                        gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
     PrintLabelLayoutTextNoFixedAdvance(1, 5, gSelectGhost->mSelectGhostSBnll,
-                                       GetBmgEntry(gSelectGhost->mCommonMessages, 4), gSelectGhost->mSelectGhostSBncl,
+                                       Bmg_GetRawStringPointer_from_thumb(gSelectGhost->mCommonMessages, 4), gSelectGhost->mSelectGhostSBncl,
                                        gSelectGhost->mSelectGhostSTable);
     CreateSelectCupNameM(gSelectGhost->mHeap);
     CreateCommonCupMark(gSelectGhost->mHeap);
@@ -429,7 +429,7 @@ void ReleaseSelectGhost(void) {
     ClearSelectCupNameMPointer();
     ClearCupMarkPointer();
     ClearKartIconPointer();
-    HeapDestroy(gSelectGhost->mHeap);
+    Mem_DestroyHeap(gSelectGhost->mHeap);
     gSelectGhost = NULL;
 }
 
@@ -441,7 +441,7 @@ void AdvanceSelectGhostSlideIn(void) {
     AdvanceSelectGhostOffsetTimers();
     subLayoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
     gSelectGhost->mStateFrames++;
-    offsetY = InterpolateS16(1, ~0xbf, 0, gSelectGhost->mStateFrames, SELECT_GHOST_SLIDE_FRAMES);
+    offsetY = ComputeValueInterpolation_from_thumb(1, ~0xbf, 0, gSelectGhost->mStateFrames, SELECT_GHOST_SLIDE_FRAMES);
     gSelectGhost->mBg3Offset = offsetY;
     for (index = 0; index < 6; index++) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[index]].mOffsetY = offsetY;
@@ -487,32 +487,32 @@ void AdvanceSelectGhostInput(void) {
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     touchBegan = FALSE;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchBeganRect = RectTableFindContaining(gSelectGhost->mSelectGhostSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                                 gInputSlots[slotIndex].mPair.mPairY);
+        touchBeganRect = RectTableFindContaining(gSelectGhost->mSelectGhostSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                 g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         touchBeganAgain = FALSE;
         recentlyLostAgain = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLostAgain = TRUE;
         }
-        if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (recentlyLostAgain == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -538,7 +538,7 @@ next:
         IncrementSelectGhostIndex();
         return;
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectGhostPress();
         return;
     }
@@ -604,7 +604,7 @@ void AdvanceSelectGhostSlideOut(void) {
 
     isChosen = gSelectGhost->mResult == SELECT_GHOST_RESULT_CHOSEN;
     gSelectGhost->mStateFrames++;
-    offsetY = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, SELECT_GHOST_SLIDE_FRAMES);
+    offsetY = ComputeValueInterpolation_from_thumb(1, 0, ~0xbf, gSelectGhost->mStateFrames, SELECT_GHOST_SLIDE_FRAMES);
     if (isChosen) {
         layoutCount = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
         gSelectGhost->mBg0Offset = offsetY;

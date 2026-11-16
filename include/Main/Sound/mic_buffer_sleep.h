@@ -5,11 +5,11 @@
 
 typedef struct MicBuffer MicBuffer;
 
-void PostSleepMicBuffer(MicBuffer *micBuffer);
-void PreSleepMicBuffer(MicBuffer *micBuffer);
+void Struct59C4Sub_SomeFn_3(MicBuffer *micBuffer);
+void Struct59C4Sub_SomeFn_2(MicBuffer *micBuffer);
 
 // MicBuffer.mSkipFrames: 0 analyses the samples; a sleep hook starts a count at one of the first two values, which
-// UpdateMicBufferInput raises by one per call while it is below the last, then returns to 0.
+// Struct59C4Sub_SomeFn_1 raises by one per call while it is below the last, then returns to 0.
 #define MICROPHONE_BUFFER_SKIP_FROM_PRE_SLEEP 1
 #define MICROPHONE_BUFFER_SKIP_FROM_POST_SLEEP 2
 #define MICROPHONE_BUFFER_SKIP_LAST 0x1e
@@ -21,4 +21,4 @@ typedef struct MicBuffer {
     /* 41c */ s32 mSkipFrames;
 } MicBuffer;
 
-u32 UpdateMicBufferInput(MicBuffer *micBuffer);
+u32 Struct59C4Sub_SomeFn_1(MicBuffer *micBuffer);

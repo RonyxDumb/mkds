@@ -54,20 +54,20 @@ extern LoadedSoundSet gLoadedSoundSet;
 void ReleaseLoadedSoundSet(void);
 u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs);
 u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras);
-void LoadInitialSndArcs(void);
+void LoadCertainSwarSbnkSarc(void);
 void LoadInitialSndGroup(u32 moveWaveArcs);
 void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras);
 u32 LoadSndDataFromFile(void);
 u32 LoadCourseSoundSet(u32 raceMode, u32 courseId);
 u32 LoadResultSceneSoundSet(void);
-u32 LoadSndGroup(s32 groupId);
+u32 LoadGroupById(s32 groupId);
 void ResetLoadedSoundSet(LoadedSoundSet *loadedSet);
 void SaveSndHeapState(LoadedSoundSet *loadedSet);
 void ReleaseSoundSet(LoadedSoundSet *loadedSet);
 u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet);
 u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet);
 
-extern struct NNSSndHeap *gCurrentSndHeap;
+extern struct NNSSndHeap *g_SoundContext;
 extern SndFileIdList gSndDataFileIdList;
 // Same layout as the list above and goes through the same functions.
 extern SndFileIdList gSoundSetFileIdList;

@@ -29,7 +29,7 @@ void ApScanCallback(WirelessMessage *message) {
                 StartApScan();
                 break;
             default:
-                OS_Terminate();
+                Os_Terminate();
                 break;
         }
     }
@@ -39,7 +39,7 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
     ApScanEntry *entries = gApScan->mEntries;
     s32 descIndex;
     s32 entryIndex;
-    DC_InvalidateRange(gApScan->mScanBuf, 0x400);
+    DC_InvalidateRangeNoClean(gApScan->mScanBuf, 0x400);
     for (descIndex = 0; descIndex < scanResult->mBssDescCount; descIndex++) {
         WMBssDesc *bssDesc = scanResult->mBssDesc[descIndex];
         if (bssDesc->mSsid[0] != 0 && bssDesc->mGameInfoLength == 0) {
@@ -48,7 +48,7 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
             entryIndex = 0;
             cursor = entries;
             for (; entryIndex < 0x14; entryIndex++) {
-                if (memcmp(bssDesc->mBssid, cursor->mBssid, 6) == 0) {
+                if (StructDC_SomeFn_6(bssDesc->mBssid, cursor->mBssid, 6) == 0) {
                     break;
                 }
                 cursor++;
@@ -57,7 +57,7 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
                 entryIndex = 0;
                 cursor = entries;
                 for (; entryIndex < 0x14; entryIndex++) {
-                    if (memcmp(cursor->mBssid, gApScanEmptyBssid, 6) == 0) {
+                    if (StructDC_SomeFn_6(cursor->mBssid, gApScanEmptyBssid, 6) == 0) {
                         break;
                     }
                     cursor++;
@@ -67,8 +67,8 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
                 }
             }
             slot = &entries[entryIndex];
-            MI_CpuCopy8(bssDesc->mBssid, slot->mBssid, 6);
-            MI_CpuCopy8(bssDesc->mSsid, slot, sizeof(bssDesc->mSsid));
+            Mem_CpuCopy8(bssDesc->mBssid, slot->mBssid, 6);
+            Mem_CpuCopy8(bssDesc->mSsid, slot, sizeof(bssDesc->mSsid));
             slot->mLinkLevel = scanResult->mLinkLevel[descIndex];
             if ((bssDesc->mCapaInfo & AP_SCAN_CAPA_INFO_ENCRYPTED) == 0) {
                 slot->mCapaLevel = AP_CAPA_LEVEL_OPEN;
@@ -87,7 +87,7 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
                     }
                     if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_VENDOR &&
                         otherElements.mElement[elementIndex].mLength >= sizeof(gOtherElementPrefix) &&
-                        memcmp(otherElements.mElement[elementIndex].mBody, gOtherElementPrefix, 4) == 0) {
+                        StructDC_SomeFn_6(otherElements.mElement[elementIndex].mBody, gOtherElementPrefix, 4) == 0) {
                         slot->mCapaLevel = AP_CAPA_LEVEL_SECURITY_ELEMENT;
                         break;
                     }

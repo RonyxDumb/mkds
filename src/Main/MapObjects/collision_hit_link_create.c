@@ -9,6 +9,6 @@ const Vec3 gCylinderInnerZeroDistanceNormal = {0x1000, 0, 0};
 const Vec3 gCylinderOuterZeroDistanceNormal = {0x1000, 0, 0};
 
 void CreateCollisionHitLink(CollisionHitLink **slotPointer) {
-    *slotPointer = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(**slotPointer));
+    *slotPointer = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(**slotPointer));
     (*slotPointer)->mObject = NULL;
 }

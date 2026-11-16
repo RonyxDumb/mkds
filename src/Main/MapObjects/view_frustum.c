@@ -270,23 +270,23 @@ s32 GetHorizontalCameraDistanceSquared(Vec3 *position) {
     return deltaX * deltaX + deltaZ * deltaZ;
 }
 
-void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags) {
+void StructMQRacerEntry_SomeFn_91(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags) {
     s32 cameraHeightAboveItem;
 
     if (distanceAndFlags & 4) {
         if (itemObject->mSoundSource.mSourceFlags & 1) {
-            SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
+            StructMQRacerEntry_SomeFn_47(&itemObject->mSoundSource, 2, 1);
         }
         return;
     }
     cameraHeightAboveItem = gViewFrustum.mCameraPos.y - position->y;
     if (cameraHeightAboveItem > -0x12c000 && cameraHeightAboveItem < gItemSoundCameraHeightLimit) {
         if (!(itemObject->mSoundSource.mSourceFlags & 1)) {
-            SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
+            StructMQRacerEntry_SomeFn_47(&itemObject->mSoundSource, 2, 1);
         }
     } else {
         if (itemObject->mSoundSource.mSourceFlags & 1) {
-            SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
+            StructMQRacerEntry_SomeFn_47(&itemObject->mSoundSource, 2, 1);
         }
     }
 }
@@ -373,7 +373,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
 void InitMapObjectViewState(void) {
     gViewFrustum.mViewTestRefreshRequested = TRUE;
     gViewFrustum.mViewTestRefreshPending = FALSE;
-    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_REPLAY) {
         gItemSoundCameraHeightLimit = 0x258000;
         return;
     }
@@ -396,10 +396,10 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
             ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.x * gViewFrustumBeforeRotation.mLeftPlaneNormal.x +
              (s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.y * gViewFrustumBeforeRotation.mLeftPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mLeftPlaneNormal,
+        Vector3_MaybeNormalize(&gViewFrustumBeforeRotation.mLeftPlaneNormal,
                                            &gViewFrustumBeforeRotation.mLeftPlaneNormal);
     }
-    if (gRaceSetup->mMirrorMode != 0) {
+    if (g_GlobalCO->mMirrorMode != 0) {
         gViewFrustumBeforeRotation.mLeftPlaneNormal.x = -gViewFrustumBeforeRotation.mLeftPlaneNormal.x;
         gViewFrustumBeforeRotation.mLeftPlaneNormal.y = -gViewFrustumBeforeRotation.mLeftPlaneNormal.y;
         gViewFrustumBeforeRotation.mLeftPlaneNormal.z = -gViewFrustumBeforeRotation.mLeftPlaneNormal.z;
@@ -412,10 +412,10 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
             ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.x * gViewFrustumBeforeRotation.mRightPlaneNormal.x +
              (s64) gViewFrustumBeforeRotation.mRightPlaneNormal.y * gViewFrustumBeforeRotation.mRightPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mRightPlaneNormal,
+        Vector3_MaybeNormalize(&gViewFrustumBeforeRotation.mRightPlaneNormal,
                                            &gViewFrustumBeforeRotation.mRightPlaneNormal);
     }
-    if (gRaceSetup->mMirrorMode != 0) {
+    if (g_GlobalCO->mMirrorMode != 0) {
         gViewFrustumBeforeRotation.mRightPlaneNormal.x = -gViewFrustumBeforeRotation.mRightPlaneNormal.x;
         gViewFrustumBeforeRotation.mRightPlaneNormal.y = -gViewFrustumBeforeRotation.mRightPlaneNormal.y;
         gViewFrustumBeforeRotation.mRightPlaneNormal.z = -gViewFrustumBeforeRotation.mRightPlaneNormal.z;
@@ -428,7 +428,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
             ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.x * gViewFrustumBeforeRotation.mTopPlaneNormal.x +
              (s64) gViewFrustumBeforeRotation.mTopPlaneNormal.y * gViewFrustumBeforeRotation.mTopPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mTopPlaneNormal,
+        Vector3_MaybeNormalize(&gViewFrustumBeforeRotation.mTopPlaneNormal,
                                            &gViewFrustumBeforeRotation.mTopPlaneNormal);
     }
 
@@ -439,7 +439,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
             ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.x * gViewFrustumBeforeRotation.mBottomPlaneNormal.x +
              (s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.y * gViewFrustumBeforeRotation.mBottomPlaneNormal.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mBottomPlaneNormal,
+        Vector3_MaybeNormalize(&gViewFrustumBeforeRotation.mBottomPlaneNormal,
                                            &gViewFrustumBeforeRotation.mBottomPlaneNormal);
     }
 }
@@ -460,7 +460,7 @@ void DrawListAddToMapObjectListCount(MapObjectList *list, s32 count) {
 
 #pragma thumb on
 u32 InitMapObjectDrawList(MapObjectList *list) {
-    list->mMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount << 2);
+    list->mMapObjects = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), list->mMapObjectCount << 2);
     list->mMapObjectCount = 0;
     return 0;
 }
@@ -488,7 +488,7 @@ void InitMapObjectDrawOrder(MapObjectList *list) {
     s32 objectIndex;
 
     if (list->mSortByDistance != 0) {
-        list->mDrawOrder = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount * 4);
+        list->mDrawOrder = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), list->mMapObjectCount * 4);
         for (objectIndex = 0; objectIndex < list->mMapObjectCount; objectIndex++) {
             list->mDrawOrder[objectIndex] = list->mMapObjects[objectIndex];
         }
@@ -519,7 +519,7 @@ void UpdateMapObjectViewTests(void) {
     mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;
     shapeMask = GetKartZoneMask();
-    frameSlot = GetRaceUpdateFrames() & 3;
+    frameSlot = GetSomeTimeOrDuration() & 3;
     objectIndex = 0;
     if (mapObjectCount <= 0) {
         return;
@@ -629,9 +629,9 @@ void UpdateMapObjects(void) {
 
     lists = gMapObjects->mUpdateLists;
     updateListCount = gMapObjects->mUpdateListCount;
-    startFrames = GetRaceStartSequenceFrames();
+    startFrames = GetRaceStartCountdown();
     if (startFrames <= 0x168) {
-        if (gRaceSetup->mRaceKind != RACE_KIND_START_GP) {
+        if (g_GlobalCO->mRaceKind != RACE_KIND_START_GP) {
             if (startFrames == -0x73) {
                 ParkFlaggedMapObjects();
             } else if (startFrames == 0x168) {
@@ -748,8 +748,8 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     foundCount = 0;
     hitOffset->x = hitOffset->y = hitOffset->z = 0;
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
-        if (gFoundCollisionSlotFlags[slotIndex] & 0x2000) {
-            mapObject = gFoundCollisionSlotObjects[slotIndex];
+        if (g_SomePointer6Size100[slotIndex] & 0x2000) {
+            mapObject = g_SomePointer7Size200[slotIndex];
             if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT)) {
                 continue;
             }
@@ -783,7 +783,7 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     return foundCount;
 }
 
-s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
+s32 GetAreaSomeCount(Vec3 *position, s32 radius, s32 kind) {
     s32 foundCount;
     MapObject *mapObject;
     s32 deltaZ;
@@ -793,7 +793,7 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
     foundCount = 0;
     FindCollisionSlotsAroundPos(position, radius, 0x2000);
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
-        mapObject = gFoundCollisionSlotObjects[slotIndex];
+        mapObject = g_SomePointer7Size200[slotIndex];
         if (mapObject->mKind == kind) {
             deltaX = position->x - mapObject->mPos.x;
             deltaZ = position->z - mapObject->mPos.z;
@@ -806,7 +806,7 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
     return foundCount;
 }
 
-// Returns the i-th map object stored by the last FindMapObjectsTouchingKart or FindMapObjectsOfKindInRadius call; i
+// Returns the i-th map object stored by the last FindMapObjectsTouchingKart or GetAreaSomeCount call; i
 // must be below the count that call returned.
 MapObject *GetFoundMapObject(u32 index) {
     return gFoundMapObjects[index];
@@ -981,8 +981,8 @@ u16 AllocPolygonIdWrapping(void) {
     return gWrappingPolygonId;
 }
 
-u16 AllocPolygonId(void) {
-    return gNextPolygonId++;
+u16 GetIncrementSomeItemCounter(void) {
+    return g_SomeItemCounter++;
 }
 
 #pragma thumb on

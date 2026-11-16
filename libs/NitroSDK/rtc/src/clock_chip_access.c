@@ -4,105 +4,105 @@
 #include "reset_interrupts_halt.h"
 #include "arm_fifo_messaging.h"
 
-u16 gClockInitialized;
-RTCWork gClockRequest;
+u16 g_Rtc_Initialized;
+RTCWork g_Rtc_Context;
 
 // Sends the command that reads the date word.
-BOOL RTCi_ReadRawDateAsync(void) {
-    return RtcSendPxiCommand(0x11);
+BOOL Rtc_ReadRawDateAsync(void) {
+    return Rtc_SendFifoWord(0x11);
 }
 
 // Sends the command that reads the time word.
-BOOL RTCi_ReadRawTimeAsync(void) {
-    return RtcSendPxiCommand(0x12);
+BOOL Rtc_ReadRawTimeAsync(void) {
+    return Rtc_SendFifoWord(0x12);
 }
 
 // Sends the command that writes status register 2.
-BOOL RTCi_WriteRawStatus2Async(void) {
-    return RtcSendPxiCommand(0x27);
+BOOL Rtc_WriteRawStatus2Async(void) {
+    return Rtc_SendFifoWord(0x27);
 }
 
 // Sends command number command on tag 5; TRUE when the FIFO took the word.
-BOOL RtcSendPxiCommand(u32 command) {
-    return PXI_SendWordByFifo(5, (command << 8) & 0x7f00, 0) >= 0;
+BOOL Rtc_SendFifoWord(u32 command) {
+    return Fifo_SendWord(5, (command << 8) & 0x7f00, 0) >= 0;
 }
 
 // Sets up the clock channel on the first call only.
-void RTC_Init(void) {
-    if (gClockInitialized != 0) {
+void Rtc_Initialize(void) {
+    if (g_Rtc_Initialized != 0) {
         return;
     }
-    gClockInitialized = 1;
-    gClockRequest.mLock = 0;
-    gClockRequest.mCallback = 0;
-    gClockRequest.mInterrupt = 0;
-    gClockRequest.mBuffer[0] = 0;
-    gClockRequest.mBuffer[1] = 0;
-    PXI_Init();
-    while (PXI_IsCallbackReady(5, 1) == 0) {
+    g_Rtc_Initialized = 1;
+    g_Rtc_Context.mLock = 0;
+    g_Rtc_Context.mCallback = 0;
+    g_Rtc_Context.mInterrupt = 0;
+    g_Rtc_Context.mBuffer[0] = 0;
+    g_Rtc_Context.mBuffer[1] = 0;
+    j_Fifo_Initialize();
+    while (Fifo_IsHandlerReady(5, 1) == 0) {
     }
-    PXI_SetFifoRecvCallback(5, RtcCommonCallback);
+    Fifo_RegisterHandler(5, Rtc_FifoHandler);
 }
 
 // Reads the date into date; callback is called with the result and arg when the reply is in.
-RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg) {
+RTCResult Rtc_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg) {
     OSIntrMode enabled;
 
-    enabled = OS_DisableInterrupts();
-    if (gClockRequest.mLock != 0) {
-        OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    if (g_Rtc_Context.mLock != 0) {
+        Os_RestoreIrq(enabled);
         return RTC_RESULT_BUSY;
     }
-    gClockRequest.mLock = 1;
-    OS_RestoreInterrupts(enabled);
-    gClockRequest.mSequence = RTC_SEQ_GET_DATE;
-    gClockRequest.mIndex = 0;
-    gClockRequest.mBuffer[0] = date;
-    gClockRequest.mCallback = callback;
-    gClockRequest.mCallbackArg = arg;
-    return RTCi_ReadRawDateAsync() != 0 ? RTC_RESULT_SUCCESS : RTC_RESULT_SEND_ERROR;
+    g_Rtc_Context.mLock = 1;
+    Os_RestoreIrq(enabled);
+    g_Rtc_Context.mSequence = RTC_SEQ_GET_DATE;
+    g_Rtc_Context.mIndex = 0;
+    g_Rtc_Context.mBuffer[0] = date;
+    g_Rtc_Context.mCallback = callback;
+    g_Rtc_Context.mCallbackArg = arg;
+    return Rtc_ReadRawDateAsync() != 0 ? RTC_RESULT_SUCCESS : RTC_RESULT_SEND_ERROR;
 }
 
 // Reads the date and waits for the reply.
-RTCResult RTC_GetDate(RTCDate *date) {
-    gClockRequest.mCommonResult = RTC_GetDateAsync(date, RtcGetResultCallback, 0);
-    if (gClockRequest.mCommonResult == RTC_RESULT_SUCCESS) {
-        RtcWaitBusy();
+RTCResult Rtc_GetDate(RTCDate *date) {
+    g_Rtc_Context.mCommonResult = Rtc_GetDateAsync(date, Rtc_GetTimeAsync_ErrorFunction, 0);
+    if (g_Rtc_Context.mCommonResult == RTC_RESULT_SUCCESS) {
+        Rtc_WaitBusy();
     }
-    return gClockRequest.mCommonResult;
+    return g_Rtc_Context.mCommonResult;
 }
 
 // Reads the time into time; callback is called with the result and arg when the reply is in.
-RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg) {
+RTCResult Rtc_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg) {
     OSIntrMode enabled;
 
-    enabled = OS_DisableInterrupts();
-    if (gClockRequest.mLock != 0) {
-        OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    if (g_Rtc_Context.mLock != 0) {
+        Os_RestoreIrq(enabled);
         return RTC_RESULT_BUSY;
     }
-    gClockRequest.mLock = 1;
-    OS_RestoreInterrupts(enabled);
-    gClockRequest.mSequence = RTC_SEQ_GET_TIME;
-    gClockRequest.mIndex = 0;
-    gClockRequest.mBuffer[0] = time;
-    gClockRequest.mCallback = callback;
-    gClockRequest.mCallbackArg = arg;
-    return RTCi_ReadRawTimeAsync() != 0 ? RTC_RESULT_SUCCESS : RTC_RESULT_SEND_ERROR;
+    g_Rtc_Context.mLock = 1;
+    Os_RestoreIrq(enabled);
+    g_Rtc_Context.mSequence = RTC_SEQ_GET_TIME;
+    g_Rtc_Context.mIndex = 0;
+    g_Rtc_Context.mBuffer[0] = time;
+    g_Rtc_Context.mCallback = callback;
+    g_Rtc_Context.mCallbackArg = arg;
+    return Rtc_ReadRawTimeAsync() != 0 ? RTC_RESULT_SUCCESS : RTC_RESULT_SEND_ERROR;
 }
 
 // Reads the time and waits for the reply.
-RTCResult RTC_GetTime(RTCTime *time) {
-    gClockRequest.mCommonResult = RTC_GetTimeAsync(time, RtcGetResultCallback, 0);
-    if (gClockRequest.mCommonResult == RTC_RESULT_SUCCESS) {
-        RtcWaitBusy();
+RTCResult Rtc_GetTime(RTCTime *time) {
+    g_Rtc_Context.mCommonResult = Rtc_GetTimeAsync(time, Rtc_GetTimeAsync_ErrorFunction, 0);
+    if (g_Rtc_Context.mCommonResult == RTC_RESULT_SUCCESS) {
+        Rtc_WaitBusy();
     }
-    return gClockRequest.mCommonResult;
+    return g_Rtc_Context.mCommonResult;
 }
 
 // Receives the reply of the other processor: decodes the shared date and time words into the buffer by mSequence,
 // then ends the request and calls its callback.
-void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
+void Rtc_FifoHandler(u32 tag, u32 data, BOOL err) {
     u8 pxiCommand;
     u32 status;
     RTCResult result;
@@ -113,50 +113,50 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
     RTCCallback callback;
 
     if (err != 0) {
-        if (gClockRequest.mIndex != 0) {
-            gClockRequest.mIndex = 0;
+        if (g_Rtc_Context.mIndex != 0) {
+            g_Rtc_Context.mIndex = 0;
         }
-        if (gClockRequest.mLock != 0) {
-            gClockRequest.mLock = 0;
+        if (g_Rtc_Context.mLock != 0) {
+            g_Rtc_Context.mLock = 0;
         }
-        callback = gClockRequest.mCallback;
+        callback = g_Rtc_Context.mCallback;
         if (callback != 0) {
-            gClockRequest.mCallback = 0;
-            callback(RTC_RESULT_FATAL_ERROR, gClockRequest.mCallbackArg);
+            g_Rtc_Context.mCallback = 0;
+            callback(RTC_RESULT_FATAL_ERROR, g_Rtc_Context.mCallbackArg);
         }
         return;
     }
     pxiCommand = (data & 0x7f00) >> 8;
     status = data & 0xff;
     if (pxiCommand == 0x30) {
-        if (gClockRequest.mInterrupt != 0) {
-            gClockRequest.mInterrupt();
+        if (g_Rtc_Context.mInterrupt != 0) {
+            g_Rtc_Context.mInterrupt();
         }
         return;
     }
     if (status == 0) {
         result = RTC_RESULT_SUCCESS;
-        switch (gClockRequest.mSequence) {
+        switch (g_Rtc_Context.mSequence) {
             case RTC_SEQ_GET_DATE:
-                date = gClockRequest.mBuffer[0];
+                date = g_Rtc_Context.mBuffer[0];
                 date->mYear = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mYear);
                 date->mMonth = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mMonth);
                 date->mDay = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mDay);
                 date->mWeek = SYSTEM_WORK->mRealTimeClock.mDate.mWeek;
                 break;
             case RTC_SEQ_GET_TIME:
-                time = gClockRequest.mBuffer[0];
+                time = g_Rtc_Context.mBuffer[0];
                 time->mHour = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mTime.mValue.mHour);
                 time->mMinute = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mTime.mValue.mMinute);
                 time->mSecond = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mTime.mValue.mSecond);
                 break;
             case RTC_SEQ_GET_DATETIME:
-                date = gClockRequest.mBuffer[0];
+                date = g_Rtc_Context.mBuffer[0];
                 date->mYear = RtcBCD2HEX(*(u32 *) HW_REAL_TIME_CLOCK_BUF & 0xff);
                 date->mMonth = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mMonth);
                 date->mDay = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mDay);
                 date->mWeek = SYSTEM_WORK->mRealTimeClock.mDate.mWeek;
-                time = gClockRequest.mBuffer[1];
+                time = g_Rtc_Context.mBuffer[1];
                 time->mHour = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mTime.mValue.mHour);
                 time->mMinute = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mTime.mValue.mMinute);
                 time->mSecond = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mTime.mValue.mSecond);
@@ -171,7 +171,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
             case RTC_SEQ_SET_REG_ADJUST:
                 break;
             case RTC_SEQ_GET_ALARM1_STATUS:
-                alarmStatus = gClockRequest.mBuffer[0];
+                alarmStatus = g_Rtc_Context.mBuffer[0];
                 switch (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode) {
                     case CLOCK_ALARM_INTR_MODE_ALARM1:
                         alarmStatus[0] = RTC_ALARM_STATUS_ON;
@@ -182,7 +182,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 }
                 break;
             case RTC_SEQ_GET_ALARM2_STATUS:
-                alarmStatus = gClockRequest.mBuffer[0];
+                alarmStatus = g_Rtc_Context.mBuffer[0];
                 if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntr2Mode) {
                     alarmStatus[0] = RTC_ALARM_STATUS_ON;
                 } else {
@@ -190,7 +190,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 }
                 break;
             case RTC_SEQ_GET_ALARM_PARAM:
-                alarm = gClockRequest.mBuffer[0];
+                alarm = g_Rtc_Context.mBuffer[0];
                 alarm->mWeek = SYSTEM_WORK->mRealTimeClock.mAlarm.mValue.mWeek;
                 alarm->mHour = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mAlarm.mValue.mHour);
                 alarm->mMinute = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mAlarm.mValue.mMinute);
@@ -206,62 +206,62 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 }
                 break;
             case RTC_SEQ_SET_ALARM1_STATUS:
-                if (gClockRequest.mIndex == 0) {
-                    if (*(RTCAlarmStatus *) gClockRequest.mBuffer[0] == RTC_ALARM_STATUS_ON) {
+                if (g_Rtc_Context.mIndex == 0) {
+                    if (*(RTCAlarmStatus *) g_Rtc_Context.mBuffer[0] == RTC_ALARM_STATUS_ON) {
                         if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode != CLOCK_ALARM_INTR_MODE_ALARM1) {
-                            gClockRequest.mIndex++;
+                            g_Rtc_Context.mIndex++;
                             SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode = CLOCK_ALARM_INTR_MODE_ALARM1;
-                            if (RTCi_WriteRawStatus2Async() == 0) {
+                            if (Rtc_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
-                                gClockRequest.mIndex = 0;
+                                g_Rtc_Context.mIndex = 0;
                             }
                         }
                     } else {
                         if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode != CLOCK_ALARM_INTR_MODE_NONE) {
-                            gClockRequest.mIndex++;
+                            g_Rtc_Context.mIndex++;
                             SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode = CLOCK_ALARM_INTR_MODE_NONE;
-                            if (RTCi_WriteRawStatus2Async() == 0) {
+                            if (Rtc_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
-                                gClockRequest.mIndex = 0;
+                                g_Rtc_Context.mIndex = 0;
                             }
                         }
                     }
                 } else {
-                    gClockRequest.mIndex = 0;
+                    g_Rtc_Context.mIndex = 0;
                 }
                 break;
             case RTC_SEQ_SET_ALARM2_STATUS:
-                if (gClockRequest.mIndex == 0) {
-                    if (*(RTCAlarmStatus *) gClockRequest.mBuffer[0] == RTC_ALARM_STATUS_ON) {
+                if (g_Rtc_Context.mIndex == 0) {
+                    if (*(RTCAlarmStatus *) g_Rtc_Context.mBuffer[0] == RTC_ALARM_STATUS_ON) {
                         if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntr2Mode == 0) {
-                            gClockRequest.mIndex++;
+                            g_Rtc_Context.mIndex++;
                             SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntr2Mode = 1;
-                            if (RTCi_WriteRawStatus2Async() == 0) {
+                            if (Rtc_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
-                                gClockRequest.mIndex = 0;
+                                g_Rtc_Context.mIndex = 0;
                             }
                         }
                     } else {
                         if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntr2Mode != 0) {
-                            gClockRequest.mIndex++;
+                            g_Rtc_Context.mIndex++;
                             SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntr2Mode = 0;
-                            if (RTCi_WriteRawStatus2Async() == 0) {
+                            if (Rtc_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
-                                gClockRequest.mIndex = 0;
+                                g_Rtc_Context.mIndex = 0;
                             }
                         }
                     }
                 } else {
-                    gClockRequest.mIndex = 0;
+                    g_Rtc_Context.mIndex = 0;
                 }
                 break;
             default:
-                gClockRequest.mIndex = 0;
+                g_Rtc_Context.mIndex = 0;
                 result = RTC_RESULT_INVALID_COMMAND;
                 break;
         }
     } else {
-        gClockRequest.mIndex = 0;
+        g_Rtc_Context.mIndex = 0;
         switch (status) {
             case CLOCK_REPLY_STATUS_INVALID_COMMAND:
                 result = RTC_RESULT_INVALID_COMMAND;
@@ -279,16 +279,16 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 break;
         }
     }
-    if (gClockRequest.mIndex != 0) {
+    if (g_Rtc_Context.mIndex != 0) {
         return;
     }
-    if (gClockRequest.mLock != 0) {
-        gClockRequest.mLock = 0;
+    if (g_Rtc_Context.mLock != 0) {
+        g_Rtc_Context.mLock = 0;
     }
-    callback = gClockRequest.mCallback;
+    callback = g_Rtc_Context.mCallback;
     if (callback != 0) {
-        gClockRequest.mCallback = 0;
-        callback(result, gClockRequest.mCallbackArg);
+        g_Rtc_Context.mCallback = 0;
+        callback(result, g_Rtc_Context.mCallbackArg);
     }
 }
 
@@ -313,14 +313,14 @@ u32 RtcBCD2HEX(u32 bcd) {
 }
 
 // Stores the result of the waiting calls.
-void RtcGetResultCallback(RTCResult result, void *arg) {
-    gClockRequest.mCommonResult = result;
+void Rtc_GetTimeAsync_ErrorFunction(RTCResult result, void *arg) {
+    g_Rtc_Context.mCommonResult = result;
 }
 
 // clang-format off
-// Waits while the lock word of gClockRequest is 1.
-asm void RtcWaitBusy(void) {
-    ldr ip, =gClockRequest
+// Waits while the lock word of g_Rtc_Context is 1.
+asm void Rtc_WaitBusy(void) {
+    ldr ip, =g_Rtc_Context
 wait_loop:
     ldr r0, [ip]
     cmp r0, #0x1

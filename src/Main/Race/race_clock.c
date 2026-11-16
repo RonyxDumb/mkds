@@ -8,14 +8,14 @@
 #include "Main/System/init_after_startup.h"
 
 void StartRaceClock(void) {
-    gRaceProgress->mHeader.mClockEnabled = 1;
+    g_GlobalMV->mHeader.mClockEnabled = 1;
 }
 
 void StartRaceInput(void) {
     u32 entryIndex;
-    SetReadRaceKeys(1);
-    for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex = (u16) (entryIndex + 1)) {
-        InputSlot *inputSlot = &gInputSlots[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex];
+    Struct5624_SetXflag2(1);
+    for (entryIndex = 0; entryIndex < g_GlobalCO->mKartCount; entryIndex = (u16) (entryIndex + 1)) {
+        InputSlot *inputSlot = &g_GlobalCYT[g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mIndex];
         if (inputSlot->mSourceKind != INPUT_SOURCE_KEY_RECORDING_PLAYBACK) {
             if (inputSlot->mSourceKind == INPUT_SOURCE_PAD_RECORDED) {
                 StartKeyRecording(&inputSlot->mKeyRecording);
@@ -26,18 +26,18 @@ void StartRaceInput(void) {
     }
 }
 
-void GetRaceClockTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+void GetSomeMVTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     MinuteSecondMillisecondTime *clockTime;
 
-    clockTime = &gRaceProgress->mHeader.mClockTime;
+    clockTime = &g_GlobalMV->mHeader.mClockTime;
     *outMinute = clockTime->mMinute;
     *outSecond = clockTime->mSecond;
     *outMillisecond = clockTime->mMillisecond;
 }
 
-u32 GetKartRank(u32 kartIndex) {
-    if (gRaceSetup->mMode == MODE_WIFI) {
-        return gWiFiRaceSync->mEntries[gParticipantKartMap->mParticipantOfKart[kartIndex & 0xff]].mRank;
+u32 GetSomeRacerFlags(u32 kartIndex) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
+        return g_GlobalAA->mEntries[g_GlobalRE->mParticipantOfKart[kartIndex & 0xff]].mRank;
     }
-    return gRaceProgress->mKarts[kartIndex].mRank;
+    return g_GlobalMV->mKarts[kartIndex].mRank;
 }

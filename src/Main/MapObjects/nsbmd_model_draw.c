@@ -20,8 +20,8 @@ void DrawNsbmdModelWithMaxAlphaMapObjectPos(NsbmdModel *model, u32 maxAlpha, Vec
 #pragma thumb on
 
 void CreateNsbmd(Nsbmd **slot, void *file, void *unused) {
-    *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(**slot));
-    InitNsbmd(*slot, file);
+    *slot = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(**slot));
+    StructML_LoadModel2(*slot, file);
 }
 
 #pragma thumb off

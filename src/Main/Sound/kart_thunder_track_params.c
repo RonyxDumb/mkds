@@ -3,7 +3,7 @@
 #include "Main/Sound/kart_surface_sound.h"
 #include "Main/Sound/sound_seq.h"
 
-void SetKartThunderShrinkTrackParamsFunction(Kart *kart) {
+void StructMQRacerEntry_SomeFn_29(Kart *kart) {
     kart->mSound.mThunderShrinkRaceFrame = gSceneSoundState.mRaceFrames;
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) SetKartThunderShrinkSoundTrackParams;
 }

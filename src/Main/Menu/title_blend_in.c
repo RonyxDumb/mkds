@@ -12,14 +12,14 @@ void UpdateTitleBlendIn(void) {
     int stateFrames;
     int waitFrames;
     waitFrames = 0;
-    if (gTitleScene->mBlendDone == FALSE) {
+    if (g_SceneTitleContext->mBlendDone == FALSE) {
         waitFrames = 0x6b;
     }
     stateFrames = GetTitleStateFrames();
     if (stateFrames >= waitFrames) {
         SetTitleState(TITLE_STATE_SLIDE_IN, 8);
     }
-    AdvanceTitleBlend();
+    Title_SomeBldalphaConfig_from_thumb();
 }
 
 u32 TitleReturnArgument(u32 value) {

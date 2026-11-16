@@ -3,6 +3,6 @@
 #include "types.h"
 #include "Main/Scene/scene_display_archive_work.h"
 
-u32 InitAndRunScenesForever(void);
+u32 StartExecuteFunction(void);
 
-extern WvrState gWvrState;
+extern WvrState g_SomeVramConfigMode;

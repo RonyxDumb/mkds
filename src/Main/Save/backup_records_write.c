@@ -6,15 +6,15 @@
 #pragma thumb on
 
 void WriteBackupEmblem(void) {
-    WriteBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
+    WriteSaveDataSection_Emblem_from_thumb(g_SaveDataHolder->mEmblemRecord);
 }
 
-void WriteBackupGrandPrixRecords(void) {
-    WriteBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
+void SaveNKGPChunk_from_thumb(void) {
+    WriteSaveDataSection_GrandPrix_from_thumb(g_SaveDataHolder->mGrandPrixRecordBlock);
 }
 
-void WriteBackupCourseTimeRecords(void) {
-    WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
+void WriteTimeTrialsSaveDataSection_from_thumb(void) {
+    WriteSaveDataSection_TimeTrials_from_thumb(g_SaveDataHolder->mCourseTimeRecordBlock);
 }
 
 #pragma thumb off

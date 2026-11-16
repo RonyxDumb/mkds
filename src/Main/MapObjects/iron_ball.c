@@ -91,7 +91,7 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         InitGroupFollower(&ironBall->mFollower, ironBall->mMapObject.mCourseMapRow, followerSpeed);
         GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
         ironBall->mPathPos.y += 0x1000;
-        VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
+        VecFx32_AddScale1(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
                     &ironBall->mMapObject.mPos);
         if (ironBall->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
             ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[1];
@@ -130,7 +130,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 return;
             }
             limit = ironBall->mNextStartLap;
-            for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+            for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
                 if (GetKartHighestLap(kartIndex) >= limit) {
                     lapReached = TRUE;
                     goto found;
@@ -281,7 +281,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
         ironBall->mPathPos.y += 0x1000;
     }
-    VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
+    VecFx32_AddScale1(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
                 &ironBall->mMapObject.mPos);
     ironBall->mMapObject.mPos.y = ironBall->mMapObject.mPos.y + ironBall->mHeightOffset;
     if (ironBall->mRotateZAngle < 0) {
@@ -325,7 +325,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
 MapObjectKindData *CreateIronBallKindData(void) {
     MapObjectKindData *mapObjectKindData;
 
-    mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
+    mapObjectKindData = CreateAllocateSomeObject_from_thumb(CollideKartWithIronBall, NULL, NULL, 1, 1);
     mapObjectKindData->mHeightRangeMax = IRON_BALL_HEIGHT_RANGE_MAX;
     mapObjectKindData->mHeightRangeMin = -0x1f4000;
     return mapObjectKindData;
@@ -336,7 +336,7 @@ MapObjectList *CreateIronBallShadowDrawList(void) {
 }
 
 MapObjectList *CreateIronBallDrawList(void) {
-    return CreateMapObjectDrawList2(CreateIronBall, DrawIronBall, SetupDrawIronBall);
+    return CreateAllocateMapObject_from_thumb(CreateIronBall, DrawIronBall, SetupDrawIronBall);
 }
 
 MapObjectList *CreateIronBallUpdateList(void) {
@@ -353,15 +353,15 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
     s32 sourceX;
     s32 marioXMargin;
 
-    currentCamera = GetCurrentCamera();
-    switch (gRaceSetup->mCourseId) {
+    currentCamera = GetGlobalHD4();
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_CROSS:
-            if (IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE || GetRaceUseChainCameras() != 0) {
+            if (UpdatePlayerLapCountIfNot123(g_GlobalCO->mEntryIndex) != FALSE || IsNotStaffRoll() != 0) {
                 crossXMargin = 0x898000;
             } else {
                 crossXMargin = 0x834000;
             }
-            value = FX_Atan2Idx(currentCamera->mPos.x - position->x, currentCamera->mPos.z - position->z);
+            value = FX_Atan2(currentCamera->mPos.x - position->x, currentCamera->mPos.z - position->z);
             if (value >= 0 && value <= 0xaaab) {
                 soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) value), 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
@@ -386,7 +386,7 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
             }
             break;
         case COURSE_ID_MARIO:
-            if (IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE || GetRaceUseChainCameras() != 0) {
+            if (UpdatePlayerLapCountIfNot123(g_GlobalCO->mEntryIndex) != FALSE || IsNotStaffRoll() != 0) {
                 marioXMargin = 0x384000;
             } else {
                 marioXMargin = 0x320000;

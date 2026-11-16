@@ -26,7 +26,7 @@ void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
             case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
             case MAP_OBJECT_SHAPE_ROTATED_BOX:
             case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
-                value = VEC_Mag(&mapObject->mExtent);
+                value = VecFx32_Norm(&mapObject->mExtent);
                 break;
             case MAP_OBJECT_SHAPE_NONE:
             case MAP_OBJECT_SHAPE_SPHERE:
@@ -43,7 +43,7 @@ void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
             case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
             case MAP_OBJECT_SHAPE_ROTATED_BOX:
             case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
-                value = VEC_Mag(&mapObject->mExtent);
+                value = VecFx32_Norm(&mapObject->mExtent);
                 break;
             case MAP_OBJECT_SHAPE_NONE:
             case MAP_OBJECT_SHAPE_SPHERE:
@@ -60,7 +60,7 @@ void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
             case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
             case MAP_OBJECT_SHAPE_ROTATED_BOX:
             case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
-                value = VEC_Mag(&mapObject->mExtent);
+                value = VecFx32_Norm(&mapObject->mExtent);
                 break;
             case MAP_OBJECT_SHAPE_NONE:
             case MAP_OBJECT_SHAPE_SPHERE:
@@ -93,7 +93,7 @@ void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
         case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
         case MAP_OBJECT_SHAPE_ROTATED_BOX:
         case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
-            radius = VEC_Mag(&mapObject->mExtent);
+            radius = VecFx32_Norm(&mapObject->mExtent);
             break;
         case MAP_OBJECT_SHAPE_NONE:
         case MAP_OBJECT_SHAPE_SPHERE:
@@ -106,42 +106,42 @@ void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
 }
 
 void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
+    mapObject->mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
     mapObject->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
-        SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
+        StructMQRacerEntry_SomeFn_47(&mapObject->mSound->mSoundSource, 2, 1);
     }
 }
 
 SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectSound));
-    InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
+    mapObject->mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectSound));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
     mapObject->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
-        SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
+        StructMQRacerEntry_SomeFn_47(&mapObject->mSound->mSoundSource, 2, 1);
     }
     return &mapObject->mSound->mSoundDistanceSquaredChange;
 }
 
 void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mSound->mSoundSource, 3, &mapObject->mPos);
+    mapObject->mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mSound->mSoundSource, 3, &mapObject->mPos);
     mapObject->mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
-        SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
+        StructMQRacerEntry_SomeFn_47(&mapObject->mSound->mSoundSource, 2, 1);
     }
 }
 
 void CreateMapObjectSoundSourceFalloff4(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mSound->mSoundSource, 4, &mapObject->mPos);
+    mapObject->mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mSound->mSoundSource, 4, &mapObject->mPos);
     mapObject->mFarDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
-        SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
+        StructMQRacerEntry_SomeFn_47(&mapObject->mSound->mSoundSource, 2, 1);
     }
 }

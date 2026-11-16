@@ -3,5 +3,5 @@
 #include "Main/System/init_after_startup.h"
 
 u16 GetKartHighestLap(u16 kart) {
-    return gRaceProgress->mKarts[kart].mHighestLap;
+    return g_GlobalMV->mKarts[kart].mHighestLap;
 }

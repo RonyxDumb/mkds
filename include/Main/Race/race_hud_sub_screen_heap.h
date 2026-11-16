@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *RaceHudSubScreenGetCurrentHeap(void);
+void *GetActiveExecutionContextHeapHandle_2(void);

@@ -55,7 +55,7 @@ u32 MultiSelectNSGetPairX(InputSlotPair *pair) {
 }
 
 u32 MultiSelectNSGetSlotPairX(u32 slotIndex) {
-    return MultiSelectNSGetPairX(&gInputSlots[slotIndex].mPair);
+    return MultiSelectNSGetPairX(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u32 MultiSelectNSGetPairY(InputSlotPair *pair) {
@@ -63,7 +63,7 @@ u32 MultiSelectNSGetPairY(InputSlotPair *pair) {
 }
 
 u32 MultiSelectNSGetSlotPairY(u32 slotIndex) {
-    return MultiSelectNSGetPairY(&gInputSlots[slotIndex].mPair);
+    return MultiSelectNSGetPairY(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u16 MultiSelectNSGetInputSlotNewBits(InputSlot *slot, u32 mask) {
@@ -71,17 +71,17 @@ u16 MultiSelectNSGetInputSlotNewBits(InputSlot *slot, u32 mask) {
 }
 
 u32 MultiSelectNSGetNewBits(u32 slotIndex, u32 mask) {
-    return MultiSelectNSGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return MultiSelectNSGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 void MultiSelectNSStartOnMemorySeqArc(u32 index) {
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
     MultiSelectNSStartSeqArc(index, 0);
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void MultiSelectNSStartSeqArc(u32 index, u32 seqArcNo) {
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, index);
+    PlaySseqFromSarc(&gSharedSeqHandle, seqArcNo, index);
 }
 
 void MultiSelectNSStartSeqArcWrapper(u32 index) {
@@ -103,14 +103,14 @@ s32 AdvanceMultiSelectNS(void) {
     u16 slotIndex;
 
     result = -1;
-    slotIndex = GetPadInputSlot();
+    slotIndex = GetSomeCYId_9();
     multiSelectNS = gMultiSelectNS;
     switch (multiSelectNS->mState) {
         case MULTI_SELECT_NS_STATE_SLIDE_IN:
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_STEPS) {
                 gMultiSelectNS->mOffset =
-                    InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
+                    ComputeValueInterpolation_from_thumb(1, -0xc0, 0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
             } else {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mOffset = 0;
@@ -128,7 +128,7 @@ s32 AdvanceMultiSelectNS(void) {
                 value = FindRectContainingPoint(value, pairY, multiSelectNS->mBnbl);
             }
             if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_A) != 0) {
-                SetMultiSimple(gMultiSelectNS->mIndex == 1 ? 1 : 0);
+                StructP_SetAFlag4_SkipBattleIntro(gMultiSelectNS->mIndex == 1 ? 1 : 0);
                 gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_KEY_START;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(0);
@@ -150,14 +150,14 @@ s32 AdvanceMultiSelectNS(void) {
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 0 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 0;
-                SetMultiSimple(0);
+                StructP_SetAFlag4_SkipBattleIntro(0);
                 gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_KEY_START;
             } else if (value == 1) {
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 1;
-                SetMultiSimple(1);
+                StructP_SetAFlag4_SkipBattleIntro(1);
                 gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_KEY_START;
             }
             break;
@@ -173,7 +173,7 @@ s32 AdvanceMultiSelectNS(void) {
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_STEPS) {
                 gMultiSelectNS->mOffset =
-                    InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
+                    ComputeValueInterpolation_from_thumb(1, 0, -0xc0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
             } else {
                 gMultiSelectNS->mOffset = 0;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_DONE;
@@ -197,7 +197,7 @@ s32 AdvanceMultiSelectNS(void) {
 
 void ReleaseMultiSelectNS(void) {
     SendLedPatternNone();
-    HeapDestroy(gMultiSelectNS->mHeap);
+    Mem_DestroyHeap(gMultiSelectNS->mHeap);
     gMultiSelectNS = NULL;
 }
 

@@ -2,22 +2,22 @@
 
 #include "types.h"
 
-unsigned int GetCurrentRuleKind(void);
-unsigned int GetCurrentCourseCount(void);
-unsigned int GetCurrentBattleKind(void);
-unsigned int GetCurrentMirrorMode(void);
-unsigned int GetCurrentEngineIndex(void);
-unsigned int GetCurrentCourseId(void);
-unsigned int GetCurrentMode(void);
-unsigned int GetCurrentKartCount(void);
-unsigned int GetCurrentCpuDifficulty(void);
+unsigned int GetCurrentRaceRules(void);
+unsigned int GetMaybeNextRuleParam(void);
+unsigned int GetCurrentBattleType(void);
+unsigned int GetIsMirror(void);
+unsigned int GetCurrrentCcType(void);
+unsigned int GetCurrentInternalCourseId_1(void);
+unsigned int GetCurrentRaceMode(void);
+unsigned int GetRacerCount(void);
+unsigned int GetCurrentRaceCpuMode(void);
 unsigned int GetCurrentCupIndex(void);
 
 u32 GetCurrentListedCpuSlot(u32 entryIndex);
-u32 GetCurrentTeamIndex(u32 entryIndex);
+u32 GetRacerTeam(u32 entryIndex);
 
-unsigned int GetCurrentUseTeams(void);
+unsigned int GetIsTeams(void);
 
-u32 GetCurrentPlayerKind(u32 entryIndex);
-u32 GetCurrentKartIndex(u32 entryIndex);
-u32 GetCurrentCharacterIndex(u32 entryIndex);
+u32 GetRacerType_0(u32 entryIndex);
+u32 GetRacerKartId(u32 entryIndex);
+u32 GetRacerCharacterId(u32 entryIndex);

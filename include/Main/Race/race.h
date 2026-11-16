@@ -26,7 +26,7 @@ s32 TryGetRaceUpdateFramesSinceEntryEnd(u32 *framesOut);
 // selected entry first runs.
 u32 SetRaceUpdateFramesAtEntryEnd(void);
 Race *SetRaceUpdateFramesUnlimited(void);
-Camera *GetCurrentCamera(void);
+Camera *GetGlobalHD4(void);
 unsigned int GetCurrentCameraKind(void);
 MtxFx43 *GetCurrentViewMatrix(void);
 unsigned int IsFadeFogActive(void);
@@ -41,31 +41,31 @@ unsigned int GetRaceUpdateFramesMod2(void);
 unsigned int GetRaceUpdateFramesMod8(void);
 // Returns Race.mUpdateFramesModKartCount; changes nothing.
 unsigned int GetRaceUpdateFramesModKartCount(void);
-unsigned int GetRaceUpdateFrames(void);
-// Sets Race.mStarted to 1 and starts the race clock (StartRaceClock); called once per race by UpdateRaceStartSequence
+unsigned int GetSomeTimeOrDuration(void);
+// Sets Race.mStarted to 1 and starts the race clock (StartRaceClock); called once per race by IncreaseB358Countdown
 // when its mSequenceFrames is 180.
 void StartRace(void);
 // Returns Race.mStarted (1 once the race has started); changes nothing.
-unsigned int IsRaceStarted(void);
-void RaceSceneAdvanceNop(void);
-void ReleaseRace(void);
+unsigned int IsAwardOrStaffRoll(void);
+void nullsub_6(void);
+void ResetAA(void);
 void DrawRaceWorld(void);
 // Sets the direction of light 0 that DrawRaceWorld gives to the 3D engine (Race.mLightVectorX, Y and Z) from a.
-void SetRaceLightVector(const Vec3 *lightVector);
-void DrawRace(void);
+void SetSomeTDVector(const Vec3 *lightVector);
+void RaceRenderingFogRelated(void);
 void UpdateRace(void);
 void Init3dEngine(void);
 void InitFrmVramManagers(void);
-void InitRaceFields(void);
-void InitRace(void);
-unsigned int IsRaceAwardOrStaffRoll(void);
+void CreateGlobalTD(void);
+void InitializeGlobalTD(void);
+unsigned int IsAwardOrStaffRoll_0(void);
 // Returns Race.mUseChainCameras: 1 for the kinds 3 to 5 of RaceSetup.mRaceKind, which other code also uses to tell
 // those kinds apart; changes nothing.
-unsigned int GetRaceUseChainCameras(void);
+unsigned int IsNotStaffRoll(void);
 
 extern u16 gFadeFogRemaining;
 extern s16 gToonTableFramesLimit;
-extern Vec3 gRaceLightVector;
+extern Vec3 g_SomeTDVector;
 extern const u16 gToonTableFirstColors[8];
 extern const u16 gToonTableSecondColors[8];
 

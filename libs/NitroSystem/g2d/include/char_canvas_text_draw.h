@@ -23,7 +23,7 @@ typedef struct NNSG2dCharCanvas {
     /* 1c */ void (*mPClearArea)(struct NNSG2dCharCanvas *, u32, s32, s32, s32, s32);
 } NNSG2dCharCanvas;
 
-// Argument of LetterChar, built on the stack by DrawGlyph1D and DrawGlyphLine.
+// Argument of LetterChar, built on the stack by G2d_Sprite_AnotherFn1 and G2d_Sprite_Fn1.
 typedef struct LetterCharInfo {
     /* 00 */ u32 *mDst;
     /* 04 */ u8 *mSrc;
@@ -37,15 +37,15 @@ typedef struct LetterCharInfo {
     /* 24 */ u32 mCl;
 } LetterCharInfo;
 
-void InitCharCanvas(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
+void G2d_Sprite_CreateImpl(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
                     void (*drawGlyph)(NNSG2dCharCanvas *, NNSG2dFont *, s32, s32, u32, NNSG2dGlyph *),
                     void (*clearAll)(NNSG2dCharCanvas *, u32),
                     void (*clearArea)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32), u32 stride);
-void ClearArea1D(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
-void ClearAreaLine(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
-void ClearContinuous(NNSG2dCharCanvas *pCanvas, u32 cl);
-void DrawGlyph1D(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
-void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
+void G2d_Sprite_AnotherFn3(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
+void G2d_Sprite_Fn3(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
+void G2d_Sprite_Fn2(NNSG2dCharCanvas *pCanvas, u32 cl);
+void G2d_Sprite_AnotherFn1(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
+void G2d_Sprite_Fn1(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
 void LetterChar(LetterCharInfo *pInfo);
 void ClearChar(u8 *pChar, s32 startX, s32 startY, s32 width, s32 height, u32 cl8, s32 bpp);
 u32 OBJSizeToShape(const u8 *pSize);
@@ -58,17 +58,17 @@ u32 OBJSizeToShape(const u8 *pSize);
 #define TEXT_CANVAS_FLAG_CENTER 0x400
 #define TEXT_CANVAS_FLAG_RIGHT 0x800
 
-void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,
+void G2d_Text_SomeFn_0(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,
                                      u16 *txt);
-void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos);
-void NNS_G2dCharCanvasInitForOBJ1D(void *pCC, void *charBase, s32 areaWidth, s32 areaHeight, s32 colorMode);
-void NNS_G2dCharCanvasInitForBG(void *pCC, void *charBase, u32 areaWidth, u32 areaHeight, u32 colorMode);
-s32 NNS_G2dCharCanvasDrawChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode);
+void G2d_Text_PutChars(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos);
+void G2d_Sprite_CreateFrom2(void *pCC, void *charBase, s32 areaWidth, s32 areaHeight, s32 colorMode);
+void G2d_Sprite_CreateFromTiles(void *pCC, void *charBase, u32 areaWidth, u32 areaHeight, u32 colorMode);
+s32 G2d_Sprite_MaybePutChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode);
 u32 GetCharIndex1D(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, u32 objHeight);
-void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, s32 areaHeight, s32 cl,
+void G2d_Text_PrintString4(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, s32 areaHeight, s32 cl,
                                     u32 flags, u16 *txt);
-u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt);
+u32 G2d_Text_PrintString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt);
 
-extern SplitCharFunc *const spliterTable[4];
+extern SplitCharFunc *const g_FontEncodingAdvanceCharacterFunctionTable[4];
 extern const u8 objs[4][4][2];
 extern const u32 objShapes[4][4];

@@ -19,7 +19,7 @@ void DeleteEffect(ParticleEmitter *emitter);
 void *StartEffect(u32 effectId, const Vec3 *position);
 void DrawEffects(MtxFx43 *viewMatrix);
 void UpdateEffects(void);
-void InitEffects(void *defaultHeap);
+void SomeEffectFileStuff(void *defaultHeap);
 void *HeapAllocForSPLManager(u32 size);
 
 extern void *gSPLManagerHeap;

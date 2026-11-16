@@ -28,7 +28,7 @@ extern s32 gKartSoundRowSoundIds[3][7];
 
 extern u32 NNS_G3dAnmFmtNum;
 
-extern NNSG3dAnmObjInitFunc NNS_G3dAnmObjInitFuncArray[];
+extern NNSG3dAnmObjInitFunc g_AnimObjectMagics[];
 
 extern BOOL (*NNS_G3dFuncBlendMatDefault)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32);
 

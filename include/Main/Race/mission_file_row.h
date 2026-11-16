@@ -3,7 +3,7 @@
 
 // One row of the mission file: the mission kind, course, engine, characters, karts, message index and run stem.
 typedef struct MissionFileRow {
-    /* 00 */ u8 mUnk_00[6];
+    /* 00 */ u8 mode[6];
     /* 06 */ u8 mMissionTableValue;
     /* 07 */ u8 mMissionKind[0x1];
     /* 08 */ u8 mCourseId;

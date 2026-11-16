@@ -19,4 +19,4 @@ void SetFixed12MinMaxFromWhole(IntPair *outFirst, IntPair *outSecond, s32 firstX
 void GetRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond);
 void ComputeRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ, s16 secondX,
                                             s16 secondZ);
-void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength);
+void FormatTimeTrialRecordRacerNameString(u32 rowIndex, u16 *nameOut, u32 copyFullLength);

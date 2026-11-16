@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void TimeAttackNextSceneNop(void);
+void nullsub_4(void);

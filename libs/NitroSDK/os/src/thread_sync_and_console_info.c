@@ -10,7 +10,7 @@
 #include "mutex_init_decl.h"
 
 // Clears OSMutex.mQueue, OSMutex.mHolder and OSMutex.mLockCount.
-void OS_InitMutex(OSMutex *mutex) {
+void Os_Mutex_Initialize(OSMutex *mutex) {
     mutex->mQueue.mTail = 0;
     mutex->mQueue.mHead = mutex->mQueue.mTail;
     mutex->mHolder = 0;
@@ -19,76 +19,76 @@ void OS_InitMutex(OSMutex *mutex) {
 
 // Takes the mutex for the current thread, or raises OSMutex.mLockCount when it already holds it. Another holder makes
 // the thread sleep on OSMutex.mQueue until the mutex is free.
-void OS_LockMutex(OSMutex *mutex) {
+void Os_Mutex_Lock(OSMutex *mutex) {
     u32 enabled;
     OSThread *current;
 
-    enabled = OS_DisableInterrupts();
-    current = OSi_ThreadInfo.mCurrentThread;
+    enabled = Os_DisableIrq();
+    current = g_Os_ThreadInfo.mCurrentThread;
     while (1) {
         if (mutex->mHolder == 0) {
             mutex->mHolder = current;
             mutex->mLockCount = mutex->mLockCount + 1;
-            OSi_EnqueueTail(current, mutex);
+            Os_Mutex_EnqueueThread(current, mutex);
             break;
         } else if (mutex->mHolder == current) {
             mutex->mLockCount = mutex->mLockCount + 1;
             break;
         } else {
             current->mMutex = mutex;
-            OS_SleepThread(&mutex->mQueue);
+            Os_Thread_Sleep(&mutex->mQueue);
             current->mMutex = 0;
         }
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // Lowers OSMutex.mLockCount for the holding thread; at 0 the mutex is unlinked, released and its waiters wake up.
-void OS_UnlockMutex(OSMutex *mutex) {
+void Os_Mutex_Unlock(OSMutex *mutex) {
     u32 enabled;
     OSThread *current;
 
-    enabled = OS_DisableInterrupts();
-    current = OSi_ThreadInfo.mCurrentThread;
+    enabled = Os_DisableIrq();
+    current = g_Os_ThreadInfo.mCurrentThread;
     if (mutex->mHolder == current) {
         mutex->mLockCount = mutex->mLockCount - 1;
         if (mutex->mLockCount == 0) {
-            OSi_DequeueItem(current, mutex);
+            Os_Mutex_DequeueThread(current, mutex);
             mutex->mHolder = 0;
-            OS_WakeupThread(&mutex->mQueue);
+            Os_Thread_WakeUp(&mutex->mQueue);
         }
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // Releases every mutex in the mutex list of thread and wakes the threads waiting on them.
-void OSi_UnlockAllMutex(struct OSThread *thread) {
+void Os_UnlockAllMutexes(struct OSThread *thread) {
     OSMutex *heldMutex;
 
     if (thread->mMutexQueue.mHead == 0) {
         return;
     }
     do {
-        heldMutex = OSi_RemoveMutexLinkFromQueue(&thread->mMutexQueue);
+        heldMutex = Os_MutexQueue_Pop(&thread->mMutexQueue);
         heldMutex->mLockCount = 0;
         heldMutex->mHolder = 0;
-        OS_WakeupThread(&heldMutex->mQueue);
+        Os_Thread_WakeUp(&heldMutex->mQueue);
     } while (thread->mMutexQueue.mHead != 0);
 }
 
-// Takes the mutex for the current thread like OS_LockMutex but returns 0 instead of sleeping; returns 1 when the
+// Takes the mutex for the current thread like Os_Mutex_Lock but returns 0 instead of sleeping; returns 1 when the
 // thread holds it.
-BOOL OS_TryLockMutex(OSMutex *mutex) {
+BOOL Os_Mutex_TryLock(OSMutex *mutex) {
     u32 enabled;
     BOOL acquired;
     OSThread *current;
 
-    enabled = OS_DisableInterrupts();
-    current = OSi_ThreadInfo.mCurrentThread;
+    enabled = Os_DisableIrq();
+    current = g_Os_ThreadInfo.mCurrentThread;
     if (mutex->mHolder == 0) {
         mutex->mHolder = current;
         mutex->mLockCount = mutex->mLockCount + 1;
-        OSi_EnqueueTail(current, mutex);
+        Os_Mutex_EnqueueThread(current, mutex);
         acquired = 1;
     } else if (mutex->mHolder == current) {
         mutex->mLockCount = mutex->mLockCount + 1;
@@ -96,12 +96,12 @@ BOOL OS_TryLockMutex(OSMutex *mutex) {
     } else {
         acquired = 0;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return acquired;
 }
 
 // Links mutex at the tail of the mutex list of thread.
-void OSi_EnqueueTail(struct OSThread *thread, OSMutex *mutex) {
+void Os_Mutex_EnqueueThread(struct OSThread *thread, OSMutex *mutex) {
     OSMutex *tail;
 
     tail = thread->mMutexQueue.mTail;
@@ -116,7 +116,7 @@ void OSi_EnqueueTail(struct OSThread *thread, OSMutex *mutex) {
 }
 
 // Takes mutex out of the mutex list of thread.
-void OSi_DequeueItem(struct OSThread *thread, OSMutex *mutex) {
+void Os_Mutex_DequeueThread(struct OSThread *thread, OSMutex *mutex) {
     OSMutex *prev;
     OSMutex *next;
 
@@ -135,7 +135,7 @@ void OSi_DequeueItem(struct OSThread *thread, OSMutex *mutex) {
 }
 
 // Clears both thread queues, sets the message array and its length, and empties the queue.
-void OS_InitMessageQueue(OSMessageQueue *queue, OSMessage *messages, s32 count) {
+void Os_MessageQueue_Initialize(OSMessageQueue *queue, OSMessage *messages, s32 count) {
     queue->mFullWaiters.mTail = 0;
     queue->mFullWaiters.mHead = queue->mFullWaiters.mTail;
     queue->mEmptyWaiters.mTail = 0;
@@ -148,39 +148,39 @@ void OS_InitMessageQueue(OSMessageQueue *queue, OSMessage *messages, s32 count) 
 
 // Appends message at the end of the queue and wakes the receivers. When it is full, waits for room if bit 0 of flags is
 // set, else returns 0.
-BOOL OS_SendMessage(OSMessageQueue *queue, OSMessage message, s32 flags) {
+BOOL Os_MessageQueue_Send(OSMessageQueue *queue, OSMessage message, s32 flags) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (queue->mCapacity <= queue->mCount) {
         do {
             if ((flags & 1) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 0;
             }
-            OS_SleepThread(&queue->mFullWaiters);
+            Os_Thread_Sleep(&queue->mFullWaiters);
         } while (queue->mCapacity <= queue->mCount);
     }
     queue->mBuffer[(queue->mHeadIndex + queue->mCount) % queue->mCapacity] = message;
     queue->mCount = queue->mCount + 1;
-    OS_WakeupThread(&queue->mEmptyWaiters);
-    OS_RestoreInterrupts(enabled);
+    Os_Thread_WakeUp(&queue->mEmptyWaiters);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
 // Removes the first message, stores it to *message when message is not 0 and wakes the senders. When the queue is
 // empty, waits for a message if bit 0 of flags is set, else returns 0.
-BOOL OS_ReceiveMessage(OSMessageQueue *queue, OSMessage *message, s32 flags) {
+BOOL Os_ReceiveMessage(OSMessageQueue *queue, OSMessage *message, s32 flags) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (queue->mCount == 0) {
         do {
             if ((flags & 1) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 0;
             }
-            OS_SleepThread(&queue->mEmptyWaiters);
+            Os_Thread_Sleep(&queue->mEmptyWaiters);
         } while (queue->mCount == 0);
     }
     if (message != 0) {
@@ -188,8 +188,8 @@ BOOL OS_ReceiveMessage(OSMessageQueue *queue, OSMessage *message, s32 flags) {
     }
     queue->mHeadIndex = (queue->mHeadIndex + 1) % queue->mCapacity;
     queue->mCount = queue->mCount - 1;
-    OS_WakeupThread(&queue->mFullWaiters);
-    OS_RestoreInterrupts(enabled);
+    Os_Thread_WakeUp(&queue->mFullWaiters);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
@@ -198,21 +198,21 @@ BOOL OS_ReceiveMessage(OSMessageQueue *queue, OSMessage *message, s32 flags) {
 BOOL OS_JamMessage(OSMessageQueue *queue, OSMessage message, s32 flags) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (queue->mCapacity <= queue->mCount) {
         do {
             if ((flags & 1) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 0;
             }
-            OS_SleepThread(&queue->mFullWaiters);
+            Os_Thread_Sleep(&queue->mFullWaiters);
         } while (queue->mCapacity <= queue->mCount);
     }
     queue->mHeadIndex = (queue->mHeadIndex + queue->mCapacity - 1) % queue->mCapacity;
     queue->mBuffer[queue->mHeadIndex] = message;
     queue->mCount = queue->mCount + 1;
-    OS_WakeupThread(&queue->mEmptyWaiters);
-    OS_RestoreInterrupts(enabled);
+    Os_Thread_WakeUp(&queue->mEmptyWaiters);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
@@ -221,56 +221,56 @@ BOOL OS_JamMessage(OSMessageQueue *queue, OSMessage message, s32 flags) {
 BOOL OS_ReadMessage(OSMessageQueue *queue, OSMessage *message, s32 flags) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (queue->mCount == 0) {
         do {
             if ((flags & 1) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 0;
             }
-            OS_SleepThread(&queue->mEmptyWaiters);
+            Os_Thread_Sleep(&queue->mEmptyWaiters);
         } while (queue->mCount == 0);
     }
     if (message != 0) {
         *message = queue->mBuffer[queue->mHeadIndex];
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
-u32 gConsoleType = 0xffffffff;
+u32 g_DebugFlags = 0xffffffff;
 
-u32 OS_IsRunOnEmulator(void) {
+u32 Os_IsEmulator(void) {
     return 0;
 }
 
-// On the first call stores OSi_GetDeviceType's result with one bit added in the top bits (0x10000000 when
-// OS_IsRunOnEmulator is nonzero, else 0x40000000 when OSi_IsRunOnDebugger is nonzero, else 0x20000000 when bit 24 of
+// On the first call stores Os_GetDebugSystemFlags's result with one bit added in the top bits (0x10000000 when
+// Os_IsEmulator is nonzero, else 0x40000000 when Os_ExistsSioConnection is nonzero, else 0x20000000 when bit 24 of
 // the result is set, else 0x80000000), or-ed with a halfword read from a fixed address. The stored value is -1 until
 // then.
-u32 OS_GetConsoleType(void) {
+u32 Os_GetSystemFlags(void) {
     u32 type;
 
-    if (gConsoleType == 0xffffffff) {
-        type = OSi_GetDeviceType();
-        if (OS_IsRunOnEmulator() != 0) {
+    if (g_DebugFlags == 0xffffffff) {
+        type = Os_GetDebugSystemFlags();
+        if (Os_IsEmulator() != 0) {
             type |= 0x10000000;
-        } else if (OSi_IsRunOnDebugger() != 0) {
+        } else if (Os_ExistsSioConnection() != 0) {
             type |= 0x40000000;
         } else if (type & 0x1000000) {
             type |= 0x20000000;
         } else {
             type |= 0x80000000;
         }
-        gConsoleType = type | SYSTEM_WORK->mMmemCheckerSub;
+        g_DebugFlags = type | SYSTEM_WORK->mMmemCheckerSub;
     }
-    return gConsoleType;
+    return g_DebugFlags;
 }
 
-// Repeats, each pass between OS_DisableInterrupts and OS_RestoreInterrupts, until OS_UnlockCartridge has been called
-// (it is when OS_TryLockCartridge returns 0). The result has bit 24 set when two words at fixed addresses are
+// Repeats, each pass between Os_DisableIrq and Os_RestoreIrq, until Operation_CartArm7 has been called
+// (it is when Operation_CartArm9 returns 0). The result has bit 24 set when two words at fixed addresses are
 // 0x544e494e and 0x4f444e45, else bit 25.
-u32 OSi_GetDeviceType(void) {
+u32 Os_GetDebugSystemFlags(void) {
     u32 deviceType;
     s32 isDone;
     u16 cartLockId;
@@ -278,30 +278,30 @@ u32 OSi_GetDeviceType(void) {
     u32 savedInterrupts;
 
     isDone = 0;
-    cartLockId = OS_GetLockID();
+    cartLockId = Os_AllocateLockId();
     deviceType = 0;
     do {
         lockResult = -1;
-        savedInterrupts = OS_DisableInterrupts();
-        if ((OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40) != 0 ||
-            (lockResult = OS_TryLockCartridge(cartLockId)) == 0) {
+        savedInterrupts = Os_DisableIrq();
+        if ((Os_Lock_GetOwnerId(&SYSTEM_WORK->mLockCartridge) & 0x40) != 0 ||
+            (lockResult = Operation_CartArm9(cartLockId)) == 0) {
             if (*(u32 *) 0x8000000 == 0x544e494e && *(u32 *) 0x8000004 == 0x4f444e45) {
                 deviceType = 0x1000000;
             } else {
                 deviceType = 0x2000000;
             }
             if (lockResult == 0) {
-                OS_UnlockCartridge(cartLockId);
+                Operation_CartArm7(cartLockId);
                 isDone = 1;
             }
         }
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
     } while (isDone == 0);
     return deviceType;
 }
 
 // 1 when a halfword is 1; which of two fixed addresses it is read from depends on whether another halfword is 0.
-u32 OSi_IsRunOnDebugger(void) {
+u32 Os_ExistsSioConnection(void) {
     u16 *address;
 
     if (*HW_CHECK_DEBUGGER_SW == 0) {
@@ -313,12 +313,12 @@ u32 OSi_IsRunOnDebugger(void) {
 }
 
 // clang-format off
-// Calls CP_SaveContext with the address of mUnk_48, stores the status register and the registers (r0 = 1 saved) into
+// Calls Arm_MathContext_Save with the address of mUnk_48, stores the status register and the registers (r0 = 1 saved) into
 // the words from 0, the banked sp of mode 0xd3 at 0x44 and the address of the return point at 0x3c, and returns 0.
-asm BOOL OS_SaveContext(OSThread *thread) {
+asm BOOL Arm_Context_Save(OSThread *thread) {
     stmdb sp!, {r0, lr}
     add r0, r0, #0x48
-    ldr r1, =CP_SaveContext
+    ldr r1, =Arm_MathContext_Save
     blx r1
     ldmia sp!, {r0, lr}
     add r1, r0, #0x0
@@ -336,12 +336,12 @@ asm BOOL OS_SaveContext(OSThread *thread) {
     bx lr
 }
 
-// Calls CPi_RestoreContext with the address of mUnk_48, then switches to mode 0xd3 and restores the registers and the
-// status word saved by OS_SaveContext.
-asm void OS_LoadContext(OSThread *thread) {
+// Calls Arm_MathContext_Load with the address of mUnk_48, then switches to mode 0xd3 and restores the registers and the
+// status word saved by Arm_Context_Save.
+asm void Arm_Context_Load(OSThread *thread) {
     stmdb sp!, {r0, lr}
     add r0, r0, #0x48
-    ldr r1, =CPi_RestoreContext
+    ldr r1, =Arm_MathContext_Load
     blx r1
     ldmia sp!, {r0, lr}
     mrs r1, cpsr

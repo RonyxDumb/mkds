@@ -9,9 +9,9 @@ void DrawChandelier(void *mapObjectList, Chandelier *chandelier) {
     u32 commandArg;
     commandArg = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
-    viewMatrix = SetViewRotatedMatrixPos(&chandelier->mMapObject.mPos);
+    viewMatrix = MaybeGetBBMtxAtPosition(&chandelier->mMapObject.mPos);
     NNS_G3dGeBufferOP_N(0x19, viewMatrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &chandelier->mMapObject.mScale, 3);
-    SetMapObjectModelNsbcaFrameIndex(gChandelier, chandelier->mFrameIndex);
+    StructMapObject_MaybeSetNsbcaFrame(gChandelier, chandelier->mFrameIndex);
     DrawMapObjectModel(mapObjectList, gChandelier, chandelier);
 }

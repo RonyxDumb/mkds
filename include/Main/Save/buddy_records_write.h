@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void WriteBuddyRecordsAndFirstBlock(void);
-void WriteBackupBuddyRecords(void);
+void SaveFriendList(void);
+void WriteFriendListSaveDataSection(void);

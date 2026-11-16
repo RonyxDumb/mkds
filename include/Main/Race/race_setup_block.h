@@ -64,7 +64,7 @@ typedef struct KartEntryPlayer {
 } KartEntryPlayer;
 
 // Character index values (KartEntry.mCharacterIndex and the same-named members of the select screens), in the order of
-// gCharacterSubDirNames (the folders of the character models).
+// g_str_characters (the folders of the character models).
 enum {
     CHARACTER_MARIO,
     CHARACTER_DONKEY,
@@ -147,8 +147,8 @@ typedef struct KartEntry {
 // Staff roll: the course is COURSE_ID_STAFFROLL or COURSE_ID_STAFFROLLTRUE.
 #define RACE_KIND_STAFF_ROLL 6
 
-// setup. The value is the row of the course name table gCourseArchiveNames (8 byte rows, the string pointer first):
-// BuildCourseArchivePath formats the row's string as the first %s of "/data/Course/%s%s%s.carc". Each name below is
+// setup. The value is the row of the course name table g_CourseNameTable (8 byte rows, the string pointer first):
+// FormatCourseCarc_from_thumb formats the row's string as the first %s of "/data/Course/%s%s%s.carc". Each name below is
 // that row's string without a trailing "_course", upper-cased, and the comment after it quotes the row index and the
 // string. Only the values that occur at a compare, case label or store of the member are defined;
 // the other rows stay literals.
@@ -244,7 +244,7 @@ typedef struct KartEntry {
 
 #define COURSE_ID_STAFFROLLTRUE 0x36  // row 54: "StaffRollTrue"
 
-// The 0x68 bytes at 0x1e8 of the object behind gRaceSetup.
+// The 0x68 bytes at 0x1e8 of the object behind g_GlobalCO.
 // Values of the mBattleKind member of RaceSetup and of RaceSetupHeader.
 typedef enum { BATTLE_KIND_BALLOON, BATTLE_KIND_SHINE } BattleKind;
 
@@ -425,14 +425,14 @@ typedef struct RaceSetup {
 // Entries of the course list that RaceSetup.mCourseList points to.
 #define RACE_SETUP_COURSE_LIST_LENGTH 0x21
 
-extern RaceSetup *gRaceSetup;
+extern RaceSetup *g_GlobalCO;
 
 static inline KartEntry *GetCurrentEntry(u16 entryIndex) {
-    return &gRaceSetup->mCurrentEntries[entryIndex];
+    return &g_GlobalCO->mCurrentEntries[entryIndex];
 }
 
 static inline void SetListedCpuEntryIndex(u8 listedCpuSlot, s8 entryIndex) {
-    gRaceSetup->mListedCpuEntryIndices[listedCpuSlot] = entryIndex;
+    g_GlobalCO->mListedCpuEntryIndices[listedCpuSlot] = entryIndex;
 }
 
 // The touch and microphone input: touch samples, the calibrated point, the sampling flags and the microphone buffer.
@@ -452,4 +452,4 @@ typedef struct TouchMicInput {
     /* 3c */ MicBuffer *mMicBuffer;
 } TouchMicInput;
 
-extern TouchMicInput *gTouchMicInput;
+extern TouchMicInput *g_Global59C4;

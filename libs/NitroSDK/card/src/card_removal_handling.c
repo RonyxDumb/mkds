@@ -5,58 +5,58 @@
 #include "power_management_commands.h"
 #include "bios_calls.h"
 
-CARDPulledOutCallback gRemovalCallback;
-u32 gRemovalSeen;
+CARDPulledOutCallback g_Card_UserCardPulledOutCallback;
+u32 g_Card_IsPulledOut;
 
-// Installs CARDi_PulledOutCallback on tag 14 and clears the user callback.
-void CARD_InitPulledOutCallback(void) {
-    PXI_Init();
-    PXI_SetFifoRecvCallback(14, CARDi_PulledOutCallback);
-    gRemovalCallback = 0;
+// Installs Card_CardPulledOutHandler on tag 14 and clears the user callback.
+void Card_InitializePulledOutCallback(void) {
+    j_Fifo_Initialize();
+    Fifo_RegisterHandler(14, Card_CardPulledOutHandler);
+    g_Card_UserCardPulledOutCallback = 0;
 }
 
-// Tag 14 callback: on the pulled-out command sets gRemovalSeen, calls the user callback and ends the program when there
-// is none or it returns non-zero. Any other command ends in OS_Terminate.
-void CARDi_PulledOutCallback(u32 tag, u32 data) {
+// Tag 14 callback: on the pulled-out command sets g_Card_IsPulledOut, calls the user callback and ends the program when there
+// is none or it returns non-zero. Any other command ends in Os_Terminate.
+void Card_CardPulledOutHandler(u32 tag, u32 data) {
     u32 terminate;
     CARDPulledOutCallback callback;
 
     if ((data & 0x3F) == 0x11) {
-        callback = gRemovalCallback;
-        gRemovalSeen = 1;
+        callback = g_Card_UserCardPulledOutCallback;
+        g_Card_IsPulledOut = 1;
         terminate = 1;
         if (callback != 0) {
             terminate = callback();
         }
         if (terminate != 0) {
-            CARD_TerminateForPulledOut();
+            Card_TerminateForPulledOut();
         }
     } else {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
 // Sets the user callback.
-void CARD_SetPulledOutCallback(CARDPulledOutCallback callback) {
-    gRemovalCallback = callback;
+void Card_SetUserCardPulledOutCallback(CARDPulledOutCallback callback) {
+    g_Card_UserCardPulledOutCallback = callback;
 }
 
 // Returns 1 once a card removal was reported.
-u32 CARD_IsPulledOut(void) {
-    return gRemovalSeen;
+u32 Card_IsPulledOut(void) {
+    return g_Card_IsPulledOut;
 }
 
-void CARD_TerminateForPulledOut(void) {
+void Card_TerminateForPulledOut(void) {
     if (((s32) (*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK)) >> 15 != 0) {
         PM_ForceToPowerOff();
     }
-    CARDi_SendtoPxi(1, 1);
-    OS_Terminate();
+    Card_SendToFifo(1, 1);
+    Os_Terminate();
 }
 
 // Sends the word on tag 14, waiting and trying again until it is accepted.
-void CARDi_SendtoPxi(u32 data, s32 wait) {
-    while (PXI_SendWordByFifo(14, data, 0) != 0) {
-        WaitByLoop(wait);
+void Card_SendToFifo(u32 data, s32 wait) {
+    while (Fifo_SendWord(14, data, 0) != 0) {
+        Svc_Delay_from_thumb(wait);
     }
 }

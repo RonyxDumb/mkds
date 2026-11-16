@@ -26,7 +26,7 @@ typedef struct SOCLiCommandPacket {
     };
     /* 18 */ u32 *mRemoteIpOut;
     /* 1c */ u32 mUnk_1c;
-    /* 20 */ u8 mUnk_20[0xc];
+    /* 20 */ u8 mFlags[0xc];
 } SOCLiCommandPacket;
 
 s32 SOCLi_ExecCommandPacketInRecvPipe(SOCLSocket *socket, SOCLiCommandPacket *packet);

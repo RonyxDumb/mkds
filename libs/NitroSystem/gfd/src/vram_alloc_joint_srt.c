@@ -1,7 +1,7 @@
 #include "vram_alloc_joint_srt.h"
 #include "ITCM/model_draw_and_irq_handler.h"
 
-u32 AllocPlttVram_(u32 szByte, BOOL b4Pltt, u32 opt) {
+u32 PaletteHandler(u32 szByte, BOOL b4Pltt, u32 opt) {
     return 0;
 }
 
@@ -9,11 +9,11 @@ s32 FreePlttVram_(u32 plttKey) {
     return -1;
 }
 
-u32 AllocTexVram_(u32 szByte, BOOL is4x4comp, u32 opt) {
+u32 TextureHandler(u32 szByte, BOOL is4x4comp, u32 opt) {
     return 0;
 }
 
-s32 FreeTexVram_(u32 texKey) {
+s32 CompressedTextureHandler(u32 texKey) {
     return -1;
 }
 

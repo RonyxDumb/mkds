@@ -4,5 +4,5 @@
 
 typedef struct BuddyRecordBlock BuddyRecordBlock;
 
-void ReadBackupBuddyRecordBlock(void *block);
-void WriteBackupBuddyRecordBlock(BuddyRecordBlock *block);
+void ReadSaveDataSection_FriendList_from_thumb(void *block);
+void WriteSaveDataSection_FriendList_from_thumb(BuddyRecordBlock *block);

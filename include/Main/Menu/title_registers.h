@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void IncrementCounterSaturating(int *counter);
+void StructHU_IncrementSomeCounter(int *counter);
 
-void WriteTitleSceneRegisters(void);
+void Scene_Title_VBlankImpl_from_thumb(void);

@@ -3,13 +3,13 @@
 #include "types.h"
 
 void WiFiRaceSyncReceiveCallback(u32 fromIndex, void *message, u32 size);
-void WriteChangedWiFiBuddies(void);
+void WriteSaveFriendCodes(void);
 void RequestWiFiSessionLogin(void);
 void ReleaseWiFiConnectionWrapper(void);
 BOOL UpdateWiFiSessionRelease(void);
 s32 GetWiFiSessionLoginResult(void);
-void ReleaseWiFiSession(void);
-void SetupWiFiSessionLogin(void);
+void OnSomeMultiplayError(void);
+void GlobalB_E7Fn_1AImpl(void);
 void AdvanceWiFiSessionLoginStep1(void);
 u32 UpdateWiFiSessionLogin(void);
 void WiFiSessionLoginCallback(s32 result, u32 profileId, u32 arg);

@@ -49,46 +49,46 @@ char gChoisesSNscr3Name[] = "choises_s_3.NSCR";
 #pragma thumb on
 #pragma optimize_for_size on
 
-void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
+void *GetMenuOptionString_from_thumb(s32 listIndex, s32 value) {
     s32 entryNumbers[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
 
-    if (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY) {
+    if (GetDisplayMode_0() == RACE_KIND_REPLAY) {
         entryNumbers[0] = 0x6a;
         entryNumbers[8] = 0x63;
     }
     if (listIndex != 0) {
         entryNumbers[2] = 0x60;
     }
-    return GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), entryNumbers[value]);
+    return Bmg_GetRawStringPointer_from_thumb(j_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2("common.bmg"), entryNumbers[value]);
 }
 
-void ClearChoisesSListValueCounts(void) {
+void ClearRaceOptionMenuEntries_from_thumb(void) {
     s32 listIndex;
 
     for (listIndex = 0; listIndex < 4; listIndex++) {
-        gChoisesS->mLists[listIndex].mValueCount = 0;
+        g_RaceOptionMenuManager->mLists[listIndex].mValueCount = 0;
     }
 }
 
 void AppendChoisesSListValue(s32 listIndex, s32 value) {
     s32 valueCount;
 
-    valueCount = gChoisesS->mLists[listIndex].mValueCount;
-    gChoisesS->mLists[listIndex].mValueCount = valueCount + 1;
-    gChoisesS->mLists[listIndex].mValues[valueCount] = value;
+    valueCount = g_RaceOptionMenuManager->mLists[listIndex].mValueCount;
+    g_RaceOptionMenuManager->mLists[listIndex].mValueCount = valueCount + 1;
+    g_RaceOptionMenuManager->mLists[listIndex].mValues[valueCount] = value;
 }
 
-s32 MoveChoisesSSelectedValue(s32 step) {
+s32 MaybeOnMenuOptionScroll_from_thumb(s32 step) {
     s32 selectedIndex = 0;
     s32 valueCount;
     s32 listIndex;
     ChoisesS *choisesS;
 
     if (IsChoisesSOpen() != 0) {
-        listIndex = GetChoisesSListIndex();
-        valueCount = gChoisesS->mLists[listIndex].mValueCount;
+        listIndex = GetCurrentOptionMenuKind_from_thumb();
+        valueCount = g_RaceOptionMenuManager->mLists[listIndex].mValueCount;
         for (; selectedIndex < valueCount; selectedIndex++) {
-            if (gChoisesS->mSelectedValue == gChoisesS->mLists[listIndex].mValues[selectedIndex]) {
+            if (g_RaceOptionMenuManager->mSelectedValue == g_RaceOptionMenuManager->mLists[listIndex].mValues[selectedIndex]) {
                 break;
             }
         }
@@ -96,16 +96,16 @@ s32 MoveChoisesSSelectedValue(s32 step) {
             step = 0;
         } else if (valueCount == 2) {
             if (step != 0 && selectedIndex + step >= 0 && selectedIndex + step < valueCount) {
-                gChoisesS->mCycleFrames = 0;
-                StartSoundOncePerFrame(0);
+                g_RaceOptionMenuManager->mCycleFrames = 0;
+                MaybePlaySomeSseqFromSarc0(0);
             } else {
                 step = 0;
             }
         } else if (step != 0) {
-            gChoisesS->mCycleFrames = 0;
-            StartSoundOncePerFrame(0);
+            g_RaceOptionMenuManager->mCycleFrames = 0;
+            MaybePlaySomeSseqFromSarc0(0);
         }
-        choisesS = gChoisesS;
+        choisesS = g_RaceOptionMenuManager;
         choisesS->mSelectedValue =
             choisesS->mLists[listIndex].mValues[(valueCount + (selectedIndex + step)) % valueCount];
     }
@@ -113,7 +113,7 @@ s32 MoveChoisesSSelectedValue(s32 step) {
 }
 
 static inline ChoisesS *GetChoisesS(void) {
-    return gChoisesS;
+    return g_RaceOptionMenuManager;
 }
 
 u32 MoveChoisesSSelectedValueByTouch(void) {
@@ -126,9 +126,9 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
     s32 top;
 
     if (IsChoisesSOpen() != 0) {
-        MoveChoisesSSelectedValue(0);
-        listIndex = GetChoisesSListIndex();
-        valueCount = gChoisesS->mLists[listIndex].mValueCount;
+        MaybeOnMenuOptionScroll_from_thumb(0);
+        listIndex = GetCurrentOptionMenuKind_from_thumb();
+        valueCount = g_RaceOptionMenuManager->mLists[listIndex].mValueCount;
         for (valueIndex = 0, firstRectRow = 0xc - valueCount * 2; valueIndex < valueCount; valueIndex++) {
             top = (firstRectRow + valueIndex * 4) * 8 + 6;
             valueRects[valueIndex].mMinX = CHOISES_S_RECT_MIN_X;
@@ -137,18 +137,18 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
             valueRects[valueIndex].mMaxY = top + 0x16;
         }
         for (valueIndex = 0; valueIndex < valueCount; valueIndex++) {
-            if (IsNewPairInRect(GetChoisesSInputSlot(), valueRects[valueIndex]) != 0) {
-                if (gChoisesS->mSelectedValue != GetChoisesS()->mLists[listIndex].mValues[valueIndex]) {
-                    gChoisesS->mSelectedValue = gChoisesS->mLists[listIndex].mValues[valueIndex];
-                    MoveChoisesSSelectedValue(0);
+            if (IsNewPairInRect(Const8_0(), valueRects[valueIndex]) != 0) {
+                if (g_RaceOptionMenuManager->mSelectedValue != GetChoisesS()->mLists[listIndex].mValues[valueIndex]) {
+                    g_RaceOptionMenuManager->mSelectedValue = g_RaceOptionMenuManager->mLists[listIndex].mValues[valueIndex];
+                    MaybeOnMenuOptionScroll_from_thumb(0);
                 } else {
-                    gChoisesS->mPickStartedOnSelected = TRUE;
+                    g_RaceOptionMenuManager->mPickStartedOnSelected = TRUE;
                 }
                 touched = 1;
             }
         }
         if (touched != 0) {
-            if (gChoisesS->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
+            if (g_RaceOptionMenuManager->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
                 RaiseSndHandleVolumes();
             } else {
                 StartChoisesSSelectedValueSeq();
@@ -161,49 +161,49 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
 void ResetChoisesSSelection(void) {
     ChoisesS *choisesS;
 
-    gChoisesS->mPickedValue = CHOISES_S_PICK_NONE;
-    choisesS = gChoisesS;
-    choisesS->mSelectedValue = choisesS->mLists[GetChoisesSListIndex()].mValues[0];
+    g_RaceOptionMenuManager->mPickedValue = CHOISES_S_PICK_NONE;
+    choisesS = g_RaceOptionMenuManager;
+    choisesS->mSelectedValue = choisesS->mLists[GetCurrentOptionMenuKind_from_thumb()].mValues[0];
 }
 
 void SetChoisesSOpen(s32 openFlag) {
-    if (gChoisesS->mPickLocked != 0) {
+    if (g_RaceOptionMenuManager->mPickLocked != 0) {
         return;
     }
     if (openFlag != 0 && IsChoisesSOpen() == 0) {
         if (IsChoisesSOpenAllowedDuringRace() != 0) {
-            gChoisesS->mOpenDuringRace = openFlag;
+            g_RaceOptionMenuManager->mOpenDuringRace = openFlag;
         } else if (IsChoisesSOpenAllowedAfterRace() != 0) {
-            gChoisesS->mOpenAfterRace = openFlag;
+            g_RaceOptionMenuManager->mOpenAfterRace = openFlag;
         } else {
             return;
         }
         ResetChoisesSSelection();
     } else if (openFlag == 0 && IsChoisesSOpen() != 0) {
         if (IsChoisesSOpenAllowedDuringRace() != 0) {
-            gChoisesS->mOpenDuringRace = openFlag;
+            g_RaceOptionMenuManager->mOpenDuringRace = openFlag;
         } else if (IsChoisesSOpenAllowedAfterRace() != 0) {
-            gChoisesS->mOpenAfterRace = openFlag;
+            g_RaceOptionMenuManager->mOpenAfterRace = openFlag;
         } else {
             return;
         }
     }
-    if (gChoisesS->mPickedValue != CHOISES_S_PICK_NONE) {
-        gChoisesS->mPickLocked = 1;
+    if (g_RaceOptionMenuManager->mPickedValue != CHOISES_S_PICK_NONE) {
+        g_RaceOptionMenuManager->mPickLocked = 1;
     }
 }
 
-u32 IsMissionRunTableRow6Or7Column9(void) {
-    if ((GetMissionRunTableRow() == 6 && GetMissionRunTableColumn() == 9) ||
-        (GetMissionRunTableRow() == 7 && GetMissionRunTableColumn() == 9)) {
+u32 IsCurrentMission_Boss6OrBoss7_from_thumb(void) {
+    if ((GetCurrentMissionLevel_0() == 6 && GetCurrentMissionLevelStage_0() == 9) ||
+        (GetCurrentMissionLevel_0() == 7 && GetCurrentMissionLevelStage_0() == 9)) {
         return 1;
     }
     return 0;
 }
 #pragma thumb off
 
-s8 GetMissionRunTableRow(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+s8 GetCurrentMissionLevel_0(void) {
+    RaceSetup *raceSetup = g_GlobalCO;
 
     if (raceSetup->mMode == MODE_MISSION_RUN) {
         return raceSetup->mMissionTableRow;
@@ -211,8 +211,8 @@ s8 GetMissionRunTableRow(void) {
     return -1;
 }
 
-s8 GetMissionRunTableColumn(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+s8 GetCurrentMissionLevelStage_0(void) {
+    RaceSetup *raceSetup = g_GlobalCO;
 
     if (raceSetup->mMode == MODE_MISSION_RUN) {
         return raceSetup->mMissionTableColumn;
@@ -227,8 +227,8 @@ BOOL IsAllMissionRecords5To7AtGoalEnd(void) {
     s32 recordValue;
     s32 isFilled;
 
-    isFilled = GetMissionRecordValue(GetMissionRunTableRow(), GetMissionRunTableColumn(), &recordValue);
-    if (GetEntryEndKind() == 0 && gChoisesS->mOtherMissionRecordsFilled5To7 != FALSE && isFilled != 0 &&
+    isFilled = IsMissionStageBeaten(GetCurrentMissionLevel_0(), GetCurrentMissionLevelStage_0(), &recordValue);
+    if (GetEntryEndKind() == 0 && g_RaceOptionMenuManager->mOtherMissionRecordsFilled5To7 != FALSE && isFilled != 0 &&
         (u32) (recordValue - 5) <= 2) {
         return 1;
     }
@@ -238,8 +238,8 @@ BOOL IsAllMissionRecords5To7AtGoalEnd(void) {
 
 #pragma thumb on
 
-u32 GetChoisesSOpenDuringRace(void) {
-    return (gChoisesS->mOpenDuringRace);
+u32 IsRaceOptionMenuOn_from_thumb(void) {
+    return (g_RaceOptionMenuManager->mOpenDuringRace);
 }
 
 #pragma thumb off
@@ -247,7 +247,7 @@ u32 GetChoisesSOpenDuringRace(void) {
 #pragma thumb on
 #pragma optimize_for_size on
 u32 IsChoisesSOpen(void) {
-    if (GetChoisesSOpenDuringRace() != 0 || gChoisesS->mOpenAfterRace != 0) {
+    if (IsRaceOptionMenuOn_from_thumb() != 0 || g_RaceOptionMenuManager->mOpenAfterRace != 0) {
         return 1;
     }
     return 0;
@@ -259,25 +259,25 @@ u32 IsChoisesSOpen(void) {
 void SetChoisesSOpenDuringRace(u32 openFlag) {
     int wasOpen;
     int checkResult;
-    wasOpen = GetChoisesSOpenDuringRace();
+    wasOpen = IsRaceOptionMenuOn_from_thumb();
     checkResult = IsChoisesSOpenAllowedDuringRace();
     if (checkResult != 0) {
         SetChoisesSOpen(openFlag);
     }
-    checkResult = GetChoisesSOpenDuringRace();
+    checkResult = IsRaceOptionMenuOn_from_thumb();
     if ((wasOpen == 0) && (checkResult != 0)) {
         LowerSndHandleVolumes();
     }
 }
 
-u32 GetChoisesSPrevOpenDuringRace(void) {
-    return (gChoisesS->mPrevOpenDuringRace);
+u32 MaybeIsMenuOn_from_thumb(void) {
+    return (g_RaceOptionMenuManager->mPrevOpenDuringRace);
 }
 
 int GetChoisesSPickedValue(void) {
     int courseCountReached;
     int pickedValue;
-    pickedValue = gChoisesS->mPickedValue;
+    pickedValue = g_RaceOptionMenuManager->mPickedValue;
     if ((pickedValue == CHOISES_S_PICK_NEXT) &&
         (courseCountReached = IsRaceGoalSRuleCourseCountReached(), courseCountReached != 0)) {
         pickedValue = CHOISES_S_PICK_NEXT_LAST;
@@ -300,7 +300,7 @@ void WriteChoisesSListTiles(void) {
     s32 firstRow;
     u16 *screenMap;
 
-    valueCount = gChoisesS->mLists[GetChoisesSListIndex()].mValueCount;
+    valueCount = g_RaceOptionMenuManager->mLists[GetCurrentOptionMenuKind_from_thumb()].mValueCount;
     screenMap = GetChoisesSListScreenMapData();
     if (screenMap != NULL) {
         for (valueIndex = 0, firstRow = 0xd - valueCount * 2; valueIndex < valueCount; valueIndex++) {
@@ -311,25 +311,25 @@ void WriteChoisesSListTiles(void) {
 }
 #pragma thumb off
 
-u32 GetEntryIndex(void) {
-    return (gRaceSetup->mEntryIndex);
+u32 GetCurrentPlayerRacerId_0(void) {
+    return (g_GlobalCO->mEntryIndex);
 }
 
 s32 GetEntryEndKind(void) {
-    if (IsKartEnded((u16) GetEntryIndex()) != 0) {
-        return gRaceProgress->mEntryEndKind;
+    if (IsRacerFinishedRace((u16) GetCurrentPlayerRacerId_0()) != 0) {
+        return g_GlobalMV->mEntryEndKind;
     }
     return 6;
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
-u32 GetChoisesSListIndex(void) {
-    if (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && GetRaceDone() == 0) {
+u32 GetCurrentOptionMenuKind_from_thumb(void) {
+    if (GetDisplayMode_0() == RACE_KIND_REPLAY && IsRaceEnded() == 0) {
         return 3;
     }
-    if (GetRaceDone() != 0) {
-        if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
+    if (IsRaceEnded() != 0) {
+        if (GetRaceMode() == MODE_MISSION_RUN) {
             if (GetEntryEndKind() == 0) {
                 return 2;
             }
@@ -348,12 +348,12 @@ void WriteChoisesSSelectedValueTiles(s32 selectedIndex) {
     s32 row;
     u16 *screenMap;
 
-    valueCount = gChoisesS->mLists[GetChoisesSListIndex()].mValueCount;
+    valueCount = g_RaceOptionMenuManager->mLists[GetCurrentOptionMenuKind_from_thumb()].mValueCount;
     screenMap = GetChoisesSListScreenMapData();
     if (screenMap != NULL) {
-        if (gChoisesS->mPickStartedOnSelected == FALSE || gChoisesS->mPickFrames >= CHOISES_S_PICK_START_FRAMES) {
+        if (g_RaceOptionMenuManager->mPickStartedOnSelected == FALSE || g_RaceOptionMenuManager->mPickFrames >= CHOISES_S_PICK_START_FRAMES) {
             row = 0xd - valueCount * 2 + selectedIndex * 4;
-            if (gChoisesS->mCycleFrames < CHOISES_S_CYCLE_LIT_FRAMES) {
+            if (g_RaceOptionMenuManager->mCycleFrames < CHOISES_S_CYCLE_LIT_FRAMES) {
                 SetScreenMapBlockLowBits(screenMap, 2, row, 1, 1, 0x21);
                 SetScreenMapBlockLowBits(screenMap, 2, row + 1, 1, 1, 0x41);
             }
@@ -367,54 +367,54 @@ void WriteChoisesSSelectedValueTiles(s32 selectedIndex) {
 
 void WriteChoisesSListScreenMap(void) {
     WriteChoisesSListTiles();
-    WriteChoisesSSelectedValueTiles(MoveChoisesSSelectedValue(0));
+    WriteChoisesSSelectedValueTiles(MaybeOnMenuOptionScroll_from_thumb(0));
 }
 
 #pragma thumb off
 
-u32 ChoisesSIsBackupEnabled(void) {
-    return (gBackupAccess->mBackupEnabled);
+u32 SaveDataIoManagerIsBusy(void) {
+    return (g_SaveDataIoManager->mBackupEnabled);
 }
 
 #pragma optimize_for_size on
-s32 ChoisesSIsBackupCommandRunning(void) {
-    if (ChoisesSIsBackupEnabled() != 0) {
-        return gBackupAccess->mCommandRunning;
+s32 SaveDataIoManagerIsBusy12(void) {
+    if (SaveDataIoManagerIsBusy() != 0) {
+        return g_SaveDataIoManager->mCommandRunning;
     }
     return 0;
 }
 
-s32 ChoisesSIsBackupBusy(void) {
-    if (gBackupBuffers->mBusy != 0) {
+s32 SaveDataHolderIsBusy(void) {
+    if (g_SaveDataHolder->mBusy != 0) {
         return 1;
     }
-    return ChoisesSIsBackupCommandRunning();
+    return SaveDataIoManagerIsBusy12();
 }
 
 #pragma thumb on
 u32 IsRaceDoneOrReplayPastStartFrames(void) {
-    if (GetRaceDone() != 0 ||
-        (ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && GetRaceStartSequenceFrames() > 0xf0)) {
+    if (IsRaceEnded() != 0 ||
+        (GetDisplayMode_0() == RACE_KIND_REPLAY && GetRaceStartCountdown() > 0xf0)) {
         return 1;
     }
     return 0;
 }
 
 u32 IsChoisesSOpenAllowedAfterRace(void) {
-    if (IsRaceStartSequenceDone() != 0 && IsRaceDoneOrReplayPastStartFrames() != 0 && IsRaceGoalMReady() != 0 &&
-        IsRaceGoalSRunning() == 0 && IsRaceNewRecordTaSaving() == 0 && IsRaceNewRecordTaRunning() == 0 &&
-        GetShowLapTime() == 0 && (GetChoisesSOpenDuringRace() != 0 || IsSharedDispCapFadeFlagSet() == FALSE)) {
+    if (IsRaceCountdownEnded() != 0 && IsRaceDoneOrReplayPastStartFrames() != 0 && GetB3F0_Beb0() != 0 &&
+        IsRaceGoalSRunning() == 0 && IsSavingTimeTrialRecord() == 0 && IsRaceNewRecordTaRunning() == 0 &&
+        GetShowLapTime() == 0 && (IsRaceOptionMenuOn_from_thumb() != 0 || IsSharedDispCapFadeFlagSet() == FALSE)) {
         return 1;
     }
     return 0;
 }
 #pragma thumb off
 
-u32 ChoisesSGetUnfilledNotEliminated(void) {
-    return (gMenuShared->mUnfilledNotEliminated);
+u32 IsCurrentMissionNotBeaten(void) {
+    return (g_GlobalB488->mUnfilledNotEliminated);
 }
 
-u32 GetChoisesSInputSlot(void) {
+u32 Const8_0(void) {
     return 0x8u;
 }
 
@@ -423,7 +423,7 @@ u16 ChoisesSGetInputSlotNewBits(InputSlot *slot, u32 mask) {
 }
 
 u16 ChoisesSGetNewBits(s32 slotIndex, u32 mask) {
-    return ChoisesSGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return ChoisesSGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 u32 ChoisesSGetPairHasPair(InputSlotPair *inputSlotPair) {
@@ -453,15 +453,15 @@ u32 ChoisesSIsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair) {
 }
 
 u32 ChoisesSIsSlotPairNew(s32 slotIndex) {
-    return ChoisesSIsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
+    return ChoisesSIsPairNewUnlessRecentlyLost(&g_GlobalCYT[slotIndex].mPair);
 }
 
-void ChoisesSSetLVselIndex6Requested(u32 value) {
-    gMenuShared->mLVselIndex6Requested = value;
+void SetB488_B6(u32 value) {
+    g_GlobalB488->mLVselIndex6Requested = value;
 }
 
-u32 GetRaceDone(void) {
-    return (gRaceProgress->mRaceDone);
+u32 IsRaceEnded(void) {
+    return (g_GlobalMV->mRaceDone);
 }
 
 #pragma thumb on
@@ -472,11 +472,11 @@ BOOL IsChoisesSOpenAllowedDuringRace(void) {
     u32 raceInProgress = 0;
     u32 noMissionWinner;
 
-    if (IsRaceStartSequenceDone() != 0 && GetRaceStartSequenceFrames() > 0xf0 && GetRaceDone() == 0 &&
-        (ChoisesSGetCurrentMode() != MODE_BATTLE || IsWinnerDecided() == FALSE)) {
+    if (IsRaceCountdownEnded() != 0 && GetRaceStartCountdown() > 0xf0 && IsRaceEnded() == 0 &&
+        (GetRaceMode() != MODE_BATTLE || IsWinnerDecided() == FALSE)) {
         noMissionWinner = 1;
-        if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
-            if ((ChoisesSGetCurrentMode() == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
+        if (GetRaceMode() == MODE_MISSION_RUN) {
+            if ((GetRaceMode() == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
                 noMissionWinner = 0;
             }
         }
@@ -485,12 +485,12 @@ BOOL IsChoisesSOpenAllowedDuringRace(void) {
         }
     }
     if (raceInProgress != 0) {
-        if (ChoisesSGetCurrentMode() != 5) {
+        if (GetRaceMode() != 5) {
             modeAllowsOpen = 1;
         }
     }
     if (modeAllowsOpen != 0) {
-        if (GetChoisesSOpenDuringRace() != 0 || IsSharedDispCapFadeFlagSet() == FALSE) {
+        if (IsRaceOptionMenuOn_from_thumb() != 0 || IsSharedDispCapFadeFlagSet() == FALSE) {
             result = 1;
         }
     }
@@ -498,146 +498,146 @@ BOOL IsChoisesSOpenAllowedDuringRace(void) {
 }
 #pragma thumb off
 
-u32 ChoisesSGetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+u32 GetPMaybeState_0(void) {
+    return (g_GlobalP->mConnectionKind);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateChoisesS(void) {
+void LoopFn_RaceMenuOptions_from_thumb(void) {
     s32 frames;
 
-    gChoisesS->mPrevOpenDuringRace = gChoisesS->mOpenDuringRace;
-    gChoisesS->mCycleFrames = gChoisesS->mCycleFrames + 1;
-    if (gChoisesS->mCycleFrames >= CHOISES_S_CYCLE_FRAMES) {
-        gChoisesS->mCycleFrames = 0;
+    g_RaceOptionMenuManager->mPrevOpenDuringRace = g_RaceOptionMenuManager->mOpenDuringRace;
+    g_RaceOptionMenuManager->mCycleFrames = g_RaceOptionMenuManager->mCycleFrames + 1;
+    if (g_RaceOptionMenuManager->mCycleFrames >= CHOISES_S_CYCLE_FRAMES) {
+        g_RaceOptionMenuManager->mCycleFrames = 0;
     }
-    if (ChoisesSIsBackupBusy() != 0) {
+    if (SaveDataHolderIsBusy() != 0) {
         return;
     }
-    if ((ChoisesSGetCurrentMode() == MODE_GRAND_PRIX || ChoisesSGetCurrentMode() == MODE_TIME_ATTACK) &&
-        ChoisesSGetCurrentRaceKind() == RACE_KIND_REPLAY && ShouldEndReplayRace() != 0) {
+    if ((GetRaceMode() == MODE_GRAND_PRIX || GetRaceMode() == MODE_TIME_ATTACK) &&
+        GetDisplayMode_0() == RACE_KIND_REPLAY && ShouldEndReplayRace() != 0) {
         return;
     }
-    if (gChoisesS->mPickFrames == 0 && gChoisesS->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {
+    if (g_RaceOptionMenuManager->mPickFrames == 0 && g_RaceOptionMenuManager->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {
         if (IsRaceDoneOrReplayPastStartFrames() != 0) {
             if (IsChoisesSOpenAllowedAfterRace() != 0) {
-                if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && ChoisesSGetUnfilledNotEliminated() != 0 &&
-                    IsMissionRunTableRow6Or7Column9() != 0) {
-                    if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
-                        ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
-                        gChoisesS->mPickedValue = CHOISES_S_PICK_STAFF_CREDITS;
-                        gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
-                        gChoisesS->mPickLocked = 1;
+                if (GetRaceMode() == MODE_MISSION_RUN && IsCurrentMissionNotBeaten() != 0 &&
+                    IsCurrentMission_Boss6OrBoss7_from_thumb() != 0) {
+                    if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_A) != 0 ||
+                        ChoisesSIsSlotPairNew(Const8_0()) != 0) {
+                        g_RaceOptionMenuManager->mPickedValue = CHOISES_S_PICK_STAFF_CREDITS;
+                        g_RaceOptionMenuManager->mSelectedValue = g_RaceOptionMenuManager->mPickedValue;
+                        g_RaceOptionMenuManager->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
-                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && IsAllMissionRecords5To7AtGoalEnd() != 0) {
-                    if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
-                        ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
-                        gChoisesS->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;
-                        gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
-                        gChoisesS->mPickLocked = 1;
+                } else if (GetRaceMode() == MODE_MISSION_RUN && IsAllMissionRecords5To7AtGoalEnd() != 0) {
+                    if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_A) != 0 ||
+                        ChoisesSIsSlotPairNew(Const8_0()) != 0) {
+                        g_RaceOptionMenuManager->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;
+                        g_RaceOptionMenuManager->mSelectedValue = g_RaceOptionMenuManager->mPickedValue;
+                        g_RaceOptionMenuManager->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
-                        ChoisesSSetLVselIndex6Requested(1);
+                        SetB488_B6(1);
                     }
-                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && ChoisesSGetUnfilledNotEliminated() != 0) {
-                    if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
-                        ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
-                        gChoisesS->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;
-                        gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
-                        gChoisesS->mPickLocked = 1;
+                } else if (GetRaceMode() == MODE_MISSION_RUN && IsCurrentMissionNotBeaten() != 0) {
+                    if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_A) != 0 ||
+                        ChoisesSIsSlotPairNew(Const8_0()) != 0) {
+                        g_RaceOptionMenuManager->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;
+                        g_RaceOptionMenuManager->mSelectedValue = g_RaceOptionMenuManager->mPickedValue;
+                        g_RaceOptionMenuManager->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
-                } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), 8) != 0) {
+                } else if (ChoisesSGetNewBits(Const8_0(), 8) != 0) {
                     if (IsChoisesSOpen() != 0) {
                         RaiseSndHandleVolumes();
-                        gChoisesS->mCloseFrames = 1;
+                        g_RaceOptionMenuManager->mCloseFrames = 1;
                     } else {
                         LowerSndHandleVolumes();
                         SetChoisesSOpen(1);
                     }
                 } else if (MoveChoisesSSelectedValueByTouch() != 0) {
-                    gChoisesS->mPickFrames = 1;
-                } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0) {
+                    g_RaceOptionMenuManager->mPickFrames = 1;
+                } else if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_A) != 0) {
                     if (IsChoisesSOpen() != 0) {
-                        if (gChoisesS->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
+                        if (g_RaceOptionMenuManager->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
                             RaiseSndHandleVolumes();
                         } else {
                             StartChoisesSSelectedValueSeq();
                         }
-                        gChoisesS->mPickFrames = 1;
-                        gChoisesS->mPickStartedOnSelected = TRUE;
+                        g_RaceOptionMenuManager->mPickFrames = 1;
+                        g_RaceOptionMenuManager->mPickStartedOnSelected = TRUE;
                     } else {
                         LowerSndHandleVolumes();
                         SetChoisesSOpen(1);
                     }
-                } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_B) != 0) {
+                } else if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_B) != 0) {
                     if (IsChoisesSOpen() != 0) {
                         RaiseSndHandleVolumes();
-                        gChoisesS->mCloseFrames = 1;
+                        g_RaceOptionMenuManager->mCloseFrames = 1;
                     }
-                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
-                    MoveChoisesSSelectedValue(-1);
-                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
-                    MoveChoisesSSelectedValue(1);
+                } else if (GetNewOrRepeatBits(Const8_0(), PAD_KEY_UP) != 0) {
+                    MaybeOnMenuOptionScroll_from_thumb(-1);
+                } else if (GetNewOrRepeatBits(Const8_0(), PAD_KEY_DOWN) != 0) {
+                    MaybeOnMenuOptionScroll_from_thumb(1);
                 }
             }
         } else if (IsChoisesSOpenAllowedDuringRace() != 0) {
-            if (ChoisesSGetNewBits(GetChoisesSInputSlot(), 8) != 0) {
+            if (ChoisesSGetNewBits(Const8_0(), 8) != 0) {
                 if (IsChoisesSOpen() != 0) {
                     RaiseSndHandleVolumes();
-                    gChoisesS->mCloseFrames = 1;
+                    g_RaceOptionMenuManager->mCloseFrames = 1;
                 } else {
                     LowerSndHandleVolumes();
                     SetChoisesSOpen(1);
                 }
             } else if (MoveChoisesSSelectedValueByTouch() != 0) {
-                gChoisesS->mPickFrames = 1;
-            } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0) {
+                g_RaceOptionMenuManager->mPickFrames = 1;
+            } else if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_A) != 0) {
                 if (IsChoisesSOpen() != 0) {
-                    if (gChoisesS->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
+                    if (g_RaceOptionMenuManager->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
                         RaiseSndHandleVolumes();
                     } else {
                         StartChoisesSSelectedValueSeq();
                     }
-                    gChoisesS->mPickFrames = 1;
-                    gChoisesS->mPickStartedOnSelected = TRUE;
+                    g_RaceOptionMenuManager->mPickFrames = 1;
+                    g_RaceOptionMenuManager->mPickStartedOnSelected = TRUE;
                 }
-            } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_B) != 0) {
+            } else if (ChoisesSGetNewBits(Const8_0(), PAD_KEY_B) != 0) {
                 if (IsChoisesSOpen() != 0) {
                     RaiseSndHandleVolumes();
-                    gChoisesS->mCloseFrames = 1;
+                    g_RaceOptionMenuManager->mCloseFrames = 1;
                 }
-            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
-                MoveChoisesSSelectedValue(-1);
-            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
-                MoveChoisesSSelectedValue(1);
+            } else if (GetNewOrRepeatBits(Const8_0(), PAD_KEY_UP) != 0) {
+                MaybeOnMenuOptionScroll_from_thumb(-1);
+            } else if (GetNewOrRepeatBits(Const8_0(), PAD_KEY_DOWN) != 0) {
+                MaybeOnMenuOptionScroll_from_thumb(1);
             }
         }
     }
-    frames = gChoisesS->mPickFrames;
+    frames = g_RaceOptionMenuManager->mPickFrames;
     if (frames != 0) {
-        gChoisesS->mPickFrames = frames + 1;
-        if (gChoisesS->mPickFrames > CHOISES_S_PICK_FRAMES) {
+        g_RaceOptionMenuManager->mPickFrames = frames + 1;
+        if (g_RaceOptionMenuManager->mPickFrames > CHOISES_S_PICK_FRAMES) {
             if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
-                    gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
+                    g_RaceOptionMenuManager->mPickedValue = g_RaceOptionMenuManager->mSelectedValue;
                     SetChoisesSOpen(0);
                 } else {
                     SetChoisesSOpen(1);
                 }
             } else if (IsChoisesSOpen() != 0) {
-                gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
+                g_RaceOptionMenuManager->mPickedValue = g_RaceOptionMenuManager->mSelectedValue;
                 SetChoisesSOpen(0);
             }
-            gChoisesS->mPickFrames = 0;
-            gChoisesS->mPickStartedOnSelected = FALSE;
+            g_RaceOptionMenuManager->mPickFrames = 0;
+            g_RaceOptionMenuManager->mPickStartedOnSelected = FALSE;
         }
     }
-    frames = gChoisesS->mCloseFrames;
+    frames = g_RaceOptionMenuManager->mCloseFrames;
     if (frames != 0) {
-        gChoisesS->mCloseFrames = frames + 1;
-        if (gChoisesS->mCloseFrames > CHOISES_S_CLOSE_FRAMES) {
+        g_RaceOptionMenuManager->mCloseFrames = frames + 1;
+        if (g_RaceOptionMenuManager->mCloseFrames > CHOISES_S_CLOSE_FRAMES) {
             if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
                     SetChoisesSOpen(0);
@@ -647,33 +647,33 @@ void UpdateChoisesS(void) {
             } else if (IsChoisesSOpen() != 0) {
                 SetChoisesSOpen(0);
             }
-            gChoisesS->mCloseFrames = 0;
+            g_RaceOptionMenuManager->mCloseFrames = 0;
         }
     }
-    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == MODE_WIFI &&
+    if (GetPMaybeState_0() != 0 && GetRaceMode() == MODE_WIFI &&
         IsRaceDoneOrReplayPastStartFrames() != 0) {
-        gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
-        if (gChoisesS->mAutoPickFrames > CHOISES_S_AUTO_PICK_FRAMES) {
-            gChoisesS->mPickedValue = GetCourseNumber() != 4 ? CHOISES_S_PICK_NEXT : CHOISES_S_PICK_NEXT_LAST;
+        g_RaceOptionMenuManager->mAutoPickFrames = g_RaceOptionMenuManager->mAutoPickFrames + 1;
+        if (g_RaceOptionMenuManager->mAutoPickFrames > CHOISES_S_AUTO_PICK_FRAMES) {
+            g_RaceOptionMenuManager->mPickedValue = GetCourseNumber() != 4 ? CHOISES_S_PICK_NEXT : CHOISES_S_PICK_NEXT_LAST;
         }
     }
-    if (GetChoisesSOpenDuringRace() != 0) {
-        frames = gChoisesS->mOpenDuringRaceFrames;
-        gChoisesS->mOpenDuringRaceFrames = frames + 1;
+    if (IsRaceOptionMenuOn_from_thumb() != 0) {
+        frames = g_RaceOptionMenuManager->mOpenDuringRaceFrames;
+        g_RaceOptionMenuManager->mOpenDuringRaceFrames = frames + 1;
         if (frames >= 1) {
-            gChoisesS->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_SETTLED;
-            gChoisesS->mOpenDuringRaceFrames = 1;
+            g_RaceOptionMenuManager->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_SETTLED;
+            g_RaceOptionMenuManager->mOpenDuringRaceFrames = 1;
         }
     } else {
-        gChoisesS->mOpenDuringRaceState = 0;
-        gChoisesS->mOpenDuringRaceFrames = 0;
+        g_RaceOptionMenuManager->mOpenDuringRaceState = 0;
+        g_RaceOptionMenuManager->mOpenDuringRaceFrames = 0;
     }
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void UpdateChoisesSScreenMap(void) {
+void LoopFn_RaceMenuOptions2_from_thumb(void) {
     int isOpen;
     isOpen = IsChoisesSOpen();
     if (isOpen != 0) {
@@ -683,68 +683,68 @@ void UpdateChoisesSScreenMap(void) {
 
 #pragma thumb off
 
-void *ChoisesSGetCurrentHeap(void) {
-    return GetHeap(GetCurrentHeapCall());
+void *GetActiveExecutionContextHeapHandle_3(void) {
+    return ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
 }
 
-u32 ChoisesSGetCurrentMode(void) {
-    return (gRaceSetup->mMode);
+u32 GetRaceMode(void) {
+    return (g_GlobalCO->mMode);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
 BOOL IsGrandPrixLastCourse(void) {
-    return ChoisesSGetCurrentMode() == MODE_GRAND_PRIX && GetCourseNumber() == 4;
+    return GetRaceMode() == MODE_GRAND_PRIX && GetCourseNumber() == 4;
 }
 #pragma thumb off
 
 u32 GetCourseNumber(void) {
-    return (gRaceSetup->mCourseNumber);
+    return (g_GlobalCO->mCourseNumber);
 }
 
-u32 ChoisesSGetCurrentRaceKind(void) {
-    return gRaceSetup->mRaceKind;
+u32 GetDisplayMode_0(void) {
+    return g_GlobalCO->mRaceKind;
 }
 
-struct ChoisesS *gChoisesS;
+struct ChoisesS *g_RaceOptionMenuManager;
 
-void ChoisesSInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
+void RaceOptionMenuEntryDrawContext_Create(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = lineSpacing;
 }
 
-u32 ChoisesSDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
-    return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
+u32 G2d_Text_PrintString3(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
+    return G2d_Text_PrintString(textCanvas, textX, textY, color, flags, text);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
 
-void InitChoisesS(void) {
+void LoadRaceOptionMenus_from_thumb(void) {
     ChoisesS *choisesS;
     u32 charCount;
     s32 index;
 
-    gChoisesS = HeapAlloc(ChoisesSGetCurrentHeap(), sizeof(*gChoisesS));
-    gChoisesS->mOpenDuringRace = 0;
-    gChoisesS->mPrevOpenDuringRace = 0;
-    gChoisesS->mOpenAfterRace = 0;
-    gChoisesS->mPickLocked = 0;
-    gChoisesS->mPickFrames = 0;
-    gChoisesS->mPickStartedOnSelected = FALSE;
-    gChoisesS->mAutoPickFrames = 0;
-    if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
-        gChoisesS->mOtherMissionRecordsFilled5To7 = AreOtherMissionRecordsFilled5To7();
+    g_RaceOptionMenuManager = Mem_AllocateHeap(GetActiveExecutionContextHeapHandle_3(), sizeof(*g_RaceOptionMenuManager));
+    g_RaceOptionMenuManager->mOpenDuringRace = 0;
+    g_RaceOptionMenuManager->mPrevOpenDuringRace = 0;
+    g_RaceOptionMenuManager->mOpenAfterRace = 0;
+    g_RaceOptionMenuManager->mPickLocked = 0;
+    g_RaceOptionMenuManager->mPickFrames = 0;
+    g_RaceOptionMenuManager->mPickStartedOnSelected = FALSE;
+    g_RaceOptionMenuManager->mAutoPickFrames = 0;
+    if (GetRaceMode() == MODE_MISSION_RUN) {
+        g_RaceOptionMenuManager->mOtherMissionRecordsFilled5To7 = MaybeAllMissionStagesBeatenWithStarRank_from_thumb();
     } else {
-        gChoisesS->mOtherMissionRecordsFilled5To7 = FALSE;
+        g_RaceOptionMenuManager->mOtherMissionRecordsFilled5To7 = FALSE;
     }
-    gChoisesS->mOpenDuringRaceState = 0;
-    gChoisesS->mOpenDuringRaceFrames = 0;
+    g_RaceOptionMenuManager->mOpenDuringRaceState = 0;
+    g_RaceOptionMenuManager->mOpenDuringRaceFrames = 0;
     ResetChoisesSSelection();
-    ClearChoisesSListValueCounts();
-    switch (ChoisesSGetCurrentMode()) {
+    ClearRaceOptionMenuEntries_from_thumb();
+    switch (GetRaceMode()) {
         case MODE_GRAND_PRIX:
             AppendChoisesSListValue(0, 0);
             AppendChoisesSListValue(0, 9);
@@ -804,8 +804,8 @@ void InitChoisesS(void) {
             AppendChoisesSListValue(0, 3);
             AppendChoisesSListValue(0, 6);
             AppendChoisesSListValue(0, 9);
-            if (IsMissionRunTableRow6Or7Column9() != 0) {
-                if (IsMissionRunRecordFilled() != 0) {
+            if (IsCurrentMission_Boss6OrBoss7_from_thumb() != 0) {
+                if (IsCurrentMissionLevelStageBeaten_from_thumb() != 0) {
                     AppendChoisesSListValue(1, 1);
                     AppendChoisesSListValue(1, 6);
                     AppendChoisesSListValue(1, 9);
@@ -839,91 +839,91 @@ void InitChoisesS(void) {
             }
             break;
     }
-    if (ChoisesSGetCurrentRaceKind() != RACE_KIND_START_GP && ChoisesSGetCurrentRaceKind() != RACE_KIND_STAFF_ROLL) {
+    if (GetDisplayMode_0() != RACE_KIND_START_GP && GetDisplayMode_0() != RACE_KIND_STAFF_ROLL) {
         const char *nscrNames[6] = {
             gChoisesSNscr1Name, gChoisesSNscr2Name, gChoisesSNscr3Name,
             gChoisesSNscr4Name, gChoisesSNscr5Name, gChoisesSNscr6Name,
         };
 
-        LoadNclrData(&gChoisesS->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
-        LoadNcgrData(&gChoisesS->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
+        Gfx_ReadPalette(&g_RaceOptionMenuManager->mChoisesSBNclr, j_FindFileBuffer_K2D_LOC_R2D_R2L("choises_s_b.NCLR"));
+        Gfx_ReadCharGraphicsV2(&g_RaceOptionMenuManager->mChoisesSBNcgr, j_FindFileBuffer_K2D_LOC_R2D_R2L("choises_s_b.NCGR"));
         for (index = 0; index < 6; index++) {
-            LoadNscrData(&gChoisesS->mChoisesSNscrs[index], FindSceneFileWrapper(nscrNames[index]));
+            MaybeReadScreenBlock_0(&g_RaceOptionMenuManager->mChoisesSNscrs[index], j_FindFileBuffer_K2D_LOC_R2D_R2L(nscrNames[index]));
         }
-        gChoisesS->mList0Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[0].mValueCount - 1];
-        gChoisesS->mList1Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[1].mValueCount - 1];
-        gChoisesS->mList2Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[2].mValueCount - 1];
-        gChoisesS->mList3Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[3].mValueCount - 1];
-        gChoisesS->mList1Chars =
-            HeapAlloc(ChoisesSGetCurrentHeap(), GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount));
-        switch (ChoisesSGetCurrentMode()) {
+        g_RaceOptionMenuManager->mList0Nscr = g_RaceOptionMenuManager->mChoisesSNscrs[g_RaceOptionMenuManager->mLists[0].mValueCount - 1];
+        g_RaceOptionMenuManager->mList1Nscr = g_RaceOptionMenuManager->mChoisesSNscrs[g_RaceOptionMenuManager->mLists[1].mValueCount - 1];
+        g_RaceOptionMenuManager->mList2Nscr = g_RaceOptionMenuManager->mChoisesSNscrs[g_RaceOptionMenuManager->mLists[2].mValueCount - 1];
+        g_RaceOptionMenuManager->mList3Nscr = g_RaceOptionMenuManager->mChoisesSNscrs[g_RaceOptionMenuManager->mLists[3].mValueCount - 1];
+        g_RaceOptionMenuManager->mList1Chars =
+            Mem_AllocateHeap(GetActiveExecutionContextHeapHandle_3(), ComputeSomeMESize_from_thumb(g_RaceOptionMenuManager->mLists[1].mValueCount));
+        switch (GetRaceMode()) {
             case MODE_BATTLE:
             case MODE_VS:
             case MODE_MISSION_RUN:
-                gChoisesS->mList2Chars =
-                    HeapAlloc(ChoisesSGetCurrentHeap(), GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount));
+                g_RaceOptionMenuManager->mList2Chars =
+                    Mem_AllocateHeap(GetActiveExecutionContextHeapHandle_3(), ComputeSomeMESize_from_thumb(g_RaceOptionMenuManager->mLists[2].mValueCount));
                 break;
         }
-        gChoisesS->mFont = GetFontByIndex(2);
-        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[0], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
-        choisesS = gChoisesS;
-        ChoisesSInitTextCanvas(&choisesS->mTextCanvases[0], choisesS->mCharCanvases[0], choisesS->mFont, IsLanguageJa(),
+        g_RaceOptionMenuManager->mFont = GetLoadedFont_from_thumb(2);
+        G2d_Sprite_CreateFromTiles(g_RaceOptionMenuManager->mCharCanvases[0], GetSomeBgTileData_from_thumb()->mData, 0x20, 0xc, 4);
+        choisesS = g_RaceOptionMenuManager;
+        RaceOptionMenuEntryDrawContext_Create(&choisesS->mTextCanvases[0], choisesS->mCharCanvases[0], choisesS->mFont, ComputeSomeInterCharacterWidth(),
                                0);
-        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[1], gChoisesS->mList1Chars, 0x20, 0xc, 4);
-        choisesS = gChoisesS;
-        ChoisesSInitTextCanvas(&choisesS->mTextCanvases[1], choisesS->mCharCanvases[1], choisesS->mFont, IsLanguageJa(),
+        G2d_Sprite_CreateFromTiles(g_RaceOptionMenuManager->mCharCanvases[1], g_RaceOptionMenuManager->mList1Chars, 0x20, 0xc, 4);
+        choisesS = g_RaceOptionMenuManager;
+        RaceOptionMenuEntryDrawContext_Create(&choisesS->mTextCanvases[1], choisesS->mCharCanvases[1], choisesS->mFont, ComputeSomeInterCharacterWidth(),
                                0);
-        charCount = GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount) >> 1;
+        charCount = ComputeSomeMESize_from_thumb(g_RaceOptionMenuManager->mLists[1].mValueCount) >> 1;
         for (index = 0; index < charCount; index++) {
-            gChoisesS->mList1Chars[index] = GetChoisesSBNcgrWithListChars()->mData[index];
+            g_RaceOptionMenuManager->mList1Chars[index] = GetSomeBgTileData_from_thumb()->mData[index];
         }
-        if (gChoisesS->mList2Chars != NULL) {
-            NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[2], gChoisesS->mList2Chars, 0x20, 0xc, 4);
-            choisesS = gChoisesS;
-            ChoisesSInitTextCanvas(&choisesS->mTextCanvases[2], choisesS->mCharCanvases[2], choisesS->mFont,
-                                   IsLanguageJa(), 0);
-            charCount = GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount) >> 1;
+        if (g_RaceOptionMenuManager->mList2Chars != NULL) {
+            G2d_Sprite_CreateFromTiles(g_RaceOptionMenuManager->mCharCanvases[2], g_RaceOptionMenuManager->mList2Chars, 0x20, 0xc, 4);
+            choisesS = g_RaceOptionMenuManager;
+            RaceOptionMenuEntryDrawContext_Create(&choisesS->mTextCanvases[2], choisesS->mCharCanvases[2], choisesS->mFont,
+                                   ComputeSomeInterCharacterWidth(), 0);
+            charCount = ComputeSomeMESize_from_thumb(g_RaceOptionMenuManager->mLists[2].mValueCount) >> 1;
             for (index = 0; index < charCount; index++) {
-                gChoisesS->mList2Chars[index] = GetChoisesSBNcgrWithListChars()->mData[index];
+                g_RaceOptionMenuManager->mList2Chars[index] = GetSomeBgTileData_from_thumb()->mData[index];
             }
         }
-        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[3], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
-        choisesS = gChoisesS;
-        ChoisesSInitTextCanvas(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, IsLanguageJa(),
+        G2d_Sprite_CreateFromTiles(g_RaceOptionMenuManager->mCharCanvases[3], GetSomeBgTileData_from_thumb()->mData, 0x20, 0xc, 4);
+        choisesS = g_RaceOptionMenuManager;
+        RaceOptionMenuEntryDrawContext_Create(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, ComputeSomeInterCharacterWidth(),
                                0);
-        if (ChoisesSGetCurrentRaceKind() != RACE_KIND_REPLAY) {
-            for (index = 0; index < gChoisesS->mLists[0].mValueCount; index++) {
-                ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[0], 0x90, index * 16 + 9, 0xc, 0x412,
-                                         GetChoisesSValueMessage(0, gChoisesS->mLists[0].mValues[index]));
+        if (GetDisplayMode_0() != RACE_KIND_REPLAY) {
+            for (index = 0; index < g_RaceOptionMenuManager->mLists[0].mValueCount; index++) {
+                G2d_Text_PrintString3(&g_RaceOptionMenuManager->mTextCanvases[0], 0x90, index * 16 + 9, 0xc, 0x412,
+                                         GetMenuOptionString_from_thumb(0, g_RaceOptionMenuManager->mLists[0].mValues[index]));
             }
         } else {
-            for (index = 0; index < gChoisesS->mLists[3].mValueCount; index++) {
-                ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[3], 0x90, index * 16 + 9, 0xc, 0x412,
-                                         GetChoisesSValueMessage(3, gChoisesS->mLists[3].mValues[index]));
+            for (index = 0; index < g_RaceOptionMenuManager->mLists[3].mValueCount; index++) {
+                G2d_Text_PrintString3(&g_RaceOptionMenuManager->mTextCanvases[3], 0x90, index * 16 + 9, 0xc, 0x412,
+                                         GetMenuOptionString_from_thumb(3, g_RaceOptionMenuManager->mLists[3].mValues[index]));
             }
         }
-        for (index = 0; index < gChoisesS->mLists[1].mValueCount; index++) {
-            ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[1], 0x90, index * 16 + 9, 0xc, 0x412,
-                                     GetChoisesSValueMessage(1, gChoisesS->mLists[1].mValues[index]));
+        for (index = 0; index < g_RaceOptionMenuManager->mLists[1].mValueCount; index++) {
+            G2d_Text_PrintString3(&g_RaceOptionMenuManager->mTextCanvases[1], 0x90, index * 16 + 9, 0xc, 0x412,
+                                     GetMenuOptionString_from_thumb(1, g_RaceOptionMenuManager->mLists[1].mValues[index]));
         }
-        for (index = 0; index < gChoisesS->mLists[2].mValueCount; index++) {
-            ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[2], 0x90, index * 16 + 9, 0xc, 0x412,
-                                     GetChoisesSValueMessage(2, gChoisesS->mLists[2].mValues[index]));
+        for (index = 0; index < g_RaceOptionMenuManager->mLists[2].mValueCount; index++) {
+            G2d_Text_PrintString3(&g_RaceOptionMenuManager->mTextCanvases[2], 0x90, index * 16 + 9, 0xc, 0x412,
+                                     GetMenuOptionString_from_thumb(2, g_RaceOptionMenuManager->mLists[2].mValues[index]));
         }
     } else {
-        gChoisesS->mChoisesSBNclr = NULL;
-        gChoisesS->mChoisesSBNcgr = NULL;
-        gChoisesS->mList1Chars = NULL;
-        gChoisesS->mList2Chars = NULL;
-        gChoisesS->mList0Nscr = NULL;
-        gChoisesS->mList1Nscr = NULL;
-        gChoisesS->mList2Nscr = NULL;
-        gChoisesS->mList3Nscr = NULL;
+        g_RaceOptionMenuManager->mChoisesSBNclr = NULL;
+        g_RaceOptionMenuManager->mChoisesSBNcgr = NULL;
+        g_RaceOptionMenuManager->mList1Chars = NULL;
+        g_RaceOptionMenuManager->mList2Chars = NULL;
+        g_RaceOptionMenuManager->mList0Nscr = NULL;
+        g_RaceOptionMenuManager->mList1Nscr = NULL;
+        g_RaceOptionMenuManager->mList2Nscr = NULL;
+        g_RaceOptionMenuManager->mList3Nscr = NULL;
     }
 }
 
-void ClearChoisesSPointer(void) {
-    gChoisesS = NULL;
+void ResetRaceMenuOptions_from_thumb(void) {
+    g_RaceOptionMenuManager = NULL;
 }
 
 #pragma thumb off

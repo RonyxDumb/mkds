@@ -68,7 +68,7 @@ s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, Gp
     if (stepResult != 0) {
         return stepResult;
     }
-    sprintf(buffer, "\\version\\%d\\result\\%d", 1, result);
+    MaybeStrcpy(buffer, "\\version\\%d\\result\\%d", 1, result);
     stepResult = GpiPeerSendString(connection, peer, buffer);
     if (stepResult != 0) {
         return stepResult;

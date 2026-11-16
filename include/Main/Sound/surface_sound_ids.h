@@ -8,7 +8,7 @@
 #define SURFACE_SOUND_LAP_PROGRESS_A 0xffd0
 #define SURFACE_SOUND_LAP_PROGRESS_B 0xffd1
 
-// gSurfaceSoundIds is addressed in rows of eight words.
+// g_GlobalVA is addressed in rows of eight words.
 typedef struct SurfaceSoundIdRow {
     /* 0 */ void *mIdArrays[8];
 } SurfaceSoundIdRow;
@@ -23,21 +23,21 @@ typedef struct ListObjectLink {
 
 u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex);
 u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant);
-void ClearSurfaceSoundIds(void);
+void ClearGlobalVA(void);
 void RemoveListObject(NNSFndList *list, void *object);
-u32 TryAppendListObject(void *list, void *object);
+u32 StructMQRacerEntry_MaybeInsertChildEntry(void *list, void *object);
 
 typedef struct CourseSurfaceSoundEntry CourseSurfaceSoundEntry;
 
-void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries);
+void SetSomeVAVO(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries);
 void SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries);
 
 extern u8 gSurfaceSoundIdShortRowTable[28];
 extern u8 gSurfaceSoundIdRowTable[152];
-extern SurfaceSoundIdRow gSurfaceSoundIds[23];
+extern SurfaceSoundIdRow g_GlobalVA[23];
 
 extern const u16 gSurfaceSoundColumnIndices[24][8];
 extern const LoadedSoundBanks gLoadedSoundBanksAfterRelease;
-extern const u8 gOnMemorySdat[6909];
+extern const u8 g_OnmemSdatPtr[6909];
 extern const LoadedSoundBanks gLoadedSoundBanksAfterHeapCreate;
 extern const LoadedSoundBanks gLoadedSoundBanksAfterOnMemoryInit;

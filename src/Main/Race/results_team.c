@@ -12,7 +12,7 @@
 #pragma thumb on
 
 static inline CourseTeamResult *GetCourseTeamResult(s32 teamIndex) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
+    return &g_GlobalLU->mTeamResults[GetSomeLUMaxIndex()].mTeams[teamIndex];
 }
 
 u32 GetResultSceneSeqKind(void) {
@@ -32,22 +32,22 @@ u32 GetResultSceneSeqKind(void) {
     s32 ownIndex;
     KartCourseResult *record;
 
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     kartCount = raceSetup->mKartCount;
     if (raceSetup->mMode == MODE_GRAND_PRIX) {
-        if (gMenuShared->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
+        if (g_GlobalB488->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
             return RESULT_SCENE_SEQ_KIND_GP_HIGH_RANK;
         }
         return RESULT_SCENE_SEQ_KIND_GP_LOW_RANK;
     }
-    switch (gStartupWork->mConnectionKind) {
+    switch (g_GlobalP->mConnectionKind) {
         case CONNECTION_KIND_NONE:
             ownEntryIndex = 0;
             break;
         case CONNECTION_KIND_MEMBER_SELECT:
         case CONNECTION_KIND_WL_MENU:
-            if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
-                ownIndex = gConnectionWork->mOwnIndex;
+            if (g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD) {
+                ownIndex = g_GlobalZE->mOwnIndex;
             } else {
                 ownIndex = 0;
             }
@@ -57,9 +57,9 @@ u32 GetResultSceneSeqKind(void) {
             ownEntryIndex = (u16) GetPackedIndex(DWC_GetMyAID());
             break;
     }
-    if (gRaceSetup->mUseTeams != 0) {
-        ownTeamIndex = gRaceSetup->mCurrentEntries[ownEntryIndex].mPlayer.mTeamIndex;
-        switch (gRaceSetup->mRuleKind) {
+    if (g_GlobalCO->mUseTeams != 0) {
+        ownTeamIndex = g_GlobalCO->mCurrentEntries[ownEntryIndex].mPlayer.mTeamIndex;
+        switch (g_GlobalCO->mRuleKind) {
             case RULE_KIND_WIN_COUNT:
                 team0Score = GetCourseTeamResult(0)->mWinCount;
                 team1Score = GetCourseTeamResult(1)->mWinCount;
@@ -87,16 +87,16 @@ u32 GetResultSceneSeqKind(void) {
     maxScore = -1;
     allEqual = 1;
     for (; scoreIndex < kartCount; scoreIndex++) {
-        if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU ||
-            gRaceSetup->mRuleKind == RULE_KIND_RACE_COUNT) {
-            kartIndex = GetLowByte((u16) scoreIndex);
-            courseIndex = GetCourseIndexInCup();
-            record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
+        if (g_GlobalP->mConnectionKind == CONNECTION_KIND_WIFI_MENU ||
+            g_GlobalCO->mRuleKind == RULE_KIND_RACE_COUNT) {
+            kartIndex = Int32ToInt8((u16) scoreIndex);
+            courseIndex = GetSomeLUMaxIndex();
+            record = &g_GlobalLU->mKartResults[courseIndex][Int32ToInt8(kartIndex)];
             scores[scoreIndex] = record->mTotalPoints;
         } else {
-            kartIndex = GetLowByte((u16) scoreIndex);
-            courseIndex = GetCourseIndexInCup();
-            record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
+            kartIndex = Int32ToInt8((u16) scoreIndex);
+            courseIndex = GetSomeLUMaxIndex();
+            record = &g_GlobalLU->mKartResults[courseIndex][Int32ToInt8(kartIndex)];
             scores[scoreIndex] = record->mWinCount;
         }
         if (maxScore < scores[scoreIndex]) {

@@ -24,7 +24,7 @@ enum {
     WIFI_STATE_CONNECTION_LOST,
     WIFI_STATE_AIKOTOBA,
     WIFI_STATE_AIKOTOBA_CHECK,
-    // Not screens: the WiFi menu scene is leaving for the named scene (or was entered from it); gSceneNames has the
+    // Not screens: the WiFi menu scene is leaving for the named scene (or was entered from it); g_SceneArchiveNameTable has the
     // scene numbers 0, 14, 12 and 8.
     WIFI_STATE_SCENE_TITLE,
     WIFI_STATE_SCENE_KEYBOARD,

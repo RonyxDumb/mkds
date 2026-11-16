@@ -40,11 +40,11 @@ struct WLMenuCallbacks gWLMenuMessageToRaceCallbacks = {SetupWLMenuCommonMessage
                                                         ReleaseWLMenuMessage, WriteWLMenuMessageRegisters};
 
 void WLMenuSetRaceSetupRequested(u32 value) {
-    gMenuShared->mRaceSetupRequested = value;
+    g_GlobalB488->mRaceSetupRequested = value;
 }
 
 void WLMenuSetMenuEntryKind(u32 value) {
-    gMenuShared->mMenuEntryKind = value;
+    g_GlobalB488->mMenuEntryKind = value;
 }
 
 #pragma thumb on
@@ -63,7 +63,7 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
             result = AdvanceConnectByMultiBoot(0);
             switch (result) {
                 case CONNECT_ADVANCE_CONNECTED:
-                    SetMultiSimple(WLMenuIsMultiBootSetupStarted());
+                    StructP_SetAFlag4_SkipBattleIntro(WLMenuIsMultiBootSetupStarted());
                     gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX;
                     break;
                 case CONNECT_ADVANCE_CONNECT_FAILED:
@@ -163,7 +163,7 @@ s32 AdvanceWLMenuMessageToResult(SceneNumbers *sceneNumbers) {
 #pragma thumb off
 
 u32 HasGroupSendMask(void) {
-    return gConnectionWork->mGroupSendMask != 0;
+    return g_GlobalZE->mGroupSendMask != 0;
 }
 
 void StopSeqZeroLoopWrapper(void) {
@@ -212,7 +212,7 @@ s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers) {
 #pragma thumb on
 
 void ReleaseWLMenuMessage(void) {
-    HeapDestroy(gWLMenuMessage->mHeap);
+    Mem_DestroyHeap(gWLMenuMessage->mHeap);
     gWLMenuMessage = NULL;
 }
 

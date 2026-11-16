@@ -35,38 +35,38 @@ void InitDwcArchive(void) {
     u32 tablesSize;
 
     gDwcArchive = AllocZeroedExpHeapBlock(0xe8, 4);
-    FS_InitFile(&file);
-    if (FS_OpenFile(&file, gDwcUtilityBinName) == 0) {
-        OS_Terminate();
+    Fs_File_Initialize(&file);
+    if (Fs_File_Open(&file, gDwcUtilityBinName) == 0) {
+        Os_Terminate();
     }
-    gDwcArchive->mLockId = OS_GetLockID();
+    gDwcArchive->mLockId = Os_AllocateLockId();
     base = file.mProp.w.mUnk_04;
-    FS_ReadFile(&file, fntRegion, 8);
-    FS_ReadFile(&file, fatRegion, 8);
-    FS_CloseFile(&file);
-    FS_InitArchive(&gDwcArchive->mArchive);
-    if (FS_RegisterArchiveName(&gDwcArchive->mArchive, gDwcArchiveName, 3) == 0) {
-        OS_Terminate();
+    Fs_File_Read(&file, fntRegion, 8);
+    Fs_File_Read(&file, fatRegion, 8);
+    Fs_File_Close(&file);
+    Fs_Archive_Initialize(&gDwcArchive->mArchive);
+    if (Fs_RegisterArchive(&gDwcArchive->mArchive, gDwcArchiveName, 3) == 0) {
+        Os_Terminate();
     }
-    FS_SetArchiveProc(&gDwcArchive->mArchive, DwcArchiveProc, 0x602);
-    if (FS_LoadArchive(&gDwcArchive->mArchive, (u8 *) base, fatRegion[0], fatRegion[1], fntRegion[0], fntRegion[1],
+    Fs_Archive_SetExtraFileOperationHandler(&gDwcArchive->mArchive, DwcArchiveProc, 0x602);
+    if (Fs_Archive_LoadFromFatFnt(&gDwcArchive->mArchive, (u8 *) base, fatRegion[0], fatRegion[1], fntRegion[0], fntRegion[1],
                        DwcArchiveReadCallback, DwcArchiveWriteCallback) == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
-    tablesSize = FS_LoadArchiveTables(&gDwcArchive->mArchive, 0, 0);
+    tablesSize = Fs_Archive_LoadFatFnt(&gDwcArchive->mArchive, 0, 0);
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
-    FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
+    Fs_Archive_LoadFatFnt(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
     gDwcArchive->mStack = CreateFilledPointerStack(0x20, gDwcArchive->mStackStorage, 4);
-    OS_SPrintf(dirPath, "%s:/", gDwcArchiveName);
-    FS_ChangeDir((u8 *) dirPath);
+    MaybeUtil_SPrintF(dirPath, "%s:/", gDwcArchiveName);
+    Fs_Chdir((u8 *) dirPath);
 }
 
 void ReleaseDwcArchive(void) {
-    FS_ChangeDir(gRomDir);
+    Fs_Chdir(gRomDir);
     FS_UnloadArchiveTables(&gDwcArchive->mArchive);
-    FS_UnloadArchive(&gDwcArchive->mArchive);
-    FS_ReleaseArchiveName(&gDwcArchive->mArchive);
-    OS_ReleaseLockID(gDwcArchive->mLockId);
+    Fs_Archive_UnloadFatFnt(&gDwcArchive->mArchive);
+    Fs_UnregisterArchive(&gDwcArchive->mArchive);
+    Os_ReleaseLockId(gDwcArchive->mLockId);
     gDwcArchive->mLockId = 0;
     FreeExpHeapBlockAndClearPointer(gDwcArchive);
     gDwcArchive->mTables = NULL;
@@ -76,10 +76,10 @@ void ReleaseDwcArchive(void) {
 s32 DwcArchiveProc(FSFile *file, u32 command) {
     switch (command) {
         case FS_COMMAND_ACTIVATE:
-            CARD_LockRom(gDwcArchive->mLockId);
+            Card_LockRomResource(gDwcArchive->mLockId);
             return 0;
         case FS_COMMAND_IDLE:
-            CARD_UnlockRom(gDwcArchive->mLockId);
+            Card_UnlockRomResource(gDwcArchive->mLockId);
             return 0;
         case FS_COMMAND_WRITEFILE:
             return 4;
@@ -95,7 +95,7 @@ s32 DwcArchiveReadCallback(FSArchive *archive, void *dst, u32 offset, u32 length
 
 void DwcArchiveReadEndCallback(void *arg) {
     FSArchive *archive = arg;
-    FS_NotifyArchiveAsyncEnd(archive, 0);
+    Fs_Archive_NotifyAsyncEnded(archive, 0);
 }
 
 s32 DwcArchiveWriteCallback(FSArchive *archive, const void *src, u32 offset, u32 length) {
@@ -109,9 +109,9 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     s32 readAlignment;
 
     PopPointerStack(gDwcArchive->mStack);
-    FS_InitFile(&file);
-    if (FS_OpenFile(&file, path) == 0) {
-        OS_Terminate();
+    Fs_File_Initialize(&file);
+    if (Fs_File_Open(&file, path) == 0) {
+        Os_Terminate();
     }
     size = file.mProp.w.mUnk_08 - file.mProp.w.mUnk_04;
     if (outSize != NULL) {
@@ -123,8 +123,8 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
         readAlignment = alignment;
     }
     fileData = AllocExpHeapBlock(size, readAlignment);
-    FS_ReadFile(&file, fileData, size);
-    FS_CloseFile(&file);
+    Fs_File_Read(&file, fileData, size);
+    Fs_File_Close(&file);
     if (readAlignment > 0) {
         return fileData;
     }
@@ -135,7 +135,7 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     {
         void *uncompressed = AllocExpHeapBlock(size, alignment);
 
-        MI_UncompressLZ8(fileData, uncompressed);
+        DecompressLzss(fileData, uncompressed);
         FreeExpHeapBlockAndClearPointer(&fileData);
         return uncompressed;
     }
@@ -153,7 +153,7 @@ BOOL AreStringEndsEqual(const u8 *first, const char *second, s32 endLength) {
     if (firstLength < endLength || secondLength < endLength) {
         return 0;
     }
-    if (memcmp(first + (firstLength - endLength), second + (secondLength - endLength), endLength) == 0) {
+    if (StructDC_SomeFn_6(first + (firstLength - endLength), second + (secondLength - endLength), endLength) == 0) {
         return 1;
     }
     return 0;

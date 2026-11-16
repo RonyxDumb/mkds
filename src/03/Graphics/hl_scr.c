@@ -43,13 +43,13 @@ void *gHlScr;
 
 void InitHlScr(void) {
     gHlScr = AllocExpHeapBlock(0xc0, 4);
-    LoadFileToVram("char/jbBgHl.ncg.l", GX_LoadBG1Char);
+    LoadFileToVram("char/jbBgHl.ncg.l", CopyBgData_Bg1_Top);
     switch (GetMode()) {
         case 0:
-            LoadFileToVram(gHlNscNames[0], GX_LoadBG1Scr);
+            LoadFileToVram(gHlNscNames[0], TEQSub_Fn9Impl);
             break;
         case 1:
-            LoadFileToVram(gHlNscNames[1], GX_LoadBG1Scr);
+            LoadFileToVram(gHlNscNames[1], TEQSub_Fn9Impl);
             break;
     }
 }
@@ -82,7 +82,7 @@ void LoadHlListScr(void) {
 }
 
 void UploadHlScr(TaskEntry *entry, void *arg) {
-    DC_FlushRange(gHlScr, 0xc0);
-    GX_LoadBG1Scr(gHlScr, 0, 0xc0);
+    Arm_FlushRange(gHlScr, 0xc0);
+    TEQSub_Fn9Impl(gHlScr, 0, 0xc0);
     RequestTaskRemoval(1, entry);
 }

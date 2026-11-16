@@ -23,7 +23,7 @@ typedef struct TownMonte {
 } TownMonte;
 
 
-void CreateChandelier(void *mapObjectList);
+void LoadChandelierMapObject(void *mapObjectList);
 MapObjectList *CreateTownMonteUpdateList(void);
 MapObjectList *CreateTownMonteDrawList(void);
 void UpdateTownMonte(void *mapObjectList,
@@ -32,7 +32,7 @@ void InitTownMonteObjects(MapObjectList *mapObjectList);
 void DrawTownMonte(void *mapObjectList, TownMonte *townMonte);
 // The parameter is the draw group (typed MapObjectModel here); its +0x14 is the callback that runs after the group's
 // draw.
-void CreateTownMonte(
+void LoadTownMonteMapObject(
     MapObjectList *mapObjectList); /* also stores the hook ResetViewRotatedMatrixAxis1Wrapper in the list */
 void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList);
 MapObjectKindData *CreateCourseMapRowKindData(void);

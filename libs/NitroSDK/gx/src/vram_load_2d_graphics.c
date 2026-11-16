@@ -12,220 +12,220 @@
 u32 gBgExtPaletteLoadBankMask = 0;
 u32 gBgExtPaletteLoadBase = 0;
 u32 gBgExtPaletteLoadBaseOffset = 0;
-u32 gObjExtPaletteLoadBankMask = 0;
-u32 gObjExtPaletteLoadBase = 0;
-u32 gSubBgExtPaletteLoadBankMask = 0;
-u32 gSubObjExtPaletteLoadBankMask = 0;
+u32 g_SomeObjExtPlt = 0;
+u32 g_SomeObjExtPltLcdcBlock = 0;
+u32 g_SomeSubBgExtPlt = 0;
+u32 g_SomeSubObjExtPlt = 0;
 
-void GX_LoadBGPltt(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (0x5000000 + offset), size);
+void CopyPaletteTop(const void *src, u32 offset, u32 size) {
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (0x5000000 + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (0x5000000 + offset), size);
+        CopyMemory16(src, (void *) (0x5000000 + offset), size);
     }
 }
 
-void GXS_LoadBGPltt(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (0x5000400 + offset), size);
+void CopyPaletteBottom(const void *src, u32 offset, u32 size) {
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (0x5000400 + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (0x5000400 + offset), size);
+        CopyMemory16(src, (void *) (0x5000400 + offset), size);
     }
 }
 
-void GX_LoadOBJPltt(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (0x5000200 + offset), size);
+void CopySomePaletteData(const void *src, u32 offset, u32 size) {
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (0x5000200 + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (0x5000200 + offset), size);
+        CopyMemory16(src, (void *) (0x5000200 + offset), size);
     }
 }
 
-void GXS_LoadOBJPltt(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (0x5000600 + offset), size);
+void TEQSub_Fn30Impl(const void *src, u32 offset, u32 size) {
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (0x5000600 + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (0x5000600 + offset), size);
+        CopyMemory16(src, (void *) (0x5000600 + offset), size);
     }
 }
 
-void GX_LoadOAM(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (0x7000000 + offset), size);
+void CopyToOamA(const void *src, u32 offset, u32 size) {
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (0x7000000 + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (0x7000000 + offset), size);
+        Mem_CpuCopy32(src, (void *) (0x7000000 + offset), size);
     }
 }
 
-void GXS_LoadOAM(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (0x7000400 + offset), size);
+void CopyToOamB(const void *src, u32 offset, u32 size) {
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (0x7000400 + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (0x7000400 + offset), size);
+        Mem_CpuCopy32(src, (void *) (0x7000400 + offset), size);
     }
 }
 
-void GX_LoadOBJ(const void *src, u32 offset, u32 size) {
+void CopyTileDataTop_0(const void *src, u32 offset, u32 size) {
     enum { OBJ_VRAM_BASE_NONE } base = 0x6400000;
 
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (base + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (base + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (base + offset), size);
+        Mem_CpuCopy32(src, (void *) (base + offset), size);
     }
 }
 
-void GXS_LoadOBJ(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn35Impl(const void *src, u32 offset, u32 size) {
     enum { SUB_OBJ_VRAM_BASE_NONE } base = 0x6600000;
 
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (base + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (base + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (base + offset), size);
+        Mem_CpuCopy32(src, (void *) (base + offset), size);
     }
 }
 
-void GX_LoadBG0Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn8Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2_GetBG0ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG0Scr(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2S_GetBG0ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+void TEQSub_Fn24Impl(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetAnotherSubEngineBGOffset();
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG1Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn9Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2_GetBG1ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG1Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn25Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2S_GetBG1ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG2Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn10Impl_Fn12Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2_GetBG2ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG2Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn26Impl_Fn28Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2S_GetBG2ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG3Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn11Impl_Fn13Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2_GetBG3ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG3Scr(const void *src, u32 offset, u32 size) {
+void TEQSub_Fn27Impl_Fn29Impl(const void *src, u32 offset, u32 size) {
     u32 ptr = G2S_GetBG3ScrPtr();
-    if (GXi_DmaId != -1 && size > 0x1c) {
-        MI_DmaCopy16(GXi_DmaId, src, (void *) (ptr + offset), size);
+    if (g_GfxDmaChannel != -1 && size > 0x1c) {
+        MI_DmaCopy16(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy16(src, (void *) (ptr + offset), size);
+        CopyMemory16(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG0Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2_GetBG0CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg0_Top(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg0BaseOffset_Top();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG0Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2S_GetBG0CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg0_Bottom(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg0BaseOffset_Bottom();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG1Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2_GetBG1CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg1_Top(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg1BaseOffset_Top();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG1Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2S_GetBG1CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg1_Bottom(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg1BaseOffset_Bottom();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG2Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2_GetBG2CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg2_Top(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg2BaseOffset_Top();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG2Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2S_GetBG2CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg2_Bottom(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg2BaseOffset_Bottom();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GX_LoadBG3Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2_GetBG3CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg3_Top(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg3BaseOffset_Top();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
-void GXS_LoadBG3Char(const void *src, u32 offset, u32 size) {
-    u32 ptr = G2S_GetBG3CharPtr();
-    if (GXi_DmaId != -1 && size > 0x30) {
-        MI_DmaCopy32(GXi_DmaId, src, (void *) (ptr + offset), size);
+void CopyBgData_Bg3_Bottom(const void *src, u32 offset, u32 size) {
+    u32 ptr = GetVramBg3BaseOffset_Bottom();
+    if (g_GfxDmaChannel != -1 && size > 0x30) {
+        MI_DmaCopy32(g_GfxDmaChannel, src, (void *) (ptr + offset), size);
     } else {
-        MIi_CpuCopy32(src, (void *) (ptr + offset), size);
+        Mem_CpuCopy32(src, (void *) (ptr + offset), size);
     }
 }
 
@@ -257,16 +257,16 @@ void GX_LoadBGExtPltt(const void *src, u32 offset, u32 size) {
     u32 dest;
 
     dest = gBgExtPaletteLoadBase + offset - gBgExtPaletteLoadBaseOffset;
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, (void *) dest, size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, (void *) dest, size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, (void *) dest, size);
+        Mem_CpuCopy32(src, (void *) dest, size);
     }
 }
 
 void GX_EndLoadBGExtPltt(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
     GX_SetBankForBGExtPltt(gBgExtPaletteLoadBankMask);
     gBgExtPaletteLoadBankMask = 0;
@@ -278,16 +278,16 @@ void GX_BeginLoadOBJExtPltt(void) {
     s32 mask;
 
     mask = GX_ResetBankForOBJExtPltt();
-    gObjExtPaletteLoadBankMask = mask;
+    g_SomeObjExtPlt = mask;
     if (mask == 0) {
         return;
     }
     switch (mask) {
         case VRAM_BANK_F:
-            gObjExtPaletteLoadBase = 0x6890000;
+            g_SomeObjExtPltLcdcBlock = 0x6890000;
             break;
         case VRAM_BANK_G:
-            gObjExtPaletteLoadBase = 0x6894000;
+            g_SomeObjExtPltLcdcBlock = 0x6894000;
             break;
     }
 }
@@ -295,59 +295,59 @@ void GX_BeginLoadOBJExtPltt(void) {
 void GX_LoadOBJExtPltt(const void *src, u32 offset, u32 size) {
     u32 dest;
 
-    dest = gObjExtPaletteLoadBase + offset;
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, (void *) dest, size, 0, 0);
+    dest = g_SomeObjExtPltLcdcBlock + offset;
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, (void *) dest, size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, (void *) dest, size);
+        Mem_CpuCopy32(src, (void *) dest, size);
     }
 }
 
 void GX_EndLoadOBJExtPltt(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
-    GX_SetBankForOBJExtPltt(gObjExtPaletteLoadBankMask);
-    gObjExtPaletteLoadBankMask = 0;
-    gObjExtPaletteLoadBase = 0;
+    GX_SetBankForOBJExtPltt(g_SomeObjExtPlt);
+    g_SomeObjExtPlt = 0;
+    g_SomeObjExtPltLcdcBlock = 0;
 }
 
 void GXS_BeginLoadBGExtPltt(void) {
-    gSubBgExtPaletteLoadBankMask = GX_ResetBankForSubBGExtPltt();
+    g_SomeSubBgExtPlt = GX_ResetBankForSubBGExtPltt();
 }
 
 void GXS_LoadBGExtPltt(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, (void *) (offset + 0x6898000), size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, (void *) (offset + 0x6898000), size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, (void *) (offset + 0x6898000), size);
+        Mem_CpuCopy32(src, (void *) (offset + 0x6898000), size);
     }
 }
 
 void GXS_EndLoadBGExtPltt(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
-    GX_SetBankForSubBGExtPltt(gSubBgExtPaletteLoadBankMask);
-    gSubBgExtPaletteLoadBankMask = 0;
+    GX_SetBankForSubBGExtPltt(g_SomeSubBgExtPlt);
+    g_SomeSubBgExtPlt = 0;
 }
 
 void GXS_BeginLoadOBJExtPltt(void) {
-    gSubObjExtPaletteLoadBankMask = GX_ResetBankForSubOBJExtPltt();
+    g_SomeSubObjExtPlt = GX_ResetBankForSubOBJExtPltt();
 }
 
 void GXS_LoadOBJExtPltt(const void *src, u32 offset, u32 size) {
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, (void *) (offset + 0x68a0000), size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, (void *) (offset + 0x68a0000), size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, (void *) (offset + 0x68a0000), size);
+        Mem_CpuCopy32(src, (void *) (offset + 0x68a0000), size);
     }
 }
 
 void GXS_EndLoadOBJExtPltt(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
-    GX_SetBankForSubOBJExtPltt(gSubObjExtPaletteLoadBankMask);
-    gSubObjExtPaletteLoadBankMask = 0;
+    GX_SetBankForSubOBJExtPltt(g_SomeSubObjExtPlt);
+    g_SomeSubObjExtPlt = 0;
 }

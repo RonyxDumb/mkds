@@ -56,7 +56,7 @@ MapObjectKindDescriptor gFlipperKindDescriptor = {0,
 const Vec3 gFlipperThirdBoxHalfSizesNegative[2] = {{0xc8000, 0, 0x20800}, {-40960, 0, 0x20800}};
 const u16 gCoverPooHoleInitMapObjectFlag = 0x200;
 const Vec3 gFlipperSecondBoxHalfSizesNegative[2] = {{0xc8000, 0, 0x32000}, {0, 0, 0x32000}};
-struct MapObjectModel *gFlipper;
+struct MapObjectModel *g_FlipperMapObject;
 
 void InitFlipper(Flipper *flipper) {
     flipper->mMapObject.mFlags = flipper->mMapObject.mFlags | gFlipperInitMapObjectFlag;
@@ -88,8 +88,8 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8
             flipper->mMapObject.mPosStep.y = 0;
             flipper->mMapObject.mPosStep.z = 0;
         } else {
-            VEC_Subtract(&kart->mPos, &flipper->mMapObject.mPos, &offset);
-            pushSpeed = VEC_Mag(&offset);
+            VecFx32_Subtract(&kart->mPos, &flipper->mMapObject.mPos, &offset);
+            pushSpeed = VecFx32_Norm(&offset);
             pushDirection = &flipper->mSwingMatrices[flipper->mSwingStep].mRows[2];
             pushSpeed = MUL_FIXED12_NO_ROUND(pushSpeed, pushScale);
             flipper->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(pushDirection->x, pushSpeed);
@@ -151,10 +151,10 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
     return hitResult != 0;
 }
 
-void CreateFlipper(void *mapObjectList) {
-    gFlipper = CreateMapObjectModelAnimated(mapObjectList, "flipper.nsbmd");
-    CreateMapObjectModelNsbtpAnimation(gFlipper, "flipper.nsbtp");
-    CreateMapObjectModelNsbtaAnimation(gFlipper, "flipper.nsbta");
+void LoadFlipperMapObject(void *mapObjectList) {
+    g_FlipperMapObject = CreateMapObjectFromModel_from_thumb(mapObjectList, "flipper.nsbmd");
+    StructMapObject_AddAnimationNsbtp_from_thumb(g_FlipperMapObject, "flipper.nsbtp");
+    StructMapObject_AddAnimationNsbta_from_thumb(g_FlipperMapObject, "flipper.nsbta");
 }
 
 void DrawFlipper(void *mapObjectList, Flipper *flipper) {
@@ -170,14 +170,14 @@ void DrawFlipper(void *mapObjectList, Flipper *flipper) {
     matrix->mRows[3].z = flipper->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &flipper->mMapObject.mScale, 3);
-    SetMapObjectModelMirror(gFlipper, flipper->mMirror, 0);
-    animation = gFlipper->mAnimations[1];
+    StructMapObject_SomeFn_8(g_FlipperMapObject, flipper->mMirror, 0);
+    animation = g_FlipperMapObject->mAnimations[1];
     animation->mHead.mFrameIndex = TO_FIXED12(flipper->mNsbtpFrameIndex);
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-    animation = gFlipper->mAnimations[3];
+    animation = g_FlipperMapObject->mAnimations[3];
     animation->mHead.mFrameIndex = TO_FIXED12(flipper->mNsbtaFrameIndex);
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
-    DrawMapObjectModel(mapObjectList, gFlipper, flipper);
+    DrawMapObjectModel(mapObjectList, g_FlipperMapObject, flipper);
 }
 
 void InitFlipperObjects(MapObjectList *mapObjectList) {
@@ -205,14 +205,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 flipper->mMapObject.mFlags &= ~0x400;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
                 flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
-                MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
+                MTX_RotY33__from_thumb(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
                 flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
-                MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
+                MTX_RotY33__from_thumb(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
         }
         flipper->mIsAnimating = 0;
@@ -228,7 +228,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 angleStep = -0x16c;
             }
             angle = angle - angleStep;
-            MTX_RotY33_(&segmentRotation, SIN_OF_ANGLE((u16) angle), COS_OF_ANGLE((u16) angle));
+            MTX_RotY33__from_thumb(&segmentRotation, SIN_OF_ANGLE((u16) angle), COS_OF_ANGLE((u16) angle));
             segmentMatrix = &flipper->mSwingMatrices[segmentIndex];
             MTX_Concat33(&segmentRotation, &flipper->mMapObject.mMatrix.mAxes, &segmentMatrix->mAxes);
             MTX_Concat33(&tiltMatrix, &segmentMatrix->mAxes, &flipper->mTiltedSwingMatrices[segmentIndex].mAxes);
@@ -236,14 +236,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             flipper->mEmitterStarts[segmentIndex].y = flipper->mMapObject.mPos.y >> 4;
             flipper->mEmitterStarts[segmentIndex].z = flipper->mMapObject.mPos.z >> 4;
             if (flipper->mMirror == 0) {
-                offsetAngle = (u16) (-angle + FX_Atan2Idx(-2, -10));
+                offsetAngle = (u16) (-angle + FX_Atan2(-2, -10));
                 flipper->mEmitterEnds[segmentIndex].x =
                     (flipper->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(offsetDistance, COS_OF_ANGLE(offsetAngle))) >> 4;
                 flipper->mEmitterEnds[segmentIndex].y = flipper->mMapObject.mPos.y >> 4;
                 flipper->mEmitterEnds[segmentIndex].z =
                     (flipper->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(offsetDistance, SIN_OF_ANGLE(offsetAngle))) >> 4;
             } else {
-                offsetAngle = (u16) (-angle - FX_Atan2Idx(-2, -10));
+                offsetAngle = (u16) (-angle - FX_Atan2(-2, -10));
                 flipper->mEmitterEnds[segmentIndex].x =
                     (flipper->mMapObject.mPos.x - MUL_FIXED12_NO_ROUND(offsetDistance, COS_OF_ANGLE(offsetAngle))) >> 4;
                 flipper->mEmitterEnds[segmentIndex].y = flipper->mMapObject.mPos.y >> 4;
@@ -343,12 +343,12 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
     }
     if (flipper->mIsAnimating != 0 && (flipper->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0) {
         frameIndex = flipper->mNsbtpFrameIndex + 1;
-        if (frameIndex >= GetMapObjectModelNsbtpFrameCount(gFlipper)) {
+        if (frameIndex >= StructMapObject_SomeFn_1(g_FlipperMapObject)) {
             frameIndex = 1;
         }
         flipper->mNsbtpFrameIndex = frameIndex;
         frameIndex = flipper->mNsbtaFrameIndex + 1;
-        if (frameIndex >= GetMapObjectModelNsbtaFrameCount(gFlipper)) {
+        if (frameIndex >= StructMapObject_SomeFn_2(g_FlipperMapObject)) {
             frameIndex = 1;
         }
         flipper->mNsbtaFrameIndex = frameIndex;
@@ -360,7 +360,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
         flipper->mNsbtaFrameIndex = 0;
         flipper->mEmitter->mFlags.mEmissionStopped = 1;
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
         if (flipper->mKartCooldownFrames[kartIndex] > 0) {
             flipper->mKartCooldownFrames[kartIndex] = flipper->mKartCooldownFrames[kartIndex] - 1;
@@ -373,7 +373,7 @@ MapObjectKindData *CreateFlipperKindData(void) {
 }
 
 MapObjectList *CreateFlipperDrawList(void) {
-    return CreateMapObjectDrawList1(CreateFlipper, DrawFlipper, NULL);
+    return CreateMapObjectDrawList1(LoadFlipperMapObject, DrawFlipper, NULL);
 }
 
 MapObjectList *CreateFlipperUpdateList(void) {

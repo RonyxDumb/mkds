@@ -4,5 +4,5 @@
 
 // Returns mSceneFrames. Its only caller (StepDataSharing) discards the value.
 unsigned int GetSceneFrames(void);
-unsigned int ReturnNoTerminateForPulledOut(void);
-unsigned int SceneReturnTerminateForPulledOut(void);
+unsigned int AnotherUserCardPulledOutCallback(void);
+unsigned int SomeUserCardPulledOutCallback(void);

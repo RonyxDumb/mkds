@@ -28,7 +28,7 @@ u8 MakeAroundList(ACWORK *work) {
     num = MakeUserList(work);
     list += num;
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_FREESPOT_SSID) {
-        MI_CpuCopy8(gFreespotSsid, list->mSsid, 8);
+        Mem_CpuCopy8(gFreespotSsid, list->mSsid, 8);
         list->mSsidLength = 8;
         list->mApType = AUTO_CONNECT_AP_TYPE_FREESPOT_SSID;
         num++;
@@ -44,21 +44,21 @@ u8 MakeStealthList(ACWORK *work) {
     num = MakeUserList(work);
     list += num;
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NWCUSBAP_SSID) {
-        MI_CpuCopy8(gNwcUsbApSsid, list->mSsid, 8);
+        Mem_CpuCopy8(gNwcUsbApSsid, list->mSsid, 8);
         list->mSsidLength = 8;
         list->mApType = AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID;
         num++;
         list++;
     }
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_WAYPORT2_SSID) {
-        MI_CpuCopy8(gWayportSsid, list->mSsid, 8);
+        Mem_CpuCopy8(gWayportSsid, list->mSsid, 8);
         list->mSsidLength = 8;
         list->mApType = AUTO_CONNECT_AP_TYPE_WAYPORT2_SSID;
         num++;
         list++;
     }
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NINTENDOWFC_SSID) {
-        MI_CpuCopy8(gNintendoWfcSsid, list->mSsid, 0xb);
+        Mem_CpuCopy8(gNintendoWfcSsid, list->mSsid, 0xb);
         list->mSsidLength = 0xb;
         list->mApType = AUTO_CONNECT_AP_TYPE_NINTENDOWFC_SSID;
         num++;

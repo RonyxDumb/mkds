@@ -28,20 +28,20 @@ void LoadMissionRunBossIconData(void) {
     ncgr = NULL;
     ncer = NULL;
     nclr[0] = NULL;
-    sceneFile = FindSceneFile(gMissionRunBossIconSNcgrName);
-    LoadNcgrData(&ncgr, sceneFile);
-    sceneFile = FindSceneFile(gMissionRunBossIconSNcerName);
-    LoadNcerData(&ncer, sceneFile);
-    sceneFile = FindSceneFile(gMissionRunBossIconSONclrName);
-    LoadNclrData(nclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSNcgrName);
+    Gfx_ReadCharGraphicsV2(&ncgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSNcerName);
+    LoadCellBankFrom(&ncer, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSONclrName);
+    Gfx_ReadPalette(nclr, sceneFile);
 }
 
 void CreateMissionRunBossIcon(void *heap) {
-    gMissionRunBossIcon = HeapAlloc(heap, sizeof(MissionRunBossIcon));
-    LocateNcgr2(&gMissionRunBossIcon->mNcgr, FindSceneFile(gMissionRunBossIconSNcgrName));
-    LocateNcer(&gMissionRunBossIcon->mNcer, FindSceneFile(gMissionRunBossIconSNcerName));
-    LocateNclr(&gMissionRunBossIcon->mNclr, FindSceneFile(gMissionRunBossIconSONclrName));
-    gMissionRunBossIcon->mBncl = FindSceneFile(gMissionRunBossIconSBnclName);
+    gMissionRunBossIcon = Mem_AllocateHeap(heap, sizeof(MissionRunBossIcon));
+    Gfx_ReadCharGraphicsRelative(&gMissionRunBossIcon->mNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSNcgrName));
+    LocateNcer(&gMissionRunBossIcon->mNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSNcerName));
+    Gfx_ReadPaletteRelative(&gMissionRunBossIcon->mNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSONclrName));
+    gMissionRunBossIcon->mBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gMissionRunBossIconSBnclName);
 }
 
 void ClearMissionRunBossIconPointer(void) {
@@ -69,5 +69,5 @@ void QueueMissionRunBossIcon(s16 rowIndex, s32 usePaletteIndex, void *destCells,
     } else {
         paletteIndex = 7;
     }
-    NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5, paletteData + (paletteIndex << 5), 32);
+    AllocateReserveTEQSub(transferKind, paletteSlot << 5, paletteData + (paletteIndex << 5), 32);
 }

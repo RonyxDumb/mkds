@@ -27,94 +27,94 @@
 
 #pragma thumb on
 
-void InitArchiveSlots(void *heap) {
+void CreateMountManager_from_thumb(void *heap) {
     s32 index;
 
-    gArchiveSlots = HeapAlloc(heap, sizeof(ArchiveSlots));
-    gArchiveSlots->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
+    g_MountManager = Mem_AllocateHeap(heap, sizeof(ArchiveSlots));
+    g_MountManager->mLoadRequest.mReadBuffer = Mem_AllocateHeapAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
     for (index = 0; index < 20; index++) {
-        gArchiveSlots->mSlots[index].mLoaded = 0;
+        g_MountManager->mSlots[index].mLoaded = 0;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        gArchiveSlots->mFileTableSize = FS_TryLoadTable(0, 0);
-        gArchiveSlots->mFileTable = HeapAlloc(heap, gArchiveSlots->mFileTableSize);
-        FS_TryLoadTable((u32) gArchiveSlots->mFileTable, gArchiveSlots->mFileTableSize);
+        g_MountManager->mFileTableSize = Fs_LoadRomArchiveFatFnt(0, 0);
+        g_MountManager->mFileTable = Mem_AllocateHeap(heap, g_MountManager->mFileTableSize);
+        Fs_LoadRomArchiveFatFnt((u32) g_MountManager->mFileTable, g_MountManager->mFileTableSize);
     }
     for (index = 0; index < 16; index++) {
-        ResetArchiveBuffer(index);
+        InitializeMountDatas_from_thumb(index);
     }
-    gArchiveSlots->mCourseId = NULL;
-    gArchiveSlots->mFirstHeap = NULL;
-    gArchiveSlots->mCourseBufferHeap = NULL;
-    FS_InitFile(&gArchiveSlots->mFile);
+    g_MountManager->mCourseId = NULL;
+    g_MountManager->mFirstHeap = NULL;
+    g_MountManager->mCourseBufferHeap = NULL;
+    Fs_File_Initialize(&g_MountManager->mFile);
 }
 
-int ReadWholeFile(const char *path, void *buffer, u32 maxSize) {
+int OpenReadEntireFileBuffer_from_thumb(const char *path, void *buffer, u32 maxSize) {
     FSFile file;
     u32 opened;
     u32 size;
 
-    FS_InitFile(&file);
-    opened = FS_OpenFile(&file, (const u8 *) path);
+    Fs_File_Initialize(&file);
+    opened = Fs_File_Open(&file, (const u8 *) path);
     if (opened != 0) {
         size = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
         if (maxSize != 0 && size > maxSize) {
             opened = 0;
         } else {
-            if (FS_ReadFile(&file, buffer, size) < 0) {
+            if (Fs_File_Read(&file, buffer, size) < 0) {
                 opened = 0;
             }
-            FS_CloseFile(&file);
+            Fs_File_Close(&file);
         }
     }
     return opened;
 }
 
-u32 ReadFileBytes(void *path, void *buffer, u32 size) {
+u32 OpenReadFileBufferSize_from_thumb(void *path, void *buffer, u32 size) {
     FSFile file;
     u32 opened;
 
-    FS_InitFile(&file);
-    opened = FS_OpenFile(&file, path);
+    Fs_File_Initialize(&file);
+    opened = Fs_File_Open(&file, path);
     if (opened != 0) {
         if (size <= (file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04)) {
-            if (FS_ReadFile(&file, buffer, size) < 0) {
+            if (Fs_File_Read(&file, buffer, size) < 0) {
                 opened = 0;
             }
-            FS_CloseFile(&file);
+            Fs_File_Close(&file);
         }
     }
     return opened;
 }
 
-u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
+u32 ReadFileFromMountManagerHandle_from_thumb(char *path, NNSiFndHeapHead *heap, void **outData) {
     u32 opened;
     FSFile *file;
     u32 size;
     void *data;
 
-    file = &gArchiveSlots->mFile;
+    file = &g_MountManager->mFile;
     if (((file->mStat & FILE_RECORD_BUSY) ? 1 : 0) != 0) {
         return 0;
     }
     if (((file->mStat & FILE_RECORD_OPEN) ? 1 : 0) != 0) {
-        FS_CloseFile(file);
+        Fs_File_Close(file);
     }
-    opened = FS_OpenFile(file, (const u8 *) path);
+    opened = Fs_File_Open(file, (const u8 *) path);
     if (opened != 0) {
         size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
-        data = HeapAlloc(heap, size);
+        data = Mem_AllocateHeap(heap, size);
         *outData = data;
         if (data == NULL) {
             opened = 0;
         }
         if (opened != 0) {
-            if (FS_ReadFile(file, data, size) < 0) {
+            if (Fs_File_Read(file, data, size) < 0) {
                 opened = 0;
-                HeapFree(heap, data);
+                Mem_FreeHeap(heap, data);
             }
         }
-        FS_CloseFile(file);
+        Fs_File_Close(file);
     }
     if (opened == 0) {
         size = -1;
@@ -123,30 +123,30 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
     return size;
 }
 
-void *LoadFileAligned(const char *path, s32 alignment) {
+void *AllocateReadFileBuffer_from_thumb(const char *path, s32 alignment) {
     FSFile file;
     u32 opened;
     void *data;
     u32 size;
 
     data = NULL;
-    if (FS_IsAvailable() == 0) {
+    if (Fs_IsInitialized() == 0) {
         return NULL;
     }
-    FS_InitFile(&file);
-    opened = FS_OpenFile(&file, (const u8 *) path);
+    Fs_File_Initialize(&file);
+    opened = Fs_File_Open(&file, (const u8 *) path);
     if (opened != 0) {
         size = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
-        data = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), size, alignment);
-        DC_StoreRange(data, size);
+        data = Mem_AllocateHeapAligned(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), size, alignment);
+        DC_SomeClean(data, size);
         if (data == NULL) {
             opened = 0;
         } else {
-            if (FS_ReadFile(&file, data, size) < 0) {
-                HeapFree(GetHeap(GetCurrentHeapCall()), data);
+            if (Fs_File_Read(&file, data, size) < 0) {
+                Mem_FreeHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), data);
                 opened = 0;
             }
-            FS_CloseFile(&file);
+            Fs_File_Close(&file);
         }
     }
     if (opened == 0) {
@@ -155,13 +155,13 @@ void *LoadFileAligned(const char *path, s32 alignment) {
     return data;
 }
 
-void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
+void FormatCourseCarc_from_thumb(char *path, s32 courseId, s32 useTexture) {
     BOOL useDSuffix;
     const char *textureSuffix;
     const char *dSuffix;
 
     useDSuffix = FALSE;
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && gCourseArchiveNames[courseId].mMultibootVariant == 1) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && g_CourseNameTable[courseId].mMultibootVariant == 1) {
         useDSuffix = TRUE;
     }
     if (useTexture != 0) {
@@ -174,43 +174,43 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     } else {
         dSuffix = "";
     }
-    OS_SNPrintf(path, 0x80, "/data/Course/%s%s%s.carc", gCourseArchiveNames[courseId].mName, dSuffix, textureSuffix);
+    Util_SNPrintF(path, 0x80, "/data/Course/%s%s%s.carc", g_CourseNameTable[courseId].mName, dSuffix, textureSuffix);
 }
 
-u32 GetLanguageCode(void) {
+u32 GetLanguageIdentifierString_from_thumb(void) {
     s32 languageIndex;
 
-    languageIndex = gStartupWork->mLanguageIndex;
-    if (gStartupWork->mRegion == REGION_EUROPE && languageIndex == LANGUAGE_ENGLISH) {
+    languageIndex = g_GlobalP->mLanguageIndex;
+    if (g_GlobalP->mRegion == REGION_EUROPE && languageIndex == LANGUAGE_ENGLISH) {
         languageIndex += 5;
     }
-    return (u32) gLanguageCodes[languageIndex];
+    return (u32) g_LanguageIdentifierTable[languageIndex];
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-u32 GetMPLanguageCode(void) {
+u32 GetSomeLanguage_from_thumb(void) {
     u32 languageIndex;
-    languageIndex = gConnectionWork->mLanguageIndex;
-    if ((gStartupWork->mRegion == REGION_EUROPE) && (gStartupWork->mLanguageIndex == LANGUAGE_ENGLISH)) {
+    languageIndex = g_GlobalZE->mLanguageIndex;
+    if ((g_GlobalP->mRegion == REGION_EUROPE) && (g_GlobalP->mLanguageIndex == LANGUAGE_ENGLISH)) {
         languageIndex = languageIndex + 5;
     }
-    return (u32) gLanguageCodes[languageIndex];
+    return (u32) g_LanguageIdentifierTable[languageIndex];
 }
 
-void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName) {
+void FormatCarcWithLanguage2_from_thumb(char *path, const char *sceneName) {
     u32 languageCode;
     if (*sceneName != 0) {
-        languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
+        languageCode = GetLanguageIdentifierString_from_thumb();
+        Util_SNPrintF(path, 0x80, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
     }
 }
 
-void BuildSceneArchivePath(char *path, const char *sceneName) {
+void FormatSceneArchive_from_thumb(char *path, const char *sceneName) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s%s", sceneName, ".carc");
+        Util_SNPrintF(path, 0x80, "/data/Scene/%s%s", sceneName, ".carc");
     }
 }
 

@@ -12,12 +12,12 @@ void NNS_GfdInitFrmPlttVramManager(u32 szByte, s32 useAsDefault) {
     s_managerState_.mSzTotal = szByte;
     NNS_GfdResetFrmPlttVramState();
     if (useAsDefault != 0) {
-        NNS_GfdDefaultFuncAllocPlttVram = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmPlttVram;
+        NNS_GfdDefaultFuncAllocPlttVram = (u32(*)(s32, s32, s32)) AnotherPaletteHandler;
         NNS_GfdDefaultFuncFreePlttVram = NNS_GfdFreeFrmPlttVram;
     }
 }
 
-u32 NNS_GfdAllocFrmPlttVram(u32 szByte, s32 bPltt4, s32 allocFrom) {
+u32 AnotherPaletteHandler(u32 szByte, s32 bPltt4, s32 allocFrom) {
     u32 addr = 0;
     u32 increase;
     u32 current;

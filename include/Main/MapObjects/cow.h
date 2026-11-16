@@ -19,7 +19,7 @@ typedef struct Kanoke64 {
 MapObjectList *CreateCowDrawList(void);
 void DrawCow(void *mapObjectList, MapObject *mapObject);
 void SetupDrawCow(void *mapObjectList);
-void CreateCow(void *mapObjectList);
+void LoadCowMapObject(void *mapObjectList);
 MapObjectList *CreateKanoke64UpdateList(void);
 MapObjectList *CreateKanoke64DrawList(void);
 void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64);
@@ -31,4 +31,4 @@ void InitKanoke64Objects(MapObjectList *mapObjectList);
 void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64);
 void CreateKanoke64(void *mapObjectList);
 
-extern struct MapObjectModel *gCow;
+extern struct MapObjectModel *g_CowMapObject;

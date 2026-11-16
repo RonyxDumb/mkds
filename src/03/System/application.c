@@ -53,7 +53,7 @@ s32 RunMainLoop(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
         RunTasksAndRemoveRequested(0);
         UpdateLcdPower();
         SendLedPatternWirelessIfDifferent();
-        VBlankIntrWait();
+        Svc_VblankIntrWait_from_thumb();
     } while (gQuitFlag[0] == 0);
     ReleaseApplication();
     return 0;
@@ -81,20 +81,20 @@ void InitApplication(void) {
     u8 *work;
     u16 imeValue = reg_OS_IME;
     reg_OS_IME = 0;
-    GX_DispOff();
+    SomeDispcntInit();
     reg_GXS_DB_DISPCNT &= 0xfffeffff;
-    if (OS_IsTickAvailable() == 0) {
-        OS_Terminate();
+    if (Os_IsTickInitialized() == 0) {
+        Os_Terminate();
     }
     if (OS_IsAlarmAvailable() == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
     GX_VBlankIntr(0);
-    FX_Init();
-    FS_Init(-1);
-    TP_Init();
-    RTC_Init();
-    GX_DispOff();
+    FX_Initialize();
+    Fs_Initialize(-1);
+    Os_InitializeTouchPanelFifo();
+    Rtc_Initialize();
+    SomeDispcntInit();
     reg_GXS_DB_DISPCNT &= 0xfffeffff;
     SaveBankSettingsAndClearVram();
     CreateExpHeapOverBuffer(gHeapMemoryBlock);
@@ -104,7 +104,7 @@ void InitApplication(void) {
     InitKeyTouchInput();
     InitBlendBrightnessFadeSlotsFaded();
     work = AllocExpHeapBlock(0x700, HEAP_ALIGN_CACHE_LINE);
-    DWC_BM_Init(work);
+    StructDC_SomeFn_2_from_thumb(work);
     FreeExpHeapBlockAndClearPointer(&work);
 }
 
@@ -114,10 +114,10 @@ void InitGraphics(void) {
     GX_VBlankIntr(0);
     GX_SetBankForBG(1);
     GX_SetBankForOBJ(2);
-    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+    ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     displayControl = &reg_GX_DISPCNT;
     *displayControl = *displayControl & 0xffffe0ff;
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
+    SetBrightness(&reg_GX_MASTER_BRIGHT, 0);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | 0x200010;
     reg_G2_BG0CNT &= ~REG_G2_BG0CNT_MOSAIC_MASK;
     reg_G2_BG1CNT &= ~REG_G2_BG1CNT_MOSAIC_MASK;
@@ -130,10 +130,10 @@ void InitGraphics(void) {
     G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x3f, 0x10);
     GX_SetBankForSubBG(0x80);
     GX_SetBankForSubOBJ(0x100);
-    GXS_SetGraphicsMode(GX_BGMODE_0);
+    SetDispcntSubBgMode(GX_BGMODE_0);
     displayControl = &reg_GXS_DB_DISPCNT;
     *displayControl = *displayControl & 0xffffe0ff;
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
+    SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, 0);
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
         REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
@@ -166,7 +166,7 @@ void InitGraphics(void) {
 }
 
 void ReleaseApplication(void) {
-    GX_DispOff();
+    SomeDispcntInit();
     reg_GXS_DB_DISPCNT &= 0xfffeffff;
     SendLedPatternOn();
     ReleaseKeyTouchInput();

@@ -22,10 +22,10 @@ WiFiStateCallbacks gWiFiConnectionLostCallbacks = {InitWiFiConnectionLost, Clear
 WiFiConnectionLost *gWiFiConnectionLost;
 
 void InitWiFiConnectionLost(void *heap) {
-    gWiFiConnectionLost = HeapAlloc(heap, 8);
+    gWiFiConnectionLost = Mem_AllocateHeap(heap, 8);
     gWiFiConnectionLost->mState = WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT;
     gWiFiConnectionLost->mNextState = WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT;
-    StartFadeToFadedNegative(0x1e);
+    Bright_FadeOutBlack(0x1e);
 }
 
 void ClearWiFiConnectionLostPointer(void) {
@@ -37,9 +37,9 @@ void AdvanceWiFiConnectionLostWaitFadeOut(void) {
     BackupFirstBlock *firstBlock;
     s8 otherKartCount;
 
-    if (AreBrightnessFadesFaded() != 0) {
+    if (Bright_IsBothScreensFadedOut() != 0) {
         gWiFiConnectionLost->mNextState = WIFI_CONNECTION_LOST_STATE_WAIT_FADE_IN;
-        StartFadeToClear(0x1e);
+        BrightCtx_SomeFnTopBottom(0x1e);
         reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x1208;
         reg_G2_BG1CNT = reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK;
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1f00;
@@ -47,11 +47,11 @@ void AdvanceWiFiConnectionLostWaitFadeOut(void) {
         reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT &
                              ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
-        if (gMenuShared->mOtherKartCountAdded != FALSE) {
-            firstBlock = gBackupBuffers->mFirstBlock;
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        if (g_GlobalB488->mOtherKartCountAdded != FALSE) {
+            firstBlock = g_SaveDataHolder->mFirstBlock;
             total = firstBlock->mTotals[5];
-            otherKartCount = gWiFiSession->mKartCountCopy - 1;
+            otherKartCount = g_GlobalB->mKartCountCopy - 1;
             if (otherKartCount > 0) {
                 if (total < otherKartCount) {
                     total = 0;
@@ -60,10 +60,10 @@ void AdvanceWiFiConnectionLostWaitFadeOut(void) {
                 }
             }
             firstBlock->mTotals[5] = total;
-            WriteBackupFirstBlockWrapper();
-            WaitThreadFunctionsDone();
-            if (gBackupAccess->mBackupEnabled != 0) {
-                CARD_WaitBackupAsync();
+            WriteSaveDataSectionHeaderToSaveData_from_thumb();
+            WaitForWorkerTask();
+            if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                j_WaitForPendingCardOperation();
             }
         }
     }
@@ -71,10 +71,10 @@ void AdvanceWiFiConnectionLostWaitFadeOut(void) {
 
 void AdvanceWiFiConnectionLostWaitFadeIn(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestWiFiState(WIFI_STATE_VS_SETTING);
-        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
+        g_GlobalB488->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
     }
 }
 

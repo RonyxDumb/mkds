@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void WriteSceneTextRegistersWrapper(void);
-void ReleaseSceneTextWrapper(void);
+void j_NavigationContext_OnSceneVblank_from_thumb(void);
+void j_DisposeNavigationContext_from_thumb(void);

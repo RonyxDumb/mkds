@@ -10,18 +10,18 @@ void SND_AssignWaveArc(SNDBankData *bank, s32 index, SNDWaveArc *waveArc) {
     SNDWaveArcLink *top;
     SNDWaveArcLink *next;
 
-    SNDi_LockMutex();
+    Sound_LockMutex();
     oldArc = bank->mWaveArcLink[index].mWaveArc;
     if (oldArc != 0) {
         if (waveArc == oldArc) {
-            SNDi_UnlockMutex();
+            Sound_UnlockMutex();
             return;
         }
         cur = oldArc->mTopLink;
         link = &bank->mWaveArcLink[index];
         if (link == cur) {
             oldArc->mTopLink = bank->mWaveArcLink[index].mNext;
-            DC_StoreRange(bank->mWaveArcLink[index].mWaveArc, 0x3c);
+            DC_SomeClean(bank->mWaveArcLink[index].mWaveArc, 0x3c);
         } else {
             while (cur != 0) {
                 next = cur->mNext;
@@ -31,16 +31,16 @@ void SND_AssignWaveArc(SNDBankData *bank, s32 index, SNDWaveArc *waveArc) {
                 cur = next;
             }
             cur->mNext = bank->mWaveArcLink[index].mNext;
-            DC_StoreRange(cur, 8);
+            DC_SomeClean(cur, 8);
         }
     }
     top = waveArc->mTopLink;
     waveArc->mTopLink = &bank->mWaveArcLink[index];
     bank->mWaveArcLink[index].mNext = top;
     bank->mWaveArcLink[index].mWaveArc = waveArc;
-    SNDi_UnlockMutex();
-    DC_StoreRange(bank, 0x3c);
-    DC_StoreRange(waveArc, 0x3c);
+    Sound_UnlockMutex();
+    DC_SomeClean(bank, 0x3c);
+    DC_SomeClean(waveArc, 0x3c);
 }
 
 // Takes each of the four entries of bank out of the list of the wave archive it is in.
@@ -51,7 +51,7 @@ void SND_DestroyBank(SNDBankData *bank) {
     SNDWaveArcLink *link;
     SNDWaveArcLink *next;
 
-    SNDi_LockMutex();
+    Sound_LockMutex();
     link = &bank->mWaveArcLink[0];
     for (linkIndex = 0; linkIndex < 4; linkIndex++) {
         waveArchive = bank->mWaveArcLink[linkIndex].mWaveArc;
@@ -59,7 +59,7 @@ void SND_DestroyBank(SNDBankData *bank) {
             cur = waveArchive->mTopLink;
             if (link == cur) {
                 waveArchive->mTopLink = bank->mWaveArcLink[linkIndex].mNext;
-                DC_StoreRange(waveArchive, 0x3c);
+                DC_SomeClean(waveArchive, 0x3c);
             } else {
                 while (cur != 0) {
                     next = cur->mNext;
@@ -69,12 +69,12 @@ void SND_DestroyBank(SNDBankData *bank) {
                     cur = next;
                 }
                 cur->mNext = bank->mWaveArcLink[linkIndex].mNext;
-                DC_StoreRange(cur, 8);
+                DC_SomeClean(cur, 8);
             }
         }
         link++;
     }
-    SNDi_UnlockMutex();
+    Sound_UnlockMutex();
 }
 
 // Clears every entry in the list of waveArc.
@@ -82,18 +82,18 @@ void SND_DestroyWaveArc(SNDWaveArc *waveArc) {
     SNDWaveArcLink *cur;
     SNDWaveArcLink *next;
 
-    SNDi_LockMutex();
+    Sound_LockMutex();
     cur = waveArc->mTopLink;
     if (cur != 0) {
         do {
             next = cur->mNext;
             cur->mWaveArc = 0;
             cur->mNext = 0;
-            DC_StoreRange(cur, 8);
+            DC_SomeClean(cur, 8);
             cur = next;
         } while (next != 0);
     }
-    SNDi_UnlockMutex();
+    Sound_UnlockMutex();
 }
 
 // Sets pos to the start of the instrument entries.
@@ -159,8 +159,8 @@ u32 SND_GetWaveDataCount(SNDWaveArc *waveArc) {
 }
 
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, u32 index, void *address) {
-    SNDi_LockMutex();
+    Sound_LockMutex();
     waveArc->mWaveOffset[index] = (u32) address;
-    DC_StoreRange(&waveArc->mWaveOffset[index], 4);
-    SNDi_UnlockMutex();
+    DC_SomeClean(&waveArc->mWaveOffset[index], 4);
+    Sound_UnlockMutex();
 }

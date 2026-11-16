@@ -9,5 +9,5 @@
 #include "Main/Sound/sound_seq.h"
 
 u32 SelectRaceRuleGetMultiSimple(void) {
-    return gStartupWork->mMultiSimple;
+    return g_GlobalP->mMultiSimple;
 }

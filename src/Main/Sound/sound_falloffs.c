@@ -19,11 +19,11 @@
 #include "registers.h"
 #include "Main/Sound/sound_handle_slots.h"
 
-void StopKartSoundWhileRequested(Kart *kart) {
+void StructMQRacerEntry_SomeFn_70(Kart *kart) {
     if (kart->mSound.mWhileRequestedSoundId == KART_SOUND_NO_WHILE_REQUESTED_SOUND) {
         return;
     }
-    StopSoundEx(&kart->mSoundSource, 0, kart->mSound.mWhileRequestedSoundId, 0);
+    StructMQRacerEntry_SomeFn_75(&kart->mSoundSource, 0, kart->mSound.mWhileRequestedSoundId, 0);
     kart->mSound.mWhileRequestedSoundId = KART_SOUND_NO_WHILE_REQUESTED_SOUND;
 }
 
@@ -74,7 +74,7 @@ void InitSoundFalloffs(void) {
     static SoundFalloffSettings defaultSettings0 = {800, 500, 47, 150, 127};
     static SoundFalloffSettings defaultSettings1 = {800, 500, 47, 150, 95};
 
-    if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
+    if (GetCurrentSceneId() == 2 && g_GlobalCO->mRaceKind == RACE_KIND_REPLAY) {
         isReplayScene = TRUE;
     } else {
         isReplayScene = FALSE;
@@ -375,7 +375,7 @@ s32 ComputeSoundVolume(SoundParams *soundParams) {
     kart = (Kart *) soundParams->mSource;
     volume = 0;
     if (kart != NULL) {
-        if (kart != NULL && kart->mSoundSource.mFalloffIndex == 0 && kart->mIndex != gRaceSetup->mEntryIndex) {
+        if (kart != NULL && kart->mSoundSource.mFalloffIndex == 0 && kart->mIndex != g_GlobalCO->mEntryIndex) {
             falloff = &gOtherKartSoundFalloff;
         } else {
             falloff = &gSoundFalloffs[kart->mSoundSource.mFalloffIndex];
@@ -416,7 +416,7 @@ s32 ComputeSoundPan(SoundParams *soundParams) {
     u32 angle;
     s32 pan;
 
-    angle = FX_Atan2Idx(TO_FIXED12(soundParams->mCameraForwardDistance), -soundParams->mCameraSideDistance << 12);
+    angle = FX_Atan2(TO_FIXED12(soundParams->mCameraForwardDistance), -soundParams->mCameraSideDistance << 12);
     if (angle > 0x7fff) {
         angle = (u16) (0xffff - angle);
     }

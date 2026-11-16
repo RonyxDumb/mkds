@@ -35,9 +35,9 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const u8 gCupRankTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
+const u8 g_RacerPositionToCupResultTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
 
-void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum) {
+void StructCP_SetTimeFromCPAndTime(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum) {
     u16 milliseconds = firstTime->mMillisecond + secondTime->mMillisecond;
     u16 minutes = firstTime->mMinute + secondTime->mMinute;
     u16 seconds = firstTime->mSecond + secondTime->mSecond;
@@ -59,25 +59,25 @@ void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, Ti
     sum->mMillisecond = milliseconds;
 }
 
-void FillGrandPrixRecord(TimeRecord *record) {
+void StructCP_CreateFromCurrent(TimeRecord *record) {
     u8 courseIndex;
     record->mMinute = 0;
     record->mSecond = 0;
     record->mMillisecond = 0;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, record->mName, sizeof(record->mName));
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mPlayerName, record->mName, sizeof(record->mName));
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
-        SumTimes(record, &gMenuShared->mCourseTimes[courseIndex], record);
+        StructCP_SetTimeFromCPAndTime(record, &g_GlobalB488->mCourseTimes[courseIndex], record);
     }
-    record->mCharacterIndex = gMenuShared->mCharacterIndex;
-    record->mKartIndex = gMenuShared->mKartIndex;
+    record->mCharacterIndex = g_GlobalB488->mCharacterIndex;
+    record->mKartIndex = g_GlobalB488->mKartIndex;
     record->mUnk_1b = 0;
-    record->mCupRank = gCupRankTable[gMenuShared->mCupRankIndex];
-    record->mTotalPoints = gMenuShared->mTotalPoints;
-    record->mGrade = gMenuShared->mGrade;
+    record->mCupRank = g_RacerPositionToCupResultTable[g_GlobalB488->mCupRankIndex];
+    record->mTotalPoints = g_GlobalB488->mTotalPoints;
+    record->mGrade = g_GlobalB488->mGrade;
     record->mFilled = 1;
 }
 
-BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
+BOOL StructCP_IsBBetterThanA(TimeRecord *storedRecord, TimeRecord *newRecord) {
     s32 storedTimeMs;
     s32 newTimeMs;
     if (newRecord->mCupRank == CUP_RANK_NO_TROPHY) {
@@ -109,12 +109,12 @@ BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
     return storedTimeMs > newTimeMs;
 }
 
-BOOL TrySetGrandPrixRecord(void) {
+BOOL CheckUpdateGrandPrixResult(void) {
     TimeRecord storedRecord;
     TimeRecord newRecord;
     BOOL stored = FALSE;
     s32 engineClass;
-    MenuShared *menuShared = gMenuShared;
+    MenuShared *menuShared = g_GlobalB488;
     switch (menuShared->mEngineIndex) {
         case ENGINE_CLASS_SLOW:
             engineClass = stored;
@@ -126,17 +126,17 @@ BOOL TrySetGrandPrixRecord(void) {
             engineClass = (menuShared->mMirrorMode != 0) ? 3 : 2;
             break;
     }
-    GetGrandPrixRecord(menuShared->mCupIndex, engineClass, &storedRecord);
-    FillGrandPrixRecord(&newRecord);
-    if (ShouldSetGrandPrixRecord(&storedRecord, &newRecord) != FALSE) {
-        SetGrandPrixRecord(gMenuShared->mCupIndex, engineClass, &newRecord);
-        WriteBackupGrandPrixRecords();
+    CopyCupEntryTo_from_thumb(menuShared->mCupIndex, engineClass, &storedRecord);
+    StructCP_CreateFromCurrent(&newRecord);
+    if (StructCP_IsBBetterThanA(&storedRecord, &newRecord) != FALSE) {
+        CopyCupEntryFrom_from_thumb(g_GlobalB488->mCupIndex, engineClass, &newRecord);
+        SaveNKGPChunk_from_thumb();
         stored = TRUE;
     }
     return stored;
 }
 
-u32 TrySetMissionRecord(void) {
+u32 SomeMissionLevelStageChecking(void) {
     UnpackedMissionRecord storedRecord;
     UnpackedMissionRecord newRecord;
     u32 stored = 0;
@@ -144,24 +144,24 @@ u32 TrySetMissionRecord(void) {
     s32 missionColumn;
     s32 endKind;
     BOOL shouldStore;
-    missionRow = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableRow : -1;
-    missionColumn = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableColumn : -1;
-    endKind = IsKartEnded((u16) gRaceSetup->mEntryIndex);
-    endKind = (endKind != 0) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED;
+    missionRow = (g_GlobalCO->mMode == MODE_MISSION_RUN) ? g_GlobalCO->mMissionTableRow : -1;
+    missionColumn = (g_GlobalCO->mMode == MODE_MISSION_RUN) ? g_GlobalCO->mMissionTableColumn : -1;
+    endKind = IsRacerFinishedRace((u16) g_GlobalCO->mEntryIndex);
+    endKind = (endKind != 0) ? g_GlobalMV->mEntryEndKind : RACE_END_KIND_NOT_ENDED;
     if (endKind != 0) {
         return 0;
     }
-    GetMissionRecord((u16) missionRow, (u16) missionColumn, &storedRecord);
+    GetMissionLevelStageInfoByIds_from_thumb((u16) missionRow, (u16) missionColumn, &storedRecord);
     newRecord.mFilled = 1;
-    newRecord.mValue = ComputeMissionRecordValue();
+    newRecord.mValue = ComputeMissionInternalScore();
     if (storedRecord.mFilled == 0) {
         shouldStore = TRUE;
     } else {
         shouldStore = storedRecord.mValue < newRecord.mValue;
     }
     if (shouldStore != FALSE) {
-        SetMissionRecord((u16) missionRow, (u16) missionColumn, &newRecord);
-        WriteBackupMissionRecords();
+        SetMissionLevelStageInfoFromIds_from_thumb((u16) missionRow, (u16) missionColumn, &newRecord);
+        WriteSaveDataMissionRunSection_from_thumb();
         stored = 1;
     }
     return stored;
@@ -195,18 +195,18 @@ void InitWLMenuResetRaceSetup(void *heap) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     } else {
-        bannerFile = FindSceneFile("/banner.bmg");
+        bannerFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("/banner.bmg");
     }
-    connectionKind = gStartupWork->mConnectionKind;
+    connectionKind = g_GlobalP->mConnectionKind;
     kindIsOneOrTwo = 1;
     if (connectionKind != 1 && connectionKind != 2) {
         kindIsOneOrTwo = 0;
     }
     if (kindIsOneOrTwo != 0) {
         AllocConnectionBuffers(heap, connectionKind == 1, bannerFile);
-        InitMPChunkBuffers(heap);
+        AllocateSomeZEStuff_from_thumb(heap);
     }
-    ResetRaceSetup();
+    PopulateGlobalCO();
 }
 
 BOOL IsDateEarlier(const DateBytes *firstDate, const DateBytes *secondDate) {

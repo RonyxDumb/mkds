@@ -2,5 +2,5 @@
 #include "Main/System/backup_net_camera_work.h"
 
 void ResetOwnIndex(void) {
-    gConnectionWork->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
+    g_GlobalZE->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
 }

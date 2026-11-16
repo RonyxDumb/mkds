@@ -5,7 +5,7 @@
 
 extern CallbackInfo sCallbackInfo;
 
-// Walked by FflushAll; fwrite compares its argument with entries 1 and 2; printf passes entry 1
+// Walked by FflushAll; fwrite compares its argument with entries 1 and 2; SomeSprintf passes entry 1
 // to fwide and FormatWithPutFunc.
 extern FILE gStdioFiles[3];
 

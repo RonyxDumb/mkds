@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceTitleStates(s32 flag);
+void StructHU_InvokeFunc_from_thumb(s32 flag);

@@ -11,14 +11,14 @@ u32 MB_FakeGetParentBssDesc(u32 index, WMBssDesc *destination) {
     if (16 <= index) {
         return 0;
     }
-    savedInterrupts = ((s64) OS_DisableInterrupts());
+    savedInterrupts = ((s64) Os_DisableIrq());
     entry = MB_GetGameInfoRecvList(index);
     if (entry == NULL) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
-    MI_CpuCopy8(&entry->mScanBuffer, destination, sizeof(WMBssDesc));
-    OS_RestoreInterrupts(savedInterrupts);
+    Mem_CpuCopy8(&entry->mScanBuffer, destination, sizeof(WMBssDesc));
+    Os_RestoreIrq(savedInterrupts);
     return 1;
 }
 

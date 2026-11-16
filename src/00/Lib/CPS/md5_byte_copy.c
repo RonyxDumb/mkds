@@ -9,9 +9,9 @@ void Md5ResultCopyBytes(u32 destination, u32 source, u32 size) {
     addressC = (addressA) + (0u);
     addressA = (addressB) + (0u);
     addressB = (addressC) + (0u);
-    MI_CpuCopy8((const void *) addressA, (void *) addressB, byteCount);
+    Mem_CpuCopy8((const void *) addressA, (void *) addressB, byteCount);
 }
 
 void Md5BlockCopyBytes(void *destination, const void *source, u32 size) {
-    MI_CpuCopy8(source, destination, size);
+    Mem_CpuCopy8(source, destination, size);
 }

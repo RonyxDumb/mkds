@@ -3,5 +3,5 @@
 #include "types.h"
 #include "texture_resource_type.h"
 
-u32 NNS_G3dTex4x4GetRequiredSize(const NNSG3dResTex *pTex);
-u32 NNS_G3dTexGetRequiredSize(const NNSG3dResTex *pTex);
+u32 Tex0Block_GetCompressedTextureDataSize(const NNSG3dResTex *pTex);
+u32 Tex0Block_GetTextureDataSize(const NNSG3dResTex *pTex);

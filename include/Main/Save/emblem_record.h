@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void ClearMissionRecordBlock(void);
-void ClearCourseTimeRecordBlock(void);
-void ClearGrandPrixRecordBlock(void);
-void ClearEmblemRecord(void);
+void ClearSaveDataSection_MissionRun_from_thumb(void);
+void ClearSaveDataSection_TimeTrials_from_thumb(void);
+void ClearSaveDataSection_GrandPrix_from_thumb(void);
+void ClearSaveDataSection_Emblem_from_thumb(void);

@@ -29,15 +29,15 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
 
     if (count == countLimit) {
         if (gMissionRunLimitSeqNo[0] != 0xff) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, gMissionRunLimitSeqNo[0]);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, gMissionRunLimitSeqNo[0]);
         }
         if (gMissionRunLimitSeqNo[0] == 0x1d7) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1de);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1de);
             return;
         }
-        value = gRaceSetup->mMissionCountMapObjectKinds[0];
+        value = g_GlobalCO->mMissionCountMapObjectKinds[0];
         if (value == 0x65 || value == 0xc9) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xd4);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xd4);
         }
     } else {
         value = gMissionRunCountSeqNo[0];
@@ -57,14 +57,14 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
         if (playingSound->mSeqPlayer != NULL) {
             NNS_SndPlayerStopSeq(&playingSound->mSeqPlayer, 0);
         }
-        NNS_SndArcPlayerStartSeqArc(&playingSound->mSeqPlayer, 0, value);
+        PlaySseqFromSarc(&playingSound->mSeqPlayer, 0, value);
     }
 }
 
-void RunScenesSoundNop(void) {}
+void nullsub_12(void) {}
 
-NNSSndArc *SetCurrentSndArc(void) {
-    return NNS_SndArcSetCurrent(&gFileSndArc);
+NNSSndArc *SetGlobalSdatActive(void) {
+    return Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void SetPlayerVolumeTarget(u32 index, u32 value) {

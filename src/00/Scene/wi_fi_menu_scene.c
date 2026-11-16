@@ -22,8 +22,8 @@ OamEntryList *gWiFiMenuOamLists;
 
 void InitWiFiMenuScene(s16 *sceneNumbers) {
     void *heap;
-    heap = GetHeap(GetCurrentHeapCall());
-    gWiFiMenuOamLists = HeapAlloc(heap, 2 * sizeof(OamEntryList));
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gWiFiMenuOamLists = Mem_AllocateHeap(heap, 2 * sizeof(OamEntryList));
     InitWiFiStates(heap, *sceneNumbers);
 }
 
@@ -35,17 +35,17 @@ void ReleaseWiFiMenuScene(void) {
 void WriteWiFiMenuSceneRegisters(void) {
     AdvanceKartModelMenuLoad();
     WriteWiFiStatesRegisters();
-    UploadOamLists(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
+    CopyOamBuffersToMemory_from_thumb(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
 }
 
 void UpdateWiFiMenuScene(SceneNumbers *sceneNumbers) {
-    ClearOamListCounts(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
+    OamBuffer_ResetValues16_from_thumb(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
     AdvanceWiFiStates();
-    HideUnusedOams(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
+    OamBuffer_SomeFn2_from_thumb(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
     if (sceneNumbers != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {
-                gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
+                g_GlobalP->mConnectionKind = CONNECTION_KIND_NONE;
             }
             sceneNumbers->mNextScene = GetWiFiNextScene();
         }
@@ -55,7 +55,7 @@ void UpdateWiFiMenuScene(SceneNumbers *sceneNumbers) {
 s32 RunWiFiMenuScene(SceneNumbers *sceneNumbers) {
     SceneCallbacks callbacks = {
         InitWiFiMenuScene, UpdateWiFiMenuScene, ReleaseWiFiMenuScene, WriteWiFiMenuSceneRegisters, 0, 0, 10, 10, 0};
-    RunScene(sceneNumbers, &callbacks);
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }
 

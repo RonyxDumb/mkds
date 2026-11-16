@@ -21,15 +21,15 @@ void SubtractDroppedFromRank(u32 kartIndex) {
     ParticipantKartMap *participantKartMap;
     WiFiRaceSync *wiFiRaceSync;
 
-    participantKartMap = gParticipantKartMap;
-    wiFiRaceSync = gWiFiRaceSync;
+    participantKartMap = g_GlobalRE;
+    wiFiRaceSync = g_GlobalAA;
     participantIndex = GetParticipantOfKart(kartIndex);
     rank = wiFiRaceSync->mEntries[participantIndex].mRank;
     if (participantIndex < 0) {
         return;
     }
     otherKartIndex = 0;
-    for (otherKartIndex = 0; otherKartIndex < (s32) gRaceSetup->mKartCount; otherKartIndex++) {
+    for (otherKartIndex = 0; otherKartIndex < (s32) g_GlobalCO->mKartCount; otherKartIndex++) {
         if (otherKartIndex != kartIndex) {
             otherParticipantIndex = participantKartMap->mParticipantOfKart[otherKartIndex];
             otherRank = wiFiRaceSync->mEntries[otherParticipantIndex].mRank;
@@ -55,31 +55,31 @@ void ResetItemDataSlots(void) {
 
     for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
         for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
-            slot = &gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
+            slot = &g_GlobalAA->mReceivedItemDataSlots[slotIndex][participantIndex];
             slot->mState = ITEM_DATA_SLOT_STATE_FREE;
             slot->mSendUntilSyncFrame = 0;
             slot->mItemKind = ITEM_DATA_KIND_NONE;
             slot->mMessageKind = 0;
             slot->mDataSize = 0;
-            MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
-            gWiFiRaceSync->mItemDataHandled[slotIndex][participantIndex] = 0;
+            Mem_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
+            g_GlobalAA->mItemDataHandled[slotIndex][participantIndex] = 0;
         }
-        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        slot = &g_GlobalAA->mItemDataSlots[slotIndex];
         slot->mState = ITEM_DATA_SLOT_STATE_FREE;
         slot->mSendUntilSyncFrame = 0;
         slot->mItemKind = ITEM_DATA_KIND_NONE;
         slot->mMessageKind = 0;
         slot->mDataSize = 0;
-        MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
+        Mem_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
     }
-    gWiFiRaceSync->mUnusedItemDataBytes = ITEM_DATA_BYTES;
+    g_GlobalAA->mUnusedItemDataBytes = ITEM_DATA_BYTES;
 }
 
 BOOL IsAnyItemDataSlotFree(void) {
     u16 slotIndex;
 
     for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
-        if (gWiFiRaceSync->mItemDataSlots[slotIndex].mState == ITEM_DATA_SLOT_STATE_FREE) {
+        if (g_GlobalAA->mItemDataSlots[slotIndex].mState == ITEM_DATA_SLOT_STATE_FREE) {
             return TRUE;
         }
     }
@@ -96,11 +96,11 @@ void WriteItemDataSlotsToSendBuffer(void) {
     u8 headerByte;
 
     usedSize = 0;
-    payload = (void *) &gWiFiRaceSync->mSendBuffer->mRecord;
+    payload = (void *) &g_GlobalAA->mSendBuffer->mRecord;
     headerCursor = payload->mItemDataHeaders;
     dataCursor = headerCursor + ITEM_DATA_SLOT_COUNT;
     for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
-        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        slot = &g_GlobalAA->mItemDataSlots[slotIndex];
         if (slot->mState == ITEM_DATA_SLOT_STATE_FREE || slot->mState == ITEM_DATA_SLOT_STATE_SENT ||
             slot->mItemKind == ITEM_DATA_KIND_NONE) {
             headerByte = ITEM_DATA_KIND_NONE;
@@ -115,7 +115,7 @@ void WriteItemDataSlotsToSendBuffer(void) {
                 break;
             case ITEM_DATA_SLOT_STATE_SENDING:
                 if (slot->mDataSize != 0 && ITEM_DATA_BYTES - (usedSize + slot->mDataSize) >= 0) {
-                    MI_CpuCopy8(slot->mData, dataCursor, slot->mDataSize);
+                    Mem_CpuCopy8(slot->mData, dataCursor, slot->mDataSize);
                     usedSize = usedSize + slot->mDataSize;
                     dataCursor += slot->mDataSize;
                 }
@@ -124,7 +124,7 @@ void WriteItemDataSlotsToSendBuffer(void) {
                 break;
         }
     }
-    gWiFiRaceSync->mUnusedItemDataBytes = ITEM_DATA_BYTES - usedSize;
+    g_GlobalAA->mUnusedItemDataBytes = ITEM_DATA_BYTES - usedSize;
 }
 
 void ExpireItemDataSlots(void) {
@@ -132,7 +132,7 @@ void ExpireItemDataSlots(void) {
     ItemDataSlot *slot;
 
     for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
-        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        slot = &g_GlobalAA->mItemDataSlots[slotIndex];
         if (slot->mItemKind == ITEM_DATA_KIND_NONE) {
             continue;
         }
@@ -140,17 +140,17 @@ void ExpireItemDataSlots(void) {
             case ITEM_DATA_SLOT_STATE_FREE:
                 break;
             case ITEM_DATA_SLOT_STATE_SENT:
-                if (slot->mSendUntilSyncFrame + ITEM_DATA_SLOT_KEEP_FRAMES < (u32) gWiFiRaceSync->mSyncFrames) {
+                if (slot->mSendUntilSyncFrame + ITEM_DATA_SLOT_KEEP_FRAMES < (u32) g_GlobalAA->mSyncFrames) {
                     slot->mState = ITEM_DATA_SLOT_STATE_FREE;
                     slot->mSendUntilSyncFrame = 0;
                     slot->mItemKind = ITEM_DATA_KIND_NONE;
                     slot->mMessageKind = 0;
                     slot->mDataSize = 0;
-                    MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
+                    Mem_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
                 }
                 break;
             case ITEM_DATA_SLOT_STATE_SENDING:
-                if (slot->mSendUntilSyncFrame < (u32) gWiFiRaceSync->mSyncFrames) {
+                if (slot->mSendUntilSyncFrame < (u32) g_GlobalAA->mSyncFrames) {
                     slot->mState = ITEM_DATA_SLOT_STATE_SENT;
                 }
                 break;
@@ -167,13 +167,13 @@ void StoreReceivedItemDataSlots(void) {
     u8 headerByte;
 
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participantIndex) &&
-            gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
-            headerCursor = (u8 *) &gWiFiRaceSync->mEntries[participantIndex] + 0x28;
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(g_GlobalAA->mParticipantMask, participantIndex) &&
+            g_GlobalAA->mEntries[participantIndex].mRecordReceived != 0) {
+            headerCursor = (u8 *) &g_GlobalAA->mEntries[participantIndex] + 0x28;
             dataCursor = headerCursor + ITEM_DATA_SLOT_COUNT;
             for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
                 headerByte = *headerCursor++;
-                slot = &gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
+                slot = &g_GlobalAA->mReceivedItemDataSlots[slotIndex][participantIndex];
                 slot->mItemKind = headerByte & ITEM_DATA_HEADER_KIND_MASK;
                 slot->mMessageKind =
                     (headerByte & ITEM_DATA_HEADER_MESSAGE_KIND_MASK) >> ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT;
@@ -183,7 +183,7 @@ void StoreReceivedItemDataSlots(void) {
                     slot->mDataSize = GetItemDataSize(slot->mItemKind, slot->mMessageKind);
                 }
                 if (slot->mDataSize != 0) {
-                    MI_CpuCopy8(dataCursor, slot->mData, slot->mDataSize);
+                    Mem_CpuCopy8(dataCursor, slot->mData, slot->mDataSize);
                     dataCursor += slot->mDataSize;
                 }
             }
@@ -200,10 +200,10 @@ void ProcessOtherParticipantItemData(void) {
     u8 *data;
 
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participantIndex) &&
-            gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(g_GlobalAA->mParticipantMask, participantIndex) &&
+            g_GlobalAA->mEntries[participantIndex].mRecordReceived != 0) {
             for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
-                wiFiRaceSync = gWiFiRaceSync;
+                wiFiRaceSync = g_GlobalAA;
                 slot = &wiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
                 handledFlag = &wiFiRaceSync->mItemDataHandled[slotIndex][participantIndex];
                 if (slot->mItemKind == ITEM_DATA_KIND_NONE) {
@@ -218,7 +218,7 @@ void ProcessOtherParticipantItemData(void) {
                         ApplyParticipantPendingItem(participantIndex);
                     }
                     ProcessItemDataMessage(slot->mItemKind, slot->mMessageKind, data,
-                                           gParticipantKartMap->mKartOfParticipant[participantIndex]);
+                                           g_GlobalRE->mKartOfParticipant[participantIndex]);
                     *handledFlag = 1;
                 }
             }

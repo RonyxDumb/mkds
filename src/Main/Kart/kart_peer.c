@@ -39,7 +39,7 @@
 #include "Main/Kart/kart_draw.h"
 #include "Main/Kart/course_models.h"
 
-void AdvancePeerKartMotion(Kart *kart) {
+void StructMQRacerEntry_SomeFn_90(Kart *kart) {
     ParticipantKartRecordState *recordState;
     s32 tableIndex;
     u32 kartBits;
@@ -47,7 +47,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     kartBits = kart->mEntryFlags;
     if ((kartBits & (KART_ENTRY_REMOVED | KART_ENTRY_SCALING_IN)) != 0) {
         if ((kartBits & KART_ENTRY_REMOVED) != 0) {
-            AdvanceKartRemovalShrink(kart);
+            StructMQRacerEntry_SomeFn_53(kart);
             return;
         }
         kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
@@ -67,7 +67,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     }
     recordState = kart->mParticipantRecordData;
     Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mCombinedQuaternion);
-    AdvanceParticipantKartRecords(kart);
+    StructMQRacerEntry_SomeFn_78(kart);
     if (kart->mForwardSpeed > KART_PEER_OFFSET_CLEAR_SPEED) {
         recordState->mPosOffset = gKartVec3Zero;
     }
@@ -84,7 +84,7 @@ void AdvancePeerKartMotion(Kart *kart) {
         recordState->mHopHeight = 0;
         recordState->mHopSpeed = 0;
     }
-    if (IsRaceStarted() == 1) {
+    if (IsAwardOrStaffRoll() == 1) {
         kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycleIndex;
     }
     if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
@@ -117,37 +117,37 @@ void AdvancePeerKartCollision(Kart *kart) {
     }
     ComputeKartPointAlongUp(&kart->mCollisionCenter, &kart->mPos, 0x400, kart);
     CollideKartWithCourse(kart, &groundNormal);
-    AdvancePeerKartOrientation(kart, &groundNormal);
+    StructMQRacerEntry_SomeFn_84(kart, &groundNormal);
     kart->mGroundNormal = groundNormal;
     kart->mCollisionStepFrames = kart->mCollisionStepFrames + 1;
     UpdateKartSoundWrapper(kart);
     AdvanceKartCollisionTimer(kart);
     if ((kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) != 0) {
-        ComputeKartSidePoints(kart);
+        StructMQRacerEntry_SomeFn_61(kart);
     }
     if ((kart->mEffectFlags & KART_EFFECT_MODEL_SCALE_ANIM) != 0) {
-        AdvanceKartModelScaleAnimation(kart);
+        StructMQRacerEntry_SomeFn_85(kart);
     }
     kart->mAdvanceOffsetCycle(kart);
     groundedPos = kart->mPos;
     groundedPos.y = groundedPos.y - recordState->mHopHeight;
     blendFactor = recordState->mPosBlendFactor;
-    VEC_Subtract(&groundedPos, &recordState->mSmoothedPos, &posStep);
+    VecFx32_Subtract(&groundedPos, &recordState->mSmoothedPos, &posStep);
     posStep.x = MUL_FIXED12_NO_ROUND(posStep.x, blendFactor);
     posStep.y = MUL_FIXED12_NO_ROUND(posStep.y, blendFactor);
     posStep.z = MUL_FIXED12_NO_ROUND(posStep.z, blendFactor);
-    VEC_Add(&recordState->mSmoothedPos, &posStep, &recordState->mSmoothedPos);
+    VecFx32_Add(&recordState->mSmoothedPos, &posStep, &recordState->mSmoothedPos);
     if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         ComputeKartPointAlongUp(&probePos, &recordState->mSmoothedPos, 0x400, kart);
         upAxis = &kart->mRotationRow1;
         downOffset.x = MUL_FIXED12_NO_ROUND(upAxis->x, -0x7000);
         downOffset.y = MUL_FIXED12_NO_ROUND(upAxis->y, -0x7000);
         downOffset.z = MUL_FIXED12_NO_ROUND(upAxis->z, -0x7000);
-        VEC_Add(&probePos, &downOffset, &probePos);
+        VecFx32_Add(&probePos, &downOffset, &probePos);
         if (CollideSphereWithCourse(&probePos, NULL, 0, kart->mRadius, 1, kart->mCollisionSlot, &pushOut, NULL, NULL,
                                     &hitAttributes, NULL, NULL, NULL, NULL) != 0) {
-            VEC_Add(&pushOut, &downOffset, &pushOut);
-            VEC_Add(&recordState->mSmoothedPos, &pushOut, &recordState->mSmoothedPos);
+            VecFx32_Add(&pushOut, &downOffset, &pushOut);
+            VecFx32_Add(&recordState->mSmoothedPos, &pushOut, &recordState->mSmoothedPos);
         }
     }
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
@@ -156,7 +156,7 @@ void AdvancePeerKartCollision(Kart *kart) {
                     0x333);
 }
 
-void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
+void StructMQRacerEntry_SomeFn_84(Kart *kart, Vec3 *groundNormal) {
     ParticipantKartRecordState *recordState;
     Vec4 hopTiltQuaternion;
     s32 headingDifference;
@@ -167,7 +167,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     if (kart->mAirborneFrames > KART_PEER_AIR_TILT_AIRBORNE_FRAMES &&
         (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
-        ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
+        StructMQRacerEntry_SomeFn_88(kart, &kart->mAirTiltQuaternion);
     } else {
         AdvanceKartQuaternionFromVector(kart, groundNormal);
     }
@@ -183,7 +183,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     }
     recordState->mSmoothedHeadingAngle =
         recordState->mSmoothedHeadingAngle + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
-    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset),
+    QuaternionFromAxisAngle(&g_UnitY_VecFx32, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset),
                             &kart->mHeadingQuaternion);
     QuaternionMultiply(&kart->mTiltQuaternion, &kart->mHeadingQuaternion, &kart->mCombinedQuaternion);
     if ((kart->mMotionFlags & KART_MOTION_HOPPING) != 0) {
@@ -196,7 +196,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
         } else {
             kart->mHopTiltAngle = 0;
         }
-        QuaternionFromAxisAngle(&gKartVec3UnitX, -kart->mHopTiltAngle, &hopTiltQuaternion);
+        QuaternionFromAxisAngle(&g_UnitX_VecFx32, -kart->mHopTiltAngle, &hopTiltQuaternion);
         QuaternionMultiply(&kart->mCombinedQuaternion, &hopTiltQuaternion, &kart->mCombinedQuaternion);
     } else {
         kart->mHopTiltAngle = 0;
@@ -204,29 +204,29 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     QuaternionNormalize(&kart->mCombinedQuaternion, &kart->mCombinedQuaternion);
 }
 
-void SetKartPrevCollisionCenterFromPrevPos(Kart *kart) {
+void MQ_FnPtr5_Net_3(Kart *kart) {
     ComputeKartPointAlongUp(&kart->mPrevCollisionCenter, &kart->mPrevPos, 0x400, kart);
 }
 
-void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
+void StructMQRacerEntry_Create(Kart *kart, void (**slotFunctions)(Kart *)) {
     u32 isPeer;
     u16 slotIndex;
     ModelAnimation *characterAnimation;
 
-    GetHeap(GetCurrentHeapCall());
-    isPeer = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_PEER;
-    kart->mKartModelsEntry = GetKartModelsEntry(kart->mIndex);
+    ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    isPeer = g_GlobalCO->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_PEER;
+    kart->mKartModelsEntry = GetAD00SubRacer(kart->mIndex);
     InitCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, 1);
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         for (slotIndex = 0; slotIndex < 9; slotIndex++) {
             if (slotIndex == 3) {
-                kart->mSlotFunctions[slotIndex] = isPeer != 0 ? AdvancePeerKartMotionSlot : AdvanceLocalKartMotionSlot;
+                kart->mSlotFunctions[slotIndex] = isPeer != 0 ? MQ_FnPtr3_Net_3 : MQ_FnPtr3_Net_Not3;
             } else if (slotIndex == 4) {
                 kart->mSlotFunctions[slotIndex] =
-                    isPeer != 0 ? AdvancePeerKartCollisionSlot : AdvanceLocalKartCollisionSlot;
+                    isPeer != 0 ? MQ_FnPtr4_Net_3 : MQ_FnPtr4_Net_Not3;
             } else if (slotIndex == 5) {
                 kart->mSlotFunctions[slotIndex] =
-                    isPeer != 0 ? SetKartPrevCollisionCenterFromPrevPos : SetKartPrevCollisionCenter;
+                    isPeer != 0 ? MQ_FnPtr5_Net_3 : SetKartPrevCollisionCenter;
             } else {
                 kart->mSlotFunctions[slotIndex] = *slotFunctions;
             }
@@ -256,12 +256,12 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     if (kart->mSlotFunctions[0] != 0) {
         kart->mSlotFunctions[0](kart);
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY || (kart->mEntryFlags & KART_ENTRY_SELECTED) == 0) {
-        kart->mSlotFunctions[2] = SetKartSoundDistanceSquaredAndChange;
+    if (g_GlobalCO->mRaceKind == RACE_KIND_REPLAY || (kart->mEntryFlags & KART_ENTRY_SELECTED) == 0) {
+        kart->mSlotFunctions[2] = MQ_FnPtr2_Replay;
     } else {
-        kart->mSlotFunctions[2] = SetKartSoundDistanceSquared;
+        kart->mSlotFunctions[2] = MQ_FnPtr2_Default;
     }
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         if (isPeer != 0) {
             kart->mPosSource = &kart->mParticipantRecordData->mSmoothedDrawPos;
             kart->mRotationSource = &kart->mParticipantRecordData->mSmoothedRotation;
@@ -277,8 +277,8 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         kart->mCollisionPosSource = &kart->mPos;
     }
     kart->mPosSourceCopy = kart->mPosSource;
-    PlaceKartAtStartPlacement(kart, 0);
-    if (GetRaceUseChainCameras() != 0 && gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
+    StructMQRacerEntry_MaybeInitializePosition(kart, 0);
+    if (IsNotStaffRoll() != 0 && g_GlobalCO->mRaceKind != RACE_KIND_AWARD) {
         kart->mSlotFunctions[3] = KartChainCameraNop;
         kart->mSlotFunctions[4] = KartChainCameraNop;
         kart->mDrawMatrixPos = kart->mDrawBaseRow3;
@@ -286,13 +286,13 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         kart->mDrawBaseRow3.y = kart->mDrawBaseRow3.y >> 4;
         kart->mDrawBaseRow3.z = kart->mDrawBaseRow3.z >> 4;
         if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0) {
-            AdvanceKartCharacterAnimation(kart);
+            StructMQRacerEntry_SomeFn_20(kart);
             characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
             characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame =
                 characterAnimation->mHead.mFrameIndex;
         }
     }
-    ResetParticipantKartRecordPos(kart);
+    StructMQRacerEntry_SomeFn_48(kart);
     if ((kart->mEntryFlags & KART_ENTRY_CPU) != 0) {
         CallKartAiSetup(kart->mAi, kart->mIndex);
     }

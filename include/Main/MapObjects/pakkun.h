@@ -65,10 +65,10 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun); /* skipped for objects w
 void InitPakkunObjects(void);
 void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun);
 void SetupDrawPakkunBody(void *mapObjectList);
-void CreatePakkunBody(void *mapObjectList);
+void LoadPakkunBodyMapObject(void *mapObjectList);
 void DrawPakkunZHead(void *mapObjectList, Pakkun *pakkun);
 void SetupDrawPakkunZHead(void *mapObjectList);
-void CreatePakkunZHead(void *mapObjectList);
+void LoadPakkunZHeadMapObject(void *mapObjectList);
 void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun);
 void CreatePakkunMouth(void *mapObjectList);
 void InitPakkun(Pakkun *pakkun);
@@ -77,11 +77,11 @@ MapObjectList *CreatePakkunSpitUpdateList(void);
 
 extern MapObjectKindDescriptor gPakkunKindDescriptor;
 extern MapObjectList *gPakkunUpdateList;
-extern void *gPakkunZHead;
+extern void *g_SomeMapObject2;
 extern MapObjectModel *gPakkunMouth;
 extern MapObjectList *gPakkunMouthDrawList;
 extern void *gPakkunBodyDrawList;
-extern void *gPakkunBody;
+extern void *g_PakkunBodyMapObject;
 extern MapObjectList *gPakkunZHeadDrawList;
 
 extern const u16 gFlipperMirrorFlag;

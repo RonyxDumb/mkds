@@ -10,8 +10,8 @@
 
 #pragma thumb on
 
-u32 IsArchiveSlotLoaded(u32 slotIndex) {
-    return (gArchiveSlots->mSlots[slotIndex].mLoaded);
+u32 IsMountEntryLoaded_from_thumb(u32 slotIndex) {
+    return (g_MountManager->mSlots[slotIndex].mLoaded);
 }
 
 #pragma thumb off

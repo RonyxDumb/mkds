@@ -54,7 +54,7 @@ typedef struct CourseMapEntryGroup {
 
 // Per-course values of CourseMap.mSettings: fog, four colors, the lap count or battle time, start and limit values.
 typedef struct CourseMapSettings {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u8 mCourseId[2];
     // Lap count; in battle mode the same halfword is the time limit in seconds (times 60 frames into
     // RaceProgress.mTimeLimitFrameCount when RaceSetup.mUnk_18 is 1).
     /* 02 */ u16 mLapCountOrBattleSeconds;
@@ -64,10 +64,10 @@ typedef struct CourseMapSettings {
     // reg_G3X_FOG_COLOR and reg_G3X_FOG_OFFSET); other values leave it unfilled.
     /* 06 */ u8 mFogTableMode;
     /* 07 */ u8 mFogSlope;
-    /* 08 */ u8 mUnk_08[8];
+    /* 08 */ u8 mUnknown2[8];
     // Divided by 512 it is the offset written to reg_G3X_FOG_OFFSET (scaled by the fade factor while fading).
     /* 10 */ s32 mFogOffset;
-    // Bits 0 to 14: the course colour, used as the fog colour and as colour 0 of the main screen palette in the race
+    // Bits 0 to 14: the course colour, used as the fog colour and as colour 0 of the NtrMain screen palette in the race
     // HUD set-up; bits 15 to 19: the fog alpha (the race code writes both to the fog colour register as colour | alpha
     // << 16).
     /* 14 */ s32 mColorAndFogAlpha;
@@ -77,7 +77,7 @@ typedef struct CourseMapSettings {
     // Upper limit for the mDrawDistance of every map object (SetMapObjectDrawDistance); 0 means no limit; not applied
     // when RaceSetup.mRaceKind is 3.
     /* 20 */ s32 mMapObjectDrawDistanceMax;
-    // Far plane distance of the cameras of this course; SetupCamera copies it to Camera.mFar and uses 0x640000 when it
+    // Far plane distance of the cameras of this course; StructHD_SomeFn copies it to Camera.mFar and uses 0x640000 when it
     // is below 0x1000.
     /* 24 */ s32 mCameraFar;
 } CourseMapSettings;
@@ -114,8 +114,8 @@ typedef struct {
 typedef struct PointLink {
     /* 00 */ struct PointLink *mLinks[3];
     /* 0c */ struct PointLink *mUnk_0c;
-    /* 10 */ u8 mUnk_10[8];
-    /* 18 */ Vec3 *mUnk_18;
+    /* 10 */ u8 mCommon[8];
+    /* 18 */ Vec3 *mPriority;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ Vec3 *mPoint;
     /* 24 */ s32 mRadius;
@@ -292,8 +292,8 @@ typedef struct CourseMap {
     /* 5a */ u8 mUnk_5a[0x2];
     // Item routes: runs of consecutive item points (first point, count, up to three next and three previous routes).
     /* 5c */ CourseMapRoute *mItemRoutes;
-    // Number of mItemRoutes; when it is not 0 CreateCourseMap builds mItemPointLinks, and ResetKartToRespawnPoint
-    // stores an item point link outside battle; InitKartItems reads it through a raw overlay type.
+    // Number of mItemRoutes; when it is not 0 LoadCourseMapNkm_from_thumb builds mItemPointLinks, and StructMQRacerEntry_Fn6
+    // stores an item point link outside battle; StructPR_Load_from_thumb reads it through a raw overlay type.
     /* 60 */ u16 mItemRouteCount;
     /* 62 */ u8 mUnk_62[0x2];
     // Race point records (0x18 bytes: position, a value, 8 bytes), stored here instead of mBattlePoints when the course
@@ -304,8 +304,8 @@ typedef struct CourseMap {
     /* 6a */ u8 mUnk_6a[0x2];
     // Race routes over mRacePoints (first point, count, up to three next and three previous routes).
     /* 6c */ CourseMapRoute *mRaceRoutes;
-    // Number of mRaceRoutes; the kart code tests it together with mBattleRouteCount (InitKartResources,
-    // AdvanceParticipantKartRecords).
+    // Number of mRaceRoutes; the kart code tests it together with mBattleRouteCount (StructMQRacerEntry_Fn0,
+    // StructMQRacerEntry_SomeFn_78).
     /* 70 */ u16 mRaceRouteCount;
     /* 72 */ u8 mUnk_72[0x2];
     /* 74 */ CourseMapShape *mShapes;
@@ -327,15 +327,15 @@ typedef struct CourseMap {
     /* 90 */ u16 mBattleRouteCount;
     /* 92 */ u8 mUnk_92[2];
     // One 8-byte record per element of mEntryGroups: the group record and the address of its first 0x14-byte entry in
-    // mGroupEntries; built by BuildCourseMapEntryGroupTable, read through
-    // GetCourseMapEntryGroupTableRow.
+    // mGroupEntries; built by PopulatePathEntries_from_thumb, read through
+    // GetLoadedNkmPathEntry_from_thumb.
     /* 94 */ CourseMapEntryGroupTableRow *mEntryGroupTable;
     /* 98 */ u16 mNumberedCheckpointCount;
     // Last entry of the run that comes just before entry 0: first entry + count - 1 of the run named by the first back
     // link of the run that starts at entry 0 (0 when there are no runs). Karts start on it; going back over the line
     // from entry 0 onto it takes a lap off. With branches only the first back link is followed.
     /* 9a */ u16 mLastCheckpoint;
-    // Largest CourseMapRoute.mLapProgressBase of the course, set once by CreateCourseMap;
+    // Largest CourseMapRoute.mLapProgressBase of the course, set once by LoadCourseMapNkm_from_thumb;
     // RaceProgress.mLapProgressScale divides by it plus one.
     /* 9c */ u16 mLapProgressBaseMax;
     /* 9e */ u8 mUnk_9e[2];
@@ -372,9 +372,9 @@ typedef struct CourseMap {
     /* d4 */ CourseMapCamera *mFirstMissionRunCamera;
     /* d8 */ struct CourseMapZoneShapeNode *mZoneShapeLists[8];
     /* f8 */ u16 *mRespawnIndexBySlot;
-    // Record index of mKeyedPlacements for each key, one halfword per record (BuildCourseMapKeyedPlacementIndexByKey).
+    // Record index of mKeyedPlacements for each key, one halfword per record (InitializePECannonTable_from_thumb).
     /* fc */ u16 *mKeyedPlacementIndexByKey;
-    // Mode 2 only: the slot GetCourseMapRespawnSlot hands out next; counts up modulo mRespawnCount.
+    // Mode 2 only: the slot GetCourseCpoiRespawnId hands out next; counts up modulo mRespawnCount.
     /* 100 */ u16 mNextRespawnSlot;
     /* 102 */ u16 mPointLinkShapeCount;
     // Sum of the checkpoint values along the route chain from route 0 (0 when the course has several start placements).
@@ -422,24 +422,24 @@ typedef struct RaceHudSubScreenProjection {
     /* 90 */ Vec3 mScrollPosition;
 } RaceHudSubScreenProjection;
 
-extern struct CourseMap *gCourseMap;
+extern struct CourseMap *g_GlobalPE;
 
 static inline CourseMapRoute *GetCheckpointRoute(u16 routeIndex) {
-    return &gCourseMap->mCheckpointRoutes[routeIndex];
+    return &g_GlobalPE->mCheckpointRoutes[routeIndex];
 }
 
 static inline CourseMapEntryGroup *GetCourseMapEntryGroup(u16 groupIndex) {
-    return &gCourseMap->mEntryGroups[groupIndex];
+    return &g_GlobalPE->mEntryGroups[groupIndex];
 }
 
 static inline CourseMapCamera *GetCourseMapCamera(u16 cameraIndex) {
-    return &gCourseMap->mCameras[cameraIndex];
+    return &g_GlobalPE->mCameras[cameraIndex];
 }
 
 #include "Main/System/input_slots.h"
 
-extern u16 GetPadInputSlot(void);
-s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier);
+extern u16 GetSomeCYId_9(void);
+s32 SomeFxProduct(s32 multiplicand, s32 multiplier);
 void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAffines, s32 scale);
 s32 RaceHudSubScreenGetCurrentMirrorMode(void);
 s32 GetFixed12Whole(s32 value);
@@ -462,7 +462,7 @@ void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out);
 u16 GetRaceHudSubScreenKartAngle(s32 kartIndex);
 u16 GetSubScreenAngleAndClearScrollTimer(void);
 BOOL IsCourseWithSubBg3AreaOverflow(void);
-BOOL IsCourseWithMap2DLocal3(void);
+BOOL MaybeCircuitUsesLocal3(void);
 void ClearRaceHudSubScreenProjection(void);
 
 void InitRaceHudSubScreenProjection(void);

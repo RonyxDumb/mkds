@@ -40,7 +40,7 @@ typedef struct NvramUserInfo {
     /* 63 */ u8 mDy2;
     /* 64 */ u16 mOption;
     /* 66 */ u8 mUnk_66[0xe];
-    // The 6 bytes OS_GetMacAddress copies.
+    // The 6 bytes Os_GetMacAddress copies.
     /* 74 */ u8 mMacAddress[6];
     // The halfword WM_GetAllowedChannel returns.
     /* 7a */ u16 mAllowedChannel;
@@ -90,13 +90,13 @@ typedef struct OSSystemWork {
 #define gBootInfo (&SYSTEM_WORK->mWmBootBuf)
 
 // Clears the IRQ disable bit and returns the previous bit.
-OSIntrMode OS_EnableInterrupts(void);
+OSIntrMode Os_EnableIrq(void);
 // Sets the IRQ disable bit and returns the previous bit.
-OSIntrMode OS_DisableInterrupts(void);
+OSIntrMode Os_DisableIrq(void);
 // Puts the IRQ disable bit back to the one in state and returns the previous bit.
-OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+OSIntrMode Os_RestoreIrq(OSIntrMode state);
 // Returns the processor mode (low five bits of the status register).
-u32 OS_GetProcMode(void);
+u32 Arm_GetProcessorMode(void);
 
 // The owner info of the console: language, favorite color, birthday, nickname and comment with their lengths.
 typedef struct OwnerInfo {
@@ -111,29 +111,29 @@ typedef struct OwnerInfo {
 } OwnerInfo;
 
 // Disables interrupts and halts forever.
-void OS_Terminate(void);
+void Os_Terminate(void);
 
-extern u16 OSi_IsInitReset;
-extern u16 OSi_IsResetOccurred;
+extern u16 g_ResetFifoHandlerInit;
+extern u16 g_GotReset;
 
 // Sets the IRQ and FIQ disable bits and returns their previous value.
-OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
+OSIntrMode Os_DisableIrqFiq(void);
 // Puts the IRQ and FIQ disable bits back to those in state and returns their previous value.
-OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
+OSIntrMode Os_RestoreIrqFiq(OSIntrMode state);
 // Halts the processor until the next interrupt.
-void OS_Halt(void);
+void Os_Halt(void);
 // Busy wait of about cycle / 4 loops.
-void OS_SpinWait(u32 cycle);
-// Receive function registered for channel 12 by OS_InitReset. Takes the command from bits 8 to 14 of its second
-// argument: command 0x10 stores 1 in the halfword OSi_IsResetOccurred (nothing reads it), any other command ends in
-// OS_Terminate.
-void OSi_CommonCallback(u32 tag, u32 data);
-// Runs once: opens PXI tag 12, waits for the other processor and installs OSi_CommonCallback, which stores 1 in
-// the halfword OSi_IsResetOccurred for command 0x10 and halts for any other command. Nothing else reads the halfword.
-void OS_InitReset(void);
+void Os_SpinWait(u32 cycle);
+// Receive function registered for channel 12 by Os_InitializeResetFifoHandler. Takes the command from bits 8 to 14 of its second
+// argument: command 0x10 stores 1 in the halfword g_GotReset (nothing reads it), any other command ends in
+// Os_Terminate.
+void Os_FifoResetHandler(u32 tag, u32 data);
+// Runs once: opens PXI tag 12, waits for the other processor and installs Os_FifoResetHandler, which stores 1 in
+// the halfword g_GotReset for command 0x10 and halts for any other command. Nothing else reads the halfword.
+void Os_InitializeResetFifoHandler(void);
 // Fills the record from the words at 0x027ffc80: bits 0-2 of the halfword at +0x64, the low 4 bits of byte +2, bytes +3
 // and +4, a 20-byte text from +6 with its length from byte +0x1a, a 52-byte text from +0x1c with its length from byte
 // +0x50. The game copies the first text with its length into its own buffers.
-void OS_GetOwnerInfo(OwnerInfo *info);
+void Os_GetPersonalData(OwnerInfo *info);
 // Copies the 6 bytes at 0x027ffcf4 into the buffer (one game site prints them as six hex pairs joined by dashes).
-void OS_GetMacAddress(void *macAddress);
+void Os_GetMacAddress(void *macAddress);

@@ -26,18 +26,18 @@ s32 IsRaceEndConditionMet(void) {
     s32 removedCount;
     RaceSetup *raceSetup;
     RaceProgress *raceProgress;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
             endConditionMet = TRUE;
-            for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+            for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
                 flag = FALSE;
                 value = raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
                 if ((u32) value <= 3 && ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                     flag = TRUE;
                 }
                 if (flag != FALSE) {
-                    value = gRaceProgress->mKarts[kartIndex].mStatus;
+                    value = g_GlobalMV->mKarts[kartIndex].mStatus;
                     flag = FALSE;
                     switch (value) {
                         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
@@ -55,31 +55,31 @@ s32 IsRaceEndConditionMet(void) {
             break;
         case MODE_VS:
             endConditionMet = TRUE;
-            raceProgress = gRaceProgress;
+            raceProgress = g_GlobalMV;
             if (raceProgress->mHeader.mFinishedCount <
-                (s32) RaceProgressGetCurrentKartCount() - (raceProgress->mHeader.mRemovedCount + 1)) {
-                for (kartIndex = 0; kartIndex < RaceProgressGetCurrentKartCount(); kartIndex++) {
-                    if (IsKartNonCpu(kartIndex) != FALSE && IsKartEnded(kartIndex) == 0) {
-                        if (IsRaceProgressKartRemoved(kartIndex) == FALSE) {
+                (s32) GetCurrentRacerCount() - (raceProgress->mHeader.mRemovedCount + 1)) {
+                for (kartIndex = 0; kartIndex < GetCurrentRacerCount(); kartIndex++) {
+                    if (IsRacer_Player_Ghost_UnkNet3(kartIndex) != FALSE && IsRacerFinishedRace(kartIndex) == 0) {
+                        if (IsRacerFinishStatus4(kartIndex) == FALSE) {
                             endConditionMet = FALSE;
                             break;
                         }
                     }
                 }
             }
-            if (endConditionMet == FALSE && RaceProgressGetCurrentRuleKind() == RULE_KIND_WIN_COUNT) {
-                if (IsKartEnded(GetLeadingKart()) != 0) {
+            if (endConditionMet == FALSE && GetCurrentRaceRules_0() == RULE_KIND_WIN_COUNT) {
+                if (IsRacerFinishedRace(GetLeadingKart()) != 0) {
                     endConditionMet = TRUE;
                 }
             }
             break;
         case MODE_WIFI:
-            participantKart = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
+            participantKart = g_GlobalRE->mKartOfParticipant[DWC_GetMyAID()];
             if (participantKart < 0) {
                 endConditionMet = FALSE;
             } else {
-                kartCount = gRaceSetup->mKartCount;
-                raceProgress = gRaceProgress;
+                kartCount = g_GlobalCO->mKartCount;
+                raceProgress = g_GlobalMV;
                 removedCount = raceProgress->mHeader.mRemovedCount;
                 if (kartCount - removedCount <= 1) {
                     endConditionMet = FALSE;
@@ -103,7 +103,7 @@ s32 IsRaceEndConditionMet(void) {
             break;
         case MODE_TIME_ATTACK:
             endConditionMet = FALSE;
-            switch (gRaceProgress->mKarts[0].mStatus) {
+            switch (g_GlobalMV->mKarts[0].mStatus) {
                 case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
@@ -125,13 +125,13 @@ s32 IsRaceEndConditionMet(void) {
                         break;
                     }
                 }
-                raceSetup = gRaceSetup;
+                raceSetup = g_GlobalCO;
             }
             break;
         case MODE_MISSION_RUN:
             endConditionMet = FALSE;
             if (raceSetup->mMissionKind == MISSION_KIND_LAPS_FIRST_PLACE &&
-                gRaceProgress->mHeader.mFinishedCount != 0) {
+                g_GlobalMV->mHeader.mFinishedCount != 0) {
                 endConditionMet = TRUE;
             }
             break;
@@ -142,7 +142,7 @@ s32 IsRaceEndConditionMet(void) {
     return endConditionMet;
 }
 
-void FinishRemainingRaceProgressKarts(void) {
+void RaceModeDefault_SomeFn(void) {
     u16 kartIndex;
     RaceProgressKart *raceProgressKart;
     s32 status;
@@ -153,8 +153,8 @@ void FinishRemainingRaceProgressKarts(void) {
     u32 frames;
     frameFraction = FALSE;
     finished = FALSE;
-    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        status = gRaceProgress->mKarts[kartIndex].mStatus;
+    for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
+        status = g_GlobalMV->mKarts[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
             case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
@@ -164,10 +164,10 @@ void FinishRemainingRaceProgressKarts(void) {
                 break;
         }
         if (ended == FALSE && status != RACE_PROGRESS_KART_STATUS_REMOVED) {
-            raceProgressKart = &gRaceProgress->mKarts[kartIndex];
+            raceProgressKart = &g_GlobalMV->mKarts[kartIndex];
             finishTime = &raceProgressKart->mLapTimes[5];
-            frames = gRaceProgress->mHeader.mElapsedFrames;
-            if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+            frames = g_GlobalMV->mHeader.mElapsedFrames;
+            if (g_GlobalCO->mMode == MODE_GRAND_PRIX) {
                 if (raceProgressKart->mRaceProgress > 0) {
                     frames = (u32) (frames * FX_Inv(raceProgressKart->mRaceProgress)) >> 12;
                     if (frames > 0x57e40) {
@@ -177,15 +177,15 @@ void FinishRemainingRaceProgressKarts(void) {
                     frames = 0x57e40;
                 }
             }
-            ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, frameFraction,
+            MaybeConvertElapsedTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, frameFraction,
                             frames);
-            FinishRaceProgressKart(raceProgressKart, finished);
+            RegisterNewRacer(raceProgressKart, finished);
         }
     }
-    gRaceProgress->mHeader.mFinishedCount = gRaceSetup->mKartCount;
+    g_GlobalMV->mHeader.mFinishedCount = g_GlobalCO->mKartCount;
 }
 
-void FinishRemainingWiFiRaceKarts(void) {
+void RaceModeNet_SomeFn(void) {
     u16 kartIndex;
     RaceProgressKart *raceProgressKart;
     s32 status;
@@ -196,8 +196,8 @@ void FinishRemainingWiFiRaceKarts(void) {
     u32 frames;
     frameFraction = FALSE;
     finished = FALSE;
-    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        status = gRaceProgress->mKarts[kartIndex].mStatus;
+    for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
+        status = g_GlobalMV->mKarts[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
             case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
@@ -207,10 +207,10 @@ void FinishRemainingWiFiRaceKarts(void) {
                 break;
         }
         if (ended == FALSE && status != RACE_PROGRESS_KART_STATUS_REMOVED) {
-            raceProgressKart = &gRaceProgress->mKarts[kartIndex];
+            raceProgressKart = &g_GlobalMV->mKarts[kartIndex];
             finishTime = &raceProgressKart->mLapTimes[5];
-            frames = gRaceProgress->mHeader.mElapsedFrames;
-            if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+            frames = g_GlobalMV->mHeader.mElapsedFrames;
+            if (g_GlobalCO->mMode == MODE_GRAND_PRIX) {
                 if (raceProgressKart->mRaceProgress > 0) {
                     frames = (u32) (frames * FX_Inv(raceProgressKart->mRaceProgress)) >> 12;
                     if (frames > 0x57e40) {
@@ -220,16 +220,16 @@ void FinishRemainingWiFiRaceKarts(void) {
                     frames = 0x57e40;
                 }
             }
-            ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, frameFraction,
+            MaybeConvertElapsedTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, frameFraction,
                             frames);
             SubtractDroppedFromRank(kartIndex);
-            FinishRaceProgressKart(raceProgressKart, finished);
+            RegisterNewRacer(raceProgressKart, finished);
         }
     }
-    gRaceProgress->mHeader.mFinishedCount = gRaceSetup->mKartCount;
+    g_GlobalMV->mHeader.mFinishedCount = g_GlobalCO->mKartCount;
 }
 
-void FinishRemainingMissionRunKarts(void) {
+void RaceModeMissionRun_SomeFn(void) {
     u16 kartIndex;
     RaceProgressKart *raceProgressKart;
     EntryKartCounters *entryKartCounters;
@@ -239,8 +239,8 @@ void FinishRemainingMissionRunKarts(void) {
     u8 *missionSettings;
     MinuteSecondMillisecondTime *finishTime;
     u32 frames;
-    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        status = gRaceProgress->mKarts[kartIndex].mStatus;
+    for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
+        status = g_GlobalMV->mKarts[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
             case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
@@ -250,10 +250,10 @@ void FinishRemainingMissionRunKarts(void) {
                 break;
         }
         if (ended == FALSE) {
-            raceProgressKart = &gRaceProgress->mKarts[kartIndex];
+            raceProgressKart = &g_GlobalMV->mKarts[kartIndex];
             finishTime = &raceProgressKart->mLapTimes[5];
-            frames = gRaceProgress->mHeader.mElapsedFrames;
-            if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+            frames = g_GlobalMV->mHeader.mElapsedFrames;
+            if (g_GlobalCO->mMode == MODE_GRAND_PRIX) {
                 if (raceProgressKart->mRaceProgress > 0) {
                     frames = (u32) (frames * FX_Inv(raceProgressKart->mRaceProgress)) >> 12;
                     if (frames > 0x57e40) {
@@ -263,10 +263,10 @@ void FinishRemainingMissionRunKarts(void) {
                     frames = 0x57e40;
                 }
             }
-            ComputeRaceTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, 0, frames);
+            MaybeConvertElapsedTime(&finishTime->mMinute, &finishTime->mSecond, &finishTime->mMillisecond, 0, frames);
             succeeded = 1;
-            missionSettings = (u8 *) &gRaceSetup->mMissionTimeLimitFrameCount;
-            entryKartCounters = GetEntryKartCounters();
+            missionSettings = (u8 *) &g_GlobalCO->mMissionTimeLimitFrameCount;
+            entryKartCounters = GetGlobalRK();
             switch (missionSettings[7]) {
                 case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                     if (missionSettings[0xf] > (u32) entryKartCounters->mMiniTurboCount) {
@@ -281,7 +281,7 @@ void FinishRemainingMissionRunKarts(void) {
             }
             if (succeeded != 0) {
                 u32 storedKartIndex = (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28;
-                if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                     FinishRaceProgressKartWithEndKind(storedKartIndex, RACE_END_KIND_GOAL);
                 }
             } else {
@@ -290,27 +290,27 @@ void FinishRemainingMissionRunKarts(void) {
             }
         }
     }
-    gRaceProgress->mHeader.mFinishedCount = gRaceSetup->mKartCount;
+    g_GlobalMV->mHeader.mFinishedCount = g_GlobalCO->mKartCount;
 }
 
-void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
+void RegisterNewRacer(RaceProgressKart *raceProgressKart, s32 finished) {
     MinuteSecondMillisecondTime *finishTime;
     s32 inputSlotIndex;
     s32 mode;
     s16 score;
     inputSlotIndex =
-        gRaceSetup->mCurrentEntries[(u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28].mPlayer.mIndex;
+        g_GlobalCO->mCurrentEntries[(u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28].mPlayer.mIndex;
     if (finished != 0) {
         raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_REACHED;
     } else {
         raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL;
     }
-    switch (gInputSlots[inputSlotIndex].mSourceKind) {
+    switch (g_GlobalCYT[inputSlotIndex].mSourceKind) {
         case INPUT_SOURCE_PAD_RECORDED:
-            FinishKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
+            FinishKeyRecording(&g_GlobalCYT[inputSlotIndex].mKeyRecording);
             break;
         case INPUT_SOURCE_KEY_RECORDING_PLAYBACK:
-            FinishReadingKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
+            FinishReadingKeyRecording(&g_GlobalCYT[inputSlotIndex].mKeyRecording);
             break;
     }
     raceProgressKart->mFlags |= RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED;
@@ -322,23 +322,23 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     if (finished != 0) {
         raceProgressKart->mFinishTimeMs =
             (finishTime->mMinute * 0x3c + finishTime->mSecond) * 1000 + finishTime->mMillisecond;
-    } else if (gRaceSetup->mMode != MODE_WIFI) {
+    } else if (g_GlobalCO->mMode != MODE_WIFI) {
         raceProgressKart->mFinishTimeMs = RACE_FINISH_TIME_NONE_MS;
     }
-    mode = gRaceSetup->mMode;
+    mode = g_GlobalCO->mMode;
     if (mode == MODE_GRAND_PRIX || mode == MODE_MISSION_RUN) {
         if ((raceProgressKart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
             raceProgressKart->mScore =
-                ComputeRaceProgressKartScore((u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
+                MaybeComputeRacerScore((u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
             score = raceProgressKart->mScore;
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                gCupRecords->mScore = score;
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+                g_GlobalLU->mScore = score;
             } else {
-                gCupRecords->mScore += score;
+                g_GlobalLU->mScore += score;
             }
         }
     }
-    gRaceProgress->mHeader.mFinishedCount++;
+    g_GlobalMV->mHeader.mFinishedCount++;
 }
 
 void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
@@ -347,7 +347,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     s32 status;
     BOOL ended;
     RaceProgressKart *raceProgressKart;
-    raceProgressKart = &gRaceProgress->mKarts[kartIndex];
+    raceProgressKart = &g_GlobalMV->mKarts[kartIndex];
     status = raceProgressKart->mStatus;
     ended = FALSE;
     switch (status) {
@@ -366,46 +366,46 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     if ((raceProgressKart->mFlags & RACE_PROGRESS_KART_FLAG_FAILURE_WAIT) != 0) {
         return;
     }
-    kart = GetKart(kartIndex);
-    raceProgressKart = &gRaceProgress->mKarts[kartIndex];
-    gRaceProgress->mHeader.mClockEnabled = 0;
-    ComputeRaceTime(&finishTime.mMinute, &finishTime.mSecond, &finishTime.mMillisecond, 0,
-                    gRaceProgress->mHeader.mElapsedFrames);
+    kart = GetRacerMQEntry(kartIndex);
+    raceProgressKart = &g_GlobalMV->mKarts[kartIndex];
+    g_GlobalMV->mHeader.mClockEnabled = 0;
+    MaybeConvertElapsedTime(&finishTime.mMinute, &finishTime.mSecond, &finishTime.mMillisecond, 0,
+                    g_GlobalMV->mHeader.mElapsedFrames);
     raceProgressKart->mLapTimes[5] = finishTime;
     if ((raceProgressKart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
-        gRaceProgress->mEntryEndKind = endKind;
+        g_GlobalMV->mEntryEndKind = endKind;
         kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
         kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
         if (endKind == RACE_END_KIND_GOAL) {
             raceProgressKart->mFlags |= RACE_PROGRESS_KART_FLAG_GOAL_WAIT;
-            gRaceProgress->mFramesSinceFinish = 0;
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                EliminateKartsUntilWinnerDecided();
+            g_GlobalMV->mFramesSinceFinish = 0;
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+                RaceModeBattle_OrMissionRun_SomeFn();
             }
         } else {
             raceProgressKart->mFlags |= RACE_PROGRESS_KART_FLAG_FAILURE_WAIT;
-            gRaceProgress->mFramesSinceFailure = 0;
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            g_GlobalMV->mFramesSinceFailure = 0;
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 ((void (*)(s32)) EliminateKartAndCheckWinner)(kartIndex);
             }
         }
     }
-    FinishRaceProgressKart(raceProgressKart, endKind == RACE_END_KIND_GOAL);
+    RegisterNewRacer(raceProgressKart, endKind == RACE_END_KIND_GOAL);
     if (IsRaceEndConditionMet() == 0) {
         return;
     }
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_BATTLE:
-            EliminateKartsUntilWinnerDecided();
+            RaceModeBattle_OrMissionRun_SomeFn();
             return;
         case MODE_MISSION_RUN:
-            FinishRemainingMissionRunKarts();
+            RaceModeMissionRun_SomeFn();
             return;
         case MODE_WIFI:
-            FinishRemainingWiFiRaceKarts();
+            RaceModeNet_SomeFn();
             return;
         default:
-            FinishRemainingRaceProgressKarts();
+            RaceModeDefault_SomeFn();
             return;
         case MODE_TIME_ATTACK:
             return;
@@ -413,7 +413,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
 }
 
 void FinishMissionRunKartAtGoal(u16 kartIndex) {
-    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode != MODE_MISSION_RUN) {
         return;
     }
     FinishRaceProgressKartWithEndKind(kartIndex, RACE_END_KIND_GOAL);

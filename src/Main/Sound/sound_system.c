@@ -25,19 +25,19 @@ s32 gSceneSeqVolume = 0x50;
 u32 gSoundFadeSteps = 0xa;
 u16 gSeqTrackMask = 0xf;
 NNSSndSeqPlayer *gSharedSeqHandle;
-u32 gFileSndArcOpen;
-void *gSoundOutputEffectBuffer;
+u32 g_GlobalSdatUsed;
+void *g_SomeSdatPtr;
 SoundSetPlayer *gCurrentSoundSetPlayer;
 ScenePlayers gScenePlayers;
 SoundModeHolder gSoundModeHolder;
-NNSSndArc gFileSndArc;
+NNSSndArc g_GlobalSdat;
 
-void SetFileSndArcOpen(u32 flag) {
-    gFileSndArcOpen = flag;
+void SetGlobalSdatUsed(u32 flag) {
+    g_GlobalSdatUsed = flag;
 }
 
-BOOL IsFileSndArcOpen(void) {
-    return gFileSndArcOpen;
+BOOL Sound_IsGlobalSdatUsed(void) {
+    return g_GlobalSdatUsed;
 }
 
 void SetSoundFadeSteps(u32 fadeSteps) {
@@ -48,14 +48,14 @@ u32 GetSoundFadeSteps(void) {
     return gSoundFadeSteps;
 }
 
-void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
-    NNS_SndInit();
-    gCurrentSndHeap = NNS_SndHeapCreate(heapMemory, heapSize);
-    gSoundOutputEffectBuffer = NNS_SndHeapAlloc(gCurrentSndHeap, 0x1020, SoundHeapAllocNop, NULL, 0);
+void Sound_InitializeWithData(void *heapMemory, u32 heapSize, const u8 *filePath) {
+    Sound_EnsureInitialized();
+    g_SoundContext = Sound_InitializeContext(heapMemory, heapSize);
+    g_SomeSdatPtr = Sound_Context_Allocate(g_SoundContext, 0x1020, SoundHeapAllocNop, NULL, 0);
     if (filePath != NULL) {
-        NNS_SndArcInit(&gFileSndArc, filePath, gCurrentSndHeap, 0);
-        gFileSndArcOpen = 1;
-        NNS_SndArcPlayerSetup(gCurrentSndHeap);
+        Sound_ReadSdatFromPathImpl(&g_GlobalSdat, filePath, g_SoundContext, 0);
+        g_GlobalSdatUsed = 1;
+        NNS_SndArcPlayerSetup(g_SoundContext);
     }
     NNS_SndHandleInit(&gSharedSeqHandle);
     SetupSoundMode(&gSoundModeHolder, &gScenePlayers, 0);
@@ -63,8 +63,8 @@ void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
 
 void SoundHeapAllocNop(void *memory, u32 size, void *data1, u32 data2) {}
 
-void StartSoundOutputEffect(u32 type) {
-    NNS_SndCaptureStartOutputEffect((void *) (((u32) gSoundOutputEffectBuffer + 0x1f) & ~0x1f), 0x1000, type);
+void MaybeSendArm7SoundShit(u32 type) {
+    NNS_SndCaptureStartOutputEffect((void *) (((u32) g_SomeSdatPtr + 0x1f) & ~0x1f), 0x1000, type);
     gSoundOutputEffectType = type;
 }
 
@@ -77,14 +77,14 @@ void StartSeqAtVolume(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
     if (*handle != NULL) {
         NNS_SndPlayerStopSeq(handle, 0);
     }
-    NNS_SndArcGetFileAddress(NNS_SndArcGetSeqInfo(seqNo)->mFileId);
+    Sound_MaybeGetRawFilePointer(Sound_GetSseqInfoEntry(seqNo)->mFileId);
     NNS_SndArcPlayerStartSeq(handle, seqNo);
     NNS_SndPlayerSetVolume(handle, volume);
 }
 
 void UpdateSndMain(void) {
     if (gScenePlayers.mProgress != SCENE_PLAYERS_PROGRESS_RELEASED) {
-        UpdateScenePlayersNop(&gScenePlayers);
+        nullsub_15(&gScenePlayers);
     }
     NNS_SndMain();
 }

@@ -15,6 +15,6 @@ typedef struct StemSet {
 void DrawStemSets(void);
 void UpdateStemSets(void);
 void StartStemSet(s32 setIndex);
-void InitStemSetArray(void *heap);
-void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex);
-void InitStemSets(void *heap);
+void LoadSeveralBMModels(void *heap);
+void LoadModelBMFromMD(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex);
+void CreateGlobalBO(void *heap);

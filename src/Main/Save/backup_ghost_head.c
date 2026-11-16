@@ -8,16 +8,16 @@
 
 #pragma thumb on
 
-void WriteBackupCourseGhost(u32 index, const GhostRecord *record) {
+void WriteSaveChunk_NKPG_from_thumb(u32 index, const GhostRecord *record) {
     u32 offset;
     void *buffer;
 
     offset = index * 0xe00;
-    buffer = gBackupAccess->mBuffer;
-    if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(record, buffer, sizeof(GhostRecord));
+    buffer = g_SaveDataIoManager->mBuffer;
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        Mem_CpuCopy8(record, buffer, sizeof(GhostRecord));
         *(u32 *) buffer = 0x47504b4e;
-        StartBackupWriteOneCopy(offset + 0xaf00, buffer, 0xe00, 0);
+        SV_MaybeCompressWriteNoFlagsBC_from_thumb(offset + 0xaf00, buffer, 0xe00, 0);
     }
 }
 
@@ -27,11 +27,11 @@ void ReadBackupCourseGhost(u8 index, GhostRecord *ghostRecord) {
     void *buffer;
 
     offset = index * 0xe00;
-    backupAccess = gBackupAccess;
+    backupAccess = g_SaveDataIoManager;
     buffer = backupAccess->mBuffer;
     if (backupAccess->mBackupEnabled != 0) {
         backupAccess->mReadTarget = ghostRecord;
-        StartBackupReadOneCopy(offset + 0xaf00, buffer, 0xe00, CopyBackupReadToBlock, 0x47504b4e);
+        ReadSaveChunkImpl2_from_thumb(offset + 0xaf00, buffer, 0xe00, CopyToSXSomePtr_from_thumb, 0x47504b4e);
     }
 }
 
@@ -40,11 +40,11 @@ void WriteBackupSlotGhost(s32 index, const void *record) {
     void *buffer;
 
     offset = TO_FIXED12(index);
-    buffer = gBackupAccess->mBuffer;
-    if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(record, buffer, sizeof(SlotGhostRecord));
+    buffer = g_SaveDataIoManager->mBuffer;
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        Mem_CpuCopy8(record, buffer, sizeof(SlotGhostRecord));
         *(u32 *) buffer = 0x47444b4e;
-        StartBackupWriteOneCopy(offset + 0x26f00, buffer, 0x1000, 0);
+        SV_MaybeCompressWriteNoFlagsBC_from_thumb(offset + 0x26f00, buffer, 0x1000, 0);
     }
 }
 
@@ -54,26 +54,26 @@ void ReadBackupSlotGhost(u32 index, SlotGhostRecord *ghostRecord) {
     s32 backupEnabled;
 
     offset = TO_FIXED12(index);
-    backupAccess = gBackupAccess;
+    backupAccess = g_SaveDataIoManager;
     backupEnabled = backupAccess->mBackupEnabled;
     if (backupEnabled != 0) {
         backupAccess->mReadTarget = ghostRecord;
-        gBackupAccess->mSlotGhostIndex = index;
-        StartBackupReadOneCopy(offset + 0x26f00, gBackupAccess->mBuffer, 0x1000, CopyBackupReadToBlock, 0x47444b4e);
+        g_SaveDataIoManager->mSlotGhostIndex = index;
+        ReadSaveChunkImpl2_from_thumb(offset + 0x26f00, g_SaveDataIoManager->mBuffer, 0x1000, CopyToSXSomePtr_from_thumb, 0x47444b4e);
     }
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void CopyBackupReadToGhostRecordHead(u32 *buffer, u32 length) {
-    MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, 48u);
+void CopyToSXSomePtr0x30_from_thumb(u32 *buffer, u32 length) {
+    Mem_CpuCopy8(buffer, g_SaveDataIoManager->mReadTarget, 48u);
 }
 #pragma thumb off
 
 #pragma thumb on
-void CopyBackupReadToGhostListEntry(u32 *buffer, u32 length) {
-    MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, 0x230u);
+void CopyToSXSomePtr0x230_from_thumb(u32 *buffer, u32 length) {
+    Mem_CpuCopy8(buffer, g_SaveDataIoManager->mReadTarget, 0x230u);
 }
 #pragma thumb off
 
@@ -87,7 +87,7 @@ void ReadBackupGhostRecordHead(u32 isCourseGhost, u32 index, GhostRecordHead *gh
     u32 magic;
     void *buffer;
 
-    backupAccess = gBackupAccess;
+    backupAccess = g_SaveDataIoManager;
     if (backupAccess->mBackupEnabled != 0) {
         if (isCourseGhost != 0) {
             sectionOffset = 0;
@@ -103,8 +103,8 @@ void ReadBackupGhostRecordHead(u32 isCourseGhost, u32 index, GhostRecordHead *gh
             magic = 0x47444b4e;
         }
         backupAccess->mReadTarget = ghostRecord;
-        StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize,
-                               CopyBackupReadToGhostRecordHead, magic);
+        ReadSaveChunkImpl2_from_thumb(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize,
+                               CopyToSXSomePtr0x30_from_thumb, magic);
     }
 }
 
@@ -118,7 +118,7 @@ void ReadBackupGhostListEntry(u32 isCourseGhost, u32 index, GhostRecordHead *gho
     u32 magic;
     void *buffer;
 
-    backupAccess = gBackupAccess;
+    backupAccess = g_SaveDataIoManager;
     if (backupAccess->mBackupEnabled != 0) {
         if (isCourseGhost != 0) {
             sectionOffset = 0;
@@ -126,17 +126,17 @@ void ReadBackupGhostListEntry(u32 isCourseGhost, u32 index, GhostRecordHead *gho
             recordOffset = index * recordSize;
             buffer = backupAccess->mBuffer;
             magic = 0x47504b4e;
-            readCallback = CopyBackupReadToGhostRecordHead;
+            readCallback = CopyToSXSomePtr0x30_from_thumb;
         } else {
             sectionOffset = 0x1c000;
             recordSize = 0x1000;
             recordOffset = index * recordSize;
             buffer = backupAccess->mBuffer;
             magic = 0x47444b4e;
-            readCallback = CopyBackupReadToGhostListEntry;
+            readCallback = CopyToSXSomePtr0x230_from_thumb;
         }
         backupAccess->mReadTarget = ghostRecord;
-        StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, readCallback, magic);
+        ReadSaveChunkImpl2_from_thumb(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, readCallback, magic);
     }
 }
 

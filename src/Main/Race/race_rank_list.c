@@ -74,8 +74,8 @@ void StartRaceRankListItemInUse(s32 kartIndex, s32 itemId, s32 objectCount) {
 void InitRaceRankList(void) {
     u8 kartIndex;
 
-    gRaceRankList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceRankList));
-    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+    gRaceRankList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gRaceRankList));
+    for (kartIndex = 0; kartIndex < (s32) g_GlobalCO->mKartCount; kartIndex++) {
         gRaceRankList->mRanks[kartIndex] = 1;
         gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
         gRaceRankList->mKartsByRank[kartIndex] = 0;
@@ -108,33 +108,33 @@ void UpdateRaceRankList(void) {
     KartItems *kartItems;
 
     moveFrames = gRaceRankList->mMoveFrames;
-    if (GetRaceStartSequenceFrames() <= 0x188) {
-        gRaceRankList->mSlideX = (0x20 - (GetRaceStartSequenceFrames() - 0x168)) * 4;
+    if (GetRaceStartCountdown() <= 0x188) {
+        gRaceRankList->mSlideX = (0x20 - (GetRaceStartCountdown() - 0x168)) * 4;
     } else {
         gRaceRankList->mSlideX = 0;
     }
-    if (GetRaceStartSequenceFrames() < 0x168) {
+    if (GetRaceStartCountdown() < 0x168) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+    if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        for (kartIndex = 0; kartIndex < (s32) g_GlobalCO->mKartCount; kartIndex++) {
             gRaceRankList->mBalloonOrShineCounts[kartIndex] = GetBalloonOrShineCount(kartIndex);
         }
     }
-    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < (s32) g_GlobalCO->mKartCount; kartIndex++) {
         kartItems = &gKartItems[kartIndex];
         gRaceRankList->mShownItems[kartIndex] = kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE
                                                     ? kartItems->mActiveItem
                                                     : kartItems->mHeldItem.mItemInfoIndex;
         if (gRaceRankList->mMoveFrames % 0x1c == 0) {
             gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
-            gRaceRankList->mRanks[kartIndex] = GetKartRank(kartIndex);
+            gRaceRankList->mRanks[kartIndex] = GetSomeRacerFlags(kartIndex);
         }
         fromPosition = slotPositions[gRaceRankList->mPrevRanks[kartIndex]];
         toPosition = slotPositions[gRaceRankList->mRanks[kartIndex]];
@@ -156,16 +156,16 @@ void UpdateRaceRankList(void) {
         }
         gRaceRankList->mRowPositions[kartIndex] = position;
     }
-    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < (s32) g_GlobalCO->mKartCount; kartIndex++) {
         gRaceRankList->mKartsByRank[kartIndex] = kartIndex;
         rankKeys[kartIndex] = gRaceRankList->mRanks[kartIndex];
     }
-    SortIndicesByKey(gRaceRankList->mKartsByRank, rankKeys, gRaceSetup->mKartCount);
+    SortIndicesByKey(gRaceRankList->mKartsByRank, rankKeys, g_GlobalCO->mKartCount);
     gRaceRankList->mMoveFrames++;
     if (gRaceRankList->mMoveFrames >= RACE_RANK_LIST_MOVE_FRAMES) {
         gRaceRankList->mMoveFrames = 0;
     }
-    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < (s32) g_GlobalCO->mKartCount; kartIndex++) {
         if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames != 0) {
             gRaceRankList->mItemsInUse[kartIndex].mInUseFrames++;
             if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames > RACE_RANK_LIST_ITEM_IN_USE_FRAMES) {
@@ -179,11 +179,11 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
     MtxFx22 *matrix;
     GXOamAttr *oams;
 
-    if (GetRaceStartSequenceFrames() < 0x168) {
+    if (GetRaceStartCountdown() < 0x168) {
         return;
     }
     gRaceRankList->mOamMatrixIndex = AllocOamMatrixIndex(oamBuffer);
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_VS:
         case MODE_WIFI:
@@ -219,11 +219,11 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
 
     if (GetRaceHudKartRemoved(kartIndex) != 0) {
         cellIndex = 0x25;
-    } else if (gRaceSetup->mMode == MODE_BATTLE && IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
+    } else if (g_GlobalCO->mMode == MODE_BATTLE && IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
         cellIndex = 0x24;
-    } else if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated(kartIndex) != FALSE) {
+    } else if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated(kartIndex) != FALSE) {
         cellIndex = 0xc9;
-    } else if (gRaceSetup->mMode != MODE_BATTLE && IsKartEnded(kartIndex) != 0) {
+    } else if (g_GlobalCO->mMode != MODE_BATTLE && IsRacerFinishedRace(kartIndex) != 0) {
         cellIndex = 0x24;
     } else if ((rankList = gRaceRankList)->mItemsInUse[kartIndex].mInUseFrames != 0) {
 // itemIndexView starts at mItemsInUse[0].mItemInfoIndex, so its [k].mInUseFrames is kart k's item index.
@@ -268,34 +268,34 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
     NNSG2dCellDataWithBR *cell;
 
     slideX = gRaceRankList->mSlideX;
-    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
         rankSlot = gRaceRankList->mPrevRanks[kartIndex] - 1;
-        cell = GetRaceSNcerEntry(rankSlot + 0x35);
+        cell = GetB3C4_Cell_RaceS(rankSlot + 0x35);
         rankDrawPosition[0] = TO_FIXED12(slotPositions[rankSlot][0] - slideX - 1);
         slotY = slotPositions[rankSlot][1];
         rankDrawPosition[1] = TO_FIXED12(slotY - 4);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+        oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, rankDrawPosition, 0, 1);
         markerIndex = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated(kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated(kartIndex) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved(kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved(kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
             markerIndex = 3;
-        } else if (kartIndex == GetFollowedKartOrEntryIndex()) {
+        } else if (kartIndex == GetCurrentPlayerRacerId()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 1) {
+        } else if (g_GlobalCO->mUseTeams != 0 && g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
         }
-        cell = GetRaceSNcerEntry(markerIndex + 0x75);
+        cell = GetB3C4_Cell_RaceS(markerIndex + 0x75);
         markerDrawPosition[0] = -slideX << 12;
         markerDrawPosition[1] = TO_FIXED12(slotY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, markerDrawPosition, 0, 1);
     }
 }
@@ -315,17 +315,17 @@ void DrawRaceRankListKartIconsRows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     NNSG2dCellDataWithBR *cell;
 
-    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+    for (rankIndex = 0; rankIndex < (u32) g_GlobalCO->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX;
         if (itemCellIndex != 0xc9) {
-            cell = GetRaceSNcerEntry(itemCellIndex);
+            cell = GetB3C4_Cell_RaceS(itemCellIndex);
             itemDrawPosition[0] = TO_FIXED12(position.mX + 0x45);
             itemDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       itemDrawPosition, 0, 1);
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
@@ -338,46 +338,46 @@ void DrawRaceRankListKartIconsRows(RaceHudOamBuffer *oamBuffer) {
         } else {
             matrix = NULL;
         }
-        cell = GetRaceSNcerEntry(kartIndex + 8);
+        cell = GetB3C4_Cell_RaceS(kartIndex + 8);
         kartDrawPosition[0] = TO_FIXED12(position.mX);
         kartDrawPosition[1] = TO_FIXED12(position.mY);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
                                   kartDrawPosition, matrixIndex, 1);
         secondKartCellBase = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
-        cell = GetRaceSNcerEntry(secondKartCellBase + kartIndex);
+        cell = GetB3C4_Cell_RaceS(secondKartCellBase + kartIndex);
         secondKartDrawPosition[0] = TO_FIXED12(position.mX + 0xa);
         secondKartDrawPosition[1] = TO_FIXED12(position.mY);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   secondKartDrawPosition, 0, 1);
         markerIndex = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
             markerIndex = 3;
-        } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
+        } else if ((u16) kartIndex == GetCurrentPlayerRacerId()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
+        } else if (g_GlobalCO->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
         }
-        cell = GetRaceSNcerEntry(markerIndex + 0x79);
+        cell = GetB3C4_Cell_RaceS(markerIndex + 0x79);
         markerDrawPosition[0] = TO_FIXED12(position.mX - 0xb);
         markerDrawPosition[1] = TO_FIXED12(position.mY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, markerDrawPosition, 0, 1);
     }
 }
@@ -395,17 +395,17 @@ void DrawRaceRankListMapRows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     NNSG2dCellDataWithBR *cell;
 
-    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+    for (rankIndex = 0; rankIndex < (u32) g_GlobalCO->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX;
         if (itemCellIndex != 0xc9) {
-            cell = GetRaceSNcerEntry(itemCellIndex);
+            cell = GetB3C4_Cell_RaceS(itemCellIndex);
             itemDrawPosition[0] = TO_FIXED12(position.mX + 0x12);
             itemDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       itemDrawPosition, 0, 1);
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
@@ -418,32 +418,32 @@ void DrawRaceRankListMapRows(RaceHudOamBuffer *oamBuffer) {
         } else {
             matrix = NULL;
         }
-        cell = GetRaceSNcerEntry(kartIndex + 8);
+        cell = GetB3C4_Cell_RaceS(kartIndex + 8);
         kartDrawPosition[0] = TO_FIXED12(position.mX);
         kartDrawPosition[1] = TO_FIXED12(position.mY);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
                                   kartDrawPosition, matrixIndex, 1);
         markerIndex = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
             markerIndex = 3;
-        } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
+        } else if ((u16) kartIndex == GetCurrentPlayerRacerId()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
+        } else if (g_GlobalCO->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
         }
-        cell = GetRaceSNcerEntry(markerIndex + 0x7d);
+        cell = GetB3C4_Cell_RaceS(markerIndex + 0x7d);
         markerDrawPosition[0] = TO_FIXED12(position.mX - 0xb);
         markerDrawPosition[1] = TO_FIXED12(position.mY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, markerDrawPosition, 0, 1);
     }
 }
@@ -483,17 +483,17 @@ void DrawRaceRankListBattleKartIconsRows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     NNSG2dCellDataWithBR *cell;
 
-    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+    for (rankIndex = 0; rankIndex < (u32) g_GlobalCO->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX + 0x13;
         if (itemCellIndex != 0xc9) {
-            cell = GetRaceSNcerEntry(itemCellIndex);
+            cell = GetB3C4_Cell_RaceS(itemCellIndex);
             itemDrawPosition[0] = TO_FIXED12(position.mX + 0x45);
             itemDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       itemDrawPosition, 0, 1);
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
@@ -506,84 +506,84 @@ void DrawRaceRankListBattleKartIconsRows(RaceHudOamBuffer *oamBuffer) {
         } else {
             matrix = NULL;
         }
-        cell = GetRaceSNcerEntry(kartIndex + 8);
+        cell = GetB3C4_Cell_RaceS(kartIndex + 8);
         kartDrawPosition[0] = TO_FIXED12(position.mX + 1);
         kartDrawPosition[1] = TO_FIXED12(position.mY);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
                                   kartDrawPosition, matrixIndex, 1);
         secondKartCellBase = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
-        cell = GetRaceSNcerEntry(secondKartCellBase + kartIndex);
+        cell = GetB3C4_Cell_RaceS(secondKartCellBase + kartIndex);
         secondKartDrawPosition[0] = TO_FIXED12(position.mX + 0xb);
         secondKartDrawPosition[1] = TO_FIXED12(position.mY);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   secondKartDrawPosition, 0, 1);
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+        if (g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) {
             s32 balloonCount = gRaceRankList->mBalloonOrShineCounts[kartIndex];
 
-            cell = GetRaceSNcerEntry(0xc3);
+            cell = GetB3C4_Cell_RaceS(0xc3);
             balloonCellDrawPosition[0] = TO_FIXED12(position.mX + 0x57);
             balloonCellDrawPosition[1] = TO_FIXED12(position.mY - 2);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       balloonCellDrawPosition, 0, 1);
-            cell = GetRaceSNcerEntry(balloonCount + 0xb9);
+            cell = GetB3C4_Cell_RaceS(balloonCount + 0xb9);
             balloonCountDrawPosition[0] = TO_FIXED12(position.mX + 0x5c);
             balloonCountDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       balloonCountDrawPosition, 0, 1);
         } else {
             s32 shineTens = gRaceRankList->mBalloonOrShineCounts[kartIndex] / 10;
             s32 shineOnes = gRaceRankList->mBalloonOrShineCounts[kartIndex] % 10;
 
-            cell = GetRaceSNcerEntry(0xc4);
+            cell = GetB3C4_Cell_RaceS(0xc4);
             shineCellDrawPosition[0] = TO_FIXED12(position.mX + 0x57);
             shineCellDrawPosition[1] = TO_FIXED12(position.mY - 2);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       shineCellDrawPosition, 0, 1);
-            cell = GetRaceSNcerEntry(shineTens + 0xb9);
+            cell = GetB3C4_Cell_RaceS(shineTens + 0xb9);
             shineTensDrawPosition[0] = TO_FIXED12(position.mX + 0x54);
             shineTensDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       shineTensDrawPosition, 0, 1);
-            cell = GetRaceSNcerEntry(shineOnes + 0xb9);
+            cell = GetB3C4_Cell_RaceS(shineOnes + 0xb9);
             shineOnesDrawPosition[0] = TO_FIXED12(position.mX + 0x5c);
             shineOnesDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       shineOnesDrawPosition, 0, 1);
         }
         markerIndex = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
             markerIndex = 3;
-        } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
+        } else if ((u16) kartIndex == GetCurrentPlayerRacerId()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
+        } else if (g_GlobalCO->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
         }
-        cell = GetRaceSNcerEntry(markerIndex + 0x81);
+        cell = GetB3C4_Cell_RaceS(markerIndex + 0x81);
         markerDrawPosition[0] = TO_FIXED12(position.mX - 0xb);
         markerDrawPosition[1] = TO_FIXED12(position.mY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, markerDrawPosition, 0, 1);
     }
 }
@@ -606,17 +606,17 @@ void DrawRaceRankListBattleMapRows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     NNSG2dCellDataWithBR *cell;
 
-    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+    for (rankIndex = 0; rankIndex < (u32) g_GlobalCO->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX + 0x13;
         if (itemCellIndex != 0xc9) {
-            cell = GetRaceSNcerEntry(itemCellIndex);
+            cell = GetB3C4_Cell_RaceS(itemCellIndex);
             itemDrawPosition[0] = TO_FIXED12(position.mX + 0x12);
             itemDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       itemDrawPosition, 0, 1);
         }
         if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
@@ -629,79 +629,79 @@ void DrawRaceRankListBattleMapRows(RaceHudOamBuffer *oamBuffer) {
         } else {
             matrix = NULL;
         }
-        cell = GetRaceSNcerEntry(kartIndex + 8);
+        cell = GetB3C4_Cell_RaceS(kartIndex + 8);
         kartDrawPosition[0] = TO_FIXED12(position.mX + 1);
         kartDrawPosition[1] = TO_FIXED12(position.mY);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
                                   kartDrawPosition, matrixIndex, 1);
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+        if (g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) {
             s32 balloonCount = gRaceRankList->mBalloonOrShineCounts[kartIndex];
 
-            cell = GetRaceSNcerEntry(0xc3);
+            cell = GetB3C4_Cell_RaceS(0xc3);
             balloonCellDrawPosition[0] = TO_FIXED12(position.mX + 0x25);
             balloonCellDrawPosition[1] = TO_FIXED12(position.mY - 2);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       balloonCellDrawPosition, 0, 1);
-            cell = GetRaceSNcerEntry(balloonCount + 0xb9);
+            cell = GetB3C4_Cell_RaceS(balloonCount + 0xb9);
             balloonCountDrawPosition[0] = TO_FIXED12(position.mX + 0x2a);
             balloonCountDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       balloonCountDrawPosition, 0, 1);
         } else {
             s32 shineTens = gRaceRankList->mBalloonOrShineCounts[kartIndex] / 10;
             s32 shineOnes = gRaceRankList->mBalloonOrShineCounts[kartIndex] % 10;
 
-            cell = GetRaceSNcerEntry(0xc4);
+            cell = GetB3C4_Cell_RaceS(0xc4);
             shineCellDrawPosition[0] = TO_FIXED12(position.mX + 0x25);
             shineCellDrawPosition[1] = TO_FIXED12(position.mY - 2);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       shineCellDrawPosition, 0, 1);
-            cell = GetRaceSNcerEntry(shineTens + 0xb9);
+            cell = GetB3C4_Cell_RaceS(shineTens + 0xb9);
             shineTensDrawPosition[0] = TO_FIXED12(position.mX + 0x22);
             shineTensDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       shineTensDrawPosition, 0, 1);
-            cell = GetRaceSNcerEntry(shineOnes + 0xb9);
+            cell = GetB3C4_Cell_RaceS(shineOnes + 0xb9);
             shineOnesDrawPosition[0] = TO_FIXED12(position.mX + 0x2a);
             shineOnesDrawPosition[1] = TO_FIXED12(position.mY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       shineOnesDrawPosition, 0, 1);
         }
         markerIndex = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
+        } else if (g_GlobalCO->mMode != MODE_BATTLE &&
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
             markerIndex = 3;
-        } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
+        } else if ((u16) kartIndex == GetCurrentPlayerRacerId()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
+        } else if (g_GlobalCO->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
         }
-        cell = GetRaceSNcerEntry(markerIndex + 0x85);
+        cell = GetB3C4_Cell_RaceS(markerIndex + 0x85);
         markerDrawPosition[0] = TO_FIXED12(position.mX - 0xb);
         markerDrawPosition[1] = TO_FIXED12(position.mY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, markerDrawPosition, 0, 1);
     }
 }
 
 void InitRaceLapNumber(void) {
-    gRaceLapNumber = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceLapNumber));
+    gRaceLapNumber = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gRaceLapNumber));
     gRaceLapNumber->mLapIndex = 0;
     gRaceLapNumber->mPrevLapIndex = 0;
-    gRaceLapNumber->mLastLapIndex = (u16) (GetLapCount() - 1);
+    gRaceLapNumber->mLastLapIndex = (u16) (GetCurrentLapCount() - 1);
     gRaceLapNumber->mBlinkFrames = 0;
     gRaceLapNumber->mBlinkShown = 1;
 }
@@ -714,16 +714,16 @@ void ClearRaceLapNumberPointer(void) {
 typedef enum { RACE_TA_M_SIGN_CELL_FLAG_SET, RACE_TA_M_SIGN_CELL_FLAG_CLEAR } RaceTaMSignCell;
 
 // Plays a sound when the displayed kart starts a lap before the last, and counts 0x78 frames for the lap number blink.
-void UpdateRaceLapNumber(void) {
+void MaybeWhenLapIsCompleted(void) {
     RaceLapNumber *lapNumber;
     NNSSndSeqPlayer **seqPlayerHandle;
     u32 seqIndex;
 
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        switch (gRaceSetup->mMissionKind) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        switch (g_GlobalCO->mMissionKind) {
             case MISSION_KIND_LAPS:
             case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
             case MISSION_KIND_LAPS_FIRST_PLACE:
@@ -734,11 +734,11 @@ void UpdateRaceLapNumber(void) {
         }
     }
     gRaceLapNumber->mPrevLapIndex = gRaceLapNumber->mLapIndex;
-    gRaceLapNumber->mLapIndex = GetKartHighestLap(GetFollowedKartOrEntryIndex()) - 1;
+    gRaceLapNumber->mLapIndex = GetKartHighestLap(GetCurrentPlayerRacerId()) - 1;
     if (gRaceLapNumber->mLapIndex != gRaceLapNumber->mPrevLapIndex && gRaceLapNumber->mLastLapIndex > 0) {
         if (gRaceLapNumber->mLapIndex < gRaceLapNumber->mLastLapIndex) {
             seqIndex = 0x41;
-            if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
+            if (g_GlobalCO->mCourseId == COURSE_ID_PINBALL) {
                 seqIndex = 0x1c7;
             }
             if (gRaceSoundKind & 1) {
@@ -750,7 +750,7 @@ void UpdateRaceLapNumber(void) {
                     if (*seqPlayerHandle != NULL) {
                         NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
                     }
-                    NNS_SndArcPlayerStartSeqArc(seqPlayerHandle, 0, seqIndex);
+                    PlaySseqFromSarc(seqPlayerHandle, 0, seqIndex);
                 }
             }
         }
@@ -784,14 +784,14 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     s32 showLapTimeFrames;
     NNSG2dCellDataWithBR *cell;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        switch (gRaceSetup->mMissionKind) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        switch (g_GlobalCO->mMissionKind) {
             case MISSION_KIND_LAPS:
             case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
             case MISSION_KIND_LAPS_FIRST_PLACE:
@@ -804,37 +804,37 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
                 return;
         }
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         return;
     }
-    cell = GetRaceMNcerEntry(0x20);
+    cell = GetB3C4_Cell_RaceM(0x20);
     lapLabelDrawPosition[0] = TO_FIXED12(lapPosition[0]);
     lapLabelDrawPosition[1] = TO_FIXED12(lapPosition[1]);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, lapLabelDrawPosition, 0, 1);
     if (gRaceLapNumber->mBlinkShown != 0) {
-        cell = GetRaceMNcerEntry(gRaceLapNumber->mLapIndex + 0x21);
+        cell = GetB3C4_Cell_RaceM(gRaceLapNumber->mLapIndex + 0x21);
         lapNumberDrawPosition[0] = TO_FIXED12(lapPosition[0]);
         lapNumberDrawPosition[1] = TO_FIXED12(lapPosition[1]);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   lapNumberDrawPosition, 0, 1);
     }
     switch (gRaceLapNumber->mLastLapIndex) {
         case 2:
-            cell = GetRaceMNcerEntry(0x26);
+            cell = GetB3C4_Cell_RaceM(0x26);
             lastLapIndexTwoDrawPosition[0] = TO_FIXED12(lapPosition[0]);
             lastLapIndexTwoDrawPosition[1] = TO_FIXED12(lapPosition[1]);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       lastLapIndexTwoDrawPosition, 0, 1);
             break;
         case 4:
-            cell = GetRaceMNcerEntry(0x27);
+            cell = GetB3C4_Cell_RaceM(0x27);
             lastLapIndexFourDrawPosition[0] = TO_FIXED12(lapPosition[0]);
             lastLapIndexFourDrawPosition[1] = TO_FIXED12(lapPosition[1]);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       lastLapIndexFourDrawPosition, 0, 1);
             break;
     }
@@ -862,69 +862,69 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
         s32 cellXs[10] = {0x57, 0x61, 0x6a, 0x72, 0x7c, 0x85, 0x8e, 0x98, 0xa1, 0xaa};
 
         GetRaceHudTimeDifference(&timeDifferenceSign, &timeDifferenceDigits);
-        cell = GetRaceTaMNcerEntry(*timeDifferenceSign != 0 ? RACE_TA_M_SIGN_CELL_FLAG_SET
+        cell = GetB3C4_Cell_RaceTaM(*timeDifferenceSign != 0 ? RACE_TA_M_SIGN_CELL_FLAG_SET
                                                             : RACE_TA_M_SIGN_CELL_FLAG_CLEAR);
         signDrawPosition[0] = TO_FIXED12(cellXs[0]);
         signDrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+        oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, signDrawPosition, 0, 1);
         if (timeDifferenceDigits->mDigits[0] != 0) {
-            cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[0] + 2);
+            cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[0] + 2);
             digit0DrawPosition[0] = TO_FIXED12(cellXs[1]);
             digit0DrawPosition[1] = 0x58000;
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+                MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       digit0DrawPosition, 0, 1);
         }
-        cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[1] + 2);
+        cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[1] + 2);
         digit1DrawPosition[0] = TO_FIXED12(cellXs[2]);
         digit1DrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, digit1DrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(0xc);
+        cell = GetB3C4_Cell_RaceTaM(0xc);
         firstSeparatorDrawPosition[0] = TO_FIXED12(cellXs[3]);
         firstSeparatorDrawPosition[1] = 0x58000;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   firstSeparatorDrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[2] + 2);
+        cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[2] + 2);
         digit2DrawPosition[0] = TO_FIXED12(cellXs[4]);
         digit2DrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, digit2DrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[3] + 2);
+        cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[3] + 2);
         digit3DrawPosition[0] = TO_FIXED12(cellXs[5]);
         digit3DrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, digit3DrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(0xc);
+        cell = GetB3C4_Cell_RaceTaM(0xc);
         secondSeparatorDrawPosition[0] = TO_FIXED12(cellXs[6]);
         secondSeparatorDrawPosition[1] = 0x58000;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   secondSeparatorDrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[4] + 2);
+        cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[4] + 2);
         digit4DrawPosition[0] = TO_FIXED12(cellXs[7]);
         digit4DrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, digit4DrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[5] + 2);
+        cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[5] + 2);
         digit5DrawPosition[0] = TO_FIXED12(cellXs[8]);
         digit5DrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, digit5DrawPosition, 0, 1);
-        cell = GetRaceTaMNcerEntry(timeDifferenceDigits->mDigits[6] + 2);
+        cell = GetB3C4_Cell_RaceTaM(timeDifferenceDigits->mDigits[6] + 2);
         digit6DrawPosition[0] = TO_FIXED12(cellXs[9]);
         digit6DrawPosition[1] = 0x58000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        oamBuffer->mOamCount += MaybeMakeOamSlot(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, digit6DrawPosition, 0, 1);
     }
 }
 
-void InitRaceTimeDigits(void) {
+void YetAlloc(void) {
     s32 digitIndex;
 
-    gRaceTimeDigits = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceTimeDigits));
+    gRaceTimeDigits = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gRaceTimeDigits));
     gRaceTimeDigits->mTime.mDigits[0] = 0;
     gRaceTimeDigits->mTime.mDigits[1] = 0;
     gRaceTimeDigits->mTime.mDigits[2] = 0;
@@ -933,13 +933,13 @@ void InitRaceTimeDigits(void) {
     gRaceTimeDigits->mTime.mDigits[5] = 0;
     gRaceTimeDigits->mTime.mDigits[6] = 0;
     gRaceTimeDigits->mUseLastSecondsSound = FALSE;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        if (g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
             gRaceTimeDigits->mUseLastSecondsSound = TRUE;
         }
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if (gRaceSetup->mMissionKind != MISSION_KIND_LAPS_FIRST_PLACE) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMissionKind != MISSION_KIND_LAPS_FIRST_PLACE) {
             gRaceTimeDigits->mUseLastSecondsSound = TRUE;
         }
     }

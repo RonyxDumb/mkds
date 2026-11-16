@@ -14,18 +14,18 @@ typedef struct SceneNumbers SceneNumbers;
 #include "Main/Sound/sound_seq.h"
 #include "Main/Scene/scene_display_archive_work.h"
 
-// Scene function of gSceneFuncs[3] (scene 'Emblem' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
-s32 RunEmblemScene(void *sceneNumbers);
-void UpdateEmblemScene(SceneNumbers *sceneNumbers);
-void WriteEmblemSceneRegistersCallback(void);
-void EmblemSceneNop(void);
-// Calls StopWvrAndWait, ResetInputSlots and InitEmblem through InitEmblemAndAdvanceKartList (InitEmblem also
+// Scene function of g_SceneFnTable[3] (scene 'Emblem' in g_SceneArchiveNameTable): copies the callbacks and calls
+// OnSceneLoop. Returns 0.
+s32 SceneFn_Emblem(void *sceneNumbers);
+void Scene_Emblem_Update(SceneNumbers *sceneNumbers);
+void Scene_Emblem_VBlank(void);
+void Scene_Emblem_Finalize(void);
+// Calls MaybeInitializeSomeWirelessShit, MaybeResetInput and InitEmblem through InitEmblemAndAdvanceKartList (InitEmblem also
 // calls InitEmblemChoises).
-void InitEmblemScene(void);
-BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording);
+void Scene_Emblem_Initialize(void);
+BOOL StructCYB_SomeFn_0(KeyRecording *keyRecording);
 BOOL IsKeyRecordingFull(KeyRecording *keyRecording);
 u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording);
 void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys);
 
-extern SceneCallbacks gEmblemSceneCallbacks;
+extern SceneCallbacks g_Scene_Emblem;

@@ -30,7 +30,7 @@ const u16 gDramAngleChoiceRows[6][3] = {{0, 1, 2}, {2, 0, 1}, {1, 2, 0}, {0, 2, 
 MapObjectKindData *CreateDramKindData(void) {
     MapObjectKindData *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*block));
+    block = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*block));
     {
         MapObjectKindData zeroBlock = {0};
 
@@ -42,7 +42,7 @@ MapObjectKindData *CreateDramKindData(void) {
 MapObjectList *CreateDramUpdateList(void) {
     MapObjectList *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*block));
+    block = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*block));
     gDramUpdateList = block;
     *block = gDramUpdateListInitial;
     SetUpdateListSlot(&gDramUpdateList);
@@ -52,7 +52,7 @@ MapObjectList *CreateDramUpdateList(void) {
 MapObjectDrawList *CreateDramDrawList(void) {
     MapObjectDrawList *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*block));
+    block = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*block));
     gDramDrawList = block;
     *block = gDramDrawListInitial;
     SetDrawListSlot(&gDramDrawList);
@@ -65,7 +65,7 @@ void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha) {
 
     matrix = &dram->mMapObject.mMatrix;
     angle = (u16) (-(s32) dram->mAngleX);
-    MTX_RotX33_(&matrix->mAxes, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
+    MTX_RotX33__from_thumb(&matrix->mAxes, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
     matrix->mRows[3].x = dram->mMapObject.mPos.x >> 4;
     matrix->mRows[3].y = dram->mMapObject.mPos.y >> 4;
     matrix->mRows[3].z = dram->mMapObject.mPos.z >> 4;
@@ -101,7 +101,7 @@ void PickDramAngleChoices(MapObjectList *list) {
 }
 
 void UpdateDram(u32 unused, Dram *dram) {
-    AdvanceStateMachine(&dram->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&dram->mMapObject.mStateMachine);
 }
 
 void DramWaitDelayNop(void *stateObject) {}

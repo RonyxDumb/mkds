@@ -9,7 +9,7 @@ typedef struct NNSiFndExpMBlockList {
     /* 04 */ NNSiFndExpHeapMBlockHead *mTail;
 } NNSiFndExpMBlockList;
 
-NNSiFndExpHeapMBlockHead *InsertMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *target,
+NNSiFndExpHeapMBlockHead *Mem_ExpHeapMemoryBlockList_Insert(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *target,
                                        NNSiFndExpHeapMBlockHead *prev);
-NNSiFndExpHeapMBlockHead *RemoveMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *block);
-void GetRegionOfMBlock(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block);
+NNSiFndExpHeapMBlockHead *Mem_ExpHeapMemoryBlockList_Remove(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *block);
+void Mem_GetMemoryBlockRegion(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block);

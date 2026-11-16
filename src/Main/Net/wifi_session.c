@@ -40,17 +40,17 @@
 
 #pragma opt_arithtransformation off
 
-StateCallbacks gWiFiSessionStateTable[7] = {
+StateCallbacks g_GlobalB_E7FnList[7] = {
     {0, 0},
-    {EnterWiFiSessionLogin, UpdateWiFiSessionLoginState},
+    {GlobalB_E7Fn_1A, GlobalB_E7Fn_1B},
     {0, 0},
-    {EnterWiFiSessionSearch, UpdateWiFiSessionSearch},
-    {EnterWiFiSessionExchangeNop, UpdateWiFiSessionExchange},
-    {EnterWiFiSessionRace, UpdateWiFiSessionRace},
-    {0, UpdateWiFiSessionUnusedNop},
+    {GlobalB_E7Fn_3A, GlobalB_E7Fn_3B},
+    {GlobalB_E7Fn_4A, GlobalB_E7Fn_4B},
+    {GlobalB_E7Fn_5A, GlobalB_E7Fn_5B},
+    {0, GlobalB_E7Fn_6B},
 };
-WiFiSession *gWiFiSession;
-char gKartFilterString[0x64];
+WiFiSession *g_GlobalB;
+char g_SomeFormatBuffer[0x64];
 
 void PackWiFiSessionIndicesWrapper(void) {
     PackWiFiSessionIndices();
@@ -63,17 +63,17 @@ void PackWiFiSessionIndices(void) {
     s8 nextNumber = 0;
     u8 oldNumber;
     for (kartIndex = 0; kartIndex < WIFI_SESSION_KART_SLOTS; kartIndex++) {
-        if (kartIndex < gWiFiSession->mStartKartCount) {
-            if ((gWiFiSession->mKartMask & (1 << kartIndex)) == 0) {
-                gWiFiSession->mPackedIndices[kartIndex] = -1;
+        if (kartIndex < g_GlobalB->mStartKartCount) {
+            if ((g_GlobalB->mKartMask & (1 << kartIndex)) == 0) {
+                g_GlobalB->mPackedIndices[kartIndex] = -1;
             } else {
-                oldNumber = gWiFiSession->mPackedIndices[kartIndex];
-                gWiFiSession->mPackedIndices[kartIndex] = nextNumber;
+                oldNumber = g_GlobalB->mPackedIndices[kartIndex];
+                g_GlobalB->mPackedIndices[kartIndex] = nextNumber;
                 nextNumber++;
-                CopyKartCupRecords(oldNumber, gWiFiSession->mPackedIndices[kartIndex]);
+                CopyKartCupRecords(oldNumber, g_GlobalB->mPackedIndices[kartIndex]);
             }
         } else {
-            gWiFiSession->mPackedIndices[kartIndex] = -1;
+            g_GlobalB->mPackedIndices[kartIndex] = -1;
         }
     }
 }
@@ -81,25 +81,25 @@ void PackWiFiSessionIndices(void) {
 BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
     s32 frames;
     s32 step;
-    frames = gWiFiSession->mStepFrames;
-    gWiFiSession->mStepFrames = frames + 1;
+    frames = g_GlobalB->mStepFrames;
+    g_GlobalB->mStepFrames = frames + 1;
     if (frames > limit) {
-        gWiFiSession->mStepFrames = 0;
-        step = gWiFiSession->mStep;
+        g_GlobalB->mStepFrames = 0;
+        step = g_GlobalB->mStep;
         if (step == WIFI_SESSION_STEP_EXCHANGE_RECORDS || step == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
             step == WIFI_SESSION_STEP_WAIT_BACKUP) {
-            gWiFiSession->mEarlyStepTimedOut = TRUE;
+            g_GlobalB->mEarlyStepTimedOut = TRUE;
             DWC_RegisterMatchingStatus();
             DWC_CloseAllConnectionsHard();
-            gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
+            g_GlobalB->mStep = WIFI_SESSION_STEP_LEAVING;
         } else {
             if (step == WIFI_SESSION_STEP_VERIFY_RESULT || step == WIFI_SESSION_STEP_READY) {
                 return TRUE;
             }
-            gWiFiSession->mConnectionLost = TRUE;
+            g_GlobalB->mConnectionLost = TRUE;
             DWC_RegisterMatchingStatus();
             DWC_CloseAllConnectionsHard();
-            gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
+            g_GlobalB->mStep = WIFI_SESSION_STEP_LEAVING;
         }
         return TRUE;
     }
@@ -126,10 +126,10 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
     WiFiSessionMessage *message;
     u8 ownIndex;
     message = buffer;
-    if (gWiFiSession->mStep >= WIFI_SESSION_STEP_EXCHANGE_PICKS && (gWiFiSession->mKartMask & (1 << fromIndex)) == 0) {
+    if (g_GlobalB->mStep >= WIFI_SESSION_STEP_EXCHANGE_PICKS && (g_GlobalB->mKartMask & (1 << fromIndex)) == 0) {
         return;
     }
-    gWiFiSession->mSinceCallbackFrames[fromIndex] = 0;
+    g_GlobalB->mSinceCallbackFrames[fromIndex] = 0;
     ownIndex = DWC_GetMyAID();
     if (IsWiFiSessionMessageMatching(message, fromIndex, size, ownIndex) == FALSE) {
         return;
@@ -139,46 +139,46 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
     }
     switch (message->mKind) {
         case WIFI_SESSION_MESSAGE_RECORD_REQUEST:
-            BIT_SET(gWiFiSession->mSendRecordMask, fromIndex);
+            BIT_SET(g_GlobalB->mSendRecordMask, fromIndex);
             break;
         case WIFI_SESSION_MESSAGE_RECORD:
-            BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
-            DWC_SetRecvBuffer(fromIndex, &gWiFiSession->mReceiveBuffers[fromIndex], sizeof(WiFiSessionMessage));
+            BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
+            DWC_SetRecvBuffer(fromIndex, &g_GlobalB->mReceiveBuffers[fromIndex], sizeof(WiFiSessionMessage));
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_CONTINUE_CHOICE:
-            if (gWiFiSession->mStep != WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
+            if (g_GlobalB->mStep != WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
                 return;
             }
             if (message->mContinueChoice == WIFI_CONTINUE_CHOICE_NONE) {
                 return;
             }
-            MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                         sizeof(WiFiSessionMessage));
-            BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+            BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             break;
         case WIFI_SESSION_MESSAGE_CONTINUE_CONFIRM:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_PICKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                g_GlobalB->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_PICKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
                 if (message->mCharacterIndex == -1) {
                     return;
@@ -186,109 +186,109 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
                 if (message->mKartIndex == -1) {
                     return;
                 }
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
+                g_GlobalB->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
             }
             break;
         case WIFI_SESSION_MESSAGE_PICK_MASK:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_PICKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_PICKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_COURSE_PICK:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
+                g_GlobalB->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
                 if (message->mPickedCourseId == 0) {
                     return;
                 }
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_COURSE_MASK:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_RESULT:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
-            } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_VERIFY_RESULT) {
-                MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
+            } else if (g_GlobalB->mStep == WIFI_SESSION_STEP_VERIFY_RESULT) {
+                Mem_CpuCopy8(&g_GlobalB->mReceiveBuffers[fromIndex], &g_GlobalB->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
                 EndWiFiSessionOnPicksMismatch(fromIndex);
-                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
+                BIT_SET(g_GlobalB->mReceivedMask, fromIndex);
             }
             break;
     }
 }
 
 void SetWiFiSessionOwnCharacterIndex(s32 characterIndex) {
-    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mCharacterIndex = characterIndex;
+    g_GlobalB->mIndexMessages[DWC_GetMyAID()].mCharacterIndex = characterIndex;
 }
 
 void SetWiFiSessionOwnCharacterIndexNone(void) {
-    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mCharacterIndex = -1;
+    g_GlobalB->mIndexMessages[DWC_GetMyAID()].mCharacterIndex = -1;
 }
 
 void SetWiFiSessionOwnKartIndex(s32 kartIndex) {
-    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mKartIndex = kartIndex;
+    g_GlobalB->mIndexMessages[DWC_GetMyAID()].mKartIndex = kartIndex;
 }
 
 void SetWiFiSessionOwnPickedCourseId(s32 pickedCourseId) {
-    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mPickedCourseId = pickedCourseId;
+    g_GlobalB->mIndexMessages[DWC_GetMyAID()].mPickedCourseId = pickedCourseId;
 }
 
 u32 GetWiFiSessionCharacterIndex(u8 index) {
-    return gWiFiSession->mIndexMessages[index].mCharacterIndex;
+    return g_GlobalB->mIndexMessages[index].mCharacterIndex;
 }
 
 u32 GetWiFiSessionKartIndex(u8 index) {
-    return gWiFiSession->mIndexMessages[index].mKartIndex;
+    return g_GlobalB->mIndexMessages[index].mKartIndex;
 }
 
 u32 GetWiFiSessionPickedCourseId(u8 index) {
-    return gWiFiSession->mIndexMessages[index].mPickedCourseId;
+    return g_GlobalB->mIndexMessages[index].mPickedCourseId;
 }
 
 #pragma opt_arithtransformation off
 
 // Own answer on the battle results screen: nonzero is CONTINUE (stored 1), zero is QUIT (stored 2).
 void SetWiFiSessionOwnContinueChoice(u32 wantsContinue) {
-    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mContinueChoice =
+    g_GlobalB->mIndexMessages[DWC_GetMyAID()].mContinueChoice =
         wantsContinue != 0 ? WIFI_CONTINUE_CHOICE_CONTINUE : WIFI_CONTINUE_CHOICE_QUIT;
 }
 
 s32 GetWiFiSessionCourseId(void) {
-    if (GetRaceSetupCopy()->mCourseId == 0) {
-        return gWiFiSession->mIndexMessages[DWC_GetMyAID()].mPickedCourseId;
+    if (GetGlobalCA_from_thumb()->mCourseId == 0) {
+        return g_GlobalB->mIndexMessages[DWC_GetMyAID()].mPickedCourseId;
     }
-    return GetRaceSetupCopy()->mCourseId;
+    return GetGlobalCA_from_thumb()->mCourseId;
 }
 
 BOOL IsWiFiStep5ReachedNoDisconnect(void) {
-    if (gWiFiSession->mStep >= WIFI_SESSION_STEP_EXCHANGE_PICKS) {
+    if (g_GlobalB->mStep >= WIFI_SESSION_STEP_EXCHANGE_PICKS) {
         if (CheckWiFiSessionDisconnect() == WIFI_DISCONNECT_NONE) {
             return TRUE;
         }
@@ -298,7 +298,7 @@ BOOL IsWiFiStep5ReachedNoDisconnect(void) {
 
 BOOL IsWiFiSessionStep7Reached(void) {
     BOOL result = TRUE;
-    WiFiSession *session = gWiFiSession;
+    WiFiSession *session = g_GlobalB;
     s32 step = session->mStep;
 
     if (step < WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
@@ -311,7 +311,7 @@ BOOL IsWiFiSessionStep7Reached(void) {
 
 BOOL IsWiFiSessionStep10Reached(void) {
     BOOL result = TRUE;
-    WiFiSession *session = gWiFiSession;
+    WiFiSession *session = g_GlobalB;
     s32 step = session->mStep;
 
     if (step < WIFI_SESSION_STEP_READY) {
@@ -326,14 +326,14 @@ BOOL IsWiFiSessionStep10Reached(void) {
 s32 GetWiFiSessionContinueResult(void) {
     s32 step;
 
-    step = gWiFiSession->mStep;
+    step = g_GlobalB->mStep;
     if (step >= WIFI_SESSION_STEP_EXCHANGE_PICKS) {
-        if (gWiFiSession->mKartCount > 1) {
+        if (g_GlobalB->mKartCount > 1) {
             return WIFI_CONTINUE_RESULT_KARTS_LEFT;
         }
         return WIFI_CONTINUE_RESULT_ENDED;
     }
-    if (gWiFiSession->mConnectionLost == TRUE) {
+    if (g_GlobalB->mConnectionLost == TRUE) {
         if (step == WIFI_SESSION_STEP_ENDED) {
             return WIFI_CONTINUE_RESULT_ENDED;
         }
@@ -346,7 +346,7 @@ s32 GetWiFiSessionContinueResult(void) {
 
 // Counts the course picks of the indices in mKartMask and stores the most picked in the race setup's mCourseId; ties
 // are settled with the object's own LCG (mRandom).
-void TallyPickedCourse(void) {
+void MaybeVSSelectRandomCourseId(void) {
     u8 participantIndex;
     u8 highestCount = 0;
     u8 tiedCount = 0;
@@ -358,7 +358,7 @@ void TallyPickedCourse(void) {
     u32 tieIndex;
     u32 talliedCourseId;
 
-    session = gWiFiSession;
+    session = g_GlobalB;
     for (participantIndex = 0; participantIndex < session->mStartKartCount; participantIndex++) {
         if (session->mKartMask & (1 << participantIndex)) {
             pickCounts[session->mIndexMessages[participantIndex].mPickedCourseId]++;
@@ -384,42 +384,42 @@ void TallyPickedCourse(void) {
         }
     }
     talliedCourseId = tiedCourses[(u16) tieIndex];
-    GetRaceSetupCopy()->mCourseId = talliedCourseId;
+    GetGlobalCA_from_thumb()->mCourseId = talliedCourseId;
 }
 
 void WriteWiFiSessionToRaceSetupCopy(void) {
     BOOL ownKind = FALSE;
     u8 participantIndex;
 
-    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (gWiFiSession->mKartMask & (1 << participantIndex)) {
+    for (participantIndex = 0; participantIndex < g_GlobalB->mStartKartCount; participantIndex++) {
+        if (g_GlobalB->mKartMask & (1 << participantIndex)) {
             if (participantIndex == DWC_GetMyAID()) {
                 s8 entryIndex;
 
-                entryIndex = gWiFiSession->mPackedIndices[participantIndex];
-                GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = ownKind;
+                entryIndex = g_GlobalB->mPackedIndices[participantIndex];
+                GetGlobalCA_from_thumb()->mEntries[entryIndex].mPlayerKind = ownKind;
             } else {
                 s8 entryIndex;
 
-                entryIndex = gWiFiSession->mPackedIndices[participantIndex];
-                GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_PEER;
+                entryIndex = g_GlobalB->mPackedIndices[participantIndex];
+                GetGlobalCA_from_thumb()->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_PEER;
             }
             {
                 WiFiSession *wiFiSession;
                 s8 entryIndex;
 
-                wiFiSession = gWiFiSession;
+                wiFiSession = g_GlobalB;
                 entryIndex = wiFiSession->mPackedIndices[participantIndex];
-                GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex =
+                GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex =
                     wiFiSession->mIndexMessages[participantIndex].mCharacterIndex;
             }
             {
                 WiFiSession *wiFiSession;
                 s8 entryIndex;
 
-                wiFiSession = gWiFiSession;
+                wiFiSession = g_GlobalB;
                 entryIndex = wiFiSession->mPackedIndices[participantIndex];
-                GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex =
+                GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartIndex =
                     wiFiSession->mIndexMessages[participantIndex].mKartIndex;
             }
         }
@@ -442,61 +442,61 @@ BOOL DoesMessageHeaderMatch(WiFiSessionMessageHeader *header, u32 size, u32 from
 BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
     switch (kind) {
         case WIFI_SESSION_MESSAGE_RECORD_REQUEST:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
-                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
+                g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_RECORD:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS) {
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
-                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
+                g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_CONTINUE_CHOICE:
-            if ((u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) <=
+            if ((u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) <=
                 WIFI_SESSION_STEP_CONFIRM_CONTINUE - WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_CONTINUE_CONFIRM:
-            if ((u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) <=
+            if ((u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) <=
                 WIFI_SESSION_STEP_EXCHANGE_PICKS - WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
-                (u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_CONFIRM_CONTINUE) <=
+            if (g_GlobalB->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
+                (u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_CONFIRM_CONTINUE) <=
                     WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS - WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_PICK_MASK:
-            if ((u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_EXCHANGE_PICKS) <=
+            if ((u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_EXCHANGE_PICKS) <=
                 WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS - WIFI_SESSION_STEP_EXCHANGE_PICKS) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_COURSE_PICK:
-            if ((u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) <=
+            if ((u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) <=
                 WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS - WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_COURSE_MASK:
-            if ((u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) <=
+            if ((u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) <=
                 WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS - WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
                 return TRUE;
             }
             break;
         case WIFI_SESSION_MESSAGE_RESULT:
-            if ((u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) <=
+            if ((u32) (g_GlobalB->mStep - WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) <=
                 WIFI_SESSION_STEP_VERIFY_RESULT - WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
                 return TRUE;
             }
@@ -506,37 +506,37 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
 }
 
 // Index the next message goes to; mStartKartCount means none (the two calls after a pick, or no index left).
-u8 PickNextToIndex(void) {
+u8 GetSomeRacerIndex(void) {
     u8 participantIndex;
     u8 callCount;
 
-    callCount = gWiFiSession->mCallsSincePick;
+    callCount = g_GlobalB->mCallsSincePick;
     if (callCount < WIFI_SESSION_CALLS_AFTER_PICK) {
-        gWiFiSession->mCallsSincePick = callCount + 1;
-        return gWiFiSession->mStartKartCount;
+        g_GlobalB->mCallsSincePick = callCount + 1;
+        return g_GlobalB->mStartKartCount;
     }
-    for (participantIndex = gWiFiSession->mPickStartIndex; participantIndex < gWiFiSession->mStartKartCount;
+    for (participantIndex = g_GlobalB->mPickStartIndex; participantIndex < g_GlobalB->mStartKartCount;
          participantIndex++) {
         if (participantIndex != DWC_GetMyAID()) {
-            if (gWiFiSession->mKartMask & (1 << participantIndex)) {
+            if (g_GlobalB->mKartMask & (1 << participantIndex)) {
                 break;
             }
         }
     }
-    if (gWiFiSession->mPickStartIndex >= gWiFiSession->mStartKartCount) {
-        for (participantIndex = 0; participantIndex < gWiFiSession->mPickStartIndex; participantIndex++) {
+    if (g_GlobalB->mPickStartIndex >= g_GlobalB->mStartKartCount) {
+        for (participantIndex = 0; participantIndex < g_GlobalB->mPickStartIndex; participantIndex++) {
             if (participantIndex != DWC_GetMyAID()) {
-                if (gWiFiSession->mKartMask & (1 << participantIndex)) {
+                if (g_GlobalB->mKartMask & (1 << participantIndex)) {
                     break;
                 }
             }
         }
-        if (participantIndex >= gWiFiSession->mPickStartIndex) {
-            return gWiFiSession->mStartKartCount;
+        if (participantIndex >= g_GlobalB->mPickStartIndex) {
+            return g_GlobalB->mStartKartCount;
         }
     }
-    gWiFiSession->mPickStartIndex = participantIndex + 1;
-    gWiFiSession->mCallsSincePick = 0;
+    g_GlobalB->mPickStartIndex = participantIndex + 1;
+    g_GlobalB->mCallsSincePick = 0;
     return participantIndex;
 }
 
@@ -550,11 +550,11 @@ BOOL AreAllStepMessagesReceived(void) {
     u8 rosterCount;
     u8 kartMask;
 
-    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+    for (participantIndex = 0; participantIndex < g_GlobalB->mStartKartCount; participantIndex++) {
         if (participantIndex != DWC_GetMyAID()) {
-            if (gWiFiSession->mKartMask & (1 << participantIndex)) {
+            if (g_GlobalB->mKartMask & (1 << participantIndex)) {
                 checkedCount++;
-                if ((gWiFiSession->mReceivedMask & (1 << participantIndex)) == 0) {
+                if ((g_GlobalB->mReceivedMask & (1 << participantIndex)) == 0) {
                     break;
                 }
                 receivedCount++;
@@ -562,15 +562,15 @@ BOOL AreAllStepMessagesReceived(void) {
         }
     }
     if (checkedCount == 0) {
-        gWiFiSession->mConnectionLost = TRUE;
+        g_GlobalB->mConnectionLost = TRUE;
         DWC_RegisterMatchingStatus();
         DWC_CloseAllConnectionsHard();
-        gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
+        g_GlobalB->mStep = WIFI_SESSION_STEP_LEAVING;
         return FALSE;
     }
     rosterCount = 0;
-    startKartCount = gWiFiSession->mStartKartCount;
-    kartMask = gWiFiSession->mKartMask;
+    startKartCount = g_GlobalB->mStartKartCount;
+    kartMask = g_GlobalB->mKartMask;
     for (secondParticipantIndex = 0; secondParticipantIndex < startKartCount; secondParticipantIndex++) {
         if (kartMask & (1 << secondParticipantIndex)) {
             rosterCount++;
@@ -584,26 +584,26 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
     u8 differs = FALSE;
     u8 ownIndex;
 
-    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if ((ownIndex = DWC_GetMyAID(), gWiFiSession->mIndexMessages[ownIndex].mKartIndices[participantIndex]) !=
-                gWiFiSession->mReceiveBuffers[index].mKartIndices[participantIndex] ||
-            (ownIndex = DWC_GetMyAID(), gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[participantIndex]) !=
-                gWiFiSession->mReceiveBuffers[index].mCharacterIndices[participantIndex]) {
+    for (participantIndex = 0; participantIndex < g_GlobalB->mStartKartCount; participantIndex++) {
+        if ((ownIndex = DWC_GetMyAID(), g_GlobalB->mIndexMessages[ownIndex].mKartIndices[participantIndex]) !=
+                g_GlobalB->mReceiveBuffers[index].mKartIndices[participantIndex] ||
+            (ownIndex = DWC_GetMyAID(), g_GlobalB->mIndexMessages[ownIndex].mCharacterIndices[participantIndex]) !=
+                g_GlobalB->mReceiveBuffers[index].mCharacterIndices[participantIndex]) {
             differs = TRUE;
         }
     }
     ownIndex = DWC_GetMyAID();
-    if (gWiFiSession->mReceiveBuffers[index].mTalliedCourseId !=
-        gWiFiSession->mIndexMessages[ownIndex].mTalliedCourseId) {
+    if (g_GlobalB->mReceiveBuffers[index].mTalliedCourseId !=
+        g_GlobalB->mIndexMessages[ownIndex].mTalliedCourseId) {
         differs = TRUE;
     }
     if (differs == FALSE) {
         return;
     }
-    gWiFiSession->mConnectionLost = TRUE;
+    g_GlobalB->mConnectionLost = TRUE;
     DWC_RegisterMatchingStatus();
     DWC_CloseAllConnectionsHard();
-    gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
+    g_GlobalB->mStep = WIFI_SESSION_STEP_LEAVING;
 }
 
 BOOL IsWiFiMatchingBeforeTimeLimit(void) {
@@ -615,7 +615,7 @@ u8 GetWiFiMatchingParticipantCount(void) {
 }
 
 BOOL HasWiFiBuddyStatus4(void) {
-    return gWiFiSession->mStatus4BuddyCount != 0;
+    return g_GlobalB->mStatus4BuddyCount != 0;
 }
 
 u32 StopWiFiSessionMatching(void) {
@@ -624,7 +624,7 @@ u32 StopWiFiSessionMatching(void) {
 
 BOOL IsWiFiSessionMatchingActive(void) {
     if (DWC_IsValidCancelMatching() != 0) {
-        if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_SEARCH) {
+        if (g_GlobalB->mStateMachine.mState == WIFI_SESSION_STATE_SEARCH) {
             return TRUE;
         }
     }
@@ -632,115 +632,115 @@ BOOL IsWiFiSessionMatchingActive(void) {
 }
 
 BOOL IsKartKeysStartStatus2(void) {
-    return gWiFiSession->mStartStatus == WIFI_START_STATUS_CANCELED;
+    return g_GlobalB->mStartStatus == WIFI_START_STATUS_CANCELED;
 }
 
 void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
     StateMachine *stateMachine;
 
     DWC_CloseAllConnectionsHard();
-    MI_CpuFill8(&gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION], 0, sizeof(KartKey));
-    MI_CpuFill8(&gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE], 0, sizeof(KartKey));
-    MI_CpuFill8(&gWiFiSession->mKeys[WIFI_MATCH_KEY_FILTER], 0, sizeof(KartKey));
-    MI_CpuFill8(&gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO], 0, sizeof(KartKey));
-    gWiFiSession->mEarlyStepTimedOut = FALSE;
-    gWiFiSession->mNumEntry = 0;
-    gWiFiSession->mStatus4BuddyCount = 0;
-    gWiFiSession->mKartCount = 0;
-    gWiFiSession->mStartKartCount = 0;
-    gWiFiSession->mKartCountCopy = 0;
-    gWiFiSession->mKartMask = 0;
-    gWiFiSession->mKartRemoveMask = 0;
-    MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mValue = kartType;
-    gWiFiSession->mNumEntry = WIFI_SESSION_KART_SLOTS;
+    Mem_CpuFill8(&g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION], 0, sizeof(KartKey));
+    Mem_CpuFill8(&g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE], 0, sizeof(KartKey));
+    Mem_CpuFill8(&g_GlobalB->mKeys[WIFI_MATCH_KEY_FILTER], 0, sizeof(KartKey));
+    Mem_CpuFill8(&g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO], 0, sizeof(KartKey));
+    g_GlobalB->mEarlyStepTimedOut = FALSE;
+    g_GlobalB->mNumEntry = 0;
+    g_GlobalB->mStatus4BuddyCount = 0;
+    g_GlobalB->mKartCount = 0;
+    g_GlobalB->mStartKartCount = 0;
+    g_GlobalB->mKartCountCopy = 0;
+    g_GlobalB->mKartMask = 0;
+    g_GlobalB->mKartRemoveMask = 0;
+    Mem_CpuFill8(&g_GlobalB->mStep, 0, 0x60);
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mValue = kartType;
+    g_GlobalB->mNumEntry = WIFI_SESSION_KART_SLOTS;
     if (useTimeLimit == 0) {
-        gWiFiSession->mMinCompleteOption.mValid = TRUE;
-        gWiFiSession->mMinCompleteOption.mMinEntry = WIFI_MATCH_MIN_ENTRIES;
-        gWiFiSession->mMinCompleteOption.mTimeLimit = WIFI_MATCH_NO_WAIT;
+        g_GlobalB->mMinCompleteOption.mValid = TRUE;
+        g_GlobalB->mMinCompleteOption.mMinEntry = WIFI_MATCH_MIN_ENTRIES;
+        g_GlobalB->mMinCompleteOption.mTimeLimit = WIFI_MATCH_NO_WAIT;
     } else {
-        gWiFiSession->mMinCompleteOption.mValid = TRUE;
-        gWiFiSession->mMinCompleteOption.mMinEntry = WIFI_MATCH_MIN_ENTRIES;
-        gWiFiSession->mMinCompleteOption.mTimeLimit = WIFI_MATCH_WAIT_LIMIT;
+        g_GlobalB->mMinCompleteOption.mValid = TRUE;
+        g_GlobalB->mMinCompleteOption.mMinEntry = WIFI_MATCH_MIN_ENTRIES;
+        g_GlobalB->mMinCompleteOption.mTimeLimit = WIFI_MATCH_WAIT_LIMIT;
     }
-    DWC_SetMatchingOption(0, &gWiFiSession->mMinCompleteOption, 0);
-    stateMachine = &gWiFiSession->mStateMachine;
+    DWC_SetMatchingOption(0, &g_GlobalB->mMinCompleteOption, 0);
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_SEARCH;
     stateMachine->mNextStateRequested = 1;
 }
 
 s32 CheckWiFiMatchingResult(void) {
-    if ((gWiFiSession->mEarlyStepTimedOut != 0 && DWC_GetNumConnectionHost() <= 1) ||
-        gWiFiSession->mErrorKind == WIFI_ERROR_KIND_UNRECOVERABLE) {
+    if ((g_GlobalB->mEarlyStepTimedOut != 0 && DWC_GetNumConnectionHost() <= 1) ||
+        g_GlobalB->mErrorKind == WIFI_ERROR_KIND_UNRECOVERABLE) {
         return -1;
     }
     return IsWiFiStep5ReachedNoDisconnect() != FALSE;
 }
 
-void RegisterKartKeysAndStart(void) {
+void GlobalB_E7Fn_3AImpl(void) {
     s32 eloHigh;
     s32 eloLow;
 
     ClearWiFiDisconnectStatus();
-    MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, sizeof(gWiFiSession->mPlayerRecords));
-    FillPlayerRecord(&gWiFiSession->mPlayerRecords[0].mPlayer);
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mRegion;
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mElo;
-    __memcpy(gWiFiSession->mKeys[WIFI_MATCH_KEY_FILTER].mName, "kart_filter", 12);
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_FILTER].mId =
-        DWC_AddMatchKeyString(gWiFiSession->mKeys[WIFI_MATCH_KEY_FILTER].mId,
-                              gWiFiSession->mKeys[WIFI_MATCH_KEY_FILTER].mName, "ds_mario_kart_product");
-    __memcpy(gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mName, "kart_type", 10);
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mId =
-        DWC_AddMatchKeyInt(gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mId, gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mName,
-                           &gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE]);
-    __memcpy(gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mName, "kart_elo", 9);
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mId =
-        DWC_AddMatchKeyInt(gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mId, gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mName,
-                           &gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO]);
-    __memcpy(gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mName, "kart_region", 12);
-    gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mId = DWC_AddMatchKeyInt(
-        gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mId, gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mName,
-        &gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION]);
-    eloLow = gWiFiSession->mPlayerRecords[0].mPlayer.mElo - WIFI_ELO_WINDOW;
+    Mem_CpuFill8(g_GlobalB->mPlayerRecords, 0, sizeof(g_GlobalB->mPlayerRecords));
+    StructTK_SomeFn_from_thumb(&g_GlobalB->mPlayerRecords[0].mPlayer);
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mValue = g_GlobalB->mPlayerRecords[0].mPlayer.mRegion;
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mValue = g_GlobalB->mPlayerRecords[0].mPlayer.mElo;
+    __memcpy(g_GlobalB->mKeys[WIFI_MATCH_KEY_FILTER].mName, "kart_filter", 12);
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_FILTER].mId =
+        DWC_AddMatchKeyString(g_GlobalB->mKeys[WIFI_MATCH_KEY_FILTER].mId,
+                              g_GlobalB->mKeys[WIFI_MATCH_KEY_FILTER].mName, "ds_mario_kart_product");
+    __memcpy(g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mName, "kart_type", 10);
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mId =
+        DWC_AddMatchKeyInt(g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mId, g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mName,
+                           &g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE]);
+    __memcpy(g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mName, "kart_elo", 9);
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mId =
+        DWC_AddMatchKeyInt(g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mId, g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mName,
+                           &g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO]);
+    __memcpy(g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mName, "kart_region", 12);
+    g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mId = DWC_AddMatchKeyInt(
+        g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mId, g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mName,
+        &g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION]);
+    eloLow = g_GlobalB->mPlayerRecords[0].mPlayer.mElo - WIFI_ELO_WINDOW;
     if (eloLow <= 0) {
         eloLow = 0;
     }
-    eloHigh = gWiFiSession->mPlayerRecords[0].mPlayer.mElo + WIFI_ELO_WINDOW;
+    eloHigh = g_GlobalB->mPlayerRecords[0].mPlayer.mElo + WIFI_ELO_WINDOW;
     if (eloHigh > WIFI_ELO_MAX) {
         eloHigh = WIFI_ELO_MAX;
     }
-    MI_CpuFill8(gKartFilterString, 0, sizeof(gKartFilterString));
-    if (gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mValue == WIFI_MATCH_TYPE_ELO) {
-        sprintf(gKartFilterString, "%s = '%s' and %s > %d and %s < %d", "kart_filter", "ds_mario_kart_product",
+    Mem_CpuFill8(g_SomeFormatBuffer, 0, sizeof(g_SomeFormatBuffer));
+    if (g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mValue == WIFI_MATCH_TYPE_ELO) {
+        MaybeStrcpy(g_SomeFormatBuffer, "%s = '%s' and %s > %d and %s < %d", "kart_filter", "ds_mario_kart_product",
                 "kart_elo", eloLow, "kart_elo", eloHigh);
     } else {
-        sprintf(gKartFilterString, "%s = '%s'", "kart_filter", "ds_mario_kart_product");
+        MaybeStrcpy(g_SomeFormatBuffer, "%s = '%s'", "kart_filter", "ds_mario_kart_product");
     }
-    switch (gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mValue) {
+    switch (g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mValue) {
         case WIFI_MATCH_TYPE_REGION:
-            DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
+            DWC_ConnectToAnybodyAsync(g_GlobalB->mNumEntry, g_SomeFormatBuffer, KartKeysStartCallback, NULL,
                                       ComputeRegionEval, 0);
             break;
         case WIFI_MATCH_TYPE_REGION_ELO:
-            DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
+            DWC_ConnectToAnybodyAsync(g_GlobalB->mNumEntry, g_SomeFormatBuffer, KartKeysStartCallback, NULL,
                                       ComputeRegionEloEval, 0);
             break;
         case WIFI_MATCH_TYPE_FRIENDS:
-            DWC_ConnectToFriendsAsync(NULL, 0, gWiFiSession->mNumEntry, 1, KartKeysStartCallback, NULL, 0, 0);
+            DWC_ConnectToFriendsAsync(NULL, 0, g_GlobalB->mNumEntry, 1, KartKeysStartCallback, NULL, 0, 0);
             break;
         case WIFI_MATCH_TYPE_ELO:
-            DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
+            DWC_ConnectToAnybodyAsync(g_GlobalB->mNumEntry, g_SomeFormatBuffer, KartKeysStartCallback, NULL,
                                       ComputeEloEval, 0);
             break;
     }
-    gWiFiSession->mStartStatus = WIFI_START_STATUS_PENDING;
+    g_GlobalB->mStartStatus = WIFI_START_STATUS_PENDING;
 }
 
 BOOL IsKartKeysStartStatus3(void) {
     s32 status;
 
-    status = gWiFiSession->mStartStatus;
+    status = g_GlobalB->mStartStatus;
     switch (status) {
         case WIFI_START_STATUS_PENDING:
             break;
@@ -759,14 +759,14 @@ s32 ComputeEloEval(u32 serverIndex) {
     WiFiSession *session;
 
     kartType =
-        DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mName, WIFI_MATCH_TYPE_MISSING);
+        DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mName, WIFI_MATCH_TYPE_MISSING);
     kartRegion =
-        DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mName, WIFI_MATCH_REGION_MISSING);
-    value = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mName, WIFI_MATCH_ELO_MISSING);
+        DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mName, WIFI_MATCH_REGION_MISSING);
+    value = DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mName, WIFI_MATCH_ELO_MISSING);
     if (kartType == WIFI_MATCH_TYPE_MISSING || kartRegion == WIFI_MATCH_REGION_MISSING || value < 0) {
         return 0;
     }
-    session = gWiFiSession;
+    session = g_GlobalB;
     if (session->mPlayerRecords[0].mPlayer.mElo > value) {
         value = session->mPlayerRecords[0].mPlayer.mElo - value;
     } else {
@@ -788,14 +788,14 @@ BOOL ComputeRegionEval(u32 serverIndex) {
     s32 kartRegion;
 
     kartType =
-        DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mName, WIFI_MATCH_TYPE_MISSING);
+        DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mName, WIFI_MATCH_TYPE_MISSING);
     kartRegion =
-        DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mName, WIFI_MATCH_REGION_MISSING);
+        DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mName, WIFI_MATCH_REGION_MISSING);
     if (kartType == WIFI_MATCH_TYPE_MISSING || kartRegion == WIFI_MATCH_REGION_MISSING) {
         return FALSE;
     }
     if (kartType == WIFI_MATCH_TYPE_REGION) {
-        if (gWiFiSession->mPlayerRecords[0].mPlayer.mRegion == kartRegion) {
+        if (g_GlobalB->mPlayerRecords[0].mPlayer.mRegion == kartRegion) {
             return TRUE;
         }
     }
@@ -809,18 +809,18 @@ s32 ComputeRegionEloEval(u32 serverIndex) {
     WiFiSession *session;
 
     kartType =
-        DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mName, WIFI_MATCH_TYPE_MISSING);
+        DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_TYPE].mName, WIFI_MATCH_TYPE_MISSING);
     kartRegion =
-        DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mName, WIFI_MATCH_REGION_MISSING);
-    value = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mName, WIFI_MATCH_ELO_MISSING);
+        DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_REGION].mName, WIFI_MATCH_REGION_MISSING);
+    value = DWC_GetMatchIntValue(serverIndex, g_GlobalB->mKeys[WIFI_MATCH_KEY_ELO].mName, WIFI_MATCH_ELO_MISSING);
     if (kartType == WIFI_MATCH_TYPE_MISSING || kartRegion == WIFI_MATCH_REGION_MISSING || value < 0) {
         return 0;
     }
     if (kartType == WIFI_MATCH_TYPE_REGION_ELO) {
-        return (kartRegion != gWiFiSession->mPlayerRecords[0].mPlayer.mRegion ? 2 : 1) * WIFI_MATCH_SCORE_HIGH;
+        return (kartRegion != g_GlobalB->mPlayerRecords[0].mPlayer.mRegion ? 2 : 1) * WIFI_MATCH_SCORE_HIGH;
     }
     if (kartType == WIFI_MATCH_TYPE_ELO) {
-        session = gWiFiSession;
+        session = g_GlobalB;
         if (session->mPlayerRecords[0].mPlayer.mElo > value) {
             value = session->mPlayerRecords[0].mPlayer.mElo - value;
         } else {
@@ -842,31 +842,31 @@ void KartKeysStartCallback(u32 result, s32 flag) {
 
     if (result == 0) {
         if (flag != 0) {
-            gWiFiSession->mStartStatus = WIFI_START_STATUS_CANCELED;
+            g_GlobalB->mStartStatus = WIFI_START_STATUS_CANCELED;
             return;
         }
-        gWiFiSession->mKartMask = 0;
-        gWiFiSession->mKartCount = DWC_GetNumConnectionHost();
-        gWiFiSession->mStartKartCount = gWiFiSession->mKartCount;
-        session = gWiFiSession;
+        g_GlobalB->mKartMask = 0;
+        g_GlobalB->mKartCount = DWC_GetNumConnectionHost();
+        g_GlobalB->mStartKartCount = g_GlobalB->mKartCount;
+        session = g_GlobalB;
         participantIndex = 0;
         while (participantIndex < session->mStartKartCount) {
             BIT_SET(session->mKartMask, participantIndex);
-            session = gWiFiSession;
+            session = g_GlobalB;
             participantIndex++;
         }
-        MI_CpuFill8(session->mPlayerRecords, 0, sizeof(session->mPlayerRecords));
-        FillPlayerRecord(&gWiFiSession->mPlayerRecords[DWC_GetMyAID()].mPlayer);
+        Mem_CpuFill8(session->mPlayerRecords, 0, sizeof(session->mPlayerRecords));
+        StructTK_SomeFn_from_thumb(&g_GlobalB->mPlayerRecords[DWC_GetMyAID()].mPlayer);
         SetupWiFiSession(WIFI_SESSION_SETUP_FIRST);
-        gWiFiSession->mStartStatus = WIFI_START_STATUS_CONNECTED;
+        g_GlobalB->mStartStatus = WIFI_START_STATUS_CONNECTED;
     } else {
-        gWiFiSession->mStartStatus = WIFI_START_STATUS_FAILED;
+        g_GlobalB->mStartStatus = WIFI_START_STATUS_FAILED;
     }
 }
 
 void SetWiFiDisconnectKind(s32 kind) {
-    gWiFiSession->mDisconnectKind = kind;
-    if (gWiFiSession->mDisconnectKind != WIFI_DISCONNECT_OPPONENT_LEFT) {
+    g_GlobalB->mDisconnectKind = kind;
+    if (g_GlobalB->mDisconnectKind != WIFI_DISCONNECT_OPPONENT_LEFT) {
         return;
     }
     DWC_RegisterMatchingStatus();
@@ -874,29 +874,29 @@ void SetWiFiDisconnectKind(s32 kind) {
 }
 
 void ResetWiFiSession(void) {
-    MI_CpuFill8(gWiFiSession->mRecvBuffers, 0, sizeof(gWiFiSession->mRecvBuffers));
-    MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, sizeof(gWiFiSession->mPlayerRecords));
-    MI_CpuFill8(gWiFiSession->mConnection, 0, 0xe24);
-    MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
-    MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
-    MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, sizeof(gWiFiSession->mReceiveBuffers));
-    MI_CpuFill8(gWiFiSession->mIndexMessages, 0, sizeof(gWiFiSession->mIndexMessages));
-    MI_CpuFill8(&gWiFiSession->mLogin, 0, sizeof(gWiFiSession->mLogin));
-    gWiFiSession->mResetToOff = FALSE;
-    gWiFiSession->mRaceSyncEnabled = FALSE;
-    gWiFiSession->mIrqCallbackCount = 0;
-    gWiFiSession->mDisconnectKind = WIFI_DISCONNECT_NONE;
-    gWiFiSession->mErrorKind = 0;
-    gWiFiSession->mErrorCode = 0;
-    gWiFiSession->mUnk_1f4c = 0;
-    gWiFiSession->mUnk_1f4d = 0;
-    MI_CpuFill8(gWiFiSession->mPackedIndices, 0, 4);
-    gWiFiSession->mKartCount = 0;
-    gWiFiSession->mStartKartCount = 0;
-    gWiFiSession->mKartCountCopy = 0;
-    gWiFiSession->mKartMask = 0;
-    gWiFiSession->mKartRemoveMask = 0;
-    gWiFiSession->mBuddyPollIndex = 0;
+    Mem_CpuFill8(g_GlobalB->mRecvBuffers, 0, sizeof(g_GlobalB->mRecvBuffers));
+    Mem_CpuFill8(g_GlobalB->mPlayerRecords, 0, sizeof(g_GlobalB->mPlayerRecords));
+    Mem_CpuFill8(g_GlobalB->mConnection, 0, 0xe24);
+    Mem_CpuFill8(&g_GlobalB->mStep, 0, 0x60);
+    Mem_CpuFill8(&g_GlobalB->mUserData, 0, 0x350);
+    Mem_CpuFill8(g_GlobalB->mReceiveBuffers, 0, sizeof(g_GlobalB->mReceiveBuffers));
+    Mem_CpuFill8(g_GlobalB->mIndexMessages, 0, sizeof(g_GlobalB->mIndexMessages));
+    Mem_CpuFill8(&g_GlobalB->mLogin, 0, sizeof(g_GlobalB->mLogin));
+    g_GlobalB->mResetToOff = FALSE;
+    g_GlobalB->mRaceSyncEnabled = FALSE;
+    g_GlobalB->mIrqCallbackCount = 0;
+    g_GlobalB->mDisconnectKind = WIFI_DISCONNECT_NONE;
+    g_GlobalB->mErrorKind = 0;
+    g_GlobalB->mErrorCode = 0;
+    g_GlobalB->mUnk_1f4c = 0;
+    g_GlobalB->mUnk_1f4d = 0;
+    Mem_CpuFill8(g_GlobalB->mPackedIndices, 0, 4);
+    g_GlobalB->mKartCount = 0;
+    g_GlobalB->mStartKartCount = 0;
+    g_GlobalB->mKartCountCopy = 0;
+    g_GlobalB->mKartMask = 0;
+    g_GlobalB->mKartRemoveMask = 0;
+    g_GlobalB->mBuddyPollIndex = 0;
 }
 
 // 0 none, 1 no input for 30 seconds, 2 the opponent left, 3 error; for 1 and 2 it also requests state 2.
@@ -905,7 +905,7 @@ u32 CheckWiFiSessionDisconnect(void) {
     StateMachine *stateMachine;
     s32 errorKind;
 
-    session = gWiFiSession;
+    session = g_GlobalB;
     if (session->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
         errorKind = session->mErrorKind;
         if (errorKind == WIFI_ERROR_KIND_LINK_DROPPED || errorKind == WIFI_ERROR_KIND_MATCHING_CLOSED ||
@@ -914,7 +914,7 @@ u32 CheckWiFiSessionDisconnect(void) {
         }
         if (session->mDisconnectKind == WIFI_DISCONNECT_OPPONENT_LEFT) {
             if (DWC_GetNumConnectionHost() <= 1) {
-                stateMachine = &gWiFiSession->mStateMachine;
+                stateMachine = &g_GlobalB->mStateMachine;
                 stateMachine->mNextState = WIFI_SESSION_STATE_IDLE;
                 stateMachine->mNextStateRequested = 1;
                 return WIFI_DISCONNECT_OPPONENT_LEFT;
@@ -930,13 +930,13 @@ u32 CheckWiFiSessionDisconnect(void) {
 }
 
 void ClearWiFiDisconnectStatus(void) {
-    gWiFiSession->mErrorKind = 0;
-    gWiFiSession->mDisconnectKind = WIFI_DISCONNECT_NONE;
-    gWiFiSession->mErrorCode = 0;
+    g_GlobalB->mErrorKind = 0;
+    g_GlobalB->mDisconnectKind = WIFI_DISCONNECT_NONE;
+    g_GlobalB->mErrorCode = 0;
 }
 
-u32 GetWiFiSessionErrorCodeNegated(void) {
-    return ((0x0u) - ((gWiFiSession->mErrorCode)));
+u32 GetMaybeNetErrorCode(void) {
+    return ((0x0u) - ((g_GlobalB->mErrorCode)));
 }
 
 u32 GetWiFiLinkLevel(void) {
@@ -944,22 +944,22 @@ u32 GetWiFiLinkLevel(void) {
 }
 
 #pragma thumb on
-void InitWiFiSession(void *heap) {
+void InitializeGlobalB_from_thumb(void *heap) {
     StateMachine *stateMachine;
 
-    gWiFiSession = HeapAllocAligned(heap, 0x1f58, HEAP_ALIGN_CACHE_LINE);
-    InitStateMachine(&gWiFiSession->mStateMachine, gWiFiSessionStateTable, 8, NULL);
-    stateMachine = &gWiFiSession->mStateMachine;
+    g_GlobalB = Mem_AllocateHeapAligned(heap, 0x1f58, HEAP_ALIGN_CACHE_LINE);
+    StateDualHandler_Create(&g_GlobalB->mStateMachine, g_GlobalB_E7FnList, 8, NULL);
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
 }
 
 // Creates the 0x3e800-byte exp heap and registers WiFiSessionHeapAlloc / Free with the net layer (the heap is used only
 // through them).
-void CreateWiFiSessionHeap(void *heap) {
-    gWiFiSession->mHeapBuffer = HeapAllocAligned(heap, 0x3e800, HEAP_ALIGN_CACHE_LINE);
-    gWiFiSession->mHeap = NNS_FndCreateExpHeapEx(gWiFiSession->mHeapBuffer, 0x3e800, 1);
-    gWiFiSession->mHeapCreated = TRUE;
+void CreateStructBHeap_from_thumb(void *heap) {
+    g_GlobalB->mHeapBuffer = Mem_AllocateHeapAligned(heap, 0x3e800, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalB->mHeap = Mem_Exp_Create(g_GlobalB->mHeapBuffer, 0x3e800, 1);
+    g_GlobalB->mHeapCreated = TRUE;
     DWC_SetMemFunc(WiFiSessionHeapAlloc, WiFiSessionHeapFree);
 }
 
@@ -967,12 +967,12 @@ void CreateWiFiSessionHeap(void *heap) {
 void DeleteWiFiSessionHeap(void) {
     StateMachine *stateMachine;
 
-    if (gWiFiSession->mHeap != NULL) {
-        NNS_FndDestroyExpHeap(gWiFiSession->mHeap);
-        HeapFree(GetHeap(GetCurrentHeapCall()), gWiFiSession->mHeapBuffer);
+    if (g_GlobalB->mHeap != NULL) {
+        Mem_Exp_Finalize(g_GlobalB->mHeap);
+        Mem_FreeHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), g_GlobalB->mHeapBuffer);
     }
-    gWiFiSession->mHeapCreated = FALSE;
-    stateMachine = &gWiFiSession->mStateMachine;
+    g_GlobalB->mHeapCreated = FALSE;
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
 }
@@ -982,8 +982,8 @@ void ResetWiFiSessionToOff(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
-    gWiFiSession->mResetToOff = TRUE;
-    stateMachine = &gWiFiSession->mStateMachine;
+    g_GlobalB->mResetToOff = TRUE;
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
 }
@@ -995,14 +995,14 @@ void UpdateBuddyStatuses(void) {
     WiFiSession *countSession;
     u8 buddyIndex;
 
-    if (gWiFiSession->mBuddyPollIndex >= WIFI_BUDDY_COUNT) {
-        gWiFiSession->mBuddyPollIndex = 0;
+    if (g_GlobalB->mBuddyPollIndex >= WIFI_BUDDY_COUNT) {
+        g_GlobalB->mBuddyPollIndex = 0;
     }
-    session = gWiFiSession;
+    session = g_GlobalB;
     session->mBuddyStatuses[session->mBuddyPollIndex] =
         DWC_GetFriendStatus(&session->mBuddies[session->mBuddyPollIndex], NULL);
-    gWiFiSession->mBuddyPollIndex++;
-    countSession = gWiFiSession;
+    g_GlobalB->mBuddyPollIndex++;
+    countSession = g_GlobalB;
     buddyIndex = 0;
     do {
         switch (countSession->mBuddyStatuses[buddyIndex]) {
@@ -1018,21 +1018,21 @@ void UpdateBuddyStatuses(void) {
 }
 
 void UpdateWiFiSession(void) {
-    if (gWiFiSession == NULL) {
+    if (g_GlobalB == NULL) {
         return;
     }
-    if (gOverlayLoader->mCurrentOverlay != OVERLAY_SLOT_OV000) {
+    if (g_OverlayManager->mCurrentOverlay != OVERLAY_SLOT_OV000) {
         return;
     }
     DWC_ProcessFriendsMatch();
     if (DWC_GetLastError(NULL) != 0) {
-        gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
+        g_GlobalB->mErrorKind = DWC_GetLastError(&g_GlobalB->mErrorCode);
         DWC_ClearError();
     }
-    if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
+    if (g_GlobalB->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
         UpdateBuddyStatuses();
     }
-    AdvanceStateMachine(&gWiFiSession->mStateMachine);
+    StateDualHandler_Execute(&g_GlobalB->mStateMachine);
 }
 
 s32 SendWiFiPacketToParticipant(u32 participantIndex, void *packet, s32 size, u32 (*finishCallback)(void)) {
@@ -1040,8 +1040,8 @@ s32 SendWiFiPacketToParticipant(u32 participantIndex, void *packet, s32 size, u3
 }
 
 // Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.
-PlayerRecord *GetWiFiSessionPlayerRecordData(u32 index) {
-    WiFiSession *session = gWiFiSession;
+PlayerRecord *GetTKByIndex(u32 index) {
+    WiFiSession *session = g_GlobalB;
 
     if (session->mKartMask & (1 << index)) {
         return &session->mPlayerRecords[index].mPlayer;

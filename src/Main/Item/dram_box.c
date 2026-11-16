@@ -54,12 +54,12 @@ StateCallbacks gDramStateTable[6] = {{DramWaitDelayNop, UpdateDramWaitDelay}, {N
 #pragma thumb on
 
 void CreateDram(void) {
-    CreateNsbmd(&gDram, FindCourseMapObjFile("dram.nsbmd"), NULL);
-    SetNsbmdPolygonIdLightEmiAll(gDram, 0x3f, 2, 0x294a);
+    CreateNsbmd(&gDram, FormatFindMapObjFileBuffer_from_thumb("dram.nsbmd"), NULL);
+    StructML_SomeFn_1(gDram, 0x3f, 2, 0x294a);
 }
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
-    InitStateMachine(&dram->mMapObject.mStateMachine, gDramStateTable, 6, dram);
+    StateDualHandler_Create(&dram->mMapObject.mStateMachine, gDramStateTable, 6, dram);
     dram->mAnglePerFrameChoices[0] = courseRow->mSettings[0] * 0x80 / 100;
     dram->mAnglePerFrameChoices[2] = courseRow->mSettings[4] * 0x80 / 100;
     dram->mAnglePerFrameChoices[1] = (dram->mAnglePerFrameChoices[0] + dram->mAnglePerFrameChoices[2]) / 2;
@@ -82,8 +82,8 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
 MapObjectKindData *CreateMissionRunBoxKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = GetHeap(GetCurrentHeapCall());
-    kindData = HeapAlloc(kindData, sizeof(MapObjectKindData));
+    kindData = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    kindData = Mem_AllocateHeap(kindData, sizeof(MapObjectKindData));
     *kindData = gMissionRunBoxKindData;
     return kindData;
 }
@@ -117,7 +117,7 @@ void InitMissionRunBoxMapObject(MissionRunBox *object) {
     object->mCollisionMapObject.mMapObject.mPosStep.x = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.y = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.z = 0;
-    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
+    VecFx32_AddScale1(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &object->mCollisionMapObject.mMapObject.mPos,
                 &object->mCollisionMapObject.mCollisionData.mCenterPos);
     object->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
@@ -144,7 +144,7 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     Vec3 *position;
 
     if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADING_OUT) &&
-        GetChoisesSOpenDuringRace() == 0) {
+        IsRaceOptionMenuOn_from_thumb() == 0) {
         s32 row0Dot, row2Dot;
 
         row0Dot = DOT2_FIXED12(fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x, fbox->mPushDirection.x,
@@ -163,14 +163,14 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
                 (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].z *
                     fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+            Vector3_MaybeNormalize(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1]);
         }
         if (row0Dot * row0Dot > row2Dot * row2Dot) {
             fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x =
                 (s32) (fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x - scaledX);
             fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+            Vector3_Cross(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
             if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x *
@@ -180,16 +180,16 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
                     (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z *
                         fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+                Vector3_MaybeNormalize(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
                                                    &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
             }
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+            Vector3_Cross(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
         } else {
             fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x -= scaledX;
             fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+            Vector3_Cross(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
             if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x *
@@ -199,10 +199,10 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
                     (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z *
                         fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
+                Vector3_MaybeNormalize(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
                                                    &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
             }
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+            Vector3_Cross(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
                                &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
         }
@@ -241,7 +241,7 @@ u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     fbox->mPushDirection.z = 0;
     if ((inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&fbox->mBouncingItemObject, inUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StructMQRacerEntry_SomeFn_8(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
         fbox->mThrownForward = 1;
         return fbox->mThrownForward;
     }
@@ -288,7 +288,7 @@ s32 ItemFBoxFadeOutCallback(ItemFBox *fbox) {
 
     vector = gItemPushVector;
     if (LENGTH_SQUARED(*vector) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mPushDirection);
+        Vector3_MaybeNormalize(vector, &fbox->mPushDirection);
     }
     fbox->mPooledMapObject->mShadowMode = ITEM_BOX_SHADOW_NONE;
     if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
@@ -305,10 +305,10 @@ void SetupItemFBoxAfterLaunch(ItemFBox *fbox) {
             (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z *
                 fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+        Vector3_MaybeNormalize(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
                                            &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
     }
-    Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+    Vector3_Cross(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
                        &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                        &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
     MTX_Concat33(&gItemFBoxRotation, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,

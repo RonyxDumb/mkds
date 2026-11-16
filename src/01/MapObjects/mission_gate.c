@@ -49,7 +49,7 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     RefreshMapObjectMatrixFromHitNormal(&missionGateObject->mMapObject);
     missionGateObject->mMapObject.mAngle =
         (missionGateObject->mMapObject.mCourseMapRow->mRotationDegrees.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
-    MTX_RotY33_(&mtx, FX_SinIdx(missionGateObject->mMapObject.mAngle), FX_CosIdx(missionGateObject->mMapObject.mAngle));
+    MTX_RotY33__from_thumb(&mtx, FX_SinIdx(missionGateObject->mMapObject.mAngle), FX_CosIdx(missionGateObject->mMapObject.mAngle));
     MTX_Concat33(&mtx, &missionGateObject->mMapObject.mMatrix.mAxes, &missionGateObject->mMapObject.mMatrix.mAxes);
     sideExtentX = MUL_FIXED12_NO_ROUND(0xA000, missionGateObject->mMapObject.mScale.x);
     sideExtentY = MUL_FIXED12_NO_ROUND(0xF000, missionGateObject->mMapObject.mScale.y);
@@ -58,10 +58,10 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     missionGateObject->mNegativeSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mPositiveSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mMapObject.mCourseMapRow->mSettings[0] = saved;
-    VEC_MultAdd(-(missionGateObject->mMapObject.mExtent.x + sideExtentX),
+    VecFx32_AddScale1(-(missionGateObject->mMapObject.mExtent.x + sideExtentX),
                 &missionGateObject->mMapObject.mMatrix.mRows[0], &missionGateObject->mMapObject.mPos,
                 &missionGateObject->mNegativeSideObject->mPos);
-    VEC_MultAdd(missionGateObject->mMapObject.mExtent.x + sideExtentX, &missionGateObject->mMapObject.mMatrix.mRows[0],
+    VecFx32_AddScale1(missionGateObject->mMapObject.mExtent.x + sideExtentX, &missionGateObject->mMapObject.mMatrix.mRows[0],
                 &missionGateObject->mMapObject.mPos, &missionGateObject->mPositiveSideObject->mPos);
     SetMapObjectExtentX(missionGateObject->mNegativeSideObject, sideExtentX);
     SetMapObjectExtentX(missionGateObject->mPositiveSideObject, sideExtentX);
@@ -75,7 +75,7 @@ u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart,
     u32 response = *responsePointer;
 
     if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) != 0 ||
-        (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated(kart->mIndex) : 0) != FALSE) {
+        (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsKartEliminated(kart->mIndex) : 0) != FALSE) {
         return 0;
     }
     if (firstResponse == 1) {
@@ -89,9 +89,9 @@ void LoadMissionGate(void *mapObjectList) {
     gMissionGate = LoadMapObjectModelAnimated(mapObjectList, "MissionGate.nsbmd");
     LoadMapObjectModelNsbtpAnimation(gMissionGate, "MissionGate.nsbtp");
     LoadMapObjectModelNsbmaAnimation(gMissionGate, "MissionGate.nsbma");
-    SetMapObjectModelPolygonId(gMissionGate, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gMissionGate, 0x3f);
     SetMapObjectModelLightEnableFlag(gMissionGate, 2);
-    SetNsbmdEmiAll(gMissionGate->mAnimatedModel, 0x294a);
+    StructML_SomeFn_7(gMissionGate->mAnimatedModel, 0x294a);
 }
 
 void MissionGateNop(void) {}
@@ -106,7 +106,7 @@ void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) 
     missionGateObject->mMapObject.mMatrix.mRows[3].z = missionGateObject->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &missionGateObject->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mSettings[0]);
+    StructMapObject_SomeFn_0(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mSettings[0]);
     SetMapObjectModelNsbmaFrameIndex(gMissionGate, missionGateObject->mNsbmaFrameIndex);
     DrawMapObjectModel(mapObjectList, gMissionGate, missionGateObject);
 }
@@ -135,7 +135,7 @@ void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
 
     switch (missionGateObject->mState) {
         case MISSION_GATE_STATE_WAIT_COUNT:
-            count = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
+            count = g_GlobalCO->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
             if (count >= missionGateObject->mMapObject.mCourseMapRow->mSettings[0] - 1) {
                 missionGateObject->mMapObject.mFlags &= ~1;
                 missionGateObject->mState = MISSION_GATE_STATE_DONE;
@@ -153,7 +153,7 @@ void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
 }
 
 MapObjectKindData *CreateMissionGateKindData(void) {
-    return CreateMapObjectKindData(&CollideKartWithMissionGate, NULL, NULL, 0, 1);
+    return CreateAllocateSomeObject_from_thumb(&CollideKartWithMissionGate, NULL, NULL, 0, 1);
 }
 
 MapObjectList *CreateMissionGateDrawList(void) {

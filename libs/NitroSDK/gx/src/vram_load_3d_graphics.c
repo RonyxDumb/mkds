@@ -69,29 +69,29 @@ void GX_LoadTex(const void *src, u32 offset, u32 size) {
         } else {
             firstCount = firstSize - offset;
             dest = (u8 *) gTextureLoadFirstBase + offset;
-            if (GXi_DmaId != -1 && firstCount > 0x30) {
-                MI_DmaCopy32(GXi_DmaId, src, dest, firstCount);
+            if (g_GfxDmaChannel != -1 && firstCount > 0x30) {
+                MI_DmaCopy32(g_GfxDmaChannel, src, dest, firstCount);
             } else {
-                MIi_CpuCopy32(src, dest, firstCount);
+                Mem_CpuCopy32(src, dest, firstCount);
             }
-            if (GXi_DmaId != -1) {
-                MI_DmaCopy32Async(GXi_DmaId, (const u8 *) src + firstCount, second, size - firstCount, 0, 0);
+            if (g_GfxDmaChannel != -1) {
+                MI_DmaCopy32Async(g_GfxDmaChannel, (const u8 *) src + firstCount, second, size - firstCount, 0, 0);
             } else {
-                MIi_CpuCopy32((const u8 *) src + firstCount, second, size - firstCount);
+                Mem_CpuCopy32((const u8 *) src + firstCount, second, size - firstCount);
             }
             return;
         }
     }
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, dest, size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, dest, size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, dest, size);
+        Mem_CpuCopy32(src, dest, size);
     }
 }
 
 void GX_EndLoadTex(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
     GX_SetBankForTex(gTextureLoadBankMask);
     gTextureLoadFirstSize = 0;
@@ -106,18 +106,18 @@ void GX_BeginLoadTexPltt(void) {
     gTexturePaletteLoadBase = (u8 *) (gTexturePaletteBaseTable[mask >> 4] << 12);
 }
 
-void GX_LoadTexPltt(const void *src, u32 offset, u32 size) {
+void SomeDmaCopy_0(const void *src, u32 offset, u32 size) {
     u8 *dest = gTexturePaletteLoadBase + offset;
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, dest, size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, dest, size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, dest, size);
+        Mem_CpuCopy32(src, dest, size);
     }
 }
 
 void GX_EndLoadTexPltt(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
     GX_SetBankForTexPltt(gTexturePaletteLoadBankMask);
     gTexturePaletteLoadBankMask = 0;
@@ -147,25 +147,25 @@ void GX_BeginLoadClearImage(void) {
 
 void GX_LoadClearImageColor(const void *src, u32 size) {
     u8 *dest = gClearImageLoadBase;
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, dest, size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, dest, size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, dest, size);
+        Mem_CpuCopy32(src, dest, size);
     }
 }
 
 void GX_LoadClearImageDepth(const void *src, u32 size) {
     u8 *dest = gClearImageLoadBase + 0x20000;
-    if (GXi_DmaId != -1) {
-        MI_DmaCopy32Async(GXi_DmaId, src, dest, size, 0, 0);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel, src, dest, size, 0, 0);
     } else {
-        MIi_CpuCopy32(src, dest, size);
+        Mem_CpuCopy32(src, dest, size);
     }
 }
 
 void GX_EndLoadClearImage(void) {
-    if (GXi_DmaId != -1) {
-        MI_WaitDma(GXi_DmaId);
+    if (g_GfxDmaChannel != -1) {
+        MI_WaitDma(g_GfxDmaChannel);
     }
     GX_SetBankForClearImage(gClearImageLoadBankMask);
     gClearImageLoadBankMask = 0;

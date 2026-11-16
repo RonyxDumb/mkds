@@ -28,12 +28,12 @@ typedef struct GpiCallback {
 
 // The data a queued callback hands to its function: lists of nicks, matches or a transfer message.
 typedef struct CallbackArgData {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mData[4];
     /* 04 */ s32 mSuggestedNickCount;
-    /* 08 */ void **mUnk_08;
+    /* 08 */ void **mField30;
     /* 0c */ void *mMatchList;
     /* 10 */ void *mTransferMessage;
-    /* 14 */ u8 mUnk_14[0x24];
+    /* 14 */ u8 mField35[0x24];
     /* 38 */ s32 mNickCount;
     /* 3c */ void **mNicknames;
     /* 40 */ void **mUniquenicks;

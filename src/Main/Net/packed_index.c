@@ -3,13 +3,13 @@
 #include "Main/Net/wifi_session.h"
 
 s32 GetPackedIndex(s32 index) {
-    return gWiFiSession->mPackedIndices[index];
+    return g_GlobalB->mPackedIndices[index];
 }
 
 s32 GetIndexOfPackedIndex(u8 packedIndex) {
     s8 slotIndex;
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
-        if (packedIndex == gWiFiSession->mPackedIndices[slotIndex]) {
+        if (packedIndex == g_GlobalB->mPackedIndices[slotIndex]) {
             return slotIndex;
         }
     }

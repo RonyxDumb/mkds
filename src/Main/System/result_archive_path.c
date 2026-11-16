@@ -42,49 +42,49 @@
 
 #pragma explicit_zero_data on
 char gArchiveSlotInfosEmptyPath19[] = "";
-char gArchiveSlotInfosEmptyPath4[] = "";
-char gArchiveSlotInfosEmptyPath5[] = "";
+char g_SomeEmptyString5[] = "";
+char g_SomeEmptyString2[] = "";
 char gArchiveSlotInfosEmptyPath20[] = "";
 char gArchiveSlotInfosEmptyPath11[] = "";
 char gArchiveSlotInfosEmptyPath9[] = "";
-char gCourseArchiveNamesEmptyName0[] = "";
-char gArchiveSlotInfosEmptyPath13[] = "";
-char gArchiveSlotInfosEmptyPath3[] = "";
-char gArchiveSlotInfosEmptyPath12[] = "";
+char g_SomeEmptyString0[] = "";
+char g_SomeEmptyString4[] = "";
+char g_SomeEmptyString1[] = "";
+char g_SomeEmptyString3[] = "";
 #pragma explicit_zero_data off
-char gModeArchiveNameNt[] = "nt";
-char gModeArchiveNameGp[] = "gp";
-char gLanguageCodeFr[] = "fr";
-char gLanguageCodeGe[] = "ge";
-char gModeArchiveNameVs[] = "vs";
-char gLanguageCodeIt[] = "it";
-char gLanguageCodeUs6[] = "us";
-char gModeArchiveNameTa[] = "ta";
-char gModeArchiveNameMg[] = "mg";
-char gLanguageCodeEs[] = "es";
-char gModeArchiveNameMr[] = "mr";
-char gLanguageCodeUs1[] = "us";
-char gLanguageCodeJa[] = "ja";
-char gArchiveNameCKL[] = "CKL";
-char gArchiveNameCRS[] = "CRS";
-char gArchiveNameEFT[] = "EFT";
-char gArchiveNameKME[] = "KME";
-char gArchiveNameM2L[] = "M2L";
-char gArchiveNameCKS[] = "CKS";
-char gArchiveNameG2L[] = "G2L";
-char gArchiveNameKM2[] = "KM2";
-char gArchiveNameLOC[] = "LOC";
-char gArchiveNameK2D[] = "K2D";
-char gArchiveNameR2L[] = "R2L";
-char gArchiveNameR2D[] = "R2D";
-char gArchiveNameS2D[] = "S2D";
-char gArchiveNameGE2[] = "GE2";
-char gArchiveNameKSB[] = "KSB";
-char gArchiveNameSND[] = "SND";
-char gArchiveNameMAR[] = "MAR";
-char gArchiveNameKM1[] = "KM1";
-char gArchiveNameMA2[] = "MA2";
-char gArchiveNameCST[] = "CST";
+char g_mount_nt[] = "nt";
+char g_mount_gp[] = "gp";
+char g_mount_fr[] = "fr";
+char g_mount_ge[] = "ge";
+char g_mount_vs[] = "vs";
+char g_mount_it[] = "it";
+char g_mount_us_0[] = "us";
+char g_mount_ta[] = "ta";
+char g_mount_mg[] = "mg";
+char g_mount_es[] = "es";
+char g_mount_mr[] = "mr";
+char g_mount_us[] = "us";
+char g_mount_ja[] = "ja";
+char g_mount_CKL[] = "CKL";
+char g_mount_CRS[] = "CRS";
+char g_mount_EFT[] = "EFT";
+char g_mount_KME[] = "KME";
+char g_mount_M2L[] = "M2L";
+char g_mount_CKS[] = "CKS";
+char g_mount_G2L[] = "G2L";
+char g_mount_KM2[] = "KM2";
+char g_mount_LOC[] = "LOC";
+char g_mount_K2D[] = "K2D";
+char g_mount_R2L[] = "R2L";
+char g_mount_R2D[] = "R2D";
+char g_mount_S2D[] = "S2D";
+char g_mount_GE2[] = "GE2";
+char g_mount_KSB[] = "KSB";
+char g_mount_SND[] = "SND";
+char g_mount_MAR[] = "MAR";
+char g_mount_KM1[] = "KM1";
+char g_mount_MA2[] = "MA2";
+char g_mount_CST[] = "CST";
 char gSceneNameRace[] = "Race";
 char gSceneNameMenu1[] = "Menu";
 char gSceneNameMenu4[] = "Menu";
@@ -123,7 +123,7 @@ char gCourseArchiveNameBeachCourse[] = "beach_course";
 char gCourseArchiveNameKoopaCourse[] = "koopa_course";
 char gCourseArchiveNameOldChoco64[] = "old_choco_64";
 char gCourseArchiveNameOldYoshiGc[] = "old_yoshi_gc";
-char gArchiveSlotPathDataMain2D[] = "/data/Main2D";
+char g_str_data_Main2D[] = "/data/Main2D";
 char gCourseArchiveNameOldMarioGc[] = "old_mario_gc";
 char gCourseArchiveNameLuigiCourse[] = "luigi_course";
 char gCourseArchiveNameDokanCourse[] = "dokan_course";
@@ -157,19 +157,19 @@ char gCourseArchiveNameOldHyudoro64[] = "old_hyudoro_64";
 char gCourseArchiveNameNokonokoCourse[] = "nokonoko_course";
 char gCourseArchiveNameMiniBlockCourse[] = "mini_block_course";
 char gArchiveSlotPathDataGeneralMenu[] = "/data/GeneralMenu";
-char gArchiveSlotPathDataMain2DCarc[] = "/data/Main2D.carc";
-char gArchiveSlotPathDataMainRaceCarc[] = "/data/MainRace.carc";
-char gArchiveSlotPathDataMainEffectCarc[] = "/data/MainEffect.carc";
-char gArchiveSlotPathDataGeneralMenuCarc[] = "/data/GeneralMenu.carc";
-const char *gModeArchiveNames[6] = {gModeArchiveNameGp, gModeArchiveNameTa, gModeArchiveNameMg,
-                                    gModeArchiveNameVs, gModeArchiveNameMr, gModeArchiveNameNt};
-char gArchiveSlotPathDataKartModelMenuCarc[] = "/data/KartModelMenu.carc";
-char gArchiveSlotPathDataCharacterKartSelect[] = "/data/CharacterKartSelect";
-char gArchiveSlotPathDataKartModelMainACarc[] = "/data/KartModelMainA.carc";
-char gArchiveSlotPathDataKartModelMainBCarc[] = "/data/KartModelMainB.carc";
-char gArchiveSlotPathDataCharacterKartSelectCarc[] = "/data/CharacterKartSelect.carc";
+char g_str_data_Main2D_carc[] = "/data/Main2D.carc";
+char g_SomeTypeCarcNames[] = "/data/MainRace.carc";
+char g_str_data_MainEffect_carc[] = "/data/MainEffect.carc";
+char g_str_data_GeneralMenu_carc[] = "/data/GeneralMenu.carc";
+const char *g_RaceModeNameTable[6] = {g_mount_gp, g_mount_ta, g_mount_mg,
+                                    g_mount_vs, g_mount_mr, g_mount_nt};
+char g_data_KartModelMenu_carc[] = "/data/KartModelMenu.carc";
+char g_data_CharacterKartSelect_carc[] = "/data/CharacterKartSelect";
+char g_data_KartModelMainA_carc[] = "/data/KartModelMainA.carc";
+char g_data_KartModelMainB_carc[] = "/data/KartModelMainB.carc";
+char g_data_CharacterKartSelect_carc_0[] = "/data/CharacterKartSelect.carc";
 
-const SceneName gSceneNames[16] = {
+const SceneName g_SceneArchiveNameTable[16] = {
     {gSceneNameTitle, -1},
     {gSceneNameMenu1, 184320},
     {gSceneNameRace, -1},
@@ -188,8 +188,8 @@ const SceneName gSceneNames[16] = {
     {gSceneNameEnding, -1},
 };
 
-const CourseNameEntry gCourseArchiveNames[55] = {
-    {gCourseArchiveNamesEmptyName0, 2},
+const CourseNameEntry g_CourseNameTable[55] = {
+    {g_SomeEmptyString0, 2},
     {gCourseArchiveNameOldYoshiGc, 0},
     {gCourseArchiveNameOldMarioGc, 0},
     {gCourseArchiveNameLuigiCourse, 0},
@@ -247,67 +247,67 @@ const CourseNameEntry gCourseArchiveNames[55] = {
 };
 
 const ArchiveSlotInfo gArchiveSlotInfos[21] = {
-    {gArchiveSlotPathDataMainRaceCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_RACE, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotPathDataMain2DCarc, ARCHIVE_SLOT_MAIN_2D_LANGUAGE, ARCHIVE_BUFFER_MAIN_2D, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataMain2D, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath3, ARCHIVE_SLOT_COURSE_TEXTURE, ARCHIVE_BUFFER_COURSE, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotInfosEmptyPath4, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotInfosEmptyPath5, ARCHIVE_SLOT_SCENE_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataKartModelMainACarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotPathDataKartModelMainBCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotPathDataKartModelSubCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
+    {g_SomeTypeCarcNames, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_RACE, {0, 0, 0}, 0, 0, -1},
+    {g_str_data_Main2D_carc, ARCHIVE_SLOT_MAIN_2D_LANGUAGE, ARCHIVE_BUFFER_MAIN_2D, {0, 0, 0}, 1, 0, -1},
+    {g_str_data_Main2D, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, {0, 0, 0}, 1, 0, -1},
+    {g_SomeEmptyString1, ARCHIVE_SLOT_COURSE_TEXTURE, ARCHIVE_BUFFER_COURSE, {0, 0, 0}, 0, 0, -1},
+    {g_SomeEmptyString5, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
+    {g_SomeEmptyString2, ARCHIVE_SLOT_SCENE_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {g_data_KartModelMainA_carc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, {0, 0, 0}, 1, 1, -1},
+    {g_data_KartModelMainB_carc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, {0, 0, 0}, 1, 1, -1},
+    {g_str_data_KartModelSub_carc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
     {gArchiveSlotInfosEmptyPath9, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, 286720},
-    {gArchiveSlotPathDataKartModelMenuCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
+    {g_data_KartModelMenu_carc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
     {gArchiveSlotInfosEmptyPath11, ARCHIVE_SLOT_SCENE_MODE_LANGUAGE, ARCHIVE_BUFFER_RACE_MODE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath12, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath13, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_COURSE_TEXTURE, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotPathDataCharacterKartSelectCarc,
+    {g_SomeEmptyString3, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, {0, 0, 0}, 1, 0, -1},
+    {g_SomeEmptyString4, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_COURSE_TEXTURE, {0, 0, 0}, 1, 1, -1},
+    {g_data_CharacterKartSelect_carc_0,
      ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE,
      ARCHIVE_BUFFER_NONE,
      {0, 0, 0},
      1,
      0,
      -1},
-    {gArchiveSlotPathDataCharacterKartSelect, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataGeneralMenuCarc, ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {g_data_CharacterKartSelect_carc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {g_str_data_GeneralMenu_carc, ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotPathDataGeneralMenu, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataMainEffectCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_EFFECT, {0, 0, 0}, 1, 0, -1},
+    {g_str_data_MainEffect_carc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_EFFECT, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotInfosEmptyPath19, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotInfosEmptyPath20, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
 };
 
-char gArchiveSlotPathDataKartModelSubCarc[] = "/data/KartModelSub.carc";
-const char *gLanguageCodes[7] = {gLanguageCodeJa, gLanguageCodeUs1, gLanguageCodeFr, gLanguageCodeGe,
-                                 gLanguageCodeIt, gLanguageCodeEs,  gLanguageCodeUs6};
-const char *gArchiveNames[20] = {gArchiveNameMAR, gArchiveNameMA2, gArchiveNameM2L, gArchiveNameCRS, gArchiveNameSND,
-                                 gArchiveNameK2D, gArchiveNameKM1, gArchiveNameKM2, gArchiveNameKSB, gArchiveNameLOC,
-                                 gArchiveNameKME, gArchiveNameR2D, gArchiveNameR2L, gArchiveNameCST, gArchiveNameCKS,
-                                 gArchiveNameCKL, gArchiveNameGE2, gArchiveNameG2L, gArchiveNameEFT, gArchiveNameS2D};
+char g_str_data_KartModelSub_carc[] = "/data/KartModelSub.carc";
+const char *g_LanguageIdentifierTable[7] = {g_mount_ja, g_mount_us, g_mount_fr, g_mount_ge,
+                                 g_mount_it, g_mount_es,  g_mount_us_0};
+const char *gArchiveNames[20] = {g_mount_MAR, g_mount_MA2, g_mount_M2L, g_mount_CRS, g_mount_SND,
+                                 g_mount_K2D, g_mount_KM1, g_mount_KM2, g_mount_KSB, g_mount_LOC,
+                                 g_mount_KME, g_mount_R2D, g_mount_R2L, g_mount_CST, g_mount_CKS,
+                                 g_mount_CKL, g_mount_GE2, g_mount_G2L, g_mount_EFT, g_mount_S2D};
 
 #pragma thumb on
 
-void BuildResultArchivePath(char *path) {
+void FormatResultCarc_from_thumb(char *path) {
     const char *suffix;
 
-    if (gMenuShared->mResultArchiveDl == TRUE) {
+    if (g_GlobalB488->mResultArchiveDl == TRUE) {
         suffix = "DL";
     } else {
         suffix = "";
     }
-    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s%s", gSceneNames[SCENE_RESULT].mName, suffix, ".carc");
+    Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s%s", g_SceneArchiveNameTable[SCENE_RESULT].mName, suffix, ".carc");
 }
 
-void BuildResultArchivePathWithLanguage(char *path) {
+void FormatResultCarcWithLanguage_from_thumb(char *path) {
     const char *suffix;
     u32 languageCode;
 
-    if (gMenuShared->mResultArchiveDl == TRUE) {
+    if (g_GlobalB488->mResultArchiveDl == TRUE) {
         suffix = "DL";
     } else {
         suffix = "";
     }
-    languageCode = GetLanguageCode();
-    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s_%s%s", gSceneNames[SCENE_RESULT].mName, suffix, languageCode,
+    languageCode = GetLanguageIdentifierString_from_thumb();
+    Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s_%s%s", g_SceneArchiveNameTable[SCENE_RESULT].mName, suffix, languageCode,
                 ".carc");
 }
 
@@ -315,38 +315,38 @@ void BuildResultArchivePathWithLanguage(char *path) {
 
 #pragma thumb on
 
-void BuildStaffRollArchivePath(char *path) {
+void FormatStaffRollCarcWithLanguage_from_thumb(char *path) {
     u32 languageCode;
-    languageCode = GetLanguageCode();
-    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/StaffRoll_%s%s", languageCode, ".carc");
+    languageCode = GetLanguageIdentifierString_from_thumb();
+    Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "/data/Scene/StaffRoll_%s%s", languageCode, ".carc");
 }
 
-void BuildSceneModeArchivePath(char *path, const char *sceneName, int mode) {
+void FormatSceneArchiveWithRaceMode_from_thumb(char *path, const char *sceneName, int mode) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s%s", sceneName, gModeArchiveNames[mode], ".carc");
+        Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s%s", sceneName, g_RaceModeNameTable[mode], ".carc");
     }
 }
 
-void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mode) {
+void FormatRaceCarcWithLanguage_from_thumb(char *path, const char *sceneName, int mode) {
     u32 languageCode;
     if (*sceneName != 0) {
-        languageCode = GetLanguageCode();
-        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s_%s%s", sceneName, gModeArchiveNames[mode], languageCode,
+        languageCode = GetLanguageIdentifierString_from_thumb();
+        Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s_%s%s", sceneName, g_RaceModeNameTable[mode], languageCode,
                     ".carc");
     }
 }
 
-void BuildArchivePathWithLanguage(const char *prefix, char *path) {
+void FormatArchiveWithLanguage_from_thumb(const char *prefix, char *path) {
     u32 languageCode;
-    languageCode = GetLanguageCode();
-    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "%s_%s.carc", prefix, languageCode);
+    languageCode = GetLanguageIdentifierString_from_thumb();
+    Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "%s_%s.carc", prefix, languageCode);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
+void Arc_MountArchive_from_thumb(int slotIndex, int sceneNumber) {
     char path[ARCHIVE_PATH_SIZE] = {0};
     u32 *bufferData;
     s32 allocFromHeapEnd;
@@ -355,7 +355,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     s32 bufferIndex;
 
     bufferData = NULL;
-    if (gArchiveSlots->mSlots[slotIndex].mLoaded != 0) {
+    if (g_MountManager->mSlots[slotIndex].mLoaded != 0) {
         return;
     }
     uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
@@ -363,80 +363,80 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     archiveBufferSize = gArchiveSlotInfos[slotIndex].mArchiveBufferSize;
     bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
     if (bufferIndex != ARCHIVE_BUFFER_NONE) {
-        bufferData = gArchiveSlots->mBuffers[bufferIndex].mData;
+        bufferData = g_MountManager->mBuffers[bufferIndex].mData;
     }
     switch (slotIndex) {
         case ARCHIVE_SLOT_COURSE:
         case ARCHIVE_SLOT_COURSE_TEXTURE:
-            BuildCourseArchivePath(path, gRaceSetup->mCourseId, slotIndex != ARCHIVE_SLOT_COURSE);
+            FormatCourseCarc_from_thumb(path, g_GlobalCO->mCourseId, slotIndex != ARCHIVE_SLOT_COURSE);
             break;
         case ARCHIVE_SLOT_SCENE:
             switch (sceneNumber) {
                 case SCENE_RACE:
-                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RACE].mData;
+                    bufferData = g_MountManager->mBuffers[ARCHIVE_BUFFER_RACE].mData;
                     break;
                 case SCENE_MENU_1:
-                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_MENU_DL].mData;
+                    bufferData = g_MountManager->mBuffers[ARCHIVE_BUFFER_MENU_DL].mData;
                     break;
                 case SCENE_RESULT:
-                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RESULT_DL].mData;
+                    bufferData = g_MountManager->mBuffers[ARCHIVE_BUFFER_RESULT_DL].mData;
                     break;
             }
             switch (sceneNumber) {
                 case SCENE_RESULT:
-                    BuildResultArchivePath(path);
+                    FormatResultCarc_from_thumb(path);
                     break;
                 case SCENE_RACE:
-                    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/StaffRoll.carc");
+                    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
+                        Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "/data/Scene/StaffRoll.carc");
                     } else {
-                        BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
+                        FormatSceneArchive_from_thumb(path, g_SceneArchiveNameTable[sceneNumber].mName);
                     }
                     break;
                 default:
-                    BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
+                    FormatSceneArchive_from_thumb(path, g_SceneArchiveNameTable[sceneNumber].mName);
                     break;
             }
-            archiveBufferSize = gSceneNames[sceneNumber].mArchiveBufferSize;
+            archiveBufferSize = g_SceneArchiveNameTable[sceneNumber].mArchiveBufferSize;
             break;
         case ARCHIVE_SLOT_SCENE_LANGUAGE:
             switch (sceneNumber) {
                 case SCENE_RACE:
-                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RACE_LANGUAGE].mData;
+                    bufferData = g_MountManager->mBuffers[ARCHIVE_BUFFER_RACE_LANGUAGE].mData;
                     break;
                 case SCENE_MENU_1:
-                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_MENU_DL_LANGUAGE].mData;
+                    bufferData = g_MountManager->mBuffers[ARCHIVE_BUFFER_MENU_DL_LANGUAGE].mData;
                     break;
                 case SCENE_RESULT:
-                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RESULT_DL_LANGUAGE].mData;
+                    bufferData = g_MountManager->mBuffers[ARCHIVE_BUFFER_RESULT_DL_LANGUAGE].mData;
                     break;
             }
             switch (sceneNumber) {
                 case SCENE_RESULT:
-                    BuildResultArchivePathWithLanguage(path);
+                    FormatResultCarcWithLanguage_from_thumb(path);
                     break;
                 case SCENE_RACE:
-                    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                        BuildStaffRollArchivePath(path);
+                    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
+                        FormatStaffRollCarcWithLanguage_from_thumb(path);
                     } else {
-                        BuildSceneArchivePathWithLanguage(path, gSceneNames[sceneNumber].mName);
+                        FormatCarcWithLanguage2_from_thumb(path, g_SceneArchiveNameTable[sceneNumber].mName);
                     }
                     break;
                 default:
-                    BuildSceneArchivePathWithLanguage(path, gSceneNames[sceneNumber].mName);
+                    FormatCarcWithLanguage2_from_thumb(path, g_SceneArchiveNameTable[sceneNumber].mName);
                     break;
             }
             break;
         case ARCHIVE_SLOT_SCENE_MODE:
-            BuildSceneModeArchivePath(path, gSceneNames[sceneNumber].mName, gRaceSetup->mMode);
+            FormatSceneArchiveWithRaceMode_from_thumb(path, g_SceneArchiveNameTable[sceneNumber].mName, g_GlobalCO->mMode);
             break;
         case ARCHIVE_SLOT_SCENE_MODE_LANGUAGE:
-            BuildSceneModeLanguageArchivePath(path, gSceneNames[sceneNumber].mName, gRaceSetup->mMode);
+            FormatRaceCarcWithLanguage_from_thumb(path, g_SceneArchiveNameTable[sceneNumber].mName, g_GlobalCO->mMode);
             break;
         case ARCHIVE_SLOT_MAIN_2D_LANGUAGE:
         case ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE:
         case ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE:
-            BuildArchivePathWithLanguage(gArchiveSlotInfos[slotIndex].mPath, path);
+            FormatArchiveWithLanguage_from_thumb(gArchiveSlotInfos[slotIndex].mPath, path);
             break;
         case ARCHIVE_SLOT_MAIN_RACE:
         case ARCHIVE_SLOT_MAIN_2D:
@@ -447,25 +447,25 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
         case ARCHIVE_SLOT_CHARACTER_KART_SELECT:
         case ARCHIVE_SLOT_GENERAL_MENU:
         case ARCHIVE_SLOT_MAIN_EFFECT:
-            strncpy(path, gArchiveSlotInfos[(s32) slotIndex].mPath, ARCHIVE_PATH_SIZE);
+            SomeStrncpy_0(path, gArchiveSlotInfos[(s32) slotIndex].mPath, ARCHIVE_PATH_SIZE);
             break;
     }
     if (path[0] != 0) {
-        LoadArchiveSlot(slotIndex, path, bufferData, NULL, allocFromHeapEnd, uncompressSource, archiveBufferSize);
+        MountArchiveEntryImpl_from_thumb(slotIndex, path, bufferData, NULL, allocFromHeapEnd, uncompressSource, archiveBufferSize);
     }
     bufferIndex = *(s32 *) ((s32) &gArchiveSlotInfos[0].mNextSlot + slotIndex * 0x18);
     if (bufferIndex != ARCHIVE_SLOT_NONE) {
-        LoadArchiveSlotForScene(bufferIndex, sceneNumber);
+        Arc_MountArchive_from_thumb(bufferIndex, sceneNumber);
     }
 }
 
-void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 allocFromHeapEnd,
+void MountArchiveEntryImpl_from_thumb(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 allocFromHeapEnd,
                      s32 uncompressSource, s32 archiveBufferSize) {
     ArchiveLoadRequest *request;
     s32 bufferIndex;
 
-    request = &gArchiveSlots->mLoadRequest;
-    strncpy((char *) request->mPath, path, ARCHIVE_PATH_SIZE);
+    request = &g_MountManager->mLoadRequest;
+    SomeStrncpy_0((char *) request->mPath, path, ARCHIVE_PATH_SIZE);
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
     request->mData = data;
@@ -477,37 +477,37 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
             if (request->mUncompressSource != 0) {
                 bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
                 if (bufferIndex != ARCHIVE_BUFFER_NONE) {
-                    gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 1;
+                    g_MountManager->mBuffers[bufferIndex].mUnk_08_31 = 1;
                 }
-                UncompressArchiveMemory();
+                DecompressCurrentMountEntry_from_thumb();
             } else {
                 request->mData = request->mSourceData;
             }
-            LoadArchiveSlotData();
+            MountCurrentMountEntry_from_thumb();
         }
     } else {
         if (slotIndex == ARCHIVE_SLOT_IN_MEMORY) {
-            UncompressArchiveMemory();
+            DecompressCurrentMountEntry_from_thumb();
         } else {
-            UncompressArchiveFile();
+            ReadDecompressCurrentMountEntry_from_thumb();
         }
-        LoadArchiveSlotData();
+        MountCurrentMountEntry_from_thumb();
     }
 }
 
-void UncompressArchiveFile(void) {
+void ReadDecompressCurrentMountEntry_from_thumb(void) {
     ArchiveLoadRequest *request;
     FSFile file;
     MIUncompContextLZ uncompContext;
     u32 uncompressedSize;
     s32 bytesRead;
 
-    request = &gArchiveSlots->mLoadRequest;
-    FS_InitFile(&file);
-    if (FS_OpenFile(&file, request->mPath) == 0) {
+    request = &g_MountManager->mLoadRequest;
+    Fs_File_Initialize(&file);
+    if (Fs_File_Open(&file, request->mPath) == 0) {
         return;
     }
-    if (FS_ReadFile(&file, request->mReadBuffer, 4) < 0) {
+    if (Fs_File_Read(&file, request->mReadBuffer, 4) < 0) {
         return;
     }
     uncompressedSize = *request->mReadBuffer >> 8;
@@ -515,45 +515,45 @@ void UncompressArchiveFile(void) {
         return;
     }
     if (request->mAllocFromHeapEnd != 0) {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
+        request->mData = Mem_AllocateHeapAligned(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), uncompressedSize, -0x20);
     } else {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
+        request->mData = Mem_AllocateHeapAligned(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     }
-    MI_InitUncompContextLZ(&uncompContext, request->mData, (const MICompressionHeader *) request->mReadBuffer);
+    LzDecompressContext_Create(&uncompContext, request->mData, (const MICompressionHeader *) request->mReadBuffer);
     do {
-        bytesRead = FS_ReadFile(&file, request->mReadBuffer, 0x400);
+        bytesRead = Fs_File_Read(&file, request->mReadBuffer, 0x400);
         if (bytesRead <= 0) {
             return;
         }
-    } while (MI_ReadUncompLZ8(&uncompContext, (const u8 *) request->mReadBuffer, bytesRead) != 0);
-    DC_StoreRange(request->mData, uncompressedSize);
-    NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
+    } while (LzDecompressContext_DoCycle(&uncompContext, (const u8 *) request->mReadBuffer, bytesRead) != 0);
+    DC_SomeClean(request->mData, uncompressedSize);
+    Mem_GetExpHeapTotalFreeSize(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
 }
 
-void UncompressArchiveMemory(void) {
+void DecompressCurrentMountEntry_from_thumb(void) {
     ArchiveLoadRequest *request;
     u32 uncompressedSize;
 
-    request = &gArchiveSlots->mLoadRequest;
+    request = &g_MountManager->mLoadRequest;
     uncompressedSize = *request->mSourceData >> 8;
     if (request->mAllocFromHeapEnd != 0) {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
+        request->mData = Mem_AllocateHeapAligned(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), uncompressedSize, -0x20);
     } else {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
+        request->mData = Mem_AllocateHeapAligned(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     }
-    MI_UncompressLZ8(request->mSourceData, request->mData);
-    DC_StoreRange(request->mData, uncompressedSize);
-    NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
+    DecompressLzss(request->mSourceData, request->mData);
+    DC_SomeClean(request->mData, uncompressedSize);
+    Mem_GetExpHeapTotalFreeSize(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
 }
 
-void LoadArchiveSlotData(void) {
+void MountCurrentMountEntry_from_thumb(void) {
     ArchiveLoadRequest *request;
     ArchiveSlot *slot;
 
-    request = &gArchiveSlots->mLoadRequest;
-    slot = &gArchiveSlots->mSlots[request->mSlotIndex];
+    request = &g_MountManager->mLoadRequest;
+    slot = &g_MountManager->mSlots[request->mSlotIndex];
     if (request->mData != NULL) {
-        if (ArchiveLoadFromMemory(&slot->mArchive, (const u8 *) gArchiveNames[request->mSlotIndex], request->mData) !=
+        if (MountMountEntryFrom(&slot->mArchive, (const u8 *) gArchiveNames[request->mSlotIndex], request->mData) !=
             0) {
             slot->mLoaded = 1;
             slot->mData = request->mData;
@@ -561,62 +561,62 @@ void LoadArchiveSlotData(void) {
     }
 }
 
-void ReleaseArchiveSlot(int slotIndex) {
+void Arc_DisposeArchive_from_thumb(int slotIndex) {
     BOOL shouldFree;
     s32 bufferIndex;
 
     shouldFree = TRUE;
-    if (gArchiveSlots->mSlots[slotIndex].mLoaded != 0 && slotIndex != ARCHIVE_SLOT_IN_MEMORY) {
-        ArchiveUnload(&gArchiveSlots->mSlots[slotIndex].mArchive.mFsArchive);
+    if (g_MountManager->mSlots[slotIndex].mLoaded != 0 && slotIndex != ARCHIVE_SLOT_IN_MEMORY) {
+        Fs_Archive_Dispose(&g_MountManager->mSlots[slotIndex].mArchive.mFsArchive);
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
-            if (bufferIndex != ARCHIVE_BUFFER_NONE && gArchiveSlots->mBuffers[bufferIndex].mUncompress != 0) {
+            if (bufferIndex != ARCHIVE_BUFFER_NONE && g_MountManager->mBuffers[bufferIndex].mUncompress != 0) {
                 shouldFree = FALSE;
             } else {
-                gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 1;
+                g_MountManager->mBuffers[bufferIndex].mUnk_08_31 = 1;
             }
         }
         if (shouldFree != FALSE) {
-            HeapFree(GetHeap(GetCurrentHeapCall()), gArchiveSlots->mSlots[slotIndex].mData);
+            Mem_FreeHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), g_MountManager->mSlots[slotIndex].mData);
         }
-        gArchiveSlots->mSlots[slotIndex].mLoaded = 0;
-        gArchiveSlots->mSlots[slotIndex].mData = 0;
-        NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
+        g_MountManager->mSlots[slotIndex].mLoaded = 0;
+        g_MountManager->mSlots[slotIndex].mData = 0;
+        Mem_GetExpHeapTotalFreeSize(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
     }
 }
 
-void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && sceneNumber == SCENE_WL_MENU && gMenuShared->mWLMenuKind == 0) {
+void MountArchivesForScene_from_thumb(s32 sceneNumber) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && sceneNumber == SCENE_WL_MENU && g_GlobalB488->mWLMenuKind == 0) {
     } else {
-        LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_2D, sceneNumber);
+        Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_2D, sceneNumber);
     }
     switch (sceneNumber) {
         case SCENE_MENU_1:
         case SCENE_WIFI_MENU:
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
         case SCENE_RESULT:
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_RACE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_EFFECT, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_RACE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_EFFECT, sceneNumber);
             break;
         case SCENE_RACE:
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_EFFECT, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_KART_MODEL_MAIN_A, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_KART_MODEL_SUB, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_EFFECT, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_MAIN_A, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_SUB, sceneNumber);
             break;
         case SCENE_EMBLEM:
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_RACE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_RACE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
         case SCENE_TEST:
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
         case SCENE_TITLE:
         case SCENE_OPTION:
@@ -626,62 +626,62 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
         case SCENE_GHOST:
         case SCENE_KEYBOARD:
         case SCENE_ENDING:
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+            Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
         case SCENE_MENU_4:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-                LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+                Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+                Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             }
             break;
         case SCENE_WL_MENU:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
-                LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+                Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, sceneNumber);
+                Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             }
             break;
     }
 }
 
-void ReleaseArchiveSlots(void) {
+void Arc_DisposeAllArchives_from_thumb(void) {
     s32 slotIndex;
 
     for (slotIndex = 0; slotIndex < ARCHIVE_SLOT_COUNT; slotIndex++) {
-        ReleaseArchiveSlot(slotIndex);
+        Arc_DisposeArchive_from_thumb(slotIndex);
     }
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void SetHeapGroupId(u32 groupId) {
-    NNS_FndSetGroupIDForExpHeap(GetHeap(GetCurrentHeapCall()), groupId);
+void SetActiveExecutionContextHeapGroupId_from_thumb(u32 groupId) {
+    Mem_SetExpHeapGroupId(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), groupId);
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void *FindArchiveFile(const char *archiveName, const char *path) {
+void *FormatGetPathMountBuffer_from_thumb(const char *archiveName, const char *path) {
     char fullPath[ARCHIVE_PATH_SIZE];
 
     if (path[0] == '/') {
-        OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
+        Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
     } else {
-        OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
+        Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
     }
-    return ArchiveFileGetAddress((const u8 *) fullPath);
+    return GetFileBuffer((const u8 *) fullPath);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void *FindMainRaceOrMainEffectFile(const char *path) {
+void *FindFileBuffer_MAR_EFT_from_thumb(const char *path) {
     void *file;
-    file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_RACE], path);
+    file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_MAIN_RACE], path);
     if (file == NULL) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_EFFECT], path);
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_MAIN_EFFECT], path);
     }
     return file;
 }
@@ -691,47 +691,47 @@ void *FindMainRaceOrMainEffectFile(const char *path) {
 #pragma thumb on
 
 // Searches the archives that are loaded, in a fixed order, and returns the first match.
-void *FindFileInLoadedArchives(const char *path) {
+void *FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(const char *path) {
     void *file;
 
     file = NULL;
-    if (gArchiveSlots->mSlots[ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE], path);
+    if (g_MountManager->mSlots[ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_GENERAL_MENU].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_GENERAL_MENU], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_GENERAL_MENU].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_GENERAL_MENU], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_CHARACTER_KART_SELECT].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_CHARACTER_KART_SELECT], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_CHARACTER_KART_SELECT].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_CHARACTER_KART_SELECT], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_IN_MEMORY], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_IN_MEMORY], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_MAIN_2D_LANGUAGE].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_2D_LANGUAGE], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_MAIN_2D_LANGUAGE].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_MAIN_2D_LANGUAGE], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_MAIN_2D].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_2D], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_MAIN_2D].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_MAIN_2D], path);
     }
     return file;
 }
 
-void *FindSceneFile(const char *path) {
+void *FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(const char *path) {
     void *file;
 
-    file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE], path);
-    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_SCENE_LANGUAGE].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE_LANGUAGE], path);
+    file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_SCENE], path);
+    if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_SCENE_LANGUAGE].mLoaded != 0) {
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_SCENE_LANGUAGE], path);
     }
-    if (GetCurrentSceneNumber() == SCENE_RACE) {
-        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_SCENE_MODE].mLoaded != 0) {
-            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE_MODE], path);
+    if (GetCurrentSceneId() == SCENE_RACE) {
+        if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_SCENE_MODE].mLoaded != 0) {
+            file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_SCENE_MODE], path);
         }
-        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_SCENE_MODE_LANGUAGE].mLoaded != 0) {
-            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE_MODE_LANGUAGE], path);
+        if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_SCENE_MODE_LANGUAGE].mLoaded != 0) {
+            file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_SCENE_MODE_LANGUAGE], path);
         }
     }
     return file;
@@ -741,41 +741,41 @@ void *FindSceneFile(const char *path) {
 
 #pragma thumb on
 
-void *FindCourseFile(const char *path) {
+void *FindFileBuffer_CRS_CST_from_thumb(const char *path) {
     void *file;
-    file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_COURSE], path);
+    file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_COURSE], path);
     if (file == NULL) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_COURSE_TEXTURE], path);
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_COURSE_TEXTURE], path);
     }
     return file;
 }
 
-void *GetKartModelFile(const char *path) {
+void *FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(const char *path) {
     int currentSceneNumber;
-    currentSceneNumber = GetCurrentSceneNumber();
+    currentSceneNumber = GetCurrentSceneId();
     if (currentSceneNumber == SCENE_EMBLEM) {
-        return FindKartModelFile(path);
+        return FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(path);
     }
-    return LoadKartModelFile(path);
+    return AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb(path);
 }
 
-void *FindKartModelFile(const char *path) {
+void *FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(const char *path) {
     int currentSceneNumber;
     void *file;
     file = NULL;
-    currentSceneNumber = GetCurrentSceneNumber();
+    currentSceneNumber = GetCurrentSceneId();
     if (((currentSceneNumber == SCENE_MENU_1) || (currentSceneNumber == SCENE_EMBLEM)) ||
         (currentSceneNumber == SCENE_WIFI_MENU)) {
-        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU], path);
+        file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU], path);
     } else {
-        if (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_A].mLoaded != 0) {
-            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_A], path);
+        if (g_MountManager->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_A].mLoaded != 0) {
+            file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_A], path);
         }
-        if ((file == NULL) && (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_B].mLoaded != 0)) {
-            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_B], path);
+        if ((file == NULL) && (g_MountManager->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_B].mLoaded != 0)) {
+            file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_B], path);
         }
-        if ((file == NULL) && (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_SUB].mLoaded != 0)) {
-            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_SUB], path);
+        if ((file == NULL) && (g_MountManager->mSlots[ARCHIVE_SLOT_KART_MODEL_SUB].mLoaded != 0)) {
+            file = FormatGetPathMountBuffer_from_thumb(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_SUB], path);
         }
     }
     return file;
@@ -785,50 +785,50 @@ void *FindKartModelFile(const char *path) {
 
 #pragma thumb on
 
-void *LoadKartModelFile(const char *path) {
+void *AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb(const char *path) {
     void *file;
     s32 currentSceneNumber;
     char fullPath[ARCHIVE_PATH_SIZE];
     const char *archiveName;
 
     file = NULL;
-    currentSceneNumber = GetCurrentSceneNumber();
+    currentSceneNumber = GetCurrentSceneId();
     if (currentSceneNumber == SCENE_MENU_1 || currentSceneNumber == SCENE_EMBLEM ||
         currentSceneNumber == SCENE_WIFI_MENU) {
         archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU];
         if (path[0] == '/') {
-            OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
+            Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
         } else {
-            OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
+            Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
         }
-        file = LoadFileAligned(fullPath, 8);
+        file = AllocateReadFileBuffer_from_thumb(fullPath, 8);
     } else {
-        if (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_A].mLoaded != 0) {
+        if (g_MountManager->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_A].mLoaded != 0) {
             archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_A];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
+                Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
+                Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
             }
-            file = LoadFileAligned(fullPath, 8);
+            file = AllocateReadFileBuffer_from_thumb(fullPath, 8);
         }
-        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_B].mLoaded != 0) {
+        if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_B].mLoaded != 0) {
             archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_B];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
+                Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
+                Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
             }
-            file = LoadFileAligned(fullPath, 8);
+            file = AllocateReadFileBuffer_from_thumb(fullPath, 8);
         }
-        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_SUB].mLoaded != 0) {
+        if (file == NULL && g_MountManager->mSlots[ARCHIVE_SLOT_KART_MODEL_SUB].mLoaded != 0) {
             archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_SUB];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
+                Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
+                Util_SNPrintF(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
             }
-            file = LoadFileAligned(fullPath, 8);
+            file = AllocateReadFileBuffer_from_thumb(fullPath, 8);
         }
     }
     return file;
@@ -838,56 +838,56 @@ void *LoadKartModelFile(const char *path) {
 
 #pragma thumb on
 
-void ReplaceKm1ArchiveWithKm2(void) {
-    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MAIN_A);
-    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
-    LoadArchiveSlotForScene(ARCHIVE_SLOT_KART_MODEL_MAIN_B, SCENE_RACE);
-    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
+void Dispose_KM1_Mount_KM2_from_thumb(void) {
+    Arc_DisposeArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_MAIN_A);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_DEFAULT);
+    Arc_MountArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_MAIN_B, SCENE_RACE);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_SCENE);
 }
 
-void ReleaseKartModelSlotsLoadCourse(void) {
+void Dispose_KM2_KSB_Mount_CRS_from_thumb(void) {
     int currentSceneNumber;
-    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MAIN_B);
-    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_SUB);
-    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
-    currentSceneNumber = GetCurrentSceneNumber();
+    Arc_DisposeArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_MAIN_B);
+    Arc_DisposeArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_SUB);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_DEFAULT);
+    currentSceneNumber = GetCurrentSceneId();
     if (currentSceneNumber == SCENE_RACE) {
-        LoadArchiveSlotForScene(ARCHIVE_SLOT_COURSE, SCENE_RACE);
+        Arc_MountArchive_from_thumb(ARCHIVE_SLOT_COURSE, SCENE_RACE);
     }
-    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_SCENE);
 }
 
-void ReleaseCourseLoadSlotsInRace(void) {
+void Dispose_CST_Mount_K2D_R2D_MAR_from_thumb(void) {
     int currentSceneNumber;
-    ReleaseArchiveSlot(ARCHIVE_SLOT_COURSE_TEXTURE);
-    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
-    currentSceneNumber = GetCurrentSceneNumber();
+    Arc_DisposeArchive_from_thumb(ARCHIVE_SLOT_COURSE_TEXTURE);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_DEFAULT);
+    currentSceneNumber = GetCurrentSceneId();
     if (currentSceneNumber == SCENE_RACE) {
-        LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, SCENE_RACE);
-        LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE_MODE, SCENE_RACE);
-        LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_RACE, SCENE_RACE);
+        Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, SCENE_RACE);
+        Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE_MODE, SCENE_RACE);
+        Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_RACE, SCENE_RACE);
     }
-    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_SCENE);
 }
 
 void ReleaseKartModelLoadSlotsForScene(void) {
     u32 currentSceneNumber;
-    currentSceneNumber = GetCurrentSceneNumber();
-    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MENU);
-    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
-    LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_2D, currentSceneNumber);
-    LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, currentSceneNumber);
-    LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, currentSceneNumber);
-    LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, currentSceneNumber);
-    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
+    currentSceneNumber = GetCurrentSceneId();
+    Arc_DisposeArchive_from_thumb(ARCHIVE_SLOT_KART_MODEL_MENU);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_DEFAULT);
+    Arc_MountArchive_from_thumb(ARCHIVE_SLOT_MAIN_2D, currentSceneNumber);
+    Arc_MountArchive_from_thumb(ARCHIVE_SLOT_SCENE, currentSceneNumber);
+    Arc_MountArchive_from_thumb(ARCHIVE_SLOT_CHARACTER_KART_SELECT, currentSceneNumber);
+    Arc_MountArchive_from_thumb(ARCHIVE_SLOT_GENERAL_MENU, currentSceneNumber);
+    SetActiveExecutionContextHeapGroupId_from_thumb((u16) HEAP_GROUP_SCENE);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32 uncompress, u32 flag) {
-    ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
+void SetMountData_from_thumb(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32 uncompress, u32 flag) {
+    ArchiveBuffer *buffer = &g_MountManager->mBuffers[bufferIndex];
     buffer->mHeap = heap;
     buffer->mData = NULL;
     buffer->mByteSize = sizeInKb << 10;
@@ -901,29 +901,29 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32
 #pragma thumb on
 
 // Sets up 12 archive buffers on three heaps.
-void InitArchiveBuffers(NNSiFndHeapHead *firstHeap, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *lastHeap) {
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE, 0x3c, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE_LANGUAGE, 0x32, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE_MODE, 5, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, 5, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_MENU_DL, 0x14, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_MENU_DL_LANGUAGE, 0x14, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RESULT_DL, 0x46, 0, 1);
-    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RESULT_DL_LANGUAGE, 0x46, 0, 1);
-    InitArchiveBuffer(courseBufferHeap, ARCHIVE_BUFFER_COURSE, 200, 1, 1);
-    InitArchiveBuffer(courseBufferHeap, ARCHIVE_BUFFER_COURSE_TEXTURE, 200, 0, 1);
-    InitArchiveBuffer(firstHeap, ARCHIVE_BUFFER_MAIN_RACE, 0x46, 1, 0);
-    InitArchiveBuffer(firstHeap, ARCHIVE_BUFFER_MAIN_EFFECT, 0x1e, 0, 0);
-    gArchiveSlots->mFirstHeap = firstHeap;
-    gArchiveSlots->mCourseBufferHeap = courseBufferHeap;
-    gArchiveSlots->mLastHeap = lastHeap;
+void SpecialDwcSetMountDatas_from_thumb(NNSiFndHeapHead *firstHeap, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *lastHeap) {
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_RACE, 0x3c, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_RACE_LANGUAGE, 0x32, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_RACE_MODE, 5, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, 5, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_MENU_DL, 0x14, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_MENU_DL_LANGUAGE, 0x14, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_RESULT_DL, 0x46, 0, 1);
+    SetMountData_from_thumb(lastHeap, ARCHIVE_BUFFER_RESULT_DL_LANGUAGE, 0x46, 0, 1);
+    SetMountData_from_thumb(courseBufferHeap, ARCHIVE_BUFFER_COURSE, 200, 1, 1);
+    SetMountData_from_thumb(courseBufferHeap, ARCHIVE_BUFFER_COURSE_TEXTURE, 200, 0, 1);
+    SetMountData_from_thumb(firstHeap, ARCHIVE_BUFFER_MAIN_RACE, 0x46, 1, 0);
+    SetMountData_from_thumb(firstHeap, ARCHIVE_BUFFER_MAIN_EFFECT, 0x1e, 0, 0);
+    g_MountManager->mFirstHeap = firstHeap;
+    g_MountManager->mCourseBufferHeap = courseBufferHeap;
+    g_MountManager->mLastHeap = lastHeap;
 }
 
 void InitArchiveBuffersOnOverlayHeap(void) {
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, 0xaa, 0, 0);
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, 0x6e, 0, 0);
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D, 0x1e, 0, 0);
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, 0x1e, 0, 0);
+    SetMountData_from_thumb(g_OverlayManager->mFrmHeap, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, 0xaa, 0, 0);
+    SetMountData_from_thumb(g_OverlayManager->mFrmHeap, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, 0x6e, 0, 0);
+    SetMountData_from_thumb(g_OverlayManager->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D, 0x1e, 0, 0);
+    SetMountData_from_thumb(g_OverlayManager->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, 0x1e, 0, 0);
 }
 
 #pragma thumb off
@@ -931,7 +931,7 @@ void InitArchiveBuffersOnOverlayHeap(void) {
 #pragma thumb on
 
 void RequestArchiveLoad(const void *path, s32 bufferIndex) {
-    ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
+    ArchiveBuffer *buffer = &g_MountManager->mBuffers[bufferIndex];
     AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->mByteSize, buffer->mUncompress);
     buffer->mUnk_08_31 = 1;
 }
@@ -943,14 +943,14 @@ void RequestArchiveLoad(const void *path, s32 bufferIndex) {
 void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
     u32 languageCode;
     char path[ARCHIVE_PATH_SIZE];
-    languageCode = GetMPLanguageCode();
-    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "%s%s.carc", prefix, languageCode);
+    languageCode = GetSomeLanguage_from_thumb();
+    Util_SNPrintF(path, ARCHIVE_PATH_SIZE, "%s%s.carc", prefix, languageCode);
     RequestArchiveLoad(path, bufferIndex);
 }
 
 void RequestMainAndMenuDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
+    Mem_ResetFrameHeap(g_MountManager->mLastHeap, 3);
     RequestArchiveLoad("/data/KartModelMainA.carc", ARCHIVE_BUFFER_KART_MODEL_MAIN_A);
     RequestArchiveLoad("/data/KartModelMainB.carc", ARCHIVE_BUFFER_KART_MODEL_MAIN_B);
     RequestArchiveLoad("/data/Scene/MenuDL.carc", ARCHIVE_BUFFER_MENU_DL);
@@ -963,7 +963,7 @@ void RequestMainAndMenuDLArchives(void) {
 
 void RequestMenuDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
+    Mem_ResetFrameHeap(g_MountManager->mLastHeap, 3);
     RequestArchiveLoad("/data/Scene/MenuDL.carc", ARCHIVE_BUFFER_MENU_DL);
     RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", ARCHIVE_BUFFER_MENU_DL_LANGUAGE);
 }
@@ -975,7 +975,7 @@ void RequestMenuDLArchives(void) {
 void RequestRaceArchives(void *courseId, void *kind) {
     char path[ARCHIVE_PATH_SIZE];
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
+    Mem_ResetFrameHeap(g_MountManager->mLastHeap, 3);
     RequestArchiveLoad("/data/Scene/Race.carc", ARCHIVE_BUFFER_RACE);
     RequestArchiveLoadWithLanguage("/data/Scene/Race_", ARCHIVE_BUFFER_RACE_LANGUAGE);
     if (kind == (void *) MODE_VS) {
@@ -985,13 +985,13 @@ void RequestRaceArchives(void *courseId, void *kind) {
         RequestArchiveLoad("/data/Scene/Race_mg.carc", ARCHIVE_BUFFER_RACE_MODE);
         RequestArchiveLoadWithLanguage("/data/Scene/Race_mg_", ARCHIVE_BUFFER_RACE_MODE_LANGUAGE);
     }
-    gArchiveSlots->mRaceKind = kind;
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mCourseBufferHeap, 3);
-    BuildCourseArchivePath(path, (s32) courseId, 0);
+    g_MountManager->mRaceKind = kind;
+    Mem_ResetFrameHeap(g_MountManager->mCourseBufferHeap, 3);
+    FormatCourseCarc_from_thumb(path, (s32) courseId, 0);
     RequestArchiveLoad(path, ARCHIVE_BUFFER_COURSE);
-    BuildCourseArchivePath(path, (s32) courseId, 1);
+    FormatCourseCarc_from_thumb(path, (s32) courseId, 1);
     RequestArchiveLoad(path, ARCHIVE_BUFFER_COURSE_TEXTURE);
-    gArchiveSlots->mCourseId = courseId;
+    g_MountManager->mCourseId = courseId;
 }
 
 #pragma thumb off
@@ -1000,7 +1000,7 @@ void RequestRaceArchives(void *courseId, void *kind) {
 
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
+    Mem_ResetFrameHeap(g_MountManager->mLastHeap, 3);
     RequestArchiveLoad("/data/Scene/ResultDL.carc", ARCHIVE_BUFFER_RESULT_DL);
     RequestArchiveLoadWithLanguage("/data/Scene/ResultDL_", ARCHIVE_BUFFER_RESULT_DL_LANGUAGE);
 }
@@ -1009,62 +1009,62 @@ void RequestResultDLArchives(void) {
 
 #pragma thumb on
 
-void ClearArchiveBuffersMap2DLoadFlag(void) {
+void SomeMaskMountDataFlags_from_thumb(void) {
     s32 bufferIndex;
 
     for (bufferIndex = 0; bufferIndex < ARCHIVE_BUFFER_COUNT; bufferIndex++) {
-        gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 0;
+        g_MountManager->mBuffers[bufferIndex].mUnk_08_31 = 0;
     }
 }
 
-s32 ShouldLoadMap2DData(void) {
+s32 GetMountData7FlagBit31_from_thumb(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        return gArchiveSlots->mBuffers[ARCHIVE_BUFFER_COURSE_TEXTURE].mUnk_08 >> 31;
+        return g_MountManager->mBuffers[ARCHIVE_BUFFER_COURSE_TEXTURE].mUnk_08 >> 31;
     }
     return 1;
 }
 
 // Resizes the block that holds the MainEffect archive so it ends where the caller says.
-void ResizeMainEffectArchiveBlock(u8 *regionStart, u32 regionSize) {
+void ResizeActiveExecutionContextHeapHandle_from_thumb(u8 *regionStart, u32 regionSize) {
     u8 *block;
 
-    block = gArchiveSlots->mSlots[ARCHIVE_SLOT_MAIN_EFFECT].mData;
-    NNS_FndResizeForMBlockExpHeap(GetHeap(GetCurrentHeapCall()), block, regionSize + (regionStart - block));
+    block = g_MountManager->mSlots[ARCHIVE_SLOT_MAIN_EFFECT].mData;
+    Mem_ResizeExpHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), block, regionSize + (regionStart - block));
 }
 
-void InitCompressedArchiveAndMBChild(void *heap) {
+void LoadEmbeddedStatic2DArchive_from_thumb(void *heap) {
     u32 uncompressedSize;
     void *data;
 
-    uncompressedSize = *GetCompressedArchive() >> 8;
-    gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 0;
-    data = HeapAllocAligned(heap, uncompressedSize, HEAP_ALIGN_CACHE_LINE);
-    UncompressLZ8AndStoreRange(GetCompressedArchive(), data, uncompressedSize);
-    ArchiveLoadFromMemory(&gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mArchive,
+    uncompressedSize = *GetEmbeddedStatic2DCarcArchiveData() >> 8;
+    g_MountManager->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 0;
+    data = Mem_AllocateHeapAligned(heap, uncompressedSize, HEAP_ALIGN_CACHE_LINE);
+    DecompressLzssAndDCClean_from_thumb(GetEmbeddedStatic2DCarcArchiveData(), data, uncompressedSize);
+    MountMountEntryFrom(&g_MountManager->mSlots[ARCHIVE_SLOT_IN_MEMORY].mArchive,
                           (const u8 *) gArchiveNames[ARCHIVE_SLOT_IN_MEMORY], data);
-    gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mData = data;
-    gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 1;
-    CreateSearchIconMBChildAndMultiDownload(heap);
+    g_MountManager->mSlots[ARCHIVE_SLOT_IN_MEMORY].mData = data;
+    g_MountManager->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 1;
+    LoadStatic2DContents(heap);
 }
 
 #pragma thumb off
 
-void InitTouchPanelAndSetCalibration(void) {
+void Input_MaybeInitializeTouch(void) {
     TPCalibrateParam calibrateParam;
 
-    TP_Init();
-    if (TP_GetUserInfo(&calibrateParam) == 0) {
+    Os_InitializeTouchPanelFifo();
+    if (ComputeSomeScreenCalibrationStuff(&calibrateParam) == 0) {
         return;
     }
-    TP_SetCalibrateParam(&calibrateParam);
+    UseSomeCalibrationStuff(&calibrateParam);
 }
 
-void InitTouchMicInput(void *heap) {
-    gTouchMicInput = HeapAlloc(heap, sizeof(TouchMicInput));
-    gTouchMicInput->mTouchAutoSampling = 0;
-    gTouchMicInput->mMicAutoSampling = 0;
-    gTouchMicInput->mMicPreSleepDone = 0;
-    gTouchMicInput->mMicOverThreshold = 0;
-    gTouchMicInput->mMicBuffer = NULL;
-    InitMicAndAmp();
+void CreateGlobal59C4(void *heap) {
+    g_Global59C4 = Mem_AllocateHeap(heap, sizeof(TouchMicInput));
+    g_Global59C4->mTouchAutoSampling = 0;
+    g_Global59C4->mMicAutoSampling = 0;
+    g_Global59C4->mMicPreSleepDone = 0;
+    g_Global59C4->mMicOverThreshold = 0;
+    g_Global59C4->mMicBuffer = NULL;
+    InitializeBalloonHardware();
 }

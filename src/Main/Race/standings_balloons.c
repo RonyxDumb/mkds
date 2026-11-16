@@ -88,10 +88,10 @@ void SetStandingsKartOffsetCallback(void (*callback)(u16, Vec3 *)) {
 }
 
 void StartKartMicInflate(u16 kartIndex) {
-    if (IsRaceStarted() != 1) {
+    if (IsAwardOrStaffRoll() != 1) {
         return;
     }
-    if (IsKartNotNormalOrFlagged(GetKart(kartIndex)) != FALSE) {
+    if (IsKartNotNormalOrFlagged(GetRacerMQEntry(kartIndex)) != FALSE) {
         return;
     }
     gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_FRAMES;
@@ -145,8 +145,8 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
     if (gStandings->mWinnerTeamId >= 0) {
         return 0;
     }
-    firstKart = GetKart(firstKartIndex);
-    secondKart = GetKart(secondKartIndex);
+    firstKart = GetRacerMQEntry(firstKartIndex);
+    secondKart = GetRacerMQEntry(secondKartIndex);
     secondStanding = &gStandings->mKarts[secondKartIndex];
     firstStanding = &gStandings->mKarts[firstKartIndex];
     firstHitsSecond = FALSE;
@@ -191,13 +191,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             if (gStandings->mKartHitByKartCallback != NULL) {
                 result = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
                 if ((firstKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
-                    StartKartBlink(firstKart);
+                    StructMQRacerEntry_SomeFn_30(firstKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             result = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
             if ((firstKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
-                StartKartBlink(firstKart);
+                StructMQRacerEntry_SomeFn_30(firstKart);
             }
         }
         return result;
@@ -208,13 +208,13 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             if (gStandings->mKartHitByKartCallback != NULL) {
                 result = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
                 if ((secondKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
-                    StartKartBlink(secondKart);
+                    StructMQRacerEntry_SomeFn_30(secondKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
             result = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
             if ((secondKart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
-                StartKartBlink(secondKart);
+                StructMQRacerEntry_SomeFn_30(secondKart);
             }
         }
         return result;
@@ -228,7 +228,7 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     if (gStandings->mWinnerTeamId >= 0) {
         return;
     }
-    if (GetKart(kartIndex)->mState == KART_STATE_NORMAL) {
+    if (GetRacerMQEntry(kartIndex)->mState == KART_STATE_NORMAL) {
         return;
     }
     if (itemObject->mKind != ITEM_OBJECT_KIND_KOURA_G && itemObject->mKind != ITEM_OBJECT_KIND_KOURA_R &&
@@ -242,13 +242,13 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~0xff00;
 }
 
-void StandingsNop(s32 entryIndex) {}
+void nullsub_8(s32 entryIndex) {}
 
 void ClearStandingsHitSeenFromKart(s32 kartIndex) {
     s32 otherKartIndex;
     s32 kartCount;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
         gStandings->mKarts[otherKartIndex].mHitSeenFromKart[kartIndex] = 0;
     }
@@ -270,13 +270,13 @@ u16 GetBattleItemRank(s32 kartIndex) {
     s32 otherKartIndex;
     s32 highestCount;
 
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        if (g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) {
             rank = 3 - gStandings->mKarts[kartIndex].mBalloonOrShineCount;
             rank += 1;
-        } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
+        } else if (g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
             highestCount = 1;
-            for (otherKartIndex = 0; otherKartIndex < gRaceSetup->mKartCount; otherKartIndex++) {
+            for (otherKartIndex = 0; otherKartIndex < g_GlobalCO->mKartCount; otherKartIndex++) {
                 if (gStandings->mKarts[otherKartIndex].mBalloonOrShineCount > highestCount) {
                     highestCount = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
                 }
@@ -321,7 +321,7 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
             }
         }
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
     for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
@@ -359,7 +359,7 @@ void MoveKartTowardLastRank(u16 kartIndex) {
             }
         }
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
     for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
@@ -376,25 +376,25 @@ void MoveKartTowardLastRank(u16 kartIndex) {
 // Takes one kart out of play: runs the kart-eliminated callback, sets its status to 1, in mode 2 sets its count to -1,
 // re-sorts the ranks and starts the mode's out handling of the kart (mode 2: a kart handler call; mode 4: two bits in
 // the kart's words).
-void EliminateKart(u16 kartIndex) {
+void MaybeKillDriverDirect(u16 kartIndex) {
     Kart *kart;
 
     if (gStandings->mKartEliminatedCallback != NULL) {
         gStandings->mKartEliminatedCallback(kartIndex);
     }
     gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_JUST_ELIMINATED;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         gStandings->mKarts[kartIndex].mBalloonOrShineCount = -1;
         gStandings->mKarts[kartIndex].mBalloonsLeftToMake = 0;
     }
-    if ((u32) kartIndex >= gRaceSetup->mKartCount) {
+    if ((u32) kartIndex >= g_GlobalCO->mKartCount) {
         return;
     }
     MoveKartTowardLastRank(kartIndex);
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        StartBattleKartRemoval(GetKart(kartIndex));
-    } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        kart = GetKart(kartIndex);
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        StructMQRacerEntry_SomeFn_52(GetRacerMQEntry(kartIndex));
+    } else if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        kart = GetRacerMQEntry(kartIndex);
         kart->mDriveFlags |= KART_DRIVE_SLOWING_STOP;
         kart->mEntryFlags |= KART_ENTRY_ENDED;
     }
@@ -412,7 +412,7 @@ void SetWinnerIfOneTeamLeft(void) {
     KartStanding *kartStanding;
     Kart *kart;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     standings = gStandings;
     for (scanIndex = 0; scanIndex < 8; scanIndex++) {
         if (standings->mKarts[scanIndex].mRankIndex == 0) {
@@ -432,18 +432,18 @@ found:
         }
     }
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
-        kart = GetKart((u16) kartIndex);
+        kart = GetRacerMQEntry((u16) kartIndex);
         kart->mDriveFlags |= KART_DRIVE_SLOWING_STOP;
         kart->mEntryFlags |= KART_ENTRY_ENDED;
     }
     gStandings->mWinnerTeamId = teamId;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        if (g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x4a);
         }
         gStandings->mEndTimer = STANDINGS_END_FRAMES;
-    } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        entryIndex = gRaceSetup->mEntryIndex;
+    } else if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        entryIndex = g_GlobalCO->mEntryIndex;
         if (gStandings->mWinnerTeamId == entryIndex) {
             FinishMissionRunKartAtGoal(entryIndex);
         } else {
@@ -485,7 +485,7 @@ void EliminateKartAndCheckWinner(u16 kartIndex) {
     if (gStandings->mKarts[kartIndex].mEliminationStatus != KART_STANDING_IN_PLAY) {
         return;
     }
-    EliminateKart(kartIndex);
+    MaybeKillDriverDirect(kartIndex);
     SetWinnerIfOneTeamLeft();
 }
 
@@ -511,12 +511,12 @@ u16 AdvanceShineBattleTimeLimit(void) {
     gStandings->mTimeLimitSeconds = gShineBattleTimeLimits[gStandings->mTimeLimitIndex];
     lowestCount = gStandings->mLowestBalloonOrShineCount;
     if (lowestCount != gStandings->mHighestBalloonOrShineCount) {
-        kartCount = gRaceSetup->mKartCount;
+        kartCount = g_GlobalCO->mKartCount;
         for (targetCount = 0; targetCount <= lowestCount; targetCount++) {
             for (rankIndex = kartCount - 1; rankIndex >= 0; rankIndex--) {
                 kartIndex = FindKartIndexByRankIndex(rankIndex);
                 if (targetCount == gStandings->mKarts[kartIndex].mBalloonOrShineCount) {
-                    EliminateKart(kartIndex);
+                    MaybeKillDriverDirect(kartIndex);
                 }
             }
             SetWinnerIfOneTeamLeft();
@@ -534,13 +534,13 @@ u16 AdvanceShineBattleTimeLimit(void) {
             if (seqPlayerHandle[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(seqPlayerHandle, 0, 0x4b);
+            PlaySseqFromSarc(seqPlayerHandle, 0, 0x4b);
         }
     }
     return gStandings->mTimeLimitSeconds;
 }
 
-void EliminateKartsUntilWinnerDecided(void) {
+void RaceModeBattle_OrMissionRun_SomeFn(void) {
     s32 kartCount;
     s32 rankIndex;
     u16 kartIndex;
@@ -551,15 +551,15 @@ void EliminateKartsUntilWinnerDecided(void) {
     if (gStandings->mWinnerTeamId >= 0) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        kartCount = gRaceSetup->mKartCount;
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        kartCount = g_GlobalCO->mKartCount;
+        if (g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) {
             if (gStandings->mWinnerTeamId >= 0) {
                 return;
             }
             randomLimit = kartCount;
             do {
-                randomState = &gRaceProgress->mRandom;
+                randomState = &g_GlobalMV->mRandom;
                 if ((u16) kartCount == 0) {
                     randomKartIndex = 0;
                 } else {
@@ -576,7 +576,7 @@ void EliminateKartsUntilWinnerDecided(void) {
                     gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
                 }
             } while (gStandings->mWinnerTeamId < 0);
-        } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
+        } else if (g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
             for (rankIndex = kartCount - 1; rankIndex >= 0; rankIndex--) {
                 if (gStandings->mWinnerTeamId < 0) {
                     kartIndex = FindKartIndexByRankIndex(rankIndex);
@@ -587,10 +587,10 @@ void EliminateKartsUntilWinnerDecided(void) {
                 }
             }
         }
-    } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    } else if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         for (rankIndex = 7; rankIndex >= 0; rankIndex--) {
             kartIndex = FindKartIndexByRankIndex(rankIndex);
-            if (kartIndex != gRaceSetup->mEntryIndex && gStandings->mWinnerTeamId < 0) {
+            if (kartIndex != g_GlobalCO->mEntryIndex && gStandings->mWinnerTeamId < 0) {
                 EliminateKartAndCheckWinner(kartIndex);
             }
         }
@@ -640,7 +640,7 @@ u16 GetTotalBalloonOrShineCount(void) {
     s32 count;
 
     total = 0;
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
         count = GetStandingsKart(kartIndex)->mBalloonOrShineCount;
         if (count <= 0) {
@@ -666,7 +666,7 @@ u16 GetBalloonOrShineCount(u16 kartIndex) {
     return count;
 }
 
-void AddBalloonOrShineCountAndMoveRank(u16 kartIndex, s32 amount) {
+void MaybeUpdateDriverBalloonShineCount(u16 kartIndex, s32 amount) {
     gStandings->mKarts[kartIndex].mBalloonOrShineCount += amount;
     if (amount > 0) {
         MoveKartTowardFirstRank(kartIndex);
@@ -732,31 +732,31 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
     u16 pointStep;
     s32 pointIndex;
 
-    randomState = &gRaceProgress->mRandom;
+    randomState = &g_GlobalMV->mRandom;
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
     pointStep = (u16) (((u64) (u32) (randomState->mValue >> 32) * 5) >> 32) + 1;
     pointIndex = gStandings->mBattlePointIndex + pointStep;
-    if (pointIndex >= gCourseMap->mBattlePointCount) {
+    if (pointIndex >= g_GlobalPE->mBattlePointCount) {
         pointIndex = 0;
     }
     gStandings->mBattlePointIndex = pointIndex;
-    return &gCourseMap->mBattlePoints[gStandings->mBattlePointIndex];
+    return &g_GlobalPE->mBattlePoints[gStandings->mBattlePointIndex];
 }
 
 // Allocates the Standings object and fills every entry (rank = own index, side id, status, count; the real karts first,
-// then the unused slots) and sets the winner to -1. Called from InitRace in modes 2 and 4.
+// then the unused slots) and sets the winner to -1. Called from InitializeGlobalTD in modes 2 and 4.
 void InitStandings(void) {
     s32 kartIndex;
     KartStanding *kartStanding;
 
-    gStandings = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Standings));
+    gStandings = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(Standings));
     for (kartIndex = 0; kartIndex < 8; kartIndex++) {
         kartStanding = &gStandings->mKarts[kartIndex];
         kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;
         kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
         kartStanding->mHitByKartIndex = kartIndex;
         kartStanding->mRankIndex = kartIndex;
-        if (kartIndex < gRaceSetup->mKartCount) {
+        if (kartIndex < g_GlobalCO->mKartCount) {
             switch (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex) {
                 case 0:
                     kartStanding->mTeamId = STANDINGS_TEAM_ID_FIRST_TEAM;
@@ -775,7 +775,7 @@ void InitStandings(void) {
             kartStanding->mEliminationStatus = KART_STANDING_ELIMINATED;
             kartStanding->mBalloonOrShineCount = -1;
             kartStanding->mBalloonsLeftToMake = 0;
-            kartStanding->mTeamId = gRaceSetup->mKartCount;
+            kartStanding->mTeamId = g_GlobalCO->mKartCount;
         }
     }
     gStandings->mWinnerTeamId = -1;
@@ -798,7 +798,7 @@ void UpdateStandings(void) {
     s32 kartCount;
     KartStanding *kartStanding = gStandings->mKarts;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     if (gStandings->mWinnerTeamId >= 0) {
         if (gStandings->mEndTimer > 0) {
             gStandings->mEndTimer = gStandings->mEndTimer - 1;
@@ -811,8 +811,8 @@ void UpdateStandings(void) {
         }
         for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
             if (gStandings->mKarts[kartIndex].mEliminationStatus == KART_STANDING_JUST_ELIMINATED) {
-                if (kartIndex != gRaceSetup->mEntryIndex) {
-                    QueueKartOwnSoundIndex(GetKart((u16) kartIndex));
+                if (kartIndex != g_GlobalCO->mEntryIndex) {
+                    StructMQRacerEntry_SomeFn_31(GetRacerMQEntry((u16) kartIndex));
                 }
                 gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
             }
@@ -822,10 +822,10 @@ void UpdateStandings(void) {
     for (kartIndex = kartCount - 1; kartIndex >= 0; kartIndex--) {
         kartStanding = &gStandings->mKarts[kartIndex];
         if (kartStanding->mEliminationStatus == KART_STANDING_JUST_ELIMINATED) {
-            QueueKartOwnSoundIndex(GetKart((u16) kartIndex));
+            StructMQRacerEntry_SomeFn_31(GetRacerMQEntry((u16) kartIndex));
             gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
         } else if (gStandings->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
-            kart = GetKart((u16) kartIndex);
+            kart = GetRacerMQEntry((u16) kartIndex);
             kartStanding = &gStandings->mKarts[kartIndex];
             nextMicInflateTimer = kartStanding->mMicInflateTimer - 1;
             if (nextMicInflateTimer <= 0) {
@@ -834,13 +834,13 @@ void UpdateStandings(void) {
             kartStanding->mMicInflateTimer = nextMicInflateTimer;
             gStandings->mKarts[kartIndex].mSelectKeyInflate = -(gStandings->mKarts[kartIndex].mSelectKeyInflate <= 0);
             if (IsKartNotNormalOrFlagged(kart) != FALSE ||
-                (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
+                (u16) (g_GlobalCYT[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
                 gStandings->mKarts[kartIndex].mSelectKeyInflate = -1;
                 gStandings->mKarts[kartIndex].mMicInflateTimer = -1;
-            } else if (IsRaceStarted() == 1) {
+            } else if (IsAwardOrStaffRoll() == 1) {
                 if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & PAD_KEY_SELECT) != 0) {
                     gStandings->mKarts[kartIndex].mSelectKeyInflate = 1;
-                } else if (gInputSlots[kart->mEntryIndex].mPair.mMicOverThreshold[0] != 0) {
+                } else if (g_GlobalCYT[kart->mEntryIndex].mPair.mMicOverThreshold[0] != 0) {
                     gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_FRAMES;
                 }
             }
@@ -859,8 +859,8 @@ void UpdateStandings(void) {
                     kartStanding->mHitByKartIndex = kartIndex;
                     kartStanding->mSkipNotNormalEnd = FALSE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
-                        if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
-                            gRaceSetup->mMode == MODE_MISSION_RUN) {
+                        if ((g_GlobalCO->mMode == MODE_BATTLE && g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) ||
+                            g_GlobalCO->mMode == MODE_MISSION_RUN) {
                             kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
                             kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
                         }
@@ -869,7 +869,7 @@ void UpdateStandings(void) {
                     kartStanding->mObjectsSkipSeen = FALSE;
                     kartStanding->mObjectsSkipEndPending = 0;
                     if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
-                        StartKartBlink(kart);
+                        StructMQRacerEntry_SomeFn_30(kart);
                     }
                 }
                 if (kartStanding->mObjectsSkipEndPending == 0) {
@@ -883,8 +883,8 @@ void UpdateStandings(void) {
                     (kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
                     kartStanding->mNotNormalOrFlaggedSeen = TRUE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
-                        if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
-                            gRaceSetup->mMode == MODE_MISSION_RUN) {
+                        if ((g_GlobalCO->mMode == MODE_BATTLE && g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) ||
+                            g_GlobalCO->mMode == MODE_MISSION_RUN) {
                             kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
                         }
                     }
@@ -894,7 +894,7 @@ void UpdateStandings(void) {
                     if (kartStanding->mSkipNotNormalEnd == FALSE) {
                         kartStanding->mNotNormalEndPending = 0;
                         if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) == 0) {
-                            StartKartBlink(kart);
+                            StructMQRacerEntry_SomeFn_30(kart);
                         }
                     } else {
                         kartStanding->mSkipNotNormalEnd = FALSE;
@@ -916,7 +916,7 @@ void UpdateStandings(void) {
 void InitDistanceSound(DistanceSound *mapObject) {
     s32 courseId;
 
-    courseId = gRaceSetup->mCourseId;
+    courseId = g_GlobalCO->mCourseId;
     if (courseId == COURSE_ID_MANSION) {
         mapObject->mSoundId = DISTANCE_SOUND_ID_MANSION;
     } else if (courseId == COURSE_ID_BEACH) {
@@ -938,13 +938,13 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
     for (objectIndex = 0;
          objectIndex < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
-        if (gRaceSetup->mCourseId == COURSE_ID_MANSION) {
+        if (g_GlobalCO->mCourseId == COURSE_ID_MANSION) {
             mapObject->mRadius = DISTANCE_SOUND_RADIUS_WIDE;
             mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x73a000;
             mapObject->mCenterY = mapObject->mMapObject.mPos.y;
             mapObject->mCenterZ = mapObject->mMapObject.mPos.z - 0x1400000;
             mapObject->mDistanceLevelInverted = TRUE;
-        } else if (gRaceSetup->mCourseId == COURSE_ID_BEACH) {
+        } else if (g_GlobalCO->mCourseId == COURSE_ID_BEACH) {
             mapObject->mRadius = DISTANCE_SOUND_RADIUS_BEACH;
             mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x28a000;
             mapObject->mCenterY = mapObject->mMapObject.mPos.y;
@@ -957,11 +957,11 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
             mapObject->mCenterZ = mapObject->mMapObject.mPos.z;
             mapObject->mDistanceLevelInverted = FALSE;
         }
-        randomState = &gRaceProgress->mLocalRandom;
+        randomState = &g_GlobalMV->mLocalRandom;
         randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
         mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x258;
         mapObject->mDistanceVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
-        randomState = &gRaceProgress->mLocalRandom;
+        randomState = &g_GlobalMV->mLocalRandom;
         randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
         mapObject->mDistanceLevelTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0xf) >> 32);
     }
@@ -984,7 +984,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
         mapObject->mDistanceLevelTimer = DISTANCE_SOUND_LEVEL_FRAMES;
         radius = mapObject->mRadius;
         halfRadius = radius / 2;
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
         deltaX = kart->mPos.x - mapObject->mCenterX;
         deltaZ = kart->mPos.z - mapObject->mCenterZ;
         distanceSquared = SQUARE_SUM2(deltaX, deltaZ);
@@ -1016,7 +1016,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
     if (mapObject->mSoundId != 0) {
         if (mapObject->mDistanceLevel != 0) {
             if (*GetSndHandleSlot(8) != NULL) {
-                kart = GetKart((u16) gRaceSetup->mEntryIndex);
+                kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
                 mapObject->mSoundVolumeFixed12 =
                     mapObject->mSoundVolumeFixed12 - MUL_FIXED12_NO_ROUND(kart->mVelocityLengthRatio, TO_FIXED12(1));
                 if (mapObject->mSoundVolumeFixed12 < DISTANCE_SOUND_VOLUME_MIN) {
@@ -1029,7 +1029,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
                 slot8Request.mFalloffIndex = 4;
                 slot8Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                 StartSndHandleSound(&slot8Request, sndHandleSlot);
-                randomState = &gRaceProgress->mLocalRandom;
+                randomState = &g_GlobalMV->mLocalRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
                 mapObject->mSoundVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);

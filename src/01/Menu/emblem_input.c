@@ -35,7 +35,7 @@
 EmblemInput *gEmblemInput;
 
 void CreateEmblemInput(void) {
-    gEmblemInput = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(EmblemInput));
+    gEmblemInput = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(EmblemInput));
 }
 
 void AdvanceEmblemInput(void) {
@@ -66,8 +66,8 @@ void AdvanceEmblemInput(void) {
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     pairUsable = TRUE;
     pairRecentlyLost = 0;
-    value = gInputSlots[slotIndex].mPair.mHasPair;
-    if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    value = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (value == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         pairRecentlyLost = pairUsable;
     }
     if (pairRecentlyLost == 0 && value == 0) {
@@ -224,11 +224,11 @@ u32 GetEmblemInputPrevDown(void) {
 }
 
 u16 GetEmblemInputNewBits(u16 mask) {
-    return gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mPressedBits & mask;
+    return g_GlobalCYT[INPUT_SLOT_PAD_OR_PARTICIPANT].mPressedBits & mask;
 }
 
 u16 GetEmblemInputBits(u16 mask) {
-    return gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mBits & mask;
+    return g_GlobalCYT[INPUT_SLOT_PAD_OR_PARTICIPANT].mBits & mask;
 }
 
 BOOL IsEmblemInputRepeat(int mask) {

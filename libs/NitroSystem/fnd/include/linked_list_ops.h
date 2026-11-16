@@ -5,11 +5,11 @@
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
-s32 NNS_GfdGetLnkPlttVramManagerWorkSize(s32 blockCount);
-void *NNS_FndGetNthListObject(NNSFndList *list, u16 index);
-void *NNS_FndGetPrevListObject(NNSFndList *list, void *object);
-void *NNS_FndGetNextListObject(NNSFndList *list, void *object);
-void NNS_FndRemoveListObject(NNSFndList *list, void *object);
-void NNS_FndInsertListObject(NNSFndList *list, void *target, void *object);
-void NNS_FndPrependListObject(NNSFndList *list, void *object);
-void NNS_FndAppendListObject(NNSFndList *list, void *object);
+s32 ComputeSomeAllocSize_1(s32 blockCount);
+void *IntrusiveListWrapper_GetAtIndex(NNSFndList *list, u16 index);
+void *IntrusiveListWrapper_GetPrevItem(NNSFndList *list, void *object);
+void *IntrusiveListWrapper_NextItem(NNSFndList *list, void *object);
+void IntrusiveListWrapper_RemoveItem(NNSFndList *list, void *object);
+void IntrusiveListWrapper_SomeFn_0(NNSFndList *list, void *target, void *object);
+void IntrusiveListWrapper_InsertFirst(NNSFndList *list, void *object);
+void IntrusiveListWrapper_InsertLast(NNSFndList *list, void *object);

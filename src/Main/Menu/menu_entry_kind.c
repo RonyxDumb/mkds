@@ -4,18 +4,18 @@
 #include "display_blend_affine_setup.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-void SetMenuEntryKind(u32 entryKind) {
-    gMenuShared->mMenuEntryKind = entryKind;
+void SetSinglePlayerMenuTarget(u32 entryKind) {
+    g_GlobalB488->mMenuEntryKind = entryKind;
 }
 
-void SetUnfilledNotEliminated(u32 value) {
-    gMenuShared->mUnfilledNotEliminated = value;
+void SetB488_B5(u32 value) {
+    g_GlobalB488->mUnfilledNotEliminated = value;
 }
 
-void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {
+void EnableAlphaSetBldcntBldalphaTop(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, firstPlane, secondPlane, firstCoefficient, secondCoefficient);
 }
 
-void MenuWriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {
+void EnableAlphaSetBldcntBldalphaSub(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, firstPlane, secondPlane, firstCoefficient, secondCoefficient);
 }

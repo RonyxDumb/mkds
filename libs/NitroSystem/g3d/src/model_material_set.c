@@ -24,7 +24,7 @@ void (*NNS_G3dFuncSbcShpTable[4])(NNSG3dRS *, u32, void *, u32) = {
 s32 gPrjMapTextureMtx[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x10000, 0, 0, 0, 0, 0x10000};
 
 // Returns the texture block of a model or texture file, or NULL when the file has none.
-NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *file) {
+NNSG3dResTex *Nsbtx_GetTEX0Block(NNSG3dResFileHeader *file) {
     u32 *blocks;
 
     blocks = OFFSET_PTR(u32, file, file->mHeaderSize);
@@ -38,7 +38,7 @@ NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *file) {
 }
 
 // Sets the diffuse color of one material.
-void NNS_G3dMdlSetMdlDiff(NNSG3dResMdl *mdl, u32 matId, u32 color) {
+void ModelBlock_SomeTexPltFn_4(NNSG3dResMdl *mdl, u32 matId, u32 color) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -50,7 +50,7 @@ void NNS_G3dMdlSetMdlDiff(NNSG3dResMdl *mdl, u32 matId, u32 color) {
 }
 
 // Sets the ambient color of one material.
-void NNS_G3dMdlSetMdlAmb(NNSG3dResMdl *mdl, u32 matId, u32 color) {
+void ModelBlock_SomeTexPltFn_5(NNSG3dResMdl *mdl, u32 matId, u32 color) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -62,7 +62,7 @@ void NNS_G3dMdlSetMdlAmb(NNSG3dResMdl *mdl, u32 matId, u32 color) {
 }
 
 // Sets the specular color of one material.
-void NNS_G3dMdlSetMdlSpec(NNSG3dResMdl *mdl, u32 matId, u32 color) {
+void ModelBlock_SomeTexPltFn_6(NNSG3dResMdl *mdl, u32 matId, u32 color) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -74,7 +74,7 @@ void NNS_G3dMdlSetMdlSpec(NNSG3dResMdl *mdl, u32 matId, u32 color) {
 }
 
 // Sets the emission color of one material.
-void NNS_G3dMdlSetMdlEmi(NNSG3dResMdl *mdl, u32 matId, u32 color) {
+void ModelBlock_SomeTexPltFn_7(NNSG3dResMdl *mdl, u32 matId, u32 color) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -98,7 +98,7 @@ void NNS_G3dMdlSetMdlLightEnableFlag(NNSG3dResMdl *mdl, u32 matId, u32 light) {
 }
 
 // Sets the polygon mode of one material.
-void NNS_G3dMdlSetMdlPolygonMode(NNSG3dResMdl *mdl, u32 matId, u32 polyMode) {
+void ModelBlock_SomeTexPltFn_8(NNSG3dResMdl *mdl, u32 matId, u32 polyMode) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -110,7 +110,7 @@ void NNS_G3dMdlSetMdlPolygonMode(NNSG3dResMdl *mdl, u32 matId, u32 polyMode) {
 }
 
 // Sets the cull mode of one material.
-void NNS_G3dMdlSetMdlCullMode(NNSG3dResMdl *mdl, u32 matId, u32 cullMode) {
+void ModelBlock_SomeTexPltFn_1(NNSG3dResMdl *mdl, u32 matId, u32 cullMode) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -122,7 +122,7 @@ void NNS_G3dMdlSetMdlCullMode(NNSG3dResMdl *mdl, u32 matId, u32 cullMode) {
 }
 
 // Sets the polygon ID of one material.
-void NNS_G3dMdlSetMdlPolygonID(NNSG3dResMdl *mdl, u32 matId, u32 polygonId) {
+void ModelBlock_SomeTexPltFn_3(NNSG3dResMdl *mdl, u32 matId, u32 polygonId) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -162,7 +162,7 @@ void NNS_G3dMdlSetMdlFogEnableFlag(NNSG3dResMdl *mdl, u32 matId, s32 flag) {
 }
 
 // Turns the depth update of translucent polygons on or off for one material.
-void NNS_G3dMdlSetMdlXLDepthUpdate(NNSG3dResMdl *mdl, u32 matId, s32 flag) {
+void ModelBlock_SomeTexPltFn(NNSG3dResMdl *mdl, u32 matId, s32 flag) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -178,7 +178,7 @@ void NNS_G3dMdlSetMdlXLDepthUpdate(NNSG3dResMdl *mdl, u32 matId, s32 flag) {
 }
 
 // Returns the cull mode of one material.
-u32 NNS_G3dMdlGetMdlCullMode(NNSG3dResMdl *mdl, u32 matId) {
+u32 ModelBlock_SomeTexPltFn_0(NNSG3dResMdl *mdl, u32 matId) {
     NNSG3dResMat *mat;
     NNSG3dResDictEntryHeader *entries;
     NNSG3dResMatData *data;
@@ -226,38 +226,38 @@ u32 NNS_G3dMdlGetMdlFogEnableFlag(NNSG3dResMdl *mdl, u32 matId) {
 }
 
 // Sets the diffuse color of every material.
-void NNS_G3dMdlSetMdlDiffAll(NNSG3dResMdl *mdl, u32 color) {
+void ModelBlock_SomeMatFn_0(NNSG3dResMdl *mdl, u32 color) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlDiff(mdl, matIndex, color);
+        ModelBlock_SomeTexPltFn_4(mdl, matIndex, color);
     }
 }
 
 // Sets the ambient color of every material.
-void NNS_G3dMdlSetMdlAmbAll(NNSG3dResMdl *mdl, u32 color) {
+void ModelBlock_SomeMatFn_1(NNSG3dResMdl *mdl, u32 color) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlAmb(mdl, matIndex, color);
+        ModelBlock_SomeTexPltFn_5(mdl, matIndex, color);
     }
 }
 
 // Sets the specular color of every material.
-void NNS_G3dMdlSetMdlSpecAll(NNSG3dResMdl *mdl, u32 color) {
+void ModelBlock_SomeMatFn_2(NNSG3dResMdl *mdl, u32 color) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlSpec(mdl, matIndex, color);
+        ModelBlock_SomeTexPltFn_6(mdl, matIndex, color);
     }
 }
 
 // Sets the emission color of every material.
-void NNS_G3dMdlSetMdlEmiAll(NNSG3dResMdl *mdl, u32 color) {
+void ModelBlock_SomeMatFn_3(NNSG3dResMdl *mdl, u32 color) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlEmi(mdl, matIndex, color);
+        ModelBlock_SomeTexPltFn_7(mdl, matIndex, color);
     }
 }
 
@@ -271,29 +271,29 @@ void NNS_G3dMdlSetMdlLightEnableFlagAll(NNSG3dResMdl *mdl, u32 light) {
 }
 
 // Sets the polygon mode of every material.
-void NNS_G3dMdlSetMdlPolygonModeAll(NNSG3dResMdl *mdl, u32 polyMode) {
+void ModelBlock_SomeMatFn_4(NNSG3dResMdl *mdl, u32 polyMode) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlPolygonMode(mdl, matIndex, polyMode);
+        ModelBlock_SomeTexPltFn_8(mdl, matIndex, polyMode);
     }
 }
 
 // Sets the cull mode of every material.
-void NNS_G3dMdlSetMdlCullModeAll(NNSG3dResMdl *mdl, u32 cullMode) {
+void ModelBlock_SomeTexPltFn_2(NNSG3dResMdl *mdl, u32 cullMode) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlCullMode(mdl, matIndex, cullMode);
+        ModelBlock_SomeTexPltFn_1(mdl, matIndex, cullMode);
     }
 }
 
 // Sets the polygon ID of every material.
-void NNS_G3dMdlSetMdlPolygonIDAll(NNSG3dResMdl *mdl, u32 polygonId) {
+void ModelBlock_SomeFn(NNSG3dResMdl *mdl, u32 polygonId) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlPolygonID(mdl, matIndex, polygonId);
+        ModelBlock_SomeTexPltFn_3(mdl, matIndex, polygonId);
     }
 }
 
@@ -316,11 +316,11 @@ void NNS_G3dMdlSetMdlFogEnableFlagAll(NNSG3dResMdl *mdl, u32 flag) {
 }
 
 // Sets the translucent depth update flag of every material.
-void NNS_G3dMdlSetMdlXLDepthUpdateAll(NNSG3dResMdl *mdl, u32 flag) {
+void ModelBlock_SetSomethingToAllMaterials(NNSG3dResMdl *mdl, u32 flag) {
     u32 matIndex;
 
     for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
-        NNS_G3dMdlSetMdlXLDepthUpdate(mdl, matIndex, flag);
+        ModelBlock_SomeTexPltFn(mdl, matIndex, flag);
     }
 }
 
@@ -347,7 +347,7 @@ void NNS_G3dGetCurrentMtx(MtxFx43 *pos, void *vec) {
 
 // Initializes the geometry engine and the global state.
 void NNS_G3dInit(void) {
-    G3X_Init();
+    G3X_Initialize();
     NNS_G3dGlbInit();
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xc0000000) | 0x80000000;
 }
@@ -370,11 +370,11 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
             texOk = 1;
             tex4x4Ok = 1;
             plttOk = 1;
-            tex = NNS_G3dGetTex(file);
+            tex = Nsbtx_GetTEX0Block(file);
             if (tex != 0) {
-                texKey = NNS_G3dTexGetRequiredSize(tex);
-                tex4x4Key = NNS_G3dTex4x4GetRequiredSize(tex);
-                plttKey = NNS_G3dPlttGetRequiredSize(tex);
+                texKey = Tex0Block_GetTextureDataSize(tex);
+                tex4x4Key = Tex0Block_GetCompressedTextureDataSize(tex);
+                plttKey = Tex0Block_GetPaletteDataSize(tex);
                 if (texKey != 0) {
                     texKey = NNS_GfdDefaultFuncAllocTexVram(texKey, 0, 0);
                     if (texKey == 0) {
@@ -406,13 +406,13 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                     NNS_GfdDefaultFuncFreeTexVram(texKey);
                     return 0;
                 }
-                NNS_G3dTexSetTexKey(tex, texKey, tex4x4Key);
-                NNS_G3dPlttSetPlttKey(tex, plttKey);
-                NNS_G3dTexLoad(tex, 1);
-                NNS_G3dPlttLoad(tex, 1);
+                Tex0Block_SetTexturesVramKeys(tex, texKey, tex4x4Key);
+                Tex0Block_SetPaletteVramKey(tex, plttKey);
+                Tex0Block_MaybeCopyTexturesToMem(tex, 1);
+                Tex0Block_MaybeCopyPaletteToMem(tex, 1);
             }
             if (file->mSigVal == FILE_SIGNATURE_MODEL) {
-                modelSet = NNS_G3dGetMdlSet(file);
+                modelSet = Nsbmd_GetMDL0Block(file);
                 if (tex != 0) {
                     NNS_G3dBindMdlSet(modelSet, tex);
                 }
@@ -430,7 +430,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
 }
 
 // Frees the texture and palette memory of a model or texture file and releases the models bound to it.
-void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
+void MaybeDisposeCommonHeaderFileData(NNSG3dResFileHeader *file) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *tex;
     NNSG3dTexKey textureKey;
@@ -445,8 +445,8 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
         case FILE_SIGNATURE_TEXTURE_PATTERN_ANIM:
             return;
         case FILE_SIGNATURE_MODEL:
-            modelSet = NNS_G3dGetMdlSet(file);
-            if (NNS_G3dGetTex(file) != 0) {
+            modelSet = Nsbmd_GetMDL0Block(file);
+            if (Nsbtx_GetTEX0Block(file) != 0) {
                 NNS_G3dReleaseMdlSet(modelSet);
             }
             break;
@@ -455,12 +455,12 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
         default:
             return;
     }
-    tex = NNS_G3dGetTex(file);
+    tex = Nsbtx_GetTEX0Block(file);
     if (tex == 0) {
         return;
     }
     paletteKey = NNS_G3dPlttReleasePlttKey(tex);
-    NNS_G3dTexReleaseTexKey(tex, &textureKey, &tex4x4Key);
+    Tex0_CleanGetKeys(tex, &textureKey, &tex4x4Key);
     if (paletteKey != 0) {
         NNS_GfdDefaultFuncFreePlttVram(paletteKey);
     }

@@ -24,14 +24,14 @@
 #include "Main/System/init_after_startup.h"
 
 void InitWiFiLoginMenu(void *heap) {
-    gWiFiLoginMenu = HeapAlloc(heap, sizeof(WiFiLoginMenu));
+    gWiFiLoginMenu = Mem_AllocateHeap(heap, sizeof(WiFiLoginMenu));
     gWiFiLoginMenu->mHeap = heap;
     gWiFiLoginMenu->mState = WIFI_LOGIN_STATE_START;
     gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_START;
     gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiLoginMenu->mUnk_08 = 0;
-    gWiFiLoginMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
-    gWiFiLoginMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gWiFiLoginMenu->mWiFiMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("wifi.bmg");
+    gWiFiLoginMenu->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     InitWiFiLoginMenuNop();
     SetLinkLevelIconEnabled(1, 1);
     SetSelectReturnSoundId(0xe);
@@ -58,8 +58,8 @@ s32 CheckUserDataValidConsoleWrapper(void) {
 u32 GetWiFiSessionErrorCodeNegatedWrapper(void) {
     u32 wiFiSessionErrorCodeNegated;
     u32 getterAddress;
-    getterAddress = (u32) &GetWiFiSessionErrorCodeNegated;
-    wiFiSessionErrorCodeNegated = GetWiFiSessionErrorCodeNegated();
+    getterAddress = (u32) &GetMaybeNetErrorCode;
+    wiFiSessionErrorCodeNegated = GetMaybeNetErrorCode();
     return wiFiSessionErrorCodeNegated;
 }
 
@@ -69,9 +69,9 @@ WiFiStateCallbacks gWiFiLoginMenuCallbacks = {InitWiFiLoginMenu, ClearWiFiLoginM
                                               (void (*)(void)) WriteWiFiLoginMenuRegisters};
 
 static inline s32 WiFiLoginMenuIsBackupBusy(void) {
-    if (gBackupBuffers->mBusy == 0) {
-        if (gBackupAccess->mBackupEnabled != 0) {
-            return gBackupAccess->mCommandRunning;
+    if (g_SaveDataHolder->mBusy == 0) {
+        if (g_SaveDataIoManager->mBackupEnabled != 0) {
+            return g_SaveDataIoManager->mCommandRunning;
         }
         return 0;
     }
@@ -114,50 +114,50 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
 void AdvanceWiFiLoginMenuStart(void) {
     if (IsUserDataFriendKeyZero() != FALSE) {
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO;
-        SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1c),
-                                     GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+        SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x1c),
+                                     Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
         gWiFiLoginMenu->mMessageTableIndex = 0;
         return;
     }
     if (CheckUserDataValidConsoleWrapper() != 0) {
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN;
-        SetupTxtSystemMainTextTwoButtons(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x13),
-                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0),
-                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 1), 0);
+        SetupTxtSystemMainTextTwoButtons(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x13),
+                                         Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 0),
+                                         Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 1), 0);
         return;
     }
     gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SETUP_NOTICE;
-    SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x20),
-                                 GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+    SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x20),
+                                 Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
 }
 
 void AdvanceWiFiLoginMenuAskLoginAfterInfo(void) {
     WiFiLoginMenu *loginMenu;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         u16 messageIndices[2] = {0, 0x1d};
         if (gWiFiLoginMenu->mMessageTableIndex < 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextButton(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(loginMenu->mCommonMessages, 6));
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 6));
             return;
         }
         if (gWiFiLoginMenu->mMessageTableIndex == 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextTwoButtons(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0), GetBmgEntry(loginMenu->mCommonMessages, 1), 0);
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 0), Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 1), 0);
             return;
         }
-        if (GetTxtSystemSelectedIndex() == 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
-            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            TextSystem_DisplayProgressDialog_TopScreen_from_thumb(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mShowLoggedInMessage = TRUE;
             StartWiFiSessionLoginSeq();
@@ -169,46 +169,46 @@ void AdvanceWiFiLoginMenuAskLoginAfterInfo(void) {
 }
 
 void AdvanceWiFiLoginMenuSetupNotice(void) {
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_SETUP;
-        SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x21),
-                                     GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+        SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x21),
+                                     Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
         gWiFiLoginMenu->mMessageTableIndex = 0;
     }
 }
 
 void AdvanceWiFiLoginMenuAskSetup(void) {
     WiFiLoginMenu *loginMenu;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         u16 messageIndices[2] = {0, 0x22};
         if (gWiFiLoginMenu->mMessageTableIndex < 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextButton(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(loginMenu->mCommonMessages, 6));
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 6));
             return;
         }
         if (gWiFiLoginMenu->mMessageTableIndex == 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextTwoButtons(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0), GetBmgEntry(loginMenu->mCommonMessages, 1), 1);
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 0), Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 1), 1);
             return;
         }
-        if (GetTxtSystemSelectedIndex() == 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_CONFIRM_SETUP;
-            SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x23),
-                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x23),
+                                         Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
             gWiFiLoginMenu->mMessageTableIndex = 0;
             return;
         }
@@ -219,31 +219,31 @@ void AdvanceWiFiLoginMenuAskSetup(void) {
 
 void AdvanceWiFiLoginMenuConfirmSetup(void) {
     WiFiLoginMenu *loginMenu;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         u16 messageIndices[3] = {0, 0x24, 0x25};
         if (gWiFiLoginMenu->mMessageTableIndex < 1) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextButton(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(loginMenu->mCommonMessages, 6));
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 6));
             return;
         }
         if (gWiFiLoginMenu->mMessageTableIndex == 1) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextTwoButtons(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0), GetBmgEntry(loginMenu->mCommonMessages, 1), 1);
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 0), Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 1), 1);
             return;
         }
-        if (GetTxtSystemSelectedIndex() == 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
-            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            TextSystem_DisplayProgressDialog_TopScreen_from_thumb(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mShowLoggedInMessage = TRUE;
             StartWiFiSessionLoginSeq();
@@ -256,26 +256,26 @@ void AdvanceWiFiLoginMenuConfirmSetup(void) {
 
 void AdvanceWiFiLoginMenuShowLoggedIn(void) {
     WiFiLoginMenu *loginMenu;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         u16 messageIndices[2] = {0, 0x1f};
         if (gWiFiLoginMenu->mMessageTableIndex < 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextButton(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(loginMenu->mCommonMessages, 6));
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 6));
             return;
         }
         if (gWiFiLoginMenu->mMessageTableIndex == 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
             loginMenu = gWiFiLoginMenu;
             SetupTxtSystemMainTextButton(
-                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
-                GetBmgEntry(loginMenu->mCommonMessages, 4));
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                Bmg_GetRawStringPointer_from_thumb(loginMenu->mCommonMessages, 4));
             return;
         }
         if (WiFiLoginMenuIsBackupBusy() == 0) {
@@ -286,14 +286,14 @@ void AdvanceWiFiLoginMenuShowLoggedIn(void) {
 }
 
 void AdvanceWiFiLoginMenuAskLogin(void) {
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
-        if (GetTxtSystemSelectedIndex() == 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
-            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            TextSystem_DisplayProgressDialog_TopScreen_from_thumb(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mShowLoggedInMessage = FALSE;
             StartWiFiSessionLoginSeq();
@@ -307,13 +307,13 @@ void AdvanceWiFiLoginMenuAskLogin(void) {
 void AdvanceWiFiLoginMenuWaitLogin(void) {
     s32 pageCount;
     s32 messageIndex;
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         if (WiFiLoginMenuIsBackupBusy() == 0) {
             RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
             return;
         }
     }
-    if (IsTxtSystemOpenNoCloseRequest() != 0) {
+    if (TextSystem_IsDialogIdle_from_thumb() != 0) {
         switch (GetWiFiSessionLoginResult()) {
             case -1:
                 gWiFiLoginMenu->mErrorCode = GetWiFiSessionErrorCodeNegatedWrapper();
@@ -322,8 +322,8 @@ void AdvanceWiFiLoginMenuWaitLogin(void) {
                 }
                 messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, 0, &pageCount);
                 gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_MESSAGES;
-                SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, messageIndex),
-                                             GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+                SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, messageIndex),
+                                             Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
                 gWiFiLoginMenu->mMessageTableIndex = 0;
                 StartWiFiLoginErrorSeq();
                 break;
@@ -333,12 +333,12 @@ void AdvanceWiFiLoginMenuWaitLogin(void) {
                 if (IsWiFiStatesCounterNotNegative() != 0) {
                     if (gWiFiLoginMenu->mShowLoggedInMessage != FALSE) {
                         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SHOW_LOGGED_IN;
-                        SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1e),
-                                                     GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+                        SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x1e),
+                                                     Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
                         gWiFiLoginMenu->mMessageTableIndex = 0;
                     } else {
                         gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_VS_SETTING;
-                        RequestTxtSystemClose();
+                        TextSystem_CloseDialog_from_thumb();
                     }
                 }
                 StartWiFiSessionLoginResult1Seq();
@@ -353,23 +353,23 @@ void AdvanceWiFiLoginMenuErrorMessages(void) {
     u16 errorCodeText[10];
     u16 messageText[300];
     s32 messageIndex;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         gWiFiLoginMenu->mMessageTableIndex++;
         messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, gWiFiLoginMenu->mMessageTableIndex,
                                                         &pageCount);
         if (messageIndex != -1) {
-            SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, messageIndex),
-                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, messageIndex),
+                                         Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mCommonMessages, 6));
             return;
         }
         zero = 0;
-        MIi_CpuClear16(zero, errorCodeText, 0x14);
-        FormatAsciiNumber(gWiFiLoginMenu->mErrorCode, errorCodeText);
-        FormatMessageWithText(errorCodeText, GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x30), messageText, 0x258);
+        Mem_CpuFill16(zero, errorCodeText, 0x14);
+        FormatIntegerInString16_from_thumb(gWiFiLoginMenu->mErrorCode, errorCodeText);
+        MaybeHandleBmgFormatting_from_thumb(errorCodeText, Bmg_GetRawStringPointer_from_thumb(gWiFiLoginMenu->mWiFiMessages, 0x30), messageText, 0x258);
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_CODE;
         SetupTxtSystemMainText(messageText);
         RequestSelectReturnSlideIn();
@@ -381,28 +381,28 @@ void AdvanceWiFiLoginMenuErrorCode(void) {
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;
-    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
-        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if (TextSystem_IsDialogIdle_from_thumb() != 0 && IsSelectReturnShownNoRequest() != 0) {
+        if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
-            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
                 pairRecentlyLost = 1;
             }
-            if (pairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            if (pairRecentlyLost == 0 && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                 pairNewUnlessRecentlyLost = TRUE;
             }
             if (pairNewUnlessRecentlyLost == FALSE ||
-                IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                      gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+                IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                      g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
                 goto next;
             }
         }
         RequestSelectReturnPressWithSound(0);
-        RequestTxtSystemClose();
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
 next:
-    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }

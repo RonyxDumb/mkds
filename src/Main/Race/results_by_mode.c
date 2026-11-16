@@ -15,21 +15,21 @@
 #include "registers.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 
-struct ResultScene *gResultScene;
+struct ResultScene *g_GlobalN;
 
 #pragma thumb on
 
-void InitResultsByMode(void *heap) {
-    gResultScene = HeapAlloc(heap, sizeof(*gResultScene));
-    MemFillWordsByBlock_inline(gResultScene, 0x80c);
-    ResetOamLists(gResultScene, gResultScene->mSubOam);
-    gResultScene->mMode = gRaceSetup->mMode;
-    if (gResultScene->mMode == 0) {
-        InitResultsGp(heap, gResultScene, gResultScene->mSubOam);
+void InstanceStructN_from_thumb(void *heap) {
+    g_GlobalN = Mem_AllocateHeap(heap, sizeof(*g_GlobalN));
+    MemFillWordsByBlock_inline(g_GlobalN, 0x80c);
+    OamBuffer_SomeFn_from_thumb(g_GlobalN, g_GlobalN->mSubOam);
+    g_GlobalN->mMode = g_GlobalCO->mMode;
+    if (g_GlobalN->mMode == 0) {
+        InstanceStructM_from_thumb(heap, g_GlobalN, g_GlobalN->mSubOam);
     } else {
-        InitResultsBattle(heap, gResultScene, gResultScene->mSubOam);
+        InstanceStructV_from_thumb(heap, g_GlobalN, g_GlobalN->mSubOam);
     }
-    InitLinkLevelIcons(heap, gResultScene);
+    CreateGlobalNN_from_thumb(heap, g_GlobalN);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
                      REG_GX_DISPCNT_OBJMAP_CH_MASK;
     reg_GXS_DB_DISPCNT =
@@ -46,37 +46,37 @@ void InitResultsByMode(void *heap) {
 
 #pragma thumb on
 
-void AdvanceResultsByMode(SceneNumbers *sceneNumbers) {
+void Scene_Result_UpdateImpl_from_thumb(SceneNumbers *sceneNumbers) {
     int result;
     result = IsDataSharingIncomplete();
     if (result == 0) {
-        ClearOamListCounts(gResultScene, gResultScene->mSubOam);
-        if (gResultScene->mMode == 0) {
-            AdvanceResultsGp(sceneNumbers);
+        OamBuffer_ResetValues16_from_thumb(g_GlobalN, g_GlobalN->mSubOam);
+        if (g_GlobalN->mMode == 0) {
+            HandleEarnedSecrets_from_thumb(sceneNumbers);
         } else {
             AdvanceResultsBattle(sceneNumbers);
         }
-        HideUnusedOams(gResultScene, gResultScene->mSubOam);
+        OamBuffer_SomeFn2_from_thumb(g_GlobalN, g_GlobalN->mSubOam);
         AdvanceLinkLevelIcons();
     }
 }
 
-void ReleaseResultsByMode(void) {
-    if (gResultScene->mMode == 0) {
-        ReleaseSceneTextWrapper();
+void Scene_Result_FinalizeImpl_from_thumb(void) {
+    if (g_GlobalN->mMode == 0) {
+        j_DisposeNavigationContext_from_thumb();
     } else {
         ReleaseResultsBattle();
     }
-    ClearLinkLevelIconsPointer();
+    ResetGlobalNN_from_thumb();
 }
 
-void WriteResultsByMode(void) {
-    if (gResultScene->mMode == 0) {
-        WriteSceneTextRegistersWrapper();
+void Scene_Result_VBlankImpl_from_thumb(void) {
+    if (g_GlobalN->mMode == 0) {
+        j_NavigationContext_OnSceneVblank_from_thumb();
     } else {
-        ResultsBattleWriteSceneTextRegistersWrapper();
+        j_NavigationContext_OnSceneVblank_0_from_thumb();
     }
-    UploadOamLists(gResultScene, gResultScene->mSubOam);
+    CopyOamBuffersToMemory_from_thumb(g_GlobalN, g_GlobalN->mSubOam);
 }
 
 #pragma thumb off

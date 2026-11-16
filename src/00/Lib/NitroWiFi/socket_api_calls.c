@@ -332,9 +332,9 @@ char *SOC_InetNtoP(s32 family, const void *source, char *destination, u32 length
     if (length < 0x10) {
         return NULL;
     }
-    MI_CpuCopy8(source, addressBytes, 4);
+    Mem_CpuCopy8(source, addressBytes, 4);
     SOC_U32to4U8(*(u32 *) addressBytes, &addressBytes[4]);
-    OS_SNPrintf(destination, 0x10, "%d.%d.%d.%d", addressBytes[7], addressBytes[6], addressBytes[5], addressBytes[4]);
+    Util_SNPrintF(destination, 0x10, "%d.%d.%d.%d", addressBytes[7], addressBytes[6], addressBytes[5], addressBytes[4]);
     return destination;
 }
 
@@ -370,7 +370,7 @@ s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft) {
         if (hasTimeout != FALSE && ticksLeft <= 0) {
             break;
         }
-        OS_Sleep(1);
+        Os_Sleep(1);
         ticksLeft -= 0x20b;
     }
     return readyCount;

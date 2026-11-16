@@ -9,4 +9,4 @@ void StopSceneSoundSetSeqWithSteps(u32 fadeSteps);
 void ReleaseSceneSoundSetPlayer(void);
 void StopSceneSoundSetSeq(void);
 void StartSceneSoundSetSeq(void);
-void InitSceneSoundSetPlayer(s32 seqId);
+void SetSomeSceneSseqId(s32 seqId);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u8 *GetBitArrayByte(u32 bitIndex, u8 *bytes);
+u8 *GetGhostDataByteByCourse_from_thumb(u32 bitIndex, u8 *bytes);

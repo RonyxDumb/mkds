@@ -73,9 +73,9 @@ typedef struct RomArchiveFileNode {
 
 // Object that RomArchivePortCallback receives.
 typedef struct RomArchivePortMessage {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mPosition[4];
     /* 04 */ u16 mKind;
-    /* 06 */ u8 mUnk_06[6];
+    /* 06 */ u8 mEnemyPointId[6];
     /* 0c */ const u8 *mData;
     /* 10 */ u16 mDataLength;
     /* 12 */ u16 mFromIndex;
@@ -97,7 +97,7 @@ void StartRomArchive(int isParent, u32 port, u32 parentPacketSize, void (*stateC
                      void *(*allocFunc)(s32 isParent, u32 port, void *parentPacketSize), u32 allocFuncArg);
 void StartRomArchiveChild(u32 port, void (*stateCallback)(s32 port),
                           void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg);
-void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
+void SomeInitialize(u32 port, void (*stateCallback)(s32 port),
                            void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg,
                            u32 parentPacketSize, FSFile *file, s32 appendOverlays);
 void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
@@ -106,21 +106,21 @@ void RomArchiveChildCallback(WBTCommand *record);
 void RomArchiveParentCallback(WBTCommand *record);
 void RomArchivePortCallback(void *portMessage);
 void SendRomArchivePacket(void);
-void RequestRomArchiveBytes(FSFile *file);
+void SomeFileAsyncReadFunc(FSFile *file);
 void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node);
 void MoveRomArchiveNodeToList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
 void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node, s32 unused);
 void SendRomArchiveMessage(void);
 void RomArchiveSendCallback(WBTCommand *record);
-u32 ReloadRomArchiveFromBlock(u32 *block);
-void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays);
-s32 RomArchiveChildProc(FSFile *file, u32 command);
+u32 SomeRomUnkFatFntReload(u32 *block);
+void MaybeSetupRomRootOrOverlays(FSFile *file, s32 appendOverlays);
+s32 UnkStruct_ExtraFileOperationHandler_Unk(FSFile *file, u32 command);
 
 typedef struct FSArchive FSArchive;
 
-s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length);
+s32 UnkStruct_WriteFn_RomUnk(FSArchive *archive, const void *src, u32 dst, u32 length);
 
-extern const u8 gEmptyBlockInfo[32];
+extern const u8 g_SomeNullString[32];
 extern s32 gRomArchiveStarted;
 extern s32 gRomArchiveUnusedWord;
 extern u8 gRomArchiveUnusedPad[0x18];

@@ -26,7 +26,7 @@ BOOL AdvancePushedMotion(PushedObject *object) {
         object->mMotion.mAngle = object->mMotion.mAngle - object->mMotion.mAngleStep;
     }
     object->mMapObject.mPosStep.y = object->mMapObject.mPosStep.y - object->mMotion.mGravity;
-    VEC_Add(&object->mMapObject.mPos, &object->mMapObject.mPosStep, &object->mMapObject.mPos);
+    VecFx32_Add(&object->mMapObject.mPos, &object->mMapObject.mPosStep, &object->mMapObject.mPos);
     return object->mMapObject.mPos.y < object->mMotion.mLowestY;
 }
 
@@ -34,7 +34,7 @@ void SetPushedMotionFromKart(PushedObject *object, Kart *other) {
     Vec3 offset;
     s32 pushSpeed;
 
-    VEC_Subtract(&object->mMapObject.mPos, &other->mPos, &offset);
+    VecFx32_Subtract(&object->mMapObject.mPos, &other->mPos, &offset);
     if ((s64) offset.z * other->mVelocity.x - (s64) offset.x * other->mVelocity.z < 0) {
         s32 forwardX = other->mTurnedForward.x;
         s32 forwardZ = other->mTurnedForward.z;
@@ -67,7 +67,7 @@ void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other
 
     otherPoint = other ? other->mPos : object->mMapObject.mPos;
     otherVector = other ? other->mVelocity : gPushedMotionDefaultVelocity;
-    VEC_Subtract(&object->mMapObject.mPos, &otherPoint, &out);
+    VecFx32_Subtract(&object->mMapObject.mPos, &otherPoint, &out);
     if ((s64) out.z * otherVector.x - (s64) out.x * otherVector.z < 0) {
         if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
             out = gVec3UnitX;

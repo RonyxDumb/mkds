@@ -11,4 +11,4 @@
 
 void InitMoveTree(MoveTree *moveTree); /* starts the path follower (InitGroupFollower) */
 
-extern struct MapObjectModel *gMoveTree;
+extern struct MapObjectModel *g_MoveTreeMapObject;

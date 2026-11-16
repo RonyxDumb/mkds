@@ -31,7 +31,7 @@ const MapObjectKindDescriptor gShineBattleKindDescriptor = {
 void InitShineBattleObjects(MapObject *mapObject) {
     if (CountMapObjectsOfKind(MAP_OBJECT_KIND_SHINE16) == 0) {
         CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE16, 0x14, mapObject);
-        CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE_BALLOON, gRaceSetup->mKartCount, mapObject);
+        CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE_BALLOON, g_GlobalCO->mKartCount, mapObject);
         SetStandingsKartHitCallback(ShineKartHitCallback);
         SetStandingsKartEliminatedCallback(ShineKartEliminatedCallback);
         SetStandingsEndCallback(ShineEndCallback);
@@ -115,9 +115,9 @@ void StartShineBattle(MapObjectList *mapObjectList) {
     BOOL flag;
     ShineBattle *shineBattle;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
-        if (kartIndex == gRaceSetup->mEntryIndex) {
+        if (kartIndex == g_GlobalCO->mEntryIndex) {
             flag = FALSE;
             value = GetCurrentEntry(kartIndex)->mPlayer.mKind;
             if ((u32) value <= 3) {
@@ -129,7 +129,7 @@ void StartShineBattle(MapObjectList *mapObjectList) {
                 continue;
             }
         }
-        StartShineBalloon(GetKart((u16) kartIndex));
+        StartShineBalloon(GetRacerMQEntry((u16) kartIndex));
     }
     if (mapObjectList == NULL) {
         return;
@@ -139,10 +139,10 @@ void StartShineBattle(MapObjectList *mapObjectList) {
          mapObjectIndex++) {
         shineBattle->mSkipRandomPick = TRUE;
         if (shineBattle->mMapObject.mCourseMapRow->mSettings[0] != 0) {
-            kartCount = gRaceSetup->mKartCount;
+            kartCount = g_GlobalCO->mKartCount;
             value = GetShineCount();
             if (value + GetTotalBalloonOrShineCount() < kartCount + 1) {
-                StartShine16(&shineBattle->mMapObject.mPos, mapObjectIndex, GetRaceUseChainCameras());
+                StartShine16(&shineBattle->mMapObject.mPos, mapObjectIndex, IsNotStaffRoll());
                 shineBattle->mHasShine = TRUE;
             }
         }
@@ -156,7 +156,7 @@ void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
     if (GetShineCount() >= 3) {
         return;
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     shineCount = GetShineCount();
     if (shineCount + GetTotalBalloonOrShineCount() >= kartCount + 1) {
         return;
@@ -166,7 +166,7 @@ void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
         return;
     }
     shineBattle->mShineStartFrames = 0;
-    while (GetShineCount() < 3 && (kartCount = gRaceSetup->mKartCount, shineCount = GetShineCount(),
+    while (GetShineCount() < 3 && (kartCount = g_GlobalCO->mKartCount, shineCount = GetShineCount(),
                                    shineCount + GetTotalBalloonOrShineCount() < kartCount + 1)) {
         if (TryStartShine16AtRandomObject(mapObjectList) == FALSE) {
             return;
@@ -175,7 +175,7 @@ void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
 }
 
 MapObjectKindData *CreateShineBattleKindData(void) {
-    if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE && g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
         return CreateEmptyMapObjectKindData();
     }
     return 0;

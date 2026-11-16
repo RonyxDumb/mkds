@@ -181,7 +181,7 @@ void SetDataListTail(u8 type, WMBssDesc *bssdesc, ACWORK *work) {
     rssiWord = bssdesc->mRssi;
     tailFind->mRssi = (rssiWord & 2) != 0 ? (u8) (rssiWord >> 2) : (u8) ((rssiWord >> 2) + 0x19);
     tailFind->mChannel = work->mSearchChannel + 1;
-    MIi_CpuCopy32(bssdesc, tailBss, 0xc0);
+    Mem_CpuCopy32(bssdesc, tailBss, 0xc0);
 }
 
 void UpDateList(u32 listIndex, WMBssDesc *bssdesc, ACWORK *work) {
@@ -200,7 +200,7 @@ void UpDateList(u32 listIndex, WMBssDesc *bssdesc, ACWORK *work) {
         findEntry->mRssi = rssiLevelByte;
         findEntry->mChannel = work->mSearchChannel + 1;
     }
-    MIi_CpuCopy32(bssdesc, bssEntry, 0xc0);
+    Mem_CpuCopy32(bssdesc, bssEntry, 0xc0);
 }
 
 void SortList(u32 listIndex, ACWORK *work) {
@@ -222,12 +222,12 @@ void SortList(u32 listIndex, ACWORK *work) {
             if (findList[listIndex].mRssi < previousFind->mRssi) {
                 break;
             }
-            MIi_CpuCopy32(previousFind, &swapFind, 4);
-            MIi_CpuCopy32(&findList[listIndex], previousFind, 4);
-            MIi_CpuCopy32(&swapFind, &findList[listIndex], 4);
-            MIi_CpuCopy32(previousBss, &swapBss, 0xc0);
-            MIi_CpuCopy32(&bssDescList[listIndex], previousBss, 0xc0);
-            MIi_CpuCopy32(&swapBss, &bssDescList[listIndex], 0xc0);
+            Mem_CpuCopy32(previousFind, &swapFind, 4);
+            Mem_CpuCopy32(&findList[listIndex], previousFind, 4);
+            Mem_CpuCopy32(&swapFind, &findList[listIndex], 4);
+            Mem_CpuCopy32(previousBss, &swapBss, 0xc0);
+            Mem_CpuCopy32(&bssDescList[listIndex], previousBss, 0xc0);
+            Mem_CpuCopy32(&swapBss, &bssDescList[listIndex], 0xc0);
             listIndex = previousIndex;
             previousFind--;
             previousBss--;
@@ -288,10 +288,10 @@ s32 DWC_AC_Process(void) {
     if (phase == 1) {
         phase = DWCi_AC_Start();
     } else if (phase < 7) {
-        interruptState = OS_DisableInterrupts();
+        interruptState = Os_DisableIrq();
         phase = ((u8(*)(void)) DWCi_AC_SearchAP)();
         DWCi_AC_SetPhase(phase);
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
     } else if (phase < 9) {
         phase = ((u8(*)(void)) DWCi_AC_ConnectAP)();
     } else if (phase < 10) {

@@ -26,8 +26,8 @@ typedef struct AwardEmitterEffectIds {
 // Function stored at gGetSPLManagerFunction: writes a word to the first argument and returns the object.
 typedef SPLManager *GetSPLManagerFunc(s32 *outIndex, s32 effectId);
 
-void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow);
-void CreateKartPhysicalParamTable(void *heap, u32 entryCount);
+void CopyKartCharPhysicalParam(u32 slot, u16 kartRow, u16 characterRow);
+void AllocateGlobalFAT(void *heap, u32 entryCount);
 void CreateAwardEmitters(void);
 void AdvanceStadiumEmitters(void);
 SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId);
@@ -35,10 +35,10 @@ SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId);
 extern const s32 gStadiumEmitterEffectIds[12];
 extern const Vec3 gStadiumEmitterPositions[6];
 
-extern struct KartPhysicalParamTable *gKartPhysicalParamTable;
+extern struct KartPhysicalParamTable *g_GlobalFAT;
 
-extern const StemSetParams gCompleteStems;
-extern const StemSetParams gLoseStems;
-extern const StemSetParams gWinStems;
-extern const StemSetParams gGoalStems;
-extern const StemSetParams gFailedStems;
+extern const StemSetParams g_CompleteModelMD;
+extern const StemSetParams g_LoseModelMD;
+extern const StemSetParams g_WinModelMD;
+extern const StemSetParams g_GoalModelMD;
+extern const StemSetParams g_FailedModelMD;

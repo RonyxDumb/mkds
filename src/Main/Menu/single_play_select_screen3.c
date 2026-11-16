@@ -27,29 +27,29 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
         if (MenuGetNewBits(value, PAD_KEY_A)) {
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_PRESS, SCREEN_NONE);
             StartMenuSound(5);
-            gMenuScene->mSinglePlaySelectStartedOnSelected = TRUE;
+            g_GlobalB43C->mSinglePlaySelectStartedOnSelected = TRUE;
         } else if (MenuGetNewBits(value, PAD_KEY_B)) {
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT, 0x1b);
             RequestSelectReturnPressWithSound(1);
         } else if (GetNewOrRepeatBits(value, PAD_KEY_UP)) {
-            menu = gMenuScene;
+            menu = g_GlobalB43C;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         } else if (GetNewOrRepeatBits(value, PAD_KEY_DOWN)) {
-            menu = gMenuScene;
+            menu = g_GlobalB43C;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         } else if (MenuIsSlotPairNew(value)) {
             pairX = MenuGetSlotPairX(value);
             value = MenuGetSlotPairY(value);
-            touchedIndex = FindRectContainingPoint(pairX, value, gMenuScene->mSinglePlaySelectModeSBnbl);
-            menu = gMenuScene;
+            touchedIndex = FindRectContainingPoint(pairX, value, g_GlobalB43C->mSinglePlaySelectModeSBnbl);
+            menu = g_GlobalB43C;
             previousSelected = menu->mSinglePlaySelectModeIndex;
             if (touchedIndex != -1) {
                 if (previousSelected == touchedIndex) {
                     menu->mSinglePlaySelectStartedOnSelected = TRUE;
                 }
-                gMenuScene->mSinglePlaySelectModeIndex = touchedIndex;
+                g_GlobalB43C->mSinglePlaySelectModeIndex = touchedIndex;
                 SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_PRESS, SCREEN_NONE);
                 StartMenuSound(5);
             } else if (IsSelectReturnShownNoRequestAndInRect(pairX, value)) {
@@ -79,11 +79,11 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
     s16 offset;
 
     frame = GetFramesSinceMenuScreenSwitch();
-    mainCells = gMenuScene->mSinglePlaySelectModeMLayoutTable;
-    subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
+    mainCells = g_GlobalB43C->mSinglePlaySelectModeMLayoutTable;
+    subCells = g_GlobalB43C->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
-        mainCells->mOffsetY = InterpolateS16(1, 0, -0x28, frame, 10);
-        offset = InterpolateS16(1, 0, 0xf0, frame, 10);
+        mainCells->mOffsetY = ComputeValueInterpolation_from_thumb(1, 0, -0x28, frame, 10);
+        offset = ComputeValueInterpolation_from_thumb(1, 0, 0xf0, frame, 10);
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = offset;
         }
@@ -112,12 +112,12 @@ void UpdateSinglePlaySelectMenuScreen3(void) {
     s32 framesSinceSwitch;
 
     framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
-    gMenuScene->mSinglePlaySelectModePressOffset = GetSelectedPressOffset(framesSinceSwitch);
+    g_GlobalB43C->mSinglePlaySelectModePressOffset = GetSelectedPressOffset(framesSinceSwitch);
     if (framesSinceSwitch >= 10) {
         SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT,
-                         nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][0]);
-        ResetRaceSetupCopy();
-        GetRaceSetupCopy()->mMode = nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][1];
+                         nextScreenAndModeTable[g_GlobalB43C->mSinglePlaySelectModeIndex][0]);
+        DoInitializeGlobalCA_from_thumb();
+        GetGlobalCA_from_thumb()->mMode = nextScreenAndModeTable[g_GlobalB43C->mSinglePlaySelectModeIndex][1];
     }
     DrawSinglePlaySelectCells();
 }

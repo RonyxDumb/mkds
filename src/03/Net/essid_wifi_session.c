@@ -36,9 +36,9 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
     int count;
     int mode;
     dst->mEssidLength = src->mSsidLength;
-    MIi_CpuCopy16(src->mSsid, dst->mEssid, 0x20);
+    CopyMemory16(src->mSsid, dst->mEssid, 0x20);
     dst->mChannel = src->mChannel;
-    MIi_CpuCopy16(&src->mAddress, dst->mAddress, 6);
+    CopyMemory16(&src->mAddress, dst->mAddress, 6);
     count = 0;
     for (rateIndex = 0; rateIndex < 12; rateIndex++) {
         if (src->mSupportRateSet & gMaskCodeTable[rateIndex].mMask) {
@@ -63,9 +63,9 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
 
 void SetRecordEssidFromRequest(EssidMelcoRequest *request, RawEntry *rec) {
     vu16 zero = 0;
-    MIi_CpuClear16(zero, rec->mSsid, 0x20);
+    Mem_CpuFill16(zero, rec->mSsid, 0x20);
     rec->mSsidLength = request->mEssidLength;
-    MI_CpuCopy8(request->mEssid, rec->mSsid, rec->mSsidLength);
+    Mem_CpuCopy8(request->mEssid, rec->mSsid, rec->mSsidLength);
 }
 
 void FillEssidEntryListFromRecord(EssidEntryList *list, RawEntry *src, s32 count) {
@@ -74,11 +74,11 @@ void FillEssidEntryListFromRecord(EssidEntryList *list, RawEntry *src, s32 count
 }
 
 s32 SendQueueMessage(void *msg) {
-    return OS_SendMessage(&gMessageQueue, msg, 0);
+    return Os_MessageQueue_Send(&gMessageQueue, msg, 0);
 }
 
 s32 AlarmSendQueueMessage(void *msg) {
-    return OS_SendMessage(&gMessageQueue, msg, 0);
+    return Os_MessageQueue_Send(&gMessageQueue, msg, 0);
 }
 
 s32 InitEssidWiFi(void *(*alloc)(u32), void (*release)(void *)) {
@@ -86,14 +86,14 @@ s32 InitEssidWiFi(void *(*alloc)(u32), void (*release)(void *)) {
     void *msg;
     void *buffer;
     u32 enabled;
-    OS_InitMessageQueue(&gMessageQueue, gMessageQueueSlots, 4);
+    Os_MessageQueue_Initialize(&gMessageQueue, gMessageQueueSlots, 4);
     if (alloc == NULL || release == NULL) {
         return -1;
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     gEssidAllocFunction = alloc;
     gEssidFreeFunction = release;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     buffer = gEssidAllocFunction(0x5890);
     gEssidWorkBuffer = buffer;
     if (buffer == NULL) {
@@ -104,7 +104,7 @@ s32 InitEssidWiFi(void *(*alloc)(u32), void (*release)(void *)) {
     }
     if (running != FALSE) {
         do {
-            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            Os_ReceiveMessage(&gMessageQueue, &msg, 1);
             switch ((u32) msg) {
                 case EXCHANGE_EVENT_SCAN_ROUND:
                 case EXCHANGE_EVENT_SEARCH_FOUND:
@@ -140,7 +140,7 @@ s32 ReleaseEssidWiFi(void) {
         return -1;
     }
     do {
-        OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+        Os_ReceiveMessage(&gMessageQueue, &msg, 1);
         switch ((u32) msg) {
             case EXCHANGE_EVENT_SCAN_ROUND:
             case EXCHANGE_EVENT_SEARCH_FOUND:
@@ -161,10 +161,10 @@ s32 ReleaseEssidWiFi(void) {
                 break;
         }
     } while (running != FALSE);
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     gEssidAllocFunction = NULL;
     gEssidFreeFunction = NULL;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return result;
 }
 
@@ -175,7 +175,7 @@ s32 DisconnectEssidAndWait(void) {
     if (DisconnectEssid() != FALSE) {
         done = FALSE;
         do {
-            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            Os_ReceiveMessage(&gMessageQueue, &msg, 1);
             /* waits for one entry */
             if ((u32) msg == EXCHANGE_EVENT_DISCONNECTED) {
                 result = 0;
@@ -207,10 +207,10 @@ s32 ScanEssidEntries(EssidEntryList **out) {
     }
     buffer = scan;
     if (StartEssidSearch(NULL, NULL, 0, 0x30bffe) != 0) {
-        OS_CreateAlarm(&timer);
-        OS_SetAlarm(&timer, 0x3fec42, (void (*)(void *)) AlarmSendQueueMessage, (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
+        Os_Alarm_Create(&timer);
+        Os_Alarm_Set(&timer, 0x3fec42, (void (*)(void *)) AlarmSendQueueMessage, (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
         do {
-            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            Os_ReceiveMessage(&gMessageQueue, &msg, 1);
             switch ((u32) msg) {
                 case EXCHANGE_EVENT_SEARCH_TIMEOUT:
                     if (found == FALSE) {
@@ -268,8 +268,8 @@ s32 ScanEssidEntries(EssidEntryList **out) {
             scan++;
         }
     cleanup:
-        OS_CancelAlarm(&timer);
-        while (OS_ReceiveMessage(&gMessageQueue, &msg, 0) == 1) {
+        Os_Alarm_Cancel(&timer);
+        while (Os_ReceiveMessage(&gMessageQueue, &msg, 0) == 1) {
         }
     }
     gEssidFreeFunction(buffer);
@@ -291,7 +291,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     } else if (request->mUseSharedKey == TRUE) {
         flags = 0xc0000;
     }
-    MI_CpuFill8(&gMelcoBlock, 0, sizeof(MelcoBlock));
+    Mem_CpuFill8(&gMelcoBlock, 0, sizeof(MelcoBlock));
     if (request->mMelcoLength == sizeof(WepKey5)) {
         gMelcoBlock.mLengthKind = MELCO_LENGTH_KIND_WEP_KEY_5_BYTES;
     } else if (request->mMelcoLength == sizeof(WepKey13)) {
@@ -302,16 +302,16 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
         return -1;
     }
     gMelcoBlock.mUnk_01 = 0;
-    MI_CpuCopy8(request->mMelcoBytes, gMelcoBlock.mMelcoBytes, request->mMelcoLength);
+    Mem_CpuCopy8(request->mMelcoBytes, gMelcoBlock.mMelcoBytes, request->mMelcoLength);
     WCM_ClearApList();
     if (StartEssidSearch(NULL, request->mEssid, request->mEssidLength, 0x30bffe) != 0) {
         retries = 0;
-        OS_CreateAlarm(&timer);
-        OS_SetAlarm(&timer, 0x3fec42, (void (*)(void *)) AlarmSendQueueMessage,
+        Os_Alarm_Create(&timer);
+        Os_Alarm_Set(&timer, 0x3fec42, (void (*)(void *)) AlarmSendQueueMessage,
                     (void *) EXCHANGE_EVENT_CONNECT_TIMEOUT);
         flags |= 0x30000;
         do {
-            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            Os_ReceiveMessage(&gMessageQueue, &msg, 1);
             switch ((u32) msg) {
                 case EXCHANGE_EVENT_CONNECT_TIMEOUT:
                     if (done == FALSE) {
@@ -320,7 +320,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
                     break;
                 case EXCHANGE_EVENT_SEARCH_FOUND:
                     if (done == FALSE) {
-                        OS_CancelAlarm(&timer);
+                        Os_Alarm_Cancel(&timer);
                         if (CopyEssidScanRecords(&gMelcoRecord, 1) != 1) {
                             running = FALSE;
                         } else {
@@ -362,8 +362,8 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
                     break;
             }
         } while (running != FALSE);
-        OS_CancelAlarm(&timer);
-        while (OS_ReceiveMessage(&gMessageQueue, &msg, 0) == 1) {
+        Os_Alarm_Cancel(&timer);
+        while (Os_ReceiveMessage(&gMessageQueue, &msg, 0) == 1) {
         }
     }
     FillEssidEntryListFromRecord(out, &gMelcoRecord, result == 0 ? 1 : 0);
@@ -371,7 +371,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
 }
 
 void EssidSleepWrapper(u32 msec) {
-    OS_Sleep(msec);
+    Os_Sleep(msec);
 }
 
 int CallStateChangeCallback(int state) {

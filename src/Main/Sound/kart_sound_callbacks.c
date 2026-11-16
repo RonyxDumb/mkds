@@ -6,20 +6,20 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 
-void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
+void StructMQRacerEntry_SomeFn_76(Kart *kart, KartSound *kartSound) {
     if (kart->mEntryFlags & KART_ENTRY_GHOST) {
-        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) GhostKartStartSeqNop;
+        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) MQ_FnPtr1_1;
     } else {
-        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;
+        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) MQ_FnPtr1_2;
     }
-    kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
-    if (GetCurrentSceneNumber() == 2 || kart->mIndex != gRaceSetup->mEntryIndex) {
+    kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) MQ_FnPtr2;
+    if (GetCurrentSceneId() == 2 || kart->mIndex != g_GlobalCO->mEntryIndex) {
         kartSound->mDistanceChangeFunction = GetSoundDistanceChange;
     } else {
         kartSound->mDistanceChangeFunction = GetZeroSoundDistanceChange;
     }
 }
 
-void StartKartSeqArcSoundOffset8(Kart *kart, s32 soundIndex) {
-    StartKartSeqArcSound(kart, soundIndex, 8);
+void StructMQRacerEntry_SomeFn_66(Kart *kart, s32 soundIndex) {
+    StructMQRacerEntry_SomeFn_5(kart, soundIndex, 8);
 }

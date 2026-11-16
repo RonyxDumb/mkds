@@ -9,7 +9,7 @@ StateCallbacks gPushedObjectStateTable[3] = {
     {NULL, NULL}, {EnterPushedObjectTumble, UpdatePushedObjectTumble}, {EnterPushedObjectPark, NULL}};
 
 void InitPushedObjectStates(PushedObject *object) {
-    InitStateMachine(&object->mMapObject.mStateMachine, gPushedObjectStateTable, 3, object);
+    StateDualHandler_Create(&object->mMapObject.mStateMachine, gPushedObjectStateTable, 3, object);
     object->mMapObject.mStateMachine.mNextState = PUSHED_OBJECT_STATE_IDLE;
     object->mMapObject.mStateMachine.mNextStateRequested = 1;
 }

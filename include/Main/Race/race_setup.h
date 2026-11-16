@@ -48,7 +48,7 @@ unsigned int GetRaceSetupCopyCourseCount(void);
 unsigned int GetCourseListMode(void);
 unsigned int GetCpuDifficulty(void);
 unsigned int GetMirrorMode(void);
-unsigned int GetCupIndex(void);
+unsigned int GetSelectedCup_from_thumb(void);
 unsigned int GetEngineIndex(void);
 unsigned int GetPlayerKind(u16 entryIndex);
 unsigned int GetKartIndex(u16 entryIndex);
@@ -69,16 +69,16 @@ void WiFiSetNextEngineIndex(unsigned int engineIndex);
 void WiFiSetNextCourseId(unsigned int courseId);
 void WiFiSetNextMode(unsigned int mode);
 void WiFiSetNextCpuDifficulty(unsigned int cpuDifficulty);
-RaceSetupCopy *GetRaceSetupCopy(void);
+RaceSetupCopy *GetGlobalCA_from_thumb(void);
 
-void ResetRaceSetupCopy(void);
-u32 RaceSetupCopyMB_IsMultiBootChildWrapper(void);
-u32 RaceSetupCopyMB_IsMultiBootChild(void);
-u16 *RaceSetupCopyMB_GetMultiBootParam(void);
+void DoInitializeGlobalCA_from_thumb(void);
+u32 j_IsDwc(void);
+u32 IsDwc(void);
+u16 *GetBootIndicatorPointer(void);
 
-unsigned int RaceSetupCopyGetConnectionKind(void);
-void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size);
-void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size);
-void CreateRaceSetupCopy(void *heap);
+unsigned int GetPMaybeState(void);
+void CpuFastMemoryZero(void *destination, u32 size);
+void Mem_CpuFastMemorySet2(void *destination, u32 value, u32 size);
+void InitializeGlobalCA_from_thumb(void *heap);
 
-extern RaceSetupCopy *gRaceSetupCopy;
+extern RaceSetupCopy *g_GlobalCA;

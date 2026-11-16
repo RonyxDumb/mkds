@@ -8,7 +8,7 @@ u64 gLastTick;
 
 void SetLastTick(void) {
     u64 tick;
-    tick = OS_GetTick();
+    tick = Os_GetTick();
     gLastTick = tick;
 }
 

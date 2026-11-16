@@ -66,7 +66,7 @@ typedef struct SelectGhost {
     /* 54 */ s16 mOffsetTimers[2];
     // Negated and shifted into the upper half-word of the BG0 offset register.
     /* 58 */ s32 mBg0Offset;
-    // Y half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; mBg0Offset is the main engine's
+    // Y half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; mBg0Offset is the NtrMain engine's
     /* 5c */ s32 mBg3Offset;
     /* 60 */ s32 mIndex;
     /* 64 */ void *mMainOamList;

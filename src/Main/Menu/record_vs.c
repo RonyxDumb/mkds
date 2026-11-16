@@ -80,7 +80,7 @@ struct RecordScene *gRecordScene;
 
 void AdvanceRecordVSWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestRecordVSSlideInMain();
     }
@@ -97,7 +97,7 @@ void AdvanceRecordVSSlideInMain(void) {
     s32 labelIndex;
     s16 offset;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, -192, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
@@ -135,7 +135,7 @@ void AdvanceRecordVSSlideInSub(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -223,8 +223,8 @@ void AdvanceRecordVSBrowse(void) {
     if (downRectIndex != 11) {
         gRecordVS->mPageIncrementRepeat = FALSE;
     }
-    keySlot = &gInputSlots[inputSlotIndex];
-    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    keySlot = &g_GlobalCYT[inputSlotIndex];
+    if ((u16) (g_GlobalCYT[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
         pressedFlag = FALSE;
         releasedFlag = FALSE;
         pressedBits = touchSlot->mHasPair;
@@ -255,7 +255,7 @@ void AdvanceRecordVSBrowse(void) {
 handlePageButtons:
     if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 10 && gRecordVS->mPageDecrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (g_GlobalCYT[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -266,12 +266,12 @@ handlePageButtons:
         gRecordVS->mOffsetTimers[0] = RECORD_PAGE_ARROW_FRAMES;
         gRecordVS->mPageDecrementRepeat = TRUE;
         RequestRecordVSPageSlideOut();
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if ((downRectIndex == 11 && gRecordVS->mPageIncrementRepeat != FALSE) ||
         (pressedRectIndex == 11 && gRecordVS->mPageIncrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (g_GlobalCYT[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -282,7 +282,7 @@ handlePageButtons:
         gRecordVS->mOffsetTimers[1] = RECORD_PAGE_ARROW_FRAMES;
         gRecordVS->mPageIncrementRepeat = TRUE;
         RequestRecordVSPageSlideOut();
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if ((u32) (pressedRectIndex - 5) <= 4) {
@@ -304,7 +304,7 @@ handlePageButtons:
             return;
         }
         gRecordVS->mIndex = rowIndex;
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         return;
     }
     if (pressedRectIndex == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {
@@ -348,7 +348,7 @@ void AdvanceRecordVSPageSlideOut(void) {
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
-    offset = InterpolateS16(1, 0, endOffset, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, 0, endOffset, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetX = offset;
@@ -406,7 +406,7 @@ void AdvanceRecordVSPageSlideIn(void) {
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
-    offset = InterpolateS16(1, startOffset, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, startOffset, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetX = offset;
@@ -446,7 +446,7 @@ void AdvanceRecordVSSubSlideOut(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -480,7 +480,7 @@ void AdvanceRecordVSMainSlideOut(void) {
         SetRecordNextScene(12);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, 0, -192, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
@@ -532,7 +532,7 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -562,7 +562,7 @@ void AdvanceRecordVSSubSlideIn(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = ComputeValueInterpolation_from_thumb(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -692,108 +692,108 @@ void LoadRecordSceneData(void) {
     void *file;
     LoadedPartPointer loadedPart;
     loadedPart.mNcgr = NULL;
-    file = FindSceneFile(gRecordTopMenuMBNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTopMenuMBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTopMenuMNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordTopMenuMNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTopMenuMNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordTopMenuMONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTopMenuSNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTopMenuSNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordTopMenuSONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordGpxMNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordGpxMNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordGpxMONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordGpxMBNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordGpxMBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordGpxMNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordGpxSNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordGpxSNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordGpxSONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordGpxSBNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordGpxSBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordGpxSNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordTrophyONcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTrophyONcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordTrophySONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTAttMNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTAttMNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordTAttMONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTAttMBNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTAttMNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordTAttMScoreNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordTAttMBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTAttSNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTAttSNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordTAttSONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTAttSBNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordTAttSBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordTAttSNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordVSMNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordVSMNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordVSMONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordVSMBNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordVSMNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordVSM02NscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordVSMBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordVSSNcgrName);
-    LoadNcgrData(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordVSSNcerName);
-    LoadNcerData(&loadedPart.mNcer, file);
-    file = FindSceneFile(gRecordVSSONclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
-    file = FindSceneFile(gRecordVSM03NscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordVSSBNcgrName);
-    LoadNcgrData2(&loadedPart.mNcgr, file);
-    file = FindSceneFile(gRecordVSSEraseNscrName);
-    LoadNscrData(&loadedPart.mNscr, file);
-    file = FindSceneFile(gRecordVSSBNclrName);
-    LoadNclrData(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMBNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuMONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTopMenuSONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMBNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophyONcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophyONcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophySONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMBNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMScoreNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSMNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSMNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSMONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSMBNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSMNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSM02NscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSMBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSSNcgrName);
+    Gfx_ReadCharGraphicsV2(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSSNcerName);
+    LoadCellBankFrom(&loadedPart.mNcer, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSSONclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSM03NscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSSBNcgrName);
+    Gfx_ReadCharGraphics(&loadedPart.mNcgr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSSEraseNscrName);
+    MaybeReadScreenBlock_0(&loadedPart.mNscr, file);
+    file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordVSSBNclrName);
+    Gfx_ReadPalette(&loadedPart.mNclr, file);
     LoadKartIconData();
     LoadCupMarkData();
 }
@@ -804,14 +804,14 @@ void LoadRecordSceneData(void) {
 
 void InitRecordSceneObject(void *heap, s16 previousScene) {
     SceneTextInitParams sceneTextInitParams;
-    gRecordScene = HeapAlloc(heap, sizeof(*gRecordScene));
+    gRecordScene = Mem_AllocateHeap(heap, sizeof(*gRecordScene));
     gRecordScene->mHeap = heap;
     gRecordScene->mPageIndex = 0;
     gRecordScene->mIndex = 0;
-    CreateSceneDisplaySettings(heap);
-    InitLinkLevelIcons(heap, GetRecordMainOam());
+    CreateLoadSomeDisplayConfig_from_thumb(heap);
+    CreateGlobalNN_from_thumb(heap, GetRecordMainOam());
     sceneTextInitParams.mUseTxtSystem = TRUE;
-    sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
+    sceneTextInitParams.mTxtSystemFont = GetLoadedFont_from_thumb(1);
     sceneTextInitParams.mUseCanvas1 = 0;
     sceneTextInitParams.mUseCanvas2 = 1;
     sceneTextInitParams.mUseCanvas3 = 0;
@@ -819,11 +819,11 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     sceneTextInitParams.mUseSelectReturn = TRUE;
     sceneTextInitParams.mUseBackScreen = TRUE;
     sceneTextInitParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &sceneTextInitParams);
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(heap, &sceneTextInitParams);
     CreateRecordList(gRecordScene->mHeap);
     BuildRecordList();
-    gRecordScene->mStateHeap = CreateExpHeapFromMaxFree(gRecordScene->mHeap);
+    gRecordScene->mStateHeap = Mem_CreateChildExpHeap(gRecordScene->mHeap);
     LoadRecordSceneData();
     ClearRecordScreenCallbacksKeepRegisters();
     gRecordScene->mPrevScene = previousScene;
@@ -850,8 +850,8 @@ void ReleaseRecordSceneObject(void) {
     ClearRecordListPointer();
     gRecordScene->mScreenCallbacks.mRelease();
     ClearRecordScreenCallbacksKeepRegisters();
-    ClearLinkLevelIconsPointer();
-    ReleaseSceneText();
+    ResetGlobalNN_from_thumb();
+    DisposeNavigationContext_from_thumb();
     *&gRecordScene = NULL;
 }
 
@@ -864,8 +864,8 @@ void AdvanceRecordScene(void) {
     if (gRecordScene->mNextScreen != RECORD_SCREEN_NONE) {
         gRecordScene->mScreenCallbacks.mRelease();
         ClearRecordScreenCallbacksKeepRegisters();
-        HeapDestroy(gRecordScene->mStateHeap);
-        gRecordScene->mStateHeap = CreateExpHeapFromMaxFree(gRecordScene->mHeap);
+        Mem_DestroyHeap(gRecordScene->mStateHeap);
+        gRecordScene->mStateHeap = Mem_CreateChildExpHeap(gRecordScene->mHeap);
         switch (gRecordScene->mNextScreen) {
             case RECORD_SCREEN_TOP_MENU:
                 if (gRecordScene->mScreen == RECORD_SCREEN_VS) {
@@ -893,7 +893,7 @@ void AdvanceRecordScene(void) {
         gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
     }
     gRecordScene->mScreenCallbacks.mAdvance();
-    AdvanceSceneText();
+    NavigationContext_OnSceneUpdate_from_thumb();
     AdvanceLinkLevelIcons();
 }
 
@@ -903,7 +903,7 @@ void AdvanceRecordScene(void) {
 
 void WriteRecordSceneRegisters(void) {
     gRecordScene->mScreenCallbacks.mWriteOffsets();
-    WriteSceneTextRegisters();
+    NavigationContext_OnSceneVblank_from_thumb();
 }
 
 #pragma thumb off

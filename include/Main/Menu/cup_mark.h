@@ -10,7 +10,7 @@ typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 void QueueSelectCupNameM(u32 nameIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
                          u32 queueSelector);
 void CreateSelectCupNameM(void *heap);
-void LoadSelectCupNameMData(void);
+void VerifySelectCupNameFiles_from_thumb(void);
 void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
                   u16 paletteSlot, s32 queueSelector);
 void ClearCupMarkPointer(void);
@@ -19,7 +19,7 @@ void ClearSelectCupNameMPointer(void);
 
 void CreateCommonCupMark(void *heap);
 void CreateCupMark(void *heap);
-void LoadCommonCupMarkData(void);
+void VerifyCupMarkFiles_from_thumb(void);
 void LoadCupMarkData(void);
 
 extern char *gCommonCupMarkNcerName;

@@ -181,7 +181,7 @@ enum {
     CHILD_WAIT_REQUEST_STOP,
 };
 
-// Values of ChildWaitSharedEntry.mCode. 0x70 and 0xff also abort (both go to ABORT_FINALIZE); they stay bare.
+// Values of ChildWaitSharedEntry.mCode. 0x70 and 0xff also OnAssertionFailed (both go to ABORT_FINALIZE); they stay bare.
 enum {
     CHILD_WAIT_CODE_NONE = 0,
     CHILD_WAIT_CODE_BLOCK_ACK = 0x10,

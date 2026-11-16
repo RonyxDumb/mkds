@@ -58,11 +58,11 @@ BOOL IsBridgeKind(u32 kind) {
 void CreateBridge(void) {
     void *file;
 
-    file = FindCourseMapObjFile("bridge.nsbmd");
+    file = FormatFindMapObjFileBuffer_from_thumb("bridge.nsbmd");
     CreateNsbmd(&gBridge, file, NULL);
-    CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile("bridge.nsbca"));
-    gBridgeDrawList->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
-    SetNsbmdPolygonIdLightEmiAll(gBridge, 0x3f, 2, 0x294a);
+    CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FormatFindMapObjFileBuffer_from_thumb("bridge.nsbca"));
+    gBridgeDrawList->mAnimationFrameCount = StructAM_GetFrameCount_Times4096(gBridgeNsbca);
+    StructML_SomeFn_1(gBridge, 0x3f, 2, 0x294a);
     SetMapObjectsModel(&gBridgeDrawList->mMapObjectList, gBridge);
 }
 
@@ -80,7 +80,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mTroughPauseFrameCount = courseRow->mSettings[3];
     bridge->mPauseTimer = 0;
     bridge->mSwingAngle = 0;
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         bridge->mSwingAnglePerFrame = 0;
         bridge->mSwingAngle = ((courseRow->mSettings[4] * 0x10000) / 0x168) >> 1;
     }

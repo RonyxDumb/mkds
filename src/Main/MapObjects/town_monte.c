@@ -111,7 +111,7 @@ static inline void AdvanceAirshipWobble(Airship *airship) {
 static inline BOOL IsAnyKartHighestLapAtLeastTwo(void) {
     s32 kartIndex;
 
-    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
         if (GetKartHighestLap(kartIndex) >= 2) {
             return TRUE;
         }
@@ -141,11 +141,11 @@ void UpdateAirship(void *mapObjectList, Airship *airship) {
             AdvanceAirshipWobble(airship);
             break;
     }
-    airship->mMapObject.mAngle = FX_Atan2Idx(airship->mMapObject.mPosStep.x, airship->mMapObject.mPosStep.z);
+    airship->mMapObject.mAngle = FX_Atan2(airship->mMapObject.mPosStep.x, airship->mMapObject.mPosStep.z);
 }
 
 MapObjectList *CreateAirshipDrawList(void) {
-    return CreateMapObjectDrawList1(CreateAirship, DrawAirship, NULL);
+    return CreateMapObjectDrawList1(LoadAirshipMapObject, DrawAirship, NULL);
 }
 
 MapObjectList *CreateAirshipUpdateList(void) {
@@ -158,7 +158,7 @@ void InitCourseMapRowKindData(MapObject *mapObject) {
     kindDataIndex = mapObject->mCourseMapRow->mSettings[0];
     if (gCourseMapRowKindData[kindDataIndex] == NULL) {
         gCourseMapRowKindData[kindDataIndex] =
-            HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gCourseMapRowKindData[kindDataIndex]));
+            Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gCourseMapRowKindData[kindDataIndex]));
         *gCourseMapRowKindData[kindDataIndex] = *gCourseMapRowKindData[0];
     }
     switch (kindDataIndex) {
@@ -191,10 +191,10 @@ void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList) {
     ResetViewRotatedMatrixAxis1();
 }
 
-void CreateTownMonte(MapObjectList *mapObjectList) {
+void LoadTownMonteMapObject(MapObjectList *mapObjectList) {
     mapObjectList->mAfterObjects = ResetViewRotatedMatrixAxis1Wrapper;
-    SetMapObjectModelPolygonId(
-        gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "TownMonte.nsbmd", "TownMonte.nsbtp"), 0x3f);
+    StructMapObject_MaybeSetPolygonId(
+        gTownMonte = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "TownMonte.nsbmd", "TownMonte.nsbtp"), 0x3f);
 }
 
 void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
@@ -213,8 +213,8 @@ void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
         NNS_G3dGeBufferOP_N(0x19, viewMatrix, 0xc);
     }
     NNS_G3dGeBufferOP_N(0x1b, &townMonte->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gTownMonte, townMonte->mNsbtpFrameIndex);
-    QueueMapObjectModelMaterial(mapObjectList, gTownMonte);
+    StructMapObject_SomeFn_0(gTownMonte, townMonte->mNsbtpFrameIndex);
+    StructMapObject_SomeFn_9(mapObjectList, gTownMonte);
     DrawMapObjectModel(mapObjectList, gTownMonte, townMonte);
 }
 
@@ -234,7 +234,7 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
          mapObjectIndex++) {
         townMonte->mBounceOffset = 0;
         townMonte->mBounceSpeed = 0;
-        nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
+        nsbtpFrameCount = StructMapObject_SomeFn_1(gTownMonte);
         townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
@@ -290,7 +290,7 @@ void UpdateTownMonte(void *mapObjectList, TownMonte *townMonte) {
 }
 
 MapObjectList *CreateTownMonteDrawList(void) {
-    return CreateMapObjectDrawList2(CreateTownMonte, DrawTownMonte, NULL);
+    return CreateAllocateMapObject_from_thumb(LoadTownMonteMapObject, DrawTownMonte, NULL);
 }
 
 MapObjectList *CreateTownMonteUpdateList(void) {

@@ -19,34 +19,34 @@ u8 Work[32] = {0};
 
 #pragma thumb on
 
-void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info) {
-    MI_CpuCopy8(gPackedWiFiInfo, info, 6);
+void StructDW_MaybeCreate_from_thumb(DWCWiFiInfo *info) {
+    Mem_CpuCopy8(gPackedWiFiInfo, info, 6);
     info->mAttestedUserId &= ~0xfffff80000000000ULL;
-    MI_CpuCopy8(gPackedWiFiInfo + 5, &info->mNotAttestedId, 6);
+    Mem_CpuCopy8(gPackedWiFiInfo + 5, &info->mNotAttestedId, 6);
     info->mNotAttestedId >>= 3;
     info->mNotAttestedId &= ~0xfffff80000000000ULL;
-    MI_CpuCopy8(gPackedWiFiInfo + 10, &info->mPass, 2);
+    Mem_CpuCopy8(gPackedWiFiInfo + 10, &info->mPass, 2);
     info->mPass = info->mPass >> 6;
     info->mPass &= 0x3ff;
-    MI_CpuCopy8(gPackedWiFiInfo + 12, &info->mRandomHistory, 2);
+    Mem_CpuCopy8(gPackedWiFiInfo + 12, &info->mRandomHistory, 2);
 }
 
-BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work) {
+BOOL StructDW_SomeFn_0_from_thumb(const DWCWiFiInfo *info, u8 *work) {
     u32 address;
     s32 page;
     address = gNvramEntriesOffset;
-    DWCi_BACKUPlConvWifiInfo(info);
-    Crc16InitTable(OFFSET_PTR(u16, work, 0x200), 0xa001);
+    StructDW_SomeFn_2_from_thumb(info);
+    SomeHashing(OFFSET_PTR(u16, work, 0x200), 0xa001);
     for (page = 0; page < 2;) {
         if (readNvram(address, 0x100, work) == 0) {
-            OS_Terminate();
+            Os_Terminate();
             return 0;
         }
-        MI_CpuCopy8(gPackedWiFiInfo, work + 0xf0, 0xe);
+        Mem_CpuCopy8(gPackedWiFiInfo, work + 0xf0, 0xe);
         *OFFSET_PTR(u16, work, 0xfe) = Crc16(OFFSET_PTR(u16, work, 0x200), work, 0xfe);
         do {
             writeNvram(address, 0x100, work);
-        } while (verify(work, address, 0x100, work + 0x100) == 0);
+        } while (StructDC_SomeFn_5_from_thumb(work, address, 0x100, work + 0x100) == 0);
         page++;
         address += 0x100;
     }
@@ -60,7 +60,7 @@ BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work) {
 
 #pragma thumb on
 
-u32 ReadNvramEntriesOffset(u16 *buffer) {
+u32 StructDC_SomeFn_3_from_thumb(u16 *buffer) {
     int readResult;
     readResult = readNvram(0x20, 0x20, buffer);
     if (readResult == 0) {
@@ -70,7 +70,7 @@ u32 ReadNvramEntriesOffset(u16 *buffer) {
     return 1;
 }
 
-u32 ReadNvramEntries(void *buffer) {
+u32 StructDC_SomeFn_1_from_thumb(void *buffer) {
     int readResult;
     readResult = readNvram(gNvramEntriesOffset, 0x400, buffer);
     if (readResult != 0) {
@@ -94,7 +94,7 @@ u32 WriteFlaggedNvramEntries(void *data, int *flags, void *verifyBuffer) {
         if (*flagPointer != 0) {
             do {
                 writeNvram(address, entrySize, data);
-                verifyResult = verify(data, address, entrySize, verifyBuffer);
+                verifyResult = StructDC_SomeFn_5_from_thumb(data, address, entrySize, verifyBuffer);
             } while (verifyResult == 0);
         }
         flagPointer = flagPointer + 1;
@@ -109,7 +109,7 @@ u32 WriteFlaggedNvramEntries(void *data, int *flags, void *verifyBuffer) {
     return 0;
 }
 
-u32 WriteNvramEntriesWithCrc16(u8 *data) {
+u32 StructDC_SomeFn_0_from_thumb(u8 *data) {
     int entryIndex;
     int address;
     u8 *entry;
@@ -126,7 +126,7 @@ u32 WriteNvramEntriesWithCrc16(u8 *data) {
         *OFFSET_PTR(u16, entry, 0xfe) = crc;
         do {
             writeNvram(address, entrySize, entry);
-            verifyResult = verify(entry, address, entrySize, OFFSET_PTR(const u8, data, 0x400));
+            verifyResult = StructDC_SomeFn_5_from_thumb(entry, address, entrySize, OFFSET_PTR(const u8, data, 0x400));
         } while (verifyResult == 0);
         entry = entry + entrySize;
         entryIndex = entryIndex + 1;
@@ -143,7 +143,7 @@ u32 WriteNvramEntriesWithCrc16(u8 *data) {
 
 #pragma thumb on
 void WritePackedWiFiInfo(const u8 *packedWiFiInfo) {
-    MI_CpuCopy8(packedWiFiInfo, gPackedWiFiInfo, 14);
+    Mem_CpuCopy8(packedWiFiInfo, gPackedWiFiInfo, 14);
 }
 #pragma thumb off
 
@@ -181,7 +181,7 @@ void DWCi_BACKUPlConvMaskAddr(u32 mask, u8 *buf) {
     }
 }
 
-BOOL DWC_BACKUPlCheckSsid(const u8 *ssid) {
+BOOL StructDCInner_HasAnyUnk_from_thumb(const u8 *ssid) {
     s32 byteIndex;
     for (byteIndex = 0; byteIndex < 0x20; byteIndex++) {
         if (ssid[byteIndex] != 0) {
@@ -196,8 +196,8 @@ BOOL DWC_BACKUPlCheckIp(const u8 *ip, const u8 *mask) {
     if (DWC_BACKUPlCheckAddress(ip) == 0) {
         return 0;
     }
-    MI_CpuCopy8(ip, &words[0], 4);
-    MI_CpuCopy8(mask, &words[1], 4);
+    Mem_CpuCopy8(ip, &words[0], 4);
+    Mem_CpuCopy8(mask, &words[1], 4);
     if ((words[0] | words[1]) == 0xfffffffe) {
         return 0;
     }
@@ -223,42 +223,42 @@ BOOL DWC_BACKUPlCheckAddress(const u8 *address) {
 
 static inline u32 sendSixWords(u32 tag, u32 firstWord, u32 secondWord, u32 thirdWord, u32 fourthWord, u32 fifthWord,
                                u32 sixthWord) {
-    if (PXI_SendWordByFifo(tag, firstWord, 0) < 0) {
+    if (Fifo_SendWord(tag, firstWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, secondWord, 0) < 0) {
+    if (Fifo_SendWord(tag, secondWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, thirdWord, 0) < 0) {
+    if (Fifo_SendWord(tag, thirdWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, fourthWord, 0) < 0) {
+    if (Fifo_SendWord(tag, fourthWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, fifthWord, 0) < 0) {
+    if (Fifo_SendWord(tag, fifthWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, sixthWord, 0) < 0) {
+    if (Fifo_SendWord(tag, sixthWord, 0) < 0) {
         return 0;
     }
     return 1;
 }
 
 static inline u32 sendThreeWords(u32 tag, u32 firstWord, u32 secondWord, u32 thirdWord) {
-    if (PXI_SendWordByFifo(tag, firstWord, 0) < 0) {
+    if (Fifo_SendWord(tag, firstWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, secondWord, 0) < 0) {
+    if (Fifo_SendWord(tag, secondWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, thirdWord, 0) < 0) {
+    if (Fifo_SendWord(tag, thirdWord, 0) < 0) {
         return 0;
     }
     return 1;
 }
 
 static inline u32 sendOneWord(u32 tag, u32 word) {
-    if (PXI_SendWordByFifo(tag, word, 0) >= 0) {
+    if (Fifo_SendWord(tag, word, 0) >= 0) {
         return 1;
     }
     return 0;
@@ -318,20 +318,20 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                     sending = sendOneWord(tag, 0x3002000);
                     break;
                 case NVRAM_STATE_PAGE_WRITE:
-                    if (PXI_SendWordByFifo(tag, writeHeader, 0) < 0) {
+                    if (Fifo_SendWord(tag, writeHeader, 0) < 0) {
                         sending = 0;
-                    } else if (PXI_SendWordByFifo(tag, addr, 0) < 0) {
+                    } else if (Fifo_SendWord(tag, addr, 0) < 0) {
                         sending = 0;
-                    } else if (PXI_SendWordByFifo(tag, size | 0x20000, 0) < 0) {
+                    } else if (Fifo_SendWord(tag, size | 0x20000, 0) < 0) {
                         sending = 0;
-                    } else if (PXI_SendWordByFifo(tag, writeBufHigh, 0) < 0) {
+                    } else if (Fifo_SendWord(tag, writeBufHigh, 0) < 0) {
                         sending = 0;
-                    } else if (PXI_SendWordByFifo(tag, bufAddr, 0) < 0) {
+                    } else if (Fifo_SendWord(tag, bufAddr, 0) < 0) {
                         sending = 0;
                     } else {
                         sending = 1;
                     }
-                    start = OS_GetTick();
+                    start = Os_GetTick();
                     break;
                 case NVRAM_STATE_CHECK_WRITE_ENABLED:
                 case NVRAM_STATE_WAIT_WRITE_DONE:
@@ -360,7 +360,7 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                     break;
                 case NVRAM_STATE_CHECK_WRITE_ENABLED:
                 case NVRAM_STATE_WAIT_WRITE_DONE:
-                    DC_InvalidateRange(&Work, 1);
+                    DC_InvalidateRangeNoClean(&Work, 1);
                     if (state == NVRAM_STATE_CHECK_WRITE_ENABLED) {
                         if (Work[0] & 2) {
                             state = NVRAM_STATE_PAGE_WRITE;
@@ -371,10 +371,10 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                     if ((Work[0] & 1) == 0) {
                         return 1;
                     }
-                    if ((Work[0] & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
+                    if ((Work[0] & 0x20) != 0 || ((Os_GetTick() - start) * 64) / 33514 > 4000) {
                         state = NVRAM_STATE_WRITE_FAILED;
                     } else {
-                        WaitByLoop(0x4000);
+                        Svc_Delay_from_thumb(0x4000);
                     }
                     break;
                 case NVRAM_STATE_WRITE_FAILED:
@@ -389,43 +389,43 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
 
 BOOL readNvram(u32 address, u32 size, void *buf) {
     u32 tag;
-    DC_InvalidateRange(buf, size);
+    DC_InvalidateRangeNoClean(buf, size);
     tag = 4;
-    while (PXI_IsCallbackReady(tag, 1) == 0) {
+    while (Fifo_IsHandlerReady(tag, 1) == 0) {
     }
-    PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
+    Fifo_RegisterHandler(4, (PXIFifoCallback) FifoHandler_4_from_thumb);
     tag = NVRAM_STATE_READ;
     while (1) {
         if (NVRAMm_ExecuteCommand(tag, address, size, buf) == 1) {
             break;
         }
-        WaitByLoop(0x40000);
+        Svc_Delay_from_thumb(0x40000);
     }
-    DC_InvalidateRange(buf, size);
+    DC_InvalidateRangeNoClean(buf, size);
     return 1;
 }
 
 void writeNvram(u32 address, u16 size, void *data) {
     u32 tag;
     tag = 4;
-    while (PXI_IsCallbackReady(tag, 1) == 0) {
+    while (Fifo_IsHandlerReady(tag, 1) == 0) {
     }
-    PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
-    DC_StoreRange(data, size);
+    Fifo_RegisterHandler(4, (PXIFifoCallback) FifoHandler_4_from_thumb);
+    DC_SomeClean(data, size);
     tag = NVRAM_STATE_WRITE_ENABLE;
     while (1) {
         if (NVRAMm_ExecuteCommand(tag, address, size, data) == 1) {
             break;
         }
-        WaitByLoop(0x40000);
+        Svc_Delay_from_thumb(0x40000);
     }
 }
 
-BOOL verify(const u8 *src, u32 address, u32 size, const u8 *work) {
+BOOL StructDC_SomeFn_5_from_thumb(const u8 *src, u32 address, u32 size, const u8 *work) {
     if (readNvram(address, size, work) == 0) {
         return 0;
     }
-    if (memcmp(src, work, size) == 0) {
+    if (StructDC_SomeFn_6(src, work, size) == 0) {
         return 1;
     }
     return 0;
@@ -438,9 +438,9 @@ BOOL writeDisable(void) {
     u32 zero;
     tag = 4;
     ready = 1;
-    while (PXI_IsCallbackReady(tag, ready) == 0) {
+    while (Fifo_IsHandlerReady(tag, ready) == 0) {
     }
-    PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
+    Fifo_RegisterHandler(4, (PXIFifoCallback) FifoHandler_4_from_thumb);
     delay = 0x40000;
     tag = 7;
     zero = 0;
@@ -448,12 +448,12 @@ BOOL writeDisable(void) {
         if (NVRAMm_ExecuteCommand(tag, zero, zero, (u8 *) zero) == 1) {
             break;
         }
-        WaitByLoop(delay);
+        Svc_Delay_from_thumb(delay);
     }
     return 1;
 }
 
-u16 Callback_NVRAM(u32 tag, u32 data, u32 err) {
+u16 FifoHandler_4_from_thumb(u32 tag, u32 data, u32 err) {
     nv_result = data & 0xff;
     nv_cb_occurred = 1;
     if (err != 0) {
@@ -462,22 +462,22 @@ u16 Callback_NVRAM(u32 tag, u32 data, u32 err) {
     return nv_result;
 }
 
-u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info) {
+u8 *StructDW_SomeFn_2_from_thumb(const DWCWiFiInfo *info) {
     u64 notAttestedId;
     u32 byte5;
     u32 byte10;
     notAttestedId = info->mNotAttestedId;
-    MI_CpuCopy8(info, gPackedWiFiInfo, 5);
+    Mem_CpuCopy8(info, gPackedWiFiInfo, 5);
     byte5 = ((u32) (info->mAttestedUserId >> 32) >> 8) & 7;
     byte5 |= ((u32) notAttestedId & 0x1f) << 3;
     gPackedWiFiInfo[5] = byte5;
     notAttestedId >>= 5;
-    MI_CpuCopy8(&notAttestedId, gPackedWiFiInfo + 6, 4);
+    Mem_CpuCopy8(&notAttestedId, gPackedWiFiInfo + 6, 4);
     byte10 = (u32) (notAttestedId >> 32) & 0x3f;
     byte10 |= (info->mPass & 3) << 6;
     gPackedWiFiInfo[10] = byte10;
     gPackedWiFiInfo[11] = info->mPass >> 2;
-    MI_CpuCopy8(&info->mRandomHistory, gPackedWiFiInfo + 12, 2);
+    Mem_CpuCopy8(&info->mRandomHistory, gPackedWiFiInfo + 12, 2);
     return gPackedWiFiInfo;
 }
 

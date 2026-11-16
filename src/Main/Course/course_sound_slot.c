@@ -73,7 +73,7 @@ void SelectCourseSoundTable(u32 courseId) {
         }
     }
     volumeHandle = 0;
-    if (tableIndex == COURSE_SOUND_TABLE_TOWN && gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (tableIndex == COURSE_SOUND_TABLE_TOWN && g_GlobalCO->mMode != MODE_MISSION_RUN) {
         volumeHandle = 3;
     }
     gCourseSoundSlots[0].mPreviousVolumeHandle = volumeHandle;
@@ -119,7 +119,7 @@ void ApplyCourseSoundTableEntry(s32 entryIndex) {
         if (*handle != NULL) {
             NNS_SndPlayerStopSeq(handle, 0);
         }
-        NNS_SndArcPlayerStartSeqArc(handle, 0, tableValue);
+        PlaySseqFromSarc(handle, 0, tableValue);
         return;
     }
     if (lowBits >= 4) {
@@ -159,7 +159,7 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
                 if (*handle != NULL) {
                     NNS_SndPlayerStopSeq(handle, 0);
                 }
-                NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
+                PlaySseqFromSarc(handle, 0, soundId);
             }
         }
         if (*handle != NULL) {
@@ -198,7 +198,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
                     if (*handle != NULL) {
                         NNS_SndPlayerStopSeq(handle, 0);
                     }
-                    NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
+                    PlaySseqFromSarc(handle, 0, soundId);
                 }
             }
             SetSndHandleTrackVolume(handle, trackVolume);

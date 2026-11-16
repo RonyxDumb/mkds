@@ -18,59 +18,59 @@
 #include "registers.h"
 #include "card_removal_handling.h"
 
-u32 gRomBaseOffset;
-CARDRomStat gRomReadState __attribute__((aligned(32)));
+u32 g_SomeOffsetBase;
+CARDRomStat g_Card_RomContext __attribute__((aligned(32)));
 
 // Worker thread: sleeps until CARDiCommon.mFlag has the task bit, then runs CARDiCommon.mTaskFunc.
-void CARDi_TaskThread(void *arg) {
+void Card_ContextThreadMain(void *arg) {
     CARDiCommon *common;
     u32 enabled;
 
-    common = &gAccessState;
+    common = &g_Card_Context;
     for (;;) {
-        enabled = OS_DisableInterrupts();
+        enabled = Os_DisableIrq();
         while ((common->mFlag & BACKUP_ACCESS_FLAG_TASK_PENDING) == 0) {
             common->mCurTh = &common->mThread;
-            OS_SleepThread(0);
+            Os_Thread_Sleep(0);
         }
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         common->mTaskFunc(common);
     }
 }
 
-// Sends a request on tag 11 and waits for the reply, trying again while the result is 4. The first call sends the init
+// Sends a request on tag 11 and waits for the reply, trying again while the result is 4. The first call sends the StructDC_SomeFn_from_thumb
 // request with the address of CARDiCommon.mCmd. Returns 1 when CARDiCommandArg.mResult is 0.
-int CARDi_Request(CARDiCommon *common, int reqType, int retryCount) {
+int Card_Request(CARDiCommon *common, int reqType, int retryCount) {
     u32 enabled;
     s32 result;
     CARDiCommandArg *cmd;
 
     if (!(common->mFlag & BACKUP_ACCESS_FLAG_REQUEST_CHANNEL_READY)) {
         common->mFlag |= BACKUP_ACCESS_FLAG_REQUEST_CHANNEL_READY;
-        if (PXI_IsCallbackReady(11, 1) == 0) {
+        if (Fifo_IsHandlerReady(11, 1) == 0) {
             do {
-                OS_SpinWait(100);
-            } while (PXI_IsCallbackReady(11, 1) == 0);
+                Os_SpinWait(100);
+            } while (Fifo_IsHandlerReady(11, 1) == 0);
         }
-        CARDi_Request(common, 0, 1);
+        Card_Request(common, 0, 1);
     }
-    DC_FlushRange(common->mCmd, 0x40);
-    DC_WaitWriteBufferEmpty();
+    Arm_FlushRange(common->mCmd, 0x40);
+    Mem_DcDrainWriteBuffer();
     do {
         common->mCommand = reqType;
         common->mFlag |= BACKUP_ACCESS_FLAG_REQUEST_PENDING;
-        while (PXI_SendWordByFifo(11, reqType, 1) < 0) {
+        while (Fifo_SendWord(11, reqType, 1) < 0) {
         }
         if (reqType == 0) {
             cmd = common->mCmd;
-            while (PXI_SendWordByFifo(11, (u32) cmd, 1) < 0) {
+            while (Fifo_SendWord(11, (u32) cmd, 1) < 0) {
             }
         }
-        enabled = OS_DisableInterrupts();
+        enabled = Os_DisableIrq();
         while (common->mFlag & BACKUP_ACCESS_FLAG_REQUEST_PENDING) {
-            OS_SleepThread(0);
+            Os_Thread_Sleep(0);
         }
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         result = common->mCmd->mResult;
     } while (result == ROM_ACCESS_AGAIN && --retryCount > 0);
     return result == ROM_ACCESS_SUCCEEDED;
@@ -78,13 +78,13 @@ int CARDi_Request(CARDiCommon *common, int reqType, int retryCount) {
 
 // Copies from CARDRomStat.mCacheBuf to the destination when the buffered page is the one at CARDiCommon.mSrc. Returns 1
 // while CARDiCommon.mLen is not 0.
-int CARDi_ReadFromCache(CARDRomStat *romStat) {
+int GlobalSZ_SomeFn(CARDRomStat *romStat) {
     CARDiCommon *common;
     u32 curPage;
     u32 len;
     u32 offset;
 
-    common = &gAccessState;
+    common = &g_Card_Context;
     curPage = common->mSrc & -0x200;
     if (curPage == romStat->mCachePage) {
         offset = common->mSrc - curPage;
@@ -92,7 +92,7 @@ int CARDi_ReadFromCache(CARDRomStat *romStat) {
         if (len > common->mLen) {
             len = common->mLen;
         }
-        MI_CpuCopy8((u8 *) romStat->mCacheBuf + offset, (void *) common->mDst, len);
+        Mem_CpuCopy8((u8 *) romStat->mCacheBuf + offset, (void *) common->mDst, len);
         common->mSrc += len;
         common->mDst += len;
         common->mLen -= len;
@@ -101,7 +101,7 @@ int CARDi_ReadFromCache(CARDRomStat *romStat) {
 }
 
 // Waits for the card to be idle, then writes the 8 command bytes of a ROM operation, high byte first.
-void CARDi_SetRomOp(u32 cmd1, u32 cmd2) {
+void Card_WriteRomOperation(u32 cmd1, u32 cmd2) {
     while (reg_MI_MCCNT1 & 0x80000000) {
     }
     reg_MI_MCCNT0_HI = 0xc0;
@@ -116,51 +116,51 @@ void CARDi_SetRomOp(u32 cmd1, u32 cmd2) {
 }
 
 // Starts a DMA of one ROM page into CARDiCommon.mDst and the read command for CARDiCommon.mSrc.
-void CARDi_SetCardDma(void) {
+void MaybeGamecardTransferSY(void) {
     CARDiCommon *common;
 
-    common = (CARDiCommon *) (u32) &gAccessState;
+    common = (CARDiCommon *) (u32) &g_Card_Context;
     MIi_CardDmaCopy32(common->mDma, (void *) &reg_MI_MCD1, (void *) common->mDst, 0x200);
-    CARDi_SetRomOp((common->mSrc >> 8) | 0xb7000000, common->mSrc << 24);
-    reg_MI_MCCNT1 = gRomReadState.mCtrl;
+    Card_WriteRomOperation((common->mSrc >> 8) | 0xb7000000, common->mSrc << 24);
+    reg_MI_MCCNT1 = g_Card_RomContext.mCtrl;
 }
 
 // Card DMA interrupt handler: advances one page, then starts the next page or finishes the transfer.
-void CARDi_OnReadCard(void) {
+void CardIRQHandler(void) {
     CARDiCommon *common;
     CARDCallback callback;
     void *callbackArg;
     u32 enabled;
 
-    MI_StopDma(gAccessState.mDma);
-    gAccessState.mSrc += 0x200;
-    gAccessState.mDst += 0x200;
-    gAccessState.mLen -= 0x200;
-    if (gAccessState.mLen == 0) {
-        OS_DisableIrqMask(0x80000);
-        OS_ResetRequestIrqMask(0x80000);
-        common = (CARDiCommon *) (u32) &gAccessState;
+    Mem_DmaStop(g_Card_Context.mDma);
+    g_Card_Context.mSrc += 0x200;
+    g_Card_Context.mDst += 0x200;
+    g_Card_Context.mLen -= 0x200;
+    if (g_Card_Context.mLen == 0) {
+        Os_DisableIrqHandler(0x80000);
+        SetIF(0x80000);
+        common = (CARDiCommon *) (u32) &g_Card_Context;
         common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
         callback = common->mCallback;
         callbackArg = common->mCallbackArg;
-        enabled = OS_DisableInterrupts();
+        enabled = Os_DisableIrq();
         common->mFlag &= ~BACKUP_ACCESS_FLAG_TRANSFER_MASK;
-        OS_WakeupThread(&common->mBusyQ);
+        Os_Thread_WakeUp(&common->mBusyQ);
         if (common->mFlag & BACKUP_ACCESS_FLAG_WAKE_WORKER) {
-            OS_WakeupThreadDirect(&common->mThread);
+            Os_Thread_WakeUpDirect(&common->mThread);
         }
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         if (callback != 0) {
             callback(callbackArg);
         }
     } else {
-        CARDi_SetCardDma();
+        MaybeGamecardTransferSY();
     }
 }
 
 // Starts a ROM read by DMA when the channel, alignment, destination and length allow it and returns 1; returns 0
 // otherwise. Always sets CARDRomStat.mCtrl.
-int CARDi_TryReadCardDma(CARDRomStat *romStat) {
+int StructSZ_SomeFn(CARDRomStat *romStat) {
     u32 dtcm;
     int inTcm;
     CARDiCommon *common;
@@ -173,7 +173,7 @@ int CARDi_TryReadCardDma(CARDRomStat *romStat) {
     u32 enabled;
     u32 mod;
 
-    common = &gAccessState;
+    common = &g_Card_Context;
     isAsync = 0;
     aligned = 0;
     dmaUsable = 0;
@@ -181,7 +181,7 @@ int CARDi_TryReadCardDma(CARDRomStat *romStat) {
     len = common->mLen;
     if ((dst & 3) == 0 && common->mDma <= ROM_CARD_LAST_DMA_CHANNEL) {
         int inMainRam;
-        dtcm = OS_GetDTCMAddress();
+        dtcm = GetDtcmStartAddress();
         end = dst + len;
         inTcm = 1;
         inMainRam = 0;
@@ -211,29 +211,29 @@ int CARDi_TryReadCardDma(CARDRomStat *romStat) {
     }
     romStat->mCtrl = (SYSTEM_WORK->mRomHeader.mRomCtrl & ~0x07000000) | 0xa1000000;
     if (isAsync != 0) {
-        enabled = OS_DisableInterrupts();
-        IC_InvalidateRange((void *) dst, len);
+        enabled = Os_DisableIrq();
+        IC_InvalidateRangeNoClean((void *) dst, len);
         mod = dst & 31;
         if (mod != 0) {
             dst -= mod;
-            DC_StoreRange((void *) dst, 32);
-            DC_StoreRange((void *) (dst + len), 32);
+            DC_SomeClean((void *) dst, 32);
+            DC_SomeClean((void *) (dst + len), 32);
             len += 32;
         }
-        DC_InvalidateRange((void *) dst, len);
-        DC_WaitWriteBufferEmpty();
-        OS_SetIrqFunction(0x80000, CARDi_OnReadCard);
-        OS_ResetRequestIrqMask(0x80000);
-        OS_EnableIrqMask(0x80000);
-        OS_RestoreInterrupts(enabled);
-        CARDi_SetCardDma();
+        DC_InvalidateRangeNoClean((void *) dst, len);
+        Mem_DcDrainWriteBuffer();
+        Os_SetIrqHandler(0x80000, CardIRQHandler);
+        SetIF(0x80000);
+        Os_EnableIrqHandler(0x80000);
+        Os_RestoreIrq(enabled);
+        MaybeGamecardTransferSY();
     }
     return isAsync;
 }
 
 // Reads 0x200-byte ROM pages with the CPU, straight into the destination when it is aligned and big enough, otherwise
 // through CARDRomStat.mCacheBuf.
-void CARDi_ReadCard(CARDRomStat *romStat) {
+void Card_DefaultRomAccess(CARDRomStat *romStat) {
     CARDiCommon *common;
     u32 *dst;
     u32 *cacheBuf;
@@ -242,7 +242,7 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
     u32 ctrl;
     u32 data;
 
-    common = &gAccessState;
+    common = &g_Card_Context;
     cacheBuf = romStat->mCacheBuf;
     for (;;) {
         page = common->mSrc & -0x200;
@@ -251,7 +251,7 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
             dst = cacheBuf;
             romStat->mCachePage = page;
         }
-        CARDi_SetRomOp((page >> 8) | 0xb7000000, page << 24);
+        Card_WriteRomOperation((page >> 8) | 0xb7000000, page << 24);
         reg_MI_MCCNT1 = romStat->mCtrl;
         pos = 0;
         do {
@@ -265,13 +265,13 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
             }
         } while (ctrl & 0x80000000);
         if ((u32) dst == common->mDst) {
-            gAccessState.mSrc += 0x200;
-            gAccessState.mDst += 0x200;
-            gAccessState.mLen -= 0x200;
-            if (gAccessState.mLen == 0) {
+            g_Card_Context.mSrc += 0x200;
+            g_Card_Context.mDst += 0x200;
+            g_Card_Context.mLen -= 0x200;
+            if (g_Card_Context.mLen == 0) {
                 return;
             }
-        } else if (CARDi_ReadFromCache(romStat) == 0) {
+        } else if (GlobalSZ_SomeFn(romStat) == 0) {
             return;
         }
     }
@@ -286,69 +286,69 @@ void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
     void *callbackArg;
     u32 enabled;
 
-    romStat = &gRomReadState;
-    if (CARDi_ReadFromCache(romStat) != 0) {
+    romStat = &g_Card_RomContext;
+    if (GlobalSZ_SomeFn(romStat) != 0) {
         romStat->mReadFunc(romStat);
     }
-    common = (CARDiCommon *) (u32) &gAccessState;
+    common = (CARDiCommon *) (u32) &g_Card_Context;
     common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
     callback = common->mCallback;
     callbackArg = common->mCallbackArg;
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     common->mFlag &= ~BACKUP_ACCESS_FLAG_TRANSFER_MASK;
-    OS_WakeupThread(&common->mBusyQ);
+    Os_Thread_WakeUp(&common->mBusyQ);
     if (common->mFlag & BACKUP_ACCESS_FLAG_WAKE_WORKER) {
-        OS_WakeupThreadDirect(&common->mThread);
+        Os_Thread_WakeUpDirect(&common->mThread);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     if (callback != 0) {
         callback(callbackArg);
     }
 }
 
 // Starts a ROM read of the given channel, offset, destination and length. Waits for the previous transfer first and
-// adds gRomBaseOffset to the offset. Reads by DMA when possible, otherwise on the worker thread or the calling thread.
+// adds g_SomeOffsetBase to the offset. Reads by DMA when possible, otherwise on the worker thread or the calling thread.
 void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync) {
     CARDiCommon *common;
     CARDRomStat *romStat;
     u32 enabled;
 
-    common = (CARDiCommon *) (u32) &gAccessState;
-    romStat = &gRomReadState;
-    CARD_CheckEnabled();
-    enabled = OS_DisableInterrupts();
+    common = (CARDiCommon *) (u32) &g_Card_Context;
+    romStat = &g_Card_RomContext;
+    EnsureCardEnabled();
+    enabled = Os_DisableIrq();
     while (common->mFlag & BACKUP_ACCESS_FLAG_BUSY) {
-        OS_SleepThread(&common->mBusyQ);
+        Os_Thread_Sleep(&common->mBusyQ);
     }
     common->mFlag |= BACKUP_ACCESS_FLAG_BUSY;
     common->mCallback = callback;
     common->mCallbackArg = callbackArg;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     common->mDma = dma;
-    common->mSrc = src + gRomBaseOffset;
+    common->mSrc = src + g_SomeOffsetBase;
     common->mDst = dst;
     common->mLen = len;
     if (dma <= ROM_CARD_LAST_DMA_CHANNEL) {
-        MI_StopDma(dma);
+        Mem_DmaStop(dma);
     }
-    if (CARDi_TryReadCardDma(romStat) != 0) {
+    if (StructSZ_SomeFn(romStat) != 0) {
         if (isAsync == 0) {
-            CARD_WaitRomAsync();
+            j_WaitForPendingCardOperation_0();
         }
     } else if (isAsync != 0) {
-        CARDi_SetTask(CARDi_ReadRomSyncCore);
+        Card_SetTask(CARDi_ReadRomSyncCore);
     } else {
-        common->mCurTh = OSi_ThreadInfo.mCurrentThread;
+        common->mCurTh = g_Os_ThreadInfo.mCurrentThread;
         CARDi_ReadRomSyncCore(common);
     }
 }
 
-// Sets up the card state once: clears the transfer words, CARDi_InitCommon, stores the page reader in gRomReadState and
+// Sets up the card state once: clears the transfer words, Card_InitializeContext, stores the page reader in g_Card_RomContext and
 // installs the pull-out callback.
-void CARD_Init(void) {
+void Card_Initialize(void) {
     CARDiCommon *common;
 
-    common = &gAccessState;
+    common = &g_Card_Context;
     if (common->mFlag != 0) {
         return;
     }
@@ -357,25 +357,25 @@ void CARD_Init(void) {
     common->mDma = -1;
     common->mCallback = 0;
     common->mCallbackArg = 0;
-    gRomBaseOffset = 0;
-    CARDi_InitCommon();
-    gRomReadState.mReadFunc = CARDi_GetRomAccessor();
-    CARD_InitPulledOutCallback();
+    g_SomeOffsetBase = 0;
+    Card_InitializeContext();
+    g_Card_RomContext.mReadFunc = Card_GetRomAccessFunction();
+    Card_InitializePulledOutCallback();
 }
 
 // Waits for the running transfer to end.
-int CARD_WaitRomAsync(void) {
-    return CARDi_WaitAsync();
+int j_WaitForPendingCardOperation_0(void) {
+    return WaitForPendingCardOperation();
 }
 
 // Returns the CPU page reader.
-CARDRomReadFunc CARDi_GetRomAccessor(void) {
-    return CARDi_ReadCard;
+CARDRomReadFunc Card_GetRomAccessFunction(void) {
+    return Card_DefaultRomAccess;
 }
 
 // Task that sends the backup transfer in pieces of at most 0x100 bytes through CARDiCommon.mBackupCachePageBuf, then
 // ends the transfer and calls the callback.
-void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
+void Card_BackupCommandTask(CARDiCommon *common) {
     u32 reqType;
     u32 reqMode;
     u32 retryCount;
@@ -388,7 +388,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
     reqType = common->mReqType;
     reqMode = common->mReqMode;
     retryCount = common->mReqRetry;
-    OSi_ReferSymbol(BuildInfo.mBackup);
+    Os_ReferSymbol(g_StartModuleParams.mBackup);
     do {
         len = common->mLen;
         if (len > 0x100) {
@@ -401,25 +401,25 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
             break;
         }
         if (reqMode == 0) {
-            DC_InvalidateRange(common->mBackupCachePageBuf, len);
+            DC_InvalidateRangeNoClean(common->mBackupCachePageBuf, len);
             common->mCmd->mSrc = common->mSrc;
             common->mCmd->mDst = (u32) common->mBackupCachePageBuf;
         } else {
-            MI_CpuCopy8((void *) common->mSrc, common->mBackupCachePageBuf, len);
-            DC_FlushRange(common->mBackupCachePageBuf, len);
-            DC_WaitWriteBufferEmpty();
+            Mem_CpuCopy8((void *) common->mSrc, common->mBackupCachePageBuf, len);
+            Arm_FlushRange(common->mBackupCachePageBuf, len);
+            Mem_DcDrainWriteBuffer();
             common->mCmd->mSrc = (s32) common->mBackupCachePageBuf;
             common->mCmd->mDst = common->mDst;
         }
-        if (CARDi_Request(common, reqType, retryCount) == 0) {
+        if (Card_Request(common, reqType, retryCount) == 0) {
             break;
         }
         if (reqMode == 2) {
-            if (CARDi_Request(common, 9, 1) == 0) {
+            if (Card_Request(common, 9, 1) == 0) {
                 break;
             }
         } else if (reqMode == 0) {
-            MI_CpuCopy8(common->mBackupCachePageBuf, (void *) common->mDst, len);
+            Mem_CpuCopy8(common->mBackupCachePageBuf, (void *) common->mDst, len);
         }
         common->mSrc += len;
         common->mDst += len;
@@ -427,35 +427,35 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
     } while (common->mLen != 0);
     callback = common->mCallback;
     callbackArg = common->mCallbackArg;
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     common->mFlag &= ~BACKUP_ACCESS_FLAG_TRANSFER_MASK;
-    OS_WakeupThread(&common->mBusyQ);
+    Os_Thread_WakeUp(&common->mBusyQ);
     if (common->mFlag & BACKUP_ACCESS_FLAG_WAKE_WORKER) {
-        OS_WakeupThreadDirect(&common->mThread);
+        Os_Thread_WakeUpDirect(&common->mThread);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     if (callback != 0) {
         callback(callbackArg);
     }
 }
 
 // Starts a backup transfer of the given source, destination and length. Waits for the previous transfer first. The
-// game always passes isAsync 1, which queues CARDi_RequestStreamCommandCore on the worker thread.
-int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
+// game always passes isAsync 1, which queues Card_BackupCommandTask on the worker thread.
+int Card_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode) {
     CARDiCommon *common;
     u32 enabled;
 
-    common = (CARDiCommon *) (u32) &gAccessState;
-    OSi_ReferSymbol(BuildInfo.mBackup);
-    enabled = OS_DisableInterrupts();
+    common = (CARDiCommon *) (u32) &g_Card_Context;
+    Os_ReferSymbol(g_StartModuleParams.mBackup);
+    enabled = Os_DisableIrq();
     while (common->mFlag & BACKUP_ACCESS_FLAG_BUSY) {
-        OS_SleepThread(&common->mBusyQ);
+        Os_Thread_Sleep(&common->mBusyQ);
     }
     common->mFlag |= BACKUP_ACCESS_FLAG_BUSY;
     common->mCallback = callback;
     common->mCallbackArg = callbackArg;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     common->mSrc = src;
     common->mDst = dst;
     common->mLen = len;
@@ -463,51 +463,51 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback,
     common->mReqRetry = reqRetry;
     common->mReqMode = reqMode;
     if (isAsync != 0) {
-        CARDi_SetTask(CARDi_RequestStreamCommandCore);
+        Card_SetTask(Card_BackupCommandTask);
         return 1;
     }
-    gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
-    CARDi_RequestStreamCommandCore(common);
+    g_Card_Context.mCurTh = g_Os_ThreadInfo.mCurrentThread;
+    Card_BackupCommandTask(common);
     return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
 }
 
 // Sets the backup type, then reads one byte of the backup to identify it. Returns 1 when CARDiCommandArg.mResult is 0.
-int CARD_IdentifyBackup(s32 type) {
+int MaybeInitializeBackup(s32 type) {
     CARDiCommon *common;
     CARDCallback callback;
     void *callbackArg;
     u32 enabled;
 
-    common = &gAccessState;
-    OSi_ReferSymbol(BuildInfo.mBackup);
+    common = &g_Card_Context;
+    Os_ReferSymbol(g_StartModuleParams.mBackup);
     if (type == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
-    CARD_CheckEnabled();
-    enabled = OS_DisableInterrupts();
+    EnsureCardEnabled();
+    enabled = Os_DisableIrq();
     while (common->mFlag & BACKUP_ACCESS_FLAG_BUSY) {
-        OS_SleepThread(&common->mBusyQ);
+        Os_Thread_Sleep(&common->mBusyQ);
     }
     common->mFlag |= BACKUP_ACCESS_FLAG_BUSY;
     common->mCallback = 0;
     common->mCallbackArg = 0;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     CARDi_IdentifyBackupCore(type);
-    gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
-    CARDi_Request(common, 2, 1);
+    g_Card_Context.mCurTh = g_Os_ThreadInfo.mCurrentThread;
+    Card_Request(common, 2, 1);
     common->mCmd->mSrc = 0;
     common->mCmd->mDst = (u32) common->mBackupCachePageBuf;
     common->mCmd->mLen = 1;
-    CARDi_Request(common, 6, 1);
+    Card_Request(common, 6, 1);
     callback = common->mCallback;
     callbackArg = common->mCallbackArg;
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     common->mFlag &= ~BACKUP_ACCESS_FLAG_TRANSFER_MASK;
-    OS_WakeupThread(&common->mBusyQ);
+    Os_Thread_WakeUp(&common->mBusyQ);
     if (common->mFlag & BACKUP_ACCESS_FLAG_WAKE_WORKER) {
-        OS_WakeupThreadDirect(&common->mThread);
+        Os_Thread_WakeUpDirect(&common->mThread);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     if (callback != 0) {
         callback(callbackArg);
     }
@@ -515,13 +515,13 @@ int CARD_IdentifyBackup(s32 type) {
 }
 
 // Waits for the running transfer to end.
-int CARD_WaitBackupAsync(void) {
-    return CARDi_WaitAsync();
+int j_WaitForPendingCardOperation(void) {
+    return WaitForPendingCardOperation();
 }
 
 // Returns 1 when no transfer is running.
-int CARD_TryWaitBackupAsync(void) {
-    return CARDi_TryWaitAsync();
+int CardIsNotBusy(void) {
+    return Card_IsNotBusy();
 }
 
 // Fills CARDiCommandArg.mType and the device description (size, page size, address width, timings) for a backup type.
@@ -531,8 +531,8 @@ void CARDi_IdentifyBackupCore(s32 type) {
     u32 size;
     u32 typeLow;
 
-    commandArg = gAccessState.mCmd;
-    MI_CpuFill8(&commandArg->mTotalSize, 0, 0x28);
+    commandArg = g_Card_Context.mCmd;
+    Mem_CpuFill8(&commandArg->mTotalSize, 0, 0x28);
     commandArg->mType = type;
     if (type == 0) {
         return;
@@ -590,97 +590,97 @@ void CARDi_IdentifyBackupCore(s32 type) {
     fail:
         commandArg->mType = 0;
         commandArg->mTotalSize = 0;
-        gAccessState.mCmd->mResult = ROM_ACCESS_UNSUPPORTED_TYPE;
+        g_Card_Context.mCmd->mResult = ROM_ACCESS_UNSUPPORTED_TYPE;
         return;
     }
 }
 
 // Makes the worker thread run the task: sets its priority, CARDiCommon.mCurTh and CARDiCommon.mTaskFunc, sets the task
 // bit of CARDiCommon.mFlag and wakes the thread.
-void CARDi_SetTask(void (*task)(CARDiCommon *)) {
+void Card_SetTask(void (*task)(CARDiCommon *)) {
     CARDiCommon *common;
 
-    common = (CARDiCommon *) (u32) &gAccessState;
-    OS_SetThreadPriority(&common->mThread, common->mPriority);
+    common = (CARDiCommon *) (u32) &g_Card_Context;
+    Os_Thread_SetPriority(&common->mThread, common->mPriority);
     common->mCurTh = &common->mThread;
     common->mTaskFunc = task;
     common->mFlag |= BACKUP_ACCESS_FLAG_TASK_PENDING;
-    OS_WakeupThreadDirect(&common->mThread);
+    Os_Thread_WakeUpDirect(&common->mThread);
 }
 
 // Takes the lock for the owner and target, waiting while another owner holds it. Reusing an owner with a different
-// target ends in OS_Terminate.
-void CARDi_LockResource(u32 owner, u32 target) {
+// target ends in Os_Terminate.
+void Card_LockResource(u32 owner, u32 target) {
     CARDiCommon *common;
     u32 enabled;
 
-    common = (CARDiCommon *) (u32) &gAccessState;
-    enabled = OS_DisableInterrupts();
+    common = (CARDiCommon *) (u32) &g_Card_Context;
+    enabled = Os_DisableIrq();
     if (common->mLockOwner == owner) {
         if (common->mLockTarget != target) {
-            OS_Terminate();
+            Os_Terminate();
         }
     } else {
         while (common->mLockOwner != -3) {
-            OS_SleepThread(&common->mLockQueue);
+            Os_Thread_Sleep(&common->mLockQueue);
         }
         common->mLockOwner = owner;
         common->mLockTarget = target;
     }
     common->mLockRef++;
     common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // Gives the lock back. At a count of 0 the owner becomes -3 and the waiting threads wake up. A wrong owner or target
-// ends in OS_Terminate.
-void CARDi_UnlockResource(u32 owner, u32 target) {
+// ends in Os_Terminate.
+void Card_UnlockResource(u32 owner, u32 target) {
     CARDiCommon *common;
     u32 enabled;
 
-    common = &gAccessState;
-    enabled = OS_DisableInterrupts();
+    common = &g_Card_Context;
+    enabled = Os_DisableIrq();
     if (common->mLockOwner != owner || common->mLockRef == 0) {
-        OS_Terminate();
+        Os_Terminate();
     } else {
         if (common->mLockTarget != target) {
-            OS_Terminate();
+            Os_Terminate();
         }
         common->mLockRef--;
         if (common->mLockRef == 0) {
             common->mLockOwner = -3;
             common->mLockTarget = 0;
-            OS_WakeupThread(&common->mLockQueue);
+            Os_Thread_WakeUp(&common->mLockQueue);
         }
     }
     common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // Sets up the lock and the command block, creates the worker thread and installs the tag 11 reply callback. Enables
 // card access unless the halfword at 0x027ffc40 is 2.
-void CARDi_InitCommon(void) {
+void Card_InitializeContext(void) {
     CARDiCommon *common;
 
-    common = &gAccessState;
+    common = &g_Card_Context;
     common->mLockOwner = -3;
     common->mLockRef = 0;
     common->mLockTarget = 0;
-    common->mCmd = &gRequestBlock;
-    MemFillWordsByBlock_inline(&gRequestBlock, 0x40);
-    DC_FlushRange(&gRequestBlock, 0x40);
+    common->mCmd = &g_Card_Command;
+    MemFillWordsByBlock_inline(&g_Card_Command, 0x40);
+    Arm_FlushRange(&g_Card_Command, 0x40);
     if (SYSTEM_WORK->mWmBootBuf.mBootType != BOOT_TYPE_MULTIBOOT) {
-        MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, HW_CARD_ROM_HEADER, sizeof(SYSTEM_WORK->mRomHeader));
+        Mem_CpuCopy8(&SYSTEM_WORK->mRomHeader, HW_CARD_ROM_HEADER, sizeof(SYSTEM_WORK->mRomHeader));
     }
     common->mLockQueue.mTail = 0;
     common->mLockQueue.mHead = common->mLockQueue.mTail;
     common->mBusyQ.mTail = 0;
     common->mBusyQ.mHead = common->mBusyQ.mTail;
     common->mPriority = BACKUP_TASK_THREAD_PRIORITY;
-    OS_CreateThread(&common->mThread, CARDi_TaskThread, 0, (u8 *) &gRomBaseOffset, 0x400, common->mPriority);
-    OS_WakeupThreadDirect(&common->mThread);
-    PXI_SetFifoRecvCallback(11, CARDi_OnFifoRecv);
+    Os_Thread_Create(&common->mThread, Card_ContextThreadMain, 0, (u8 *) &g_SomeOffsetBase, 0x400, common->mPriority);
+    Os_Thread_WakeUpDirect(&common->mThread);
+    Fifo_RegisterHandler(11, Card_FifoHandler);
     if (SYSTEM_WORK->mWmBootBuf.mBootType != BOOT_TYPE_MULTIBOOT) {
-        CARD_Enable(1);
+        Card_SetEnabled(1);
     }
 }

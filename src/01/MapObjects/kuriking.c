@@ -181,7 +181,7 @@ u32 UpdateKurikingFaceKartState(MissionRunMapObject *mapObject) {
 }
 
 void StartKurikingKartInRangeState(MissionRunMapObject *mapObject) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
 
     StartMapObjectState(mapObject, 2, UpdateKurikingKartInRangeState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mKartInRangeAnimationEntry,
@@ -342,7 +342,7 @@ void StartKurikingTurnToEntryState(MissionRunMapObject *mapObject) {
 void StartKurikingThrowBombsState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 2, (s32(*)(MissionRunMapObject *)) UpdateKurikingFaceKartState);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mKuriking.mThrowBombsAnimationEntry,
                                   mapObject->mPrm->mKuriking.mThrowBombsFrameStep, StartKurikingTurnToEntryState);
@@ -360,7 +360,7 @@ void StartKurikingThrowBombsState(MissionRunMapObject *mapObject) {
 void StartKurikingFaceKartState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 2, (s32(*)(MissionRunMapObject *)) UpdateKurikingFaceKartState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mFaceKartAnimationEntry,
                                 mapObject->mPrm->mKuriking.mFaceKartFrameStep);
@@ -460,7 +460,7 @@ void StartKurikingGrowState(MissionRunMapObject *mapObject) {
                              (mapObject->mMapObject.mScale.x + mapObject->mPrm->mKuriking.mGrowScaleIncrease),
                              mapObject->mPrm->mKuriking.mGrowScalePerCall);
     SetSpeedAndClearTarget(mapObject, 0);
-    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
+    StructMapObject_SomeFn_0(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
     if (GetAbsoluteCounter(mapObject) == 0) {
         SetDoubledCollisionAndShadowTargets(mapObject);
         StartEffectAtScaledOffset(mapObject, 0, 0x1800, 0, 0x419, 0);
@@ -478,7 +478,7 @@ void GrowKuriking(MissionRunMapObject *mapObject) {
 void StartKurikingChaseKartState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mChaseKartAnimationEntry,
                                 mapObject->mPrm->mKuriking.mChaseKartFrameStep);
@@ -519,7 +519,7 @@ void KurikingStandingsEndCallback(void) {
 
 s32 KurikingStopStateWhenRaceStarted(MissionRunMapObject *mapObject) {
     int raceStarted;
-    raceStarted = IsRaceStarted();
+    raceStarted = IsAwardOrStaffRoll();
     if (raceStarted == 1) {
         StopMapObjectState(mapObject);
     }
@@ -580,8 +580,8 @@ void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject) {
 
 void InitKurikingMapObject(MissionRunMapObject *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_KURIBO, 0x32, mapObject);
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xf, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mMapObject.mSound->mSoundSource, 0xf, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[15].mFarDistanceSquared;
 }
 
@@ -616,7 +616,7 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
              objectIndex++) {
             StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mKuriking.mStartupNsbtaEntryIndex,
                                               obj->mPrm->mHead.mStartupFirstFrameStep, 0);
-            if (GetRaceUseChainCameras()) {
+            if (IsNotStaffRoll()) {
                 StartKurikingChainStartupFirst(obj);
             } else {
                 StartKurikingStartupFirst(obj);
@@ -629,9 +629,9 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
 void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
     s32 var;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
         if (IsStateNumberBelow(mapObject, 1)) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) g_GlobalCO->mEntryIndex) : 0) {
                 StartKurikingChaseKartState(mapObject);
             } else {
                 StartKurikingKartNotEliminatedState(mapObject);
@@ -698,7 +698,7 @@ void InitKuriking(MapObjectList *mapObjectList) {
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
             InitMissionRunMapObject(mapObjectList, obj, ("kuriking.nsbmd"), ("kuriking.nsbca"), ("kuriking.prm"));

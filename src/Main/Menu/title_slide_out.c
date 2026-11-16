@@ -9,7 +9,7 @@
 #include "Main/Save/ghost_record_file.h"
 
 u32 HasPlayerName(void) {
-    return gBackupBuffers->mFirstBlock->mHasPlayerName != 0;
+    return g_SaveDataHolder->mFirstBlock->mHasPlayerName != 0;
 }
 
 #pragma optimize_for_size on
@@ -20,14 +20,14 @@ void UpdateTitleSlideOut(void) {
     s32 entryIndex;
     LayoutTableEntry *titleTable;
 
-    titleTable = gTitleScene->mTitleTable;
-    subBase = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
+    titleTable = g_SceneTitleContext->mTitleTable;
+    subBase = TitleGetCellLayoutCount(g_SceneTitleContext->mTitleSBncl);
     if (GetTitleStateFrames() < 10) {
         for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
-            titleTable[entryIndex].mOffsetX = InterpolateS16(1, 0, 0xf8, GetTitleStateFrames(), 10);
+            titleTable[entryIndex].mOffsetX = ComputeValueInterpolation_from_thumb(1, 0, 0xf8, GetTitleStateFrames(), 10);
         }
         for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
-            titleTable[entryIndex + subBase].mOffsetX = InterpolateS16(1, 0, 0xf8, GetTitleStateFrames(), 10);
+            titleTable[entryIndex + subBase].mOffsetX = ComputeValueInterpolation_from_thumb(1, 0, 0xf8, GetTitleStateFrames(), 10);
         }
     } else {
         for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
@@ -37,7 +37,7 @@ void UpdateTitleSlideOut(void) {
             titleTable[entryIndex + subBase].mOffsetX = TITLE_OFFSCREEN_X;
         }
         if (HasPlayerName() != 0) {
-            SetTitleState(gTitleScene->mNextState, 8);
+            SetTitleState(g_SceneTitleContext->mNextState, 8);
         } else {
             SetTitleState(TITLE_STATE_REQUEST_NICKNAME_SCENE, 8);
         }

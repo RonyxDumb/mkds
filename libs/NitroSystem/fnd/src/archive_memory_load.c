@@ -3,7 +3,7 @@
 #include "file_archive_access.h"
 #include "narrow_string_functions.h"
 
-u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header) {
+u32 ArcEntry_ValidateNarcHeader(NNSiFndArchiveHeader *header) {
     if (header->mSignature != ARCHIVE_SIGNATURE) {
         return 0;
     }
@@ -13,7 +13,7 @@ u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header) {
     return header->mVersion == ARCHIVE_VERSION ? 1 : 0;
 }
 
-u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header) {
+u32 MountMountEntryFrom(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header) {
     u8 *fatBlock;
     u8 *fntBlock;
     u8 *imageBlock;
@@ -24,7 +24,7 @@ u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchive
     fatBlock = 0;
     fntBlock = 0;
     imageBlock = 0;
-    if (ArchiveHeaderMatches(header) == 0) {
+    if (ArcEntry_ValidateNarcHeader(header) == 0) {
         return 0;
     }
     block = (u8 *) header + header->mHeaderSize;
@@ -43,40 +43,40 @@ u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchive
         }
         block += *OFFSET_PTR(u32, block, 4);
     }
-    FS_InitArchive(&archive->mFsArchive);
+    Fs_Archive_Initialize(&archive->mFsArchive);
     archive->mArcBinary = header;
     archive->mFatData = fatBlock;
     imageBlock = (u8 *) imageBlock + ARCHIVE_BLOCK_HEADER_SIZE;
     archive->mFileImage = imageBlock;
-    if (FS_RegisterArchiveName(&archive->mFsArchive, name, strlen((const char *) name)) == 0) {
+    if (Fs_RegisterArchive(&archive->mFsArchive, name, strlen((const char *) name)) == 0) {
         return 0;
     }
-    if (FS_LoadArchive(&archive->mFsArchive, imageBlock, fatBlock + 0xc - imageBlock, *(u32 *) (fatBlock + 4) - 0xc,
+    if (Fs_Archive_LoadFromFatFnt(&archive->mFsArchive, imageBlock, fatBlock + 0xc - imageBlock, *(u32 *) (fatBlock + 4) - 0xc,
                        fntBlock + ARCHIVE_BLOCK_HEADER_SIZE - imageBlock,
                        *(u32 *) (fntBlock + 4) - ARCHIVE_BLOCK_HEADER_SIZE, 0, 0) != 0) {
         return 1;
     }
-    FS_ReleaseArchiveName(&archive->mFsArchive);
+    Fs_UnregisterArchive(&archive->mFsArchive);
     return 0;
 }
 
-u32 ArchiveUnload(FSArchive *archive) {
-    if (FS_UnloadArchive(archive) == 0) {
+u32 Fs_Archive_Dispose(FSArchive *archive) {
+    if (Fs_Archive_UnloadFatFnt(archive) == 0) {
         return 0;
     }
-    FS_ReleaseArchiveName(archive);
+    Fs_UnregisterArchive(archive);
     return 1;
 }
 
-void *ArchiveFileGetAddress(const u8 *path) {
+void *GetFileBuffer(const u8 *path) {
     FSFile file;
     void *address;
 
     address = NULL;
-    FS_InitFile(&file);
-    if (FS_OpenFile(&file, path) != 0) {
+    Fs_File_Initialize(&file);
+    if (Fs_File_Open(&file, path) != 0) {
         address = ((NNSFndArchive *) file.mArc)->mFileImage + file.mProp.w.mUnk_04;
-        FS_CloseFile(&file);
+        Fs_File_Close(&file);
     }
     return address;
 }

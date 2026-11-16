@@ -20,13 +20,13 @@ void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *
                        void *(*findFile)(const char *) ) {
     CellFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LocateNcgr2(&fileSet->mChars, findFile(charsName));
+        Gfx_ReadCharGraphicsRelative(&fileSet->mChars, findFile(charsName));
     }
     if (cellsName) {
         LocateNcer(&fileSet->mCells, findFile(cellsName));
     }
     if (paletteName) {
-        LocateNclr(&fileSet->mPalette, findFile(paletteName));
+        Gfx_ReadPaletteRelative(&fileSet->mPalette, findFile(paletteName));
     }
     if (cellLayoutName) {
         fileSet->mCellLayout = findFile(cellLayoutName);
@@ -39,18 +39,18 @@ void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *
     }
 }
 
-void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
+void PlayerGfxData_Create_from_thumb(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                      const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                      void *(*findFile)(const char *) ) {
     CellFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LoadNcgrData2(&fileSet->mChars, findFile(charsName));
+        Gfx_ReadCharGraphics(&fileSet->mChars, findFile(charsName));
     }
     if (cellsName) {
-        LoadNcerData(&fileSet->mCells, findFile(cellsName));
+        LoadCellBankFrom(&fileSet->mCells, findFile(cellsName));
     }
     if (paletteName) {
-        LoadNclrData(&fileSet->mPalette, findFile(paletteName));
+        Gfx_ReadPalette(&fileSet->mPalette, findFile(paletteName));
     }
     if (cellLayoutName) {
         fileSet->mCellLayout = findFile(cellLayoutName);
@@ -68,15 +68,15 @@ void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet) {
     InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     if (screen == SCREEN_SIDE_MAIN) {
         charsCode = VRAM_TARGET_ENGINE_A_SPRITE_TILES;
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
                                            fileSet->mPalette->mBytes + 0x1c0, 0x40);
     } else {
         charsCode = VRAM_TARGET_ENGINE_B_SPRITE_TILES;
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, fileSet->mPalette->mData,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, fileSet->mPalette->mData,
                                            fileSet->mPalette->mDataSize);
     }
-    NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
+    AllocateReserveTEQSub(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
 
 s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, const void *entryPointer, s32 objSizeLeft) {
@@ -136,9 +136,9 @@ void QueueScreenMapFileSet(u32 screen, void *fileSetPointer, u32 index) {
                 break;
         }
     }
-    NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars[index]->mData, fileSet->mChars[index]->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(paletteCode, 0, fileSet->mPalette->mData, 0x140);
-    NNS_GfdRegisterNewVramTransferTask(screenMapCode, 0, &fileSet->mScreenMaps[index]->mData,
+    AllocateReserveTEQSub(charsCode, 0, fileSet->mChars[index]->mData, fileSet->mChars[index]->mDataSize);
+    AllocateReserveTEQSub(paletteCode, 0, fileSet->mPalette->mData, 0x140);
+    AllocateReserveTEQSub(screenMapCode, 0, &fileSet->mScreenMaps[index]->mData,
                                        fileSet->mScreenMaps[index]->mDataSize);
 }
 
@@ -146,13 +146,13 @@ void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const c
                             const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
     ScreenMapFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LocateNcgr(&fileSet->mChars[index], findFile(charsName));
+        MaybeReadCharBlock_1(&fileSet->mChars[index], findFile(charsName));
     }
     if (paletteName) {
-        LocateNclr(&fileSet->mPalette, findFile(paletteName));
+        Gfx_ReadPaletteRelative(&fileSet->mPalette, findFile(paletteName));
     }
     if (screenMapName) {
-        LocateNscr(&fileSet->mScreenMaps[index], findFile(screenMapName));
+        MaybeReadScreenBlock(&fileSet->mScreenMaps[index], findFile(screenMapName));
     }
 }
 
@@ -166,13 +166,13 @@ void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const cha
                           const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
     ScreenMapFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LoadNcgrData(&fileSet->mChars[index], findFile(charsName));
+        Gfx_ReadCharGraphicsV2(&fileSet->mChars[index], findFile(charsName));
     }
     if (paletteName) {
-        LoadNclrData(&fileSet->mPalette, findFile(paletteName));
+        Gfx_ReadPalette(&fileSet->mPalette, findFile(paletteName));
     }
     if (screenMapName) {
-        LoadNscrData(&fileSet->mScreenMaps[index], findFile(screenMapName));
+        MaybeReadScreenBlock_0(&fileSet->mScreenMaps[index], findFile(screenMapName));
     }
 }
 

@@ -6,18 +6,18 @@ void SetNextRaceSetupFromCopy(void);
 
 unsigned int GetRaceSetupRequested(void);
 void SetResultArchiveDl(unsigned int resultArchiveDl);
-void SetNextCourseListMode(unsigned int courseListMode);
-void SetNextRuleKind(unsigned int ruleKind);
-void SetCourseCount(unsigned int courseCount);
-void SetNextUseTeams(unsigned int useTeams);
-void SetNextBattleKind(unsigned int battleKind);
-void SetNextGhostRecordIndex(unsigned int ghostRecordIndex);
+void SetNextCourseMode(unsigned int courseListMode);
+void SetNextRules(unsigned int ruleKind);
+void MaybeSetNextRuleParam(unsigned int courseCount);
+void SetNextTeamMode(unsigned int useTeams);
+void SetNextBattleMode(unsigned int battleKind);
+void SetNextTimeTrialGhost(unsigned int ghostRecordIndex);
 void SetNextMirrorMode(unsigned int mirrorMode);
-void SetNextEngineIndex(unsigned int engineIndex);
-void SetNextCourseId(unsigned int courseId);
-void SetNextCupIndex(unsigned int cupIndex);
-void SetNextMode(unsigned int mode);
-void SetNextCpuDifficulty(unsigned int cpuDifficulty);
+void SetNextCcMode(unsigned int engineIndex);
+void SetNextCourse(unsigned int courseId);
+void SetNextCupId(unsigned int cupIndex);
+void SetNextRaceMode(unsigned int mode);
+void SetNextCpuMode(unsigned int cpuDifficulty);
 
 void SetNextRaceEntriesFromRaceSetupCopy(void);
 

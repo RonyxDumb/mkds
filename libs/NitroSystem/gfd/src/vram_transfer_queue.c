@@ -8,226 +8,226 @@
 #include "transfer_queue_peek.h"
 #include "transfer_queue_pop.h"
 
-u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *queue, u32 index) {
+u16 StructTEQ_IncrementValidateIndex(NNSGfdVramTransferTaskQueue *queue, u32 index) {
     return (index + 1) % queue->mLengthOfArray;
 }
 
-s32 IsVramTransferTaskQueueFull_(NNSGfdVramTransferTaskQueue *queue) {
+s32 StructTEQ_IsTEQSubListFull(NNSGfdVramTransferTaskQueue *queue) {
     return queue->mNumTasks == queue->mLengthOfArray;
 }
 
-s32 IsVramTransferTaskQueueEmpty_(NNSGfdVramTransferTaskQueue *queue) {
+s32 StructTEQ_IsCounterEmpty(NNSGfdVramTransferTaskQueue *queue) {
     return queue->mNumTasks == 0;
 }
 
-void DoTransfer3dTex(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn0(const void *pSrc, u32 offset, u32 szByte) {
     GX_BeginLoadTex();
     GX_LoadTex(pSrc, offset, szByte);
     GX_EndLoadTex();
 }
 
-void DoTransfer3dTexPltt(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn1(const void *pSrc, u32 offset, u32 szByte) {
     GX_BeginLoadTexPltt();
-    GX_LoadTexPltt(pSrc, offset, szByte);
+    SomeDmaCopy_0(pSrc, offset, szByte);
     GX_EndLoadTexPltt();
 }
 
-void DoTransfer3dClearImageColor(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn2(const void *pSrc, u32 offset, u32 szByte) {
     GX_BeginLoadClearImage();
     GX_LoadClearImageColor(pSrc, szByte);
     GX_EndLoadClearImage();
 }
 
-void DoTransfer3dClearImageDepth(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn3(const void *pSrc, u32 offset, u32 szByte) {
     GX_BeginLoadClearImage();
     GX_LoadClearImageDepth(pSrc, szByte);
     GX_EndLoadClearImage();
 }
 
-void DoTransfer2dBG0CharMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG0Char(pSrc, offset, szByte);
+void TEQSub_Fn4(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg0_Top(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG1CharMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG1Char(pSrc, offset, szByte);
+void j_CopyTileDataTop(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg1_Top(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG2CharMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG2Char(pSrc, offset, szByte);
+void TEQSub_Fn6(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg2_Top(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG3CharMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG3Char(pSrc, offset, szByte);
+void TEQSub_Fn7(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg3_Top(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG0ScrMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG0Scr(pSrc, offset, szByte);
+void TEQSub_Fn8(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn8Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG1ScrMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG1Scr(pSrc, offset, szByte);
+void TEQSub_Fn9(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn9Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG2ScrMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG2Scr(pSrc, offset, szByte);
+void TEQSub_Fn10(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn10Impl_Fn12Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG3ScrMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG3Scr(pSrc, offset, szByte);
+void TEQSub_Fn11(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn11Impl_Fn13Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG2BmpMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG2Scr(pSrc, offset, szByte);
+void TEQSub_Fn12(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn10Impl_Fn12Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG3BmpMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBG3Scr(pSrc, offset, szByte);
+void TEQSub_Fn13(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn11Impl_Fn13Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dObjPlttMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadOBJPltt(pSrc, offset, szByte);
+void j_CopySomePaletteData(const void *pSrc, u32 offset, u32 szByte) {
+    CopySomePaletteData(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBGPlttMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadBGPltt(pSrc, offset, szByte);
+void j_CopyPaletteTop(const void *pSrc, u32 offset, u32 szByte) {
+    CopyPaletteTop(pSrc, offset, szByte);
 }
 
-void DoTransfer2dObjExtPlttMain(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn16(const void *pSrc, u32 offset, u32 szByte) {
     GX_BeginLoadOBJExtPltt();
     GX_LoadOBJExtPltt(pSrc, offset, szByte);
     GX_EndLoadOBJExtPltt();
 }
 
-void DoTransfer2dBGExtPlttMain(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn17(const void *pSrc, u32 offset, u32 szByte) {
     GX_BeginLoadBGExtPltt();
     GX_LoadBGExtPltt(pSrc, offset, szByte);
     GX_EndLoadBGExtPltt();
 }
 
-void DoTransfer2dObjOamMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadOAM(pSrc, offset, szByte);
+void j_CopyToOamA(const void *pSrc, u32 offset, u32 szByte) {
+    CopyToOamA(pSrc, offset, szByte);
 }
 
-void DoTransfer2dObjCharMain(const void *pSrc, u32 offset, u32 szByte) {
-    GX_LoadOBJ(pSrc, offset, szByte);
+void j_CopySomeTileData(const void *pSrc, u32 offset, u32 szByte) {
+    CopyTileDataTop_0(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG0CharSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG0Char(pSrc, offset, szByte);
+void TEQSub_Fn20(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg0_Bottom(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG1CharSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG1Char(pSrc, offset, szByte);
+void j_CopyTileDataBottom(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg1_Bottom(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG2CharSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG2Char(pSrc, offset, szByte);
+void TEQSub_Fn22(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg2_Bottom(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG3CharSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG3Char(pSrc, offset, szByte);
+void TEQSub_Fn23(const void *pSrc, u32 offset, u32 szByte) {
+    CopyBgData_Bg3_Bottom(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG0ScrSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG0Scr(pSrc, offset, szByte);
+void TEQSub_Fn24(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn24Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG1ScrSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG1Scr(pSrc, offset, szByte);
+void TEQSub_Fn25(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn25Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG2ScrSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG2Scr(pSrc, offset, szByte);
+void TEQSub_Fn26(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn26Impl_Fn28Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG3ScrSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG3Scr(pSrc, offset, szByte);
+void TEQSub_Fn27(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn27Impl_Fn29Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG2BmpSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG2Scr(pSrc, offset, szByte);
+void TEQSub_Fn28(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn26Impl_Fn28Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBG3BmpSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBG3Scr(pSrc, offset, szByte);
+void TEQSub_Fn29(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn27Impl_Fn29Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dObjPlttSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadOBJPltt(pSrc, offset, szByte);
+void TEQSub_Fn30(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn30Impl(pSrc, offset, szByte);
 }
 
-void DoTransfer2dBGPlttSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadBGPltt(pSrc, offset, szByte);
+void j_CopyPaletteBottom(const void *pSrc, u32 offset, u32 szByte) {
+    CopyPaletteBottom(pSrc, offset, szByte);
 }
 
-void DoTransfer2dObjExtPlttSub(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn32(const void *pSrc, u32 offset, u32 szByte) {
     GXS_BeginLoadOBJExtPltt();
     GXS_LoadOBJExtPltt(pSrc, offset, szByte);
     GXS_EndLoadOBJExtPltt();
 }
 
-void DoTransfer2dBGExtPlttSub(const void *pSrc, u32 offset, u32 szByte) {
+void TEQSub_Fn33(const void *pSrc, u32 offset, u32 szByte) {
     GXS_BeginLoadBGExtPltt();
     GXS_LoadBGExtPltt(pSrc, offset, szByte);
     GXS_EndLoadBGExtPltt();
 }
 
-void DoTransfer2dObjOamSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadOAM(pSrc, offset, szByte);
+void j_CopyToOamB(const void *pSrc, u32 offset, u32 szByte) {
+    CopyToOamB(pSrc, offset, szByte);
 }
 
-void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte) {
-    GXS_LoadOBJ(pSrc, offset, szByte);
+void TEQSub_Fn35(const void *pSrc, u32 offset, u32 szByte) {
+    TEQSub_Fn35Impl(pSrc, offset, szByte);
 }
 
-void (*const transFunc[36])(const void *pSrc, u32 offset, u32 szByte) = {
-    DoTransfer3dTex,
-    DoTransfer3dTexPltt,
-    DoTransfer3dClearImageColor,
-    DoTransfer3dClearImageDepth,
-    DoTransfer2dBG0CharMain,
-    DoTransfer2dBG1CharMain,
-    DoTransfer2dBG2CharMain,
-    DoTransfer2dBG3CharMain,
-    DoTransfer2dBG0ScrMain,
-    DoTransfer2dBG1ScrMain,
-    DoTransfer2dBG2ScrMain,
-    DoTransfer2dBG3ScrMain,
-    DoTransfer2dBG2BmpMain,
-    DoTransfer2dBG3BmpMain,
-    DoTransfer2dObjPlttMain,
-    DoTransfer2dBGPlttMain,
-    DoTransfer2dObjExtPlttMain,
-    DoTransfer2dBGExtPlttMain,
-    DoTransfer2dObjOamMain,
-    DoTransfer2dObjCharMain,
-    DoTransfer2dBG0CharSub,
-    DoTransfer2dBG1CharSub,
-    DoTransfer2dBG2CharSub,
-    DoTransfer2dBG3CharSub,
-    DoTransfer2dBG0ScrSub,
-    DoTransfer2dBG1ScrSub,
-    DoTransfer2dBG2ScrSub,
-    DoTransfer2dBG3ScrSub,
-    DoTransfer2dBG2BmpSub,
-    DoTransfer2dBG3BmpSub,
-    DoTransfer2dObjPlttSub,
-    DoTransfer2dBGPlttSub,
-    DoTransfer2dObjExtPlttSub,
-    DoTransfer2dBGExtPlttSub,
-    DoTransfer2dObjOamSub,
-    DoTransfer2dObjCharSub,
+void (*const g_TEQSubFnList[36])(const void *pSrc, u32 offset, u32 szByte) = {
+    TEQSub_Fn0,
+    TEQSub_Fn1,
+    TEQSub_Fn2,
+    TEQSub_Fn3,
+    TEQSub_Fn4,
+    j_CopyTileDataTop,
+    TEQSub_Fn6,
+    TEQSub_Fn7,
+    TEQSub_Fn8,
+    TEQSub_Fn9,
+    TEQSub_Fn10,
+    TEQSub_Fn11,
+    TEQSub_Fn12,
+    TEQSub_Fn13,
+    j_CopySomePaletteData,
+    j_CopyPaletteTop,
+    TEQSub_Fn16,
+    TEQSub_Fn17,
+    j_CopyToOamA,
+    j_CopySomeTileData,
+    TEQSub_Fn20,
+    j_CopyTileDataBottom,
+    TEQSub_Fn22,
+    TEQSub_Fn23,
+    TEQSub_Fn24,
+    TEQSub_Fn25,
+    TEQSub_Fn26,
+    TEQSub_Fn27,
+    TEQSub_Fn28,
+    TEQSub_Fn29,
+    TEQSub_Fn30,
+    j_CopyPaletteBottom,
+    TEQSub_Fn32,
+    TEQSub_Fn33,
+    j_CopyToOamB,
+    TEQSub_Fn35,
 };
 
-void DoTransfer_(NNSGfdVramTransferTask *task) {
+void StructTEQSub_HandleTEQSub(NNSGfdVramTransferTask *task) {
     void (*transfer)(const void *, u32, u32);
 
-    transfer = transFunc[task->mType];
-    DC_FlushRange(task->mPSrc, task->mSzByte);
+    transfer = g_TEQSubFnList[task->mType];
+    Arm_FlushRange(task->mPSrc, task->mSzByte);
     transfer(task->mPSrc, task->mDstAddr, task->mSzByte);
 }
 
-void ResetTaskQueue_(NNSGfdVramTransferTaskQueue *queue) {
+void StructTEQ_Initialize(NNSGfdVramTransferTaskQueue *queue) {
     u32 zero;
     zero = 0u;
     queue->mIdxRear = zero;
@@ -236,67 +236,67 @@ void ResetTaskQueue_(NNSGfdVramTransferTaskQueue *queue) {
     queue->mTotalSize = zero;
 }
 
-s32 NNSi_GfdPushVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue) {
-    if (IsVramTransferTaskQueueFull_(queue) != 0) {
+s32 StructTEQ_ReserveTEQSub(NNSGfdVramTransferTaskQueue *queue) {
+    if (StructTEQ_IsTEQSubListFull(queue) != 0) {
         return 0;
     }
-    queue->mIdxRear = GetNextIndex_(queue, queue->mIdxRear);
+    queue->mIdxRear = StructTEQ_IncrementValidateIndex(queue, queue->mIdxRear);
     queue->mNumTasks += 1;
     return 1;
 }
 
-NNSGfdVramTransferTask *NNSi_GfdGetFrontVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue) {
+NNSGfdVramTransferTask *StructTEQ_GetTopUsedTEQSub(NNSGfdVramTransferTaskQueue *queue) {
     return queue->mPTaskArray + queue->mIdxFront;
 }
 
-NNSGfdVramTransferTask *NNSi_GfdGetEndVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue) {
+NNSGfdVramTransferTask *StructTEQ_GetNextFreeTEQSub(NNSGfdVramTransferTaskQueue *queue) {
     return queue->mPTaskArray + queue->mIdxRear;
 }
 
-s32 NNSi_GfdPopVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue) {
-    if (IsVramTransferTaskQueueEmpty_(queue) != 0) {
+s32 StructTEQ_TryPopTEQSub(NNSGfdVramTransferTaskQueue *queue) {
+    if (StructTEQ_IsCounterEmpty(queue) != 0) {
         return 0;
     }
-    queue->mIdxFront = GetNextIndex_(queue, queue->mIdxFront);
+    queue->mIdxFront = StructTEQ_IncrementValidateIndex(queue, queue->mIdxFront);
     queue->mNumTasks -= 1;
     return 1;
 }
 
-NNSGfdVramTransferTaskQueue s_VramTransferManager;
+NNSGfdVramTransferTaskQueue g_GlobalTEQ;
 
-void NNS_GfdInitVramTransferManager(NNSGfdVramTransferTask *pTaskArray, u32 lengthOfArray) {
-    s_VramTransferManager.mPTaskArray = pTaskArray;
-    s_VramTransferManager.mLengthOfArray = lengthOfArray;
-    ResetTaskQueue_(&s_VramTransferManager);
+void InitializeGlobalTEQ(NNSGfdVramTransferTask *pTaskArray, u32 lengthOfArray) {
+    g_GlobalTEQ.mPTaskArray = pTaskArray;
+    g_GlobalTEQ.mLengthOfArray = lengthOfArray;
+    StructTEQ_Initialize(&g_GlobalTEQ);
 }
 
-void NNS_GfdDoVramTransfer(void) {
+void HandleAllGlobalTEQSubs(void) {
     NNSGfdVramTransferTaskQueue *queue;
     NNSGfdVramTransferTask *task;
 
-    queue = &s_VramTransferManager;
-    task = NNSi_GfdGetFrontVramTransferTaskQueue(queue);
-    while (NNSi_GfdPopVramTransferTaskQueue(queue) != 0) {
-        DoTransfer_(task);
+    queue = &g_GlobalTEQ;
+    task = StructTEQ_GetTopUsedTEQSub(queue);
+    while (StructTEQ_TryPopTEQSub(queue) != 0) {
+        StructTEQSub_HandleTEQSub(task);
         queue->mTotalSize -= task->mSzByte;
-        task = NNSi_GfdGetFrontVramTransferTaskQueue(queue);
+        task = StructTEQ_GetTopUsedTEQSub(queue);
     }
 }
 
-s32 NNS_GfdRegisterNewVramTransferTask(u32 type, u32 dstAddr, void *pSrc, u32 szByte) {
+s32 AllocateReserveTEQSub(u32 type, u32 dstAddr, void *pSrc, u32 szByte) {
     NNSGfdVramTransferTaskQueue *queue;
     NNSGfdVramTransferTask *task;
 
-    queue = &s_VramTransferManager;
-    if (IsVramTransferTaskQueueFull_(queue) != 0) {
+    queue = &g_GlobalTEQ;
+    if (StructTEQ_IsTEQSubListFull(queue) != 0) {
         return 0;
     }
-    task = NNSi_GfdGetEndVramTransferTaskQueue(queue);
+    task = StructTEQ_GetNextFreeTEQSub(queue);
     task->mType = type;
     task->mPSrc = pSrc;
     task->mDstAddr = dstAddr;
     task->mSzByte = szByte;
-    NNSi_GfdPushVramTransferTaskQueue(queue);
+    StructTEQ_ReserveTEQSub(queue);
     queue->mTotalSize = queue->mTotalSize + task->mSzByte;
     return 1;
 }

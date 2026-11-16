@@ -72,10 +72,10 @@ void CreateAp(void) {
 
 void LoadApFilesAndSetBgCnt(void) {
     YbBgStep11NclName ybBgStep11NclName = gYbBgStep11NclName2;
-    LoadFileToVram("char/ybObjWay.ncl.l", GX_LoadOBJPltt);
-    LoadFileToVram("char/jbBgStep1.ncg.l", GX_LoadBG2Char);
-    LoadFileToVram("char/jbBgStep1.ncl.l", GX_LoadBGPltt);
-    LoadFileToVram("char/jb2Ap.nsc.l", GX_LoadBG2Scr);
+    LoadFileToVram("char/ybObjWay.ncl.l", CopySomePaletteData);
+    LoadFileToVram("char/jbBgStep1.ncg.l", CopyBgData_Bg2_Top);
+    LoadFileToVram("char/jbBgStep1.ncl.l", CopyPaletteTop);
+    LoadFileToVram("char/jb2Ap.nsc.l", TEQSub_Fn10Impl_Fn12Impl);
     gAp->mYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep11NclName), NULL, 4);
     CombineDispcntBits(1, 0x10);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 3;
@@ -269,7 +269,7 @@ void UpdateApRelease(void) {
         ReleaseSelectionObjectSlots();
         HideSubScreenMessage();
         DeleteLoadedFile(gAp->mYbBgStep11Ncl);
-        LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
+        LoadFileToVram("char/ybObjMain.ncl.l", CopySomePaletteData);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
         if (gAp->mCloseKind == AP_CLOSE_KIND_BACK) {

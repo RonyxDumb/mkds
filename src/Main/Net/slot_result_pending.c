@@ -13,7 +13,7 @@ void AddItemData(u32 itemKind, u32 messageKind, void *data, u8 size) {
     u16 slotIndex;
 
     for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
-        slot = &gWiFiRaceSync->mItemDataSlots[slotIndex];
+        slot = &g_GlobalAA->mItemDataSlots[slotIndex];
         if (slot->mState == ITEM_DATA_SLOT_STATE_FREE) {
             goto found;
         }
@@ -23,37 +23,37 @@ found:
     slot->mItemKind = itemKind;
     slot->mMessageKind = messageKind;
     slot->mState = ITEM_DATA_SLOT_STATE_SENDING;
-    slot->mSendUntilSyncFrame = gWiFiRaceSync->mSyncFrames + ITEM_DATA_SLOT_SEND_FRAMES;
-    MI_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
+    slot->mSendUntilSyncFrame = g_GlobalAA->mSyncFrames + ITEM_DATA_SLOT_SEND_FRAMES;
+    Mem_CpuFill8(slot->mData, 0, ITEM_DATA_SLOT_BUFFER_SIZE);
     if (size == 0) {
         slot->mDataSize = 0;
         return;
     }
-    MI_CpuCopy8(data, slot->mData, size);
+    Mem_CpuCopy8(data, slot->mData, size);
     slot->mDataSize = size;
 }
 
 void SetSendSlotResultSync(s32 participantIndex, u16 remaining, s32 itemIndex, s32 state) {
     SlotResultSyncHalfword *entry;
 
-    entry = &((WiFiRaceSyncRecord *) (void *) &gWiFiRaceSync->mSendBuffer->mRecord)->mSlotResultSyncs[participantIndex];
+    entry = &((WiFiRaceSyncRecord *) (void *) &g_GlobalAA->mSendBuffer->mRecord)->mSlotResultSyncs[participantIndex];
     entry->mFramesRemaining = remaining;
     entry->mItemInfoIndex = itemIndex;
     entry->mState = state;
 }
 
 void ClearSendSlotResultSync(s32 participantIndex) {
-    WiFiRaceSyncRecord *payload = (void *) &gWiFiRaceSync->mSendBuffer->mRecord;
-    MI_CpuFill8(&payload->mSlotResultSyncs[participantIndex], 0, 2);
+    WiFiRaceSyncRecord *payload = (void *) &g_GlobalAA->mSendBuffer->mRecord;
+    Mem_CpuFill8(&payload->mSlotResultSyncs[participantIndex], 0, 2);
 }
 
 void StartOwnSlotResultSync(s32 itemIndex) {
     SlotResultSyncState *view;
     s32 syncFrames;
 
-    view = &gWiFiRaceSync->mEntries[DWC_GetMyAID()].mSlotResultSyncState;
+    view = &g_GlobalAA->mEntries[DWC_GetMyAID()].mSlotResultSyncState;
     view->mSendCount = 0;
-    syncFrames = gWiFiRaceSync->mSyncFrames;
+    syncFrames = g_GlobalAA->mSyncFrames;
     view->mState = SLOT_RESULT_SYNC_STATE_SENDING;
     view->mItemInfoIndex = itemIndex;
     view->mEndSyncFrame = syncFrames + SLOT_RESULT_SYNC_SEND_FRAMES;
@@ -61,7 +61,7 @@ void StartOwnSlotResultSync(s32 itemIndex) {
 }
 
 void StartParticipantResultPending(s32 participantIndex) {
-    StartItemSlotResultPending(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]]);
+    StartItemSlotResultPending(&gKartItems[(u8) g_GlobalRE->mKartOfParticipant[participantIndex]]);
 }
 
 void InitSlotResultSyncStates(void) {
@@ -69,7 +69,7 @@ void InitSlotResultSyncStates(void) {
     SlotResultSyncState *view;
 
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT;) {
-        view = &gWiFiRaceSync->mEntries[participantIndex].mSlotResultSyncState;
+        view = &g_GlobalAA->mEntries[participantIndex].mSlotResultSyncState;
         participantIndex++;
         view->mItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
         view->mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
@@ -84,11 +84,11 @@ BOOL ApplyParticipantPendingItem(s32 participantIndex) {
     BOOL result;
     s32 itemInfoIndex;
 
-    itemInfoIndex = gWiFiRaceSync->mEntries[participantIndex].mPendingItemInfoIndex;
+    itemInfoIndex = g_GlobalAA->mEntries[participantIndex].mPendingItemInfoIndex;
     result = FALSE;
-    if (SetKartItemsHeldItemByInfoIndex(&gKartItems[(u8) gParticipantKartMap->mKartOfParticipant[participantIndex]],
+    if (SetKartItemsHeldItemByInfoIndex(&gKartItems[(u8) g_GlobalRE->mKartOfParticipant[participantIndex]],
                                         itemInfoIndex) != FALSE) {
-        gWiFiRaceSync->mEntries[participantIndex].mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
+        g_GlobalAA->mEntries[participantIndex].mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
         result = TRUE;
     }
     return result;
@@ -97,21 +97,21 @@ BOOL ApplyParticipantPendingItem(s32 participantIndex) {
 void ResetParticipantHeldItem(u32 participantIndex) {
     SlotResultSyncState *view;
 
-    view = &gWiFiRaceSync->mEntries[participantIndex].mSlotResultSyncState;
+    view = &g_GlobalAA->mEntries[participantIndex].mSlotResultSyncState;
     if (view->mState != SLOT_RESULT_SYNC_STATE_IDLE) {
         return;
     }
     view->mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
-    ResetHeldItem(&GetKartItems(gParticipantKartMap->mKartOfParticipant[participantIndex])->mHeldItem);
+    ResetHeldItem(&GetKartItems(g_GlobalRE->mKartOfParticipant[participantIndex])->mHeldItem);
 }
 
 void SetParticipantHeldItem(s32 participantIndex, s32 itemInfoIndex, s32 count) {
     SlotResultSyncState *view;
 
-    view = &gWiFiRaceSync->mEntries[participantIndex].mSlotResultSyncState;
+    view = &g_GlobalAA->mEntries[participantIndex].mSlotResultSyncState;
     view->mItemInfoIndex = itemInfoIndex;
     view->mPendingItemInfoIndex = itemInfoIndex;
-    SetHeldItemWithCount(&GetKartItems(gParticipantKartMap->mKartOfParticipant[participantIndex])->mHeldItem,
+    SetHeldItemWithCount(&GetKartItems(g_GlobalRE->mKartOfParticipant[participantIndex])->mHeldItem,
                          itemInfoIndex, count);
 }
 

@@ -14,55 +14,55 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "registers.h"
 
-struct EndingStaffRollObject *gEndingStaffRoll;
+struct EndingStaffRollObject *g_StaffRoll;
 
-void UploadEndingStaffRollOam(void) {
-    DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
-    GX_LoadOAM(&gEndingStaffRoll->mOamBuffer, 0, 0x400);
-    if (gEndingStaffRoll->mStaffRollFrames == ENDING_STAFF_ROLL_FRAME_FADE_START) {
-        StartFadeToFadedNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
+void LoadStaffRollDataOam(void) {
+    Arm_FlushRange(&g_StaffRoll->mOamBuffer, 0x400);
+    CopyToOamA(&g_StaffRoll->mOamBuffer, 0, 0x400);
+    if (g_StaffRoll->mStaffRollFrames == ENDING_STAFF_ROLL_FRAME_FADE_START) {
+        BrightCtx_SomeFn_0(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
         return;
     }
-    if (gEndingStaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_END) {
+    if (g_StaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_END) {
         return;
     }
-    StartFadeToClearNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
+    BrightCtx_SomeFn_1(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
 }
 
-void InitEndingStaffRoll(void) {
+void LoadSomeEndingStaffRollStuff(void) {
     s32 oamIndex;
     NNSG2dCellDataBank *cells;
     RaceHudOamBits *oamBits;
 
-    gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEndingStaffRoll));
+    g_StaffRoll = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*g_StaffRoll));
     for (oamIndex = 0; oamIndex < 0x80; oamIndex++) {
-        oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
+        oamBits = &g_StaffRoll->mOamBuffer.mOamBits[oamIndex];
         oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
     }
-    gEndingStaffRoll->mStaffRollFrames = 0;
-    LoadNclrData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, FindSceneFileWrapper("ending_staffRoll_m_o_00.NCLR"));
-    LoadNcgrData2(&gEndingStaffRoll->mEndingStaffRollM00Ncgr, FindSceneFileWrapper("ending_staffRoll_m_00.nce.ncgr"));
+    g_StaffRoll->mStaffRollFrames = 0;
+    Gfx_ReadPalette(&g_StaffRoll->mEndingStaffRollMO00Nclr, j_FindFileBuffer_K2D_LOC_R2D_R2L("ending_staffRoll_m_o_00.NCLR"));
+    Gfx_ReadCharGraphics(&g_StaffRoll->mEndingStaffRollM00Ncgr, j_FindFileBuffer_K2D_LOC_R2D_R2L("ending_staffRoll_m_00.nce.ncgr"));
     cells = NULL;
-    LoadNcerData(&cells, FindSceneFileWrapper("ending_staffRoll_m_00.nce.ncer"));
-    gEndingStaffRoll->mCell = NNS_G2dGetCellDataByIdx(cells, 0);
-    GX_LoadOBJPltt(gEndingStaffRoll->mEndingStaffRollMO00Nclr->mData, 0,
-                   gEndingStaffRoll->mEndingStaffRollMO00Nclr->mDataSize);
-    GX_LoadOBJ(gEndingStaffRoll->mEndingStaffRollM00Ncgr->mData, 0,
-               gEndingStaffRoll->mEndingStaffRollM00Ncgr->mDataSize);
+    LoadCellBankFrom(&cells, j_FindFileBuffer_K2D_LOC_R2D_R2L("ending_staffRoll_m_00.nce.ncer"));
+    g_StaffRoll->mCell = CellBank_GetMetatileEntry(cells, 0);
+    CopySomePaletteData(g_StaffRoll->mEndingStaffRollMO00Nclr->mData, 0,
+                   g_StaffRoll->mEndingStaffRollMO00Nclr->mDataSize);
+    CopyTileDataTop_0(g_StaffRoll->mEndingStaffRollM00Ncgr->mData, 0,
+               g_StaffRoll->mEndingStaffRollM00Ncgr->mDataSize);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
                      REG_GX_DISPCNT_OBJMAP_CH_MASK;
 }
 
-void ClearEndingStaffRollPointer(void) {
-    gEndingStaffRoll = NULL;
+void ResetStaffRoll(void) {
+    g_StaffRoll = NULL;
 }
 
-u16 UpdateEndingStaffRoll(void) {
-    if (gEndingStaffRoll->mStaffRollFrames < ENDING_STAFF_ROLL_FRAME_CAP) {
-        gEndingStaffRoll->mStaffRollFrames++;
+u16 IncrementStaffRollFrameCount(void) {
+    if (g_StaffRoll->mStaffRollFrames < ENDING_STAFF_ROLL_FRAME_CAP) {
+        g_StaffRoll->mStaffRollFrames++;
     }
-    if (gEndingStaffRoll->mStaffRollFrames == ENDING_STAFF_ROLL_FRAME_TEXT_START) {
-        StartStaffRollText();
+    if (g_StaffRoll->mStaffRollFrames == ENDING_STAFF_ROLL_FRAME_TEXT_START) {
+        RunWhenStaffRollCount();
     }
     return reg_GX_POWCNT;
 }
@@ -75,8 +75,8 @@ void DrawEndingStaffRoll(void) {
     RaceHudOamBits *oamBits;
     s32 position[2];
 
-    gEndingStaffRoll->mOamBuffer.mOamCount = 0;
-    staffRoll = gEndingStaffRoll;
+    g_StaffRoll->mOamBuffer.mOamCount = 0;
+    staffRoll = g_StaffRoll;
     if (staffRoll->mStaffRollFrames < ENDING_STAFF_ROLL_FRAME_PICTURE_END) {
         oamBuffer = &staffRoll->mOamBuffer;
         oamIndex = oamBuffer->mOamCount;
@@ -85,14 +85,14 @@ void DrawEndingStaffRoll(void) {
         position[1] = 0x60000;
         oamBits = &oamBuffer->mOamBits[oamIndex];
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+            MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
             oamBits->mObjMode = RACE_HUD_OBJ_MODE_TRANSLUCENT;
             oamBits->mPriority = 1;
             oamBits++;
         }
     }
-    DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
-    MI_DmaFill32(3, &gEndingStaffRoll->mOamBuffer.mOams[gEndingStaffRoll->mOamBuffer.mOamCount], 0xc0,
-                 (0x80 - gEndingStaffRoll->mOamBuffer.mOamCount) << 3);
+    Arm_FlushRange(&g_StaffRoll->mOamBuffer, 0x400);
+    Mem_DmaFill32(3, &g_StaffRoll->mOamBuffer.mOams[g_StaffRoll->mOamBuffer.mOamCount], 0xc0,
+                 (0x80 - g_StaffRoll->mOamBuffer.mOamCount) << 3);
 }

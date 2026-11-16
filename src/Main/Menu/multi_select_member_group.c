@@ -227,7 +227,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
 // Fills with 0 using a volatile halfword.
 static inline void MultiSelectMI_CpuClear16(void *destination, s32 byteCount) {
     volatile u16 zero = 0;
-    MIi_CpuClear16(zero, destination, byteCount);
+    Mem_CpuFill16(zero, destination, byteCount);
 }
 
 void UpdateMemberRowsFromScanSlots(void) {
@@ -291,7 +291,7 @@ void UpdateMemberRowsFromScanSlots(void) {
                 } else {
                     PrintLabelLayoutTextNoFixedAdvance(1, gMemberRowCellIndices[slotIndex].mLabelIndex,
                                                        cellFileSet->mLabelLayout,
-                                                       GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8),
+                                                       Bmg_GetRawStringPointer_from_thumb(gMultiSelectMemberGroup->mBannerMessages, 8),
                                                        cellFileSet->mCellLayout, cellFileSet->mCellTable);
                     gMultiSelectMemberGroup->mMemberRows[slotIndex].mChildCount = 0;
                     gMultiSelectMemberGroup->mMemberRows[slotIndex].mIsMultiBoot = 0;
@@ -305,14 +305,14 @@ void UpdateMemberRowsFromScanSlots(void) {
                         }
                     }
                     if (isNewEntry != FALSE) {
-                        NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
-                        NNS_SndArcSetCurrent(&gFileSndArc);
+                        Sound_MaybeSetActiveSdat(&g_MainSdat);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 4);
+                        Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                     }
                 } else if (oldHasText != 0 && gMultiSelectMemberGroup->mMemberRows[slotIndex].mHasText == 0) {
-                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
-                    NNS_SndArcSetCurrent(&gFileSndArc);
+                    Sound_MaybeSetActiveSdat(&g_MainSdat);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
+                    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                 }
                 changed |= oldHasText != gMultiSelectMemberGroup->mMemberRows[slotIndex].mHasText ? 1 : 0;
                 changed |= oldWord8 != gMultiSelectMemberGroup->mMemberRows[slotIndex].mChildCount ? 1 : 0;
@@ -339,23 +339,23 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     const LabelMessageRow *labelMessageRow;
     void *text;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectMemberGroup = HeapAlloc(heap, sizeof(*gMultiSelectMemberGroup));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gMultiSelectMemberGroup = Mem_AllocateHeap(heap, sizeof(*gMultiSelectMemberGroup));
     MemFillWordsByBlock_inline(gMultiSelectMemberGroup, 0xa8);
     gMultiSelectMemberGroup->mHeap = heap;
     gMultiSelectMemberGroup->mScene = scene;
     gMultiSelectMemberGroup->mOamList = oamList;
-    gMultiSelectMemberGroup->mBannerMessages = FindSceneFile("banner.bmg");
+    gMultiSelectMemberGroup->mBannerMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("banner.bmg");
     gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_IN;
     gMultiSelectMemberGroup->mBg3Offset = -0xc0;
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, gMultiSelectMemberGroup, "multi_select_member_s_b.NCGR",
                                    "multi_select_member_s_b.NCLR", "multi_select_member_s_group.NSCR", 3,
-                                   FindSceneFile);
+                                   FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     LocateCellFileSet(cellFileSet, "multi_select_member_group_s.nce.ncgr", "multi_select_member_group_s.nce.ncer",
                       "multi_select_member_group_s_o.NCLR", "multi_select_member_s_group.bncl",
-                      "multi_select_member_s_group.bnll", "multi_select_member_s_group.bnbl", FindSceneFile);
+                      "multi_select_member_s_group.bnll", "multi_select_member_s_group.bnbl", FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_SUB, gMultiSelectMemberGroup->mHeap, cellFileSet);
     for (rowIndex = 0, labelMessageRow = gMemberGroupLabelMessageRows; rowIndex < 5; labelMessageRow++, rowIndex++) {
         subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, gMultiSelectMemberGroup->mHeap, cellFileSet,
@@ -363,7 +363,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
         if (gMemberGroupLabelMessageRows[rowIndex].mMessageIndex < 0) {
             text = "";
         } else {
-            text = GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages,
+            text = Bmg_GetRawStringPointer_from_thumb(gMultiSelectMemberGroup->mBannerMessages,
                                gMemberGroupLabelMessageRows[rowIndex].mMessageIndex);
         }
         PrintLabelLayoutTextNoFixedAdvance(1, gMemberGroupLabelMessageRows[rowIndex].mLabelIndex,
@@ -372,7 +372,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     }
     RefreshMultiSelectMemberGroup(1);
     SetSelectReturnSoundId(0xf);
-    gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
+    g_GlobalP->mConnectionKind = CONNECTION_KIND_WL_MENU;
     FrmHeapShrinkInParent(gMultiSelectMemberGroup->mHeap);
 }
 
@@ -391,7 +391,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     s32 selectionChanged;
 
     result = -1;
-    slotIndex = GetPadInputSlot();
+    slotIndex = GetSomeCYId_9();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     if (gMultiSelectMemberGroup->mEntriesCleared == FALSE) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;
@@ -407,17 +407,17 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     }
     switch (gMultiSelectMemberGroup->mState) {
         case MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_IN:
-            if (AreBrightnessFadesClear() == 0) {
+            if (Bright_IsBothScreensFadedIn() == 0) {
                 break;
             }
             if (gMultiSelectMemberGroup->mBg3OffsetFrames == 0) {
                 RequestSelectReturnSlideIn();
-                SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
+                TextSystem_DisplayProgressDialog_TopScreen_from_thumb(Bmg_GetRawStringPointer_from_thumb(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
             }
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
             if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS) {
                 gMultiSelectMemberGroup->mBg3Offset =
-                    InterpolateS16(1, -0xc0, 0, gMultiSelectMemberGroup->mBg3OffsetFrames,
+                    ComputeValueInterpolation_from_thumb(1, -0xc0, 0, gMultiSelectMemberGroup->mBg3OffsetFrames,
                                    MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
@@ -431,20 +431,20 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             rectIndex = -1;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            value = gInputSlots[slotIndex].mPair.mHasPair;
-            if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+            value = g_GlobalCYT[slotIndex].mPair.mHasPair;
+            if (value == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && value != 0) {
+            if (pairRecentlyGone == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && value != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                pairX = gInputSlots[slotIndex].mPair.mPairX;
-                pairY = gInputSlots[slotIndex].mPair.mPairY;
+                pairX = g_GlobalCYT[slotIndex].mPair.mPairX;
+                pairY = g_GlobalCYT[slotIndex].mPair.mPairY;
                 touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(pairX, pairY);
                 rectIndex = RectTableFindContaining(cellFileSet->mRects, pairX, pairY);
             }
-            value = gInputSlots[slotIndex].mPressedBits;
+            value = g_GlobalCYT[slotIndex].mPressedBits;
             if ((u16) (value & PAD_KEY_A) != 0) {
                 if (IsSelectedMemberRowSelectable() != 0) {
                     gMultiSelectMemberGroup->mRowPressed = TRUE;
@@ -452,18 +452,18 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     gMultiSelectMemberGroup->mPressWaitFrames = 0;
                     RefreshMultiSelectMemberGroup(0);
                     if (gMultiSelectMemberGroup->mSelectedIndex == MULTI_SELECT_MEMBER_GROUP_RETURN_ROW) {
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x4e);
                     } else {
-                        if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
+                        if ((g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode) ==
                             CONNECTION_MODE_CHILD) {
-                            gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
+                            g_GlobalZE->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
                         }
-                        NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
-                        NNS_SndArcSetCurrent(&gFileSndArc);
+                        Sound_MaybeSetActiveSdat(&g_MainSdat);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
+                        Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                     }
                 } else {
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4f);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x4f);
                 }
             } else if ((u16) (value & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (sceneNumbers != NULL) {
@@ -477,16 +477,16 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     gMultiSelectMemberGroup->mSelectedIndex = MULTI_SELECT_MEMBER_GROUP_RETURN_ROW;
                 }
                 RefreshMultiSelectMemberGroup(1);
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex++;
                 if (gMultiSelectMemberGroup->mSelectedIndex > MULTI_SELECT_MEMBER_GROUP_RETURN_ROW) {
                     gMultiSelectMemberGroup->mSelectedIndex = 0;
                 }
                 RefreshMultiSelectMemberGroup(1);
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             } else if (rectIndex == 0xc) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x4e);
                 RefreshMultiSelectMemberGroup(
                     gMultiSelectMemberGroup->mSelectedIndex != MULTI_SELECT_MEMBER_GROUP_RETURN_ROW ? 1 : 0);
                 gMultiSelectMemberGroup->mPressWaitFrames = 0;
@@ -499,16 +499,16 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != rowIndex ? 1 : 0;
                         if (gMultiSelectMemberGroup->mMemberRows[rowIndex].mHasText != 0 &&
                             gMultiSelectMemberGroup->mMemberRows[rowIndex].mChildCount < 7) {
-                            NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
-                            NNS_SndArcSetCurrent(&gFileSndArc);
+                            Sound_MaybeSetActiveSdat(&g_MainSdat);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
+                            Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                             gMultiSelectMemberGroup->mSelectedIndex = rowIndex;
                             RefreshMultiSelectMemberGroup(selectionChanged);
                             gMultiSelectMemberGroup->mPressWaitFrames = 0;
                             gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT;
                             gMultiSelectMemberGroup->mRowPressed = TRUE;
                         } else {
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4f);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x4f);
                         }
                     }
                 }
@@ -524,7 +524,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_CHOOSE;
                 } else {
                     gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT;
-                    RequestTxtSystemClose();
+                    TextSystem_CloseDialog_from_thumb();
                 }
             }
             break;
@@ -532,7 +532,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
             if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS) {
                 gMultiSelectMemberGroup->mBg3Offset =
-                    InterpolateS16(1, 0, -0xc0, gMultiSelectMemberGroup->mBg3OffsetFrames,
+                    ComputeValueInterpolation_from_thumb(1, 0, -0xc0, gMultiSelectMemberGroup->mBg3OffsetFrames,
                                    MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
@@ -559,7 +559,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
 #pragma thumb on
 
 void ReleaseMultiSelectMemberGroup(void) {
-    HeapDestroy(gMultiSelectMemberGroup->mHeap);
+    Mem_DestroyHeap(gMultiSelectMemberGroup->mHeap);
     *&gMultiSelectMemberGroup = NULL;
 }
 

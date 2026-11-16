@@ -38,7 +38,7 @@ StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuHop, UpdatePukupukuHop},
                                          {EnterPukupukuRespawn, UpdatePukupukuRespawn}};
 
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
-    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);
+    StateDualHandler_Create(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);
     pukupuku->mPushedObject.mMapObject.mPos.y =
         pukupuku->mPushedObject.mMapObject.mPos.y +
         MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.y, 0xa000);

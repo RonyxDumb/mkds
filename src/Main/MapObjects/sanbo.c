@@ -96,10 +96,10 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
 }
 
 void CreateSanboHAndSanboB(void *mapObjectList) {
-    gSanboH = CreateMapObjectModelNsbmd(mapObjectList, "sanbo_h.nsbmd");
-    gSanboB = CreateMapObjectModelNsbmd(mapObjectList, "sanbo_b.nsbmd");
-    SetMapObjectModelPolygonId(gSanboH, 0x3f);
-    SetMapObjectModelPolygonId(gSanboB, 0x3f);
+    gSanboH = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "sanbo_h.nsbmd");
+    gSanboB = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "sanbo_b.nsbmd");
+    StructMapObject_MaybeSetPolygonId(gSanboH, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gSanboB, 0x3f);
 }
 
 void SanboSetupDrawNop(void) {}
@@ -131,7 +131,7 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
             NNS_G3dGeBufferOP_N(0x1c, startTranslation, 3);
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 if (sanbo->mPieces[pieceIndex].mRotateZAngle != 0) {
-                    MTX_RotZ33_(&rotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
+                    MTX_RotZ33__from_thumb(&rotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
                                 COS_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle));
                     NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
                 }
@@ -142,10 +142,10 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                     NNS_G3dGeBufferOP_N(0x1c, stackTranslation, 3);
                 }
                 if (pieceIndex == 3) {
-                    QueueMapObjectModelMaterial(mapObjectList, gSanboH);
+                    StructMapObject_SomeFn_9(mapObjectList, gSanboH);
                     DrawMapObjectModel(mapObjectList, gSanboH, sanbo);
                 } else {
-                    QueueMapObjectModelMaterial(mapObjectList, gSanboB);
+                    StructMapObject_SomeFn_9(mapObjectList, gSanboB);
                     DrawMapObjectModel(mapObjectList, gSanboB, sanbo);
                 }
             }
@@ -161,7 +161,7 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mPieces[pieceIndex].mPos), 12);
                 if ((sanbo->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0 &&
                     sanbo->mPieces[pieceIndex].mRotateZAngle != 0) {
-                    MTX_RotZ33_(&pieceRotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
+                    MTX_RotZ33__from_thumb(&pieceRotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
                                 COS_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle));
                     NNS_G3dGeBufferOP_N(0x1a, &pieceRotateZMatrix, 9);
                 }
@@ -173,10 +173,10 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                     NNS_G3dGeBufferOP_N(0x1b, pieceScaleVector, 3);
                 }
                 if (pieceIndex == 3) {
-                    QueueMapObjectModelMaterial(mapObjectList, gSanboH);
+                    StructMapObject_SomeFn_9(mapObjectList, gSanboH);
                     DrawMapObjectModel(mapObjectList, gSanboH, sanbo);
                 } else {
-                    QueueMapObjectModelMaterial(mapObjectList, gSanboB);
+                    StructMapObject_SomeFn_9(mapObjectList, gSanboB);
                     DrawMapObjectModel(mapObjectList, gSanboB, sanbo);
                 }
             }
@@ -198,10 +198,10 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                     NNS_G3dGeBufferOP_N(0x1b, stackedScaleVector, 3);
                 }
                 if (pieceIndex == 3) {
-                    QueueMapObjectModelMaterial(mapObjectList, gSanboH);
+                    StructMapObject_SomeFn_9(mapObjectList, gSanboH);
                     DrawMapObjectModel(mapObjectList, gSanboH, sanbo);
                 } else {
-                    QueueMapObjectModelMaterial(mapObjectList, gSanboB);
+                    StructMapObject_SomeFn_9(mapObjectList, gSanboB);
                     DrawMapObjectModel(mapObjectList, gSanboB, sanbo);
                 }
             }
@@ -405,11 +405,11 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
 }
 
 MapObjectKindData *CreateSanboKindData(void) {
-    return CreateMapObjectKindData(&CollideKartWithSanbo, &CollideItemObjectWithSanbo, NULL, 1, 1);
+    return CreateAllocateSomeObject_from_thumb(&CollideKartWithSanbo, &CollideItemObjectWithSanbo, NULL, 1, 1);
 }
 
 MapObjectList *CreateSanboDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSanboHAndSanboB, DrawSanbo, SanboSetupDrawNop);
+    return CreateAllocateMapObject_from_thumb(CreateSanboHAndSanboB, DrawSanbo, SanboSetupDrawNop);
 }
 
 MapObjectList *CreateSanboUpdateList(void) {
@@ -418,11 +418,11 @@ MapObjectList *CreateSanboUpdateList(void) {
 
 BOOL ShineKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
     if (GetBalloonOrShineCount(kartIndex) != 0) {
-        AddBalloonOrShineCountAndMoveRank(kartIndex, -1);
+        MaybeUpdateDriverBalloonShineCount(kartIndex, -1);
         if (hitByKartIndex >= 8) {
             hitByKartIndex = kartIndex;
         }
-        StartShine16FromKart(GetKart(kartIndex), GetKart(hitByKartIndex));
+        StartShine16FromKart(GetRacerMQEntry(kartIndex), GetRacerMQEntry(hitByKartIndex));
         return TRUE;
     }
     return FALSE;
@@ -432,8 +432,8 @@ void ShineKartEliminatedCallback(u16 kartIndex) {
     if (GetBalloonOrShineCount(kartIndex) == 0) {
         return;
     }
-    AddBalloonOrShineCountAndMoveRank(kartIndex, -1);
-    StartShine16FromKart(GetKart(kartIndex), GetKart(kartIndex));
+    MaybeUpdateDriverBalloonShineCount(kartIndex, -1);
+    StartShine16FromKart(GetRacerMQEntry(kartIndex), GetRacerMQEntry(kartIndex));
 }
 
 void ShineEndCallback(void) {

@@ -57,20 +57,20 @@ void InitEarthenPipe(PushedObject *pipe) {
 MapObjectKindData *CreateWanwanChainKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gWanwanChainKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateWanwanChainDrawList(void) {
-    gWanwanChainDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    gWanwanChainDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     *gWanwanChainDrawList = gWanwanChainDrawListData;
     SetDrawListSlot(&gWanwanChainDrawList);
     return gWanwanChainDrawList;
 }
 
 MapObjectList *CreateWanwanChainUpdateList(void) {
-    gWanwanChainUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    gWanwanChainUpdateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     *gWanwanChainUpdateList = gWanwanChainUpdateListData;
     SetUpdateListSlot(&gWanwanChainUpdateList);
     return gWanwanChainUpdateList;
@@ -92,6 +92,6 @@ void UpdateWanwanChain(void *unused, WanwanChainObject *chainObject) {
     if (chainObject->mHasKui == FALSE) {
         chainObject->mPos = wanwan->mMapObject.mPos;
     }
-    VEC_MultAdd(-wanwan->mScaledLength, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
+    VecFx32_AddScale1(-wanwan->mScaledLength, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
     UpdateWanwanChainPoints(&chainObject->mChain, &endPoint, &wanwan->mMapObject.mPosStep);
 }

@@ -36,44 +36,44 @@
 
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     u32 workSize;
-    gConnectionWork->mAllocHeap = heap;
-    workSize = GetScanConnectWorkSize();
+    g_GlobalZE->mAllocHeap = heap;
+    workSize = Const5F20_from_thumb();
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && workSize < 0xc000) {
         workSize = 0xc000;
     }
-    gConnectionWork->mMultiBootWorkSize = workSize;
-    gConnectionWork->mMultiBootWork =
-        HeapAllocAligned(heap, gConnectionWork->mMultiBootWorkSize, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mMultiBootWorkSize = workSize;
+    g_GlobalZE->mMultiBootWork =
+        Mem_AllocateHeapAligned(heap, g_GlobalZE->mMultiBootWorkSize, HEAP_ALIGN_CACHE_LINE);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        gConnectionWork->mMultiBootSegmentSize = MB_GetSegmentLength(NULL);
-        if (gConnectionWork->mMultiBootSegmentSize > MULTIBOOT_SEGMENT_MAX_BYTES) {
-            gConnectionWork->mMultiBootSegmentSize = MULTIBOOT_SEGMENT_MAX_BYTES;
+        g_GlobalZE->mMultiBootSegmentSize = ComputeRomBinarySize_from_thumb(NULL);
+        if (g_GlobalZE->mMultiBootSegmentSize > MULTIBOOT_SEGMENT_MAX_BYTES) {
+            g_GlobalZE->mMultiBootSegmentSize = MULTIBOOT_SEGMENT_MAX_BYTES;
         }
-        gConnectionWork->mMultiBootSegment =
-            HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, HEAP_ALIGN_CACHE_LINE);
-        SetGameRegistryTexts(bmg);
-        gConnectionWork->mMultiBootScratchBuffer =
-            HeapAllocAligned(heap, MULTIBOOT_SCRATCH_BUFFER_BYTES, HEAP_ALIGN_CACHE_LINE);
+        g_GlobalZE->mMultiBootSegment =
+            Mem_AllocateHeapAligned(heap, g_GlobalZE->mMultiBootSegmentSize, HEAP_ALIGN_CACHE_LINE);
+        SetGlobalBAN_from_thumb(bmg);
+        g_GlobalZE->mMultiBootScratchBuffer =
+            Mem_AllocateHeapAligned(heap, MULTIBOOT_SCRATCH_BUFFER_BYTES, HEAP_ALIGN_CACHE_LINE);
     } else {
-        gConnectionWork->mMultiBootSegmentSize = 0;
-        gConnectionWork->mMultiBootSegment = 0;
-        gConnectionWork->mMultiBootScratchBuffer = 0;
+        g_GlobalZE->mMultiBootSegmentSize = 0;
+        g_GlobalZE->mMultiBootSegment = 0;
+        g_GlobalZE->mMultiBootScratchBuffer = 0;
     }
-    ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
+    StructBin_SomeFn_from_thumb(&g_GlobalZE->mMultiBootState);
 }
 
 void ParentStateCallback(u32 index, u32 code, void *data) {
     MBUserInfo *childInfo = data;
-    gConnectionWork->mMultiBootState.mChildStateCodes[index] = code;
-    if (gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_END_TO_IDLE && code != MULTIBOOT_PARENT_ENDED) {
+    g_GlobalZE->mMultiBootState.mChildStateCodes[index] = code;
+    if (g_GlobalZE->mStep == CONNECTION_STEP_MULTIBOOT_END_TO_IDLE && code != MULTIBOOT_PARENT_ENDED) {
         return;
     }
     switch (code) {
         case MULTIBOOT_PARENT_CHILD_REQUESTED: {
             u32 accept = 1;
-            if (gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) {
+            if (g_GlobalZE->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) {
                 accept = 0;
-            } else if ((gConnectionWork->mStatusFlags & CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD) &&
+            } else if ((g_GlobalZE->mStatusFlags & CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD) &&
                        childInfo->mPlayerNo == 0) {
                 accept = 0;
             }
@@ -85,77 +85,77 @@ void ParentStateCallback(u32 index, u32 code, void *data) {
             return;
         }
         case MULTIBOOT_PARENT_DOWNLOAD_DONE:
-            BIT_SET(gConnectionWork->mSendCompleteMask, index);
-            if (gConnectionWork->mWaitToSendMask ==
-                (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask)) {
-                gConnectionWork->mRequestPending = 0;
+            BIT_SET(g_GlobalZE->mSendCompleteMask, index);
+            if (g_GlobalZE->mWaitToSendMask ==
+                (g_GlobalZE->mWaitToSendMask & g_GlobalZE->mSendCompleteMask)) {
+                g_GlobalZE->mRequestPending = 0;
             }
             break;
         case MULTIBOOT_PARENT_CHILD_BOOTED:
-            BIT_SET(gConnectionWork->mMultiBootChildMask, index);
+            BIT_SET(g_GlobalZE->mMultiBootChildMask, index);
             break;
         case MULTIBOOT_PARENT_ENDED:
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             break;
         case MULTIBOOT_PARENT_STARTED:
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             break;
         case MULTIBOOT_PARENT_CHILD_DISCONNECTED:
-            if (gConnectionWork->mMultiBootChildMask & (1 << index)) {
-                BIT_SET(gConnectionWork->mBootRequestDoneMask, index);
-                if (gConnectionWork->mWaitToSendMask ==
-                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask)) {
-                    gConnectionWork->mRequestPending = 0;
+            if (g_GlobalZE->mMultiBootChildMask & (1 << index)) {
+                BIT_SET(g_GlobalZE->mBootRequestDoneMask, index);
+                if (g_GlobalZE->mWaitToSendMask ==
+                    (g_GlobalZE->mWaitToSendMask & g_GlobalZE->mBootRequestDoneMask)) {
+                    g_GlobalZE->mRequestPending = 0;
                 }
             }
-            if (!(gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_BOOT)) {
-                if (gConnectionWork->mWaitToSendCount != 0) {
-                    if (gConnectionWork->mWaitToSendMask & (1 << index)) {
-                        BIT_CLEAR(gConnectionWork->mWaitToSendMask, index);
-                        gConnectionWork->mWaitToSendCount--;
+            if (!(g_GlobalZE->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_BOOT)) {
+                if (g_GlobalZE->mWaitToSendCount != 0) {
+                    if (g_GlobalZE->mWaitToSendMask & (1 << index)) {
+                        BIT_CLEAR(g_GlobalZE->mWaitToSendMask, index);
+                        g_GlobalZE->mWaitToSendCount--;
                     }
-                    if ((gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) &&
-                        gConnectionWork->mWaitToSendMask == 0) {
+                    if ((g_GlobalZE->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) &&
+                        g_GlobalZE->mWaitToSendMask == 0) {
                         SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                     }
                 } else {
-                    gConnectionWork->mWaitToSendMask = 0;
-                    gConnectionWork->mBootRequestDoneMask = 0;
-                    gConnectionWork->mMultiBootChildMask = 0;
-                    gConnectionWork->mWaitToSendCount = 0;
+                    g_GlobalZE->mWaitToSendMask = 0;
+                    g_GlobalZE->mBootRequestDoneMask = 0;
+                    g_GlobalZE->mMultiBootChildMask = 0;
+                    g_GlobalZE->mWaitToSendCount = 0;
                 }
             }
-            if ((gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_BOOT) &&
-                gConnectionWork->mWaitToSendMask ==
-                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask) &&
-                gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST) {
-                gConnectionWork->mRequestPending = 0;
+            if ((g_GlobalZE->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_BOOT) &&
+                g_GlobalZE->mWaitToSendMask ==
+                    (g_GlobalZE->mWaitToSendMask & g_GlobalZE->mBootRequestDoneMask) &&
+                g_GlobalZE->mStep == CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST) {
+                g_GlobalZE->mRequestPending = 0;
                 return;
             }
-            if ((gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) &&
-                gConnectionWork->mWaitToSendMask ==
-                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask) &&
-                gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN) {
-                gConnectionWork->mRequestPending = 0;
+            if ((g_GlobalZE->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) &&
+                g_GlobalZE->mWaitToSendMask ==
+                    (g_GlobalZE->mWaitToSendMask & g_GlobalZE->mSendCompleteMask) &&
+                g_GlobalZE->mStep == CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN) {
+                g_GlobalZE->mRequestPending = 0;
                 return;
             }
             break;
         case MULTIBOOT_PARENT_CHILD_WAITING:
-            if (!(gConnectionWork->mWaitToSendMask & (1 << index))) {
-                BIT_SET(gConnectionWork->mWaitToSendMask, index);
-                gConnectionWork->mWaitToSendCount++;
+            if (!(g_GlobalZE->mWaitToSendMask & (1 << index))) {
+                BIT_SET(g_GlobalZE->mWaitToSendMask, index);
+                g_GlobalZE->mWaitToSendCount++;
             }
             break;
     }
 }
 
-void ResetConnectionBuffers(MultiBootStateView *view) {
+void StructBin_SomeFn_from_thumb(MultiBootStateView *view) {
     s32 index;
-    if (gConnectionWork->mMultiBootWork != 0) {
-        MI_CpuFill8(gConnectionWork->mMultiBootWork, 0, gConnectionWork->mMultiBootWorkSize);
+    if (g_GlobalZE->mMultiBootWork != 0) {
+        Mem_CpuFill8(g_GlobalZE->mMultiBootWork, 0, g_GlobalZE->mMultiBootWorkSize);
     }
-    if (gConnectionWork->mMultiBootScratchBuffer != 0) {
-        MI_CpuFill8(gConnectionWork->mMultiBootScratchBuffer, 0, MULTIBOOT_SCRATCH_BUFFER_BYTES);
+    if (g_GlobalZE->mMultiBootScratchBuffer != 0) {
+        Mem_CpuFill8(g_GlobalZE->mMultiBootScratchBuffer, 0, MULTIBOOT_SCRATCH_BUFFER_BYTES);
     }
     for (index = 0; index < 8; index++) {
         view->mChildStateCodes[index] = 0;
@@ -174,66 +174,66 @@ void ResetConnectionBuffers(MultiBootStateView *view) {
 
 void StartMultiBootParent(void) {
     MBUserInfo user;
-    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_START_PARENT;
-    gConnectionWork->mRequestPending = 1;
-    ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
+    g_GlobalZE->mStep = CONNECTION_STEP_MULTIBOOT_START_PARENT;
+    g_GlobalZE->mRequestPending = 1;
+    StructBin_SomeFn_from_thumb(&g_GlobalZE->mMultiBootState);
     user.mNameLength = MULTIBOOT_USER_NAME_LENGTH;
-    user.mFavoriteColor = gStartupWork->mFavoriteColor;
+    user.mFavoriteColor = g_GlobalP->mFavoriteColor;
     user.mPlayerNo = MULTIBOOT_PARENT_PLAYER_NUMBER;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, sizeof(user.mName));
-    gConnectionWork->mParentTgid = ComputeParentTgid(1);
-    if (MB_Init(gConnectionWork->mMultiBootWork, &user, CONNECTION_GAME_GROUP_ID, gConnectionWork->mParentTgid, 2) !=
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mPlayerName, user.mName, sizeof(user.mName));
+    g_GlobalZE->mParentTgid = ComputeParentTgid(1);
+    if (SetupSomePointer_from_thumb(g_GlobalZE->mMultiBootWork, &user, CONNECTION_GAME_GROUP_ID, g_GlobalZE->mParentTgid, 2) !=
         0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
     MB_SetParentCommParam(0x1fe, 7);
     MB_CommSetParentStateCallback(ParentStateCallback);
-    if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mParentChannel) != 0) {
+    if (((s32(*)(u32)) MB_StartParentFromIdle)(g_GlobalZE->mParentChannel) != 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
     if (RegisterMultiBootSegment() == 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
-    gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mStatusFlags &= ~CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void SetupScanConnect(void) {
     MBUserInfo userInfo;
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_SETUP;
-    gConnectionWork->mRequestPending = 1;
-    userInfo.mFavoriteColor = gStartupWork->mFavoriteColor;
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_SETUP;
+    g_GlobalZE->mRequestPending = 1;
+    userInfo.mFavoriteColor = g_GlobalP->mFavoriteColor;
     userInfo.mNameLength = MULTIBOOT_USER_NAME_LENGTH;
     userInfo.mPlayerNo = SCAN_CONNECT_PLAYER_NUMBER;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mName, sizeof(userInfo.mName));
-    gConnectionWork->mScanEntryIndex = -1;
-    InitScanConnectWork(gConnectionWork->mMultiBootWork, &userInfo);
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mPlayerName, userInfo.mName, sizeof(userInfo.mName));
+    g_GlobalZE->mScanEntryIndex = -1;
+    InitScanConnectWork(g_GlobalZE->mMultiBootWork, &userInfo);
     SetScanConnectStateCallback(ScanConnectStateCallback);
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
 }
 
-void StartCloseScanConnect(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CLOSE;
-    gConnectionWork->mRequestPending = 1;
+void StructZE_StateFn_28_29_30_33_34_35_from_thumb(void) {
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_CLOSE;
+    g_GlobalZE->mRequestPending = 1;
     CloseScanConnect();
 }
 
 void StartRepeatedScanStep1D(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN;
+    g_GlobalZE->mRequestPending = 1;
     StartRepeatedScan(RepeatedScanCallback, CONNECTION_GAME_GROUP_ID);
 }
 
 static inline u32 MultiBootGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 void StartRepeatedScanStep1E(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY;
+    g_GlobalZE->mRequestPending = 1;
     StartRepeatedScan(RepeatedScanCallback, CONNECTION_GAME_GROUP_ID);
 }
 
@@ -243,10 +243,10 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     u16 index;
     WMBssDesc scanBlock;
     result = -1;
-    if (gConnectionWork->mStep == CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY) {
+    if (g_GlobalZE->mStep == CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY) {
         for (index = 0; index < 16; index++) {
             if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
-                u8 *tableBytes = gConnectionWork->mScanSlots[0].mKey.mBytes;
+                u8 *tableBytes = g_GlobalZE->mScanSlots[0].mKey.mBytes;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
                 if (scanBlock.mBssid[0] == tableBytes[entryIndex * 0xe0] && scanBlock.mBssid[1] == entryBytes[1] &&
                     scanBlock.mBssid[2] == entryBytes[2] && scanBlock.mBssid[3] == entryBytes[3] &&
@@ -270,7 +270,7 @@ void RepeatedScanCallback(u32 code, void *args) {
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             break;
         case SCAN_EVENT_END:
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             break;
     }
 }
@@ -278,33 +278,33 @@ void RepeatedScanCallback(u32 code, void *args) {
 void ScanConnectStateCallback(u32 state, void *info) {
     switch (state) {
         case SCAN_CONNECT_STATE_RESET_DONE:
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             break;
         case SCAN_CONNECT_STATE_FINISHED:
-            gConnectionWork->mStepWaitFrames = (OS_GetTick() >> 10) % 40;
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mStepWaitFrames = (Os_GetTick() >> 10) % 40;
+            g_GlobalZE->mRequestPending = 0;
             break;
         case SCAN_CONNECT_STATE_ACCEPTED:
-            gConnectionWork->mScanConnected = 1;
-            gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
+            g_GlobalZE->mScanConnected = 1;
+            g_GlobalZE->mState = CONNECTION_STATE_CONNECTED;
             break;
         case SCAN_CONNECT_STATE_LINK_LOST:
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             break;
         case SCAN_CONNECT_STATE_CONNECT_FAILED:
         case SCAN_CONNECT_STATE_REQUEST_REJECTED:
-            gConnectionWork->mScanConnected = 0;
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mScanConnected = 0;
+            g_GlobalZE->mRequestPending = 0;
             break;
     }
 }
 
 s32 AdvanceMultiBootParentSetup(void) {
     BOOL result = FALSE;
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_NOTHING:
-            gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
-            gConnectionWork->mState = CONNECTION_STATE_STARTING;
+            g_GlobalZE->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
+            g_GlobalZE->mState = CONNECTION_STATE_STARTING;
             Initialize();
             break;
         case CONNECTION_STEP_STARTING_UP:
@@ -326,10 +326,10 @@ s32 AdvanceMultiBootScanSetup(void) {
     BOOL stepDone = FALSE;
     BOOL result = FALSE;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        switch (gConnectionWork->mStep) {
+        switch (g_GlobalZE->mStep) {
             case CONNECTION_STEP_NOTHING:
-                gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
-                gConnectionWork->mState = CONNECTION_STATE_STARTING;
+                g_GlobalZE->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
+                g_GlobalZE->mState = CONNECTION_STATE_STARTING;
                 Initialize();
                 break;
             case CONNECTION_STEP_STARTING_UP:
@@ -337,10 +337,10 @@ s32 AdvanceMultiBootScanSetup(void) {
                 break;
         }
     } else {
-        switch (gConnectionWork->mStep) {
+        switch (g_GlobalZE->mStep) {
             case CONNECTION_STEP_NOTHING:
-                gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
-                gConnectionWork->mState = CONNECTION_STATE_STARTING;
+                g_GlobalZE->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
+                g_GlobalZE->mState = CONNECTION_STATE_STARTING;
                 Initialize();
                 break;
             case CONNECTION_STEP_STARTING_UP:
@@ -353,7 +353,7 @@ s32 AdvanceMultiBootScanSetup(void) {
         }
     }
     if (stepDone != FALSE) {
-        gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_SCAN_READY;
+        g_GlobalZE->mState = CONNECTION_STATE_MULTIBOOT_SCAN_READY;
         result = TRUE;
     }
     return result;
@@ -361,7 +361,7 @@ s32 AdvanceMultiBootScanSetup(void) {
 
 s32 AdvanceMultiBootSetup(s32 isParent) {
     s32 result = 0;
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
     switch (MultiBootGetConnectionMode()) {
@@ -373,9 +373,9 @@ s32 AdvanceMultiBootSetup(s32 isParent) {
             break;
         case CONNECTION_MODE_NONE:
             if (isParent != 0) {
-                gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
+                g_GlobalZE->mConnectionMode = CONNECTION_MODE_PARENT;
             } else {
-                gConnectionWork->mConnectionMode = CONNECTION_MODE_CHILD;
+                g_GlobalZE->mConnectionMode = CONNECTION_MODE_CHILD;
             }
             break;
     }
@@ -385,62 +385,62 @@ s32 AdvanceMultiBootSetup(s32 isParent) {
 void StartSendingToAllChildren(void) {
     u8 index;
     u8 count;
-    if (gConnectionWork->mWaitToSendMask == 0) {
+    if (g_GlobalZE->mWaitToSendMask == 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN;
+    g_GlobalZE->mStep = CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN;
     index = 1;
-    gConnectionWork->mRequestPending = index;
+    g_GlobalZE->mRequestPending = index;
     count = 0;
-    gConnectionWork->mSendCompleteMask = count;
-    gConnectionWork->mMultiBootRequestFlags |= CONNECTION_MULTIBOOT_REQUEST_SEND;
+    g_GlobalZE->mSendCompleteMask = count;
+    g_GlobalZE->mMultiBootRequestFlags |= CONNECTION_MULTIBOOT_REQUEST_SEND;
     for (; index <= 15; index++) {
         if (MB_CommResponseRequest(index, MULTIBOOT_RESPONSE_SEND) == 1) {
             count++;
         }
     }
     if (count == 0) {
-        gConnectionWork->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_SEND;
+        g_GlobalZE->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_SEND;
     }
 }
 
 void StartBootRequestToAllChildren(void) {
     u8 index;
     u8 count;
-    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST;
+    g_GlobalZE->mStep = CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST;
     index = 1;
-    gConnectionWork->mRequestPending = index;
-    gConnectionWork->mMultiBootRequestFlags |= CONNECTION_MULTIBOOT_REQUEST_BOOT;
+    g_GlobalZE->mRequestPending = index;
+    g_GlobalZE->mMultiBootRequestFlags |= CONNECTION_MULTIBOOT_REQUEST_BOOT;
     count = 0;
-    gConnectionWork->mMultiBootChildMask = count;
+    g_GlobalZE->mMultiBootChildMask = count;
     for (; index <= 15; index++) {
         if (MB_CommResponseRequest(index, MULTIBOOT_RESPONSE_BOOT) == 1) {
             count++;
         }
     }
     if (count == 0) {
-        gConnectionWork->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_BOOT;
+        g_GlobalZE->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_BOOT;
     }
 }
 
-void StartEndToIdle(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_END_TO_IDLE;
-    gConnectionWork->mRequestPending = 1;
-    gConnectionWork->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_BOOT;
+void StructZE_StateFn22_23_24_25_from_thumb(void) {
+    g_GlobalZE->mStep = CONNECTION_STEP_MULTIBOOT_END_TO_IDLE;
+    g_GlobalZE->mRequestPending = 1;
+    g_GlobalZE->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_BOOT;
     MB_EndToIdle();
 }
 
 void StartRequestEndScan(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_END_SCAN;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_END_SCAN;
+    g_GlobalZE->mRequestPending = 1;
     RequestEndScan();
 }
 
 void StartConnectToScanEntry(u16 entryIndex) {
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY;
-    gConnectionWork->mRequestPending = 1;
-    gConnectionWork->mScanConnected = 0;
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY;
+    g_GlobalZE->mRequestPending = 1;
+    g_GlobalZE->mScanConnected = 0;
     if (StartConnectToEntry(entryIndex) == 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
@@ -448,22 +448,22 @@ void StartConnectToScanEntry(u16 entryIndex) {
 
 void ReadFakeParentBssDesc(u16 entryIndex) {
     u32 result;
-    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC;
-    gConnectionWork->mRequestPending = 1;
-    result = MB_FakeReadParentBssDesc(entryIndex, gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
-    gConnectionWork->mRequestPending = 0;
-    gConnectionWork->mParentBssDesc->mGameInfo.mTgid = (gConnectionWork->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
+    g_GlobalZE->mStep = CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC;
+    g_GlobalZE->mRequestPending = 1;
+    result = MB_FakeReadParentBssDesc(entryIndex, g_GlobalZE->mParentBssDesc, 0x1bc, 0x36, 0, 0);
+    g_GlobalZE->mRequestPending = 0;
+    g_GlobalZE->mParentBssDesc->mGameInfo.mTgid = (g_GlobalZE->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
     if (result == 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
 }
 
 void ReadMultiBootParentBssDesc(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_READ_PARENT_DESC;
-    gConnectionWork->mRequestPending = 1;
-    MB_ReadMultiBootParentBssDesc(gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
-    gConnectionWork->mParentBssDesc->mGameInfo.mTgid = (gConnectionWork->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mStep = CONNECTION_STEP_MULTIBOOT_READ_PARENT_DESC;
+    g_GlobalZE->mRequestPending = 1;
+    MB_ReadMultiBootParentBssDesc(g_GlobalZE->mParentBssDesc, 0x1bc, 0x36, 0, 0);
+    g_GlobalZE->mParentBssDesc->mGameInfo.mTgid = (g_GlobalZE->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 #pragma thumb off

@@ -11,7 +11,7 @@
 
 const u32 mbi_seg_header_default[6] = {0x4000, 0x1000, 0x7000, 0x1000, 0, 0};
 u32 *mbi_seg_header = (u32 *) mbi_seg_header_default;
-u8 gSegmentRomArchiveName[4] = {0x72, 0x6f, 0x6d, 0};
+u8 g_str_rom_3[4] = {0x72, 0x6f, 0x6d, 0};
 
 #pragma thumb on
 
@@ -23,7 +23,7 @@ static inline u32 GetRomSizeOrDefault(CARDRomHeader *header) {
     return value;
 }
 
-int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
+int FsUnk_ReadCartHeader_from_thumb(FSFile *file, void *buffer, u32 bufferSize) {
     FSFile *activeFile;
     CARDRomHeader *header;
     u8 *writePos;
@@ -54,23 +54,23 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         remaining -= 0x160;
         if (activeFile != NULL) {
             basePosition = activeFile->mPosition - activeFile->mProp.w.mUnk_04;
-            if (FS_ReadFile(activeFile, header, 0x160) < 0x160) {
+            if (Fs_File_Read(activeFile, header, 0x160) < 0x160) {
                 remaining = 0;
             }
             seekOffset = GetRomSizeOrDefault(header);
         } else {
             seekOffset = GetRomSizeOrDefault(&SYSTEM_WORK->mRomHeader);
             openedHere = TRUE;
-            FS_InitFile(&openedFile);
-            FS_OpenFileDirect(&openedFile, FS_FindArchive(gSegmentRomArchiveName, 3), 0, seekOffset + 0x88, -1);
+            Fs_File_Initialize(&openedFile);
+            Fs_File_OpenRaw(&openedFile, Fs_FindArchiveByMountName(g_str_rom_3, 3), 0, seekOffset + 0x88, -1);
             activeFile = &openedFile;
             basePosition = openedFile.mPosition - openedFile.mProp.w.mUnk_04;
-            MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, header, sizeof(SYSTEM_WORK->mRomHeader));
+            Mem_CpuCopy8(&SYSTEM_WORK->mRomHeader, header, sizeof(SYSTEM_WORK->mRomHeader));
             header->mRomCtrl |= 0x00406000;
         }
         if (remaining >= 0x88) {
-            FS_SeekFile(activeFile, basePosition + seekOffset, FILE_SEEK_START);
-            FS_ReadFile(activeFile, writePos, 0x88);
+            Fs_File_Seek(activeFile, basePosition + seekOffset, FILE_SEEK_START);
+            Fs_File_Read(activeFile, writePos, 0x88);
             writePos += 0x88;
             remaining -= 0x88;
         } else {
@@ -78,7 +78,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         }
         if (remaining >= sizeof(MBiCacheList)) {
             rangeTable = (MBiCacheList *) writePos;
-            MBi_InitCache(rangeTable);
+            MemsetSomeObject_from_thumb(rangeTable);
             writePos += sizeof(MBiCacheList);
             remaining -= sizeof(MBiCacheList);
             MBi_AttachCacheBuffer(rangeTable, 0, 0x160, (u8 *) header, 3);
@@ -87,7 +87,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             while (nameLength < 3 && arcBytes[nameLength] != 0) {
                 nameLength++;
             }
-            MI_CpuCopy8(arcBytes, rangeTable->mArcName, nameLength);
+            Mem_CpuCopy8(arcBytes, rangeTable->mArcName, nameLength);
             rangeTable->mArcNameLen = nameLength;
         } else {
             remaining = 0;
@@ -105,31 +105,31 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         segmentSize = header->mHead.mMainSize + header->mHead.mSubSize;
         if (remaining >= segmentSize) {
             fileBase = activeFile->mProp.w.mUnk_04;
-            FS_SeekFile(activeFile, offsetTable[1] - fileBase, FILE_SEEK_START);
-            FS_ReadFile(activeFile, writePos, header->mHead.mMainSize);
+            Fs_File_Seek(activeFile, offsetTable[1] - fileBase, FILE_SEEK_START);
+            Fs_File_Read(activeFile, writePos, header->mHead.mMainSize);
             MBi_AttachCacheBuffer(rangeTable, offsetTable[1], header->mHead.mMainSize, writePos, 3);
             writePos += header->mHead.mMainSize;
-            FS_SeekFile(activeFile, offsetTable[2] - fileBase, FILE_SEEK_START);
-            FS_ReadFile(activeFile, writePos, header->mHead.mSubSize);
+            Fs_File_Seek(activeFile, offsetTable[2] - fileBase, FILE_SEEK_START);
+            Fs_File_Read(activeFile, writePos, header->mHead.mSubSize);
             MBi_AttachCacheBuffer(rangeTable, offsetTable[2], header->mHead.mSubSize, writePos, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
             fileBase = activeFile->mProp.w.mUnk_04;
             mainOffset = offsetTable[1];
-            FS_SeekFile(activeFile, mainOffset - fileBase, FILE_SEEK_START);
-            FS_ReadFile(activeFile, writePos, 0x4400);
+            Fs_File_Seek(activeFile, mainOffset - fileBase, FILE_SEEK_START);
+            Fs_File_Read(activeFile, writePos, 0x4400);
             MBi_AttachCacheBuffer(rangeTable, mainOffset, 0x4400, writePos, 3);
-            FS_SeekFile(activeFile, mainOffset + 0x4400 - fileBase, FILE_SEEK_START);
-            FS_ReadFile(activeFile, writePos + 0x4400, 0x4400);
+            Fs_File_Seek(activeFile, mainOffset + 0x4400 - fileBase, FILE_SEEK_START);
+            Fs_File_Read(activeFile, writePos + 0x4400, 0x4400);
             MBi_AttachCacheBuffer(rangeTable, mainOffset + 0x4400, 0x4400, (writePos + 0x4400), 2);
-            FS_SeekFile(activeFile, mainOffset + 0x8800 - fileBase, FILE_SEEK_START);
-            FS_ReadFile(activeFile, writePos + 0x8800, 0x4400);
+            Fs_File_Seek(activeFile, mainOffset + 0x8800 - fileBase, FILE_SEEK_START);
+            Fs_File_Read(activeFile, writePos + 0x8800, 0x4400);
             MBi_AttachCacheBuffer(rangeTable, mainOffset + 0x8800, 0x4400, (writePos + 0x8800), 2);
             result = TRUE;
         }
-        FS_SeekFile(activeFile, basePosition, FILE_SEEK_START);
+        Fs_File_Seek(activeFile, basePosition, FILE_SEEK_START);
         if (openedHere != FALSE) {
-            FS_CloseFile(&openedFile);
+            Fs_File_Close(&openedFile);
             if (result != FALSE) {
                 offsetTable = mbi_seg_header;
                 segmentParams[0] = header->mHead.mMainRomOffset;
@@ -147,7 +147,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             }
         }
         if (result != FALSE) {
-            DC_FlushRange(header, bufferSize);
+            Arm_FlushRange(header, bufferSize);
         }
     }
     return result;
@@ -174,10 +174,10 @@ void MBi_ReadSegmentHeader(u32 *segmentHeader, u32 offsetStart, u32 offsetEnd, i
     }
     if (offsetStart < offsetEnd) {
         if (fillFlag != 0) {
-            MI_CpuFill8(((u32 *) (u32) (segmentHeader[2] + offsetStart)), 0, offsetEnd - offsetStart);
+            Mem_CpuFill8(((u32 *) (u32) (segmentHeader[2] + offsetStart)), 0, offsetEnd - offsetStart);
             return;
         }
-        MI_CpuCopy8(((u16 *) (u32) (segmentHeader[1] + offsetStart)), ((u32 *) (u32) (segmentHeader[2] + offsetStart)),
+        Mem_CpuCopy8(((u16 *) (u32) (segmentHeader[1] + offsetStart)), ((u32 *) (u32) (segmentHeader[2] + offsetStart)),
                     offsetEnd - offsetStart);
     }
 }

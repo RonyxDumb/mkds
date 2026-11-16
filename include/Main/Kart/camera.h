@@ -59,7 +59,7 @@ typedef struct CourseMapCamera {
 #include "matrix44_concat.h"
 
 
-void UpdateCameraWobble(Camera *camera);
+void StructHD_SomeFn_4(Camera *camera);
 void StartCameraWobbleByCourse(void);
 void StartCameraWobbleAtDistance(u32 distance, s32 scale);
 void StartCameraWobble(s32 baseAmplitude, u32 distance, s32 scale);
@@ -83,108 +83,108 @@ void ResetCameraHalfFovAngle(void);
 void ResetCameraHalfFovAngleGoal(void);
 void SetCameraHalfFovAngleGoal(unsigned int halfFovAngleGoal);
 Camera *GetCurrentChainCamera(void);
-Camera *GetEntryCamera(void);
-// Returns the chase camera (gChaseCamera).
-Camera *GetChaseCamera(void);
+Camera *GetAnotherGlobalHD(void);
+// Returns the chase camera (g_GlobalHD5).
+Camera *GetGlobalHD5(void);
 // Sets mLookAt between the entry's first point (mUnk_18) and second point (mUnk_24) by mLookAtBlend, which grows by the
 // entry's mLookAtBlendPerFrame up to 0x1000; without a step it copies the first point.
-void UpdateCameraLookAtBlend(Camera *camera);
-// Entry kind 3: moves mPos along the entry's curve (UpdateCameraPosCurve), blends mLookAt (UpdateCameraLookAtBlend),
-// then updates the view with world up (UpdateCameraViewWithWorldUp).
-void UpdateCameraPosCurveLookAtBlend(Camera *camera);
+void StructHD_SomeFn_8(Camera *camera);
+// Entry kind 3: moves mPos along the entry's curve (StructHD_SomeFn_11), blends mLookAt (StructHD_SomeFn_8),
+// then updates the view with world up (StructHD_SomeFn_10).
+void StructHD_SomeFn_9(Camera *camera);
 // Moves mPos along the points of the entry's group by a (0x1000 = one segment): four or more points run the curve
 // mPosCurve, two or three a straight line from the first to the second point, fewer than two do nothing.
-void UpdateCameraPosCurve(Camera *camera, s32 paramPerFrame);
-void UpdateStaffRollCameraAndLight(Camera *camera);
+void StructHD_SomeFn_11(Camera *camera, s32 paramPerFrame);
+void StructHD_SomeFn_13(Camera *camera);
 // Entry kinds 5 and 6 (the angle entries of CourseMapCamera.mKind): puts the Camera around the followed Kart from the
 // entry's angles (mUnk_18.x, mUnk_18.y, mUnk_24.x, mUnk_24.y: degrees converted to 0x10000 per turn) and distance
 // (mUnk_18.z), lowers the position and look-at by the Kart's mHopHeight, pushes mPos out of walls except in modes 2 and
-// 4 of gRaceSetup.mMode, then updates the view.
-void UpdateCameraAngleEntry(Camera *camera);
-// Entry kind 1: moves mPos along the entry's curve (UpdateCameraPosCurve), points mLookAt at the followed Kart (raised
-// by 0x6000; when gRaceSetup.mRaceKind is 5 the Kart comes from the entry's mUnk_24.z and the raise from its
+// 4 of g_GlobalCO.mMode, then updates the view.
+void StructHD_SomeFn_12(Camera *camera);
+// Entry kind 1: moves mPos along the entry's curve (StructHD_SomeFn_11), points mLookAt at the followed Kart (raised
+// by 0x6000; when g_GlobalCO.mRaceKind is 5 the Kart comes from the entry's mUnk_24.z and the raise from its
 // mUnk_18.y) and updates the view.
-void UpdateCameraPosCurveLookAtKart(Camera *camera);
-// Does nothing while mCourseMapCamera is NULL. Otherwise runs the entry (UpdateCameraByEntryKind), counts
+void StructHD_SomeFn_3(Camera *camera);
+// Does nothing while mCourseMapCamera is NULL. Otherwise runs the entry (StructHD_SomeFn_1), counts
 // mCourseMapCameraFrames and, when it reaches the entry's mFrameCount, starts the entry at mNextIndex (sets
-// gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift 1 it also starts the
-// next entry of gSecondChainCamera. UpdateRace reaches it once a frame, only while gRace.mUseChainCameras is non-zero.
-void UpdateCameraEntry(Camera *camera);
-// Steps gFirstChainCamera (UpdateCameraEntry), updates its view, stores it in gCurrentChainCamera and returns its view
-// matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 4.
-MtxFx43 *UpdateFirstChainCamera(void);
+// g_GlobalMV.mCameraChainEnded when there is none). For g_GlobalHD with mFrustumShift 1 it also starts the
+// next entry of g_GlobalHD2. UpdateRace reaches it once a frame, only while g_GlobalTD.mUseChainCameras is non-zero.
+void StructHD_SomeFn_0(Camera *camera);
+// Steps g_GlobalHD (StructHD_SomeFn_0), updates its view, stores it in gCurrentChainCamera and returns its view
+// matrix. UpdateRace calls it when g_GlobalCO.mRaceKind is 4.
+MtxFx43 *SomeLookAtHD3(void);
 // Sets mFrustumShift of the two chain cameras (1 and 2 while the second's entry is of kind 4, else 0) and steps the
 // first. Then it copies the first's field of view pair, mPos and mLookAt into the second (shift 2) or steps the second.
 // It updates the view of the first on even frames and of the second on odd frames, stores that camera in
-// gCurrentChainCamera and returns its view matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 3 or 5.
-MtxFx43 *UpdateChainCameraPair(void);
+// gCurrentChainCamera and returns its view matrix. UpdateRace calls it when g_GlobalCO.mRaceKind is 3 or 5.
+MtxFx43 *SomeLookAtHD_HD2(void);
 // As StartEntryCameraAngleStart for CourseMap.mFirstMissionRunCamera, setting mMissionRunCameraRunning.
 void StartEntryCameraMissionRun(void);
 // Runs the Camera's current entry by its mKind: 0 puts the camera at the entry position and looks at the followed Kart,
-// 1 UpdateCameraPosCurveLookAtKart, 2 puts the camera at the entry position with a blended look-at
-// (UpdateCameraLookAtBlend), 3 UpdateCameraPosCurveLookAtBlend, 5 and 6 UpdateCameraAngleEntry; kinds 4, 7 and 8 have
+// 1 StructHD_SomeFn_3, 2 puts the camera at the entry position with a blended look-at
+// (StructHD_SomeFn_8), 3 StructHD_SomeFn_9, 5 and 6 StructHD_SomeFn_12; kinds 4, 7 and 8 have
 // no case. Then sets the field of view pair: blended toward the entry's end pair by mFovBlend when the entry has an
 // mFovBlendPerFrame, else copied from the entry.
-void UpdateCameraByEntryKind(Camera *camera);
+void StructHD_SomeFn_1(Camera *camera);
 // Steps the Camera through CourseMapCamera entries and returns whether it is the camera in use this frame (UpdateRace
-// then shows it, else the chase camera). With gRaceSetup.mRaceKind equal to RACE_KIND_STAFF_ROLL it runs
-// UpdateStaffRollCameraAndLight and returns TRUE. Returns FALSE while mEntryUpdateHold or mEntryUpdateDisabled is set,
+// then shows it, else the chase camera). With g_GlobalCO.mRaceKind equal to RACE_KIND_STAFF_ROLL it runs
+// StructHD_SomeFn_13 and returns TRUE. Returns FALSE while mEntryUpdateHold or mEntryUpdateDisabled is set,
 // and when no CourseMapShape of mKind 1 contains the followed Kart's position (GetCourseMapCameraIndexAtPos finds
 // none); mPrevPos and gEntryCameraUpdateRan are written before either. Otherwise it starts the entry that shape names
-// when it differs from the last one, runs it and returns TRUE. UpdateRace calls it only while gRace.mUseChainCameras
+// when it differs from the last one, runs it and returns TRUE. UpdateRace calls it only while g_GlobalTD.mUseChainCameras
 // is 0 and GetEntryRaceEnded() is non-zero.
-BOOL TryUpdateEntryCamera(Camera *camera);
+BOOL StructHD_SomeFn_7(Camera *camera);
 void DisableEntryCameraUpdate(void);
 void SetEntryCameraUpdateHold(s32 hold);
 // Does nothing when CourseMap.mFirstAngleStartCamera is NULL. Otherwise sets mAngleStartRunning and makes that entry
-// the current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
+// the current entry of g_AnotherGlobalHD (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
 // mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
 void StartEntryCameraAngleStart(void);
 // Eases mPosGoalYOffset toward 0 or, while KART_MOTION_ON_GROUND is set in the Kart's mMotionFlags or
 // KART_DRIVE_KEYED_PLACEMENT in its mDriveFlags, toward a multiple of the y of c (the Kart's forward vector times
 // mFollowDirectionSign); while KART_DRIVE_BOOST_SURFACE_HELD is set it eases toward 0 at once.
-void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward);
+void StructHD_SomeFn_6(Camera *camera, Kart *kart, Vec3 *forward);
 // Tests the camera's path from mPrevPos to mPos against the course collision. On a hit it sets mPosGoalCollisionOffset
 // and mCollisionOffsetLengthGoal or moves mPos out directly; it always eases mCollisionOffsetLength toward its goal.
 // Also sets mCollisionState, mCollisionActive and mCollisionLatch and clears gChaseCameraUnusedWord.
-void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward);
-// One frame of the chase camera (gChaseCamera) following Kart b: eases the field of view, the look-at, the position
+void StructHD_SomeFn_5(Camera *camera, Kart *kart, Vec3 *forward);
+// One frame of the chase camera (g_GlobalHD5) following Kart b: eases the field of view, the look-at, the position
 // goal and the position toward the Kart, then runs the collision test and the wobble. With KART_ENTRY_REMOVED set in
 // the Kart's mEntryFlags it only updates mViewPosYOffset, and only while water is present. UpdateRace does not call it
-// while gRace.mUseChainCameras is non-zero.
-void UpdateChaseCamera(Camera *camera, Kart *kart);
+// while g_GlobalTD.mUseChainCameras is non-zero.
+void StructHD_SomeMQFn(Camera *camera, Kart *kart);
 void SetupCameraBehindKart(void);
 void ApplyCameraLookAt(Camera *camera);
 void ApplyCameraFrustum(Camera *camera, s32 useSecondFar);
 MtxFx44 *GetProjectionMatrix(void);
 
 // The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
-// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstBattleSequenceCamera is set.
+// and is stepped by StructHD_SomeFn_7. mKind is 1, or 3 in mode 2 when CourseMap.mFirstBattleSequenceCamera is set.
 // The Kart code starts its kind 6 and kind 8 entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The
 // chain cameras also run entries but never pick by position.
-extern Camera *gEntryCamera;
-extern struct Camera *gChaseCamera;
+extern Camera *g_AnotherGlobalHD;
+extern struct Camera *g_GlobalHD5;
 extern s32 gDefaultLookAtHeight;
 extern s32 gFollowHeight;
 extern s32 gChaseCameraUnusedWord;
 // The Camera (mKind 2) that starts at CourseMap.mSecondChainStartEntry; NULL when only the first chain camera exists.
 // While its entry is of kind 4 it is not stepped itself: it copies the field of view, mPos and mLookAt of
-// gFirstChainCamera, and its entry advances together with the first one's. Its view is the one used on odd frames.
-extern Camera *gSecondChainCamera;
+// g_GlobalHD, and its entry advances together with the first one's. Its view is the one used on odd frames.
+extern Camera *g_GlobalHD2;
 // Set to 1 at race set-up and when a camera entry is started or advanced; cleared once per UpdateRace call by
 // ClearCameraEntryFlags. UpdateRace calls RequestViewTestRefresh when it is set.
 extern s32 gCameraEntryChanged;
-// Set to 1 when TryUpdateEntryCamera is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.
-// RefreshCameraProjection does not skip the chase camera's projection while it is 1.
+// Set to 1 when StructHD_SomeFn_7 is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.
+// StructHD_SomeFn_2 does not skip the chase camera's projection while it is 1.
 extern s32 gEntryCameraUpdateRan;
 extern s32 gDefaultFollowDistance;
 // The chain camera whose view matrix the last chain step returned; UpdateRace stores it as the camera in use. Not
 // written in races without chain cameras.
 extern Camera *gCurrentChainCamera;
 // The Camera (mKind 2) that starts at CourseMap.mFirstChainStartEntry and follows mNextIndex through its entries; the
-// only chain camera when gRaceSetup.mRaceKind is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
-// two chain cameras its view is the one used on even frames of gRace.mUpdateFrames.
-extern Camera *gFirstChainCamera;
+// only chain camera when g_GlobalCO.mRaceKind is 4. Created by CreateGlobalHD_HD2_from_thumb or CreateGlobalHD_HD2_V2_from_thumb. With
+// two chain cameras its view is the one used on even frames of g_GlobalTD.mUpdateFrames.
+extern Camera *g_GlobalHD;
 
 extern MtxFx44 gProjectionMatrix;
 

@@ -66,16 +66,16 @@ void CreateEdit(void) {
 
 void LoadEditFilesAndSetBgCnt(void) {
     void *ybObjKbNclName = &"char/ybObjKb.ncl.l";
-    void *loadObjPlttFunc = &GX_LoadOBJPltt;
+    void *loadObjPlttFunc = &CopySomePaletteData;
     u32 objPlttLoadResult = LoadFileToVram(ybObjKbNclName, loadObjPlttFunc);
     void *jbBgStep3NcgName = &"char/jbBgStep3.ncg.l";
-    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    void *loadBg2CharFunc = &CopyBgData_Bg2_Top;
     u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, loadBg2CharFunc);
     void *ybBgStep3NclName = &"char/ybBgStep3.ncl.l";
-    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    void *loadBgPlttFunc = &CopyPaletteTop;
     u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, loadBgPlttFunc);
     void *xb4EditNscName = &"char/xb4Edit.nsc.l";
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4EditNscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
@@ -253,7 +253,7 @@ void UpdateEditRelease(void) {
     HideSubScreenMessage();
     DeleteOamEntry(gEdit->mOamEntry);
     ReleaseBgTextCanvasOfScreen(0);
-    LoadFileToVram(&"char/ybObjMain.ncl.l", &GX_LoadOBJPltt);
+    LoadFileToVram(&"char/ybObjMain.ncl.l", &CopySomePaletteData);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
     GetSecondaryMenuPair(&secondaryPairFirst, secondaryPairSecond);

@@ -118,6 +118,6 @@ void MB_InitSendGameInfoStatus(void);
 void MB_AddGameInfo(GameInfoEntry *newEntry);
 u32 mystrlen(const u16 *string);
 void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 value);
-u32 MBi_ReadIconInfo(const u8 *path, u8 *buffer, u32 isLarge);
+u32 SomeFileRead_from_thumb(const u8 *path, u8 *buffer, u32 isLarge);
 void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record);
 

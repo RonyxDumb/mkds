@@ -12,4 +12,4 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
-void DrawRaceGoalS(RaceHudOamBuffer *oamBuffer);
+void StructRA_SomeFn_1(RaceHudOamBuffer *oamBuffer);

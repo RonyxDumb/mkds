@@ -17,13 +17,13 @@ typedef struct CupPicture {
     /* 1038 */ u8 mCupPictureNscrFile[0x824];
 } CupPicture;
 
-void ClearCupPicturePointer(void);
+void ResetGlobalB4A4_from_thumb(void);
 void LoadCupPictureNclr(void);
 void LoadCupPictureNcgr(void);
 void LoadCupPictureNscr(void);
 
-void InitCupPicture(void);
+void InitializeGlobalB4A4_from_thumb(void);
 
-u32 CupPictureGetCurrentHeap(void);
+u32 GetActiveExecutionContextHeapHandle_0(void);
 
-extern struct CupPicture *gCupPicture;
+extern struct CupPicture *g_GlobalB4A4;

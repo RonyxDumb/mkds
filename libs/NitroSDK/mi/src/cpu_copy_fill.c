@@ -14,7 +14,7 @@ fillw_loop:
 
 // Copies size bytes (whole words) from srcp to destp.
 // Kept as asm: moves each word with a conditional one-register `ldmlt r0!` / `stmlt r1!`.
-asm void MIi_CpuCopy32(const void *srcp, void *destp, u32 size) {
+asm void Mem_CpuCopy32(const void *srcp, void *destp, u32 size) {
     add ip, r1, r2
 copyw_loop:
     cmp r1, ip
@@ -40,7 +40,7 @@ copyp_loop:
 // word at a
 // time.
 // Kept as asm: saves r4-r9 without lr and stores with conditional `stmlt r1!` lists.
-asm void MIi_CpuClearFast(u32 data, void *destp, u32 size) {
+asm void Mem_CpuFastMemorySet(u32 data, void *destp, u32 size) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9}
     // ip = end of the whole 32-byte blocks; r0 and r2-r8 all hold the value.
     add r9, r1, r2
@@ -90,7 +90,7 @@ copyb_word_loop:
 
 // Copies 8 words from pSrc to pDest.
 // Kept as asm: copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip.
-asm void MI_Copy32B(const void *pSrc, void *pDest) {
+asm void asm_MI_Copy32B(const void *pSrc, void *pDest) {
     ldmia r0!, {r2, r3, ip}
     stmia r1!, {r2, r3, ip}
     ldmia r0!, {r2, r3, ip}
@@ -102,7 +102,7 @@ asm void MI_Copy32B(const void *pSrc, void *pDest) {
 
 // Copies 9 words from pSrc to pDest.
 // Kept as asm: copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip.
-asm void MI_Copy36B(const void *pSrc, void *pDest) {
+asm void asm_MI_Copy36B(const void *pSrc, void *pDest) {
     ldmia r0!, {r2, r3, ip}
     stmia r1!, {r2, r3, ip}
     ldmia r0!, {r2, r3, ip}
@@ -114,7 +114,7 @@ asm void MI_Copy36B(const void *pSrc, void *pDest) {
 
 // Copies 12 words from pSrc to pDest.
 // Kept as asm: copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip.
-asm void MI_Copy48B(const void *pSrc, void *pDest) {
+asm void asm_MI_Copy48B(const void *pSrc, void *pDest) {
     ldmia r0!, {r2, r3, ip}
     stmia r1!, {r2, r3, ip}
     ldmia r0!, {r2, r3, ip}
@@ -128,7 +128,7 @@ asm void MI_Copy48B(const void *pSrc, void *pDest) {
 
 // Copies 16 words from pSrc to pDest.
 // Kept as asm: copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip.
-asm void MI_Copy64B(const void *pSrc, void *pDest) {
+asm void asm_MI_Copy64B(const void *pSrc, void *pDest) {
     ldmia r0!, {r2, r3, ip}
     stmia r1!, {r2, r3, ip}
     ldmia r0!, {r2, r3, ip}
@@ -146,7 +146,7 @@ asm void MI_Copy64B(const void *pSrc, void *pDest) {
 // with its
 // neighbour through a halfword read).
 // Kept as asm: tests bits with tst.
-asm void MI_CpuFill8(void *dstp, u8 data, u32 size) {
+asm void Mem_CpuFill8(void *dstp, u8 data, u32 size) {
     // Nothing to do for c = 0. An odd start address: merge the byte into the halfword below it.
     cmp r2, #0
     bxeq lr
@@ -201,7 +201,7 @@ fillh_last_byte:
 // halfword
 // reads.
 // Kept as asm: tests bits with tst.
-asm void MI_CpuCopy8(const void *srcp, void *dstp, u32 size) {
+asm void Mem_CpuCopy8(const void *srcp, void *dstp, u32 size) {
     // Nothing to do for c = 0. An odd destination: merge the first byte into the halfword below it.
     cmp r2, #0
     bxeq lr
@@ -313,7 +313,7 @@ asm void MI_Zero36B(void *pDest) {
 
 // Swaps setData with the word at destp in one instruction and returns the old word.
 // Kept as asm: a word swp.
-asm u32 MI_SwapWord(u32 setData, volatile u32 *destp) {
+asm u32 Mem_Swap16(u32 setData, volatile u32 *destp) {
     swp r0, r0, [r1]
     bx lr
 }
@@ -324,7 +324,7 @@ asm u32 MI_SwapWord(u32 setData, volatile u32 *destp) {
 // back copy: copy (top nibble + 3) bytes from (low 12 bits + 1) bytes back in the output. Every output byte is written
 // with swpb.
 // Kept as asm: tests bits with tst and tests the result of `subs r4, r4, #1` with lt.
-asm void MI_UncompressLZ8(const void *srcp, void *destp) {
+asm void DecompressLzss(const void *srcp, void *destp) {
     // r2 = the number of bytes still to write.
     stmfd sp!, {r4, r5, r6, lr}
     ldr r5, [r0], #4

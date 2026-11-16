@@ -18,59 +18,59 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/heap_call.h"
 
-KeyboardScene *gKeyboardScene;
+KeyboardScene *g_KeyboardOam;
 
 #pragma thumb on
-void InitKeyboardScene(s16 *sceneNumbers) {
+void Scene_Keyboard_Initialize_from_thumb(s16 *sceneNumbers) {
     void *heap;
-    heap = GetHeap(GetCurrentHeapCall());
-    gKeyboardScene = HeapAlloc(heap, sizeof(*gKeyboardScene));
-    InitKeyboard(heap, sceneNumbers[0]);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    g_KeyboardOam = Mem_AllocateHeap(heap, sizeof(*g_KeyboardOam));
+    InitializeKeyboardContext_from_thumb(heap, sceneNumbers[0]);
 }
 #pragma thumb off
 
 #pragma thumb on
-void ReleaseKeyboardScene(void) {
+void Scene_Keyboard_Finalize_from_thumb(void) {
     ReleaseKeyboard();
-    gKeyboardScene = NULL;
+    g_KeyboardOam = NULL;
 }
 #pragma thumb off
 
-SceneCallbacks gKeyboardSceneCallbacks = {
-    InitKeyboardScene, UpdateKeyboardScene, ReleaseKeyboardScene, WriteKeyboardSceneRegistersCallback, 0, 0, 10, 10, 0};
+SceneCallbacks g_Scene_Keyboard = {
+    Scene_Keyboard_Initialize_from_thumb, Scene_Keyboard_Update_from_thumb, Scene_Keyboard_Finalize_from_thumb, Scene_Keyboard_VBlank_from_thumb, 0, 0, 10, 10, 0};
 
 #pragma thumb on
-void WriteKeyboardSceneRegistersCallback(void) {
+void Scene_Keyboard_VBlank_from_thumb(void) {
     WriteKeyboardRegisters();
-    UploadOamLists(gKeyboardScene, &gKeyboardScene->mSubOam);
+    CopyOamBuffersToMemory_from_thumb(g_KeyboardOam, &g_KeyboardOam->mSubOam);
 }
 
-void UpdateKeyboardScene(s16 *sceneNumbers) {
-    ClearOamListCounts(gKeyboardScene, &gKeyboardScene->mSubOam);
+void Scene_Keyboard_Update_from_thumb(s16 *sceneNumbers) {
+    OamBuffer_ResetValues16_from_thumb(g_KeyboardOam, &g_KeyboardOam->mSubOam);
     AdvanceKeyboard();
-    HideUnusedOams(gKeyboardScene, &gKeyboardScene->mSubOam);
+    OamBuffer_SomeFn2_from_thumb(g_KeyboardOam, &g_KeyboardOam->mSubOam);
     if (sceneNumbers != NULL) {
-        if (GetKeyboardNextScene() != -1) {
-            sceneNumbers[2] = GetKeyboardNextScene();
+        if (GetKeyboardContextNextSceneId_from_thumb() != -1) {
+            sceneNumbers[2] = GetKeyboardContextNextSceneId_from_thumb();
         }
     }
 }
 
-s32 RunKeyboardScene(void *sceneNumbers) {
-    SceneCallbacks callbacks = gKeyboardSceneCallbacks;
-    RunScene(sceneNumbers, &callbacks);
+s32 SceneFn_Keyboard_from_thumb(void *sceneNumbers) {
+    SceneCallbacks callbacks = g_Scene_Keyboard;
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-RaceHudOamBuffer *GetKeyboardFirstBuffer(void) {
-    return &gKeyboardScene->mMainOam;
+RaceHudOamBuffer *GetKeyboardOam_from_thumb(void) {
+    return &g_KeyboardOam->mMainOam;
 }
 
 RaceHudOamBuffer *GetKeyboardSecondBuffer(void) {
-    return &gKeyboardScene->mSubOam;
+    return &g_KeyboardOam->mSubOam;
 }
 
 #pragma thumb off

@@ -34,7 +34,7 @@ s16 LookupIndexChangeOffset(s32 step, s32 row) {
 void FormatNumberByVariant(s32 number, u16 *text, s32 variant) {
     switch (variant) {
         case 0:
-            FormatAsciiNumber(number, text);
+            FormatIntegerInString16_from_thumb(number, text);
             break;
         case 1:
             FormatFullWidthNumber(number, text);
@@ -79,26 +79,26 @@ void FormatMinuteSecondMillisecondTime(MinuteSecondMillisecondTime *time, u16 *t
     WriteColonByVariant(text + length, variant);
     FormatNumberByVariant(time->mSecond, digitText, variant);
     if (time->mSecond >= 10) {
-        MIi_CpuCopy16(digitText, text + (u16) (length + 1), 4);
+        CopyMemory16(digitText, text + (u16) (length + 1), 4);
         length += 3;
     } else {
         WriteZeroDigitByVariant(text + (u16) (length + 1), variant);
-        MIi_CpuCopy16(digitText, text + (u16) (length + 2), 2);
+        CopyMemory16(digitText, text + (u16) (length + 2), 2);
         length += 3;
     }
     WriteColonByVariant(text + length, variant);
     FormatNumberByVariant(time->mMillisecond, digitText, variant);
     if (time->mMillisecond >= 100) {
-        MIi_CpuCopy16(digitText, text + (u16) (length + 1), 6);
+        CopyMemory16(digitText, text + (u16) (length + 1), 6);
         length += 4;
     } else if (time->mMillisecond >= 10) {
         WriteZeroDigitByVariant(text + (u16) (length + 1), variant);
-        MIi_CpuCopy16(digitText, text + (u16) (length + 2), 4);
+        CopyMemory16(digitText, text + (u16) (length + 2), 4);
         length += 4;
     } else {
         WriteZeroDigitByVariant(text + (u16) (length + 1), variant);
         WriteZeroDigitByVariant(text + (u16) (length + 2), variant);
-        MIi_CpuCopy16(digitText, text + (u16) (length + 3), 2);
+        CopyMemory16(digitText, text + (u16) (length + 3), 2);
         length += 4;
     }
     text[length] = 0;
@@ -114,16 +114,16 @@ void FormatTimeFullWidth(void *time, void *text) {
 
 void FormatTwoDigitNumber(u32 number, u16 *text) {
     if (number >= 10) {
-        FormatAsciiNumber(number, text);
+        FormatIntegerInString16_from_thumb(number, text);
     } else {
-        FormatAsciiNumber(0, text);
-        FormatAsciiNumber(number, text + 1);
+        FormatIntegerInString16_from_thumb(0, text);
+        FormatIntegerInString16_from_thumb(number, text + 1);
     }
 }
 
 // Writes the year, month and day as text in the order the region selects.
 void FormatDate(DateBytes *date, u16 *text) {
-    switch (gStartupWork->mRegion) {
+    switch (g_GlobalP->mRegion) {
         case REGION_JAPAN:
             FormatTwoDigitNumber(0x14, text);
             FormatTwoDigitNumber(date->mYear, text + 2);
@@ -143,7 +143,7 @@ void FormatDate(DateBytes *date, u16 *text) {
             text[10] = 0;
             break;
         case REGION_EUROPE:
-            if (gStartupWork->mLanguageIndex == LANGUAGE_GERMAN) {
+            if (g_GlobalP->mLanguageIndex == LANGUAGE_GERMAN) {
                 FormatTwoDigitNumber(date->mDay, text);
                 text[2] = 0x2e;
                 FormatTwoDigitNumber(date->mMonth, text + 3);

@@ -4,7 +4,7 @@
 
 typedef struct NsbmdModel NsbmdModel;
 
-NsbmdModel *GetItemModel(u32 kind);
+NsbmdModel *MaybeGetItemByIndex(u32 kind);
 
 typedef struct ItemObject ItemObject;
 

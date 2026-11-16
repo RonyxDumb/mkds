@@ -10,7 +10,7 @@ void LZ77UnCompReadNormalWrite8bit(void);
 u32 Sqrt(u32 value);
 void RLUnCompReadNormalWrite8bit(void);
 void BitUnPack(void);
-void WaitByLoop(s32 loopCount);
+void Svc_Delay_from_thumb(s32 loopCount);
 s32 Mod(s32 dividend, s32 divisor);
 s32 IsDebugger(void);
 s32 Div(s32 dividend, s32 divisor);
@@ -19,5 +19,5 @@ void Halt(void);
 void CpuFastSet(void);
 void IntrWait(void);
 
-void CpuSet(const void *src, void *dst, u32 ctrl);
-void VBlankIntrWait(void);
+void Svc_Copy_from_thumb(const void *src, void *dst, u32 ctrl);
+void Svc_VblankIntrWait_from_thumb(void);

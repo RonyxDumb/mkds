@@ -8,7 +8,7 @@
 void DWCi_AC_InsertApInfo(int slotIndex, void *info) {
     ACWORK *work;
     work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
-    MIi_CpuCopy32(info, &work->mUserInfo[slotIndex], 0xf0);
+    Mem_CpuCopy32(info, &work->mUserInfo[slotIndex], 0xf0);
 }
 
 void *DWCi_AC_Alloc(u8 name, u32 size) {

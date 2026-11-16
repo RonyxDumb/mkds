@@ -15,20 +15,20 @@
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 RaceHudOamBuffer *GetKeyboardSecondBuffer(void);
-RaceHudOamBuffer *GetKeyboardFirstBuffer(void);
+RaceHudOamBuffer *GetKeyboardOam_from_thumb(void);
 
-extern SceneCallbacks gKeyboardSceneCallbacks;
+extern SceneCallbacks g_Scene_Keyboard;
 
-// Scene function of gSceneFuncs[14] (scene 'Keyboard' in gSceneNames): copies the callbacks and
-// calls RunScene. Returns 0.
-s32 RunKeyboardScene(void *sceneNumbers);
-void UpdateKeyboardScene(s16 *sceneNumbers);
-void WriteKeyboardSceneRegistersCallback(void);
+// Scene function of g_SceneFnTable[14] (scene 'Keyboard' in g_SceneArchiveNameTable): copies the callbacks and
+// calls OnSceneLoop. Returns 0.
+s32 SceneFn_Keyboard_from_thumb(void *sceneNumbers);
+void Scene_Keyboard_Update_from_thumb(s16 *sceneNumbers);
+void Scene_Keyboard_VBlank_from_thumb(void);
 
 // Slot mRelease: calls the state's undo functions and clears the globals; frees nothing itself (the
 // scene heap goes with the scene).
-void ReleaseKeyboardScene(void);
+void Scene_Keyboard_Finalize_from_thumb(void);
 
-void InitKeyboardScene(s16 *sceneNumbers);
+void Scene_Keyboard_Initialize_from_thumb(s16 *sceneNumbers);
 
-extern struct KeyboardScene *gKeyboardScene;
+extern struct KeyboardScene *g_KeyboardOam;

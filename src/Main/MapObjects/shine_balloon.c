@@ -38,7 +38,7 @@ MapObjectKindDescriptor gShineBalloonKindDescriptor = {0,
                                                        {NULL, NULL, NULL, NULL}};
 const u16 gShineBalloonEndSecondFlag = 8;
 const u16 gShineBalloonEndFlag = 2;
-MapObjectModel *gShineBalloon;
+MapObjectModel *g_ShineBalloonMapObject;
 
 void InitShineBalloon(u32 mapObjectArg) {
     u32 mapObjectCopy = mapObjectArg;
@@ -46,16 +46,16 @@ void InitShineBalloon(u32 mapObjectArg) {
     ParkMapObject((void *) mapObjectCopy);
 }
 
-void CreateShineBalloon(void *mapObjectList) {
+void LoadShineBalloonMapObject(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
 
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "shine_balloon.nsbmd");
-    gShineBalloon = mapObjectModelNsbmd;
-    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
+    mapObjectModelNsbmd = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "shine_balloon.nsbmd");
+    g_ShineBalloonMapObject = mapObjectModelNsbmd;
+    StructMapObject_MaybeSetPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
 void SetupDrawShineBalloon(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gShineBalloon);
+    StructMapObject_SomeFn_9(mapObjectList, g_ShineBalloonMapObject);
 }
 
 void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
@@ -85,13 +85,13 @@ void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObjec
         NNS_G3dGeBufferOP_N(0x1b, &pulseScale, 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &shineBalloonObject->mMapObject.mScale, 3);
-    VEC_Subtract(&shineBalloonObject->mMapObject.mPos, &GetCurrentCamera()->mPos, &cameraOffset);
-    cameraDistance = VEC_Mag(&cameraOffset);
+    VecFx32_Subtract(&shineBalloonObject->mMapObject.mPos, &GetGlobalHD4()->mPos, &cameraOffset);
+    cameraDistance = VecFx32_Norm(&cameraOffset);
     distanceScale.x = cameraDistance;
     distanceScale.y = cameraDistance;
     distanceScale.z = cameraDistance;
     NNS_G3dGeBufferOP_N(0x1b, &distanceScale, 3);
-    DrawMapObjectModel(mapObjectList, gShineBalloon, shineBalloonObject);
+    DrawMapObjectModel(mapObjectList, g_ShineBalloonMapObject, shineBalloonObject);
 }
 
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
@@ -150,11 +150,11 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
 }
 
 MapObjectKindData *CreateShineBalloonKindData(void) {
-    return CreateMapObjectKindData(NULL, NULL, NULL, 1, 0);
+    return CreateAllocateSomeObject_from_thumb(NULL, NULL, NULL, 1, 0);
 }
 
 MapObjectList *CreateShineBalloonDrawList(void) {
-    return CreateMapObjectDrawList2(CreateShineBalloon, DrawShineBalloon, SetupDrawShineBalloon);
+    return CreateAllocateMapObject_from_thumb(LoadShineBalloonMapObject, DrawShineBalloon, SetupDrawShineBalloon);
 }
 
 MapObjectList *CreateShineBalloonUpdateList(void) {

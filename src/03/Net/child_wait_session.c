@@ -37,9 +37,9 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParams *params
     gChildWaitSessionView->mGameRegistry.mGgid = params->mGgid;
     gChildWaitSessionView->mHandshakeByte = params->mHandshakeByte;
     gChildWaitSessionView->mGameRegistry.mMaxPlayerNum = 2;
-    OS_GetTick();
-    ReadNvramEntries(gChildWaitSessionView->mNvramEntries);
-    OS_GetTick();
+    Os_GetTick();
+    StructDC_SomeFn_1_from_thumb(gChildWaitSessionView->mNvramEntries);
+    Os_GetTick();
     gChildWaitSessionView->mUnk_aa0[1] = (u8 *) GetApStore();
 }
 
@@ -86,7 +86,7 @@ void ResetChildWaitSessionState(void) {
     SetWhGgid(gChildWaitSessionView->mGameRegistry.mGgid);
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mTgid = WM_GetNextTgid();
-    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy,
+    Mem_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy,
                 sizeof(gChildWaitSessionView->mApStoreHeadCopy));
     gChildWaitSessionView->mHandshakeDone = 0;
     gChildWaitSessionView->mStallCount = 0;
@@ -276,7 +276,7 @@ void AdvanceChildWaitWhStart(void) {
         case WH_STATE_BUSY:
             break;
         default:
-            OS_Terminate();
+            Os_Terminate();
             break;
     }
 }
@@ -423,8 +423,8 @@ u32 AcceptMatchingWhChild(WirelessMessage *event) {
 }
 
 void ClearChildWaitSharedEntries(void) {
-    MI_CpuFill8(gChildWaitSessionView->mSharedEntries, 0, 0x100);
-    MI_CpuFill8(gChildWaitSessionView, 0, 0x100);
+    Mem_CpuFill8(gChildWaitSessionView->mSharedEntries, 0, 0x100);
+    Mem_CpuFill8(gChildWaitSessionView, 0, 0x100);
     gChildWaitSessionView->mSendEntry = &gChildWaitSessionView->mSendEntryStorage;
 }
 
@@ -434,7 +434,7 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
     if (gChildWaitSessionView->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
         gChildWaitSessionView->mSendEntry->mCode = code;
         gChildWaitSessionView->mSendEntry->mValue = value;
-        MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload,
+        Mem_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload,
                     sizeof(gChildWaitSessionView->mSendEntry->mPayload));
     } else {
         gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 1;
@@ -458,7 +458,7 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
         for (aid = 0; aid < 2; aid++) {
             u8 *sharedData = GetWhSharedDataAddress(aid);
             if (sharedData != NULL) {
-                MI_CpuCopy8(sharedData, &gChildWaitSessionView->mSharedEntries[aid],
+                Mem_CpuCopy8(sharedData, &gChildWaitSessionView->mSharedEntries[aid],
                             sizeof(gChildWaitSessionView->mSharedEntries[aid]));
                 gChildWaitSessionView->mEntryPresent[aid] = 1;
             } else {

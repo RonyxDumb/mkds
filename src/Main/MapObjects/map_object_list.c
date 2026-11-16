@@ -84,7 +84,7 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
         }
         itemObject = &gMapObjects->mProbeItemObject;
         for (; foundIndex < gFoundCollisionSlotCount; foundIndex++) {
-            mapObject = gFoundCollisionSlotObjects[foundIndex];
+            mapObject = g_SomePointer7Size200[foundIndex];
             if (IsSphereHittingMapObject(position, radius, mapObject, &overlapOffset) != FALSE) {
                 if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) &&
                     DoesItemObjectRespondToMapObject(itemKind, mapObject) != 0) {
@@ -126,8 +126,8 @@ u32 GetMapObjectKindCount(void) {
 }
 
 // The water_efct.nsbmd file: WaterEfct's if gCourseWaterEfct exists, else the Water's own when mIsHeightUsed is
-// non-zero, else NULL; passed as an effect model file to SetupModelEffectKind.
-void *GetWaterEfctNsbmdFile(void) {
+// non-zero, else NULL; passed as an effect model file to MaybeLoadSomeExplosion.
+void *GetExplosionSplashWaveNsbmd_from_thumb(void) {
     Water *water;
     if (gCourseWaterEfct != NULL) {
         return gCourseWaterEfct->mNsbmdFile;
@@ -139,8 +139,8 @@ void *GetWaterEfctNsbmdFile(void) {
     return NULL;
 }
 
-// The water_efct.nsbca file, same rule as GetWaterEfctNsbmdFile.
-void *GetWaterEfctNsbcaFile(void) {
+// The water_efct.nsbca file, same rule as GetExplosionSplashWaveNsbmd_from_thumb.
+void *GetExplosionSplashWaveNsbca_from_thumb(void) {
     Water *water;
     if (gCourseWaterEfct != NULL) {
         return gCourseWaterEfct->mNsbcaFile;
@@ -152,8 +152,8 @@ void *GetWaterEfctNsbcaFile(void) {
     return NULL;
 }
 
-// The water_efct.nsbma file, same rule as GetWaterEfctNsbmdFile.
-void *GetWaterEfctNsbmaFile(void) {
+// The water_efct.nsbma file, same rule as GetExplosionSplashWaveNsbmd_from_thumb.
+void *GetExplosionSplashWaveNsbma_from_thumb(void) {
     Water *water;
     if (gCourseWaterEfct != NULL) {
         return gCourseWaterEfct->mNsbmaFile;

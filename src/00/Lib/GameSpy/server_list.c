@@ -223,7 +223,7 @@ void SBReleaseStr(SbServerList *serverList, u32 text) {
     refString[0] = text;
     entry = HashtableFind(SBRefStrHash(serverList), refString);
     if (entry == NULL) {
-        AssertionFailed("val != NULL", "sb_serverlist.c", NULL, 0xf4);
+        LogThrowAssertion("val != NULL", "sb_serverlist.c", NULL, 0xf4);
     }
     if (entry != NULL) {
         entry[1] = entry[1] - 1;
@@ -260,7 +260,7 @@ static inline void CopyUnalignedWord(UnalignedWord *destination, UnalignedWord *
 void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
                       u32 queryFromVersion, s32 lanBrowse, SbServerListCallback callback, void *instance) {
     if (slist == NULL) {
-        AssertionFailed("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
+        LogThrowAssertion("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
     }
     if (lanBrowse != 0 || gGsiAcResult == 1) {
         slist->mState = SERVER_LIST_STATE_NO_SOCKET;
@@ -272,7 +272,7 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
         slist->mCallback = callback;
         slist->mMaploopCallback = NULL;
         if (callback == NULL) {
-            AssertionFailed("callback != NULL", "sb_serverlist.c", NULL, 0x132);
+            LogThrowAssertion("callback != NULL", "sb_serverlist.c", NULL, 0x132);
         }
         slist->mInstance = instance;
         slist->mSortKey = "";
@@ -336,7 +336,7 @@ s32 ServerListConnect(SbServerList *serverList) {
     if (gSBOverrideMasterServer != NULL) {
         strcpy(masterHost, gSBOverrideMasterServer);
     } else {
-        sprintf(masterHost, "%s.ms%d.gs.nintendowifi.net", serverList->mQueryForGameName, masterNumber);
+        MaybeStrcpy(masterHost, "%s.ms%d.gs.nintendowifi.net", serverList->mQueryForGameName, masterNumber);
     }
     masterAddress.mFamily = SOCKET_FAMILY_IPV4;
     masterAddress.mPort = SB_MASTER_PORT_NETWORK_ORDER;
@@ -469,7 +469,7 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
     u8 *requestStart;
     s32 error;
     if (serverList->mState != SERVER_LIST_STATE_NO_SOCKET) {
-        AssertionFailed("slist->state == sl_disconnected", "sb_serverlist.c", NULL, 0x20a);
+        LogThrowAssertion("slist->state == sl_disconnected", "sb_serverlist.c", NULL, 0x20a);
     }
     if (fieldList == NULL) {
         fieldList = "";
@@ -666,7 +666,7 @@ BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length) {
                     }
                     break;
                 default:
-                    AssertionFailed("0", "sb_serverlist.c", NULL, 0x317);
+                    LogThrowAssertion("0", "sb_serverlist.c", NULL, 0x317);
                     return FALSE;
             }
             if (length < 0) {
@@ -844,7 +844,7 @@ s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
             return 0;
         }
     }
-    if (memcmp(buffer + 1, "\xff\xff\xff\xff", 4) == 0) {
+    if (StructDC_SomeFn_6(buffer + 1, "\xff\xff\xff\xff", 4) == 0) {
         return -1;
     }
     ParseServerIPPort(serverList, buffer, length, (u8 *) &ipAddress, &netPort);
@@ -1008,7 +1008,7 @@ s32 ProcessMainListData(SbServerList *serverList) {
             break;
     }
     if (length < 0) {
-        AssertionFailed("inlen >= 0", "sb_serverlist.c", NULL, 0x4af);
+        LogThrowAssertion("inlen >= 0", "sb_serverlist.c", NULL, 0x4af);
     }
     if (serverList->mInBuffer == NULL) {
         return 0;
@@ -1286,7 +1286,7 @@ s32 ProcessAdHocData(SbServerList *slist) {
         }
         slist->mInBufferLength -= messageLength;
         if (slist->mInBufferLength < 0) {
-            AssertionFailed("slist->inbufferlen >= 0", "sb_serverlist.c", NULL, 0x5b4);
+            LogThrowAssertion("slist->inbufferlen >= 0", "sb_serverlist.c", NULL, 0x5b4);
         }
         if (slist->mInBufferLength != 0 && slist->mInBuffer != NULL) {
             memmove(slist->mInBuffer, slist->mInBuffer + messageLength, slist->mInBufferLength);

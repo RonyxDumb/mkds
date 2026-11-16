@@ -7,19 +7,19 @@
 
 asm void OSi_GetAndDisplayContext(u32 exinfo) {
     stmfd sp!, {lr}
-    bl OSi_SetExContext
+    bl Os_SaveExceptionContext
     bl OSi_DisplayExContext
     ldmfd sp!, {lr}
     bx lr
 }
 
 // clang-format off
-// Stores exinfo and the registers saved at the address in ip into the exception context OSi_ExContext (0x80 bytes),
+// Stores exinfo and the registers saved at the address in ip into the exception context g_ExceptionContext (0x80 bytes),
 // and the banked sp, lr and spsr of the mode in the saved status word.
 // Not compiled code: it reads and writes the status registers (mrs/msr, spsr) and stores ip and r4-r11 as the
 // caller left them; C has no way to do either.
-asm void OSi_SetExContext(u32 exinfo) {
-    ldr r1, =OSi_ExContext
+asm void Os_SaveExceptionContext(u32 exinfo) {
+    ldr r1, =g_ExceptionContext
     mrs r2, cpsr
     str r2, [r1, #0x74]
     str r0, [r1, #0x6c]
@@ -56,16 +56,16 @@ asm void OSi_SetExContext(u32 exinfo) {
     bx lr
 }
 
-// Calls the user exception handler. Does nothing while OSi_UserExceptionHandler is zero; otherwise switches to mode
+// Calls the user exception handler. Does nothing while g_UserExceptionHandler is zero; otherwise switches to mode
 // 0x9f with the current sp, sets bit 0 of
-// coprocessor 15 register c1, calls the function in OSi_UserExceptionHandler with OSi_ExContext and the word
-// OSi_UserExceptionHandlerArg, and
+// coprocessor 15 register c1, calls the function in g_UserExceptionHandler with g_ExceptionContext and the word
+// g_UserExceptionHandlerArg, and
 // clears the bit again.
 // Not compiled code: it switches the processor mode with msr, which C has no way to do.
 asm void OSi_DisplayExContext(void) {
     stmdb sp!, {lr}
     sub sp, sp, #0x4
-    ldr r0, =OSi_UserExceptionHandler
+    ldr r0, =g_UserExceptionHandler
     ldr r0, [r0, #0x0]
     cmp r0, #0x0
     addeq sp, sp, #0x4
@@ -75,25 +75,25 @@ asm void OSi_DisplayExContext(void) {
     ldr r1, =0x9f
     msr cpsr_fsxc, r1
     mov sp, r0
-    bl OS_EnableProtectionUnit
-    ldr r1, =OSi_UserExceptionHandlerArg
-    ldr r0, =OSi_UserExceptionHandler
+    bl Os_EnablePU
+    ldr r1, =g_UserExceptionHandlerArg
+    ldr r0, =g_UserExceptionHandler
     ldr r1, [r1, #0x0]
     ldr r2, [r0, #0x0]
-    ldr r0, =OSi_ExContext
+    ldr r0, =g_ExceptionContext
     blx r2
-    bl OS_DisableProtectionUnit
+    bl Os_DisablePU
     add sp, sp, #0x4
     ldmia sp!, {lr}
     bx lr
 }
 
-OSExceptionHandler OSi_UserExceptionHandler;
+OSExceptionHandler g_UserExceptionHandler;
 void *OSi_DebuggerHandler;
-u32 OSi_UserExceptionHandlerArg;
-u8 OSi_ExContext[0x80];
+u32 g_UserExceptionHandlerArg;
+u8 g_ExceptionContext[0x80];
 
-void OS_InitException(void) {
+void Os_InitializeExceptionHandler(void) {
     u32 handler;
     DtcmTail *block;
 
@@ -104,11 +104,11 @@ void OS_InitException(void) {
         OSi_DebuggerHandler = 0;
     }
     block = OFFSET_PTR(DtcmTail, HW_DTCM, 0x3000);
-    if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
-        *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
-        block->mExceptionHandler = OSi_ExceptionHandler;
+    if (OSi_DebuggerHandler == 0 || (Os_GetSystemFlags() & 0x40000000) == 0) {
+        *HW_EXCP_VECTOR_MAIN = (u32) Os_ExceptionHandler;
+        block->mExceptionHandler = Os_ExceptionHandler;
     }
-    OSi_UserExceptionHandler = 0;
+    g_UserExceptionHandler = 0;
 }
 
 

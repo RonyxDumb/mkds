@@ -2,7 +2,7 @@
 
 u16 gSequenceEntryCount;
 
-s32 GetAbsoluteValue(s32 value) {
+s32 AbsValue(s32 value) {
     return value <= 0 ? -value : value;
 }
 

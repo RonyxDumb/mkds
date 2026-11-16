@@ -196,7 +196,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
     gpState = connection->mGpiConnection;
     result = 0;
     if ((u32) gpState->mConnectState > PROFILE_CONNECTION_CLOSED) {
-        AssertionFailed("(iconnection->connectState == GPI_NOT_CONNECTED) || (iconnection->connectState == "
+        LogThrowAssertion("(iconnection->connectState == GPI_NOT_CONNECTED) || (iconnection->connectState == "
                         "GPI_CONNECTING) || (iconnection->connectState == GPI_NEGOTIATING) || "
                         "(iconnection->connectState == GPI_CONNECTED) || (iconnection->connectState == "
                         "GPI_DISCONNECTED)",
@@ -219,7 +219,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
             if (GpiFindOperation(connection, &pendingOp, 1) != FALSE) {
                 pendingOp->mResult = GP_REQUEST_CONNECT_FAILED;
             } else {
-                AssertionFailed("0", "gpi.c", NULL, 0x1db);
+                LogThrowAssertion("0", "gpi.c", NULL, 0x1db);
             }
         }
     }

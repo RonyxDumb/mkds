@@ -34,7 +34,7 @@ void SetupJb5Info(void) {
 
 void LoadJb5InfoFileAndSetBgCnt(void) {
     void *filePath = &"char/jb5Info.nsc.l";
-    void *loadFunction = &GX_LoadBG2Scr;
+    void *loadFunction = &TEQSub_Fn10Impl_Fn12Impl;
     u32 fileToVram = LoadFileToVram(filePath, loadFunction);
     u32 subBg0CntAddress = 0x4001008u;
     u32 subBg0Cnt = (*(u16 *) ((subBg0CntAddress) + (0)));
@@ -88,12 +88,12 @@ void PrintJb5Info(void) {
     u64 userId;
     s32 groupIndex;
     canvas = InitBgTextCanvas(0, 0);
-    OS_GetMacAddress(macAddress);
-    swprintf(text, 0x14, L"%02X-%02X-%02X-%02X-%02X-%02X", macAddress[0], macAddress[1], macAddress[2], macAddress[3],
+    Os_GetMacAddress(macAddress);
+    ParticularSnprintf16(text, 0x14, L"%02X-%02X-%02X-%02X-%02X-%02X", macAddress[0], macAddress[1], macAddress[2], macAddress[3],
              macAddress[4], macAddress[5]);
     DrawCanvasTextRect(canvas, gJb5InfoMacAddressRect.mX, gJb5InfoMacAddressRect.mY, gJb5InfoMacAddressRect.mWidth,
                        gJb5InfoMacAddressRect.mHeight, 2, 0x480, text);
-    DWCi_BM_GetWiFiInfo(&wifiInfo);
+    StructDW_MaybeCreate_from_thumb(&wifiInfo);
     userId = wifiInfo.mAttestedUserId;
     if (userId != 0) {
         idGroups[3] = (userId % 10) * 1000;
@@ -102,9 +102,9 @@ void PrintJb5Info(void) {
             idGroups[2 - groupIndex] = userId % 10000;
             userId = userId / 10000;
         }
-        swprintf(text, 0x14, L"%04d-%04d-%04d-%04d", idGroups[0], idGroups[1], idGroups[2], idGroups[3]);
+        ParticularSnprintf16(text, 0x14, L"%04d-%04d-%04d-%04d", idGroups[0], idGroups[1], idGroups[2], idGroups[3]);
     } else {
-        swprintf(text, 0x14, L"-------------------");
+        ParticularSnprintf16(text, 0x14, L"-------------------");
     }
     DrawCanvasTextRect(canvas, gJb5InfoUserIdRect.mX, gJb5InfoUserIdRect.mY, gJb5InfoUserIdRect.mWidth,
                        gJb5InfoUserIdRect.mHeight, 2, 0x480, text);

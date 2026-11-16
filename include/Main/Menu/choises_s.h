@@ -6,7 +6,7 @@
 #include "Main/Graphics/text_canvas.h"
 
 // Values of ChoisesS.mPickedValue and of the list entries: the entry's label on the screen, in the order of the
-// message table in GetChoisesSValueMessage. 0 as a pick means nothing was picked; CHOISES_S_PICK_NEXT_LAST is the
+// message table in GetMenuOptionString_from_thumb. 0 as a pick means nothing was picked; CHOISES_S_PICK_NEXT_LAST is the
 // next entry once the course count is reached.
 #define CHOISES_S_PICK_NONE 0
 #define CHOISES_S_PICK_CONTINUE 0
@@ -79,12 +79,12 @@ typedef struct ChoisesS {
     /* 18c */ Nscr *mChoisesSNscrs[6];
 } ChoisesS;
 
-void ChoisesSInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
-u32 ChoisesSDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
-void InitChoisesS(void);
-void ClearChoisesSPointer(void);
+void RaceOptionMenuEntryDrawContext_Create(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
+u32 G2d_Text_PrintString3(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
+void LoadRaceOptionMenus_from_thumb(void);
+void ResetRaceMenuOptions_from_thumb(void);
 
-extern struct ChoisesS *gChoisesS;
+extern struct ChoisesS *g_RaceOptionMenuManager;
 extern char gChoisesSNscr1Name[];
 extern char gChoisesSNscr2Name[];
 extern char gChoisesSNscr3Name[];
@@ -92,25 +92,25 @@ extern char gChoisesSNscr4Name[];
 extern char gChoisesSNscr5Name[];
 extern char gChoisesSNscr6Name[];
 
-unsigned int ChoisesSGetCurrentRaceKind(void);
+unsigned int GetDisplayMode_0(void);
 unsigned int GetCourseNumber(void);
 
 BOOL IsGrandPrixLastCourse(void);
 
-unsigned int ChoisesSGetCurrentMode(void);
+unsigned int GetRaceMode(void);
 
-void *ChoisesSGetCurrentHeap(void);
+void *GetActiveExecutionContextHeapHandle_3(void);
 
-void UpdateChoisesSScreenMap(void);
+void LoopFn_RaceMenuOptions2_from_thumb(void);
 
-void UpdateChoisesS(void);
+void LoopFn_RaceMenuOptions_from_thumb(void);
 
-unsigned int ChoisesSGetConnectionKind(void);
+unsigned int GetPMaybeState_0(void);
 
 BOOL IsChoisesSOpenAllowedDuringRace(void);
 
-unsigned int GetRaceDone(void);
-void ChoisesSSetLVselIndex6Requested(unsigned int value);
+unsigned int IsRaceEnded(void);
+void SetB488_B6(unsigned int value);
 
 typedef struct InputSlotPair InputSlotPair;
 
@@ -126,43 +126,43 @@ typedef struct InputSlot InputSlot;
 u16 ChoisesSGetInputSlotNewBits(InputSlot *slot, u32 mask);
 u16 ChoisesSGetNewBits(s32 slotIndex, u32 mask);
 
-unsigned int GetChoisesSInputSlot(void);
-unsigned int ChoisesSGetUnfilledNotEliminated(void);
+unsigned int Const8_0(void);
+unsigned int IsCurrentMissionNotBeaten(void);
 
-s32 ChoisesSIsBackupCommandRunning(void);
-s32 ChoisesSIsBackupBusy(void);
+s32 SaveDataIoManagerIsBusy12(void);
+s32 SaveDataHolderIsBusy(void);
 u32 IsRaceDoneOrReplayPastStartFrames(void);
 u32 IsChoisesSOpenAllowedAfterRace(void);
 
-unsigned int ChoisesSIsBackupEnabled(void);
+unsigned int SaveDataIoManagerIsBusy(void);
 
 void WriteChoisesSListScreenMap(void);
 
 s32 GetEntryEndKind(void);
-u32 GetChoisesSListIndex(void);
+u32 GetCurrentOptionMenuKind_from_thumb(void);
 void WriteChoisesSSelectedValueTiles(s32 selectedIndex);
 
-unsigned int GetEntryIndex(void);
+unsigned int GetCurrentPlayerRacerId_0(void);
 
 void WriteChoisesSValueTiles(u16 *screenMap, s32 column, s32 row);
 void WriteChoisesSListTiles(void);
 
 int GetChoisesSPickedValue(void);
-unsigned int GetChoisesSPrevOpenDuringRace(void);
+unsigned int MaybeIsMenuOn_from_thumb(void);
 void SetChoisesSOpenDuringRace(u32 openFlag);
 
 u32 IsChoisesSOpen(void);
 
-unsigned int GetChoisesSOpenDuringRace(void);
+unsigned int IsRaceOptionMenuOn_from_thumb(void);
 
-void *GetChoisesSValueMessage(s32 listIndex, s32 value);
-void ClearChoisesSListValueCounts(void);
+void *GetMenuOptionString_from_thumb(s32 listIndex, s32 value);
+void ClearRaceOptionMenuEntries_from_thumb(void);
 void AppendChoisesSListValue(s32 listIndex, s32 value);
-s32 MoveChoisesSSelectedValue(s32 step);
+s32 MaybeOnMenuOptionScroll_from_thumb(s32 step);
 u32 MoveChoisesSSelectedValueByTouch(void);
 void ResetChoisesSSelection(void);
 void SetChoisesSOpen(s32 openFlag);
-u32 IsMissionRunTableRow6Or7Column9(void);
-s8 GetMissionRunTableRow(void);
-s8 GetMissionRunTableColumn(void);
+u32 IsCurrentMission_Boss6OrBoss7_from_thumb(void);
+s8 GetCurrentMissionLevel_0(void);
+s8 GetCurrentMissionLevelStage_0(void);
 BOOL IsAllMissionRecords5To7AtGoalEnd(void);

@@ -31,18 +31,18 @@ void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaC
     MIi_GXDmaParams.mArg = arg;
     MIi_CheckDma0SourceAddress(dmaNo, src, commandLength, 0);
     MI_WaitDma(dmaNo);
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     MIi_GXDmaParams.mFifoCond = (reg_G3X_GXSTAT & 0xc0000000) >> 0x1e;
-    MIi_GXDmaParams.mFifoFunc = OS_GetIrqFunction(0x200000);
+    MIi_GXDmaParams.mFifoFunc = Os_GetIrqHandler(0x200000);
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xc0000000) | 0x40000000;
-    OS_SetIrqFunction(0x200000, MIi_FIFOCallback);
-    OS_EnableIrqMask(0x200000);
+    Os_SetIrqHandler(0x200000, MIi_FIFOCallback);
+    Os_EnableIrqHandler(0x200000);
     MIi_FIFOCallback();
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // Starts the next piece (at most 0x1d8 bytes) of the transfer in MIi_GXDmaParams on its DMA channel. The last piece
-// registers MIi_DMACallback and raises an interrupt when it ends.
+// registers SomeDmaIrqHandler and raises an interrupt when it ends.
 void MIi_FIFOCallback(void) {
     const u8 *src;
     u32 length;
@@ -58,23 +58,23 @@ void MIi_FIFOCallback(void) {
     MIi_GXDmaParams.mLength = MIi_GXDmaParams.mLength - length;
     MIi_GXDmaParams.mSrc = src + length;
     if (MIi_GXDmaParams.mLength == 0) {
-        OSi_EnterDmaCallback(MIi_GXDmaParams.mDmaNo, MIi_DMACallback, 0);
+        OSi_EnterDmaCallback(MIi_GXDmaParams.mDmaNo, SomeDmaIrqHandler, 0);
         StartDmaTransfer(MIi_GXDmaParams.mDmaNo, src, (void *) 0x4000400, 0xc4400000 | (length >> 2));
-        OS_ResetRequestIrqMask(0x200000);
+        SetIF(0x200000);
         return;
     }
     StartDmaTransfer(MIi_GXDmaParams.mDmaNo, src, (void *) 0x4000400, 0x84400000 | (length >> 2));
-    OS_ResetRequestIrqMask(0x200000);
+    SetIF(0x200000);
 }
 
 // Ends a piecewise transfer: turns the GX FIFO interrupt off, puts back the saved FIFO condition and interrupt
 // handler, marks the transfer finished and calls MIi_GXDmaParams.mCallback.
-void MIi_DMACallback(void *arg) {
+void SomeDmaIrqHandler(void *arg) {
     void *callbackArg;
 
-    OS_DisableIrqMask(0x200000);
+    Os_DisableIrqHandler(0x200000);
     reg_G3X_GXSTAT = (MIi_GXDmaParams.mFifoCond << 0x1e) | (reg_G3X_GXSTAT & ~0xc0000000);
-    OS_SetIrqFunction(0x200000, MIi_GXDmaParams.mFifoFunc);
+    Os_SetIrqHandler(0x200000, MIi_GXDmaParams.mFifoFunc);
     MIi_GXDmaParams.mIsBusy = 0;
     callbackArg = MIi_GXDmaParams.mArg;
     if (MIi_GXDmaParams.mCallback != 0) {
@@ -115,7 +115,7 @@ void MIi_DMAFastCallback(void *arg) {
     }
 }
 
-void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size) {
+void Mem_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size) {
     u32 enabled;
 
     if (size == 0) {
@@ -123,11 +123,11 @@ void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size) {
     }
     while (*(vu32 *) (0x40000b0 + (dmaNo * 3 + 2) * 4) & 0x80000000) {
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     *(vu32 *) (0x4000000 + dmaNo * 4 + 0xe0) = data;
     StartDmaTransferAndChannel0DummyWithoutIrqDisable(dmaNo, (const void *) (0x40000e0 + dmaNo * 4), dest,
                                                       (size >> 2) | 0x85000000);
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     while (*(vu32 *) (0x40000b0 + (dmaNo * 3 + 2) * 4) & 0x80000000) {
     }
 }
@@ -168,17 +168,17 @@ void MI_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback 
     MI_WaitDma(dmaNo);
     if (callback != 0) {
         OSi_EnterDmaCallback(dmaNo, callback, (u32) arg);
-        enabled = OS_DisableInterrupts();
+        enabled = Os_DisableIrq();
         *(vu32 *) (0x4000000 + dmaNo * 4 + 0xe0) = data;
         StartDmaTransferWithoutIrqDisable(dmaNo, (const void *) (0x40000e0 + dmaNo * 4), dest,
                                           (size >> 2) | 0xc5000000);
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
     } else {
-        enabled = OS_DisableInterrupts();
+        enabled = Os_DisableIrq();
         *(vu32 *) (0x4000000 + dmaNo * 4 + 0xe0) = data;
         StartDmaTransferWithoutIrqDisable(dmaNo, (const void *) (0x40000e0 + dmaNo * 4), dest,
                                           (size >> 2) | 0x85000000);
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
     }
 }
 
@@ -203,7 +203,7 @@ void MI_WaitDma(u32 dmaNo) {
     u32 enabled;
     vu32 *dmaRegs;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     while (*(vu32 *) (0x40000b0 + (dmaNo * 3 + 2) * 4) & 0x80000000) {
     }
     if (dmaNo == 0) {
@@ -212,14 +212,14 @@ void MI_WaitDma(u32 dmaNo) {
         dmaRegs[1] = 0;
         dmaRegs[2] = 0x81400001;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
-void MI_StopDma(u32 dmaNo) {
+void Mem_DmaStop(u32 dmaNo) {
     u32 enabled;
     vu32 *dmaRegs;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     *(vu16 *) (0x4000000 + (dmaNo * 6 + 5) * 2 + 0xb0) &= ~0x3a00;
     *(vu16 *) (0x4000000 + (dmaNo * 6 + 5) * 2 + 0xb0) &= ~0x8000;
     *(vu16 *) (0x4000000 + (dmaNo * 6 + 5) * 2 + 0xb0);
@@ -230,7 +230,7 @@ void MI_StopDma(u32 dmaNo) {
         dmaRegs[1] = 0;
         dmaRegs[2] = 0x81400001;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType) {
@@ -260,7 +260,7 @@ void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType) {
         }
         if (timing == 0x18000000 || timing == 0x20000000 || timing == 0x28000000 || timing == 0x30000000 ||
             timing == 0x38000000 || timing == 0x8000000 || timing == 0x10000000) {
-            OS_Terminate();
+            Os_Terminate();
         }
     }
 }
@@ -283,6 +283,6 @@ void MIi_CheckDma0SourceAddress(u32 dmaNo, const void *src, u32 size, u32 dir) {
     }
     if (srcTop == 0x4000000 || srcTop >= 0x8000000 || (end & 0xff000000) == 0x4000000 ||
         (end & 0xff000000) >= 0x8000000) {
-        OS_Terminate();
+        Os_Terminate();
     }
 }

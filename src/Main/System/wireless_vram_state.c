@@ -14,19 +14,19 @@
 #include "registers.h"
 #include "Main/Scene/scene_run_forever.h"
 
-UnreadHalfwordGroups gUnreadHalfwordGroups;
+UnreadHalfwordGroups g_GlobalHN;
 
 static inline u32 IsWvrStateBusy(void) {
-    return gWvrState.mState == BANK_SHARE_CHANGING;
+    return g_SomeVramConfigMode.mState == BANK_SHARE_CHANGING;
 }
 
-void InitWvrState(void) {
-    gWvrState.mState = BANK_SHARE_INACTIVE;
-    gWvrState.mCallback = NULL;
+void SomeVramInit(void) {
+    g_SomeVramConfigMode.mState = BANK_SHARE_INACTIVE;
+    g_SomeVramConfigMode.mCallback = NULL;
 }
 
-void ClearLcdcBanksByState(void) {
-    switch (gWvrState.mState) {
+void MaybePrepareVram(void) {
+    switch (g_SomeVramConfigMode.mState) {
         case BANK_SHARE_ACTIVE:
             GX_SetBankForLCDC(0x1f7);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0x60000);
@@ -44,7 +44,7 @@ void ClearLcdcBanksByState(void) {
 }
 
 void SetBankForARM7ByState(u32 bank) {
-    switch (gWvrState.mState) {
+    switch (g_SomeVramConfigMode.mState) {
         case BANK_SHARE_ACTIVE:
         case BANK_SHARE_CHANGING:
             break;
@@ -55,7 +55,7 @@ void SetBankForARM7ByState(u32 bank) {
     }
 }
 
-void DisableAllBanks(void) {
+void ResetSomeVram(void) {
     GX_DisableBankForBG();
     GX_DisableBankForOBJ();
     GX_DisableBankForBGExtPltt();
@@ -65,10 +65,10 @@ void DisableAllBanks(void) {
     GX_DisableBankForClearImage();
     GX_DisableBankForSubBG();
     GX_DisableBankForSubOBJ();
-    GX_DisableBankForSubBGExtPltt();
-    GX_DisableBankForSubOBJExtPltt();
+    GX_DisableBankForBGExtPltt();
+    GX_DisableBankForOBJExtPltt();
     GX_DisableBankForLCDC();
-    switch (gWvrState.mState) {
+    switch (g_SomeVramConfigMode.mState) {
         case BANK_SHARE_ACTIVE:
         case BANK_SHARE_CHANGING:
             break;
@@ -82,48 +82,48 @@ void DisableAllBanks(void) {
 // Stores the state; for states 0 and 1 calls the stored callback with 0 or 1.
 void WvrCallback(u32 state, s32 errorCode) {
     if (errorCode != 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
-    gWvrState.mState = state;
-    if (gWvrState.mCallback == NULL) {
+    g_SomeVramConfigMode.mState = state;
+    if (g_SomeVramConfigMode.mCallback == NULL) {
         return;
     }
     switch (state) {
         case BANK_SHARE_ACTIVE:
-            gWvrState.mCallback(0);
+            g_SomeVramConfigMode.mCallback(0);
             break;
         case BANK_SHARE_INACTIVE:
-            gWvrState.mCallback(1);
+            g_SomeVramConfigMode.mCallback(1);
             break;
     }
 }
 
-void ClearLcdcBankAndStartWvrAndWait(void) {
-    if (gWvrState.mState != BANK_SHARE_ACTIVE && gWvrState.mState != BANK_SHARE_INACTIVE_UNUSED) {
-        gWvrState.mState = BANK_SHARE_CHANGING;
+void SomeVramConfig(void) {
+    if (g_SomeVramConfigMode.mState != BANK_SHARE_ACTIVE && g_SomeVramConfigMode.mState != BANK_SHARE_INACTIVE_UNUSED) {
+        g_SomeVramConfigMode.mState = BANK_SHARE_CHANGING;
         GX_SetBankForLCDC(8);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
         if (WVR_StartUpAsync(8, WvrCallback, 0) != 1) {
-            OS_Terminate();
+            Os_Terminate();
         }
     }
     while (IsWvrStateBusy() != 0) {
     }
 }
 
-void StopWvrAndWait(void) {
-    if (gWvrState.mState != BANK_SHARE_INACTIVE && gWvrState.mState != BANK_SHARE_INACTIVE_UNUSED) {
-        gWvrState.mState = BANK_SHARE_CHANGING;
-        if (WVR_TerminateAsync(WvrCallback, 1) != 1) {
-            OS_Terminate();
+void MaybeInitializeSomeWirelessShit(void) {
+    if (g_SomeVramConfigMode.mState != BANK_SHARE_INACTIVE && g_SomeVramConfigMode.mState != BANK_SHARE_INACTIVE_UNUSED) {
+        g_SomeVramConfigMode.mState = BANK_SHARE_CHANGING;
+        if (SetWvrFifoShit(WvrCallback, 1) != 1) {
+            Os_Terminate();
         }
     }
     while (IsWvrStateBusy() != 0) {
     }
 }
 
-s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *vec, Vec3 *dst) {
+s32 Vector3_MaybeNormalize(const Vec3 *vec, Vec3 *dst) {
     s64 lengthSquared;
     s32 sqrtResult;
     s64 divResult;
@@ -149,11 +149,11 @@ s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *vec, Vec3 *dst) {
     return (sqrtResult + 1) >> 1;
 }
 
-s32 Vec3DotUnrounded(const Vec3 *lhs, const Vec3 *rhs) {
+s32 VecFx32_CrossProduct_0(const Vec3 *lhs, const Vec3 *rhs) {
     return DOT3_FIXED12(lhs->x, rhs->x, lhs->y, rhs->y, lhs->z, rhs->z);
 }
 
-void Vec3CrossUnrounded(const Vec3 *lhs, const Vec3 *rhs, Vec3 *axb) {
+void Vector3_Cross(const Vec3 *lhs, const Vec3 *rhs, Vec3 *axb) {
     s64 crossX;
     s64 crossY;
     s64 crossZ;
@@ -165,13 +165,13 @@ void Vec3CrossUnrounded(const Vec3 *lhs, const Vec3 *rhs, Vec3 *axb) {
     axb->z = FROM_FIXED12(crossZ);
 }
 
-void InitUnreadHalfwordGroups(void) {
-    gUnreadHalfwordGroups.mUnk_08 = 0;
-    gUnreadHalfwordGroups.mUnk_0a = 0;
-    gUnreadHalfwordGroups.mUnk_0c = 0;
-    gUnreadHalfwordGroups.mUnk_0e = 3;
-    gUnreadHalfwordGroups.mUnk_00 = 0;
-    gUnreadHalfwordGroups.mUnk_02 = 0;
-    gUnreadHalfwordGroups.mUnk_04 = 0;
-    gUnreadHalfwordGroups.mUnk_06 = 3;
+void InitializeGlobalHN(void) {
+    g_GlobalHN.mUnk_08 = 0;
+    g_GlobalHN.mUnk_0a = 0;
+    g_GlobalHN.mUnk_0c = 0;
+    g_GlobalHN.mUnk_0e = 3;
+    g_GlobalHN.mUnk_00 = 0;
+    g_GlobalHN.mUnk_02 = 0;
+    g_GlobalHN.mUnk_04 = 0;
+    g_GlobalHN.mUnk_06 = 3;
 }

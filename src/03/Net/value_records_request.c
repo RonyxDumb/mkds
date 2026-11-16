@@ -20,10 +20,10 @@ void InitValueRecordsRequest(void) {
     gValueRecordsRequest = AllocZeroedExpHeapBlock(0x26c, 4);
     gValueRecordsRequestSucceeded = 0;
     requestItem.mClearValue = 0;
-    MIi_CpuClear16(requestItem.mClearValue, &requestItem.mItem, sizeof(ValueRecordsRequestItem));
+    Mem_CpuFill16(requestItem.mClearValue, &requestItem.mItem, sizeof(ValueRecordsRequestItem));
     requestItem.mItem.mItemType = 0x50;
     requestItem.mItem.mItemLength = sizeof(gNintendoDsItemBytes);
-    MI_CpuCopy8(gNintendoDsItemBytes, requestItem.mItem.mItemBytes, 0xc);
+    Mem_CpuCopy8(gNintendoDsItemBytes, requestItem.mItem.mItemBytes, 0xc);
     gValueRecordsRequest->mWantedRecordMask = VALUE_RECORD_MASK_KEY_SET_FIRST | VALUE_RECORD_MASK_KEY_SET_SECOND;
     request = gValueRecordsRequest;
     request->mItem = requestItem.mItem;
@@ -32,9 +32,9 @@ void InitValueRecordsRequest(void) {
     gValueRecordsRequest->mSendAttemptLimit = 1;
     gValueRecordsRequest->mSendAttemptDelayMs = -1;
     gValueRecordsRequest->mReceiveTimeoutMs = -1;
-    OS_GetMacAddress(gValueRecordsRequest->mMacAddress);
+    Os_GetMacAddress(gValueRecordsRequest->mMacAddress);
     if (InitEssidWiFi((void *(*) (u32)) EssidAllocExpHeapBlockWrapper, EssidFreeExpHeapBlockWrapper) != 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 

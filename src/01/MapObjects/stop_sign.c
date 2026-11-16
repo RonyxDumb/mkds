@@ -19,15 +19,15 @@ void InitStopSign(MissionRunMapObject *mapObject) {
     MtxFx33 rotationMatrix;
     RefreshMapObjectMatrixFromHitNormal(&mapObject->mMapObject);
     mapObject->mMapObject.mAngle = DEG_TO_ANGLE(mapObject->mMapObject.mCourseMapRow->mRotationDegrees.y);
-    MTX_RotY33_(&rotationMatrix, FX_SinIdx(mapObject->mMapObject.mAngle), FX_CosIdx(mapObject->mMapObject.mAngle));
+    MTX_RotY33__from_thumb(&rotationMatrix, FX_SinIdx(mapObject->mMapObject.mAngle), FX_CosIdx(mapObject->mMapObject.mAngle));
     MTX_Concat33(&rotationMatrix, &mapObject->mMapObject.mMatrix.mAxes, &mapObject->mMapObject.mMatrix.mAxes);
 }
 
 void LoadStopSign(MapObjectList *mapObjectList) {
     gStopSign = LoadMapObjectModelAnimated(mapObjectList, "StopSign.nsbmd");
-    SetMapObjectModelPolygonId(gStopSign, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gStopSign, 0x3f);
     SetMapObjectModelLightEnableFlag(gStopSign, 2);
-    SetNsbmdEmiAll(gStopSign->mAnimatedModel, 0x294a);
+    StructML_SomeFn_7(gStopSign->mAnimatedModel, 0x294a);
 }
 
 void DrawStopSign(void *mapObjectList, StopSignObject *mapObject) {
@@ -42,7 +42,7 @@ void DrawStopSign(void *mapObjectList, StopSignObject *mapObject) {
 }
 
 MapObjectKindData *CreateStopSignKindData(void) {
-    return CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
+    return CreateAllocateSomeObject_from_thumb(NULL, NULL, NULL, 0, 1);
 }
 
 MapObjectList *CreateStopSignDrawList(void) {

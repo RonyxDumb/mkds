@@ -30,7 +30,7 @@ u32 GpiAppendBufferByte(void *connection, GpiBuffer *outputBuffer, s32 byte) {
     s32 capacity;
 
     if (outputBuffer == NULL) {
-        AssertionFailed("outputBuffer != NULL", "gpiBuffer.c", NULL, 0x25);
+        LogThrowAssertion("outputBuffer != NULL", "gpiBuffer.c", NULL, 0x25);
     }
     length = outputBuffer->mLength;
     capacity = outputBuffer->mCapacity;
@@ -57,13 +57,13 @@ u32 GpiAppendBufferBytes(void *connection, GpiBuffer *outputBuffer, const void *
     s32 length;
 
     if (string == NULL) {
-        AssertionFailed("string != NULL", "gpiBuffer.c", NULL, 0x51);
+        LogThrowAssertion("string != NULL", "gpiBuffer.c", NULL, 0x51);
     }
     if (stringLen < 0) {
-        AssertionFailed("stringLen >= 0", "gpiBuffer.c", NULL, 0x52);
+        LogThrowAssertion("stringLen >= 0", "gpiBuffer.c", NULL, 0x52);
     }
     if (outputBuffer == NULL) {
-        AssertionFailed("outputBuffer != NULL", "gpiBuffer.c", NULL, 0x53);
+        LogThrowAssertion("outputBuffer != NULL", "gpiBuffer.c", NULL, 0x53);
     }
     if (string == NULL) {
         return 0;
@@ -94,7 +94,7 @@ u32 GpiAppendBufferString(void *connection, void *outputBuffer, const void *stri
 u32 GpiAppendBufferNumber(void *connection, void *outputBuffer, u32 number) {
     char numberText[0x14];
 
-    sprintf(numberText, "%d", number);
+    MaybeStrcpy(numberText, "%d", number);
     return GpiAppendBufferString(connection, outputBuffer, numberText);
 }
 
@@ -133,7 +133,7 @@ u32 GpiPeerSendByte(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
     u32 sendResult;
 
     if (gpiPeer->mOutputBuffer.mBuffer == NULL) {
-        AssertionFailed("peer->outputBuffer.buffer != NULL", "gpiBuffer.c", NULL, 0xde);
+        LogThrowAssertion("peer->outputBuffer.buffer != NULL", "gpiBuffer.c", NULL, 0xde);
     }
     if (gpiPeer->mOutputBuffer.mLength - gpiPeer->mOutputBuffer.mPos == 0 &&
         DarrayGetCount(gpiPeer->mQueuedMessages) == 0) {
@@ -155,7 +155,7 @@ u32 GpiPeerSendBytes(GpConnection *connection, GpiPeer *gpiPeer, const char *dat
     u32 sendResult;
 
     if (gpiPeer->mOutputBuffer.mBuffer == NULL) {
-        AssertionFailed("peer->outputBuffer.buffer != NULL", "gpiBuffer.c", NULL, 0xfb);
+        LogThrowAssertion("peer->outputBuffer.buffer != NULL", "gpiBuffer.c", NULL, 0xfb);
     }
     offset = 0;
     if (byteCount == 0) {
@@ -190,7 +190,7 @@ u32 GpiPeerSendString(GpConnection *connection, GpiPeer *gpiPeer, const char *st
 }
 
 static void UnusedFormatDecimal(char *text, u32 number) {
-    sprintf(text, "%d", number);
+    MaybeStrcpy(text, "%d", number);
 }
 
 u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer, s32 *bytesRead, u32 *connClosed,
@@ -205,16 +205,16 @@ u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer,
     s32 value;
 
     if (sock == -1) {
-        AssertionFailed("sock != INVALID_SOCKET", "gpiBuffer.c", NULL, 0x150);
+        LogThrowAssertion("sock != INVALID_SOCKET", "gpiBuffer.c", NULL, 0x150);
     }
     if (inputBuffer == NULL) {
-        AssertionFailed("inputBuffer != NULL", "gpiBuffer.c", NULL, 0x151);
+        LogThrowAssertion("inputBuffer != NULL", "gpiBuffer.c", NULL, 0x151);
     }
     if (bytesRead == NULL) {
-        AssertionFailed("bytesRead != NULL", "gpiBuffer.c", NULL, 0x152);
+        LogThrowAssertion("bytesRead != NULL", "gpiBuffer.c", NULL, 0x152);
     }
     if (connClosed == NULL) {
-        AssertionFailed("connClosed != NULL", "gpiBuffer.c", NULL, 0x153);
+        LogThrowAssertion("connClosed != NULL", "gpiBuffer.c", NULL, 0x153);
     }
     buffer = inputBuffer->mBuffer;
     length = inputBuffer->mLength;
@@ -273,7 +273,7 @@ u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u
     u32 sendResult;
 
     if (outputBuffer == NULL) {
-        AssertionFailed("outputBuffer != NULL", "gpiBuffer.c", NULL, 0x1b9);
+        LogThrowAssertion("outputBuffer != NULL", "gpiBuffer.c", NULL, 0x1b9);
     }
     buffer = outputBuffer->mBuffer;
     len = outputBuffer->mLength;
@@ -304,13 +304,13 @@ u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u
         pos += totalSent;
     }
     if (len < 0) {
-        AssertionFailed("len >= 0", "gpiBuffer.c", NULL, 0x1de);
+        LogThrowAssertion("len >= 0", "gpiBuffer.c", NULL, 0x1de);
     }
     if (pos < 0) {
-        AssertionFailed("pos >= 0", "gpiBuffer.c", NULL, 0x1df);
+        LogThrowAssertion("pos >= 0", "gpiBuffer.c", NULL, 0x1df);
     }
     if (pos > len) {
-        AssertionFailed("pos <= len", "gpiBuffer.c", NULL, 0x1e0);
+        LogThrowAssertion("pos <= len", "gpiBuffer.c", NULL, 0x1e0);
     }
     outputBuffer->mLength = len;
     outputBuffer->mPos = pos;

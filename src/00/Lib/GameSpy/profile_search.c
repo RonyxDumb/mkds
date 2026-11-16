@@ -79,7 +79,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         address.mFamily = SOCKET_FAMILY_IPV4;
         address.mAddr = resolvedHost->mAddrList[0][0];
         if (address.mAddr == 0) {
-            AssertionFailed("address.sin_addr.s_addr != 0", "gpiSearch.c", NULL, 0x59);
+            LogThrowAssertion("address.sin_addr.s_addr != 0", "gpiSearch.c", NULL, 0x59);
         }
         address.mPort = GPI_SEARCH_MANAGER_PORT_NETWORK_ORDER;
         if (connect(data->mSocket, &address, 8) == -1) {
@@ -349,7 +349,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else {
-                    AssertionFailed("0", "gpiSearch.c", NULL, 0x275);
+                    LogThrowAssertion("0", "gpiSearch.c", NULL, 0x275);
                 }
                 GpiAppendBufferString(connection, &data->mOutputBuffer, "\\gamename\\");
                 GpiAppendBufferString(connection, &data->mOutputBuffer, gGsiAcGamename);
@@ -811,7 +811,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 matchIndex++;
                             } else if (strcmp(key, "usdone") == 0) {
                                 if (matchIndex != u9->mNumSuggestedNicks) {
-                                    AssertionFailed("count == arg->numSuggestedNicks", "gpiSearch.c", NULL, 0x515);
+                                    LogThrowAssertion("count == arg->numSuggestedNicks", "gpiSearch.c", NULL, 0x515);
                                 }
                                 u9->mNumSuggestedNicks = matchIndex;
                                 isDone = TRUE;
@@ -828,7 +828,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else {
-                    AssertionFailed("0", "gpiSearch.c", NULL, 0x52a);
+                    LogThrowAssertion("0", "gpiSearch.c", NULL, 0x52a);
                 }
                 data->mRemove = TRUE;
                 loop = FALSE;
@@ -862,7 +862,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             if (pendingOp->mType == PROFILE_OPERATION_SEARCH && pendingOp->mState != PROFILE_SEARCH_STATE_REPLY_READ &&
                 pendingOp->mData->mProcessing == 0) {
                 if (count >= gpState->mSearchCount) {
-                    AssertionFailed("num < iconnection->numSearches", "gpiSearch.c", NULL, 0x563);
+                    LogThrowAssertion("num < iconnection->numSearches", "gpiSearch.c", NULL, 0x563);
                 }
                 operations[count++] = pendingOp;
                 pendingOp->mData->mProcessing = 1;

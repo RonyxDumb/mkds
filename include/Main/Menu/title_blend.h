@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceTitleBlend(void);
+void Title_SomeBldalphaConfig_from_thumb(void);

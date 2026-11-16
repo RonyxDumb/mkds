@@ -39,7 +39,7 @@ s32 NNS_SndCaptureStartEffect(void *buffer, u32 bufSize, u32 format, u32 rate, u
     }
     zero = 0;
     MIi_CpuClear32(zero, bufferBytes, bufSize);
-    DC_FlushRange(bufferBytes, bufSize);
+    Arm_FlushRange(bufferBytes, bufSize);
     return NNSi_SndCaptureStart(1, bufferBytes, bufferBytes + (bufSize >> 1), bufSize >> 1, format, 0, 0, 1, rate, 0x7f,
                                 0, 0x7f, interval, callback, arg);
 }
@@ -109,8 +109,8 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     playChannels = 0;
     alarm = -1;
     capture = &sCapParam;
-    DC_FlushRange(left, length);
-    DC_FlushRange(right, length);
+    Arm_FlushRange(left, length);
+    Arm_FlushRange(right, length);
     isByteFormat = format == 1;
     timerPeriod = 0xffb0ff / rate;
     if (callback != 0) {
@@ -209,9 +209,9 @@ void NNSi_SndCaptureStop(void) {
     SND_StopTimer(capture->mPlayChBitMask, capture->mCapBitMask, hasAlarm != 0 ? 1 << capture->mAlarmNo : 0, 0);
     if (hasAlarm != 0) {
         tag = SND_GetCurrentCommandTag();
-        SND_FlushCommand(1);
+        Sound_FlushCommand(1);
         SND_WaitForCommandProc(tag);
-        while (OS_ReceiveMessage(&sMesgQ, 0, 0) != 0) {
+        while (Os_ReceiveMessage(&sMesgQ, 0, 0) != 0) {
         }
     }
     if (capture->mCapBitMask != 0) {
@@ -240,7 +240,7 @@ void NNSi_SndCaptureBeginSleep(void) {
     SND_StopTimer(capture->mPlayChBitMask, capture->mCapBitMask, capture->mAlarmNo >= 0 ? 1 << capture->mAlarmNo : 0,
                   0);
     tag = SND_GetCurrentCommandTag();
-    SND_FlushCommand(1);
+    Sound_FlushCommand(1);
     SND_WaitForCommandProc(tag);
 }
 
@@ -258,8 +258,8 @@ void NNSi_SndCaptureEndSleep(void) {
     MIi_CpuClear32(zeroL, capture->mBufferL, capture->mBufLen);
     zeroR = 0;
     MIi_CpuClear32(zeroR, capture->mBufferR, capture->mBufLen);
-    DC_FlushRange(capture->mBufferL, capture->mBufLen);
-    DC_FlushRange(capture->mBufferR, capture->mBufLen);
+    Arm_FlushRange(capture->mBufferL, capture->mBufLen);
+    Arm_FlushRange(capture->mBufferR, capture->mBufLen);
     SND_StartTimer(capture->mPlayChBitMask, capture->mCapBitMask, capture->mAlarmNo >= 0 ? 1 << capture->mAlarmNo : 0,
                    0);
 }
@@ -285,14 +285,14 @@ void AlarmCallback(void *arg) {
         info->mOffset = offset;
         info->mBufferL = left;
         info->mBufferR = right;
-        OS_SendMessage(&sMesgQ, info, 0);
+        Os_MessageQueue_Send(&sMesgQ, info, 0);
         sCurEffectInfo++;
         if (sCurEffectInfo >= 8) {
             sCurEffectInfo = 0;
         }
     } else {
-        DC_InvalidateRange(left, chunkSize);
-        DC_InvalidateRange(right, chunkSize);
+        DC_InvalidateRangeNoClean(left, chunkSize);
+        DC_InvalidateRangeNoClean(right, chunkSize);
         capture->mCallback(left, right, chunkSize, capture->mFormat, capture->mCallbackArg);
     }
     capture->mCurBuffer++;

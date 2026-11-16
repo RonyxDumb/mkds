@@ -96,7 +96,7 @@ void DrawChoropuShadow(void *unused0, Choropu *choropu, u32 unused1, u32 alpha) 
 }
 
 void UpdateChoropu(u32 unused, Choropu *choropu) {
-    AdvanceStateMachine(&choropu->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&choropu->mMapObject.mStateMachine);
 }
 
 void EnterChoropuWaitStart(void *stateObject) {
@@ -261,7 +261,7 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
 
     switch (firstResponsePtr[0]) {
         case CHOROPU_KART_RESPONSE_FALL_SPIN:
-            if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
+            if (g_GlobalCO->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
                 return secondResponsePtr[0];
             }
             if (choropu->mMapObject.mStateMachine.mState == CHOROPU_STATE_FALL_SPIN) {
@@ -272,7 +272,7 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
             StartSoundIfKartStarOrKiller(&choropu->mMapObject, kart);
             break;
         case 1:
-            VEC_Subtract(&choropu->mMapObject.mPos, &kart->mPos, &offsetFromKart);
+            VecFx32_Subtract(&choropu->mMapObject.mPos, &kart->mPos, &offsetFromKart);
             if ((s64) offsetFromKart.z * kart->mVelocity.x - (s64) offsetFromKart.x * kart->mVelocity.z < 0) {
                 choropu->mSpinDirection = 1;
             } else {
@@ -295,7 +295,7 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
 
     if (firstResponsePtr[0] == 1) {
         if (itemObject != NULL) {
-            VEC_Subtract(&choropu->mMapObject.mPos, &itemObject->mPos, &offsetFromItem);
+            VecFx32_Subtract(&choropu->mMapObject.mPos, &itemObject->mPos, &offsetFromItem);
             if ((s64) offsetFromItem.z * itemObject->mVelocity.x - (s64) offsetFromItem.x * itemObject->mVelocity.z <
                 0) {
                 choropu->mSpinDirection = 1;
@@ -308,7 +308,7 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
             choropu->mMapObject.mFlags |= gChoropuFlag;
             StartMissionRunKouraEffects(itemObject);
         } else {
-            VEC_Subtract(&choropu->mMapObject.mPos, &choropu->mMapObject.mPos, &offset);
+            VecFx32_Subtract(&choropu->mMapObject.mPos, &choropu->mMapObject.mPos, &offset);
             if ((s64) offset.z * gChoropuZeroVector.x - (s64) offset.x * gChoropuZeroVector.z < 0) {
                 choropu->mSpinDirection = 1;
             } else {
@@ -328,10 +328,10 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
 void CreateChoropu(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile("choropu.nsbmd");
-    nsbtpFile = FindCourseMapObjFile("choropu.nsbtp");
-    CreateNsbmdModel(&gChoropu, nsbmdFile, nsbtpFile, 0);
-    SetNsbmdModelFixedAttributes(gChoropu);
+    nsbmdFile = FormatFindMapObjFileBuffer_from_thumb("choropu.nsbmd");
+    nsbtpFile = FormatFindMapObjFileBuffer_from_thumb("choropu.nsbtp");
+    CreateMapObjectSubFrom_from_thumb(&gChoropu, nsbmdFile, nsbtpFile, 0);
+    StructMapObjectSub_SomeFn_1(gChoropu);
 }
 
 #pragma thumb off

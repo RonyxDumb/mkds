@@ -37,12 +37,12 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                         gEmblem->mColorCursorIndex = entryIndex - EMBLEM_ENTRY_COLOR_FIRST;
                         SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
                         gEmblem->mColorCursorIndex = entryIndex - EMBLEM_ENTRY_COLOR_FIRST;
                         StartEmblemColorCursorShrinkAndGrow((gEmblem->mEmblemSLld), entryIndex);
                         SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f0);
                     }
                     if (GetEmblemCursorMode() == EMBLEM_CURSOR_MODE_ERASE) {
                         StartEmblemModeButtonPress(gEmblem->mEmblemSLld,
@@ -67,7 +67,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_DRAW);
                     SetEmblemCursorSizeIndex(entryIndex - EMBLEM_ENTRY_DRAW_BRUSH_FIRST);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_ERASE_BRUSH_FIRST:
@@ -76,28 +76,28 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_ERASE);
                     SetEmblemCursorSizeIndex(entryIndex - EMBLEM_ENTRY_ERASE_BRUSH_FIRST);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_FILL:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_FILL);
                     SetEmblemCursorSizeIndex(EMBLEM_BRUSH_1X1);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_PICK_VALUE:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_PICK_VALUE);
                     SetEmblemCursorSizeIndex(EMBLEM_BRUSH_1X1);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_TEMPLATE_BUTTON:
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideIn;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f3);
                         gEmblem->mTransitionRunning = TRUE;
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -105,9 +105,9 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                 case EMBLEM_ENTRY_SWAP_CELLS:
                     if (IsEmblemGridChanged()) {
                         if (IsEmblemGridSwapped()) {
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fb);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1fb);
                         } else {
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fc);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1fc);
                         }
                         SwapEmblemGridCells();
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
@@ -121,7 +121,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToCamera;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xc);
                         gEmblem->mTransitionRunning = TRUE;
                         gEmblem->mKartListSkipped = FALSE;
                     }
@@ -131,7 +131,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemChoises;
                         StartEmblemButtonBounce((gEmblem->mEmblemSLld), entryIndex);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 4);
                         gEmblem->mTransitionRunning = TRUE;
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -144,7 +144,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonHold((gEmblem->mEmblemTemplateSLld), 1);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xe);
                         gEmblem->mTransitionRunning = TRUE;
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -191,7 +191,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemTemplateSLld), entryIndex);
                         gEmblem->mTemplateCursorIndex = entryIndex - 3;
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
@@ -202,7 +202,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                 if (gEmblem->mPendingTransitionFunc == NULL) {
                     gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToGrid;
                     StartEmblemButtonBounceThenWait((gEmblem->mEmblemCameraSLld), entryIndex);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xc);
                     gEmblem->mKartListSkipped = TRUE;
                 }
                 gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;

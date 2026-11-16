@@ -37,10 +37,10 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     MBUserInfo userInfo;
     MultiBootParentHeader clearedHeader;
 
-    OS_GetOwnerInfo(&ownerInfo);
+    Os_GetPersonalData(&ownerInfo);
     userInfo.mColorAndPlayerNo = (userInfo.mColorAndPlayerNo & ~0xf) | (ownerInfo.mFavoriteColor & 0xf);
     userInfo.mNameLength = ownerInfo.mNickNameLength;
-    MI_CpuCopy8(ownerInfo.mNickName, userInfo.mName, ownerInfo.mNickNameLength * 2);
+    Mem_CpuCopy8(ownerInfo.mNickName, userInfo.mName, ownerInfo.mNickNameLength * 2);
     userInfo.mColorAndPlayerNo &= ~0xf0;
     {
         u16 *words = (u16 *) &clearedHeader;
@@ -54,8 +54,8 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     }
     gMultiBootParent->mHeader = clearedHeader;
     gMultiBootParent->mCommWorkPointer = gMultiBootParent->mCommWork;
-    if (MB_Init(gMultiBootParent->mCommWorkPointer, &userInfo, ggid, tgid, 2) != 0) {
-        OS_Terminate();
+    if (SetupSomePointer_from_thumb(gMultiBootParent->mCommWorkPointer, &userInfo, ggid, tgid, 2) != 0) {
+        Os_Terminate();
     }
     MB_SetParentCommParam(0x100, 1);
     MB_CommSetParentStateCallback(MultiBootParentStateCallback);
@@ -69,7 +69,7 @@ void StartMultiBootParentFromIdle(MBGameRegistry *gameRegistry, u16 channel) {
         return;
     }
     if (RegisterMultiBootFile(gameRegistry) == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
@@ -82,16 +82,16 @@ BOOL RegisterMultiBootFile(MBGameRegistry *gameRegistry) {
     if (gameRegistry->mRomFilePathp == NULL) {
         segmentFile = NULL;
     } else {
-        FS_InitFile(&openedFile);
-        if (FS_OpenFile(&openedFile, gameRegistry->mRomFilePathp) == 0) {
+        Fs_File_Initialize(&openedFile);
+        if (Fs_File_Open(&openedFile, gameRegistry->mRomFilePathp) == 0) {
             return registered;
         }
         segmentFile = &openedFile;
     }
-    if (MB_GetSegmentLength(segmentFile) != 0) {
+    if (ComputeRomBinarySize_from_thumb(segmentFile) != 0) {
         gMultiBootParent->mFileBuffer = gMultiBootParent->mFileData;
         if (gMultiBootParent->mFileBuffer != NULL) {
-            if (MB_ReadSegment(segmentFile, gMultiBootParent->mFileBuffer, 0x10000) != 0) {
+            if (FsUnk_ReadCartHeader_from_thumb(segmentFile, gMultiBootParent->mFileBuffer, 0x10000) != 0) {
                 if (MB_RegisterFile(gameRegistry, gMultiBootParent->mFileBuffer) != 0) {
                     registered = 1;
                 }
@@ -99,7 +99,7 @@ BOOL RegisterMultiBootFile(MBGameRegistry *gameRegistry) {
         }
     }
     if (segmentFile == &openedFile) {
-        FS_CloseFile(&openedFile);
+        Fs_File_Close(&openedFile);
     }
     return registered;
 }
@@ -110,14 +110,14 @@ void AcceptMultiBootChildRequest(u32 aid) {
 
     if (MB_CommResponseRequest(aid, MULTIBOOT_RESPONSE_ACCEPT) == 0) {
         clearMask = ~(1 << aid);
-        savedInterrupts = OS_DisableInterrupts();
+        savedInterrupts = Os_DisableIrq();
         gMultiBootParent->mHeader.mMask &= clearMask;
         gMultiBootParent->mHeader.mRequestedMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
         gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
         gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         MB_DisconnectChild(aid);
     }
 }
@@ -129,21 +129,21 @@ void KickMultiBootChild(u32 aid) {
 
     if (MB_CommResponseRequest(aid, MULTIBOOT_RESPONSE_REFUSE) == 0) {
         clearMask = ~(1 << aid);
-        savedInterrupts = OS_DisableInterrupts();
+        savedInterrupts = Os_DisableIrq();
         gMultiBootParent->mHeader.mMask &= clearMask;
         gMultiBootParent->mHeader.mRequestedMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
         gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
         gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         MB_DisconnectChild(aid);
     } else {
-        savedInterrupts = OS_DisableInterrupts();
+        savedInterrupts = Os_DisableIrq();
         aidBit = 1 << aid;
         gMultiBootParent->mHeader.mRequestedMask &= ~aidBit;
         gMultiBootParent->mHeader.mMask &= ~aidBit;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
     }
 }
 
@@ -154,21 +154,21 @@ void StartMultiBootChildDownload(u32 aid) {
 
     if (MB_CommResponseRequest(aid, MULTIBOOT_RESPONSE_SEND) == 0) {
         clearMask = ~(1 << aid);
-        savedInterrupts = OS_DisableInterrupts();
+        savedInterrupts = Os_DisableIrq();
         gMultiBootParent->mHeader.mMask &= clearMask;
         gMultiBootParent->mHeader.mRequestedMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
         gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
         gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         MB_DisconnectChild(aid);
     } else {
-        savedInterrupts = OS_DisableInterrupts();
+        savedInterrupts = Os_DisableIrq();
         aidBit = 1 << aid;
         gMultiBootParent->mHeader.mDownloadPendingMask &= ~aidBit;
         gMultiBootParent->mHeader.mDownloadStartedMask |= aidBit;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
     }
 }
 
@@ -185,14 +185,14 @@ void StartMultiBootDownloads(void) {
             if ((gMultiBootParent->mHeader.mRequestedMask & aidBit) == 0) {
                 if ((gMultiBootParent->mHeader.mDownloadPendingMask & aidBit) == 0) {
                     clearMask = ~aidBit;
-                    savedInterrupts = OS_DisableInterrupts();
+                    savedInterrupts = Os_DisableIrq();
                     gMultiBootParent->mHeader.mMask &= clearMask;
                     gMultiBootParent->mHeader.mRequestedMask &= clearMask;
                     gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
                     gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
                     gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
                     gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
-                    OS_RestoreInterrupts(savedInterrupts);
+                    Os_RestoreIrq(savedInterrupts);
                     MB_DisconnectChild(aid);
                 } else {
                     StartMultiBootChildDownload(aid);
@@ -232,14 +232,14 @@ void StartMultiBootBootRequests(void) {
         if ((gMultiBootParent->mHeader.mSendCompleteMask & aidBit) != 0) {
             if (MB_CommResponseRequest(aid, MULTIBOOT_RESPONSE_BOOT) == 0) {
                 clearMask = ~aidBit;
-                savedInterrupts = OS_DisableInterrupts();
+                savedInterrupts = Os_DisableIrq();
                 gMultiBootParent->mHeader.mMask &= clearMask;
                 gMultiBootParent->mHeader.mRequestedMask &= clearMask;
                 gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
                 gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
                 gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
                 gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
-                OS_RestoreInterrupts(savedInterrupts);
+                Os_RestoreIrq(savedInterrupts);
                 MB_DisconnectChild(aid);
             } else {
                 requestedMask |= aidBit;
@@ -269,9 +269,9 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
         case MULTIBOOT_PARENT_CHILD_CONNECTED:
             if (GetMultiBootParentState() == MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN) {
                 parent = gMultiBootParent;
-                value = OS_DisableInterrupts();
+                value = Os_DisableIrq();
                 BIT_SET(parent->mHeader.mMask, aid);
-                OS_RestoreInterrupts(value);
+                Os_RestoreIrq(value);
                 childMac = gMultiBootParent->mRecords[aid - 1].mMacAddress;
                 childMac[0] = event->mMacAddress[0];
                 childMac[1] = event->mMacAddress[1];
@@ -285,14 +285,14 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
         case MULTIBOOT_PARENT_CHILD_DISCONNECTED:
             if (GetMultiBootChildState(aid) != MULTIBOOT_CHILD_STATE_BOOT_STARTABLE) {
                 clearMask = ~(1 << aid);
-                value = OS_DisableInterrupts();
+                value = Os_DisableIrq();
                 gMultiBootParent->mHeader.mMask &= clearMask;
                 gMultiBootParent->mHeader.mRequestedMask &= clearMask;
                 gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
                 gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
                 gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
                 gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
-                OS_RestoreInterrupts(value);
+                Os_RestoreIrq(value);
             }
             break;
         case MULTIBOOT_PARENT_CHILD_REQUESTED:
@@ -304,7 +304,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
             AcceptMultiBootChildRequest(aid);
             value = (u32) MB_CommGetChildUser(aid);
             if (value != 0) {
-                MI_CpuCopy8((void *) value, &gMultiBootParent->mRecords[aid - 1], 0x16);
+                Mem_CpuCopy8((void *) value, &gMultiBootParent->mRecords[aid - 1], 0x16);
             }
             break;
         case MULTIBOOT_PARENT_CHILD_WAITING:
@@ -357,7 +357,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
         case MULTIBOOT_PARENT_ENTRY_FULL:
             break;
         default:
-            OS_Terminate();
+            Os_Terminate();
             break;
     }
 }
@@ -388,14 +388,14 @@ u32 GetMultiBootChildState(u32 aid) {
     u16 aidBit;
     u16 headerCopy[7];
 
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     aidBit = 1 << aid;
     if ((gMultiBootParent->mHeader.mMask & aidBit) == 0) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
-    MI_CpuCopy8(gMultiBootParent, headerCopy, 0xe);
-    OS_RestoreInterrupts(savedInterrupts);
+    Mem_CpuCopy8(gMultiBootParent, headerCopy, 0xe);
+    Os_RestoreIrq(savedInterrupts);
     if ((headerCopy[2] & aidBit) != 0) {
         return 2;
     }

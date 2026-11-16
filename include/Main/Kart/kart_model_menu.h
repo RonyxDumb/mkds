@@ -22,26 +22,26 @@ typedef struct SequenceCameraEntry {
 
 extern const s32 gCameraDefaultRows[2][3];
 
-void UpdateCameraView(Camera *camera);
-void UpdateCameraViewWithWorldUp(Camera *camera);
-void RefreshCameraProjection(Camera *camera);
-void SetupCamera(Camera *camera);
-// Allocates gFirstChainCamera (0x270 bytes), sets gSecondChainCamera to NULL, runs SetupCamera, sets mKind 2, starts it
+void StructHD_SomeLookAt(Camera *camera);
+void StructHD_SomeFn_10(Camera *camera);
+void StructHD_SomeFn_2(Camera *camera);
+void StructHD_SomeFn(Camera *camera);
+// Allocates g_GlobalHD (0x270 bytes), sets g_GlobalHD2 to NULL, runs StructHD_SomeFn, sets mKind 2, starts it
 // at CourseMap.mFirstChainStartEntry and sets up its mPosCurve when the entry has a group. With no entry it sets
-// gRaceProgress.mCameraChainEnded to 1 and returns. InitRace calls it when gRaceSetup.mRaceKind is 4.
-void CreateFirstChainCamera(void);
-// Allocates gFirstChainCamera and gSecondChainCamera (0x270 bytes each), runs SetupCamera on both, sets mKind 2, starts
+// g_GlobalMV.mCameraChainEnded to 1 and returns. InitializeGlobalTD calls it when g_GlobalCO.mRaceKind is 4.
+void CreateGlobalHD_HD2_from_thumb(void);
+// Allocates g_GlobalHD and g_GlobalHD2 (0x270 bytes each), runs StructHD_SomeFn on both, sets mKind 2, starts
 // them at CourseMap.mFirstChainStartEntry and mSecondChainStartEntry and sets up their mPosCurve when the entries have
-// a group. With no first entry it sets gRaceProgress.mCameraChainEnded to 1 and returns. InitRace calls it when
-// gRaceSetup.mRaceKind is 3 or 5.
-void CreateChainCameraPair(void);
+// a group. With no first entry it sets g_GlobalMV.mCameraChainEnded to 1 and returns. InitializeGlobalTD calls it when
+// g_GlobalCO.mRaceKind is 3 or 5.
+void CreateGlobalHD_HD2_V2_from_thumb(void);
 void InitSequenceCameraEntry(SequenceCameraEntry *kind7Entry, CourseMapCamera *courseMapCamera);
-void CreateEntryCamera(u32 followedKartIndex);
-// Allocates the chase camera (gChaseCamera), sets it up behind the selected Kart (SetupCameraBehindKart), keeps that
+void CreateAnotherGlobalHD_from_thumb(u32 followedKartIndex);
+// Allocates the chase camera (g_GlobalHD5), sets it up behind the selected Kart (SetupCameraBehindKart), keeps that
 // Kart's forward vector in mSavedKartForward and refreshes the projection.
-void CreateChaseCamera(void);
+void CreateGlobalHD5_from_thumb(void);
 void InitCameraGlobals(void);
-void LoadEmblemSBNclr(void *section);
+void ReadEmblemPalette_from_thumb(void *section);
 u16 GetKartListCount(void);
 u16 GetKartListNumber(void);
 BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex);
@@ -57,17 +57,17 @@ extern s32 gKartModelMenuLookAtYOffset;
 extern Vec3 gKartModelMenuLookAtTarget;
 extern Vec3 gKartModelMenuCameraPosition;
 extern Vec3 gKartModelMenuLightDirection;
-extern char gEmblemSBNclrName[16];
-extern char gKartOffsetDataBinName[20];
-extern char gCharMenuParamBinName[20];
-extern char gKartMenuParamBinName[20];
-extern char gKartSelectNsbmdName[28];
-extern char gKartSelectNsbtxName[28];
+extern char g_str_emblem_s_b_NCLR[16];
+extern char g_str_kartoffsetdata_bin_0[20];
+extern char g_str_charmenuparam_bin[20];
+extern char g_str_kartmenuparam_bin[20];
+extern char g_str_kart_select_select_nsbmd[28];
+extern char g_str_kart_select_select_nsbtx[28];
 
 extern NNSG3dResMatData *gSpecialKartBodyMaterial;
-extern struct KartModels *gKartModels;
-extern struct Nclr *gEmblemSBNclr;
-extern KartModelMenuData *gKartModelMenu;
+extern struct KartModels *g_GlobalAD00;
+extern struct Nclr *g_EmblemPalettte;
+extern KartModelMenuData *g_GlobalCE;
 
 // Far plane the camera starts with and falls back to when the course setting is below 1.0 (1600 in fixed-point).
 #define CAMERA_DEFAULT_FAR TO_FIXED12(1600)

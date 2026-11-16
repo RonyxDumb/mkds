@@ -19,7 +19,7 @@ u16 TitleGetInputSlotNewBits(InputSlot *slot, u32 mask) {
 }
 
 u16 TitleGetNewBits(u32 slotIndex, u32 mask) {
-    return TitleGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return TitleGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 u32 TitleGetPairHasPair(InputSlotPair *pair) {

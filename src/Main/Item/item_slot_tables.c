@@ -86,7 +86,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     row = table->mRows[rankOrRow];
     acc = 0;
     usedObjectCost = 0;
-    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode != MODE_MISSION_RUN) {
         for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
             usedObjectCost +=
                 (u16) (gItemKinds[(s32) poolIndex].mObjectCapCost *
@@ -116,7 +116,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
         }
         gItemWeightSums[itemIndex] = acc;
     }
-    random = &gRaceProgress->mRandom;
+    random = &g_GlobalMV->mRandom;
     if (acc == 0) {
         value = 0;
     } else {
@@ -147,7 +147,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     return sel;
 }
 
-void InitItemSlot(KartItems *slot, KartItems *kartItems) {
+void StructPRSub_Create(KartItems *slot, KartItems *kartItems) {
     slot->mSelf = kartItems;
     slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
@@ -155,7 +155,7 @@ void InitItemSlot(KartItems *slot, KartItems *kartItems) {
     slot->mSlotResult = ITEM_INFO_NONE;
     slot->mActiveItem = ITEM_INFO_NONE;
     slot->mResultPending = FALSE;
-    slot->mIsPeer = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
+    slot->mIsPeer = g_GlobalCO->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
 }
 
 void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin) {
@@ -167,7 +167,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     BOOL isEntryKart;
 
     kartItems = slot->mSelf;
-    isWiFiRace = gRaceSetup->mMode == MODE_WIFI;
+    isWiFiRace = g_GlobalCO->mMode == MODE_WIFI;
     if (slot->mSlotState != KART_ITEMS_SLOT_IDLE) {
         return;
     }
@@ -198,13 +198,13 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
         slot->mSlotFinalScrollFrameCount = KART_ITEMS_SLOT_FINAL_SCROLL_FRAMES;
         slot->mSlotFinalScrollFrameShift = KART_ITEMS_SLOT_FINAL_SCROLL_SHIFT;
     }
-    isEntryKart = kartItems->mKartIndex == gRaceSetup->mEntryIndex;
+    isEntryKart = kartItems->mKartIndex == g_GlobalCO->mEntryIndex;
     if (kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE &&
         kartItems->mItemInUse.mItemInfoIndex >= ITEM_INFO_KOURA_G_THREE) {
         slot->mSlotResult =
             PickItem(0, forcedRowHandle, rank, isHumanGhostOrPeer, isEntryKart, ITEM_INFO_KOURA_G_THREE);
     } else {
-        slot->mSlotResult = PickItem(GetKartVariant(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
+        slot->mSlotResult = PickItem(GetAD00SubKartIndexMod3(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
                                      isEntryKart, ITEM_INFO_COUNT);
     }
     if (isWiFiRace) {
@@ -267,11 +267,11 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
     switch (slot->mSlotState) {
         case KART_ITEMS_SLOT_SPINNING:
             slot->mSlotFrames++;
-            mode = gRaceSetup->mMode;
+            mode = g_GlobalCO->mMode;
             if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
                 value = kartItems->mKartIndex & 0xff;
-                if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[value]) == 0) {
-                    value = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[value]);
+                if (IsParticipantSlotResultSyncing(((u8 *) g_GlobalRE)[value]) == 0) {
+                    value = GetParticipantSlotResult(((u8 *) g_GlobalRE)[value]);
                     if (IsItemInfoObjectCountFree(value) != FALSE) {
                         TryReleaseItemObjectsForItemInfo(value);
                     }
@@ -376,7 +376,7 @@ void PickItemSlotShownItem(KartItems *slot) {
                 itemCount = gItemSlotPossibleItemCount;
                 items = gItemSlotPossibleItems;
             }
-            random = &gRaceProgress->mLocalRandom;
+            random = &g_GlobalMV->mLocalRandom;
             index = ItemSlotNextRandomBelowU16(random, itemCount);
             if (slot->mSlotShownItem == items[index]) {
                 index++;
@@ -430,7 +430,7 @@ void FinishItemSlotAndStopSound(KartItems *slot) {
     ItemPool *pool;
     enum { ITEM_INDEX_FIRST } itemIndex, objectKind;
 
-    if (slot->mSelf->mKartIndex == gRaceSetup->mEntryIndex) {
+    if (slot->mSelf->mKartIndex == g_GlobalCO->mEntryIndex) {
         StopRaceItemSlotSound();
     }
     itemIndex = slot->mSlotResult;
@@ -462,7 +462,7 @@ u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     rowCount = *data++;
     columnCount = *data++;
     table->mRowCount = rowCount;
-    table->mRows = HeapAlloc(GetHeap(GetCurrentHeapCall()), (rowCount + 1) * 0x24);
+    table->mRows = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), (rowCount + 1) * 0x24);
     tab = table->mRows;
     for (columnIndex = 0; columnIndex < columnCount; columnIndex++) {
         for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -516,8 +516,8 @@ void CreateItemSlotTables(void) {
     s32 *entry;
     enum { COMPACT_INDEX_FIRST } compactIndex;
 
-    data = FindMainRaceOrMainEffectFile("Item/ItemSlotList.dat");
-    switch (gRaceSetup->mMode) {
+    data = FindFileBuffer_MAR_EFT_from_thumb("Item/ItemSlotList.dat");
+    switch (g_GlobalCO->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_TIME_ATTACK:
         case MODE_MISSION_RUN:
@@ -537,7 +537,7 @@ void CreateItemSlotTables(void) {
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
-            switch (gRaceSetup->mBattleKind) {
+            switch (g_GlobalCO->mBattleKind) {
                 case BATTLE_KIND_BALLOON:
                 default:
                     data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
@@ -559,9 +559,9 @@ void CreateItemSlotTables(void) {
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
-            if (gRaceSetup->mCpuDifficulty == 0) {
-                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, gRaceSetup->mKartCount);
-                RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
+            if (g_GlobalCO->mCpuDifficulty == 0) {
+                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, g_GlobalCO->mKartCount);
+                RemapItemSlotRows(&gItemSlotCpuTable, g_GlobalCO->mKartCount);
             }
             break;
         case MODE_WIFI:
@@ -572,9 +572,9 @@ void CreateItemSlotTables(void) {
             data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
             data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
             data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
-            if (gRaceSetup->mCpuDifficulty == 0) {
-                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, gRaceSetup->mKartCount);
-                RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
+            if (g_GlobalCO->mCpuDifficulty == 0) {
+                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, g_GlobalCO->mKartCount);
+                RemapItemSlotRows(&gItemSlotCpuTable, g_GlobalCO->mKartCount);
             }
             break;
     }

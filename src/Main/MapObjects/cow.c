@@ -38,17 +38,17 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/bound.h"
 
-MapObjectModel *gCow;
+MapObjectModel *g_CowMapObject;
 
 MapObjectKindDescriptor gCowKindDescriptor = {0, {0, 0}, 0xa0, 0, CreateEmptyMapObjectKindData, CreateCowDrawList};
 
-void CreateCow(void *mapObjectList) {
-    gCow = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "cow.nsbmd", "cow.nsbtp");
-    SetMapObjectModelPolygonId(gCow, 0x3f);
+void LoadCowMapObject(void *mapObjectList) {
+    g_CowMapObject = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "cow.nsbmd", "cow.nsbtp");
+    StructMapObject_MaybeSetPolygonId(g_CowMapObject, 0x3f);
 }
 
 void SetupDrawCow(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gCow);
+    StructMapObject_SomeFn_9(mapObjectList, g_CowMapObject);
 }
 
 void DrawCow(void *mapObjectList, MapObject *mapObject) {
@@ -56,12 +56,12 @@ void DrawCow(void *mapObjectList, MapObject *mapObject) {
 
     commandArg = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&mapObject->mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&mapObject->mPos), 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCow, mapObject->mCourseMapRow->mSettings[0]);
-    DrawMapObjectModel(mapObjectList, gCow, mapObject);
+    StructMapObject_SomeFn_0(g_CowMapObject, mapObject->mCourseMapRow->mSettings[0]);
+    DrawMapObjectModel(mapObjectList, g_CowMapObject, mapObject);
 }
 
 MapObjectList *CreateCowDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCow, DrawCow, SetupDrawCow);
+    return CreateAllocateMapObject_from_thumb(LoadCowMapObject, DrawCow, SetupDrawCow);
 }

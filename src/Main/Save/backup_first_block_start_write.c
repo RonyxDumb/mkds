@@ -6,10 +6,10 @@
 
 #pragma thumb on
 
-void StartWriteBackupFirstBlock(void) {
-    SetBackupBusy();
-    QueueThreadFunction(WriteBackupFirstBlockAndWait);
-    gThreadFunctionQueue->mRunRequested = 1;
+void WriteSaveDataHeader_from_thumb(void) {
+    EnableMKDSSVSomeFlag_from_thumb();
+    WorkerInsertTask(Task_WriteSaveDataHeader_from_thumb);
+    g_WorkerContext->mRunRequested = 1;
 }
 
 #pragma thumb off

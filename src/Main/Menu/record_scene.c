@@ -129,9 +129,9 @@ OamEntryList *gRecordMainOam;
 
 void InitRecordScene(s16 *sceneNumbers) {
     void *heap;
-    heap = GetHeap(GetCurrentHeapCall());
-    gRecordMainOam = HeapAlloc(heap, sizeof(*gRecordMainOam));
-    gRecordSubOam = HeapAlloc(heap, sizeof(*gRecordSubOam));
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gRecordMainOam = Mem_AllocateHeap(heap, sizeof(*gRecordMainOam));
+    gRecordSubOam = Mem_AllocateHeap(heap, sizeof(*gRecordSubOam));
     InitRecordSceneObject(heap, *sceneNumbers);
 }
 
@@ -148,16 +148,16 @@ void ReleaseRecordScene(void) {
 #pragma thumb on
 void WriteRecordSceneRegistersCallback(void) {
     WriteRecordSceneRegisters();
-    UploadOamLists(gRecordMainOam, gRecordSubOam);
+    CopyOamBuffersToMemory_from_thumb(gRecordMainOam, gRecordSubOam);
 }
 #pragma thumb off
 
 #pragma thumb on
 
 void UpdateRecordScene(SceneNumbers *sceneNumbers) {
-    ClearOamListCounts(gRecordMainOam, gRecordSubOam);
+    OamBuffer_ResetValues16_from_thumb(gRecordMainOam, gRecordSubOam);
     AdvanceRecordScene();
-    HideUnusedOams(gRecordMainOam, gRecordSubOam);
+    OamBuffer_SomeFn2_from_thumb(gRecordMainOam, gRecordSubOam);
     if (sceneNumbers != NULL && GetRecordNextScene() != -1) {
         sceneNumbers->mNextScene = GetRecordNextScene();
     }

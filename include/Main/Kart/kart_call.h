@@ -6,9 +6,9 @@
 typedef struct NNSG3dRS NNSG3dRS;
 
 
-void PlaceKartKillerEffectCallback(NNSG3dRS *renderState);
+void StructMLFnPtr(NNSG3dRS *renderState);
 void KartAiRespawnKartAndToggleEventFlag(Kart *kart);
 void RespawnKartAndToggleEventFlag(Kart *kart);
 
 extern const Vec3 gCourseModelDrawScale;
-extern const u32 gKillerItemNodeName[4];
+extern const u32 g_str_KillerItem[4];

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Values of NatTraversalEntry.mState: sending the init packets until the acks arrive, waiting for the connect packet of
+// Values of NatTraversalEntry.mState: sending the StructDC_SomeFn_from_thumb packets until the acks arrive, waiting for the connect packet of
 // the other side, pinging it until it answers, the ping answered (the entry is cancelled after a delay), and cancelled
 // (removed by the next think). The progress callback is called with WAIT_CONNECT and PING.
 enum {

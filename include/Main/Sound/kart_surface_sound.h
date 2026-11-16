@@ -11,7 +11,7 @@ struct MapObjectSound;
 
 void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 pitchOffset);
 void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound);
-void UpdateKartPlayingSound(Kart *kart, PlayingSound *playingSound);
+void MQ_FnPtr2(Kart *kart, PlayingSound *playingSound);
 void SetKartThunderShrinkSoundTrackParams(Kart *kart, PlayingSound *playingSound);
 void SetVehicleSoundTrackParams(struct MapObjectSound *soundSource, PlayingSound *playingSound);
 void SetNsKiller2SoundTrackParams(struct MapObjectSound *soundSource, PlayingSound *playingSound);
@@ -19,11 +19,11 @@ void SetItemKouraWSoundTrackParams(Kart *kart, PlayingSound *playingSound);
 
 unsigned int GetZeroSoundDistanceChange(SoundDistanceSquaredChange *change);
 
-void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 playerPrio);
+void MQ_FnPtr1_2(Kart *kart, PlayingSound *playingSound, s32 playerPrio);
 
 void SetKartStartSeqNop(Kart *kart);
 void RemovedKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused);
-void GhostKartStartSeqNop(Kart *kart, PlayingSound *playingSound, s32 unused);
+void MQ_FnPtr1_1(Kart *kart, PlayingSound *playingSound, s32 unused);
 
 typedef struct SoundSource SoundSource;
 

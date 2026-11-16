@@ -42,16 +42,16 @@
 #include "01/Menu/ending_scene.h"
 #include "expanded_heap_head.h"
 
-SceneCallbacks gMenuSceneCallbacks = {
-    InitMenuScene, UpdateMenuScene, ReleaseMenuScene, WriteMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks g_Scene_Menu = {
+    Scene_Menu_Initialize, Scene_Menu_Update, Scene_Menu_Finalize, Scene_Menu_VBlank, NULL, NULL, 0xa, 0xa, 0};
 
-void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
+void Scene_Race_Update(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
     u32 value;
     if (IsDataSharingIncomplete() == 0) {
-        if (IsInputOpenDuringRace() == 0) {
+        if (Struct5624_HasXflag1() == 0) {
             if (sceneNumbers != NULL) {
-                if (RaceSceneGetCurrentMode() == 5) {
+                if (GetCurrentRaceMode_1() == 5) {
                     value = GetWiFiRaceSyncPickedValue();
                 } else {
                     value = GetChoisesSPickedValue();
@@ -60,24 +60,24 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                     SetPickedValue(value);
                     SetNextSceneFromPickedValue(sceneNumbers, value);
                 }
-                switch (GetCurrentRaceKind()) {
+                switch (GetDisplayMode()) {
                     case RACE_KIND_DEMO:
                         value = 0;
-                        if (sceneFrames > GetDemoRaceFrameLimit()) {
+                        if (sceneFrames > GetSomeFrameCount_2500()) {
                             if (IsSeqVariableChanged(1) != 0) {
                                 value = 1;
-                                SetDemoEndedByInput(0);
+                                SetGlobalP_BFlagBit1(0);
                             }
                         }
                         if (value == 0) {
-                            if (GetDownBits(GetRaceSceneInputSlot(), 0x2fff) != 0) {
+                            if (TestInputKeys(GetSomeCYId_8(), 0x2fff) != 0) {
                                 value = 1;
-                                StartRaceSceneSound(5);
-                                SetDemoEndedByInput(1);
-                            } else if (RaceSceneSlotHasPairOrLost(GetRaceSceneInputSlot()) != 0) {
+                                MaybePlaySseqFromSarc0(5);
+                                SetGlobalP_BFlagBit1(1);
+                            } else if (HasTouchPressed(GetSomeCYId_8()) != 0) {
                                 value = 1;
-                                StartRaceSceneSound(5);
-                                SetDemoEndedByInput(1);
+                                MaybePlaySseqFromSarc0(5);
+                                SetGlobalP_BFlagBit1(1);
                             }
                         }
                         if (value != 0) {
@@ -86,15 +86,15 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                         break;
                     case RACE_KIND_START_GP:
                     case RACE_KIND_START_BATTLE:
-                        if (IsCameraChainEnded() != 0 ||
-                            (sceneFrames > 0x5a && (GetDownBits(GetRaceSceneInputSlot(), 0xc0f) != 0 ||
-                                                    RaceSceneIsSlotPairNew(GetRaceSceneInputSlot()) != 0))) {
+                        if (IsRaceIntroInFadeOut() != 0 ||
+                            (sceneFrames > 0x5a && (TestInputKeys(GetSomeCYId_8(), 0xc0f) != 0 ||
+                                                    AnotherHasTouchPressed(GetSomeCYId_8()) != 0))) {
                             sceneNumbers->mNextScene = SCENE_RACE;
-                            SetNextRaceKind(0);
+                            SetNextRaceDisplayMode(0);
                         }
                         break;
                     case RACE_KIND_REPLAY:
-                        switch (RaceSceneGetCurrentMode()) {
+                        switch (GetCurrentRaceMode_1()) {
                             case MODE_GRAND_PRIX:
                             case MODE_TIME_ATTACK:
                                 if (ShouldEndReplayRace() != 0) {
@@ -110,14 +110,14 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                         break;
                     case RACE_KIND_STAFF_ROLL:
                         value = 0x2a5a;
-                        if (RaceSceneGetCurrentCourseId() == COURSE_ID_STAFFROLLTRUE) {
+                        if (GetCurrentInternalCourseId() == COURSE_ID_STAFFROLLTRUE) {
                             value = 0x2b02;
                         }
                         if (sceneFrames > value) {
                             sceneNumbers->mNextScene = SCENE_ENDING;
                             break;
                         }
-                        if (ShouldEndStaffRoll(sceneFrames) != 0) {
+                        if (CheckIsEnding(sceneFrames) != 0) {
                             SetStaffRollEndedEarly();
                             sceneNumbers->mNextScene = SCENE_ENDING;
                         }
@@ -127,24 +127,24 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
             if (ShouldUpdateRace(sceneFrames) != 0) {
                 UpdateRace();
             }
-            UpdateRaceHud();
+            SomeUpdateFn();
         }
         UpdateRaceHudSubScreen();
-        switch (GetCurrentRaceKind()) {
+        switch (GetDisplayMode()) {
             case RACE_KIND_NORMAL:
             case RACE_KIND_REPLAY:
             case RACE_KIND_START_GP:
             case RACE_KIND_START_BATTLE:
-                UpdateChoisesS();
+                LoopFn_RaceMenuOptions_from_thumb();
                 break;
         }
-        if (GetChoisesSOpenDuringRace() != 0) {
-            SetInputOpenDuringRace(1);
+        if (IsRaceOptionMenuOn_from_thumb() != 0) {
+            Struct5624_SetXflag1(1);
         } else {
-            SetInputOpenDuringRace(0);
+            Struct5624_SetXflag1(0);
         }
     }
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     if (raceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         value = 1;
     } else {
@@ -156,41 +156,41 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     }
     if (value != 0) {
         if (raceSetup->mMode != MODE_WIFI || IsFrameSpanningVBlank() == 0) {
-            DrawRace();
+            RaceRenderingFogRelated();
         }
     }
     DrawRaceHud();
-    UpdateChoisesSScreenMap();
+    LoopFn_RaceMenuOptions2_from_thumb();
 }
 
-void PreSleepRaceScene(void) {
-    gStartupWork->mUnk_54 = FALSE;
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+void Scene_Race_PreSleep(void) {
+    g_GlobalP->mUnk_54 = FALSE;
+    if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
         SetChoisesSOpenDuringRace(1);
     }
     PreSleepMicInput();
     while ((u32) gChoisesSSeqHandle != 0) {
-        PrepareDisplayFrame();
-        UpdateChoisesS();
-        UpdateSounds();
-        FinishDisplayFrame();
-        UpdateChoisesSScreenMap();
-        RecordFrameTimes();
+        LoopFn_Some3D();
+        LoopFn_RaceMenuOptions_from_thumb();
+        LoopFn_Sound();
+        LoopFn_Brightness();
+        LoopFn_RaceMenuOptions2_from_thumb();
+        LoopFn_DisplayConfig();
     }
 }
 
-void PostSleepRaceScene(void) {
-    PostSleepMicInput();
+void Scene_Race_PostSleep(void) {
+    Scene_Race_PostSleepImpl();
 }
 
-u32 RunRaceScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = gRaceSceneCallbacks;
-    SetCurrentRaceFromNext();
-    if (gRaceSetup->mMode == MODE_WIFI) {
+u32 SceneFn_Race(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = g_Scene_Race;
+    PrepareRace();
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         callbacks.mSkipWhenSpanned = 1;
     }
-    if (gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
-        if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (g_GlobalCO->mRaceKind != RACE_KIND_AWARD) {
+        if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
             callbacks.mFadeToClearFrameCount = 1;
             callbacks.mFadeToFadedFrameCount = STAFF_ROLL_FADE_TO_FADED_FRAMES;
         }
@@ -199,56 +199,56 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
         callbacks.mFadeToFadedFrameCount = AWARD_FADE_TO_FADED_FRAMES;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        LoadSndBanksForCharacters(1);
+        MaybeReloadRacersSfx(1);
     }
-    RunScene(sceneNumbers, &callbacks);
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }
 
-void InitMenuScene(void) {
-    InitMenu();
+void Scene_Menu_Initialize(void) {
+    Scene_Menu_InitializeImpl_from_thumb();
 }
 
-void ReleaseMenuScene(void) {
+void Scene_Menu_Finalize(void) {
     ReleaseMenu();
-    gStartupWork->mDemoEndedByInput &= ~1;
-    ResetTimeAttackNextEntries();
+    g_GlobalP->mDemoEndedByInput &= ~1;
+    ResetRacersForTimeTrial();
 }
 
-void WriteMenuSceneRegistersCallback(void) {
-    WriteMenuSceneRegisters();
+void Scene_Menu_VBlank(void) {
+    Scene_Menu_VBlankImpl_from_thumb();
 }
 
-void UpdateMenuScene(void) {
+void Scene_Menu_Update(void) {
     UpdateMenuScreen();
     HideUnusedMenuOams();
 }
 
-u32 RunMenuScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = gMenuSceneCallbacks;
-    RunScene(sceneNumbers, &callbacks);
+u32 SceneFn_Menu(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = g_Scene_Menu;
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }
 
-u32 CreateFrmHeapsAndAllocSoundBuffer(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer,
+u32 AllocateHeapsAndBuffers(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer,
                                       void **outFirstFrontHeap, void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        *outBackHeap = CreateFrmHeapFromBack(heap, 0x19000);
+        *outBackHeap = Mem_CreateChildFrameHeapFromTail(heap, 0x19000);
     } else {
-        *outBackHeap = CreateFrmHeapFromBack(heap, 0x1b800);
+        *outBackHeap = Mem_CreateChildFrameHeapFromTail(heap, 0x1b800);
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         *outFirstFrontHeap = NULL;
         *outSecondFrontHeap = NULL;
         *outThirdFrontHeap = NULL;
     } else {
-        *outFirstFrontHeap = CreateFrmHeapFromFront(heap, 0x19000);
-        *outSecondFrontHeap = CreateFrmHeapFromFront(heap, 0x4b000);
-        *outThirdFrontHeap = CreateFrmHeapFromFront(heap, 0x1b800);
+        *outFirstFrontHeap = Mem_CreateChildFrameHeapFromHead(heap, 0x19000);
+        *outSecondFrontHeap = Mem_CreateChildFrameHeapFromHead(heap, 0x4b000);
+        *outThirdFrontHeap = Mem_CreateChildFrameHeapFromHead(heap, 0x1b800);
     }
-    soundBufferSize = GetSndInitBufferSize(gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? 2 : 0);
-    *outSoundBuffer = HeapAlloc(heap, soundBufferSize);
-    NNS_FndGetTotalFreeSizeForExpHeap(heap);
+    soundBufferSize = GetSoundBufferAllocationSize(gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? 2 : 0);
+    *outSoundBuffer = Mem_AllocateHeap(heap, soundBufferSize);
+    Mem_GetExpHeapTotalFreeSize(heap);
     return soundBufferSize;
 }

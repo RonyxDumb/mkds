@@ -4,14 +4,14 @@
 
 #pragma thumb on
 
-u32 WriteNewWiFiInfoToNvram(u32 work) {
+u32 StructDC_SomeFn_4_from_thumb(u32 work) {
     int result;
     DWCWiFiInfo wifiInfo;
-    result = DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
+    result = StructDW_SomeFn_from_thumb(&wifiInfo);
     if (result == 0) {
         return 0;
     }
-    result = DWCi_BM_SetWiFiInfo(&wifiInfo, (u8 *) work);
+    result = StructDW_SomeFn_0_from_thumb(&wifiInfo, (u8 *) work);
     if (result != 0) {
         return 1;
     }

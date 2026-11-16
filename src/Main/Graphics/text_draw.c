@@ -19,38 +19,38 @@
 
 #pragma thumb on
 
-void DrawTextInRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
+void G2d_Text_SomeFn_2_from_thumb(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
                     s32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance, s32 colorZeroIsTwo) {
     s32 maxWidth;
     s32 textHeight;
     s32 lineWidths[20];
     u16 expandedText[500];
 
-    MeasureAndExpandText(textCanvas, &maxWidth, lineWidths, &textHeight, text, expandedText, fixedDigitsOnly,
+    G2d_Text_SomeFn_3_from_thumb(textCanvas, &maxWidth, lineWidths, &textHeight, text, expandedText, fixedDigitsOnly,
                          (s32) fixedAdvance);
-    DrawTextLines(textCanvas, maxWidth, lineWidths, textHeight, left, top, width, height, color, alignFlags, lineAlign,
+    G2d_Text_SomeFn_4_from_thumb(textCanvas, maxWidth, lineWidths, textHeight, left, top, width, height, color, alignFlags, lineAlign,
                   expandedText, fixedDigitsOnly, fixedAdvance, colorZeroIsTwo);
 }
 
-void DrawTextInRectNoFixedAdvance(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
+void G2d_Text_SomeFn_from_thumb(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
                                   u32 lineAlign, void *text) {
-    DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 0);
+    G2d_Text_SomeFn_2_from_thumb(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 0);
 }
 
-void DrawTextInRectFixedAdvance(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color,
+void G2d_Text_SomeFn_5_from_thumb(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color,
                                 u32 alignFlags, u32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance) {
-    DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, fixedDigitsOnly,
+    G2d_Text_SomeFn_2_from_thumb(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, fixedDigitsOnly,
                    fixedAdvance, 0);
 }
 
-// Like DrawTextInRectNoFixedAdvance, but colour tag 0 gives colour 2; used for button text.
-void DrawButtonTextInRect(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
+// Like G2d_Text_SomeFn_from_thumb, but colour tag 0 gives colour 2; used for button text.
+void G2d_Text_SomeFn_1_from_thumb(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
                           u32 lineAlign, void *text) {
-    DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 1);
+    G2d_Text_SomeFn_2_from_thumb(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 1);
 }
 
 // Measures every line and copies the text with each name tag written out as characters.
-void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
+void G2d_Text_SomeFn_3_from_thumb(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
                           u16 *expandedText, s32 fixedDigitsOnly, s32 fixedAdvance) {
     s32 lineHeight;
     s32 charSpacing;
@@ -98,18 +98,18 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                         switch (variant) {
                             case TEXT_TAG_NAME_PLAYER:
                                 for (value = 0; value < 10; value++) {
-                                    tagTextChar = gBackupBuffers->mFirstBlock->mPlayerName[value];
+                                    tagTextChar = g_SaveDataHolder->mFirstBlock->mPlayerName[value];
                                     if (tagTextChar == 0) {
                                         value = 10;
                                     } else {
                                         *writePointer++ = tagTextChar;
                                         if (fixedAdvance == -1 ||
                                             (fixedDigitsOnly != 0 && !IsDigitOrDash(tagTextChar))) {
-                                            glyphIndex = NNS_G2dFontFindGlyphIndex(font, tagTextChar);
+                                            glyphIndex = NFTR_GetTileIndexForCharacter(font, tagTextChar);
                                             if (glyphIndex == 0xffff) {
                                                 glyphIndex = font->mPRes->mAlterCharIndex;
                                             }
-                                            charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+                                            charWidths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
                                             *lineWidthPointer += charWidths->mCharWidth + charSpacing;
                                         } else {
                                             *lineWidthPointer += fixedAdvanceWithSpacing;
@@ -118,17 +118,17 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 }
                                 break;
                             case TEXT_TAG_NAME_PLAYER_FIT:
-                                playerNameCharCount = CopyTextWithinWidth(
-                                    gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
+                                playerNameCharCount = GetClampedString10LengthForFontIndex0_from_thumb(
+                                    g_SaveDataHolder->mFirstBlock->mPlayerName, playerNameChars);
                                 for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
                                     *writePointer++ = playerNameChars[playerNameIndex];
                                     if (fixedAdvance == -1 ||
                                         (fixedDigitsOnly != 0 && !IsDigitOrDash(playerNameChars[playerNameIndex]))) {
-                                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, playerNameChars[playerNameIndex]);
+                                        glyphIndex = NFTR_GetTileIndexForCharacter(font, playerNameChars[playerNameIndex]);
                                         if (glyphIndex == 0xffff) {
                                             glyphIndex = font->mPRes->mAlterCharIndex;
                                         }
-                                        charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+                                        charWidths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
                                         *lineWidthPointer += charWidths->mCharWidth + charSpacing;
                                     } else {
                                         *lineWidthPointer += fixedAdvanceWithSpacing;
@@ -136,18 +136,18 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 }
                             case TEXT_TAG_NAME_OWNER_TEXT:
                                 for (value = 0; value < 10; value++) {
-                                    tagTextChar = gStartupWork->mOwnerText[value];
+                                    tagTextChar = g_GlobalP->mOwnerText[value];
                                     if (tagTextChar == 0) {
                                         value = 10;
                                     } else {
                                         *writePointer++ = tagTextChar;
                                         if (fixedAdvance == -1 ||
                                             (fixedDigitsOnly != 0 && !IsDigitOrDash(tagTextChar))) {
-                                            glyphIndex = NNS_G2dFontFindGlyphIndex(font, tagTextChar);
+                                            glyphIndex = NFTR_GetTileIndexForCharacter(font, tagTextChar);
                                             if (glyphIndex == 0xffff) {
                                                 glyphIndex = font->mPRes->mAlterCharIndex;
                                             }
-                                            charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+                                            charWidths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
                                             *lineWidthPointer += charWidths->mCharWidth + charSpacing;
                                         } else {
                                             *lineWidthPointer += fixedAdvanceWithSpacing;
@@ -157,16 +157,16 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 break;
                             case TEXT_TAG_NAME_OWNER_TEXT_FIT:
                                 ownerTextCharCount =
-                                    CopyTextWithinWidth(gStartupWork->mOwnerText, ownerTextChars);
+                                    GetClampedString10LengthForFontIndex0_from_thumb(g_GlobalP->mOwnerText, ownerTextChars);
                                 for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
                                     *writePointer++ = ownerTextChars[ownerTextIndex];
                                     if (fixedAdvance == -1 ||
                                         (fixedDigitsOnly != 0 && !IsDigitOrDash(ownerTextChars[ownerTextIndex]))) {
-                                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, ownerTextChars[ownerTextIndex]);
+                                        glyphIndex = NFTR_GetTileIndexForCharacter(font, ownerTextChars[ownerTextIndex]);
                                         if (glyphIndex == 0xffff) {
                                             glyphIndex = font->mPRes->mAlterCharIndex;
                                         }
-                                        charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+                                        charWidths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
                                         *lineWidthPointer += charWidths->mCharWidth + charSpacing;
                                     } else {
                                         *lineWidthPointer += fixedAdvanceWithSpacing;
@@ -177,7 +177,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                         break;
                     case TEXT_TAG_KIND_KEEP:
                         if (variant == 0) {
-                            MI_CpuCopy8(readPointer - 2, writePointer, tagSize);
+                            Mem_CpuCopy8(readPointer - 2, writePointer, tagSize);
                             writePointer += tagSize >> 1;
                         }
                         break;
@@ -199,11 +199,11 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                         value = 0;
                     }
                     if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
-                        glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
+                        glyphIndex = NFTR_GetTileIndexForCharacter(font, charCode);
                         if (glyphIndex == 0xffff) {
                             glyphIndex = font->mPRes->mAlterCharIndex;
                         }
-                        charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+                        charWidths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
                         *lineWidthPointer += charWidths->mCharWidth + value;
                     } else {
                         *lineWidthPointer += fixedAdvance + value;
@@ -235,7 +235,7 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
     return offset;
 }
 
-void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
+void G2d_Text_SomeFn_4_from_thumb(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 colorZeroIsTwo) {
     s32 cursorX;
@@ -308,16 +308,16 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             }
         } else {
             if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
-                cursorX += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, cursorX, cursorY,
+                cursorX += G2d_Sprite_MaybePutChar(textCanvas->mCharCanvas, textCanvas->mFont, cursorX, cursorY,
                                                      color, charCode);
             } else {
-                glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
+                glyphIndex = NFTR_GetTileIndexForCharacter(font, charCode);
                 if (glyphIndex == 0xffff) {
                     glyphIndex = font->mPRes->mAlterCharIndex;
                 }
-                charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+                charWidths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
                 cursorX += (fixedAdvance - charWidths->mCharWidth) >> 1;
-                NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, cursorX, cursorY, color,
+                G2d_Sprite_MaybePutChar(textCanvas->mCharCanvas, textCanvas->mFont, cursorX, cursorY, color,
                                           charCode);
                 cursorX += fixedAdvance - ((fixedAdvance - charWidths->mCharWidth) >> 1);
             }
@@ -329,7 +329,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     } while ((charCode = font->mCbCharSpliter(&readPointer)) != 0);
 }
 
-void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 formattedCapacity) {
+void MaybeHandleBmgFormatting_from_thumb(u16 *insertText, u16 *message, u16 *formattedText, u32 formattedCapacity) {
     s32 length;
     s32 tagSize;
     u16 *writePointer;
@@ -354,7 +354,7 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
     while ((halfword = *message) != 0) {
         if (halfword == 0x1a) {
             tagSize = ((TextTagWithCharCode *) message)->mSize;
-            MIi_CpuCopy16(message, formattedText + length, tagSize);
+            CopyMemory16(message, formattedText + length, tagSize);
             message += tagSize >> 1;
             length += tagSize >> 1;
         } else {
@@ -366,14 +366,14 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
     formattedText[length] = 0;
 }
 
-DisplaySettings *CreateSceneDisplaySettings(void *heap) {
+DisplaySettings *CreateLoadSomeDisplayConfig_from_thumb(void *heap) {
     DisplaySettingsDesc desc = {1, 0x12, 0x18, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0x100, 0, 0, 8, 0};
     DisplaySettings *displaySettings;
 
-    displaySettings = CreateDisplaySettings(heap, &desc);
-    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = CreateDisplayConfig(heap, &desc);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
+    SetGlobalDisplayConfig(displaySettings);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
                      REG_GX_DISPCNT_OBJMAP_CH_MASK;
     reg_GXS_DB_DISPCNT =
@@ -386,10 +386,10 @@ DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap) {
     DisplaySettingsDesc desc = {1, 0x13, 0x18, 1, 0, 1, 0, 4, 0x60, 0, 0, 3, 0x10, 0, 0x80, 0x100, 0, 0, 8, 0};
     DisplaySettings *displaySettings;
 
-    displaySettings = CreateDisplaySettings(heap, &desc);
-    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = CreateDisplayConfig(heap, &desc);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
+    SetGlobalDisplayConfig(displaySettings);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
                      REG_GX_DISPCNT_OBJMAP_CH_MASK;
     reg_GXS_DB_DISPCNT =
@@ -413,7 +413,7 @@ s32 CountDecimalDigits(u32 number) {
     return digitCount;
 }
 
-s32 FormatAsciiNumber(u32 number, u16 *buffer) {
+s32 FormatIntegerInString16_from_thumb(u32 number, u16 *buffer) {
     s32 digitCount;
     s32 digitIndex;
     digitCount = CountDecimalDigits(number);

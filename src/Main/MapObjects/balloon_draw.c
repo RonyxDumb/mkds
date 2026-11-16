@@ -49,24 +49,24 @@ void InitBalloon(Balloon *balloon) {
 }
 
 void CreateBalloon(MapObjectList *mapObjectList) {
-    gBalloon = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "balloon.nsbmd", "balloon.nsbtp");
-    SetMapObjectModelPolygonId(gBalloon, 0x3f);
-    SetMapObjectModelAlpha(gBalloon, 0x1a);
-    SetMapObjectModelFogEnabled(gBalloon, 0);
+    gBalloon = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "balloon.nsbmd", "balloon.nsbtp");
+    StructMapObject_MaybeSetPolygonId(gBalloon, 0x3f);
+    StructMapObject_SomeFn_6(gBalloon, 0x1a);
+    StructMapObject_SomeFn_7(gBalloon, 0);
     mapObjectList->mSortByDistance = 1;
 }
 
 void SetupDrawBalloon(void *mapObjectList) {
     Camera *currentCamera;
 
-    currentCamera = GetCurrentCamera();
+    currentCamera = GetGlobalHD4();
     gBalloonCameraPosHalf.x = currentCamera->mPos.x >> 1;
     gBalloonCameraPosHalf.y = currentCamera->mPos.y >> 1;
     gBalloonCameraPosHalf.z = currentCamera->mPos.z >> 1;
     gBalloonCameraPosEighth.x = currentCamera->mPos.x >> 3;
     gBalloonCameraPosEighth.y = currentCamera->mPos.y >> 3;
     gBalloonCameraPosEighth.z = currentCamera->mPos.z >> 3;
-    QueueMapObjectModelMaterial(mapObjectList, gBalloon);
+    StructMapObject_SomeFn_9(mapObjectList, gBalloon);
 }
 
 void DrawBalloon(void *mapObjectList, Balloon *balloon) {
@@ -90,7 +90,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     Balloon *listBalloon;
 
     if (balloon->mKartIndex >= 0) {
-        if (GetKart(balloon->mKartIndex)->mVisible == 0) {
+        if (GetRacerMQEntry(balloon->mKartIndex)->mVisible == 0) {
             return;
         }
     }
@@ -118,7 +118,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         NNS_G3dGeBufferOP_N(0x14, &restoreIndex, 1);
         NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
         if (balloon->mMapObject.mAngle != 0) {
-            MTX_RotZ33_(&rotateZMatrix, COS_OF_ANGLE(balloon->mMapObject.mAngle),
+            MTX_RotZ33__from_thumb(&rotateZMatrix, COS_OF_ANGLE(balloon->mMapObject.mAngle),
                         SIN_OF_ANGLE(balloon->mMapObject.mAngle));
             NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
         }
@@ -134,8 +134,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             scaleFactorVector[2] = scaleFactor;
             NNS_G3dGeBufferOP_N(0x1b, scaleFactorVector, 3);
         }
-        SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
-        SetMapObjectModelNsbtpFrameIndex(gBalloon, balloon->mNsbtpFrameIndex);
+        StructMapObject_MaybeSetPolygonId(gBalloon, AllocPolygonIdWrapping());
+        StructMapObject_SomeFn_0(gBalloon, balloon->mNsbtpFrameIndex);
         DrawMapObjectModel(mapObjectList, gBalloon, balloon);
     } else if (drawCount > 0) {
         distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
@@ -155,7 +155,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         }
         listRestoreIndex = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &listRestoreIndex, 1);
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&balloon->mDrawPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&balloon->mDrawPos), 12);
         drawScale = balloon->mDrawScale;
         listDrawScaleVector[0] = drawScale;
         listDrawScaleVector[1] = drawScale;
@@ -166,7 +166,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             listBalloon = balloon->mDrawList[index];
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
             rotateZAngle = gBalloonDrawRotateZAngles[drawCount - 1][index];
-            MTX_RotZ33_(&listRotateZMatrix, FX_CosIdx(rotateZAngle), FX_SinIdx(rotateZAngle));
+            MTX_RotZ33__from_thumb(&listRotateZMatrix, FX_CosIdx(rotateZAngle), FX_SinIdx(rotateZAngle));
             NNS_G3dGeBufferOP_N(0x1a, &listRotateZMatrix, 9);
             scaleFactor = listBalloon->mScaleFactor;
             if (scaleFactor != 0x1000) {
@@ -179,8 +179,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             translation[1] = 0xf66;
             translation[2] = 0;
             NNS_G3dGeBufferOP_N(0x1c, translation, 3);
-            SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
-            SetMapObjectModelNsbtpFrameIndex(gBalloon, listBalloon->mNsbtpFrameIndex);
+            StructMapObject_MaybeSetPolygonId(gBalloon, AllocPolygonIdWrapping());
+            StructMapObject_SomeFn_0(gBalloon, listBalloon->mNsbtpFrameIndex);
             DrawMapObjectModel(mapObjectList, gBalloon, balloon);
             popCount = 1;
             NNS_G3dGeBufferOP_N(0x12, &popCount, 1);
@@ -209,7 +209,7 @@ void FollowBalloonTarget(Balloon *balloon) {
     if (balloon->mKartIndex < 0) {
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + 0x1800;
     } else {
-        kart = GetKart((u16) balloon->mKartIndex);
+        kart = GetRacerMQEntry((u16) balloon->mKartIndex);
         kartVector = &kart->mRotationRow1;
         balloon->mMapObject.mPosStep.x = balloon->mMapObject.mPosStep.x + (kartVector->x + (kartVector->x >> 1));
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + (kartVector->y + (kartVector->y >> 1));
@@ -231,7 +231,7 @@ void FollowBalloonTarget(Balloon *balloon) {
             pullOffset.x = MUL_FIXED12_NO_ROUND(offsetX, pullRatio);
             pullOffset.y = 0;
             pullOffset.z = MUL_FIXED12_NO_ROUND(offsetZ, pullRatio);
-            VEC_Subtract(&balloon->mMapObject.mPos, &pullOffset, &balloon->mMapObject.mPos);
+            VecFx32_Subtract(&balloon->mMapObject.mPos, &pullOffset, &balloon->mMapObject.mPos);
         }
     }
     offsetX = (balloon->mMapObject.mPos.x + balloon->mMapObject.mPosStep.x) -
@@ -251,13 +251,13 @@ void FollowBalloonTarget(Balloon *balloon) {
         pullOffset.y = MUL_FIXED12_NO_ROUND(offsetY, pullRatio);
         pullOffset.z = MUL_FIXED12_NO_ROUND(offsetZ, pullRatio);
         if (balloon->mKartIndex >= 0) {
-            VEC_Subtract(&balloon->mMapObject.mPosStep, &pullOffset, &balloon->mMapObject.mPosStep);
+            VecFx32_Subtract(&balloon->mMapObject.mPosStep, &pullOffset, &balloon->mMapObject.mPosStep);
         } else {
-            VEC_Add(&balloon->mTargetVelocity, &pullOffset, &balloon->mTargetVelocity);
+            VecFx32_Add(&balloon->mTargetVelocity, &pullOffset, &balloon->mTargetVelocity);
         }
     }
-    VEC_Add(&balloon->mMapObject.mPos, &balloon->mMapObject.mPosStep, &balloon->mMapObject.mPos);
-    VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
+    VecFx32_Add(&balloon->mMapObject.mPos, &balloon->mMapObject.mPosStep, &balloon->mMapObject.mPos);
+    VecFx32_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
 }
 
 u32 GetBalloonFlagBits(Balloon *balloon) {
@@ -279,17 +279,17 @@ void UpdateBalloonAngle(Balloon *balloon) {
     s32 offsetY;
     s32 sumTerms;
 
-    currentCamera = GetCurrentCamera();
-    cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
-    VEC_Subtract(&balloon->mMapObject.mPos, &currentCamera->mPos, &cameraOffset);
+    currentCamera = GetGlobalHD4();
+    cameraAngle = FX_Atan2(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
+    VecFx32_Subtract(&balloon->mMapObject.mPos, &currentCamera->mPos, &cameraOffset);
     pairFirst = SIN_OF_ANGLE(cameraAngle);
     pairSecond = COS_OF_ANGLE(cameraAngle);
     termZ = MUL_FIXED12_NO_ROUND(cameraOffset.z, pairSecond);
     termX = MUL_FIXED12_NO_ROUND(cameraOffset.x, pairFirst);
     offsetY = cameraOffset.y;
-    VEC_Subtract(&balloon->mTargetPos, &currentCamera->mPos, &cameraOffset);
+    VecFx32_Subtract(&balloon->mTargetPos, &currentCamera->mPos, &cameraOffset);
     sumTerms = MUL_FIXED12_NO_ROUND(cameraOffset.x, pairFirst) + MUL_FIXED12_NO_ROUND(cameraOffset.z, pairSecond);
-    balloon->mMapObject.mAngle = FX_Atan2Idx(offsetY - cameraOffset.y, -(termX + termZ - sumTerms));
+    balloon->mMapObject.mAngle = FX_Atan2(offsetY - cameraOffset.y, -(termX + termZ - sumTerms));
 }
 
 void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
@@ -312,9 +312,9 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                         balloon->mScaleSwingPerFrame = balloon->mScaleSwingPerFrame + 10;
                     }
                 }
-                if (balloon->mKartIndex == gRaceSetup->mEntryIndex) {
-                    if (IsRaceStarted() == 1) {
-                        kart = GetKart((u16) balloon->mKartIndex);
+                if (balloon->mKartIndex == g_GlobalCO->mEntryIndex) {
+                    if (IsAwardOrStaffRoll() == 1) {
+                        kart = GetRacerMQEntry((u16) balloon->mKartIndex);
                         StartBalloonScaleSound(kart, balloon->mScaleFactor + balloon->mScaleSwing,
                                                balloon->mScaleFactorPerFrame);
                     }
@@ -413,13 +413,13 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
         balloon->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.x, 0xc00);
         balloon->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.y, 0xc00);
         balloon->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.z, 0xc00);
-        VEC_Add(&balloon->mMapObject.mPos, &balloon->mMapObject.mPosStep, &balloon->mMapObject.mPos);
-        VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
+        VecFx32_Add(&balloon->mMapObject.mPos, &balloon->mMapObject.mPosStep, &balloon->mMapObject.mPos);
+        VecFx32_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
     }
 }
 
 MapObjectList *CreateBalloonDrawList(void) {
-    return CreateMapObjectDrawList2(CreateBalloon, DrawBalloon, SetupDrawBalloon);
+    return CreateAllocateMapObject_from_thumb(CreateBalloon, DrawBalloon, SetupDrawBalloon);
 }
 
 MapObjectList *CreateBalloonUpdateList(void) {
@@ -439,7 +439,7 @@ void ResetBalloons(void) {
          balloonIndex < mapObjectList->mMapObjectCount && (balloon = mapObjectList->mMapObjects[balloonIndex]) != NULL;
          balloonIndex++) {
         if (balloon->mKartIndex >= 0) {
-            balloon->mKartIndex = (u16) gRaceSetup->mEntryIndex;
+            balloon->mKartIndex = (u16) g_GlobalCO->mEntryIndex;
             balloon->mScaleFactor = TO_FIXED12(1);
             balloon->mScaleFactorPerFrame = 0;
             balloon->mScaleSwing = 0;

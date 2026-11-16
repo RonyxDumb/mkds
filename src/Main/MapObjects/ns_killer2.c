@@ -78,9 +78,9 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
 }
 
 void CreateNsKiller2AndNsKiller2S(void *mapObjectList) {
-    gNsKiller2 = CreateMapObjectModelAnimated(mapObjectList, "NsKiller2.nsbmd");
+    gNsKiller2 = CreateMapObjectFromModel_from_thumb(mapObjectList, "NsKiller2.nsbmd");
     gNsKiller2S = CreateMapObjectModelShadow(mapObjectList, "NsKiller2_s.nsbmd");
-    SetMapObjectModelPolygonId(gNsKiller2S, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gNsKiller2S, 0x3f);
 }
 
 void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
@@ -93,7 +93,7 @@ void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&nsKiller2->mMapObject.mPos), 12);
-    MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(nsKiller2->mMapObject.mAngle),
+    MTX_RotY33__from_thumb(&rotationMatrix, SIN_OF_ANGLE(nsKiller2->mMapObject.mAngle),
                 COS_OF_ANGLE(nsKiller2->mMapObject.mAngle));
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mMapObject.mScale, 3);
@@ -118,7 +118,7 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
                                                       GetHorizontalCameraDistanceSquared(&nsKiller2->mMapObject.mPos));
                 }
-                VEC_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
+                VecFx32_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
                 if (nsKiller2->mParkTimer < NS_KILLER2_PARK_TIMER_LIMIT) {
                     StartMapObjectSoundWhileRequested(&nsKiller2->mMapObject, 0x17d);
                 }
@@ -129,7 +129,7 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
         case 1:
             if (nsKiller2->mParkTimer-- > 0) {
                 nsKiller2->mMapObject.mPosStep.y -= 0x400;
-                VEC_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
+                VecFx32_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
             } else {
                 ParkMapObject(&nsKiller2->mMapObject);
             }

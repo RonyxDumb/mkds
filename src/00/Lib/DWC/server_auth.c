@@ -57,9 +57,9 @@ s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
         return 2;
     }
     gAuth = authBlock;
-    MI_CpuFill8(authBlock, 0, sizeof(DWCAuth));
+    Mem_CpuFill8(authBlock, 0, sizeof(DWCAuth));
     gAuth->mHttp = http;
-    MI_CpuFill8(&gAuth->mReturncode, 0, AUTH_RESULT_BYTES);
+    Mem_CpuFill8(&gAuth->mReturncode, 0, AUTH_RESULT_BYTES);
     gAuth->mReturncode = -1;
     gAuth->mCreateParams = *createParams;
     gAuth->mCreateParams.mIngamesn[0x14] = 0;
@@ -75,24 +75,24 @@ s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
 }
 
 void DWCi_Auth_StartThread(void) {
-    OS_InitMutex(&gAuth->mMutex);
+    Os_Mutex_Initialize(&gAuth->mMutex);
     gAuth->mAbort = FALSE;
-    if (gAuth->mThread.mId == 0 || OS_IsThreadTerminated(&gAuth->mThread) != 0) {
-        OS_CreateThread(&gAuth->mThread, DWCi_Auth_Thread, &gAuth, gAuth->mStack + 0x1000, 0x1000, 0x10);
-        OS_WakeupThreadDirect(&gAuth->mThread);
+    if (gAuth->mThread.mId == 0 || Os_Thread_IsTerminated(&gAuth->mThread) != 0) {
+        Os_Thread_Create(&gAuth->mThread, DWCi_Auth_Thread, &gAuth, gAuth->mStack + 0x1000, 0x1000, 0x10);
+        Os_Thread_WakeUpDirect(&gAuth->mThread);
     }
 }
 
 void DWC_Auth_Abort(void) {
     if (gAuth != NULL) {
-        OS_LockMutex(&gAuth->mMutex);
+        Os_Mutex_Lock(&gAuth->mMutex);
         gAuth->mAbort = TRUE;
-        OS_UnlockMutex(&gAuth->mMutex);
+        Os_Mutex_Unlock(&gAuth->mMutex);
         if (gAuth->mHttp != NULL) {
             DWC_Http_Abort(gAuth->mHttp);
         }
         if (gAuth->mThread.mId != 0) {
-            OS_JoinThread(&gAuth->mThread);
+            Os_Thread_Join(&gAuth->mThread);
         }
     }
 }
@@ -109,7 +109,7 @@ void DWC_Auth_Destroy(void) {
 
 void DWC_Auth_Join(void) {
     if (gAuth->mThread.mId != 0) {
-        OS_JoinThread(&gAuth->mThread);
+        Os_Thread_Join(&gAuth->mThread);
     }
 }
 
@@ -118,18 +118,18 @@ s32 DWC_Auth_GetError(void) {
     if (gAuth == NULL) {
         return 0x15;
     }
-    OS_LockMutex(&gAuth->mMutex);
+    Os_Mutex_Lock(&gAuth->mMutex);
     error = gAuth->mError;
-    OS_UnlockMutex(&gAuth->mMutex);
+    Os_Mutex_Unlock(&gAuth->mMutex);
     return error;
 }
 
 void DWC_Auth_GetResult(s32 *result) {
     s32 returnCode;
     if (gAuth == NULL) {
-        MI_CpuFill8(result, 0, AUTH_RESULT_BYTES);
+        Mem_CpuFill8(result, 0, AUTH_RESULT_BYTES);
     }
-    MI_CpuCopy8(&gAuth->mReturncode, result, AUTH_RESULT_BYTES);
+    Mem_CpuCopy8(&gAuth->mReturncode, result, AUTH_RESULT_BYTES);
     returnCode = *result;
     if (returnCode >= 0) {
         if (returnCode < AUTH_RETURN_SERVER_BASE || returnCode >= AUTH_RETURN_SERVER_LIMIT) {
@@ -148,7 +148,7 @@ s32 DWCi_Auth_Start(s32 getWiFiInfoFromFlash) {
         return 4;
     }
     if (getWiFiInfoFromFlash == 1) {
-        DWCi_BM_GetWiFiInfo(&gAuthWiFiInfo);
+        StructDW_MaybeCreate_from_thumb(&gAuthWiFiInfo);
     }
     gAuth->mError = DWCi_Auth_Prepare_FirstPost(gAuth->mHttp, gAuth->mCreateParams.mGsbrcd,
                                                 gAuth->mCreateParams.mIngamesn, gAuth->mHttpLabelvalue, 0x20, 0);
@@ -175,7 +175,7 @@ void DWCi_Auth_Thread(void *authAddress) {
     while (1) {
         auth = gAuth;
         if (auth->mHttp->mThread.mId != 0) {
-            OS_JoinThread(&auth->mHttp->mThread);
+            Os_Thread_Join(&auth->mHttp->mThread);
         }
         if (gAuth->mHttp->mResult != HTTP_RESULT_DONE) {
             gAuth->mReturncode = -AUTH_RETURN_FAILED;
@@ -219,29 +219,29 @@ void DWCi_Auth_Thread(void *authAddress) {
                     break;
             }
         }
-        startTick = OS_GetTick();
-        elapsedMillis = ((OS_GetTick() - startTick) * 64) / 0x82ea;
+        startTick = Os_GetTick();
+        elapsedMillis = ((Os_GetTick() - startTick) * 64) / 0x82ea;
         while (elapsedMillis < 5000) {
-            OS_LockMutex(&gAuth->mMutex);
+            Os_Mutex_Lock(&gAuth->mMutex);
             if (gAuth->mAbort == TRUE) {
                 gAuth->mReturncode = -AUTH_RETURN_FAILED;
-                OS_UnlockMutex(&gAuth->mMutex);
+                Os_Mutex_Unlock(&gAuth->mMutex);
                 DWCi_Auth_SetError(0x13);
                 return;
             }
-            OS_UnlockMutex(&gAuth->mMutex);
-            OS_Sleep(5000);
-            elapsedMillis = ((OS_GetTick() - startTick) * 64) / 0x82ea;
+            Os_Mutex_Unlock(&gAuth->mMutex);
+            Os_Sleep(5000);
+            elapsedMillis = ((Os_GetTick() - startTick) * 64) / 0x82ea;
         }
         ReleaseHttp(gAuth->mHttp);
-        OS_LockMutex(&gAuth->mMutex);
+        Os_Mutex_Lock(&gAuth->mMutex);
         gAuth->mError = DWCi_Auth_Start(getWiFiInfoFromFlash);
         if (gAuth->mError != 0) {
             gAuth->mReturncode = -AUTH_RETURN_FAILED;
-            OS_UnlockMutex(&gAuth->mMutex);
+            Os_Mutex_Unlock(&gAuth->mMutex);
             return;
         }
-        OS_UnlockMutex(&gAuth->mMutex);
+        Os_Mutex_Unlock(&gAuth->mMutex);
     }
 }
 
@@ -289,7 +289,7 @@ s32 ParseAuthHttpResult(void) {
                 gAuth->mReturncode = AUTH_RETURN_WRITE_NEW_ID;
                 return 2;
             }
-            if (WriteNewWiFiInfoToNvram(((u32) bmworkBlock + 0x1f) & ~0x1f) != 1) {
+            if (StructDC_SomeFn_4_from_thumb(((u32) bmworkBlock + 0x1f) & ~0x1f) != 1) {
                 gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
                 gAuth->mReturncode = AUTH_RETURN_WRITE_NEW_ID;
                 return 0xe;
@@ -364,44 +364,44 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     s32 macIndex;
     s32 postItemCount;
     char *postValue;
-    OS_GetMacAddress(postData.mMacAddress);
-    OS_GetOwnerInfo(&ownerInfo);
-    if (RTC_GetDate(&date) != 0 || RTC_GetTime(&time) != 0) {
+    Os_GetMacAddress(postData.mMacAddress);
+    Os_GetPersonalData(&ownerInfo);
+    if (Rtc_GetDate(&date) != 0 || Rtc_GetTime(&time) != 0) {
         return 5;
     }
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     bssidPointer = WCM_GetApMacAddress();
     if (bssidPointer == NULL) {
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
         return 3;
     }
-    MI_CpuCopy8(bssidPointer, postData.mBssid, 6);
-    MI_CpuFill8(apInfoBytes, 0, sizeof(apInfoBytes));
+    Mem_CpuCopy8(bssidPointer, postData.mBssid, 6);
+    Mem_CpuFill8(apInfoBytes, 0, sizeof(apInfoBytes));
     apInfoPointer = WCM_GetApEssid(&postData.mEssidLength);
     if (apInfoPointer == NULL) {
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
         return 3;
     }
-    MI_CpuCopy8(apInfoPointer, apInfoBytes, postData.mEssidLength);
-    OS_RestoreInterrupts(interruptState);
-    MI_CpuCopy8((const void *) 0x27ffe0c, postData.mGameCode, 4);
+    Mem_CpuCopy8(apInfoPointer, apInfoBytes, postData.mEssidLength);
+    Os_RestoreIrq(interruptState);
+    Mem_CpuCopy8((const void *) 0x27ffe0c, postData.mGameCode, 4);
     postData.mGameCode[4] = 0;
-    MI_CpuCopy8((const void *) 0x27ffe10, postData.mMakerCode, 2);
+    Mem_CpuCopy8((const void *) 0x27ffe10, postData.mMakerCode, 2);
     postData.mMakerCode[2] = 0;
     macCursor = postData.mMacAddress;
     for (macIndex = 0; macIndex < 6; macCursor++, macIndex++) {
-        OS_SPrintf(&macAddressText[macIndex * 2], "%02x", *macCursor);
+        MaybeUtil_SPrintF(&macAddressText[macIndex * 2], "%02x", *macCursor);
     }
     macAddressText[12] = 0;
     if (ownerInfo.mLanguage > 6) {
         ownerInfo.mLanguage = 1;
     }
-    OS_SNPrintf(postData.mBirthday, 5, "%02x%02x", ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
-    OS_SNPrintf(deviceTimeText, 0xd, "%02d%02d%02d%02d%02d%02d", date.mYear, date.mMonth, date.mDay, time.mHour,
+    Util_SNPrintF(postData.mBirthday, 5, "%02x%02x", ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
+    Util_SNPrintF(deviceTimeText, 0xd, "%02d%02d%02d%02d%02d%02d", date.mYear, date.mMonth, date.mDay, time.mHour,
                 time.mMinute, time.mSecond);
-    MI_CpuCopy8(ownerInfo.mNickName, deviceName, sizeof(ownerInfo.mNickName));
+    Mem_CpuCopy8(ownerInfo.mNickName, deviceName, sizeof(ownerInfo.mNickName));
     deviceName[0x14] = 0;
-    MI_CpuFill8(&results, 0, 0xc);
+    Mem_CpuFill8(&results, 0, 0xc);
     results.mEntries = labelValues;
     results.mCapacity = labelValueCount;
     if (getWiFiInfoFromFlash != 1) {
@@ -418,20 +418,20 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
             }
         }
     } else {
-        DWCi_BM_GetWiFiInfo(&gAuthWiFiInfo);
+        StructDW_MaybeCreate_from_thumb(&gAuthWiFiInfo);
     }
     DWCi_Http_AddResult(&results, "sdkver", "001000");
     if (gAuthWiFiInfo.mAttestedUserId != 0) {
-        OS_SNPrintf(userIdText, 0xe, "%013llu", gAuthWiFiInfo.mAttestedUserId);
+        Util_SNPrintF(userIdText, 0xe, "%013llu", gAuthWiFiInfo.mAttestedUserId);
     } else {
-        OS_SNPrintf(userIdText, 0xe, "%013llu", gAuthWiFiInfo.mNotAttestedId);
+        Util_SNPrintF(userIdText, 0xe, "%013llu", gAuthWiFiInfo.mNotAttestedId);
     }
     DWCi_Http_AddResult(&results, "userid", userIdText);
-    OS_SNPrintf(postData.mPassword, 4, "%03u", gAuthWiFiInfo.mPass);
+    Util_SNPrintF(postData.mPassword, 4, "%03u", gAuthWiFiInfo.mPass);
     DWCi_Http_AddResult(&results, "passwd", postData.mPassword);
-    OS_SNPrintf(bssidText, 0xd, "%02x%02x%02x%02x%02x%02x", postData.mBssid[0], postData.mBssid[1], postData.mBssid[2],
+    Util_SNPrintF(bssidText, 0xd, "%02x%02x%02x%02x%02x%02x", postData.mBssid[0], postData.mBssid[1], postData.mBssid[2],
                 postData.mBssid[3], postData.mBssid[4], postData.mBssid[5]);
-    OS_SNPrintf(apInfoText, 0xd, "%02d:0000000-00", 0);
+    Util_SNPrintF(apInfoText, 0xd, "%02d:0000000-00", 0);
     DWCi_AC_GetPostalCode(apInfoBytes, &apInfoText[3]);
     DWCi_Http_AddResult(&results, "gamecd", postData.mGameCode);
     DWCi_Http_AddResult(&results, "makercd", postData.mMakerCode);
@@ -461,7 +461,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
 }
 
 void DWCi_Auth_SetError(s32 error) {
-    OS_LockMutex(&gAuth->mMutex);
+    Os_Mutex_Lock(&gAuth->mMutex);
     gAuth->mError = error;
-    OS_UnlockMutex(&gAuth->mMutex);
+    Os_Mutex_Unlock(&gAuth->mMutex);
 }

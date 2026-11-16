@@ -18,8 +18,8 @@ void CreateSoundData(void) {
     u32 fileSize;
     gSoundData = AllocExpHeapBlock(0x9c, 4);
     gSoundData->mFileData = LoadFile(gSoundDataSdatName, &fileSize, 0x20);
-    NNS_SndInit();
-    NNS_SndArcInitOnMemory(&gSoundData->mArc, gSoundData->mFileData);
+    Sound_EnsureInitialized();
+    Sound_ReadSdatFromMemory(&gSoundData->mArc, gSoundData->mFileData);
     NNS_SndArcPlayerSetup(NULL);
     NNS_SndHandleInit(&gSoundData->mSeqPlayer);
     gSoundData->mTask = AddTask(0, UpdateSound, NULL, 0xc8);
@@ -40,7 +40,7 @@ void StartSoundSeq(u32 index) {
     playResult = *(const u32 *) ((playResult) + 0u);
     playResult = (playResult) + 144u;
     playerNumber = 0u;
-    playResult = NNS_SndArcPlayerStartSeqArc((const void *) playResult, playerNumber, sequenceIndex);
+    playResult = PlaySseqFromSarc((const void *) playResult, playerNumber, sequenceIndex);
 }
 
 u32 SetSoundSeqVolume(u32 volume) {

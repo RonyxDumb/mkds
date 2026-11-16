@@ -13,7 +13,7 @@ void DrawTrophy(void);
 void AdvanceTrophy(void);
 s32 TrophyFX_MulInline(s32 lhs, s32 rhs);
 s16 TrophyFX_SinIdx(s32 angle);
-void InitTrophy(s32 modelIndex, u16 rankIndex);
+void LoadCupTrophyModel(s32 modelIndex, u16 rankIndex);
 void SetupTrophy(void);
 
 extern const s32 gTrophyModelEffectOffsetY[9];
@@ -24,7 +24,7 @@ extern const s16 gTrophyModelLight0Z[10];
 extern const s16 gTrophyModelLight0X[10];
 extern const s16 gTrophyModelLight1Y[10];
 extern const s16 gTrophyModelLight1Z[10];
-extern struct Trophy *gTrophy;
+extern struct Trophy *g_GlobalTrophyResult;
 
 extern Vec3 gTrophyCameraPos;
 extern Vec3 gTrophyCameraUp;

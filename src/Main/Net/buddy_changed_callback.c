@@ -3,5 +3,5 @@
 #include "Main/Net/wifi_session.h"
 
 void BuddyChangedCallback(s32 index, void *arg) {
-    gWiFiSession->mBuddiesChanged = 1;
+    g_GlobalB->mBuddiesChanged = 1;
 }

@@ -29,9 +29,9 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
 void StartKartSurfaceSound(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant, s32 unused);
 void StartKartSeqArcSoundWithVolume(s32 soundIndex, s32 soundOffset, u32 volume, s32 playerNo, s32 playerPrio);
 void StartKartCollisionSound(Kart *kart, s32 soundIndex, s16 unused);
-void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset);
+void StructMQRacerEntry_SomeFn_5(Kart *kart, s32 soundIndex, s32 soundOffset);
 void InitKartSoundQueue(void);
 void UpdateKartSoundQueue(void);
 void QueueKartSound(Kart *kart, s32 soundIndex);
-void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 volume);
+void StructMQRacerEntry_SomeFn_13(Kart *kart, s32 soundIndex, s32 useKartSource, s32 volume);
 void StartBattleWinOrLoseSound(s32 soundIndex, s32 isWinner);

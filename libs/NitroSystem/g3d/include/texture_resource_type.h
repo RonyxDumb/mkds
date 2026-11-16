@@ -59,5 +59,5 @@ struct NNSG3dResTex {
     /* 3c */ NNSG3dResDict mDict;
 };
 
-void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL execBeginEnd);
-void NNS_G3dPlttSetPlttKey(NNSG3dResTex *pTex, NNSG3dPlttKey plttKey);
+void Tex0Block_MaybeCopyPaletteToMem(NNSG3dResTex *pTex, BOOL execBeginEnd);
+void Tex0Block_SetPaletteVramKey(NNSG3dResTex *pTex, NNSG3dPlttKey plttKey);

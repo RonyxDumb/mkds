@@ -39,23 +39,23 @@ void DGT_Hash1SetSource(DGTHash1Context *ctx, const void *input, u32 length) {
         if (length == 0) {
             return;
         }
-        MI_CpuCopy8(input, ctx->mBuffer8 + used, length);
+        Mem_CpuCopy8(input, ctx->mBuffer8 + used, length);
         return;
     }
-    MI_CpuCopy8(input, ctx->mBuffer8 + used, room);
+    Mem_CpuCopy8(input, ctx->mBuffer8 + used, room);
     ProcessBlock(ctx);
     length -= room;
     blocks = length >> 6;
     src = (const u8 *) input + room;
     for (; blocks > 0; blocks--) {
-        MI_CpuCopy8(src, ctx->mBuffer8, 0x40);
+        Mem_CpuCopy8(src, ctx->mBuffer8, 0x40);
         src += 0x40;
         ProcessBlock(ctx);
     }
     if ((length & DGT_HASH1_BLOCK_MASK) == 0) {
         return;
     }
-    MI_CpuCopy8(src, ctx->mBuffer8, length & DGT_HASH1_BLOCK_MASK);
+    Mem_CpuCopy8(src, ctx->mBuffer8, length & DGT_HASH1_BLOCK_MASK);
 }
 
 // Appends the 0x80 pad, zeros and the bit count, runs the last block, copies the 16 state bytes to digest and clears
@@ -74,19 +74,19 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     used = ctx->mLength & DGT_HASH1_BLOCK_MASK;
     room = 0x40 - used;
     if (room < 8) {
-        MI_CpuFill8(ctx->mBuffer8 + used, 0, room);
+        Mem_CpuFill8(ctx->mBuffer8 + used, 0, room);
         ProcessBlock(ctx);
         used = 0;
         room = 0x40;
     }
     if (room > 8) {
-        MI_CpuFill8(ctx->mBuffer8 + used, 0, room - 8);
+        Mem_CpuFill8(ctx->mBuffer8 + used, 0, room - 8);
     }
     ctx->mBitCountLow = bitsLow;
     ctx->mBitCountHigh = bitsHigh;
     ProcessBlock(ctx);
-    MI_CpuCopy8(ctx, digest, 0x10);
-    MI_CpuFill8(ctx, 0, sizeof(*ctx));
+    Mem_CpuCopy8(ctx, digest, 0x10);
+    Mem_CpuFill8(ctx, 0, sizeof(*ctx));
 }
 
 // One MD5 block: four rounds of 16 steps over the 16 words of ctx.mBuffer8, added into ctx.mState.

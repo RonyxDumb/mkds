@@ -51,18 +51,18 @@ BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor);
 void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, RacePointLink *link);
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time);
-void LoadStaffGhostTime(void *heap);
-BOOL IsAllGrandPrixRecordsTopRank(void);
+void ReadStaffGhostTimeBin(void *heap);
+BOOL IsTitleTrue(void);
 // Values GetStaffRollKindAfterGp returns.
 #define STAFF_ROLL_AFTER_GP_NONE 0
 #define STAFF_ROLL_AFTER_GP_NORMAL 1
 #define STAFF_ROLL_AFTER_GP_TRUE 2
 s32 GetStaffRollKindAfterGp(void);
-u32 SetSecretMessageFlagsFromCups3And7(void);
-u32 SetSecretMessageFlagsPerEngineClass(void);
-u32 SetSecretMessageFlags(void);
-u32 SetSecretMessageFlagsWrapper(void);
-u32 SetAndWriteSecretMessageFlags(void);
+u32 GetCurrentCharacterUnlockSecretFlags(void);
+u32 GetCurrentCupUnlockSecretFlags(void);
+u32 GetCurrentUnlockedSecretFlags(void);
+u32 j_GetCurrentUnlockedSecretFlags(void);
+u32 GetCurrentUnlockedSecretFlagsAndSaveIfResultScene(void);
 MapObjectList *CreateSmanUpdateList(void);
 MapObjectList *CreateSmanBottomDrawList(void);
 MapObjectList *CreateSmanTopDrawList(void);
@@ -71,10 +71,10 @@ void UpdateSman(void *mapObjectList, Sman *sman); /* skipped for objects with mF
 void InitSmanObjects(SmanList *smanList);
 void DrawSmanBottom(void *mapObjectList, Sman *sman);
 void SetupDrawSmanBottom(void *mapObjectList);
-void CreateSmanBottom(void *mapObjectList);
+void LoadSmanBottomMapObject(void *mapObjectList);
 void DrawSmanTop(void *mapObjectList, Sman *sman);
 void SetupDrawSmanTop(void *mapObjectList);
-void CreateSmanTop(void *mapObjectList);
+void LoadSmanTopMapObject(void *mapObjectList);
 
 extern const KartAiItemUseEntry gBattleNormalHeldItemEntries[18];
 extern const KartAiItemUseEntry gBattleEasyHeldItemEntries[18];
@@ -82,7 +82,7 @@ extern const KartAiItemUseEntry gBattleNormalItemInUseEntries[14];
 extern const KartAiItemUseEntry gBattleHardItemInUseEntries[14];
 extern const KartAiItemUseEntry gBattleHardHeldItemEntries[18];
 extern const KartAiItemUseEntry gBattleEasyItemInUseEntries[14];
-extern s32 *gStaffGhostTime;
+extern s32 *g_StaffGhostTimeBin;
 
 extern const KartAiItemUseEntry *gBattleHeldItemEntries;
 extern void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);

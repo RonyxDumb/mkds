@@ -24,12 +24,12 @@ typedef struct EndingStaffRollObject {
     /* 010 */ RaceHudOamBuffer mOamBuffer;
 } EndingStaffRollObject;
 
-u16 UpdateEndingStaffRoll(void);
+u16 IncrementStaffRollFrameCount(void);
 void DrawEndingStaffRoll(void);
 
-void ClearEndingStaffRollPointer(void);
+void ResetStaffRoll(void);
 
-void UploadEndingStaffRollOam(void);
-void InitEndingStaffRoll(void);
+void LoadStaffRollDataOam(void);
+void LoadSomeEndingStaffRollStuff(void);
 
-extern struct EndingStaffRollObject *gEndingStaffRoll;
+extern struct EndingStaffRollObject *g_StaffRoll;

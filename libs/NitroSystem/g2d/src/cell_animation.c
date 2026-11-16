@@ -27,7 +27,7 @@ void ApplyCurrentAnimResult_(NNSG2dCellAnimation *pCellAnim) {
     }
     animResult = NNS_G2dGetAnimCtrlCurrentElement(pCellAnim);
     cellBank = pCellAnim->mPCellDataBank;
-    pCellAnim->mPCurrentCell = NNS_G2dGetCellDataByIdx(cellBank, animResult->mIndex);
+    pCellAnim->mPCurrentCell = CellBank_GetMetatileEntry(cellBank, animResult->mIndex);
     animType = pCellAnim->mPAnimSequence->mAnimType & G2D_ANIM_TYPE_MASK;
     NNSi_G2dSrtcInitControl(&pCellAnim->mSrtCtrl, 1);
     if (animType != 0) {
@@ -107,7 +107,7 @@ static inline void MulMtx22(const MtxFx22 *mtx, const s32 *pSrc, s32 *pDst) {
     }
 }
 
-u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWithBR *pCell, MtxFx22 *pMtxSR,
+u16 MaybeMakeOamSlot(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWithBR *pCell, MtxFx22 *pMtxSR,
                           s32 *pBaseTrans, u16 affineIndex, s32 bDoubleAffine) {
     u16 oamIndex;
     u16 numAttrs;
@@ -222,7 +222,7 @@ void NNSi_G2dSrtcSetInitialValue(NNSG2dSRTControl *pCtrl) {
     volatile u16 zero;
 
     zero = 0;
-    MIi_CpuClear16(zero, &pCtrl->mScaleX, 0x18);
+    Mem_CpuFill16(zero, &pCtrl->mScaleX, 0x18);
     pCtrl->mScaleX = FIXED12_UNIT;
     pCtrl->mScaleY = FIXED12_UNIT;
 }

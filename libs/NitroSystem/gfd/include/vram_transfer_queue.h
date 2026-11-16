@@ -3,7 +3,7 @@
 #include "types.h"
 #include "transfer_task_types.h" // NNSGfdVramTransferTask
 
-// First argument of NNS_GfdRegisterNewVramTransferTask: where the data goes, one per transfer function.
+// First argument of AllocateReserveTEQSub: where the data goes, one per transfer function.
 typedef enum VramTransferType {
     VRAM_TARGET_TEXTURE_IMAGE = 0,
     VRAM_TARGET_TEXTURE_PALETTE = 1,
@@ -43,6 +43,6 @@ typedef enum VramTransferType {
     VRAM_TARGET_ENGINE_B_SPRITE_TILES = 35,
 } VramTransferType;
 
-s32 NNS_GfdRegisterNewVramTransferTask(u32, u32, void *, u32);
-void NNS_GfdDoVramTransfer(void);
-void NNS_GfdInitVramTransferManager(NNSGfdVramTransferTask *pTaskArray, u32 lengthOfArray);
+s32 AllocateReserveTEQSub(u32, u32, void *, u32);
+void HandleAllGlobalTEQSubs(void);
+void InitializeGlobalTEQ(NNSGfdVramTransferTask *pTaskArray, u32 lengthOfArray);

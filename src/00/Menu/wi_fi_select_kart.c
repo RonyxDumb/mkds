@@ -15,7 +15,7 @@ void InitWiFiSelectKartState(void *heap) {
     void *firstOamList;
     void *secondOamList;
 
-    gWiFiSelectKartState = HeapAlloc(heap, 4);
+    gWiFiSelectKartState = Mem_AllocateHeap(heap, 4);
     gWiFiSelectKartState->mHeap = heap;
     InitWiFiSelectKartNop();
     firstOamList = GetWiFiMenuMainOamList();

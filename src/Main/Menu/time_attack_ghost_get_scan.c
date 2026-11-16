@@ -120,7 +120,7 @@ void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedS
     if (action == 1) {
         listIndex += GetCourseGhostCount();
         PrintLabelLayoutTextNoFixedAdvance(1, slot, subCellFileSet->mLabelLayout,
-                                           GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages,
+                                           Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mGhostMessages,
                                                        GetGhostCourseMessageIndex(GetListedGhostCourseId(listIndex))),
                                            subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
         GetListedGhostTime(listIndex, &time);
@@ -149,9 +149,9 @@ void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedS
 
 void SetupGhostMainTextEx(void) {
     void *message;
-    message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 3);
+    message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mGhostMessages, 3);
     SetTxtSystemBgOffsetRequested(0xfffffff4, 0);
-    SetupTxtSystemMainTextEx(message, 0, 0, 0, 0, 0, 0);
+    TextSystem_DisplayProgressDialog_TopScreen_from_thumb(message, 0, 0, 0, 0, 0, 0);
 }
 
 #pragma thumb off
@@ -159,7 +159,7 @@ void SetupGhostMainTextEx(void) {
 #pragma thumb on
 
 static inline s32 GhostGetSlotIsBackupCommandRunning(void) {
-    BackupAccess *backupAccess = gBackupAccess;
+    BackupAccess *backupAccess = g_SaveDataIoManager;
     if (backupAccess->mBackupEnabled != 0) {
         return backupAccess->mCommandRunning;
     }
@@ -167,7 +167,7 @@ static inline s32 GhostGetSlotIsBackupCommandRunning(void) {
 }
 
 static inline s32 GhostGetSlotIsBackupBusy(void) {
-    if (gBackupBuffers->mBusy == 0) {
+    if (g_SaveDataHolder->mBusy == 0) {
         return GhostGetSlotIsBackupCommandRunning();
     }
     return 1;
@@ -181,15 +181,15 @@ void SetupGhostNameSubTextTwoButtons(void) {
     u16 nameText[11];
     u16 formattedText[0x100];
 
-    formatText = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 0x12);
-    firstButtonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 0);
-    secondButtonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 1);
+    formatText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mGhostMessages, 0x12);
+    firstButtonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 0);
+    secondButtonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 1);
     GetListedGhostName(gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex + GetCourseGhostCount(), ghostName);
-    MIi_CpuCopy16(ghostName, nameText, 0x14);
+    CopyMemory16(ghostName, nameText, 0x14);
     nameText[10] = 0;
-    FormatMessageWithText(nameText, formatText, formattedText, 0x100);
+    MaybeHandleBmgFormatting_from_thumb(nameText, formatText, formattedText, 0x100);
     SetTxtSystemSoundId(0, -1);
-    SetupTxtSystemSubTextTwoButtonsEx(formattedText, firstButtonText, secondButtonText, 1, 0, 1, 1, 0);
+    TextSystem_DisplayDoubleButtonDialog_from_thumb(formattedText, firstButtonText, secondButtonText, 1, 0, 1, 1, 0);
 }
 
 void UpdateSlotSlideOffsets(void) {
@@ -225,7 +225,7 @@ void PrintSelectedGhostRecord(void) {
     listIndex = GetCourseGhostCount() + gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex;
     GetListedGhostTime(listIndex, &time);
     GetListedGhostName(listIndex, ghostName);
-    MIi_CpuCopy16(ghostName, nameText, 0x14);
+    CopyMemory16(ghostName, nameText, 0x14);
     nameText[10] = 0;
     characterIndex = GetListedGhostCharacterIndex(listIndex);
     kartIndex = GetListedGhostKartIndex(listIndex);
@@ -249,32 +249,32 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     LayoutTableEntry *cellTable;
     u16 groupFirstEntries[3];
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackGhostGetSlot = HeapAlloc(heap, sizeof(*gTimeAttackGhostGetSlot));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gTimeAttackGhostGetSlot = Mem_AllocateHeap(heap, sizeof(*gTimeAttackGhostGetSlot));
     MemFillWordsByBlock_inline(gTimeAttackGhostGetSlot, 0xa8);
     gTimeAttackGhostGetSlot->mHeap = heap;
     gTimeAttackGhostGetSlot->mOamLists[0] = mainOam;
     gTimeAttackGhostGetSlot->mOamLists[1] = subOam;
-    gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives(gTimeAttackGhostGetCommonBmgName);
-    gTimeAttackGhostGetSlot->mGhostMessages = FindSceneFile(gTimeAttackGhostGetGhostBmgName);
+    gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(gTimeAttackGhostGetCommonBmgName);
+    gTimeAttackGhostGetSlot->mGhostMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackGhostGetGhostBmgName);
     cellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
     LocateCellFileSet(cellFileSet, gTimeAttackGhostGetMNceNcgrName, gTimeAttackGhostGetMNceNcerName,
                       gTimeAttackGhostGetMONclrName, gTimeAttackGhostGetMBnclName, gTimeAttackGhostGetMBnllName, NULL,
-                      FindSceneFile);
+                      FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     for (entryIndex = 0; entryIndex < cellFileSet->mLabelLayout->mCount; entryIndex++) {
         remainingObjSize -= SetupLabelCanvas(SCREEN_SIDE_MAIN, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
                                              gTimeAttackGhostGetSlotMLabelTextRows[entryIndex], remainingObjSize);
     }
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, gTimeAttackGhostGetSlot, gTimeAttackGhostGetSBNcgrName,
-                                   gTimeAttackGhostGetSBNclrName, gTimeAttackGhostGetSNscrName, 3, FindSceneFile);
+                                   gTimeAttackGhostGetSBNclrName, gTimeAttackGhostGetSNscrName, 3, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     cellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     LocateCellFileSet(cellFileSet, gTimeAttackGhostGetSNceNcgrName, gTimeAttackGhostGetSNceNcerName,
                       gTimeAttackGhostGetSONclrName, gTimeAttackGhostGetSBnclName, gTimeAttackGhostGetSBnllName,
-                      gTimeAttackGhostGetSBnblName, FindSceneFile);
+                      gTimeAttackGhostGetSBnblName, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_SUB, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mCount;
     textRowIndex = 0;
@@ -311,7 +311,7 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     InitScrollList(gTimeAttackGhostGetSlot->mHeap, 3, groupFirstEntries, 7, 8, 0x7c, cellFileSet->mCellTable,
                    cellFileSet->mRects, gTimeAttackGhostGetSlot->mScreenMapFileSet.mScreenMaps[3]->mData, 0, 1, 2, 10,
                    RefreshSlotGhostListRows);
-    SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[2]);
+    LoadPlayerGfxData_from_thumb(0, &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[2]);
     PrintSelectedGhostRecord();
     SetupInterpolation(&gTimeAttackGhostGetSlot->mInterpolation, 0, 10, -0xc0, 0);
     RequestSelectReturnSlideIn();
@@ -334,21 +334,21 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     void *buttonText;
 
     result = RESULT_NONE;
-    slotIndex = GetPadInputSlot();
+    slotIndex = GetSomeCYId_9();
     touchInReturnRect = 0;
     AdvanceInterpolation(&gTimeAttackGhostGetSlot->mInterpolation);
     pairIsNew = FALSE;
     pairRecentlyGone = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         pairRecentlyGone = TRUE;
     }
-    if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (pairRecentlyGone == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         pairIsNew = TRUE;
     }
     if (pairIsNew != FALSE) {
-        touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                  gInputSlots[slotIndex].mPair.mPairY);
+        touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                                  g_GlobalCYT[slotIndex].mPair.mPairY);
     }
     object = gTimeAttackGhostGetSlot;
     switch (object->mState) {
@@ -360,7 +360,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT:
-            if (IsTxtSystemClosedNoOpenRequest() != 0) {
+            if (TextSystem_IsDialogFinished_from_thumb() != 0) {
                 SetupGhostMainTextEx();
             }
             AdvanceScrollList();
@@ -370,30 +370,30 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
                 PrintSelectedGhostRecord();
             }
             if (IsScrollListPickStarted() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
             }
             if (IsScrollListPickFinished() != 0) {
                 SetupGhostNameSubTextTwoButtons();
                 RequestSelectReturnSlideOut();
                 gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_SAVE_ANSWER;
-            } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
-                message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 0x54);
-                buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
+            } else if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+                message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mGhostMessages, 0x54);
+                buttonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
-                SetupTxtSystemSubTextButton(message, buttonText);
+                TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, buttonText);
                 RequestSelectReturnPressWithSound(1);
                 gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
                 gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE;
             }
             break;
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_SAVE_ANSWER:
-            if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
-                NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
-                NNS_SndArcSetCurrent(&gFileSndArc);
+            if (GetTxtSystemInputAccepted() != 0 && TextSystem_IsButton2Focused_from_thumb() == 0) {
+                Sound_MaybeSetActiveSdat(&g_MainSdat);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 10);
+                Sound_MaybeSetActiveSdat(&g_GlobalSdat);
             }
-            if (GetTxtSystemDone() != 0) {
-                if (GetTxtSystemSelectedIndex() == 0) {
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+                if (TextSystem_IsButton2Focused_from_thumb() == 0) {
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
                     WriteSlotGhostRecord((u8) gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex,
                                          GetSlotGhostBuffer());
@@ -402,22 +402,22 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
                     RequestSelectReturnSlideIn();
                     gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT;
                 }
-                RequestTxtSystemClose();
+                TextSystem_CloseDialog_from_thumb();
             }
             break;
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_BACKUP:
             if (GhostGetSlotIsBackupBusy() != 0) {
-                message = GetBmgEntry(object->mGhostMessages, 0x10);
-                buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
+                message = Bmg_GetRawStringPointer_from_thumb(object->mGhostMessages, 0x10);
+                buttonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
-                SetupTxtSystemSubTextButton(message, buttonText);
+                TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, buttonText);
                 gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
                 gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE;
             }
             break;
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE:
-            if (GetTxtSystemDone() != 0) {
-                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+                g_GlobalB488->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }
@@ -438,7 +438,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
 #pragma thumb on
 
 void ReleaseTimeAttackGhostGetSlot(void) {
-    HeapDestroy(gTimeAttackGhostGetSlot->mHeap);
+    Mem_DestroyHeap(gTimeAttackGhostGetSlot->mHeap);
     gTimeAttackGhostGetSlot = NULL;
 }
 
@@ -480,10 +480,10 @@ void StartTimeAttackGhostGetScanWaitErrorMessage(void) {
     void *message;
     void *buttonText;
 
-    message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x11);
-    buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
+    message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 0x11);
+    buttonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
     SetTxtSystemSoundId(0, 5);
-    SetupTxtSystemSubTextButton(message, buttonText);
+    TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, buttonText);
     gTimeAttackGhostGetScan->mStateFrames = 0;
     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE;
 }
@@ -494,7 +494,7 @@ void StartTimeAttackGhostGetScanWaitErrorMessage(void) {
 
 void SetupGhostMainTextShort(void) {
     void *message;
-    message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 1);
+    message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 1);
     SetupTxtSystemMainTextShort(message, 0, 0, 0, 0, 0, 0);
 }
 
@@ -538,7 +538,7 @@ void MoveSelectedGhostUp(s32 wrap) {
         } while (index != object->mInfoFileSets.mSelectedIndex);
     }
     if (found != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -578,7 +578,7 @@ void MoveSelectedGhostDown(s32 wrap) {
         } while (index != object->mInfoFileSets.mSelectedIndex);
     }
     if (found != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -611,11 +611,11 @@ void SetupGhostSubTextTwoButtons(void) {
     void *message;
     void *firstButtonText;
     void *secondButtonText;
-    message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 8);
-    firstButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 0);
-    secondButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 1);
+    message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 8);
+    firstButtonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 0);
+    secondButtonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 1);
     SetTxtSystemSoundId(0, 5);
-    SetupTxtSystemSubTextTwoButtonsEx(message, firstButtonText, secondButtonText, 0, 0, 1, 1, 0);
+    TextSystem_DisplayDoubleButtonDialog_from_thumb(message, firstButtonText, secondButtonText, 0, 0, 1, 1, 0);
 }
 
 #pragma thumb off
@@ -792,26 +792,26 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     s16 *row;
     BOOL screen;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackGhostGetScan = HeapAlloc(heap, sizeof(*gTimeAttackGhostGetScan));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gTimeAttackGhostGetScan = Mem_AllocateHeap(heap, sizeof(*gTimeAttackGhostGetScan));
     MemFillWordsByBlock_inline(gTimeAttackGhostGetScan, 0x1a8);
     gTimeAttackGhostGetScan->mHeap = heap;
     gTimeAttackGhostGetScan->mOamLists[0] = mainOam;
     gTimeAttackGhostGetScan->mOamLists[1] = subOam;
-    gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gTimeAttackGhostGetScan->mGhostMessages = FindSceneFile("ghost.bmg");
+    gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    gTimeAttackGhostGetScan->mGhostMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("ghost.bmg");
     InitBlockEntries(gTimeAttackGhostGetScan->mHeap, 2);
     gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex = -1;
     for (index = 0; index < 4; index++) {
         SetupInterpolation(&gTimeAttackGhostGetScan->mGhostInfoEntries[index].mInterpolation, 3, 10, 0x100, 0);
     }
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostGetScan, "TimeAttack_ghost_get_m_b.NCGR",
-                                   "TimeAttack_ghost_get_m_b.NCLR", "TimeAttack_ghost_get_m.NSCR", 0, FindSceneFile);
+                                   "TimeAttack_ghost_get_m_b.NCLR", "TimeAttack_ghost_get_m.NSCR", 0, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     cellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
     LocateCellFileSet(cellFileSet, "TimeAttack_ghost_get_m.nce.ncgr", "TimeAttack_ghost_get_m.nce.ncer",
                       "TimeAttack_ghost_get_m_o.NCLR", "TimeAttack_ghost_get_m.bncl", "TimeAttack_ghost_get_m.bnll",
-                      NULL, FindSceneFile);
+                      NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     screen = FALSE;
     SetupCellFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostGetScan->mHeap, cellFileSet);
     index = 0;
@@ -833,7 +833,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     assignedCount = 0;
     LocateCellFileSet(cellFileSet, "TimeAttack_ghost_get_s.nce.ncgr", "TimeAttack_ghost_get_s.nce.ncer",
                       "TimeAttack_ghost_get_s_o.NCLR", "TimeAttack_ghost_get_s_sel.bncl",
-                      "TimeAttack_ghost_get_s_sel.bnll", "TimeAttack_ghost_get_s_sel.bnbl", FindSceneFile);
+                      "TimeAttack_ghost_get_s_sel.bnll", "TimeAttack_ghost_get_s_sel.bnbl", FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_SUB, gTimeAttackGhostGetScan->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mCount;
     index = 0;
@@ -853,7 +853,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
         SetCellPriority(value, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
     cellFileSet->mCellTable[4].mVisible = 0;
-    SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[2]);
+    LoadPlayerGfxData_from_thumb(0, &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[2]);
     SetupInterpolation(&gTimeAttackGhostGetScan->mInterpolation, 3, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     FrmHeapShrinkInParent(gTimeAttackGhostGetScan->mHeap);
@@ -864,7 +864,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
 #pragma thumb on
 
 static inline s32 GhostGetScanIsBackupCommandRunning(void) {
-    BackupAccess *backupAccess = gBackupAccess;
+    BackupAccess *backupAccess = g_SaveDataIoManager;
     if (backupAccess->mBackupEnabled != 0) {
         return backupAccess->mCommandRunning;
     }
@@ -872,7 +872,7 @@ static inline s32 GhostGetScanIsBackupCommandRunning(void) {
 }
 
 static inline s32 GhostGetScanIsBackupBusy(void) {
-    if (gBackupBuffers->mBusy == 0) {
+    if (g_SaveDataHolder->mBusy == 0) {
         return GhostGetScanIsBackupCommandRunning();
     }
     return 1;
@@ -902,7 +902,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     u16 formattedText[0x100];
 
     previousSelectedIndex = gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex;
-    slotIndex = GetPadInputSlot();
+    slotIndex = GetSomeCYId_9();
     touchInReturnRect = 0;
     result = -1;
     rectIndex = -1;
@@ -910,7 +910,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     AdvanceInterpolation(&gTimeAttackGhostGetScan->mInterpolation);
     switch (gTimeAttackGhostGetScan->mState) {
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_FADE:
-            if (AreBrightnessFadesClear() == 0) {
+            if (Bright_IsBothScreensFadedIn() == 0) {
                 RequestSelectReturnSlideIn();
                 SetupGhostMainTextShort();
                 SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, INTERPOLATION_STATE_RISING);
@@ -927,17 +927,17 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST:
             switch (AdvanceConnectionSetup(0, NULL)) {
                 case 1:
-                    SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0xf));
-                    NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);
-                    NNS_SndArcSetCurrent(&gFileSndArc);
+                    TextSystem_DisplayProgressDialog_Simple_from_thumb(Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 0xf));
+                    Sound_MaybeSetActiveSdat(&g_MainSdat);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 9);
+                    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_REQUEST_BLOCK_COUNT;
                     break;
                 case 0:
                     if (gTimeAttackGhostGetScan->mGhostPicked != FALSE) {
                         break;
                     }
-                    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+                    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
                         SetupGhostMainTextShort();
                     }
                     gTimeAttackGhostGetScan->mFilledCount = 0;
@@ -963,7 +963,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                                 PrintLabelLayoutTextNoFixedAdvance(
                                     1, gTimeAttackGhostGetScanSSelLabelTextRows[courseLabelIndex][0],
                                     subCellFileSet->mLabelLayout,
-                                    GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex),
+                                    Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex),
                                     subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
                                 MIi_CpuCopyFast(&ghostRecordInfo,
                                                 &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInfo, 0x28);
@@ -974,9 +974,9 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                                 if (gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex == entryIndex) {
                                     RefreshScanSelectedGhostInfo();
                                 }
-                                NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
-                                NNS_SndArcSetCurrent(&gFileSndArc);
+                                Sound_MaybeSetActiveSdat(&g_MainSdat);
+                                PlaySseqFromSarc(&gSharedSeqHandle, 0, 7);
+                                Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                             }
                         } else {
                             SetInterpolationStateIfOpposite(
@@ -988,16 +988,16 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     UpdateScanSelectedIndex();
                     pairIsNew = FALSE;
                     pairRecentlyGone = FALSE;
-                    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-                    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+                    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+                    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                         pairRecentlyGone = TRUE;
                     }
-                    if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+                    if (pairRecentlyGone == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                         pairIsNew = TRUE;
                     }
                     if (pairIsNew != FALSE) {
-                        pairX = gInputSlots[slotIndex].mPair.mPairX;
-                        pairY = gInputSlots[slotIndex].mPair.mPairY;
+                        pairX = g_GlobalCYT[slotIndex].mPair.mPairX;
+                        pairY = g_GlobalCYT[slotIndex].mPair.mPairY;
                         touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(pairX, pairY);
                         rectIndex = RectTableFindContaining(subCellFileSet->mRects, pairX, pairY);
                     }
@@ -1006,21 +1006,21 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                         SetScanSelectedEntryHighlight(
                             gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex != rectIndex ? 1 : 0);
                         gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex = rectIndex;
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
                         RequestSelectReturnSlideOut();
                         gTimeAttackGhostGetScan->mGhostPicked = TRUE;
                         gTimeAttackGhostGetScan->mStateFrames = 0;
                         gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK;
-                    } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
+                    } else if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
                                gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex >= 0) {
                         SetupGhostSubTextTwoButtons();
                         SetScanSelectedEntryHighlight(0);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
                         RequestSelectReturnSlideOut();
                         gTimeAttackGhostGetScan->mGhostPicked = TRUE;
                         gTimeAttackGhostGetScan->mStateFrames = 0;
                         gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK;
-                    } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+                    } else if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                         gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE;
                         RequestSelectReturnPressWithSound(0);
                     } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP)) {
@@ -1054,14 +1054,14 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK_ANSWER:
-            if (GetTxtSystemDone() != 0) {
-                if (GetTxtSystemSelectedIndex() == 0) {
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+                if (TextSystem_IsButton2Focused_from_thumb() == 0) {
                     SetSelectedScanEntry(gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex);
                 } else {
                     RequestSelectReturnSlideIn();
                     gTimeAttackGhostGetScan->mGhostPicked = FALSE;
                 }
-                RequestTxtSystemClose();
+                TextSystem_CloseDialog_from_thumb();
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST;
             }
             break;
@@ -1096,7 +1096,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
-                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
+                g_GlobalB488->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
@@ -1110,16 +1110,16 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 courseMessageIndex = GetGhostCourseMessageIndex(
                     gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
                         .mInfo.mCourseId);
-                message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x55);
-                buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 0);
-                secondButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 1);
-                FormatMessageWithText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex), message,
+                message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 0x55);
+                buttonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 0);
+                secondButtonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 1);
+                MaybeHandleBmgFormatting_from_thumb(Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex), message,
                                       formattedText, 0x100);
                 SetTxtSystemSoundId(0, -1);
-                SetupTxtSystemSubTextTwoButtonsEx(formattedText, buttonText, secondButtonText, 1, 0, 1, 1, 0);
+                TextSystem_DisplayDoubleButtonDialog_from_thumb(formattedText, buttonText, secondButtonText, 1, 0, 1, 1, 0);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_REPLACE_ANSWER;
             } else if (GetSlotGhostCount() == 10) {
-                RequestTxtSystemClose();
+                TextSystem_CloseDialog_from_thumb();
                 gTimeAttackGhostGetScan->mNextCallbacksIndex = GHOST_SCENE_CALLBACKS_GET_SLOT;
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_OUT;
                 SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, INTERPOLATION_STATE_FALLING);
@@ -1127,21 +1127,21 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 gTimeAttackGhostGetScan->mGhostSlot = FindUnfilledGhostSlot();
                 GetSlotGhostBuffer()->mHead.mFilled = 1;
                 WriteSlotGhostRecord(gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
-                NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
-                NNS_SndArcSetCurrent(&gFileSndArc);
+                Sound_MaybeSetActiveSdat(&g_MainSdat);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 10);
+                Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_BACKUP;
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_REPLACE_ANSWER:
-            if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
-                NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
-                NNS_SndArcSetCurrent(&gFileSndArc);
+            if (GetTxtSystemInputAccepted() != 0 && TextSystem_IsButton2Focused_from_thumb() == 0) {
+                Sound_MaybeSetActiveSdat(&g_MainSdat);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 10);
+                Sound_MaybeSetActiveSdat(&g_GlobalSdat);
             }
-            if (GetTxtSystemDone() != 0) {
-                RequestTxtSystemClose();
-                if (GetTxtSystemSelectedIndex() == 0) {
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+                TextSystem_CloseDialog_from_thumb();
+                if (TextSystem_IsButton2Focused_from_thumb() == 0) {
                     gTimeAttackGhostGetScan->mGhostSlot = FindSlotGhostForCourse(
                         gTimeAttackGhostGetScan
                             ->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
@@ -1155,36 +1155,36 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_CLOSED:
-            if (IsTxtSystemClosedNoOpenRequest() != 0) {
-                message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x54);
-                buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
+            if (TextSystem_IsDialogFinished_from_thumb() != 0) {
+                message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 0x54);
+                buttonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
-                SetupTxtSystemSubTextButton(message, buttonText);
+                TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, buttonText);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE;
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_BACKUP:
             if (GhostGetScanIsBackupBusy() != 0) {
-                message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x10);
-                buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
+                message = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mGhostMessages, 0x10);
+                buttonText = Bmg_GetRawStringPointer_from_thumb(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
-                SetupTxtSystemSubTextButton(message, buttonText);
+                TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, buttonText);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE;
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE:
-            if (IsTxtSystemOpenAfterOpening() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
+            if (TextSystem_JustFadedIn_from_thumb() != 0) {
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x15);
             }
-            if (GetTxtSystemDone() != 0) {
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
                 gTimeAttackGhostGetScan->mStateFrames = 0;
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE;
-                RequestTxtSystemClose();
+                TextSystem_CloseDialog_from_thumb();
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE:
-            if (GetTxtSystemDone() != 0) {
-                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
+            if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+                g_GlobalB488->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
@@ -1215,7 +1215,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
 #pragma thumb on
 
 void ReleaseTimeAttackGhostGetScan(void) {
-    HeapDestroy((void *) ((u32) gTimeAttackGhostGetScan->mHeap));
+    Mem_DestroyHeap((void *) ((u32) gTimeAttackGhostGetScan->mHeap));
     *&gTimeAttackGhostGetScan = NULL;
 }
 

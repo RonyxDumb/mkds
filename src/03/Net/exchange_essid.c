@@ -604,7 +604,7 @@ s32 CopyExchangeScanRecords(RawEntry *output, s32 maxCount) {
                 if (recordIndex >= maxCount) {
                     break;
                 }
-                MIi_CpuCopy32(WCM_PointApList(recordIndex), output, sizeof(RawEntry));
+                Mem_CpuCopy32(WCM_PointApList(recordIndex), output, sizeof(RawEntry));
                 recordIndex++;
                 output++;
             } while (recordIndex < count);
@@ -615,7 +615,7 @@ s32 CopyExchangeScanRecords(RawEntry *output, s32 maxCount) {
 }
 
 BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
     u8 *cursor;
     s32 byteIndex;
 
@@ -627,7 +627,7 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
             *cursor++ = *address++;
         }
     } else {
-        MI_CpuFill8(cursor, 0xff, 6);
+        Mem_CpuFill8(cursor, 0xff, 6);
         gExchangeSearchAddress = WCM_Bssid_Any;
     }
     cursor = gExchangeSearchEssidBytes;
@@ -648,87 +648,87 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
             } while (byteIndex < 0x20);
         }
     } else {
-        MI_CpuFill8(gExchangeSearchEssidBytes, 0xff, sizeof(gExchangeSearchEssidBytes));
+        Mem_CpuFill8(gExchangeSearchEssidBytes, 0xff, sizeof(gExchangeSearchEssidBytes));
         gExchangeSearchEssid = WCM_Essid_Any;
     }
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_SearchAsync(gExchangeSearchAddressBytes, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
             gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCH_PENDING;
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 1;
         }
     } else if (StartExchangeReturnToIdle() == 1) {
         gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCH_PENDING;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 1;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
 BOOL DisconnectExchange(void) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
 
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
         if (WCM_DisconnectAsync() == 3) {
             gExchangeWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 1;
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
 BOOL CleanupExchangeWcm(void) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
 
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_CleanupAsync() != 3) {
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 0;
         }
         gExchangeWcmState = EXCHANGE_WCM_STATE_CLEANING_UP;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 1;
     }
     if (StartExchangeReturnToIdle() == 1) {
         gExchangeWcmState = EXCHANGE_WCM_STATE_CLEANING_UP;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 1;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
 BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
 
     gExchangeConnectOption = option;
     if (optionalBytes != NULL) {
-        MI_CpuCopy8(optionalBytes, gExchangeConnectBlock, 0x60);
+        Mem_CpuCopy8(optionalBytes, gExchangeConnectBlock, 0x60);
     } else {
-        MI_CpuFill8(gExchangeConnectBlock, 0, 0x60);
+        Mem_CpuFill8(gExchangeConnectBlock, 0, 0x60);
     }
-    MIi_CpuCopy32(entry, gExchangeConnectRecord, 0xc0);
+    Mem_CpuCopy32(entry, gExchangeConnectRecord, 0xc0);
     if (StartExchangeReturnToIdle() == 1) {
         gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECT_PENDING;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 1;
     }
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
             gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECT_PENDING;
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 1;
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
 BOOL InitExchangeWcm(ExchangeEventCallback callback, void *buffer, u32 size) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
     WCMConfig *alignedBlock;
     u32 cursor;
 
@@ -747,21 +747,21 @@ BOOL InitExchangeWcm(ExchangeEventCallback callback, void *buffer, u32 size) {
     gExchangeEventCallback = callback;
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_STOPPED) {
         if (WCM_Init(gExchangeWcmWork, 0x2300) != 0) {
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 0;
         }
         gExchangeWcmState = EXCHANGE_WCM_STATE_INITIALIZED;
     }
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_INITIALIZED) {
         if (WCM_StartupAsync(gExchangeWcmConfig, (void (*)(WCMNotice *)) ExchangeWcmNotifyCallback) != 3) {
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return 0;
         }
         gExchangeWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 1;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
@@ -772,9 +772,9 @@ u32 GetExchangeWcmState(void) {
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size) {
     u32 result;
     if (size > 0) {
-        OS_LockMutex(&gAllocMutex);
+        Os_Mutex_Lock(&gAllocMutex);
         result = gAllocFunction(size);
-        OS_UnlockMutex(&gAllocMutex);
+        Os_Mutex_Unlock(&gAllocMutex);
         return result;
     }
     return 0;
@@ -782,14 +782,14 @@ u32 CallAllocFunctionWithMutex(u32 unused, s32 size) {
 
 void CallFreeFunctionWithMutex(u32 unused, void *block, s32 size) {
     if (block != 0 && size > 0) {
-        OS_LockMutex(&gAllocMutex);
+        Os_Mutex_Lock(&gAllocMutex);
         gFreeFunction(block);
-        OS_UnlockMutex(&gAllocMutex);
+        Os_Mutex_Unlock(&gAllocMutex);
     }
 }
 
 void ClearEventQueue(void) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
     s32 eventIndex;
 
     gEventWriteIndex = 0;
@@ -797,11 +797,11 @@ void ClearEventQueue(void) {
     for (eventIndex = 0; eventIndex < 4; eventIndex++) {
         gEvents[eventIndex] = 0;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 u32 DequeueEvent(void) {
-    u32 savedInterrupts = OS_DisableInterrupts();
+    u32 savedInterrupts = Os_DisableIrq();
     s32 readIndex = gEventReadIndex;
     u32 event;
 
@@ -815,7 +815,7 @@ u32 DequeueEvent(void) {
             gEventReadIndex = 0;
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return event;
 }
 
@@ -868,7 +868,7 @@ s32 InitExchangeWiFi(u32 entryCount) {
         return -2;
     }
     do {
-        OS_Sleep(10);
+        Os_Sleep(10);
         while ((event = DequeueEvent()) != 0) {
             if (event == 4 || event == 5) {
             } else if (event == 6) {
@@ -889,7 +889,7 @@ u32 ReleaseExchangeWiFi(void) {
 
     if (CleanupExchangeWcm() != 0) {
         do {
-            OS_Sleep(10);
+            Os_Sleep(10);
             while ((event = DequeueEvent()) != 0) {
                 switch (event) {
                     case EXCHANGE_EVENT_SCAN_ROUND:
@@ -927,8 +927,8 @@ s32 ConnectExchangeAndStartSockets(void) {
     if (ConnectExchangeToEntry(entry, NULL, 0x30000) == 0) {
         return -2;
     }
-    OS_CreateAlarm(&alarm);
-    OS_SetAlarm(&alarm, 0x3fec42, (void (*)(void *)) EnqueueEvent, (void *) EXCHANGE_EVENT_CONNECT_TIMEOUT);
+    Os_Alarm_Create(&alarm);
+    Os_Alarm_Set(&alarm, 0x3fec42, (void (*)(void *)) EnqueueEvent, (void *) EXCHANGE_EVENT_CONNECT_TIMEOUT);
     notWaiting = FALSE;
     do {
         if (GetTickMilliseconds() >= gTimeoutAtMs) {
@@ -939,7 +939,7 @@ s32 ConnectExchangeAndStartSockets(void) {
             result = -8;
             break;
         }
-        OS_Sleep(10);
+        Os_Sleep(10);
         while ((event = DequeueEvent()) != 0) {
             switch (event) {
                 case EXCHANGE_EVENT_CONNECTED:
@@ -965,7 +965,7 @@ s32 ConnectExchangeAndStartSockets(void) {
             }
         }
     } while (waiting != 0);
-    OS_CancelAlarm(&alarm);
+    Os_Alarm_Cancel(&alarm);
     while (DequeueEvent() != 0) {
     }
     if (result > 0) {
@@ -986,7 +986,7 @@ void DisconnectExchangeAndStopSockets(void) {
     if (gExchangeConnected != 0) {
         if (DisconnectExchange() != 0) {
             do {
-                OS_Sleep(10);
+                Os_Sleep(10);
                 while ((event = DequeueEvent()) != 0) {
                     switch (event) {
                         case EXCHANGE_EVENT_SCAN_ROUND:
@@ -1044,8 +1044,8 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
                     (currentEntry->mSsid[0] == 0 || currentEntry->mSsid[0] == EXCHANGE_SSID_BLANK_CHAR)) {
                     break;
                 }
-                if (memcmp(currentName, previousEntry->mSsid, strlen(currentName)) == 0 &&
-                    memcmp(currentEntry->mAddress.mBytes, previousEntry->mAddress.mBytes, 4) == 0 &&
+                if (StructDC_SomeFn_6(currentName, previousEntry->mSsid, strlen(currentName)) == 0 &&
+                    StructDC_SomeFn_6(currentEntry->mAddress.mBytes, previousEntry->mAddress.mBytes, 4) == 0 &&
                     currentEntry->mEncrypted != previousEntry->mEncrypted && currentEntry->mEncrypted == 0) {
                     found = TRUE;
                     break;
@@ -1070,7 +1070,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
         for (; previousIndex < previous->mCount; previousIndex++) {
             memcpy(entryName, previousEntry->mSsid, sizeof(previousEntry->mSsid));
             entryName[previousEntry->mSsidLength] = 0;
-            if (memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
+            if (StructDC_SomeFn_6(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
                 previousEntry->mEncrypted == 0) {
                 previousHasAsterisks = TRUE;
                 break;
@@ -1082,7 +1082,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             memcpy(entryName, currentEntry->mSsid, sizeof(currentEntry->mSsid));
             entryName[currentEntry->mSsidLength] = 0;
             if (strlen(entryName) == strlen(gSixAsterisksString) &&
-                memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
+                StructDC_SomeFn_6(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
                 currentEntry->mEncrypted == 0) {
                 currentHasAsterisks = TRUE;
                 break;
@@ -1143,12 +1143,12 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
             result = -2;
             goto end;
         }
-        OS_CreateAlarm(&alarm);
-        OS_SetAlarm(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent, (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
+        Os_Alarm_Create(&alarm);
+        Os_Alarm_Set(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent, (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
         waiting = TRUE;
         result = 0;
         do {
-            OS_Sleep(10);
+            Os_Sleep(10);
             if (GetTickMilliseconds() >= gTimeoutAtMs || gStopRequested != 0) {
                 break;
             }
@@ -1161,8 +1161,8 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
                         collected = CopyExchangeScanRecords(gRawEntries, gEntryCountMax);
                         if (collected > result) {
                             result = collected;
-                            OS_CancelAlarm(&alarm);
-                            OS_SetAlarm(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent,
+                            Os_Alarm_Cancel(&alarm);
+                            Os_Alarm_Set(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent,
                                         (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
                         }
                         break;
@@ -1193,7 +1193,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
                 }
             }
         } while (waiting != FALSE);
-        OS_CancelAlarm(&alarm);
+        Os_Alarm_Cancel(&alarm);
         while (DequeueEvent() != 0) {
         }
         if (gStopRequested != 0) {
@@ -1491,7 +1491,7 @@ s32 BuildFirstReplyPacket(u8 *packet) {
 }
 
 u32 GetMacAddress(void *address) {
-    OS_GetMacAddress(address);
+    Os_GetMacAddress(address);
     return 0x1u;
 }
 
@@ -1507,7 +1507,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused) {
     peerAddress[0] &= 0xfd;
     GetMacAddress(ownAddress);
     __memcpy(&gMacAddress, ownAddress, sizeof(MacAddress));
-    if (memcmp(peerAddress, ownAddress, 6) <= 0) {
+    if (StructDC_SomeFn_6(peerAddress, ownAddress, 6) <= 0) {
         __memcpy(key, ownAddress, sizeof(MacAddress));
         __memcpy(key + 6, peerAddress, sizeof(MacAddress));
     } else {
@@ -1760,7 +1760,7 @@ s32 RunExchange(void) {
     done = FALSE;
     gExchangeState = EXCHANGE_STEP_SEARCH_ENTRY;
     while (done == FALSE && gStopRequested == 0) {
-        OS_Sleep(500);
+        Os_Sleep(500);
         switch (gExchangeState) {
             case EXCHANGE_STEP_SEARCH_ENTRY:
                 result = SearchEntriesAndStoreEntryWithEncryptionRemoved();
@@ -2046,7 +2046,7 @@ BOOL TransformBodyReversedWithKey(u8 *output, u8 *input, u32 inputLength, u8 *ke
             }
         }
     }
-    if (memcmp((u8 *) fixedBytes, workBuffer, 8) != 0) {
+    if (StructDC_SomeFn_6((u8 *) fixedBytes, workBuffer, 8) != 0) {
         valid = FALSE;
     }
     return valid;
@@ -2611,7 +2611,7 @@ void ComputeHash(u8 *digest, const u8 *input, u32 size) {
 }
 
 u32 GetTickMilliseconds(void) {
-    return _ll_udiv(OS_GetTick() << 6, 0x82ea);
+    return _ll_udiv(Os_GetTick() << 6, 0x82ea);
 }
 
 void *CallAllocFunctionAndClear(s32 count, s32 size) {
@@ -2691,14 +2691,14 @@ s32 StartExchange(u32 priority, s32 count, ExchangeStatusCallback callback, Exch
         gExchangeResultCode = -9;
         return -9;
     }
-    OS_CreateThread(&gExchangeThread, (void (*)(void *)) RunExchangeThread, NULL,
+    Os_Thread_Create(&gExchangeThread, (void (*)(void *)) RunExchangeThread, NULL,
                     (u8 *) gThreadStack + (gThreadStackSize & ~7), gThreadStackSize, priority);
     gExchangeStatus = EXCHANGE_STATUS_STARTED;
     gTimeoutAtMs = GetTickMilliseconds() + 60000;
     gStopRequested = 0;
     __clear(&gExchangeResult, 0xe8);
     CallStatusCallback();
-    OS_WakeupThreadDirect(&gExchangeThread);
+    Os_Thread_WakeUpDirect(&gExchangeThread);
     gThreadStarted = 1;
     return 1;
 }

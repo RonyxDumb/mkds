@@ -4,5 +4,5 @@
 
 void ResetInputSlotsFromRaceSetup(void);
 void ResetInputSlotsFromParticipants(void);
-void SetReadRaceKeys(u32 enable);
-BOOL IsInputOpenDuringRace(void);
+void Struct5624_SetXflag2(u32 enable);
+BOOL Struct5624_HasXflag1(void);

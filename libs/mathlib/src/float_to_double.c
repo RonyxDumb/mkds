@@ -52,7 +52,7 @@ f2d_nan:
     tst r3, #0x80000000
     bne f2d_default_nan
     stmfd sp!, {r0, r1, r3, ip, lr}
-    bl GetFloatStatus
+    bl GetAlphaFlagsRef
     mov r2, r0
     ldmfd sp!, {r0, r1, r3, ip, lr}
     ldr r3, [r2]

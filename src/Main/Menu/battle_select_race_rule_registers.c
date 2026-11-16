@@ -13,9 +13,9 @@ void WriteBattleSelectCharacterRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         BattleGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         BattleGXS_SetVisiblePlane(8);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     BattleGXS_SetVisiblePlane(0x12);
     WriteSelectCharacterRegisters();
@@ -45,7 +45,7 @@ void WriteBattleSelectRaceRuleRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         BattleGXS_SetVisiblePlane(0x1f);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectRaceRuleRegisters();
 }

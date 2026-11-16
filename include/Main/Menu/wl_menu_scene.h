@@ -4,7 +4,7 @@
 
 struct WLMenuScene;
 
-// The four functions of a Wi-Fi menu screen: init, advance, release and write registers.
+// The four functions of a Wi-Fi menu screen: StructDC_SomeFn_from_thumb, advance, release and write registers.
 typedef struct WLMenuCallbacks {
     /* 00 */ void (*mInit)();
     /* 04 */ s32 (*mAdvance)();
@@ -24,7 +24,7 @@ typedef struct WLMenuScanSlotPick {
     /* 04 */ ScanSlotText mSlotTexts[4];
 } WLMenuScanSlotPick;
 
-// Indices of gWLMenuCallbacks, which WLMenuScene.mRequestedCallbacksIndex holds.
+// Indices of g_SomeFnTable, which WLMenuScene.mRequestedCallbacksIndex holds.
 #define WL_MENU_CALLBACKS_MEMBER_GROUP 0
 #define WL_MENU_CALLBACKS_MULTI_SELECT_NS 1
 #define WL_MENU_CALLBACKS_MEMBER_KEY_START 2
@@ -47,16 +47,16 @@ typedef struct WLMenuScene {
 } WLMenuScene;
 
 WLMenuScanSlotPick *GetWLMenuSceneScanSlotPick(void);
-void WriteWLMenuSceneRegisters(void);
-u32 WLMenuMB_IsMultiBootChildWrapper(void);
-u32 WLMenuMB_IsMultiBootChild(void);
-u16 *WLMenuMB_GetMultiBootParam(void);
-void ReleaseWLMenuScene(void);
-void AdvanceWLMenuScene(void *sceneNumbers);
+void Scene_WLMenu_VblankImpl_from_thumb(void);
+u32 j_IsDwc_2(void);
+u32 IsDwc_2(void);
+u16 *GetBiosBootIndicatorRef(void);
+void Scene_WLMenu_FinalizeImpl_from_thumb(void);
+void Scene_WLMenu_UpdateImpl_from_thumb(void *sceneNumbers);
 void InitWLMenuScene(void *heap);
-void WLMenuGXS_SetOBJVRamModeChar(u32 bits);
-void WLMenuGX_SetOBJVRamModeChar(u32 bits);
+void SetSomeDispcntSubMask(u32 bits);
+void SetSomeDispcntTopMask(u32 bits);
 
-extern struct WLMenuCallbacks *gWLMenuCallbacks[WL_MENU_CALLBACKS_COUNT];
+extern struct WLMenuCallbacks *g_SomeFnTable[WL_MENU_CALLBACKS_COUNT];
 extern struct WLMenuScene *gWLMenuScene;
 

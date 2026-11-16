@@ -110,7 +110,7 @@ void UpdateKuriboFallToSurface(void *stateObject) {
     probePos.y += 0xa000;
     if (CollideSphereWithCourse(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags,
                                 NULL, NULL, NULL, NULL) != 0) {
-        VEC_Add(&kuribo->mMapObject.mPos, &correction, &kuribo->mMapObject.mPos);
+        VecFx32_Add(&kuribo->mMapObject.mPos, &correction, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPosStep.y = 0;
         if ((surfaceFlags & 0x1e34ef) != 0) {
             QuaternionFromYAxisToVec3(&surfaceNormal, &kuribo->mTargetOrientation);
@@ -207,23 +207,23 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     if (kuribo->mMapObject.mCourseMapRow == NULL || kuribo->mMapObject.mCourseMapRow->mSettings[2] != 0) {
         return;
     }
-    VEC_Subtract(&kuribo->mFollower.mFromEntry->mPos, &kuribo->mFollower.mToEntry->mPos, &launchDirection);
+    VecFx32_Subtract(&kuribo->mFollower.mFromEntry->mPos, &kuribo->mFollower.mToEntry->mPos, &launchDirection);
     if (SQUARE_SUM3(launchDirection.x, launchDirection.y, launchDirection.z) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
+        Vector3_MaybeNormalize(&launchDirection, &launchDirection);
     }
     {
         Vec3 flatHitVector = {0, 0, 0};
         flatHitVector.x = hitVector->x;
         flatHitVector.z = hitVector->z;
-        value = VEC_DotProduct(&launchDirection, &flatHitVector);
+        value = Vector3_DotProduct(&launchDirection, &flatHitVector);
         launchDirection.x = flatHitVector.x - MUL_FIXED12_NO_ROUND(launchDirection.x, value);
         launchDirection.y = flatHitVector.y - MUL_FIXED12_NO_ROUND(launchDirection.y, value);
         launchDirection.z = flatHitVector.z - MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     }
     if (SQUARE_SUM3(launchDirection.x, launchDirection.y, launchDirection.z) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
+        Vector3_MaybeNormalize(&launchDirection, &launchDirection);
     }
     itemObject = StartItemObjectOrZero(ITEM_OBJECT_KIND_KINOKO, 8, &kuribo->mMapObject.mPos, &gKuriboItemNormal);
     if (itemObject == NULL) {
@@ -232,12 +232,12 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mScale.x = 0xcd;
     itemObject->mScale.y = 0xcd;
     itemObject->mScale.z = 0xcd;
-    value = VEC_Mag(hitVector) + 0x5000;
+    value = VecFx32_Norm(hitVector) + 0x5000;
     itemObject->mVelocity.x = MUL_FIXED12_NO_ROUND(launchDirection.x, value);
     itemObject->mVelocity.y = MUL_FIXED12_NO_ROUND(launchDirection.y, value);
     itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     itemObject->mVelocity.y += 0xf000;
-    VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
+    VecFx32_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
     LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &gKuriboItemNormal);
 }
 
@@ -296,7 +296,7 @@ void ResetKuriboForItemBomb(Kuribo *kuribo) {
     kuribo->mOrientationBlendAmount = FIXED12_UNIT;
     kuribo->mOrientation = gKuriboBombResetOrientation;
     kuribo->mTargetOrientation = gKuriboBombResetTargetOrientation;
-    SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
+    StateDualHandler_SetState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
     kuribo->mMapObject.mPosStep.x = 0;
     kuribo->mMapObject.mPosStep.y = 0;
     kuribo->mMapObject.mPosStep.z = 0;
@@ -307,10 +307,10 @@ void ResetKuriboForItemBomb(Kuribo *kuribo) {
 void CreateKuribo(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile("kuribo.nsbmd");
-    nsbtpFile = FindCourseMapObjFile("kuribo.nsbtp");
-    CreateNsbmdModel(&gKuribo, nsbmdFile, nsbtpFile, 0);
-    SetNsbmdModelFixedAttributes(gKuribo);
+    nsbmdFile = FormatFindMapObjFileBuffer_from_thumb("kuribo.nsbmd");
+    nsbtpFile = FormatFindMapObjFileBuffer_from_thumb("kuribo.nsbtp");
+    CreateMapObjectSubFrom_from_thumb(&gKuribo, nsbmdFile, nsbtpFile, 0);
+    StructMapObjectSub_SomeFn_1(gKuribo);
 }
 
 #pragma thumb off

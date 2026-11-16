@@ -26,5 +26,5 @@ void CPSi_SslCleanup(void) {
     table = (u32) &gHttpsEntries;
     fillByte = 0u;
     byteCount = 0x170u;
-    MI_CpuFill8((void *) table, fillByte, byteCount);
+    Mem_CpuFill8((void *) table, fillByte, byteCount);
 }

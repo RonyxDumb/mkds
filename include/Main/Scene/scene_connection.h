@@ -5,18 +5,18 @@
 typedef struct SceneNumbers SceneNumbers;
 
 s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag);
-void RunMessageScreenOfKindWrapper(s32 kind);
-u32 IsVolatileHalfwordIndex39Ignored(void);
+void j_NotifyError(s32 kind);
+u32 MaybeIfExpectsReturnToTitleScene(void);
 BOOL ShouldGoSleepMode(void);
 u32 IsDataSharingIncomplete(void);
-void InitSceneRunState(void *heap);
-void ScenePostSleepCallback(void);
-void ScenePreSleepCallback(void *arg);
-void RunMessageScreenOfKind(s32 kind);
+void InitializeGlobalZM(void *heap);
+void ZM_SomeFn2(void);
+void ZM_SomeFn(void *arg);
+void NotifyError(s32 kind);
 void RunMessageScreen(void);
-void RunMessageScreenThread(void *unused);
-s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene);
-s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId);
-void AdvanceWiFiSessionOnIrqWrapper(void);
+void ZM_ThreadEntry(void *unused);
+s32 ShouldPauseBgmInSceneChange(s32 scene, s32 nextScene);
+s32 TryGetSceneSpecialBgmSseqId(s32 sceneNumber, s32 *seqId);
+void DisplayConfig_VblankFn(void);
 u32 GetSceneFadeToFadedFrameCount(void);
 s16 GetSceneFadeToClearFrameCount(void);

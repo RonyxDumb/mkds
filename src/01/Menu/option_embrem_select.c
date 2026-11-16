@@ -22,14 +22,14 @@ const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0
 const u8 gOptionEmbremSelectTimerCellIndices[3][2] = {{0xa, 0xb}, {6, 7}, {4, 5}};
 const u8 gOptionEmbremSelectCellIndices[2][2] = {{0xc, 0}, {0xd, 0xe}};
 OptionEmbremSelect *gOptionEmbremSelect;
-u8 gOverlayExpHeapBuffer[0x20800];
+u8 g_Overlay3Region[0x20800];
 
 void InitOptionEmbremSelect(void *heap) {
     s32 rowIndex;
     OptionEmbremSelect *optionEmbremSelect;
     void *bmgEntry;
 
-    gOptionEmbremSelect = HeapAlloc(heap, sizeof(OptionEmbremSelect));
+    gOptionEmbremSelect = Mem_AllocateHeap(heap, sizeof(OptionEmbremSelect));
     gOptionEmbremSelect->mHeap = heap;
     gOptionEmbremSelect->mState = OPTION_EMBREM_SELECT_STATE_WAIT_FADE;
     gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_FADE;
@@ -38,19 +38,19 @@ void InitOptionEmbremSelect(void *heap) {
     gOptionEmbremSelect->mHighlightVisible = TRUE;
     LocateAndQueueOptionEmbremSelect();
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
-        SetCellOamModeXlu(gOptionEmbremSelectSTableIndices[rowIndex][0], 1,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gOptionEmbremSelectSTableIndices[rowIndex][0], 1,
                           gOptionEmbremSelect->mOptionEmbremSelectSNcer, gOptionEmbremSelect->mOptionEmbremSelectSBncl);
     }
-    ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
+    OamBuffer_SomeFn_from_thumb(GetOptionFirstBuffer(), GetOptionSecondBuffer());
     InitLayoutTable(heap, gOptionEmbremSelect->mOptionEmbremSelectSBncl, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
                     &gOptionEmbremSelect->mOptionEmbremSelectSTable);
-    gOptionEmbremSelect->mOptionMessages = FindSceneFile("option.bmg");
-    gOptionEmbremSelect->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gOptionEmbremSelect->mOptionMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("option.bmg");
+    gOptionEmbremSelect->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     InitLabelCanvas(heap, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, 0xa0, 0xe, 9,
                     gOptionEmbremSelect->mOptionEmbremSelectSNcer, gOptionEmbremSelect->mOptionEmbremSelectSBncl,
                     gOptionEmbremSelect->mOptionEmbremSelectSTable, 0x4000);
     optionEmbremSelect = gOptionEmbremSelect;
-    bmgEntry = GetBmgEntry(optionEmbremSelect->mOptionMessages, 8);
+    bmgEntry = Bmg_GetRawStringPointer_from_thumb(optionEmbremSelect->mOptionMessages, 8);
     PrintLabelLayoutTextNoFixedAdvance(1, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, bmgEntry,
                                        optionEmbremSelect->mOptionEmbremSelectSBncl,
                                        optionEmbremSelect->mOptionEmbremSelectSTable);
@@ -76,29 +76,29 @@ void LocateAndQueueOptionEmbremSelect(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
-    LocateNscr(&nscr, FindSceneFile("Option_top_menu_m.nscr"));
-    LocateNclr(&nclr, FindSceneFile("Option_top_menu_m_b.nclr"));
-    gOptionEmbremSelect->mOptionEmbremSelectSBncl = FindSceneFile("Option_embrem_select_s.bncl");
-    gOptionEmbremSelect->mOptionEmbremSelectSBnbl = FindSceneFile("Option_embrem_select_s.bnbl");
-    gOptionEmbremSelect->mOptionEmbremSelectSBnll = FindSceneFile("Option_embrem_select_s.bnll");
-    LocateNcgr2(&gOptionEmbremSelect->mOptionEmbremSelectSNcgr, FindSceneFile("Option_embrem_select_s.nce.ncgr"));
-    LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSNcer, FindSceneFile("Option_embrem_select_s.nce.ncer"));
-    LocateNclr(&gOptionEmbremSelect->mOptionEmbremSelectSONclr, FindSceneFile("Option_embrem_select_s_o.nclr"));
-    NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, nclr->mData, 0x100);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mData,
+    MaybeReadCharBlock_1(&ncgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_top_menu_m_b.ncgr"));
+    MaybeReadScreenBlock(&nscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_top_menu_m.nscr"));
+    Gfx_ReadPaletteRelative(&nclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_top_menu_m_b.nclr"));
+    gOptionEmbremSelect->mOptionEmbremSelectSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_embrem_select_s.bncl");
+    gOptionEmbremSelect->mOptionEmbremSelectSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_embrem_select_s.bnbl");
+    gOptionEmbremSelect->mOptionEmbremSelectSBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_embrem_select_s.bnll");
+    Gfx_ReadCharGraphicsRelative(&gOptionEmbremSelect->mOptionEmbremSelectSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_embrem_select_s.nce.ncgr"));
+    LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_embrem_select_s.nce.ncer"));
+    Gfx_ReadPaletteRelative(&gOptionEmbremSelect->mOptionEmbremSelectSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_embrem_select_s_o.nclr"));
+    AllocateReserveTEQSub(4, 0, ncgr->mData, ncgr->mDataSize);
+    AllocateReserveTEQSub(8, 0, nscr->mData, nscr->mDataSize);
+    AllocateReserveTEQSub(0xf, 0, nclr->mData, 0x100);
+    AllocateReserveTEQSub(0x23, 0, gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mData,
                                        gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionEmbremSelect->mOptionEmbremSelectSONclr->mData,
+    AllocateReserveTEQSub(0x1e, 0, gOptionEmbremSelect->mOptionEmbremSelectSONclr->mData,
                                        gOptionEmbremSelect->mOptionEmbremSelectSONclr->mDataSize);
 }
 
 BOOL IsBackupEmblemOff(void) {
-    if (gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
+    if (g_SaveDataHolder->mFirstBlock->mEmblemOff == 0) {
         return FALSE;
     }
-    if (gBackupBuffers->mFirstBlock->mEmblemOff != 0) {
+    if (g_SaveDataHolder->mFirstBlock->mEmblemOff != 0) {
         return TRUE;
     }
     return TRUE;
@@ -106,7 +106,7 @@ BOOL IsBackupEmblemOff(void) {
 
 void AdvanceOptionEmbremSelectWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_IN;
     }
@@ -118,7 +118,7 @@ void AdvanceOptionEmbremSelectSlideIn(void) {
     s16 offsetX;
 
     gOptionEmbremSelect->mStateFrames++;
-    offsetX = InterpolateS16(1, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, 0, gOptionEmbremSelect->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, 0, gOptionEmbremSelect->mStateFrames,
                              OPTION_EMBREM_SELECT_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
@@ -152,32 +152,32 @@ void AdvanceOptionEmbremSelectSelect(void) {
     u16 hasPair;
     u16 keyBPressed;
 
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
         touchedRect = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl,
-                                              gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
+                                              g_GlobalCYT[slotIndex].mPair.mPairX, g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    keyBPressed = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B;
     if (keyBPressed != 0) {
         goto next;
     }
     touchBegan = FALSE;
     recentlyLost = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         touchBegan = TRUE;
     }
-    if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                     gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
+    if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                                     g_GlobalCYT[slotIndex].mPair.mPairY) != FALSE) {
     next:
         gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_OUT;
         gOptionEmbremSelect->mNextOptionState = OPTION_STATE_HENSYU_MENU;
@@ -187,13 +187,13 @@ void AdvanceOptionEmbremSelectSelect(void) {
             RequestSelectReturnPressWithSound(0);
         }
         if (gOptionEmbremSelect->mEmblemOffChoice == 0) {
-            gBackupBuffers->mFirstBlock->mEmblemOff = 0;
+            g_SaveDataHolder->mFirstBlock->mEmblemOff = 0;
         } else {
-            gBackupBuffers->mFirstBlock->mEmblemOff = 1;
+            g_SaveDataHolder->mFirstBlock->mEmblemOff = 1;
         }
-        WriteBackupFirstBlockWrapper();
+        WriteSaveDataSectionHeaderToSaveData_from_thumb();
     } else {
-        keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+        keyBPressed = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A;
         if ((keyBPressed != 0 && gOptionEmbremSelect->mSelectedRow == 0) || touchedRect == 0) {
             if (gOptionEmbremSelect->mSelectedRow == 0) {
                 gOptionEmbremSelect->mHighlightVisible = FALSE;
@@ -201,38 +201,38 @@ void AdvanceOptionEmbremSelectSelect(void) {
             gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_HOLD_CHOSEN;
             gOptionEmbremSelect->mNextOptionState = OPTION_STATE_SCENE_EMBLEM;
             gOptionEmbremSelect->mSelectedRow = 0;
-            gMenuShared->mOptionReturnsToEmbremSelect = TRUE;
-            StartSoundOncePerFrame(5);
+            g_GlobalB488->mOptionReturnsToEmbremSelect = TRUE;
+            MaybePlaySomeSseqFromSarc0(5);
         } else if (touchedRect == 1) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice++;
-            StartSoundOncePerFrame(1);
+            MaybePlaySomeSseqFromSarc0(1);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gOptionEmbremSelect->mSelectedRow > 0) {
             gOptionEmbremSelect->mSelectedRow--;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gOptionEmbremSelect->mSelectedRow < 1) {
             gOptionEmbremSelect->mSelectedRow++;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
             gOptionEmbremSelect->mEmblemOffChoice--;
             gOptionEmbremSelect->mOffsetTimers[0] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
-            StartSoundOncePerFrame(1);
+            MaybePlaySomeSseqFromSarc0(1);
         } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
             gOptionEmbremSelect->mEmblemOffChoice++;
             if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
                 gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             }
-            StartSoundOncePerFrame(1);
+            MaybePlaySomeSseqFromSarc0(1);
         } else if (touchedRect == 2) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice--;
             gOptionEmbremSelect->mOffsetTimers[0] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
-            StartSoundOncePerFrame(1);
+            MaybePlaySomeSseqFromSarc0(1);
         } else if (touchedRect == 3) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice++;
             gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
-            StartSoundOncePerFrame(1);
+            MaybePlaySomeSseqFromSarc0(1);
         }
     }
     if (gOptionEmbremSelect->mEmblemOffChoice < 0) {
@@ -267,7 +267,7 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
         RequestOptionNextScene(3);
     }
     gOptionEmbremSelect->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, gOptionEmbremSelect->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, gOptionEmbremSelect->mStateFrames,
                              OPTION_EMBREM_SELECT_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
@@ -295,9 +295,9 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
                     arg = 10;
                 }
                 obj->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE;
-                SetTxtSystemOpenSoundId(0x21);
-                first = GetBmgEntry(gOptionEmbremSelect->mOptionMessages, arg);
-                SetupTxtSystemSubTextButton(first, GetBmgEntry(gOptionEmbremSelect->mCommonMessages, 4));
+                TextSystem_SetFadeInSseqId_from_thumb(0x21);
+                first = Bmg_GetRawStringPointer_from_thumb(gOptionEmbremSelect->mOptionMessages, arg);
+                TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(first, Bmg_GetRawStringPointer_from_thumb(gOptionEmbremSelect->mCommonMessages, 4));
                 gOptionEmbremSelect->mStateFrames = 0;
             }
         }
@@ -307,10 +307,10 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
 void AdvanceOptionEmbremSelectWaitMessage(void) {
     s32 backupBusy;
 
-    if (GetTxtSystemDone() != 0) {
-        if (gBackupBuffers->mBusy == 0) {
-            if (gBackupAccess->mBackupEnabled != 0) {
-                backupBusy = gBackupAccess->mCommandRunning;
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        if (g_SaveDataHolder->mBusy == 0) {
+            if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                backupBusy = g_SaveDataIoManager->mCommandRunning;
             } else {
                 backupBusy = 0;
             }
@@ -318,12 +318,12 @@ void AdvanceOptionEmbremSelectWaitMessage(void) {
             backupBusy = 1;
         }
         if (backupBusy == 0) {
-            SetTxtSystemOpenSoundId(0x23);
-            RequestTxtSystemClose();
+            TextSystem_SetFadeInSseqId_from_thumb(0x23);
+            TextSystem_CloseDialog_from_thumb();
             return;
         }
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
         RequestOptionState(gOptionEmbremSelect->mNextOptionState);
     }
 }

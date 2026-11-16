@@ -3,11 +3,11 @@
 #include "Main/Race/race_setup_input.h"
 #include "Main/Scene/run_scenes.h"
 
-WvrState gWvrState;
+WvrState g_SomeVramConfigMode;
 
-u32 InitAndRunScenesForever(void) {
-    InitAfterStartup();
-    RunScenesForever();
-    ReleaseTouchMicInputWrapper();
+u32 StartExecuteFunction(void) {
+    InitializeGeneralObjects();
+    RunMain();
+    j_ResetGlobal59C4();
     return 0;
 }

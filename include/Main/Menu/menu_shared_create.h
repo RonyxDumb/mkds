@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateMenuShared(void *heap);
+void InitializeGlobalB488_from_thumb(void *heap);

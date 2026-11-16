@@ -1,7 +1,7 @@
 #include "fixed_vector_math.h"
 #include "registers.h"
 
-const s16 FX_SinCosTable_[8192] = {
+const s16 g_SinFx16Table_AndCos[8192] = {
     0, 0x1000, 6, 0x1000, 0xd, 0x1000, 0x13, 0x1000,
     0x19, 0x1000, 0x1f, 0x1000, 0x26, 0x1000, 0x2c, 0x1000,
     0x32, 0x1000, 0x39, 0x1000, 0x3f, 0x1000, 0x45, 0xfff,
@@ -1029,26 +1029,26 @@ const s16 FX_SinCosTable_[8192] = {
 };
 
 // Adds two vectors component by component: sum = a + b.
-void VEC_Add(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *sum) {
+void VecFx32_Add(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *sum) {
     sum->x = firstVec->x + secondVec->x;
     sum->y = firstVec->y + secondVec->y;
     sum->z = firstVec->z + secondVec->z;
 }
 
 // Subtracts two vectors component by component: difference = a - b.
-void VEC_Subtract(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *difference) {
+void VecFx32_Subtract(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *difference) {
     difference->x = firstVec->x - secondVec->x;
     difference->y = firstVec->y - secondVec->y;
     difference->z = firstVec->z - secondVec->z;
 }
 
 // Dot product of two 20.12 vectors, rounded to 20.12.
-s32 VEC_DotProduct(const Vec3 *firstVec, const Vec3 *secondVec) {
+s32 Vector3_DotProduct(const Vec3 *firstVec, const Vec3 *secondVec) {
     return DOT3_FIXED12_ROUNDED(firstVec->x, secondVec->x, firstVec->y, secondVec->y, firstVec->z, secondVec->z);
 }
 
 // Dot product of two 4.12 halfword vectors, rounded to 20.12.
-s32 VEC_Fx16DotProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec) {
+s32 VecFx16_DotProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec) {
     s32 sum;
     s32 last;
 
@@ -1059,7 +1059,7 @@ s32 VEC_Fx16DotProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec) {
 }
 
 // Cross product of two 20.12 vectors, rounded to 20.12.
-void VEC_CrossProduct(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *result) {
+void VecFx32_CrossProduct(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *result) {
     s32 resultX;
     s32 resultY;
     s32 resultZ;
@@ -1073,7 +1073,7 @@ void VEC_CrossProduct(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *result)
 }
 
 // Cross product of two 4.12 halfword vectors.
-void VEC_Fx16CrossProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec, Vec3s16 *result) {
+void VecFx16_CrossProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec, Vec3s16 *result) {
     s32 resultX;
     s32 resultY;
     s32 resultZ;
@@ -1087,7 +1087,7 @@ void VEC_Fx16CrossProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec, Vec
 }
 
 // Length of a vector, from the square root coprocessor.
-s32 VEC_Mag(const Vec3 *vec) {
+s32 VecFx32_Norm(const Vec3 *vec) {
     s64 squared;
 
     squared = (s64) vec->x * vec->x;
@@ -1101,7 +1101,7 @@ s32 VEC_Mag(const Vec3 *vec) {
 }
 
 // Scales a vector to length 1.0 using the divider and square root coprocessors.
-void VEC_Normalize(const Vec3 *src, Vec3 *dst) {
+void VecFx32_Normalize(const Vec3 *src, Vec3 *dst) {
     s64 squared;
     s32 root;
     s64 scale;
@@ -1126,7 +1126,7 @@ void VEC_Normalize(const Vec3 *src, Vec3 *dst) {
 }
 
 // Scales a halfword vector to length 1.0 using the divider and square root coprocessors.
-void VEC_Fx16Normalize(const Vec3s16 *src, Vec3s16 *dst) {
+void VecFx16_Normalize(const Vec3s16 *src, Vec3s16 *dst) {
     s32 root;
     s64 scale;
     s64 squared;
@@ -1151,14 +1151,14 @@ void VEC_Fx16Normalize(const Vec3s16 *src, Vec3s16 *dst) {
 }
 
 // result = base + vector * scale, with scale in 20.12.
-void VEC_MultAdd(s32 scale, const Vec3 *vector, const Vec3 *base, Vec3 *result) {
+void VecFx32_AddScale1(s32 scale, const Vec3 *vector, const Vec3 *base, Vec3 *result) {
     result->x = base->x + MUL_FIXED12_NO_ROUND(scale, vector->x);
     result->y = base->y + MUL_FIXED12_NO_ROUND(scale, vector->y);
     result->z = base->z + MUL_FIXED12_NO_ROUND(scale, vector->z);
 }
 
 // Distance between two points, from the square root coprocessor.
-s32 VEC_Distance(const Vec3 *firstVec, const Vec3 *secondVec) {
+s32 VecFx32_Distance(const Vec3 *firstVec, const Vec3 *secondVec) {
     s32 deltaX;
     s32 deltaY;
     s32 deltaZ;
@@ -1190,7 +1190,7 @@ s32 FX_Inv(s32 denom) {
 }
 
 // Returns the raw 64-bit result of 1.0 / denom.
-s64 FX_InvFx64c(s32 denom) {
+s64 FX_Inv64(s32 denom) {
     FX_InvAsync(denom);
     while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
@@ -1243,7 +1243,7 @@ void FX_DivAsync(s32 numer, s32 denom) {
 }
 
 // Integer division on the divider.
-s32 FX_DivS32(s32 numer, s32 denom) {
+s32 Fx_DivS32(s32 numer, s32 denom) {
     reg_CP_DIVCNT = 0;
     reg_CP_DIV_NUMER_LO = numer;
     reg_CP_DIV_DENOM = (u32) denom;

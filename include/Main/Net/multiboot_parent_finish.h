@@ -8,7 +8,7 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Three pointers filled in by LoadNclrData, LoadNcgrData2 and LoadNscrData.
+// Three pointers filled in by Gfx_ReadPalette, Gfx_ReadCharGraphics and MaybeReadScreenBlock_0.
 typedef struct Bg1Files {
     /* 00 */ Nclr *mPalette;
     /* 04 */ Ncgr *mChars;
@@ -19,7 +19,7 @@ typedef struct Bg1Files {
 #define LOGO_READ_BACKUP_FRAMES 120
 #define LOGO_SUB_TEXT_FRAMES 90
 
-// The logo scene: its main and sub backgrounds, state machine, backup read counters and common messages.
+// The logo scene: its NtrMain and sub backgrounds, state machine, backup read counters and common messages.
 typedef struct LogoScene {
     /* 00 */ Bg1Files mMainBg;
     /* 0c */ Bg1Files mSubBg;
@@ -37,8 +37,8 @@ typedef struct LogoScene {
     /* 38 */ Bmg *mCommonMessages;
 } LogoScene;
 
-extern LogoScene *gLogoScene;
-extern s32 gDwcInitResult;
+extern LogoScene *g_LogoContext;
+extern s32 g_DwcStatus;
 
 void DisconnectRemovedChildren(void);
 void FinishMultiBootParentSetup(void);

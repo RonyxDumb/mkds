@@ -142,7 +142,7 @@ void SetScrollBarDragSound(s32 targetOffset) {
     if (distance < 2) {
         volume = 0;
     } else if (distance < 6) {
-        volume = FX_DivS32(0x7f, 6 - distance);
+        volume = Fx_DivS32(0x7f, 6 - distance);
     } else {
         volume = 0x7f;
     }
@@ -150,7 +150,7 @@ void SetScrollBarDragSound(s32 targetOffset) {
     if (distance < 2) {
         pitch = -0x100;
     } else if (distance < 6) {
-        pitch = FX_DivS32(0x200, 6 - distance) - 0x100;
+        pitch = Fx_DivS32(0x200, 6 - distance) - 0x100;
     } else {
         pitch = 0x100;
     }

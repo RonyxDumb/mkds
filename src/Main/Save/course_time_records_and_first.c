@@ -7,9 +7,9 @@
 #pragma thumb on
 
 // Writes the course time record block now and only starts the write of the first block.
-void WriteCourseTimeRecordsAndFirstBlock(void) {
-    WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
-    StartWriteBackupFirstBlock();
+void WriteTimeTrialsSaveDataSectionAndHeader_from_thumb(void) {
+    WriteSaveDataSection_TimeTrials_from_thumb(g_SaveDataHolder->mCourseTimeRecordBlock);
+    WriteSaveDataHeader_from_thumb();
 }
 
 #pragma thumb off

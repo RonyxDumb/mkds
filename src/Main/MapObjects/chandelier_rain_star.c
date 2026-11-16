@@ -37,7 +37,7 @@ void InitChandelierObjects(MapObjectList *objectList) {
     for (objectIndex = 0;
          objectIndex < objectList->mMapObjectCount && (chandelier = objectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
-        random = &gRaceProgress->mLocalRandom;
+        random = &g_GlobalMV->mLocalRandom;
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
         chandelier->mTimer = (u16) (((u64) (u32) (random->mValue >> 32) * 0x3c) >> 32) + 0x3c;
     }
@@ -110,7 +110,7 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
         }
     }
     nextFrameIndex = chandelier->mFrameIndex + 1;
-    if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gChandelier)) {
+    if (nextFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(gChandelier)) {
         nextFrameIndex = 0;
     }
     chandelier->mFrameIndex = nextFrameIndex;
@@ -120,17 +120,17 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
 }
 
 MapObjectList *CreateChandelierDrawList(void) {
-    return CreateMapObjectDrawList1(CreateChandelier, DrawChandelier, NULL);
+    return CreateMapObjectDrawList1(LoadChandelierMapObject, DrawChandelier, NULL);
 }
 
 MapObjectList *CreateChandelierUpdateList(void) {
     return CreateMapObjectUpdateList(InitChandelierObjects, UpdateChandelier, NULL);
 }
 
-void CreateRainStar(void *mapObjectList) {
-    CreateMapObjectModelNsbtaAnimation(gRainStar = CreateMapObjectModelAnimated(mapObjectList, "RainStar.nsbmd"),
+void LoadRainStarMapObject(void *mapObjectList) {
+    StructMapObject_AddAnimationNsbta_from_thumb(gRainStar = CreateMapObjectFromModel_from_thumb(mapObjectList, "RainStar.nsbmd"),
                                        "RainStar.nsbta");
-    SetMapObjectModelPolygonId(gRainStar, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gRainStar, 0x3f);
 }
 
 void DrawRainStar(void *mapObjectList, RainStar *rainStar) {
@@ -144,19 +144,19 @@ void DrawRainStar(void *mapObjectList, RainStar *rainStar) {
     rainStar->mMapObject.mMatrix.mRows[3].z = rainStar->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &rainStar->mMapObject.mMatrix, 0xc);
     if (rainStar->mMapObject.mAngle != 0) {
-        MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(rainStar->mMapObject.mAngle),
+        MTX_RotY33__from_thumb(&rotationMatrix, SIN_OF_ANGLE(rainStar->mMapObject.mAngle),
                     COS_OF_ANGLE(rainStar->mMapObject.mAngle));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &rainStar->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtaFrameIndex(gRainStar, rainStar->mFrameIndex);
+    StructMapObject_SomeFn_3(gRainStar, rainStar->mFrameIndex);
     DrawMapObjectModel(mapObjectList, gRainStar, rainStar);
 }
 
 void UpdateRainStar(void *mapObjectList, RainStar *rainStar) {
     u16 frameCount;
 
-    frameCount = GetMapObjectModelNsbtaFrameCount(gRainStar);
+    frameCount = StructMapObject_SomeFn_2(gRainStar);
     rainStar->mFrameIndex += 1;
     if (rainStar->mFrameIndex >= frameCount) {
         rainStar->mFrameIndex = 0;
@@ -165,7 +165,7 @@ void UpdateRainStar(void *mapObjectList, RainStar *rainStar) {
 }
 
 MapObjectList *CreateRainStarDrawList(void) {
-    return CreateMapObjectDrawList1(CreateRainStar, DrawRainStar, NULL);
+    return CreateMapObjectDrawList1(LoadRainStarMapObject, DrawRainStar, NULL);
 }
 
 MapObjectList *CreateRainStarUpdateList(void) {

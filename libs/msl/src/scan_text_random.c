@@ -215,7 +215,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
             chb = fn(source, 0, 0);
             if (formatChar != chb) {
                 fn(source, chb, 1);
-                goto exit;
+                goto CheckZetaInvokeBeta;
             }
             format++;
             consumedCount++;
@@ -230,7 +230,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
         }
         if (spec.mSpecChar != 'n') {
             if (fn(source, 0, 2) != 0) {
-                goto exit;
+                goto CheckZetaInvokeBeta;
             }
         }
         switch (spec.mSpecChar) {
@@ -246,7 +246,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     u32 = ScanInt32(base, spec.mMaxLength, fn, source, &usedCount, &negative, &overflow);
                 }
                 if (usedCount == 0) {
-                    goto exit;
+                    goto CheckZetaInvokeBeta;
                 }
                 consumedCount += usedCount;
                 if (spec.mArgKind == SCAN_ARG_LONG_LONG) {
@@ -309,7 +309,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     u32 = ScanInt32(base, spec.mMaxLength, fn, source, &usedCount, &negative, &overflow);
                 }
                 if (usedCount == 0) {
-                    goto exit;
+                    goto CheckZetaInvokeBeta;
                 }
                 consumedCount += usedCount;
                 if (negative != 0) {
@@ -360,7 +360,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
             case 'g':
                 doubleValue = ScanDouble(spec.mMaxLength, fn, source, &usedCount, &overflow);
                 if (usedCount == 0) {
-                    goto exit;
+                    goto CheckZetaInvokeBeta;
                 }
                 consumedCount += usedCount;
                 if (destination != 0) {
@@ -397,7 +397,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     }
                     chb = ch;
                     if (usedCount == 0) {
-                        goto exit;
+                        goto CheckZetaInvokeBeta;
                     }
                     consumedCount += usedCount;
                     assignedCount++;
@@ -409,7 +409,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     }
                     chb = ch;
                     if (usedCount == 0) {
-                        goto exit;
+                        goto CheckZetaInvokeBeta;
                     }
                 }
                 conversionCount++;
@@ -420,7 +420,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 }
                 if (chb != '%') {
                     fn(source, chb, 1);
-                    goto exit;
+                    goto CheckZetaInvokeBeta;
                 }
                 consumedCount++;
                 break;
@@ -450,7 +450,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     chb = ch;
                     if (usedCount == 0) {
                         fn(source, chb, 1);
-                        goto exit;
+                        goto CheckZetaInvokeBeta;
                     }
                     consumedCount += usedCount;
                     if (spec.mArgKind == SCAN_ARG_WIDE) {
@@ -503,10 +503,10 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 break;
             case SCAN_SPEC_INVALID:
             default:
-                goto exit;
+                goto CheckZetaInvokeBeta;
         }
     }
-exit:
+CheckZetaInvokeBeta:
     if (fn(source, 0, 2) != 0 && conversionCount == 0) {
         return -1;
     }

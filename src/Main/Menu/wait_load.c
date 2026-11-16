@@ -7,13 +7,13 @@
 
 #pragma thumb on
 
-char *gWaitNclrName = "common/wait.nclr";
+char *g_str_common_wait_nclr = "common/wait.nclr";
 Wait *gWait = NULL;
-char *gWaitNcerName = "common/wait.nce.ncer";
+char *g_str_common_wait_nce_ncer = "common/wait.nce.ncer";
 char *gWaitBnclName = "common/wait.bncl";
-char *gWaitNcgrName = "common/wait.nce.ncgr";
+char *g_str_common_wait_nce_ncgr = "common/wait.nce.ncgr";
 
-void LoadWaitData(void) {
+void VerifyCommonWaitFiles_from_thumb(void) {
     void *sceneFile;
     NNSG2dCellDataBank *cells;
     Ncgr *chars;
@@ -21,12 +21,12 @@ void LoadWaitData(void) {
     cells = NULL;
     chars = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gWaitNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gWaitNcgrName);
-    LoadNcgrData2(&chars, sceneFile);
-    sceneFile = FindSceneFile(gWaitNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(g_str_common_wait_nce_ncer);
+    LoadCellBankFrom(&cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(g_str_common_wait_nce_ncgr);
+    Gfx_ReadCharGraphics(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(g_str_common_wait_nclr);
+    Gfx_ReadPalette(palette, sceneFile);
 }
 
 void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl,
@@ -34,15 +34,15 @@ void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTabl
     Wait *wait;
     Wait *newWait;
     void *sceneFile;
-    newWait = HeapAlloc(heap, sizeof(Wait));
+    newWait = Mem_AllocateHeap(heap, sizeof(Wait));
     gWait = newWait;
-    sceneFile = FindSceneFile(gWaitNcerName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(g_str_common_wait_nce_ncer);
     LocateNcer(&gWait->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gWaitNcgrName);
-    LocateNcgr2(&gWait->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gWaitNclrName);
-    LocateNclr(&gWait->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gWaitBnclName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(g_str_common_wait_nce_ncgr);
+    Gfx_ReadCharGraphicsRelative(&gWait->mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(g_str_common_wait_nclr);
+    Gfx_ReadPaletteRelative(&gWait->mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gWaitBnclName);
     gWait->mBncl = sceneFile;
     gWait->mDestinationNcer = destinationNcer;
     gWait->mDestinationBncl = destinationBncl;

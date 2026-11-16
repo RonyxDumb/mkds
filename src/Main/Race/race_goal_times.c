@@ -59,7 +59,7 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
             continue;
         }
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mCell =
-            GetRaceSNcerEntry(inFirstHalf != FALSE ? 0xa5 : 0xa6);
+            GetB3C4_Cell_RaceS(inFirstHalf != FALSE ? 0xa5 : 0xa6);
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mPriority = 1;
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mXlu = 0;
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mAngle = object->mAngle;
@@ -75,7 +75,7 @@ void DrawRaceHudSubScreenFireball2Cells(RaceHudOamBuffer *oamBuffer) {
 void InitRaceGoalTimes(void) {
     u16 lapIndex;
 
-    gRaceGoalTimes = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceGoalTimes));
+    gRaceGoalTimes = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gRaceGoalTimes));
     gRaceGoalTimes->mFinishTime.mDigits[0] = 0;
     gRaceGoalTimes->mFinishTime.mDigits[1] = 0;
     gRaceGoalTimes->mFinishTime.mDigits[2] = 0;
@@ -107,19 +107,19 @@ void UpdateRaceGoalTimes(void) {
     u16 lapIndex;
     s32 cycleStep;
 
-    if (gRaceSetup->mMode != MODE_GRAND_PRIX && gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (g_GlobalCO->mMode != MODE_GRAND_PRIX && g_GlobalCO->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
+    GetPlayerTotalTime(GetCurrentPlayerRacerId(), &minute, &second, &millisecond);
     SplitTimeDigits(minute, second, millisecond, &gRaceGoalTimes->mFinishTime);
-    for (lapIndex = 0; lapIndex < GetLapCount(); lapIndex++) {
-        GetKartLapTime(GetFollowedKartOrEntryIndex(), lapIndex + 1, &minute, &second, &millisecond);
+    for (lapIndex = 0; lapIndex < GetCurrentLapCount(); lapIndex++) {
+        MaybeGetPlayerLapTime(GetCurrentPlayerRacerId(), lapIndex + 1, &minute, &second, &millisecond);
         SplitTimeDigits(minute, second, millisecond, &gRaceGoalTimes->mLapTimes[lapIndex]);
     }
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (g_GlobalCO->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    if (IsRaceNewRecordTaFinishRecord() == 0 && IsRaceNewRecordTaBestLapRecord() == 0) {
+    if (IsRaceNewRecordTaFinishRecord() == 0 && GetLastTimeTrialWasRecord() == 0) {
         return;
     }
     gRaceGoalTimes->mRecordCycleFrame++;
@@ -152,48 +152,48 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
     s32 cellOffset;
     s32 rowY;
 
-    updateFrames = GetRaceGoalMUpdateFrames();
-    if (gRaceSetup->mMode != MODE_GRAND_PRIX && gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    updateFrames = GetB3F0_Beb1();
+    if (g_GlobalCO->mMode != MODE_GRAND_PRIX && g_GlobalCO->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_START_BATTLE || g_GlobalCO->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    if (IsRaceNewRecordTaSaving() != 0) {
-        cell = GetRaceGoalMNcerEntry(0x43);
+    if (IsSavingTimeTrialRecord() != 0) {
+        cell = GetB3C4_Cell_RaceGoalM(0x43);
         positions[0][0] = 0x80000;
         positions[0][1] = 0x60000;
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+        oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, positions[0], 0, 1);
     }
     if (updateFrames <= 0) {
         return;
     }
     for (rowIndex = 0; rowIndex < 6; rowIndex++) {
-        slideOffsets[rowIndex] = InterpolateS16(1, 0x80, 0, updateFrames - rowIndex * 4, 0x14);
+        slideOffsets[rowIndex] = ComputeValueInterpolation_from_thumb(1, 0x80, 0, updateFrames - rowIndex * 4, 0x14);
     }
-    cell = GetRaceGoalMNcerEntry((IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x15);
+    cell = GetB3C4_Cell_RaceGoalM((IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x15);
     positions[1][0] = TO_FIXED12(slideOffsets[0] + 0xa2);
     positions[1][1] = 0x10000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, positions[1], 0, 1);
     DrawRaceGoalTimeDigits(oamBuffer, slideOffsets[0], 0x10, &gRaceGoalTimes->mFinishTime,
                            IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0);
-    cell = GetRaceGoalMNcerEntry((IsRaceNewRecordTaBestLapRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x16);
+    cell = GetB3C4_Cell_RaceGoalM((GetLastTimeTrialWasRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x16);
     positions[2][0] = TO_FIXED12(slideOffsets[1] + 0x99);
     positions[2][1] = 0x28000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, positions[2], 0, 1);
-    for (rowIndex = 0; rowIndex < GetLapCount(); rowIndex++) {
+    for (rowIndex = 0; rowIndex < GetCurrentLapCount(); rowIndex++) {
         cellOffset = 0;
-        if (IsRaceNewRecordTaBestLapRecord() != 0 && rowIndex + 1 == GetRaceNewRecordTaBestLapNumber()) {
+        if (GetLastTimeTrialWasRecord() != 0 && rowIndex + 1 == GetLeastTimeLapId()) {
             cellOffset = gRaceGoalTimes->mCellIndexAdd;
         }
-        cell = GetRaceGoalMNcerEntry(rowIndex + 0x18 + cellOffset);
+        cell = GetB3C4_Cell_RaceGoalM(rowIndex + 0x18 + cellOffset);
         rowY = rowIndex * 16 + 0x28;
         positions[3][0] = TO_FIXED12(slideOffsets[rowIndex + 1] + 0x9e);
         positions[3][1] = TO_FIXED12(rowY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+        oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, positions[3], 0, 1);
         DrawRaceGoalTimeDigits(oamBuffer, slideOffsets[rowIndex + 1], rowY, &gRaceGoalTimes->mLapTimes[rowIndex],
                                cellOffset);
@@ -215,51 +215,51 @@ void DrawRaceGoalTimeDigits(RaceHudOamBuffer *oamBuffer, s32 originX, s32 origin
     s32 columnOffsets[9] = {170, 179, 188, 198, 207, 216, 226, 235, 244};
 
     if (digits->mDigits[0] != 0) {
-        cell = GetRaceGoalMNcerEntry(digits->mDigits[0] + 0x17 + cellOffset);
+        cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[0] + 0x17 + cellOffset);
         digit0Position[0] = TO_FIXED12(originX + columnOffsets[0]);
         digit0Position[1] = TO_FIXED12(originY);
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+        oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, digit0Position, 0, 1);
     }
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[1] + 0x17 + cellOffset);
+    cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[1] + 0x17 + cellOffset);
     digit1Position[0] = TO_FIXED12(originX + columnOffsets[1]);
     digit1Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit1Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(cellOffset + 0x21);
+    cell = GetB3C4_Cell_RaceGoalM(cellOffset + 0x21);
     separator0Position[0] = TO_FIXED12(originX + columnOffsets[2]);
     separator0Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, separator0Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[2] + 0x17 + cellOffset);
+    cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[2] + 0x17 + cellOffset);
     digit2Position[0] = TO_FIXED12(originX + columnOffsets[3]);
     digit2Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit2Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[3] + 0x17 + cellOffset);
+    cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[3] + 0x17 + cellOffset);
     digit3Position[0] = TO_FIXED12(originX + columnOffsets[4]);
     digit3Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit3Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(cellOffset + 0x21);
+    cell = GetB3C4_Cell_RaceGoalM(cellOffset + 0x21);
     separator1Position[0] = TO_FIXED12(originX + columnOffsets[5]);
     separator1Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, separator1Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[4] + 0x17 + cellOffset);
+    cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[4] + 0x17 + cellOffset);
     digit4Position[0] = TO_FIXED12(originX + columnOffsets[6]);
     digit4Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit4Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[5] + 0x17 + cellOffset);
+    cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[5] + 0x17 + cellOffset);
     digit5Position[0] = TO_FIXED12(originX + columnOffsets[7]);
     digit5Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit5Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[6] + 0x17 + cellOffset);
+    cell = GetB3C4_Cell_RaceGoalM(digits->mDigits[6] + 0x17 + cellOffset);
     digit6Position[0] = TO_FIXED12(originX + columnOffsets[8]);
     digit6Position[1] = TO_FIXED12(originY);
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit6Position, 0, 1);
 }
 
@@ -287,9 +287,9 @@ void UpdateRaceHudSubScreenBerryCells(void) {
                                             raceHudSubScreenScale, 1, 1) == FALSE) {
             continue;
         }
-        gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);
+        gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xb8);
         gRaceHudSubScreenBerryCells->mCells[cellCount].mPriority =
-            IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+            CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
         gRaceHudSubScreenBerryCells->mCells[cellCount].mAngle = object->mAngle;
         gRaceHudSubScreenBerryCells->mObjectPairs[cellCount].mFirst = object->mScale.x / 6;
         cellCount++;
@@ -323,9 +323,9 @@ void UpdateRaceHudSubScreenCreamCells(void) {
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCreamCells->mCells[cellCount].mDrawPos,
                                             raceHudSubScreenScale, 1, 1) != FALSE) {
-            gRaceHudSubScreenCreamCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb7);
+            gRaceHudSubScreenCreamCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xb7);
             gRaceHudSubScreenCreamCells->mCells[cellCount].mPriority =
-                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
             gRaceHudSubScreenCreamCells->mCells[cellCount].mAngle = object->mAngle;
             gRaceHudSubScreenCreamCells->mObjectPairs[cellCount].mFirst = object->mScale.x / 6;
             cellCount++;

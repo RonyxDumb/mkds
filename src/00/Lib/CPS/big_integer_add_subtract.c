@@ -34,7 +34,7 @@ void CPSi_big_add(u16 *sum, const u16 *first, const u16 *second, s32 digitCount)
         carry = digitSum >> 16;
     }
     if (sum != first && sum != second) {
-        MI_CpuFill8(sum + digitIndex, 0, (digitCount - digitIndex) * 2);
+        Mem_CpuFill8(sum + digitIndex, 0, (digitCount - digitIndex) * 2);
     }
 }
 
@@ -87,7 +87,7 @@ void CPSi_big_sub(u16 *difference, const u16 *minuend, const u16 *subtrahend, s3
         borrow = digitDifference >> 16;
     }
     if (difference != minuend && difference != subtrahend) {
-        MI_CpuFill8(difference + digitIndex, 0, (digitCount - digitIndex) * 2);
+        Mem_CpuFill8(difference + digitIndex, 0, (digitCount - digitIndex) * 2);
     }
 }
 

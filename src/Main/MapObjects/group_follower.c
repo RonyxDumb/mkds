@@ -65,7 +65,7 @@ struct Quaternion gViewYawQuaternion;
 struct ShadowModel *gRockShadow;
 
 MapObjectList *CreateRockDrawList(void) {
-    RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RockDrawList));
+    RockDrawList *drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(RockDrawList));
     gRockDrawList = drawList;
     *drawList = gRockDrawListData;
     SetDrawListSlot(&gRockDrawList);
@@ -73,7 +73,7 @@ MapObjectList *CreateRockDrawList(void) {
 }
 
 MapObjectList *CreateRock2DrawList(void) {
-    RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RockDrawList));
+    RockDrawList *drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(RockDrawList));
     gRockDrawList = drawList;
     *drawList = gRock2DrawListData;
     SetDrawListSlot(&gRockDrawList);
@@ -81,7 +81,7 @@ MapObjectList *CreateRock2DrawList(void) {
 }
 
 MapObjectList *CreateRockUpdateList(void) {
-    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    MapObjectList *updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gRockUpdateList = updateList;
     *updateList = gRockUpdateListData;
     SetUpdateListSlot(&gRockUpdateList);
@@ -89,9 +89,9 @@ MapObjectList *CreateRockUpdateList(void) {
 }
 
 void SetupDrawRock(void) {
-    s32 pairIndex = (s32) (GetRaceUpdateFrames() << 25 >> 16) >> 4;
-    MTX_RotY33_(&gRockDrawList->mShadowMatrix.mAxes, FX_SinCosTable_[pairIndex * 2],
-                FX_SinCosTable_[pairIndex * 2 + 1]);
+    s32 pairIndex = (s32) (GetSomeTimeOrDuration() << 25 >> 16) >> 4;
+    MTX_RotY33__from_thumb(&gRockDrawList->mShadowMatrix.mAxes, g_SinFx16Table_AndCos[pairIndex * 2],
+                g_SinFx16Table_AndCos[pairIndex * 2 + 1]);
 }
 
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
@@ -101,23 +101,23 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     Vec3 yAxis;
     MtxFx43 *shadowMatrix;
     s32 dot;
-    if (GetChoisesSOpenDuringRace() == 0) {
+    if (IsRaceOptionMenuOn_from_thumb() == 0) {
         xAxis = rock->mMapObject.mMatrix.mRows[0];
         yAxis = rock->mMapObject.mMatrix.mRows[1];
         tiltAxis.x = MUL_FIXED12_NO_ROUND(rock->mMapObject.mPosStep.z, rock->mBottomOffsetReciprocal);
         tiltAxis.z = -MUL_FIXED12_NO_ROUND(rock->mMapObject.mPosStep.x, rock->mBottomOffsetReciprocal);
         tiltAxis.y = 0;
-        Vec3CrossUnrounded(&tiltAxis, &xAxis, &crossProduct);
-        VEC_Add(&xAxis, &crossProduct, &xAxis);
-        Vec3NormalizeAndGetLengthUnchecked(&xAxis, &rock->mMapObject.mMatrix.mRows[0]);
-        Vec3CrossUnrounded(&tiltAxis, &yAxis, &crossProduct);
-        VEC_Add(&yAxis, &crossProduct, &yAxis);
-        dot = VEC_DotProduct(&rock->mMapObject.mMatrix.mRows[0], &yAxis);
+        Vector3_Cross(&tiltAxis, &xAxis, &crossProduct);
+        VecFx32_Add(&xAxis, &crossProduct, &xAxis);
+        Vector3_MaybeNormalize(&xAxis, &rock->mMapObject.mMatrix.mRows[0]);
+        Vector3_Cross(&tiltAxis, &yAxis, &crossProduct);
+        VecFx32_Add(&yAxis, &crossProduct, &yAxis);
+        dot = Vector3_DotProduct(&rock->mMapObject.mMatrix.mRows[0], &yAxis);
         yAxis.x = yAxis.x - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mRows[0].x, dot);
         yAxis.y = yAxis.y - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mRows[0].y, dot);
         yAxis.z = yAxis.z - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mRows[0].z, dot);
-        Vec3NormalizeAndGetLengthUnchecked(&yAxis, &rock->mMapObject.mMatrix.mRows[1]);
-        Vec3CrossUnrounded(&rock->mMapObject.mMatrix.mRows[0], &rock->mMapObject.mMatrix.mRows[1],
+        Vector3_MaybeNormalize(&yAxis, &rock->mMapObject.mMatrix.mRows[1]);
+        Vector3_Cross(&rock->mMapObject.mMatrix.mRows[0], &rock->mMapObject.mMatrix.mRows[1],
                            &rock->mMapObject.mMatrix.mRows[2]);
     }
     rock->mMapObject.mMatrix.mRows[3].x = rock->mMapObject.mPos.x >> 4;

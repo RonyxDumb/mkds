@@ -215,7 +215,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_MOTION_AIRBORNE_LONG 0x4000
 // Set when a drift ends in the air; cleared at the next landing.
 #define KART_MOTION_DRIFT_ENDED_IN_AIR 0x8000
-// Set by ApplyKartLanding at each landing; cleared by ResetKart.
+// Set by ApplyKartLanding at each landing; cleared by StructMQRacerEntry_Fn1.
 #define KART_MOTION_LANDED 0x10000
 // Set while a map object or moving ground carries the Kart.
 #define KART_MOTION_MOVED_BY_OBJECT 0x40000
@@ -251,9 +251,9 @@ typedef struct ParticipantKartRecordState {
 #define KART_DRIVE_TURN_LEFT 0x8
 // The Kart steers right in this step.
 #define KART_DRIVE_TURN_RIGHT 0x10
-// Set while a boost runs (StartKartBoost sets it; mBoostTimer counts it down).
+// Set while a boost runs (StructMQRacerEntry_SomeFn_74 sets it; mBoostTimer counts it down).
 #define KART_DRIVE_BOOST 0x20
-// Set while the kart sinks after being placed (ResetKartAndSetPos).
+// Set while the kart sinks after being placed (StructMQRacerEntry_SomeFn_63).
 #define KART_DRIVE_SINKING 0x40
 // Set when A and B are held together on the ground; the Kart slows and can turn on the spot at low speed.
 #define KART_DRIVE_BRAKING 0x80
@@ -263,7 +263,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_DRIVE_OBJECTS_SKIP 0x200
 // Set when a contact effect was placed for the Kart; the effect fades with COURSE_CONTACT.
 #define KART_DRIVE_CONTACT_EFFECT 0x400
-// Respawn wait: the kart has fallen off the course and waits to be put back (IsKartInRespawnWait).
+// Respawn wait: the kart has fallen off the course and waits to be put back (StructMQHasFlagB_800).
 #define KART_DRIVE_RESPAWN_WAIT 0x800
 // Set when the Kart fell out of the course; no boost, state or push flip can start while set.
 #define KART_DRIVE_RESPAWN_FALL 0x1000
@@ -291,7 +291,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_DRIVE_FALL_SOUND_A 0x800000
 // Set with the fall sound 0x15d.
 #define KART_DRIVE_FALL_SOUND_B 0x1000000
-// Set by ResetKartToRespawnPoint until the Kart lands; limits the input mask meanwhile.
+// Set by StructMQRacerEntry_Fn6 until the Kart lands; limits the input mask meanwhile.
 #define KART_DRIVE_RESPAWN_LANDING 0x2000000
 // Set while the scale-table effect holds the Kart still (TryStartKartScaleTableEffect).
 #define KART_DRIVE_SCALE_TABLE_EFFECT 0x4000000
@@ -325,20 +325,20 @@ typedef struct ParticipantKartRecordState {
 #define KART_EFFECT_TUMBLING 0x10
 // Set in the spin state; the draw matrix gets the extra y rotation.
 #define KART_EFFECT_Y_SPIN 0x20
-// Set while the Kart is a star (StartKartStar).
+// Set while the Kart is a star (StructMQRacerEntry_SomeFn_55).
 #define KART_EFFECT_STAR 0x40
-// Set while the Kart is small from the Thunder item (StartKartThunderShrink sets it, AdvanceKartThunderShrink clears
+// Set while the Kart is small from the Thunder item (StructMQRacerEntry_SomeFn_26 sets it, StructMQRacerEntry_SomeFn_82 clears
 // it).
 #define KART_EFFECT_THUNDER_SHRINK 0x80
 // Set in a step while a shrink animation scales the Kart; TryHoldKartStill refuses then.
 #define KART_EFFECT_SHRINK_ANIMATING 0x100
 // Set with RESPAWN_DROP; AdvanceKartBoosts times the A press against the landing for a respawn boost.
 #define KART_EFFECT_RESPAWN_BOOST_WINDOW 0x400
-// Set by ResetKartToRespawnPoint (with 0x400) while the Kart drops onto the track; the landing clears it.
+// Set by StructMQRacerEntry_Fn6 (with 0x400) while the Kart drops onto the track; the landing clears it.
 #define KART_EFFECT_RESPAWN_DROP 0x800
 // Set on the Kart that started a state for another Kart; the motion slot then plays its sound and character animation.
 #define KART_EFFECT_START_SOUND_PENDING 0x1000
-// Set while the timed ahead boost runs (StartKartAheadBoost sets it).
+// Set while the timed ahead boost runs (StructMQRacerEntry_SomeFn_39 sets it).
 #define KART_EFFECT_AHEAD_BOOST 0x2000
 // Set while a kart is ahead and the ahead speed limit factor builds up.
 #define KART_EFFECT_AHEAD_BUILD_UP 0x4000
@@ -355,19 +355,19 @@ typedef struct ParticipantKartRecordState {
 #define KART_EFFECT_KART_OVERLAP 0x100000
 // Set when a respawn wait is started by a course hit 0x800.
 #define KART_EFFECT_RESPAWN_WAIT_SET 0x200000
-// Set from StartKartBlink for the 90 steps of the blink; the push flips refuse while set.
+// Set from StructMQRacerEntry_SomeFn_30 for the 90 steps of the blink; the push flips refuse while set.
 #define KART_EFFECT_BLINK_GUARD 0x400000
 // Set while the kart is behind the camera, outside the view planes or beyond the far distance.
 #define KART_EFFECT_OUT_OF_VIEW 0x800000
 // Set for the part of the blink cycle where the kart is not drawn.
 #define KART_EFFECT_BLINK_HIDDEN 0x1000000
-// Set while the Kart wobbles after a push (AdvanceKartWobble draws mWobbleMatrix).
+// Set while the Kart wobbles after a push (StructMQRacerEntry_SomeFn_77 draws mWobbleMatrix).
 #define KART_EFFECT_WOBBLE 0x2000000
 // Set when the Kart fell into water; the water depth effects skip it.
 #define KART_EFFECT_WATER_FALL 0x4000000
-// Set while the Kart is covered in gesso ink (StartKartGesso).
+// Set while the Kart is covered in gesso ink (StructMQRacerEntry_SomeFn_38).
 #define KART_EFFECT_GESSO 0x8000000
-// Set while the Kart is a bullet bill (StartKartKiller).
+// Set while the Kart is a bullet bill (StructMQRacerEntry_SomeFn_42).
 #define KART_EFFECT_KILLER 0x10000000
 // Set while mHeadingAngleOffset swings (AdvanceKartRaceStartBoost sets it, AdvanceKartHeadingSwing clears it).
 #define KART_EFFECT_HEADING_SWING 0x20000000
@@ -379,7 +379,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_EFFECT_STAR_OR_KILLER (KART_EFFECT_STAR | KART_EFFECT_KILLER)
 
 // Bits of Kart.mEntryFlags.
-// Set once at set-up (InitKartFlags) when mIndex == gRaceSetup.mEntryIndex, i.e. the selected entry.
+// Set once at set-up (StructMQRacerEntry_SomeFn_44) when mIndex == g_GlobalCO.mEntryIndex, i.e. the selected entry.
 #define KART_ENTRY_SELECTED 0x1
 // Set at set-up when the entry is PLAYER_KIND_CPU (the Kart AI drives it); also set at a race end that hands the Kart
 // to the AI.
@@ -393,7 +393,7 @@ typedef struct ParticipantKartRecordState {
 // Set by the removal step (battle elimination, a removed race entry, a finished entry-kind-2 Kart). Cleared when the
 // Kart is put back at its start.
 #define KART_ENTRY_REMOVED 0x20
-// Kart is hidden: AdvanceKartRemovalShrink sets it once the removal shrink has finished (25 steps after REMOVED). The
+// Kart is hidden: StructMQRacerEntry_SomeFn_53 sets it once the removal shrink has finished (25 steps after REMOVED). The
 // staff roll sets it on every Kart but the entry Kart and clears it as each one comes into view.
 #define KART_ENTRY_HIDDEN 0x40
 // Set while the Kart grows back after being put at its start; AdvanceKartMotion then only advances the scale.
@@ -405,7 +405,7 @@ typedef struct ParticipantKartRecordState {
 // Set in a wifi race on every Kart that another player (or the ended entry) drives; it follows
 // ParticipantKartRecordState.
 #define KART_ENTRY_WIFI_PEER 0x400
-// Set when StartKartRaceEnd has run for the Kart.
+// Set when StructMQRacerEntry_SomeFn_21 has run for the Kart.
 #define KART_ENTRY_RACE_END_STARTED 0x1000
 // Set while the Kart is a Teresa (the Boo item, mItemEffect 2); item objects with mHurtsKart pass through it.
 #define KART_ENTRY_TERESA 0x2000
@@ -417,17 +417,17 @@ typedef struct ParticipantKartRecordState {
 #define KART_ENTRY_RESULT_WON 0x10000
 // Set when the Kart's result animation is the lose one.
 #define KART_ENTRY_RESULT_LOST 0x20000
-// Set by StartBattleKartRemoval; the removal shrink only brings the Kart back to its start while it is set.
+// Set by StructMQRacerEntry_SomeFn_52; the removal shrink only brings the Kart back to its start while it is set.
 #define KART_ENTRY_BATTLE_REMOVAL 0x40000
 // Set when the removal shrink has brought the Kart back to its start (after 0xb9 steps).
 #define KART_ENTRY_BATTLE_RESPAWNED 0x80000
-// Set when FinishKartAtBattleEnd has run for the Kart.
+// Set when StructMQRacerEntry_SomeFn_25 has run for the Kart.
 #define KART_ENTRY_BATTLE_END_DONE 0x100000
 // Set at the race end for a Kart that did not reach the goal in a rule kind 1 race, or in a mission run.
 #define KART_ENTRY_DID_NOT_FINISH 0x200000
 // Set when the removal has finished and the Kart waits at its start place out of play; item boxes ignore it.
 #define KART_ENTRY_PARKED 0x400000
-// Set when the race progress removed the Kart (StartKartRemovalFromProgress).
+// Set when the race progress removed the Kart (StructMQRacerEntry_SomeFn_34).
 #define KART_ENTRY_REMOVED_BY_PROGRESS 0x800000
 // Set with PARKED on every Kart but the selected entry; the Kart is not drawn.
 #define KART_ENTRY_NOT_DRAWN_PARKED 0x1000000
@@ -437,7 +437,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_ENTRY_REMOVAL_COUNTED 0x4000000
 // Set in time attack and in the award and staff roll; item object hits and Kart collisions are skipped.
 #define KART_ENTRY_SKIP_KART_HITS 0x8000000
-// Set when FinishKartAtMissionRunEnd has run for the Kart.
+// Set when StructMQRacerEntry_SomeFn_15 has run for the Kart.
 #define KART_ENTRY_MISSION_END_DONE 0x10000000
 // Set when the entry Kart's race ended or its last balloon was lost; counts as not normal.
 #define KART_ENTRY_OUT_OF_ROUND 0x20000000
@@ -536,8 +536,8 @@ typedef struct Kart {
     /* a4 */ Vec3 mVelocity;
     /* b0 */ Vec3 mVelocityDirection;
     // Size scale of the kart (x, y, z; 0x1000 = 1.0): mScaleBase times mScaleFactor per axis, y also times
-    // mScaleYFactor. Zero at the start placement (ResetKartToStartPlacement) and where the kart is moved to a far
-    // corner (AdvanceKartRemovalShrink, FinishKartAtBattleEnd).
+    // mScaleYFactor. Zero at the start placement (StructMQRacerEntry_Fn7) and where the kart is moved to a far
+    // corner (StructMQRacerEntry_SomeFn_53, StructMQRacerEntry_SomeFn_25).
     /* bc */ Vec3 mScale;
     // Negative step added by ApplyKartGravity to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
     // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of StartKartRespawnWait.
@@ -607,9 +607,9 @@ typedef struct Kart {
     /* 208 */ struct CollisionHitLink *mCollisionHitLink;
     // The functions of one Kart, one per slot index: 0 set-up at creation, 1 reset to the starting values, 2 stores the
     // squared distance in the sound source, 3 and 4 the two steps UpdateKarts runs for every Kart, 5 stores the
-    // previous collision center, 6 respawn, 7 start placement, 8 does nothing. 7 and 8 are never called. InitKart fills
-    // it from gKartDefaultSlotFunctions and replaces slots 2 to 5; it also replaces slots 3 and 4 with an empty
-    // function when gRace.mUseChainCameras is set and RaceSetup.mRaceKind is not 5.
+    // previous collision center, 6 respawn, 7 start placement, 8 does nothing. 7 and 8 are never called. StructMQRacerEntry_Create fills
+    // it from g_DefaultMQFnList and replaces slots 2 to 5; it also replaces slots 3 and 4 with an empty
+    // function when g_GlobalTD.mUseChainCameras is set and RaceSetup.mRaceKind is not 5.
     /* 20c */ void (*mSlotFunctions[9])(struct Kart *);
     /* 230 */ void (*mAdvanceOffsetCycle)(struct Kart *);
     /* 234 */ s16 mAirTiltAngle;
@@ -665,7 +665,7 @@ typedef struct Kart {
     /* 2c4 */ s32 mTurnDirection;
     /* 2c8 */ s16 mCollisionSlot;
     /* 2ca */ s16 mSecondCollisionSlot;
-    // Pointer to this slot's KartPhysicalParam; set once in InitKartPhysicalParams. The record is shared by nothing
+    // Pointer to this slot's KartPhysicalParam; set once in StructMQRacerEntry_SomeFn_43. The record is shared by nothing
     // else.
     /* 2cc */ KartPhysicalParam *mPhysicalParam;
     // Two words of charphysicalparam.bin for the entry's character: [0] scales the surface factors below 0x1000, [1] is
@@ -708,7 +708,7 @@ typedef struct Kart {
     // Calls of UpdateKartAirborne since KART_MOTION_ON_GROUND was last set; not every step (skipped below
     // y = 0).
     /* 380 */ u32 mAirborneFrames;
-    // Draw gate of the kart: 0xffff while it is drawn, 0 when DrawKart skips it (hidden states, or the off phase of
+    // Draw gate of the kart: 0xffff while it is drawn, 0 when StructMQRacerEntry_SomeFn_50 skips it (hidden states, or the off phase of
     // the blink); other draw code skips its drawing while it is 0; 0 at reset for an entry of kind 2.
     /* 384 */ u16 mVisible;
     // Angle added to mHeadingAngle each step, first multiplied by 0xe66 / 0x1000 and cut to 0 below 0x14; set in
@@ -725,7 +725,7 @@ typedef struct Kart {
     /* 39c */ s32 mMapObjectVectorLength;
     /* 3a0 */ s32 mMapObjectVectorForwardDot;
     // Angle of the tire object about the x axis (0x10000 per turn), advanced each step in AdvanceKartDrawState from the
-    // speed ratio and used by DrawKart; 0 at reset.
+    // speed ratio and used by StructMQRacerEntry_SomeFn_50; 0 at reset.
     /* 3a4 */ u16 mTireSpinAngle;
     /* 3a6 */ u8 mUnk_3a6[2];
     /* 3a8 */ s32 mQuaternionBlendFactor;
@@ -739,7 +739,7 @@ typedef struct Kart {
     /* 3c0 */ s16 mRespawnFrames;
     /* 3c2 */ u8 mUnk_3c2[2];
     // Number of the course respawn slot this Kart goes back to, set when it falls or when it respawns with none chosen;
-    // -1 means none chosen (ResetKart writes -1).
+    // -1 means none chosen (StructMQRacerEntry_Fn1 writes -1).
     /* 3c4 */ s32 mRespawnSlot;
     /* 3c8 */ s16 mFramesSinceRemovalOrReset;
     /* 3ca */ u8 mUnk_3ca[2];
@@ -778,11 +778,11 @@ typedef struct Kart {
     // Part of mScale looked up in three tables (x, y, z) of 25 entries (0x800 up to 0x1000) by a step counter, forwards
     // or backwards; 0x1000 when no step runs.
     /* 41c */ Vec3 mScaleFactor;
-    // Part of mScale held at 0x1000, eased down to 0x800 while the countdown of AdvanceKartThunderShrink runs and set
+    // Part of mScale held at 0x1000, eased down to 0x800 while the countdown of StructMQRacerEntry_SomeFn_82 runs and set
     // back to 0x1000 at its end; mScaleFactor is the table-driven part.
     /* 428 */ Vec3 mScaleBase;
     // Factor of mScale.y only: 0x1000 normally, lowered by 0x4cd per call to a floor of 0x4cd in
-    // AdvanceKartScaleTableEffect.
+    // StructMQRacerEntry_SomeFn_81.
     /* 434 */ s32 mScaleYFactor;
     /* 438 */ struct MapObject *mPrevTouchingMapObjects[2];
     /* 440 */ u16 mMapObjectSoundFrames[2];
@@ -816,7 +816,7 @@ typedef struct Kart {
     /* 500 */ u32 mWaterDepth;
     /* 504 */ u16 mBlinkFrames;
     /* 506 */ u16 mBlinkCycleFrames;
-    // Points to mPos, or in mode 5 to a Vec3 of the received record; set in InitKart.
+    // Points to mPos, or in mode 5 to a Vec3 of the received record; set in StructMQRacerEntry_Create.
     /* 508 */ Vec3 *mPosSource;
     /* 50c */ Vec4 *mRotationSource;
     /* 510 */ Vec3 *mCollisionPosSource;
@@ -835,16 +835,16 @@ typedef struct Kart {
 } Kart;
 
 // Jg: the object built from the jg_* files plus lap_count and lap_final; this is the kart it follows.
-extern Kart *gJgKart;
+extern Kart *g_SomeDriverEntry;
 
-void StartKartState(Kart *kart, KartState mode);
-BOOL IsKartOutOfView(Kart *kart);
-int GetKartCourseHitAttributeBit(Kart *kart);
-BOOL IsKartRemovedOrRespawning(Kart *kart);
-BOOL IsKartNotNormal(Kart *kart);
-void SetupKartAiItemInUseEntry(Kart *kart);
+void StructMQRacerEntry_SomeFn_1(Kart *kart, KartState mode);
+BOOL StructMQRacerEntry_SomeFn_83(Kart *kart);
+int StructMQRacerEntry_SomeFn_71(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_64(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_86(Kart *kart);
+void StructMQRacerEntry_SomeFn_87(Kart *kart);
 void SetupKartAiHeldItemEntry(Kart *kart);
-void StartKartBlink(Kart *kart);
+void StructMQRacerEntry_SomeFn_30(Kart *kart);
 void PlaceEffectBehindKart(ParticleEmitter *emitter, Kart *kart);
 void SetEffectFlatVelocityFromKart(ParticleEmitter *emitter, Kart *kart);
 BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int flag);
@@ -862,11 +862,11 @@ extern SoundRequestQueue gSoundRequestQueues[7];
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);
 #include "Main/Graphics/ortho_quad_corners.h"
-BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound);
+BOOL StructMQRacerEntry_SomeFn_27(Kart *kart, int rotationCount, int skipSound);
 BOOL TryStartKartState(Kart *kart, KartState newState);
 void AdvanceKartDrift(Kart *kart);
-void GetKartForward(const Kart *kart, Vec3 *forward);
-void GetKartUp(const Kart *kart, Vec3 *upDirection);
+void GetMQRacerVector333(const Kart *kart, Vec3 *forward);
+void StructMQRacerEntry_GetVec555(const Kart *kart, Vec3 *upDirection);
 
 #include "Main/Kart/character_animation.h"
 #include "Main/Kart/kart_model_color_blend.h"
@@ -874,7 +874,7 @@ void GetKartUp(const Kart *kart, Vec3 *upDirection);
 
 typedef struct Kart Kart;
 
-// The kind passed to StartKartBoost.
+// The kind passed to StructMQRacerEntry_SomeFn_74.
 typedef enum {
     // The mushroom and the boost surfaces.
     KART_BOOST_ITEM_OR_SURFACE,
@@ -886,8 +886,8 @@ typedef enum {
     KART_BOOST_RESPAWN
 } KartBoostKind;
 
-void StartKartBoost(Kart *kart, KartBoostKind boostKind, s16 boostFrames);
-void StartKartSoundAndCharacterAnimation(Kart *kart);
+void StructMQRacerEntry_SomeFn_74(Kart *kart, KartBoostKind boostKind, s16 boostFrames);
+void StructMQRacerEntry_SomeFn_89(Kart *kart);
 void ApplyItemObjectHitToKart(Kart *kart);
 void UpdateKartAheadEffect(Kart *kart);
 void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirection, s32 storeDirection, Vec3 *out);
@@ -915,9 +915,9 @@ extern s16 gKartFlipEndFrameCount;
 extern s32 gKartAheadSpeedLimitStartFactor;
 extern s16 gTurnHeadingReductionAtSpeedLimit;
 extern s32 gKartWobbleAmplitudeDecay;
-// The functions every Kart starts with, copied into Kart.mSlotFunctions by InitKart. Slots 0, 1, 6, 7 and 8 keep these;
-// slots 2 to 5 are zero here and always replaced by InitKart.
-extern void (*gKartDefaultSlotFunctions[9])(Kart *kart);
+// The functions every Kart starts with, copied into Kart.mSlotFunctions by StructMQRacerEntry_Create. Slots 0, 1, 6, 7 and 8 keep these;
+// slots 2 to 5 are zero here and always replaced by StructMQRacerEntry_Create.
+extern void (*g_DefaultMQFnList[9])(Kart *kart);
 extern Vec3 gFixedPositionEffectPos;
 extern void (*gKartStateFunctions[8])(struct Kart *);
 extern s32 gKartFlipStartVerticalSpeed;

@@ -42,7 +42,7 @@ typedef struct Basabasa {
 
 typedef struct Basabasa Basabasa;
 
-void CreateBasabasa(void *mapObjectList);
+void LoadBasabasaMapObject(void *mapObjectList);
 
 void StartBasabasa(u32 glideTimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 fallTimerBase,
                    s32 soundRequested, u16 subScreenCellKind);
@@ -61,4 +61,4 @@ void InitBasabasa(MapObject *mapObject);
 extern const u16 gBasabasaSkipListCallbackFlag;
 extern const u16 gBasabasaSkipViewTestFlag;
 extern const u16 gBasabasaDisabledFlag;
-extern struct MapObjectModel *gBasabasa;
+extern struct MapObjectModel *g_BasabasaMapObject;

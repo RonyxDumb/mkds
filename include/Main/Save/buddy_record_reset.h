@@ -4,4 +4,4 @@
 
 typedef struct BuddyRecord BuddyRecord;
 
-void ResetBuddyRecord(BuddyRecord *record);
+void StructOI_Initialize_from_thumb(BuddyRecord *record);

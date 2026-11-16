@@ -100,7 +100,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mPosPointer = &item->mPos;
     item->mCollisionSlotIndex = -1;
     item->mCollisionHitLink->mObject = NULL;
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         item->mFlags |= ITEM_OBJECT_FLAG_WIFI_RACE;
     }
     item->mOwnerKartIndexAndFlags |= gItemObjectOwnerExcludedBit;
@@ -242,7 +242,7 @@ void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectPa
     }
     if ((mapObject->mFlags & MAP_OBJECT_FLAG_NO_PUSH_OUT) == 0 && (item->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) == 0 &&
         DoesItemObjectRespondToMapObject(item->mKind, mapObject) != 0) {
-        VEC_Add(&item->mPos, &pushOut, &item->mPos);
+        VecFx32_Add(&item->mPos, &pushOut, &item->mPos);
     }
     switch (CollideItemObjectWithMapObject(item, mapObject, &firstResponse)) {
         case ITEM_HIT_TYPE_BOUNCE:
@@ -321,7 +321,7 @@ void BounceItemVelocityOffSurface(Vec3 *velocity, Vec3 *normal) {
 }
 
 BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal) {
-    if ((item->mFlags & ITEM_OBJECT_FLAG_DEFLECTED) != 0 && Vec3DotUnrounded(normal, &item->mCoursePointOrParams) < 0 &&
+    if ((item->mFlags & ITEM_OBJECT_FLAG_DEFLECTED) != 0 && VecFx32_CrossProduct_0(normal, &item->mCoursePointOrParams) < 0 &&
         (item->mFlags & ITEM_OBJECT_FLAG_LANDED) == 0) {
         FadeOutUsedUpItemObject(item, 1);
         return TRUE;
@@ -399,7 +399,7 @@ void UpdateItemObjectSoundSource(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     item->mSoundSource.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
-    SetItemObjectSoundByViewRange(item, &item->mPos, item->mDistanceSquaredAndFlags);
+    StructMQRacerEntry_SomeFn_91(item, &item->mPos, item->mDistanceSquaredAndFlags);
 }
 
 void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 useGenericCopy) {

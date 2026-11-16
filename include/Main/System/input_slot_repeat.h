@@ -5,9 +5,9 @@
 typedef struct InputSlot InputSlot;
 typedef struct InputSlotHead InputSlotHead;
 
-void SetInputSlotRepeat(InputSlot *slot, unsigned int mask, unsigned int delayLimit, unsigned int intervalLimit);
+void StructCY_SomeFn_0(InputSlot *slot, unsigned int mask, unsigned int delayLimit, unsigned int intervalLimit);
 
-void UpdateInputSlot(u32 keys, InputSlotHead *slot);
+void StructG_UpdateInput(u32 keys, InputSlotHead *slot);
 
-void ClearInputSlotBitsAndRepeat(InputSlot *slot);
-void ResetInputSlot(InputSlot *slot);
+void StructCY_SomeFn_1(InputSlot *slot);
+void StructCY_SomeFn(InputSlot *slot);

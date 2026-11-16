@@ -19,7 +19,7 @@ void WCMi_InitCpsif(void) {
         gWcmCpsifWork.mSendResult = 0;
         gWcmCpsifWork.mSendQ.mTail = NULL;
         gWcmCpsifWork.mSendQ.mHead = NULL;
-        OS_InitMutex(&gWcmCpsifWork.mSendMutex);
+        Os_Mutex_Initialize(&gWcmCpsifWork.mSendMutex);
     }
 }
 
@@ -50,11 +50,11 @@ u8 *WCM_GetApMacAddress(void) {
     u32 enabled;
 
     work = WCMi_GetSystemWork();
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
         mac = work->mBssDesc.mBssid;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return mac;
 }
 
@@ -65,12 +65,12 @@ u8 *WCM_GetApEssid(u16 *length) {
     u32 enabled;
 
     work = WCMi_GetSystemWork();
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
         ssidBytes = work->mBssDesc.mSsid;
         ssidLength = work->mBssDesc.mSsidLength;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     if (length != NULL) {
         *length = ssidLength;
     }
@@ -82,10 +82,10 @@ u32 WCM_SetRecvDCFCallback(WCMRecvInd callback) {
     u32 cpsifWork;
     u32 recvCallback;
     recvCallback = (enabled) + (0u);
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     cpsifWork = (u32) &gWcmCpsifWork;
     *(u32 *) ((cpsifWork) + 40u) = recvCallback;
-    enabled = OS_RestoreInterrupts(enabled);
+    enabled = Os_RestoreIrq(enabled);
     return enabled;
 }
 
@@ -94,24 +94,24 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
     WCMWork *work;
     s32 result;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (WCMi_GetSystemWork() == NULL) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return -1;
     }
-    OS_LockMutex(&gWcmCpsifWork.mSendMutex);
+    Os_Mutex_Lock(&gWcmCpsifWork.mSendMutex);
     work = WCMi_GetSystemWork();
     if (work == NULL) {
-        OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-        OS_RestoreInterrupts(enabled);
+        Os_Mutex_Unlock(&gWcmCpsifWork.mSendMutex);
+        Os_RestoreIrq(enabled);
         return -1;
     }
     if (work->mPhase != WIFI_LINK_PHASE_CONNECTED || work->mResetting == 1) {
-        OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-        OS_RestoreInterrupts(enabled);
+        Os_Mutex_Unlock(&gWcmCpsifWork.mSendMutex);
+        Os_RestoreIrq(enabled);
         return -4;
     }
-    MI_CpuCopy8(buf, work->mSendBuf, len);
+    Mem_CpuCopy8(buf, work->mSendBuf, len);
     result = WM_SetDCFData(WcmCpsifWmCallback, dstAddr, work->mSendBuf, len);
     switch (result) {
         case WIRELESS_RESULT_SUCCEEDED:
@@ -123,20 +123,20 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
         case WIRELESS_RESULT_NO_REMOTE:
         case WIRELESS_RESULT_PIPE_ERROR:
         default:
-            OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-            OS_RestoreInterrupts(enabled);
+            Os_Mutex_Unlock(&gWcmCpsifWork.mSendMutex);
+            Os_RestoreIrq(enabled);
             return -5;
         case WIRELESS_CALL_QUEUED:
-            OS_SleepThread(&gWcmCpsifWork.mSendQ);
+            Os_Thread_Sleep(&gWcmCpsifWork.mSendQ);
             switch (gWcmCpsifWork.mSendResult) {
                 case WIRELESS_RESULT_REFUSED:
                 default:
-                    OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-                    OS_RestoreInterrupts(enabled);
+                    Os_Mutex_Unlock(&gWcmCpsifWork.mSendMutex);
+                    Os_RestoreIrq(enabled);
                     return -5;
                 case WIRELESS_RESULT_SUCCEEDED:
-                    OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-                    OS_RestoreInterrupts(enabled);
+                    Os_Mutex_Unlock(&gWcmCpsifWork.mSendMutex);
+                    Os_RestoreIrq(enabled);
                     return len;
             }
     }
@@ -148,7 +148,7 @@ void WcmCpsifWmCallback(WirelessMessage *callback) {
         if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
             WCMi_ResetKeepAliveAlarm();
         }
-        OS_WakeupThread(&gWcmCpsifWork.mSendQ);
+        Os_Thread_WakeUp(&gWcmCpsifWork.mSendQ);
     }
 }
 

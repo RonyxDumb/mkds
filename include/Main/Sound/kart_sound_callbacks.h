@@ -5,5 +5,5 @@
 typedef struct Kart Kart;
 typedef struct KartSound KartSound;
 
-void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound);
-void StartKartSeqArcSoundOffset8(Kart *kart, s32 soundIndex);
+void StructMQRacerEntry_SomeFn_76(Kart *kart, KartSound *kartSound);
+void StructMQRacerEntry_SomeFn_66(Kart *kart, s32 soundIndex);

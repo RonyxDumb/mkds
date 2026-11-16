@@ -111,7 +111,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
     stateTable = gItemTeresaStateTable;
     teresa->mFollowsPath = 0;
     teresa->mItemObjectKind = ITEM_TERESA_KIND_EMPTY;
-    InitStateMachine(&teresa->mStateMachine, stateTable, 7, teresa);
+    StateDualHandler_Create(&teresa->mStateMachine, stateTable, 7, teresa);
     teresa->mPickedKartIndex = ITEM_TERESA_NO_KART;
     teresa->mFollowEnded = 0;
     FreeItemObjectCollisionSlot(&teresa->mItemObject);
@@ -184,17 +184,17 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
     KartItems *kartItems;
     RaceSetup *raceSetup;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     weightSum = candidateCount = 0;
     weightCursor = gItemTeresaPickWeights;
     rankBehind = rankAhead =
-        GetKartRank((u16) ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
+        GetSomeRacerFlags((u16) ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                                ? (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
                                : ITEM_NO_KART_INDEX));
     if (teresa->mPicksAheadFirst != FALSE) {
-        raceProgress = gRaceProgress;
+        raceProgress = g_GlobalMV;
         kartItems = gKartItems;
-        raceSetup = gRaceSetup;
+        raceSetup = g_GlobalCO;
         do {
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
@@ -220,9 +220,9 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             }
         } while (rankBehind < kartCount || rankAhead > 1);
     } else {
-        raceProgress = gRaceProgress;
+        raceProgress = g_GlobalMV;
         kartItemsBehindFirst = gKartItems;
-        raceSetupBehindFirst = gRaceSetup;
+        raceSetupBehindFirst = g_GlobalCO;
         do {
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
@@ -276,10 +276,10 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
     s32 flag;
     const u8 *row;
 
-    raceProgress = gRaceProgress;
+    raceProgress = g_GlobalMV;
     random = &raceProgress->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     rowIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 8) >> 32);
     endIndex = rowIndex + 8;
     kartCount = raceSetup->mKartCount;
@@ -327,7 +327,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     Kart *kart;
 
     kart = inUse->mKart;
-    StartKartTeresa(kart);
+    StructMQRacerEntry_SomeFn_54(kart);
     StartEntryKartSound(kart, 0xf6);
     SetActiveItem(inUse->mKartItems, 0x10);
     InitCourseColorBlend(&teresa->mItemObject.mColorBlend, 1);
@@ -336,7 +336,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     } else {
         teresa->mPicksAheadFirst = TRUE;
     }
-    SetStateMachineState(&teresa->mStateMachine, ITEM_TERESA_STATE_FADE_OUT_AT_OWNER);
+    StateDualHandler_SetState(&teresa->mStateMachine, ITEM_TERESA_STATE_FADE_OUT_AT_OWNER);
     teresa->mActsLocally = TRUE;
 }
 
@@ -345,8 +345,8 @@ void AdvanceItemTeresa(ItemTeresa *teresa) {
     Vec3 *kartDrawMatrixPos;
     Vec3 offset;
 
-    AdvanceStateMachine(&teresa->mStateMachine);
-    VEC_Subtract(&teresa->mItemObject.mPos, &teresa->mItemObject.mPrevPos, &teresa->mItemObject.mVelocity);
+    StateDualHandler_Execute(&teresa->mStateMachine);
+    VecFx32_Subtract(&teresa->mItemObject.mPos, &teresa->mItemObject.mPrevPos, &teresa->mItemObject.mVelocity);
     if (teresa->mItemObject.mPosPointer != &teresa->mItemObject.mDrawPos) {
         return;
     }
@@ -355,9 +355,9 @@ void AdvanceItemTeresa(ItemTeresa *teresa) {
         return;
     }
     kartDrawMatrixPos = &kart->mDrawMatrixPos;
-    VEC_Subtract(&teresa->mItemObject.mPos, kartDrawMatrixPos, &offset);
+    VecFx32_Subtract(&teresa->mItemObject.mPos, kartDrawMatrixPos, &offset);
     MTX_MultVec33(&offset, &GetViewTransposeMatrix()->mAxes, &offset);
-    VEC_Add(kartDrawMatrixPos, &offset, &teresa->mItemObject.mDrawPos);
+    VecFx32_Add(kartDrawMatrixPos, &offset, &teresa->mItemObject.mDrawPos);
 }
 
 void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
@@ -374,7 +374,7 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     s32 scaledRadius;
 
     kart = teresa->mKart;
-    camera = GetCurrentCamera();
+    camera = GetGlobalHD4();
     position = &teresa->mItemObject.mPos;
     flag = isTarget = TRUE;
     if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mEntryFlags & KART_ENTRY_REMOVED_OR_PARKED) == 0) {
@@ -396,18 +396,18 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     ((Vec3 *) delta)->x = position->x - (&teresa->mItemObject.mVelocity)->x;
     delta[2] = position->z - (&teresa->mItemObject.mVelocity)->z;
     if (teresa->mFollowEnded != FALSE) {
-        VEC_Add(&teresa->mKartDrawMatrixPos, &teresa->mKartVelocity, &teresa->mKartDrawMatrixPos);
+        VecFx32_Add(&teresa->mKartDrawMatrixPos, &teresa->mKartVelocity, &teresa->mKartDrawMatrixPos);
         teresa->mKartVelocity.x = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.x, 0xeb8);
         teresa->mKartVelocity.y = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.y, 0xeb8);
         teresa->mKartVelocity.z = MUL_FIXED12_NO_ROUND(teresa->mKartVelocity.z, 0xeb8);
         *position = teresa->mKartDrawMatrixPos;
     } else {
         *position = kart->mDrawMatrixPos;
-        VEC_Subtract(position, &teresa->mKartDrawMatrixPos, &teresa->mKartVelocity);
+        VecFx32_Subtract(position, &teresa->mKartDrawMatrixPos, &teresa->mKartVelocity);
         teresa->mKartDrawMatrixPos = *position;
         position->y -= kart->mHopHeight;
     }
-    VEC_Add(position, &teresa->mOffset, position);
+    VecFx32_Add(position, &teresa->mOffset, position);
     cameraSide = &camera->mSide;
     if (teresa->mFollowsPath != FALSE) {
         easeFactor = 0xccd;
@@ -444,7 +444,7 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
 
 void EnterItemTeresaFadeOutAtOwner(void *stateObject) {
     ItemTeresa *teresa = stateObject;
-    teresa->mKart = GetKart((u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK));
+    teresa->mKart = GetRacerMQEntry((u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK));
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
     teresa->mKartVelocity = teresa->mKart->mVelocity;
     teresa->mOffset =
@@ -485,8 +485,8 @@ void AdvanceItemTeresaPath(ItemTeresa *teresa) {
         targetOffset.z = MUL_FIXED12_NO_ROUND(viewAxis0->z, axisScale);
     }
     targetOffset.y += pathPoint.z;
-    VEC_Subtract(&targetOffset, &teresa->mOffset, &pathPoint);
-    VEC_MultAdd(0x4f6, &pathPoint, &teresa->mOffset, &teresa->mOffset);
+    VecFx32_Subtract(&targetOffset, &teresa->mOffset, &pathPoint);
+    VecFx32_AddScale1(0x4f6, &pathPoint, &teresa->mOffset, &teresa->mOffset);
 }
 
 BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 nextState) {
@@ -639,9 +639,9 @@ void EnterItemTeresaFadeInAtPicked(void *stateObject) {
     int ownerKartIndex;
 
     offset = &teresa->mOffsetX;
-    camera = GetCurrentCamera();
+    camera = GetGlobalHD4();
     if (!(teresa->mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
-        raceSetup = gRaceSetup;
+        raceSetup = g_GlobalCO;
         pickFunction = (raceSetup->mMode == MODE_BATTLE) ? PickItemTeresaKartBattle : PickItemTeresaKartByRank;
         if (raceSetup->mUseTeams != 0) {
             if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
@@ -662,7 +662,7 @@ void EnterItemTeresaFadeInAtPicked(void *stateObject) {
         teresa->mItemObject.mPosPointer = &teresa->mItemObject.mPos;
     }
     if (teresa->mPickedKartIndex < ITEM_TERESA_NO_KART) {
-        teresa->mKart = GetKart(teresa->mPickedKartIndex);
+        teresa->mKart = GetRacerMQEntry(teresa->mPickedKartIndex);
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
         teresa->mFollowEnded = FALSE;
@@ -712,11 +712,11 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     if (teresa->mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
         teresa->mItemInfoIndex = heldItem->mItemInfoIndex;
         teresa->mItemCount = heldItem->mObjectCount;
-        ResetParticipantHeldItem(((u8 *) gParticipantKartMap)[teresa->mPickedKartIndex & 0xff]);
+        ResetParticipantHeldItem(((u8 *) g_GlobalRE)[teresa->mPickedKartIndex & 0xff]);
     } else {
         RemoveHeldItem(heldItem, &teresa->mItemInfoIndex, &teresa->mItemCount);
     }
-    StartKartHitReaction(kart);
+    StructMQRacerEntry_SomeFn_10(kart);
     itemInfoIndex = teresa->mItemInfoIndex;
     return gItemInfos[itemInfoIndex].mObjectKind;
 }
@@ -757,7 +757,7 @@ void UpdateItemTeresaFadeInAtPicked(void *stateObject) {
                         teresa->mItemObjectKind = ITEM_TERESA_KIND_TOOK_NOTHING;
                     } else {
                         teresa->mItemObjectKind = gItemInfos[teresa->mItemInfoIndex].mObjectKind;
-                        ResetParticipantHeldItem(((u8 *) gParticipantKartMap)[teresa->mPickedKartIndex & 0xff]);
+                        ResetParticipantHeldItem(((u8 *) g_GlobalRE)[teresa->mPickedKartIndex & 0xff]);
                     }
                     teresa->mItemModelAlpha = 0;
                     receivedItem = TRUE;
@@ -989,7 +989,7 @@ void UpdateItemTeresaFadeInAtOwner(void *stateObject) {
                 ownerKartItems->mActiveItem = ITEM_INFO_NONE;
                 if (teresa->mItemInfoIndex != ITEM_INFO_NONE) {
                     if (teresa->mActsLocally == FALSE) {
-                        SetParticipantHeldItem(((u8 *) gParticipantKartMap)[ownerKartItems->mKartIndex & 0xff],
+                        SetParticipantHeldItem(((u8 *) g_GlobalRE)[ownerKartItems->mKartIndex & 0xff],
                                                teresa->mItemInfoIndex, teresa->mItemCount);
                     } else {
                         SetHeldItemWithCount(&ownerKartItems->mHeldItem, teresa->mItemInfoIndex, teresa->mItemCount);
@@ -1124,7 +1124,7 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
 
     SetupItemObjectFromData(&teresa->mItemObject);
     InitCourseColorBlend(&teresa->mItemObject.mColorBlend, 1);
-    SetStateMachineState(&teresa->mStateMachine, ITEM_TERESA_STATE_FADE_OUT_AT_OWNER);
+    StateDualHandler_SetState(&teresa->mStateMachine, ITEM_TERESA_STATE_FADE_OUT_AT_OWNER);
     if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
@@ -1138,7 +1138,7 @@ void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value) {
     switch (sel) {
         case ITEM_TERESA_PACKET_PICKED_KART:
             teresa->mPendingPickedKartIndex = value;
-            if (teresa->mPendingPickedKartIndex == gRaceSetup->mEntryIndex) {
+            if (teresa->mPendingPickedKartIndex == g_GlobalCO->mEntryIndex) {
                 teresa->mActsLocally = TRUE;
             }
             break;
@@ -1185,7 +1185,7 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     if (teresa->mItemObjectKind < ITEM_OBJECT_KIND_COUNT &&
         teresa->mStateMachine.mState >= ITEM_TERESA_STATE_TAKE_ITEM) {
-        itemModel = GetItemModel(teresa->mItemObjectKind);
+        itemModel = MaybeGetItemByIndex(teresa->mItemObjectKind);
         itemModelAlpha = teresa->mItemModelAlpha;
         itemCount = teresa->mItemCount;
         if (teresa->mItemObject.mAlpha < MAP_OBJECT_ALPHA_MAX) {

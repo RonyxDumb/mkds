@@ -71,13 +71,13 @@ Vec3 gGroupItemBoxShadowScale;
 MapObjectKindData *CreateGroupItemBoxKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gGroupItemBoxKindData;
     return kindData;
 }
 
 MapObjectList *CreateGroupItemBoxUpdateList(void) {
-    gGroupItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    gGroupItemBoxUpdateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     *gGroupItemBoxUpdateList = gGroupItemBoxUpdateListData;
     SetUpdateListSlot(&gGroupItemBoxUpdateList);
     return gGroupItemBoxUpdateList;

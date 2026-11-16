@@ -7,18 +7,18 @@ u16 gMicrophoneInitialized;
 MICWork gMicrophoneCommand;
 
 // Sets up the microphone channel on the first call only.
-void MIC_Init(void) {
+void RegisterFifoMicrophone(void) {
     if (gMicrophoneInitialized != 0) {
         return;
     }
     gMicrophoneInitialized = 1;
     gMicrophoneCommand.mLock = 0;
     gMicrophoneCommand.mCallback = 0;
-    PXI_Init();
-    while (!PXI_IsCallbackReady(9, 1)) {
+    j_Fifo_Initialize();
+    while (!Fifo_IsHandlerReady(9, 1)) {
     }
     SYSTEM_WORK->mMicLastAddress = 0;
-    PXI_SetFifoRecvCallback(9, MicCommonCallback);
+    Fifo_RegisterHandler(9, MicCommonCallback);
 }
 
 // Checks the parameters and starts sampling into the buffer; callback is called with the result and arg when the reply
@@ -65,13 +65,13 @@ MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback call
             return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     flags = param->mLoopEnable != 0 ? (typeFlags | 0x10) & 0xff : typeFlags & 0xff;
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (gMicrophoneCommand.mLock != 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return MIC_RESULT_BUSY;
     }
     gMicrophoneCommand.mLock = 1;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     gMicrophoneCommand.mCallback = callback;
     gMicrophoneCommand.mCallbackArg = arg;
     gMicrophoneCommand.mFull = param->mFullCallback;
@@ -91,14 +91,14 @@ MICResult MIC_StartAutoSampling(const MICAutoParam *param) {
 
 // Sends the stop command; callback is called with the result and arg when the reply arrives.
 MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg) {
-    OSIntrMode enabled = OS_DisableInterrupts();
+    OSIntrMode enabled = Os_DisableIrq();
 
     if (gMicrophoneCommand.mLock != 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return MIC_RESULT_BUSY;
     }
     gMicrophoneCommand.mLock = 1;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     gMicrophoneCommand.mCallback = callback;
     gMicrophoneCommand.mCallbackArg = arg;
     return MicStopAutoSampling() != 0 ? MIC_RESULT_SUCCESS : MIC_RESULT_SEND_ERROR;
@@ -180,30 +180,30 @@ void MicCommonCallback(u32 tag, u32 data, BOOL err) {
 
 // Sends the seven words of the start command; FALSE at the first word the FIFO refuses.
 BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags) {
-    if (PXI_SendWordByFifo(9, flags | 0x2004100, 0) < 0) {
+    if (Fifo_SendWord(9, flags | 0x2004100, 0) < 0) {
         return FALSE;
     }
-    if (PXI_SendWordByFifo(9, ((u32) buf >> 16) | 0x10000, 0) < 0) {
+    if (Fifo_SendWord(9, ((u32) buf >> 16) | 0x10000, 0) < 0) {
         return FALSE;
     }
-    if (PXI_SendWordByFifo(9, ((u32) buf & 0xffff) | 0x20000, 0) < 0) {
+    if (Fifo_SendWord(9, ((u32) buf & 0xffff) | 0x20000, 0) < 0) {
         return FALSE;
     }
-    if (PXI_SendWordByFifo(9, (size >> 16) | 0x30000, 0) < 0) {
+    if (Fifo_SendWord(9, (size >> 16) | 0x30000, 0) < 0) {
         return FALSE;
     }
-    if (PXI_SendWordByFifo(9, (size & 0xffff) | 0x40000, 0) < 0) {
+    if (Fifo_SendWord(9, (size & 0xffff) | 0x40000, 0) < 0) {
         return FALSE;
     }
-    if (PXI_SendWordByFifo(9, (span >> 16) | 0x50000, 0) < 0) {
+    if (Fifo_SendWord(9, (span >> 16) | 0x50000, 0) < 0) {
         return FALSE;
     }
-    return PXI_SendWordByFifo(9, (span & 0xffff) | 0x1060000, 0) >= 0;
+    return Fifo_SendWord(9, (span & 0xffff) | 0x1060000, 0) >= 0;
 }
 
 // Sends the stop command word.
 BOOL MicStopAutoSampling(void) {
-    return PXI_SendWordByFifo(9, 0x3004200, 0) >= 0;
+    return Fifo_SendWord(9, 0x3004200, 0) >= 0;
 }
 
 // Stores the result of the waiting calls.

@@ -10,7 +10,7 @@ const u8 gRaceHudSubScreenMinMaxOrderPad[1] = {1};
 
 // Copies the name of row rowIndex (0 is the player of current entry 0, otherwise course record rowIndex - 1) into
 // nameOut; the whole 10 characters when copyFullLength is non-zero, else only as many as fit the width.
-void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) {
+void FormatTimeTrialRecordRacerNameString(u32 rowIndex, u16 *nameOut, u32 copyFullLength) {
     u32 length;
     BOOL isHumanGhostOrPeer;
     u16 *name;
@@ -26,36 +26,36 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
     }
     isHumanGhostOrPeer = FALSE;
     if (rowIndex == 0) {
-        if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= PLAYER_KIND_PEER) {
-            if ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
+        if (g_GlobalCO->mCurrentEntries[rowIndex].mPlayer.mKind <= PLAYER_KIND_PEER) {
+            if ((1 << g_GlobalCO->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
         if (isHumanGhostOrPeer != FALSE) {
-            name = gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mName;
+            name = g_GlobalCO->mCurrentEntries[rowIndex].mPlayer.mName;
             if (name == NULL) {
                 return;
             }
             if (copyFullLength != 0) {
                 length = 10;
             } else {
-                length = CopyTextWithinWidth(name, fittedText);
+                length = GetClampedString10LengthForFontIndex0_from_thumb(name, fittedText);
             }
         }
     } else {
-        if (GetCourseTimeRecord(gRaceSetup->mCourseId, rowIndex - 1, &record) != 0) {
+        if (TimeTrialRecord_CopyFrom_from_thumb(g_GlobalCO->mCourseId, rowIndex - 1, &record) != 0) {
             name = record.mName;
             if (copyFullLength != 0) {
                 length = 10;
             } else {
-                length = CopyTextWithinWidth(name, fittedText);
+                length = GetClampedString10LengthForFontIndex0_from_thumb(name, fittedText);
             }
         }
     }
     if (name == NULL) {
         return;
     }
-    wcsncpy(nameOut, name, length);
+    CopyString16(nameOut, name, length);
 }
 
 // The part of the rectangle that the kart icons sub screen shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
@@ -125,7 +125,7 @@ void GetRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = GetCurrentInternalCourseId_0();
 
     ComputeRaceHudSubScreenKartIconsMinMax(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
                                            rows[courseId][3]);
@@ -197,7 +197,7 @@ void GetRaceHudSubScreenCourseMinMax(IntPair *outFirst, IntPair *outSecond) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = GetCurrentInternalCourseId_0();
 
     SetFixed12MinMaxFromWhole(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
                               rows[courseId][3]);
@@ -261,7 +261,7 @@ void GetRaceHudSubScreenScrollLimits(IntPair *outFirst, IntPair *outSecond) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = GetCurrentInternalCourseId_0();
 
     SetFixed12MinMaxFromWhole(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
                               rows[courseId][3]);

@@ -14,10 +14,10 @@
 
 #pragma thumb on
 
-KartAppear *CreateKartAppear(void *heap) {
+KartAppear *LoadKartAppearTablePointer_from_thumb(void *heap) {
     KartAppear *kartAppear;
-    kartAppear = HeapAlloc(heap, 4);
-    kartAppear->mFileData = FindFileInLoadedArchives("/kart_appear.ktbl");
+    kartAppear = Mem_AllocateHeap(heap, 4);
+    kartAppear->mFileData = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("/kart_appear.ktbl");
     return kartAppear;
 }
 

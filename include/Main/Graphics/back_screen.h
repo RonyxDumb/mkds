@@ -2,12 +2,12 @@
 
 #include "types.h"
 
-extern const char *gBackScreenSNclrNames[1];
-extern const char *gBackScreenSNcgrNames[1];
-extern const char *gBackScreenSNscrNames[1];
-extern const char *gBackScreenMNscrNames[2];
-extern const char *gBackScreenMNcgrNames[2];
-extern const char *gBackScreenMNclrNames[2];
+extern const char *g_str_back_screen_s_b_00_nclr[1];
+extern const char *g_str_back_screen_s_b_00_ncgr[1];
+extern const char *g_str_back_screen_s_bg_00_nscr[1];
+extern const char *g_str_back_screen_m_b_00_01_nscr[2];
+extern const char *g_str_back_screen_m_b_00_01_ncgr[2];
+extern const char *g_str_back_screen_m_b_00_01_nclr[2];
 
 extern char gBackScreenSNclr00Name[];
 extern char gBackScreenSNcgr00Name[];
@@ -19,6 +19,6 @@ extern char gBackScreenMNcgr01Name[];
 extern char gBackScreenMNclr00Name[];
 extern char gBackScreenMNclr01Name[];
 
-void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void);
+void PrepareNavigationContextFiles_from_thumb(void);
 void InitBackScreenDisplay(void);
-s32 LoadBackScreen(s32 subCharOffset);
+s32 InitializeBackScreen_from_thumb(s32 subCharOffset);

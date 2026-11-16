@@ -43,24 +43,24 @@ void ResetConnection(void) {
     BlockEntry *blockEntry;
     s32 index;
 
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return;
     }
-    gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
-    gConnectionWork->mState = CONNECTION_STATE_IDLE;
-    gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
-    gConnectionWork->mStep = CONNECTION_STEP_NOTHING;
-    gConnectionWork->mRequestPending = 0;
-    gConnectionWork->mFlags = 0;
-    scanParams = gConnectionWork->mScanParams;
-    scanParams->mScanBuf = gConnectionWork->mScanBssDescBuffer;
+    g_GlobalZE->mConnectionMode = CONNECTION_MODE_NONE;
+    g_GlobalZE->mState = CONNECTION_STATE_IDLE;
+    g_GlobalZE->mErrorCode = CONNECTION_ERROR_NONE;
+    g_GlobalZE->mStep = CONNECTION_STEP_NOTHING;
+    g_GlobalZE->mRequestPending = 0;
+    g_GlobalZE->mFlags = 0;
+    scanParams = g_GlobalZE->mScanParams;
+    scanParams->mScanBuf = g_GlobalZE->mScanBssDescBuffer;
     scanParams->mChannel = 0;
     scanParams->mMaxChannelTime = 0;
     for (index = 0; index < 6; index++) {
         scanParams->mBssid[index] = CONNECTION_BSSID_ANY_BYTE;
     }
-    scanExParams = gConnectionWork->mScanExParams;
-    scanExParams->mScanBuf = gConnectionWork->mScanExBuffer;
+    scanExParams = g_GlobalZE->mScanExParams;
+    scanExParams->mScanBuf = g_GlobalZE->mScanExBuffer;
     scanExParams->mScanBufSize = CONNECTION_SCAN_BUFFER_SIZE;
     scanExParams->mChannelList = 0;
     scanExParams->mMaxChannelTime = 0;
@@ -70,7 +70,7 @@ void ResetConnection(void) {
         scanExParams->mBssid[index] = CONNECTION_BSSID_ANY_BYTE;
     }
     ResetConnectionData();
-    blocks = &gConnectionWork->mBlockTransfer;
+    blocks = &g_GlobalZE->mBlockTransfer;
     blockEntry = &blocks->mBlockEntries[0];
     for (index = 0; index < 0xc; index++) {
         blockEntry->mPath[0] = 0;
@@ -81,7 +81,7 @@ void ResetConnection(void) {
     blocks->mMode = 0;
     blocks->mZeroWordReceived = FALSE;
     blocks->mMPSetupActive = FALSE;
-    ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
+    StructBin_SomeFn_from_thumb(&g_GlobalZE->mMultiBootState);
     InitMPStateMachine();
     FillParentParameter(1);
 }
@@ -93,35 +93,35 @@ void StepDataSharing(void) {
     s32 result;
 
     GetSceneFrames();
-    sendData = gConnectionWork->mSharingSendRecord;
-    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-        sendData->mSendByte = gConnectionWork->mDataSharingSendByte;
+    sendData = g_GlobalZE->mSharingSendRecord;
+    if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+        sendData->mSendByte = g_GlobalZE->mDataSharingSendByte;
     } else {
         sendData->mSendByte = 0;
     }
     sendData->mLeftParticipantMask =
-        (gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) == CONNECTION_MODE_PARENT
-            ? gConnectionWork->mLeftParticipantMask[0]
+        (g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode) == CONNECTION_MODE_PARENT
+            ? g_GlobalZE->mLeftParticipantMask[0]
             : 0;
     sendData->mPadKeys = GetPadKeys();
     sendData->mFlags = 0;
     sendData->mUnk_07 = 0;
     role = CONNECTION_MODE_NONE;
-    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
-        if (gConnectionWork != NULL) {
-            role = gConnectionWork->mConnectionMode;
+    if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED_RACE) {
+        if (g_GlobalZE != NULL) {
+            role = g_GlobalZE->mConnectionMode;
         }
         if (role == CONNECTION_MODE_PARENT) {
-            if (IsDispCapFadeFlagSet() != FALSE) {
+            if (HasAAFlag8() != FALSE) {
                 sendData->mFlags |= SHARING_RECORD_FLAG_DISP_CAP_FADE;
             } else {
                 sendData->mFlags &= ~SHARING_RECORD_FLAG_DISP_CAP_FADE;
             }
         }
     }
-    role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
-    if (role != CONNECTION_MODE_PARENT || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
-        if (gConnectionWork->mSyncToggle == 0) {
+    role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
+    if (role != CONNECTION_MODE_PARENT || (g_GlobalZE->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
+        if (g_GlobalZE->mSyncToggle == 0) {
             sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_A;
             sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_B;
         } else {
@@ -129,15 +129,15 @@ void StepDataSharing(void) {
             sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_A;
         }
     }
-    sendData->mMicOverThreshold = gTouchMicInput->mMicOverThreshold;
+    sendData->mMicOverThreshold = g_Global59C4->mMicOverThreshold;
     sendData->mTouchPoint = GetPackedTouchPoint();
-    result = WM_StepDataSharing(gConnectionWork->mSharingInfo, sendData, gConnectionWork->mSharingDataSet);
+    result = WM_StepDataSharing(g_GlobalZE->mSharingInfo, sendData, g_GlobalZE->mSharingDataSet);
     if (result == 0) {
-        if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-            gConnectionWork->mDataSharingSendByte = 0;
+        if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED) {
+            g_GlobalZE->mDataSharingSendByte = 0;
         }
     }
-    gConnectionWork->mSharingStepResult = result;
+    g_GlobalZE->mSharingStepResult = result;
 }
 
 BOOL UpdateDataSharing(void) {
@@ -152,27 +152,27 @@ BOOL UpdateDataSharing(void) {
     u32 bit;
     u16 entryIndex;
 
-    dataSharing = &gConnectionWork->mDataSharing;
-    gConnectionWork->mArrivedMemberMask =
-        gConnectionWork->mSharingInfo->mDs[gConnectionWork->mSharingInfo->mWriteIndex].mArrivedMembers;
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
-    switch (gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) {
+    dataSharing = &g_GlobalZE->mDataSharing;
+    g_GlobalZE->mArrivedMemberMask =
+        g_GlobalZE->mSharingInfo->mDs[g_GlobalZE->mSharingInfo->mWriteIndex].mArrivedMembers;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
+    switch (g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode) {
         case CONNECTION_MODE_PARENT:
-            if (gConnectionWork->mChildren.mChildCount != 0) {
+            if (g_GlobalZE->mChildren.mChildCount != 0) {
                 StepDataSharing();
             } else {
                 return FALSE;
             }
             break;
         case CONNECTION_MODE_CHILD:
-            if (gConnectionWork->mOwnIndex != CONNECTION_OWN_INDEX_NONE) {
+            if (g_GlobalZE->mOwnIndex != CONNECTION_OWN_INDEX_NONE) {
                 StepDataSharing();
             } else {
                 return FALSE;
             }
             break;
     }
-    switch (gConnectionWork->mState) {
+    switch (g_GlobalZE->mState) {
         case CONNECTION_STATE_SYNCED:
             if (dataSharing->mSharingPhase != DATA_SHARING_PHASE_INITIAL &&
                 dataSharing->mSharingPhase == DATA_SHARING_PHASE_AFTER_RESET) {
@@ -185,11 +185,11 @@ BOOL UpdateDataSharing(void) {
                     return FALSE;
                 }
             } else {
-                if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
+                if ((g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode) ==
                     CONNECTION_MODE_PARENT) {
                     for (clearIndex = 1; clearIndex < 8; clearIndex++) {
-                        if (BIT_IS_SET(gConnectionWork->mParticipantMask, clearIndex)) {
-                            gConnectionWork->mUnk_15f8[clearIndex - 1] = 0;
+                        if (BIT_IS_SET(g_GlobalZE->mParticipantMask, clearIndex)) {
+                            g_GlobalZE->mUnk_15f8[clearIndex - 1] = 0;
                         }
                     }
                 }
@@ -197,37 +197,37 @@ BOOL UpdateDataSharing(void) {
             break;
     }
     allRead = TRUE;
-    sharedData = WM_GetSharedDataAddress(gConnectionWork->mSharingInfo, gConnectionWork->mSharingDataSet, 0);
+    sharedData = WM_GetSharedDataAddress(g_GlobalZE->mSharingInfo, g_GlobalZE->mSharingDataSet, 0);
     if (sharedData != NULL) {
         receivedMask = sharedData[4];
         if (receivedMask != 0) {
             for (participantIndex = 0; participantIndex < 8; participantIndex++) {
                 bit = 1 << participantIndex;
-                participantMask = gConnectionWork->mParticipantMask;
-                entryIndex = gConnectionWork->mParticipantPosByIndex[participantIndex].mEntryIndex;
+                participantMask = g_GlobalZE->mParticipantMask;
+                entryIndex = g_GlobalZE->mParticipantPosByIndex[participantIndex].mEntryIndex;
                 if ((participantMask & bit) != 0 && (receivedMask & bit) != 0) {
-                    gConnectionWork->mParticipantMask = participantMask & ~bit;
-                    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
+                    g_GlobalZE->mParticipantMask = participantMask & ~bit;
+                    if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED_RACE) {
                         RemoveRaceProgressKart(entryIndex);
                     }
-                    if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
+                    if ((g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode) ==
                         CONNECTION_MODE_PARENT) {
-                        gConnectionWork->mLeftParticipantMask[0] &= ~bit;
+                        g_GlobalZE->mLeftParticipantMask[0] &= ~bit;
                     }
                 }
             }
         }
-        MI_CpuCopy8(sharedData, &buf[0], 8);
+        Mem_CpuCopy8(sharedData, &buf[0], 8);
     } else {
         allRead = FALSE;
     }
     if (allRead != FALSE) {
         for (participantIndex = 1; participantIndex < 8; participantIndex++) {
-            if (BIT_IS_SET(gConnectionWork->mParticipantMask, participantIndex)) {
-                sharedData = WM_GetSharedDataAddress(gConnectionWork->mSharingInfo, gConnectionWork->mSharingDataSet,
+            if (BIT_IS_SET(g_GlobalZE->mParticipantMask, participantIndex)) {
+                sharedData = WM_GetSharedDataAddress(g_GlobalZE->mSharingInfo, g_GlobalZE->mSharingDataSet,
                                                      participantIndex);
                 if (sharedData != NULL) {
-                    MI_CpuCopy8(sharedData, &buf[participantIndex], 8);
+                    Mem_CpuCopy8(sharedData, &buf[participantIndex], 8);
                 } else {
                     allRead = FALSE;
                     break;
@@ -236,8 +236,8 @@ BOOL UpdateDataSharing(void) {
         }
     }
     for (participantIndex = 0; participantIndex < 8; participantIndex++) {
-        if (allRead != FALSE && BIT_IS_SET(gConnectionWork->mParticipantMask, participantIndex)) {
-            MI_CpuCopy8(&buf[participantIndex], &dataSharing->mReceivedRecords[participantIndex], 8);
+        if (allRead != FALSE && BIT_IS_SET(g_GlobalZE->mParticipantMask, participantIndex)) {
+            Mem_CpuCopy8(&buf[participantIndex], &dataSharing->mReceivedRecords[participantIndex], 8);
             dataSharing->mSharedDataCopied[participantIndex] = 1;
         } else {
             dataSharing->mSharedDataCopied[participantIndex] = 0;
@@ -247,10 +247,10 @@ BOOL UpdateDataSharing(void) {
 }
 
 void Initialize(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STARTING_UP;
-    gConnectionWork->mRequestPending = 1;
-    if (WM_Initialize(gConnectionWork->mWmWorkBuffer, InitializeCallback, 2) != 2) {
-        gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mStep = CONNECTION_STEP_STARTING_UP;
+    g_GlobalZE->mRequestPending = 1;
+    if (StructWM_SomeFn(g_GlobalZE->mWmWorkBuffer, InitializeCallback, 2) != 2) {
+        g_GlobalZE->mRequestPending = 0;
     }
 }
 
@@ -258,14 +258,14 @@ void InitializeCallback(WirelessMessage *event) {
     s32 result;
 
     result = WM_SetPortCallback(0xf, MPDataPortCallback, NULL);
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (result != 0) {
         return;
     }
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
-    if (gConnectionWork->mConnectionKind != 0) {
+    if (g_GlobalZE->mConnectionKind != 0) {
         WM_SetPortCallback(1, PacketPortCallback, NULL);
     }
     ResetConnectionData();
@@ -276,13 +276,13 @@ void StopConnection(void) {
     BOOL shouldStop;
     BOOL allowed;
 
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
-        gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
-        gConnectionWork->mRequestPending = 1;
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
+        g_GlobalZE->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
+        g_GlobalZE->mRequestPending = 1;
         shouldStop = FALSE;
-        if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+        if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             allowed = TRUE;
-            role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+            role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
             if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 allowed = FALSE;
             }
@@ -292,28 +292,28 @@ void StopConnection(void) {
         }
         if (shouldStop != FALSE) {
             StopRomArchive();
-            gConnectionWork->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
+            g_GlobalZE->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
         }
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
         return;
     }
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_RESTARTING;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_SHUTTING_DOWN;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SHUTTING_DOWN;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
-        gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
-        gConnectionWork->mRequestPending = 1;
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
+        g_GlobalZE->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
+        g_GlobalZE->mRequestPending = 1;
         if (IsMultiBootSetupStarted() != FALSE &&
             (GetConnectionMode() == CONNECTION_MODE_PARENT || ConnectionMB_IsMultiBootChild() != FALSE)) {
             allowed = TRUE;
@@ -322,30 +322,30 @@ void StopConnection(void) {
         }
         if (allowed != FALSE) {
             StopRomArchive();
-            gConnectionWork->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
+            g_GlobalZE->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
         }
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
         return;
     }
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_RESTARTING;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_SHUTTING_DOWN;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SHUTTING_DOWN;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
         StopRomArchiveTransfer();
         return;
     }
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
         EndWbtStep();
         return;
     }
@@ -357,25 +357,25 @@ void StopConnection(void) {
 }
 
 void ResetCallback(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_RESET_FAILED;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_RESET_FAILED;
+        g_GlobalZE->mRequestPending = 0;
     } else {
         ResetConnectionData();
     }
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    gConnectionWork->mStep = CONNECTION_STEP_SETTING_TIMEOUT;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SETTING_TIMEOUT;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_SetLifeTime(SetLifeTimeCallback, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         StopConnection();
     }
 }
 
 void SetLifeTimeCallback(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
     }
@@ -387,45 +387,45 @@ void MeasureChannel(u16 measuredChannel) {
     u16 channel;
     s32 channelIndex;
 
-    gConnectionWork->mStep = CONNECTION_STEP_CHECKING_CHANNELS;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_CHECKING_CHANNELS;
+    g_GlobalZE->mRequestPending = 1;
     channel = measuredChannel;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
-        gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
+        g_GlobalZE->mRequestPending = 0;
     } else if (allowedChannels == 0x8000) {
-        gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
+        g_GlobalZE->mRequestPending = 0;
     }
     if (channel == 0) {
-        gConnectionWork->mMeasureCount = 1;
-        gConnectionWork->mMeasurePass = 1;
+        g_GlobalZE->mMeasureCount = 1;
+        g_GlobalZE->mMeasurePass = 1;
         for (channelIndex = 1; channelIndex < 0xe; channelIndex++) {
-            gConnectionWork->mChannelSums[channelIndex] = -1;
+            g_GlobalZE->mChannelSums[channelIndex] = -1;
         }
         channel = 1;
-    } else if (gConnectionWork->mMeasureCount >= CONNECTION_MEASURES_PER_CHANNEL) {
+    } else if (g_GlobalZE->mMeasureCount >= CONNECTION_MEASURES_PER_CHANNEL) {
         channel = channel + 1;
-        gConnectionWork->mMeasureCount = 1;
+        g_GlobalZE->mMeasureCount = 1;
         if (((1 << (channel - 1)) & allowedChannels) == 0) {
             do {
                 channel = channel + 1;
                 if (channel > 0xe) {
-                    if (gConnectionWork->mMeasurePass >= CONNECTION_MEASURE_PASS_COUNT) {
-                        gConnectionWork->mRequestPending = 0;
+                    if (g_GlobalZE->mMeasurePass >= CONNECTION_MEASURE_PASS_COUNT) {
+                        g_GlobalZE->mRequestPending = 0;
                         return;
                     }
-                    gConnectionWork->mMeasurePass += 1;
+                    g_GlobalZE->mMeasurePass += 1;
                     channel = 1;
-                    gConnectionWork->mMeasureCount = 1;
+                    g_GlobalZE->mMeasureCount = 1;
                 }
             } while (((1 << (channel - 1)) & allowedChannels) == 0);
         }
     } else {
-        gConnectionWork->mMeasureCount += 1;
+        g_GlobalZE->mMeasureCount += 1;
     }
     if (WM_MeasureChannel(MeasureChannelCallback, 3, 0x11, channel, 0x14) != 2) {
         StopConnection();
@@ -439,7 +439,7 @@ void MeasureChannelCallback(WirelessMessage *event) {
         StopConnection();
         return;
     }
-    channelSum = &gConnectionWork->mChannelSums[event->mReplyState];
+    channelSum = &g_GlobalZE->mChannelSums[event->mReplyState];
     if (*channelSum < 0) {
         *channelSum = 0;
     }
@@ -452,13 +452,13 @@ void *RomArchiveAllocFunc(s32 unusedValue, u32 size, void *block) {
     void *allocated;
 
     allocated = NULL;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (block != NULL) {
-        HeapFree(gConnectionWork->mHeap, block);
+        Mem_FreeHeap(g_GlobalZE->mHeap, block);
     } else {
-        allocated = HeapAllocAligned(gConnectionWork->mHeap, size, -0x20);
+        allocated = Mem_AllocateHeapAligned(g_GlobalZE->mHeap, size, -0x20);
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return allocated;
 }
 
@@ -467,12 +467,12 @@ void StartRomArchiveTransfer(void) {
     BOOL flag;
     BOOL shouldStart;
 
-    gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_TRANSFER;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_ROM_ARCHIVE_TRANSFER;
+    g_GlobalZE->mRequestPending = 1;
     shouldStart = FALSE;
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
-        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             flag = FALSE;
         }
@@ -481,22 +481,22 @@ void StartRomArchiveTransfer(void) {
         }
     }
     if (shouldStart != FALSE) {
-        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
         StartRomArchive(role == CONNECTION_MODE_PARENT ? 1 : 0, 4, 0x154, RomArchiveStateCallback, RomArchiveAllocFunc,
                         0);
     }
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     ResetPendingFiles();
 }
 
 void RomArchiveStateCallback(s32 unusedValue) {
-    if (gConnectionWork->mStep == CONNECTION_STEP_ROM_ARCHIVE_TRANSFER) {
+    if (g_GlobalZE->mStep == CONNECTION_STEP_ROM_ARCHIVE_TRANSFER) {
         if (GetRomArchiveState() == ROM_ARCHIVE_READY) {
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             ResetPendingFiles();
         }
     } else {
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
     }
 }
 
@@ -505,12 +505,12 @@ void StartRomArchiveSend(void) {
     BOOL allowed;
     BOOL shouldStart;
 
-    gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_SEND;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_ROM_ARCHIVE_SEND;
+    g_GlobalZE->mRequestPending = 1;
     shouldStart = FALSE;
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
-        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             allowed = FALSE;
         }
@@ -520,10 +520,10 @@ void StartRomArchiveSend(void) {
     }
     if (shouldStart != FALSE) {
         StartRomArchivePacketSend();
-        gConnectionWork->mSyncState = CONNECTION_SYNC_START;
-        gConnectionWork->mFlags |= CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
+        g_GlobalZE->mSyncState = CONNECTION_SYNC_START;
+        g_GlobalZE->mFlags |= CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
     }
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void StopRomArchiveTransfer(void) {
@@ -531,12 +531,12 @@ void StopRomArchiveTransfer(void) {
     BOOL flag;
     BOOL shouldStop;
 
-    gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
+    g_GlobalZE->mRequestPending = 1;
     shouldStop = FALSE;
-    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+    if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
-        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             flag = FALSE;
         }
@@ -546,9 +546,9 @@ void StopRomArchiveTransfer(void) {
     }
     if (shouldStop != FALSE) {
         StopRomArchive();
-        gConnectionWork->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
+        g_GlobalZE->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
     }
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 u16 ComputeParentTgid(u32 unusedValue) {
@@ -558,7 +558,7 @@ u16 ComputeParentTgid(u32 unusedValue) {
     u64 generatorState;
     u64 highWord;
 
-    GetClockTimeOrZero(&time);
+    GetCurrentTime(&time);
     hour = time.mHour;
     if (hour >= 0x12) {
         hour -= 0x12;
@@ -572,16 +572,16 @@ u16 ComputeParentTgid(u32 unusedValue) {
 
 // Calls WM_SetParentParameter; also stores 1 in the first session word.
 void SetParentParameter(void) {
-    gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
-    gConnectionWork->mStep = CONNECTION_STEP_CONFIGURING_HOST;
-    gConnectionWork->mRequestPending = 1;
-    if (WM_SetParentParameter(SetParentParameterCallback, gConnectionWork->mParentParameter) != 2) {
+    g_GlobalZE->mConnectionMode = CONNECTION_MODE_PARENT;
+    g_GlobalZE->mStep = CONNECTION_STEP_CONFIGURING_HOST;
+    g_GlobalZE->mRequestPending = 1;
+    if (WM_SetParentParameter(SetParentParameterCallback, g_GlobalZE->mParentParameter) != 2) {
         StopConnection();
     }
 }
 
 void SetParentParameterCallback(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
     }
@@ -591,8 +591,8 @@ void StartParent(WirelessMessageCallback callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_OPENING_HOST;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_OPENING_HOST;
+    g_GlobalZE->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         StopConnection();
     }
@@ -611,32 +611,32 @@ void StartParentCallback(WirelessMessage *event) {
                 AddChild(event->mLength, &event->mMacAddress[0], (PlayerRecord *) event->mPeerBytes);
                 break;
             case WIRELESS_STATE_SESSION_START:
-                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0],
+                Mem_CpuCopy8(&g_SaveDataHolder->mFirstBlock->mPlayerName, &g_GlobalZE->mPlayerRecords[0],
                             PLAYER_NAME_BYTES);
-                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits,
-                            sizeof(gConnectionWork->mPlayerRecords[0].mBits));
+                Mem_CpuCopy8(&g_SaveDataHolder->mFirstBlock->mFlags, &g_GlobalZE->mPlayerRecords[0].mBits,
+                            sizeof(g_GlobalZE->mPlayerRecords[0].mBits));
                 seed = 0;
-                role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+                role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
                 switch (role) {
                     case CONNECTION_MODE_PARENT:
-                        seed = gConnectionWork->mParentParameter->mTgid;
+                        seed = g_GlobalZE->mParentParameter->mTgid;
                         break;
                     case CONNECTION_MODE_CHILD:
-                        seed = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
+                        seed = g_GlobalZE->mParentBssDesc->mGameInfo.mTgid;
                         break;
                 }
-                randomState = &gConnectionWork->mRandomState;
+                randomState = &g_GlobalZE->mRandomState;
                 randomState->mValue = (u32) (seed * 3 | seed << 16);
                 randomState->mMultiplier = RANDOM_STATE64_MULTIPLIER;
                 randomState->mIncrement = RANDOM_STATE64_INCREMENT;
-                gConnectionWork->mRequestPending = 0;
+                g_GlobalZE->mRequestPending = 0;
                 break;
             case WIRELESS_STATE_UNLINKED:
                 RemoveChild(event->mLength);
                 aid = event->mLength;
-                role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
-                if (role == CONNECTION_MODE_PARENT && gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
-                    BIT_SET(gConnectionWork->mLeftParticipantMask[0], aid);
+                role = g_GlobalZE == NULL ? CONNECTION_MODE_NONE : g_GlobalZE->mConnectionMode;
+                if (role == CONNECTION_MODE_PARENT && g_GlobalZE->mState == CONNECTION_STATE_SYNCED_RACE) {
+                    BIT_SET(g_GlobalZE->mLeftParticipantMask[0], aid);
                 }
                 break;
         }

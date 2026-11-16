@@ -10,7 +10,7 @@ typedef struct UnpackedMissionRecord {
     /* 01 */ u8 mValue;
 } UnpackedMissionRecord;
 
-// Two bytes and a halfword that GetKartFinishTime and GetKartLapTime fill.
+// Two bytes and a halfword that GetPlayerTotalTime and MaybeGetPlayerLapTime fill.
 typedef struct KartTime {
     /* 00 */ u8 mMinute;
     /* 01 */ u8 mSecond;
@@ -18,9 +18,9 @@ typedef struct KartTime {
 } KartTime;
 
 void ReadCourseGhostRecord(u32 courseId);
-void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex);
+void FillPersonalGhostData_from_thumb(s32 courseId, u16 entryIndex);
 void SetEmblemRecordAndWriteBackup(void *emblemData);
-s32 GetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord);
-void SetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord);
-void UnpackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord);
-void PackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord);
+s32 GetMissionLevelStageInfoByIds_from_thumb(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord);
+void SetMissionLevelStageInfoFromIds_from_thumb(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord);
+void GetMissionLevelStageInfo_from_thumb(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord);
+void SetMissionLevelStageInfo_from_thumb(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord);

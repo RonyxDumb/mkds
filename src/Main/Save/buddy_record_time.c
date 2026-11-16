@@ -25,22 +25,22 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const u8 gTimeRecordCharTable[33] = {0x53, 0x37, 0x4c, 0x43, 0x58, 0x33, 0x4a, 0x5a, 0x45, 0x38, 0x46,
+const u8 g_TimeTrialBase32Table[33] = {0x53, 0x37, 0x4c, 0x43, 0x58, 0x33, 0x4a, 0x5a, 0x45, 0x38, 0x46,
                                      0x47, 0x34, 0x48, 0x42, 0x4b, 0x57, 0x4e, 0x35, 0x32, 0x59, 0x50,
                                      0x41, 0x36, 0x52, 0x54, 0x55, 0x39, 0x56, 0x4d, 0x44, 0x51};
-u32 gResultTotalMax = 0xf4240;
+u32 g_dec_1000000 = 0xf4240;
 
 #pragma opt_rebuildconditionals off
 
 static inline BOOL BuddyRecordIsConnectionActive(void) {
     ConnectionWork *connectionWork;
 
-    connectionWork = gConnectionWork;
+    connectionWork = g_GlobalZE;
     return (connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
            connectionWork->mState != CONNECTION_STATE_ENDED;
 }
 
-BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
+BOOL GenerateTimeTrialCodeImpl(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     u8 packedBytes[10] = {0};
     u32 value;
     s32 cupCourseIndex;
@@ -58,7 +58,7 @@ BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     if (value >= 240000) {
         return 0;
     }
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = GetCourseIdFromInternalId(courseId);
     if (cupCourseIndex < 0 || cupCourseIndex >= 32) {
         return 0;
     }
@@ -68,9 +68,9 @@ BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     }
     value = ((value & 0x3ffff) << 14) | ((cupCourseIndex & 0x1f) << 9);
     *(u32 *) &packedBytes[0] = value | (characterKartValue & 0x1ff);
-    MI_CpuCopy8(&timeRecord->mName, &packedBytes[4], 4);
+    Mem_CpuCopy8(&timeRecord->mName, &packedBytes[4], 4);
     *(u16 *) &packedBytes[8] = 0;
-    WriteBlockTail(packedBytes, 10, 1);
+    CalculateCRCChecksum_from_thumb(packedBytes, 10, 1);
     xorKey = 0xc3;
     for (byteIndex = 9; byteIndex >= 0; byteIndex--) {
         packedBytes[byteIndex] ^= xorKey;
@@ -90,26 +90,26 @@ BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     return 1;
 }
 
-BOOL FormatFirstCourseTimeRecord(s32 courseId, void *charsOut) {
+BOOL GenerateTimeTrialCode(s32 courseId, void *charsOut) {
     TimeRecord timeRecord;
     BOOL hasRecord;
 
     hasRecord = FALSE;
-    if (GetCourseTimeRecord(courseId, 0, &timeRecord) != 0 && timeRecord.mFilled != 0) {
+    if (TimeTrialRecord_CopyFrom_from_thumb(courseId, 0, &timeRecord) != 0 && timeRecord.mFilled != 0) {
         hasRecord = TRUE;
     }
     if (hasRecord == FALSE) {
         return 0;
     }
-    return FormatTimeRecordChars(charsOut, &timeRecord, courseId);
+    return GenerateTimeTrialCodeImpl(charsOut, &timeRecord, courseId);
 }
 
-BOOL GetMissionRecordValue(s32 row, s32 column, s32 *valueOut) {
+BOOL IsMissionStageBeaten(s32 row, s32 column, s32 *valueOut) {
     UnpackedMissionRecord missionRecord;
     BOOL isFilled;
 
     isFilled = FALSE;
-    GetMissionRecord(row, column, &missionRecord);
+    GetMissionLevelStageInfoByIds_from_thumb(row, column, &missionRecord);
     if (missionRecord.mFilled == 1) {
         isFilled = TRUE;
         *valueOut = missionRecord.mValue;
@@ -121,7 +121,7 @@ BOOL IsKartAppearWithinLimit(KartAppear *kartAppear, u32 characterIndex, u32 kar
     u8 limit;
     u8 appearValue;
 
-    limit = GetKartAppearLimit();
+    limit = CheckExtraKartUnlockFlags_from_thumb();
     appearValue = kartAppear->mFileData->mValues[kartIndex][characterIndex];
     if (appearValue != 0 && appearValue <= limit) {
         return 1;
@@ -134,9 +134,9 @@ BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterInd
     u8 appearValue;
 
     if (BuddyRecordIsConnectionActive() != FALSE) {
-        limit = gBackupBuffers->mParticipantMinValue;
+        limit = g_SaveDataHolder->mParticipantMinValue;
     } else {
-        limit = GetKartAppearLimit();
+        limit = CheckExtraKartUnlockFlags_from_thumb();
     }
     appearValue = kartAppear->mFileData->mValues[kartIndex][characterIndex];
     if (appearValue != 0 && appearValue <= limit) {
@@ -147,16 +147,16 @@ BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterInd
 
 s32 IsBitSetInAllParticipants(s32 bitIndex) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
-        return IsBackupFlagSet(bitIndex);
+        return CheckSavedSecretFlag_from_thumb(bitIndex);
     }
-    return IsBitSetInBytes(bitIndex, gBackupBuffers->mParticipantAndBits);
+    return CheckSecretFlagWith_from_thumb(bitIndex, g_SaveDataHolder->mParticipantAndBits);
 }
 
-s32 IsBitSetInAnyParticipant(s32 bitIndex) {
+s32 CheckSecretFlag(s32 bitIndex) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
-        return IsBackupFlagSet(bitIndex);
+        return CheckSavedSecretFlag_from_thumb(bitIndex);
     }
-    return IsBitSetInBytes(bitIndex, gBackupBuffers->mParticipantOrBits);
+    return CheckSecretFlagWith_from_thumb(bitIndex, g_SaveDataHolder->mParticipantOrBits);
 }
 
 void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKind) {
@@ -167,24 +167,24 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
     u8 buddyIndex;
     s32 foundIndex;
 
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     if (entryIndex == raceSetup->mEntryIndex) {
         return;
     }
     if (raceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData == 0) {
         return;
     }
-    foundIndex = FindBuddyIndexByFriendData(raceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData);
+    foundIndex = FindSomeOI_FriendCode_Index(raceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData);
     if (foundIndex == -1) {
         return;
     }
     buddyIndex = foundIndex;
-    GetBuddyRecord(buddyIndex, &buddyRecord);
+    GlobalZ_GetOI(buddyIndex, &buddyRecord);
     if (buddyRecord.mFilled == 0) {
-        ResetBuddyRecord(&buddyRecord);
+        StructOI_Initialize_from_thumb(&buddyRecord);
     }
-    if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName != NULL) {
-        MI_CpuCopy8(gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName, buddyRecord.mName,
+    if (g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mName != NULL) {
+        Mem_CpuCopy8(g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mName, buddyRecord.mName,
                     sizeof(buddyRecord.mName));
     }
     switch (matchKind) {
@@ -217,11 +217,11 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
     buddyRecord.mMonth = date[1];
     buddyRecord.mDay = date[2];
     buddyRecord.mFilled = 1;
-    SetBuddyRecord(buddyIndex, &buddyRecord);
+    GlobalZ_SetOI(buddyIndex, &buddyRecord);
 }
 
 static inline u32 IsKartRankAtMost(u16 kartIndex, u32 ownRank) {
-    if (GetKartRank(kartIndex) > ownRank) {
+    if (GetSomeRacerFlags(kartIndex) > ownRank) {
         return 0;
     }
     return 1;
@@ -243,35 +243,35 @@ void AddVSBuddyRecordResults(void) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
         return;
     }
-    if (gRaceSetup->mEntryIndex == -1) {
+    if (g_GlobalCO->mEntryIndex == -1) {
         return;
     }
-    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(g_GlobalCO->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
-    if (gRaceProgress->mRaceDone == 0) {
+    if (g_GlobalMV->mRaceDone == 0) {
         return;
     }
-    GetClockDateOrDefault(date);
-    ownRank = GetKartRank((u16) gRaceSetup->mEntryIndex);
-    if (gRaceSetup->mUseTeams != 0) {
-        teamIndex = GetCurrentEntry(gRaceSetup->mEntryIndex)->mPlayer.mTeamIndex;
+    GetCurrentDate(date);
+    ownRank = GetSomeRacerFlags((u16) g_GlobalCO->mEntryIndex);
+    if (g_GlobalCO->mUseTeams != 0) {
+        teamIndex = GetCurrentEntry(g_GlobalCO->mEntryIndex)->mPlayer.mTeamIndex;
     }
-    firstTotal = gBackupBuffers->mFirstBlock->mTotals[0];
-    secondTotal = gBackupBuffers->mFirstBlock->mTotals[1];
-    for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
-        if (entryIndex == gRaceSetup->mEntryIndex) {
+    firstTotal = g_SaveDataHolder->mFirstBlock->mTotals[0];
+    secondTotal = g_SaveDataHolder->mFirstBlock->mTotals[1];
+    for (entryIndex = 0; entryIndex < (u32) g_GlobalCO->mKartCount; entryIndex++) {
+        if (entryIndex == g_GlobalCO->mEntryIndex) {
             continue;
         }
-        playerKind = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        playerKind = g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind;
         if (playerKind == PLAYER_KIND_CPU || playerKind == PLAYER_KIND_NONE || playerKind == PLAYER_KIND_GHOST) {
             continue;
         }
-        if (gRaceSetup->mUseTeams != 0) {
-            if (teamIndex == gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex) {
+        if (g_GlobalCO->mUseTeams != 0) {
+            if (teamIndex == g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mTeamIndex) {
                 outcome = 2;
             } else {
-                switch (gRaceSetup->mRuleKind) {
+                switch (g_GlobalCO->mRuleKind) {
                     case RULE_KIND_FREE:
                     case RULE_KIND_RACE_COUNT:
                         outcome = IsKartRankAtMost(entryIndex, ownRank);
@@ -279,7 +279,7 @@ void AddVSBuddyRecordResults(void) {
                     case RULE_KIND_WIN_COUNT:
                         if (teamIndex == GetCupWinningTeam()) {
                             outcome = 0;
-                        } else if (gRaceProgress->mKarts[entryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+                        } else if (g_GlobalMV->mKarts[entryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
                             outcome = 2;
                         } else {
                             outcome = 1;
@@ -290,29 +290,29 @@ void AddVSBuddyRecordResults(void) {
         } else {
             outcome = IsKartRankAtMost(entryIndex, ownRank);
         }
-        if ((gConnectionWork->mGroupSendMask &
-             (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==
+        if ((g_GlobalZE->mGroupSendMask &
+             (1 << g_GlobalZE->mParticipantIndexByPos[g_GlobalZE->mParticipantIndexByPos[entryIndex]])) ==
             0) {
             AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_VS, outcome);
         }
         if (outcome == 0) {
-            if (firstTotal < gResultTotalMax) {
+            if (firstTotal < g_dec_1000000) {
                 firstTotal++;
                 countsChanged = TRUE;
             }
         } else if (outcome == 1) {
-            if (secondTotal < gResultTotalMax) {
+            if (secondTotal < g_dec_1000000) {
                 secondTotal++;
                 countsChanged = TRUE;
             }
         }
     }
     if (countsChanged != FALSE) {
-        gBackupBuffers->mFirstBlock->mTotals[0] = firstTotal;
-        gBackupBuffers->mFirstBlock->mTotals[1] = secondTotal;
-        WriteBuddyRecordsAndFirstBlock();
+        g_SaveDataHolder->mFirstBlock->mTotals[0] = firstTotal;
+        g_SaveDataHolder->mFirstBlock->mTotals[1] = secondTotal;
+        SaveFriendList();
     } else {
-        WriteBackupBuddyRecords();
+        WriteFriendListSaveDataSection();
     }
 }
 
@@ -329,59 +329,59 @@ void AddBattleBuddyRecordResults(void) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
         return;
     }
-    if (gRaceSetup->mEntryIndex == -1) {
+    if (g_GlobalCO->mEntryIndex == -1) {
         return;
     }
-    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(g_GlobalCO->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
         return;
     }
-    GetClockDateOrDefault(date);
-    firstTotal = gBackupBuffers->mFirstBlock->mTotals[2];
-    secondTotal = gBackupBuffers->mFirstBlock->mTotals[3];
-    for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
-        if (entryIndex == gRaceSetup->mEntryIndex) {
+    GetCurrentDate(date);
+    firstTotal = g_SaveDataHolder->mFirstBlock->mTotals[2];
+    secondTotal = g_SaveDataHolder->mFirstBlock->mTotals[3];
+    for (entryIndex = 0; entryIndex < (u32) g_GlobalCO->mKartCount; entryIndex++) {
+        if (entryIndex == g_GlobalCO->mEntryIndex) {
             continue;
         }
-        playerKind = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        playerKind = g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind;
         if (playerKind == PLAYER_KIND_CPU || playerKind == PLAYER_KIND_NONE || playerKind == PLAYER_KIND_GHOST) {
             continue;
         }
         outcome = 2;
-        if (IsKartOnWinningTeamAtEnd((u16) gRaceSetup->mEntryIndex) != 0) {
+        if (IsKartOnWinningTeamAtEnd((u16) g_GlobalCO->mEntryIndex) != 0) {
             if (IsKartOnWinningTeamAtEnd(entryIndex) == 0) {
                 outcome = 0;
             }
         } else if (IsKartOnWinningTeamAtEnd(entryIndex) != 0) {
-            if (gRaceProgress->mKarts[entryIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
+            if (g_GlobalMV->mKarts[entryIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
                 outcome = 1;
             }
         }
-        if ((gConnectionWork->mGroupSendMask &
-             (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==
+        if ((g_GlobalZE->mGroupSendMask &
+             (1 << g_GlobalZE->mParticipantIndexByPos[g_GlobalZE->mParticipantIndexByPos[entryIndex]])) ==
             0) {
             AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_BATTLE, outcome);
         }
         if (outcome == 0) {
-            if (firstTotal < gResultTotalMax) {
+            if (firstTotal < g_dec_1000000) {
                 countsChanged = TRUE;
                 firstTotal++;
             }
         } else if (outcome == 1) {
-            if (secondTotal < gResultTotalMax) {
+            if (secondTotal < g_dec_1000000) {
                 countsChanged = TRUE;
                 secondTotal++;
             }
         }
     }
     if (countsChanged != FALSE) {
-        gBackupBuffers->mFirstBlock->mTotals[2] = firstTotal;
-        gBackupBuffers->mFirstBlock->mTotals[3] = secondTotal;
-        WriteBuddyRecordsAndFirstBlock();
+        g_SaveDataHolder->mFirstBlock->mTotals[2] = firstTotal;
+        g_SaveDataHolder->mFirstBlock->mTotals[3] = secondTotal;
+        SaveFriendList();
     } else {
-        WriteBackupBuddyRecords();
+        WriteFriendListSaveDataSection();
     }
 }
 
@@ -398,60 +398,60 @@ void AddShineBattleBuddyRecordResults(void) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
         return;
     }
-    if (gRaceSetup->mEntryIndex == -1) {
+    if (g_GlobalCO->mEntryIndex == -1) {
         return;
     }
-    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(g_GlobalCO->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
         return;
     }
-    GetClockDateOrDefault(date);
-    GetKartRank((u16) gRaceSetup->mEntryIndex);
-    firstTotal = gBackupBuffers->mFirstBlock->mTotals[2];
-    secondTotal = gBackupBuffers->mFirstBlock->mTotals[3];
-    for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
-        if (entryIndex == gRaceSetup->mEntryIndex) {
+    GetCurrentDate(date);
+    GetSomeRacerFlags((u16) g_GlobalCO->mEntryIndex);
+    firstTotal = g_SaveDataHolder->mFirstBlock->mTotals[2];
+    secondTotal = g_SaveDataHolder->mFirstBlock->mTotals[3];
+    for (entryIndex = 0; entryIndex < (u32) g_GlobalCO->mKartCount; entryIndex++) {
+        if (entryIndex == g_GlobalCO->mEntryIndex) {
             continue;
         }
-        playerKind = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        playerKind = g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind;
         if (playerKind == PLAYER_KIND_CPU || playerKind == PLAYER_KIND_NONE || playerKind == PLAYER_KIND_GHOST) {
             continue;
         }
         outcome = 2;
-        if (IsKartOnWinningTeamAtEnd((u16) gRaceSetup->mEntryIndex) != 0) {
+        if (IsKartOnWinningTeamAtEnd((u16) g_GlobalCO->mEntryIndex) != 0) {
             if (IsKartOnWinningTeamAtEnd(entryIndex) == 0) {
                 outcome = 0;
             }
         } else if (IsKartOnWinningTeamAtEnd(entryIndex) != 0) {
-            if (gRaceProgress->mKarts[entryIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
+            if (g_GlobalMV->mKarts[entryIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
                 outcome = 1;
             }
         }
-        if ((gConnectionWork->mGroupSendMask &
-             (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==
+        if ((g_GlobalZE->mGroupSendMask &
+             (1 << g_GlobalZE->mParticipantIndexByPos[g_GlobalZE->mParticipantIndexByPos[entryIndex]])) ==
             0) {
             AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_BATTLE, outcome);
         }
         if (outcome == 0) {
-            if (firstTotal < gResultTotalMax) {
+            if (firstTotal < g_dec_1000000) {
                 countsChanged = TRUE;
                 firstTotal++;
             }
         } else if (outcome == 1) {
-            if (secondTotal < gResultTotalMax) {
+            if (secondTotal < g_dec_1000000) {
                 countsChanged = TRUE;
                 secondTotal++;
             }
         }
     }
     if (countsChanged != FALSE) {
-        gBackupBuffers->mFirstBlock->mTotals[2] = firstTotal;
-        gBackupBuffers->mFirstBlock->mTotals[3] = secondTotal;
-        WriteBuddyRecordsAndFirstBlock();
+        g_SaveDataHolder->mFirstBlock->mTotals[2] = firstTotal;
+        g_SaveDataHolder->mFirstBlock->mTotals[3] = secondTotal;
+        SaveFriendList();
     } else {
-        WriteBackupBuddyRecords();
+        WriteFriendListSaveDataSection();
     }
 }
 
@@ -461,10 +461,10 @@ static inline u16 GetCupKartTotalPoints(u16 entryIndex) {
     s32 lowByteAgain;
     KartCourseResult *courseResult;
 
-    lowByte = GetLowByte(entryIndex);
-    courseIndexInCup = GetCourseIndexInCup();
-    lowByteAgain = GetLowByte(lowByte);
-    courseResult = &gCupRecords->mKartResults[courseIndexInCup][0];
+    lowByte = Int32ToInt8(entryIndex);
+    courseIndexInCup = GetSomeLUMaxIndex();
+    lowByteAgain = Int32ToInt8(lowByte);
+    courseResult = &g_GlobalLU->mKartResults[courseIndexInCup][0];
     courseResult += lowByteAgain;
     return courseResult->mTotalPoints;
 }
@@ -480,23 +480,23 @@ void AddWiFiRaceBuddyRecordResults(void) {
     s8 otherKartCount;
     s32 date[3];
 
-    firstTotal = gBackupBuffers->mFirstBlock->mTotals[4];
-    secondTotal = gBackupBuffers->mFirstBlock->mTotals[5];
+    firstTotal = g_SaveDataHolder->mFirstBlock->mTotals[4];
+    secondTotal = g_SaveDataHolder->mFirstBlock->mTotals[5];
     UpdateParticipantElos();
-    if (gRaceSetup->mCourseNumber <= WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT) {
+    if (g_GlobalCO->mCourseNumber <= WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT) {
         return;
     }
-    if (gRaceProgress->mRaceDone == 0) {
+    if (g_GlobalMV->mRaceDone == 0) {
         return;
     }
-    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(g_GlobalCO->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
-    GetClockDateOrDefault(date);
-    ownCupRank = GetKartCupRank(gRaceSetup->mEntryIndex);
-    ownPoints = GetCupKartTotalPoints(gRaceSetup->mEntryIndex);
-    otherKartCount = gWiFiSession->mKartCountCopy - 1;
-    kartCountCopy = gWiFiSession->mKartCountCopy;
+    GetCurrentDate(date);
+    ownCupRank = GetSomeRacerPosition(g_GlobalCO->mEntryIndex);
+    ownPoints = GetCupKartTotalPoints(g_GlobalCO->mEntryIndex);
+    otherKartCount = g_GlobalB->mKartCountCopy - 1;
+    kartCountCopy = g_GlobalB->mKartCountCopy;
     if (otherKartCount > 0) {
         if (secondTotal < otherKartCount) {
             secondTotal = 0;
@@ -504,18 +504,18 @@ void AddWiFiRaceBuddyRecordResults(void) {
             secondTotal -= otherKartCount;
         }
     }
-    if ((s16) (kartCountCopy - gRaceSetup->mKartCount) > 0) {
-        firstTotal += (s16) (kartCountCopy - gRaceSetup->mKartCount);
-        if (firstTotal > gResultTotalMax) {
-            firstTotal = gResultTotalMax;
+    if ((s16) (kartCountCopy - g_GlobalCO->mKartCount) > 0) {
+        firstTotal += (s16) (kartCountCopy - g_GlobalCO->mKartCount);
+        if (firstTotal > g_dec_1000000) {
+            firstTotal = g_dec_1000000;
         }
     }
-    for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
+    for (entryIndex = 0; entryIndex < (u32) g_GlobalCO->mKartCount; entryIndex++) {
         outcome = 2;
-        if (entryIndex != gRaceSetup->mEntryIndex) {
-            if (ownCupRank < GetKartCupRank(entryIndex)) {
+        if (entryIndex != g_GlobalCO->mEntryIndex) {
+            if (ownCupRank < GetSomeRacerPosition(entryIndex)) {
                 outcome = 0;
-            } else if (ownCupRank > GetKartCupRank(entryIndex)) {
+            } else if (ownCupRank > GetSomeRacerPosition(entryIndex)) {
                 outcome = 1;
             }
             if (ownPoints == GetCupKartTotalPoints(entryIndex)) {
@@ -523,33 +523,33 @@ void AddWiFiRaceBuddyRecordResults(void) {
             }
             AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_WIFI_RACE, outcome);
             if (outcome == 0) {
-                if (firstTotal < gResultTotalMax) {
+                if (firstTotal < g_dec_1000000) {
                     firstTotal++;
                 }
             } else if (outcome == 1) {
-                if (secondTotal < gResultTotalMax) {
+                if (secondTotal < g_dec_1000000) {
                     secondTotal++;
                 }
             }
         }
     }
-    gBackupBuffers->mFirstBlock->mElo = GetPlayerRecordElo(DWC_GetMyAID());
-    gBackupBuffers->mFirstBlock->mTotals[4] = firstTotal;
-    gBackupBuffers->mFirstBlock->mTotals[5] = secondTotal;
-    WriteBuddyRecordsAndFirstBlock();
+    g_SaveDataHolder->mFirstBlock->mElo = GetTKSomeSize(DWC_GetMyAID());
+    g_SaveDataHolder->mFirstBlock->mTotals[4] = firstTotal;
+    g_SaveDataHolder->mFirstBlock->mTotals[5] = secondTotal;
+    SaveFriendList();
 }
 
 void SetRaceResultRecords(void) {
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        switch (gRaceSetup->mMode) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
+        switch (g_GlobalCO->mMode) {
             case MODE_VS:
                 AddVSBuddyRecordResults();
                 break;
             case MODE_MISSION_RUN:
-                TrySetMissionRecord();
+                SomeMissionLevelStageChecking();
                 break;
             case MODE_BATTLE:
-                switch (gRaceSetup->mBattleKind) {
+                switch (g_GlobalCO->mBattleKind) {
                     case BATTLE_KIND_BALLOON:
                         AddBattleBuddyRecordResults();
                         break;
@@ -565,13 +565,13 @@ void SetRaceResultRecords(void) {
     }
 }
 
-void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord) {
-    MI_CpuCopy8(buddyRecord, &gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], sizeof(BuddyRecord));
+void GlobalZ_SetOI(u32 recordIndex, BuddyRecord *buddyRecord) {
+    Mem_CpuCopy8(buddyRecord, &g_SaveDataHolder->mBuddyRecordBlock->mRecords[recordIndex], sizeof(BuddyRecord));
 }
 
-u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut) {
+u32 GlobalZ_GetOI(u32 recordIndex, BuddyRecord *buddyRecordOut) {
     if (buddyRecordOut != NULL) {
-        MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], buddyRecordOut, sizeof(BuddyRecord));
+        Mem_CpuCopy8(&g_SaveDataHolder->mBuddyRecordBlock->mRecords[recordIndex], buddyRecordOut, sizeof(BuddyRecord));
     }
-    return gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0;
+    return g_SaveDataHolder->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0;
 }

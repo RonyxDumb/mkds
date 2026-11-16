@@ -34,13 +34,13 @@ extern u32 gCupCourseIds[];
 
 void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 textColor, s32 outlineColor, PixelSetFunc *pixelSetFunc);
 void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);
-void RenderKartEntryName(u32 entryIndex);
-void DrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
-void InitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
-void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 fullName);
-int GetKartEntryNumber(int entryIndex);
-BOOL IsKartEntryHumanGhostOrPeer(u32 entryIndex);
-u32 KartEntryGetCurrentPlayerKind(u32 entryIndex);
+void SomeDrawRacerName_from_thumb(u32 entryIndex);
+void G2d_TextCanvas_PrintString2(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
+void G2d_Text_Create(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
+void FormatRacerNameString_from_thumb(u32 entryIndex, u16 *nameOut, u32 fullName);
+int GetRacerCpuIndex(int entryIndex);
+BOOL IsRacerPlayerOrGhostOrNet(u32 entryIndex);
+u32 GetRacerType(u32 entryIndex);
 BOOL IsNewPairInRect(u32 slotIndex, PairRect pairRect);
 BOOL IsSlotPairNew(u32 slotIndex);
 BOOL IsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair);
@@ -54,21 +54,21 @@ u16 GetInputSlotRepeatBits(InputSlot *inputSlot, u32 mask);
 u16 GetNewBits(u32 slotIndex, u32 mask);
 u16 GetInputSlotNewBits(InputSlot *inputSlot, u32 mask);
 s16 GetSelectedPressOffset(s32 frame);
-s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
+s16 ComputeValueInterpolation_from_thumb(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
 s32 InterpolateGetFixed12Whole(s32 value);
 s32 InterpolateMulFixed12NoRound(s32 value, s32 factor);
 s16 InterpolateFX_CosIdx(s32 angle);
 s32 LookupRowOffset(s32 index);
 u16 AllocOamMatrixIndex(void *oamList);
 
-u32 KartEntryGetCurrentCharacterIndex(u32 entryIndex);
+u32 GetRacerCharacterId_0(u32 entryIndex);
 
-unsigned int KartEntryGetCurrentMode(void);
+unsigned int GetCurrentRaceMode_0(void);
 
-void *GetKartEntryName(u32 entryIndex);
+void *GetRacerName(u32 entryIndex);
 
-void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName);
-u32 ReverseBytes32(u32 value);
+void *GetCharacterNameString_from_thumb(u32 characterIndex, u32 fullName);
+u32 SwapEndianness32_from_thumb(u32 value);
 
 u32 GetSlotPairY(u32 slotIndex);
 

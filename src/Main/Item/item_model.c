@@ -9,6 +9,6 @@ void DrawItemModelAtObjectPos(ItemObject *item, NsbmdModel *model) {
     DrawNsbmdModelWithMaxAlpha(model, &item->mPos, 1, 0x1f);
 }
 
-NsbmdModel *GetItemModel(u32 kind) {
-    return gItemModels[kind];
+NsbmdModel *MaybeGetItemByIndex(u32 kind) {
+    return g_ItemHolder[kind];
 }

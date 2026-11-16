@@ -42,14 +42,14 @@
 
 MapObjectKindData *CreatePukupukuKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gPukupukuKindData;
     return kindData;
 }
 
 MapObjectList *CreatePukupukuDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     gPukupukuDrawList = drawList;
     *drawList = gPukupukuDrawListData;
     SetDrawListSlot(&gPukupukuDrawList);
@@ -58,7 +58,7 @@ MapObjectList *CreatePukupukuDrawList(void) {
 
 MapObjectList *CreatePukupukuShadowDrawList(void) {
     MapObjectDrawList *shadowDrawList;
-    shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    shadowDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     gPukupukuShadowDrawList = shadowDrawList;
     *shadowDrawList = gPukupukuShadowDrawListData;
     SetDrawListSlot(&gPukupukuShadowDrawList);
@@ -67,7 +67,7 @@ MapObjectList *CreatePukupukuShadowDrawList(void) {
 
 MapObjectList *CreatePukupukuUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gPukupukuUpdateList = updateList;
     *updateList = gPukupukuUpdateListData;
     SetUpdateListSlot(&gPukupukuUpdateList);
@@ -130,7 +130,7 @@ void DrawPukupukuShadow(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u32 alpha
 }
 
 void UpdatePukupuku(u32 unused, Pukupuku *pukupuku) {
-    AdvanceStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine);
+    StateDualHandler_Execute(&pukupuku->mPushedObject.mMapObject.mStateMachine);
 }
 
 void EnterPukupukuHop(void *stateObject) {
@@ -152,7 +152,7 @@ void UpdatePukupukuHop(void *stateObject) {
     s32 groundY;
 
     pukupuku->mPushedObject.mMapObject.mPosStep.y -= 0x385;
-    VEC_Add(&pukupuku->mPushedObject.mMapObject.mPos, &pukupuku->mPushedObject.mMapObject.mPosStep,
+    VecFx32_Add(&pukupuku->mPushedObject.mMapObject.mPos, &pukupuku->mPushedObject.mMapObject.mPosStep,
             &pukupuku->mPushedObject.mMapObject.mPos);
     groundY = 0;
     groundY += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeX,
@@ -304,9 +304,9 @@ s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firs
 
 void CreatePukupuku(void) {
     void *nsbmdFile;
-    nsbmdFile = FindCourseMapObjFile("pukupuku.nsbmd");
-    CreateNsbmdModel(&gPukupuku, nsbmdFile, 0, 0);
-    SetNsbmdModelFixedAttributes(gPukupuku);
+    nsbmdFile = FormatFindMapObjFileBuffer_from_thumb("pukupuku.nsbmd");
+    CreateMapObjectSubFrom_from_thumb(&gPukupuku, nsbmdFile, 0, 0);
+    StructMapObjectSub_SomeFn_1(gPukupuku);
 }
 
 #pragma thumb off

@@ -43,7 +43,7 @@ typedef struct AirshipObjectList {
     /* 04 */ u16 mCount;
 } AirshipObjectList;
 
-void CreateAirship(void *mapObjectList);
+void LoadAirshipMapObject(void *mapObjectList);
 void DrawAirship(void *mapObjectList, Airship *airship);
 void InitAirshipObjects(AirshipObjectList *list);
 s32 AirshipFX_CosIdx(s32 angle);

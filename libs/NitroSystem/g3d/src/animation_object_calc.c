@@ -52,7 +52,7 @@ const u8 gRotPivotIndices[9][4] = {
     {0, 1, 6, 7}, {1, 2, 4, 5}, {0, 2, 3, 5}, {0, 1, 3, 4},
 };
 
-void NNSi_G3dAnmObjInitNsBva(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
+void CreateAnimBlock_BVA(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     u32 mapIndex;
 
     pAnmObj->mFuncAnm = NNS_G3dFuncAnmVisNsBvaDefault;
@@ -63,7 +63,7 @@ void NNSi_G3dAnmObjInitNsBva(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     }
 }
 
-void NNSi_G3dAnmCalcNsBva(u32 *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
+void Anim_UnkFnPtr_BVA(u32 *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     NNSG3dResVisAnm *visAnim;
     u32 bitPos;
 
@@ -72,7 +72,7 @@ void NNSi_G3dAnmCalcNsBva(u32 *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx
     *pResult = visAnim->mVisData[bitPos >> 5] & (1 << (bitPos & 0x1f));
 }
 
-void NNSi_G3dAnmObjInitNsBtp(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
+void CreateAnimBlock_BTP(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     volatile u16 zero;
     NNSG3dResTexPatAnm *patAnim;
     u8 *matBlock;
@@ -86,10 +86,10 @@ void NNSi_G3dAnmObjInitNsBtp(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     pAnmObj->mResAnm = patAnim;
     zero = 0;
-    MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
+    Mem_CpuFill16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     for (entryIndex = 0; entryIndex < patAnim->mDict.mNumEntry; entryIndex++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &patAnim->mDict, patAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
+        matIdx = Dict_SomeFn_0(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
         if (matIdx >= 0) {
             pAnmObj->mMapData[matIdx] = entryIndex | 0x100;
         }
@@ -145,7 +145,7 @@ void SetPlttParamaters_(const NNSG3dResTex *pTex, const u32 *pPlttName, NNSG3dMa
     pResult->mPrmTexPltt = base + keyOffset;
 }
 
-void NNSi_G3dAnmCalcNsBtp(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
+void Anim_UnkFnPtr_BTP(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     NNSG3dResTexPatAnmFV *frameEntry;
     NNSG3dResTexPatAnm *patAnim;
 
@@ -332,7 +332,7 @@ void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3d
     pResult->mFlag = flag;
 }
 
-void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
+void CreateAnimBlock_BTA(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     volatile u16 zero;
     NNSG3dResTexSRTAnm *srtAnim;
     u8 *matBlock;
@@ -345,17 +345,17 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mFuncAnm = NNS_G3dFuncAnmMatNsBtaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     zero = 0;
-    MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
+    Mem_CpuFill16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     for (entryIndex = 0; entryIndex < srtAnim->mDict.mNumEntry; entryIndex++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &srtAnim->mDict, srtAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
+        matIdx = Dict_SomeFn_0(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
         if (matIdx >= 0) {
             pAnmObj->mMapData[matIdx] = entryIndex | 0x100;
         }
     }
 }
 
-void NNSi_G3dAnmCalcNsBta(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
+void Anim_UnkFnPtr_BTA(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     GetTexSRTAnm_(pAnmObj->mResAnm, dataIdx, FROM_FIXED12(pAnmObj->mFrame), pResult);
     pResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
     pResult->mPrmTexImage |= G3D_TEX_GEN_TEXCOORD;
@@ -462,7 +462,7 @@ u16 GetMatColAnmuAlphaValue_(const NNSG3dResMatCAnm *pAnm, u32 info, u32 frame) 
     return values[frame >> 2];
 }
 
-void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
+void CreateAnimBlock_BMA(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     volatile u16 zero;
     NNSG3dResMatCAnm *colorAnim;
     u8 *matBlock;
@@ -475,17 +475,17 @@ void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mFuncAnm = NNS_G3dFuncAnmMatNsBmaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     zero = 0;
-    MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
+    Mem_CpuFill16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     for (entryIndex = 0; entryIndex < colorAnim->mDict.mNumEntry; entryIndex++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
+        matIdx = Dict_SomeFn_0(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
         if (matIdx >= 0) {
             pAnmObj->mMapData[matIdx] = entryIndex | 0x100;
         }
     }
 }
 
-void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
+void Anim_UnkFnPtr_BMA(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     u32 colorValue;
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResMatCAnm *colorAnim;
@@ -506,7 +506,7 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
                                (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
 }
 
-void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
+void Anim_CreateBlock_BCA(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     volatile u16 zero;
     u32 nodeIndex;
     u16 *tagOffsets;
@@ -517,14 +517,14 @@ void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mFuncAnm = NNS_G3dFuncAnmJntNsBcaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumNode;
     zero = 0;
-    MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
+    Mem_CpuFill16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     tagOffsets = anim->mTagOffsets;
     for (nodeIndex = 0; nodeIndex < anim->mNumNode; nodeIndex++) {
         pAnmObj->mMapData[nodeIndex] = (*OFFSET_PTR(u32, anim, tagOffsets[nodeIndex]) >> 24) | 0x100;
     }
 }
 
-void NNSi_G3dAnmCalcNsBca(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, int dataIdx) {
+void Anim_UnkFnPtr_BCA(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, int dataIdx) {
     s32 clampedFrame;
     s32 end;
     NNSG3dResJntAnm *jntAnim;
@@ -1168,13 +1168,13 @@ void getRotData_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
                     out->mRows[1].x = out->mRows[1].x * 3 + startMtx.mRows[1].x;
                     out->mRows[1].y = out->mRows[1].y * 3 + startMtx.mRows[1].y;
                     out->mRows[1].z = out->mRows[1].z * 3 + startMtx.mRows[1].z;
-                    VEC_Normalize(&out->mRows[0], &out->mRows[0]);
-                    VEC_Normalize(&out->mRows[1], &out->mRows[1]);
+                    VecFx32_Normalize(&out->mRows[0], &out->mRows[0]);
+                    VecFx32_Normalize(&out->mRows[1], &out->mRows[1]);
                     if (needsCross == 0) {
                         out->mRows[2].x = out->mRows[2].x * 3 + startMtx.mRows[2].x;
                         out->mRows[2].y = out->mRows[2].y * 3 + startMtx.mRows[2].y;
                         out->mRows[2].z = out->mRows[2].z * 3 + startMtx.mRows[2].z;
-                        VEC_Normalize(&out->mRows[2], &out->mRows[2]);
+                        VecFx32_Normalize(&out->mRows[2], &out->mRows[2]);
                     } else {
                         row1Z = out->mRows[1].z;
                         row0X = out->mRows[0].x;
@@ -1203,13 +1203,13 @@ void getRotData_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
         out->mRows[1].x += endMtx.mRows[1].x;
         out->mRows[1].y += endMtx.mRows[1].y;
         out->mRows[1].z += endMtx.mRows[1].z;
-        VEC_Normalize(&out->mRows[0], &out->mRows[0]);
-        VEC_Normalize(&out->mRows[1], &out->mRows[1]);
+        VecFx32_Normalize(&out->mRows[0], &out->mRows[0]);
+        VecFx32_Normalize(&out->mRows[1], &out->mRows[1]);
         if (needsCross == 0) {
             out->mRows[2].x += endMtx.mRows[2].x;
             out->mRows[2].y += endMtx.mRows[2].y;
             out->mRows[2].z += endMtx.mRows[2].z;
-            VEC_Normalize(&out->mRows[2], &out->mRows[2]);
+            VecFx32_Normalize(&out->mRows[2], &out->mRows[2]);
         } else {
             row1Z = out->mRows[1].z;
             row0X = out->mRows[0].x;
@@ -1331,14 +1331,14 @@ interp:
     out->mRows[1].x = startMtx.mRows[1].x * step + ((fraction * (endMtx.mRows[1].x - startMtx.mRows[1].x)) >> 12);
     out->mRows[1].y = startMtx.mRows[1].y * step + ((fraction * (endMtx.mRows[1].y - startMtx.mRows[1].y)) >> 12);
     out->mRows[1].z = startMtx.mRows[1].z * step + ((fraction * (endMtx.mRows[1].z - startMtx.mRows[1].z)) >> 12);
-    VEC_Normalize(&out->mRows[0], &out->mRows[0]);
-    VEC_Normalize(&out->mRows[1], &out->mRows[1]);
+    VecFx32_Normalize(&out->mRows[0], &out->mRows[0]);
+    VecFx32_Normalize(&out->mRows[1], &out->mRows[1]);
     if (needsCross == 0) {
         out->mRows[2].x = startMtx.mRows[2].x * step + ((fraction * (endMtx.mRows[2].x - startMtx.mRows[2].x)) >> 12);
         out->mRows[2].y = startMtx.mRows[2].y * step + ((fraction * (endMtx.mRows[2].y - startMtx.mRows[2].y)) >> 12);
         row2ZStart = startMtx.mRows[2].z;
         out->mRows[2].z = startMtx.mRows[2].z * step + ((fraction * (endMtx.mRows[2].z - row2ZStart)) >> 12);
-        VEC_Normalize(&out->mRows[2], &out->mRows[2]);
+        VecFx32_Normalize(&out->mRows[2], &out->mRows[2]);
     } else {
         row1ZSaved = out->mRows[1].z;
         row0X = out->mRows[0].x;
@@ -1405,7 +1405,7 @@ BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) 
     return 1;
 }
 
-void *NNSi_G3dGetBinaryBlockFromFile(const u8 *pFileHead, u32 fileSignature, u32 blockSignature) {
+void *Anim_LoadFindAnimationBlock(const u8 *pFileHead, u32 fileSignature, u32 blockSignature) {
     const NNSG3dResFileHeader *fileHeader;
     NNSG3dResDataBlockHeader *blockHeader;
     u32 blockIndex;
@@ -1413,7 +1413,7 @@ void *NNSi_G3dGetBinaryBlockFromFile(const u8 *pFileHead, u32 fileSignature, u32
     fileHeader = (const NNSG3dResFileHeader *) pFileHead;
     if (fileHeader->mSigVal == fileSignature) {
         for (blockIndex = 0; blockIndex < fileHeader->mDataBlocks; blockIndex++) {
-            blockHeader = NNS_G3dGetDataBlockHeaderByIdx(fileHeader, blockIndex);
+            blockHeader = Anim_GetBlock(fileHeader, blockIndex);
             if (blockHeader->mSignature == blockSignature) {
                 return blockHeader;
             }
@@ -1422,7 +1422,7 @@ void *NNSi_G3dGetBinaryBlockFromFile(const u8 *pFileHead, u32 fileSignature, u32
     return 0;
 }
 
-NNSG3dResVisAnm *NNS_G3dGetVisAnmByIdx(NNSG3dResVisAnmSet *pAnmSet, u8 idx) {
+NNSG3dResVisAnm *BVA0_LoadRawData(NNSG3dResVisAnmSet *pAnmSet, u8 idx) {
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResDictAnmSetData *setEntry;
 
@@ -1431,6 +1431,6 @@ NNSG3dResVisAnm *NNS_G3dGetVisAnmByIdx(NNSG3dResVisAnmSet *pAnmSet, u8 idx) {
     return OFFSET_PTR(NNSG3dResVisAnm, pAnmSet, setEntry->mOffset);
 }
 
-NNSG3dResVisAnmSet *NNS_G3dGetVisAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, 0x30415642, 0x30534956);
+NNSG3dResVisAnmSet *MaybeLoadBVA0Format(const u8 *pFileHead) {
+    return Anim_LoadFindAnimationBlock(pFileHead, 0x30415642, 0x30534956);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-// The scene-name table, 16 rows indexed by scene number like gSceneFuncs; the scene numbers are named after the row's
+// The scene-name table, 16 rows indexed by scene number like g_SceneFnTable; the scene numbers are named after the row's
 // name (the two rows named 'Menu' keep their row numbers).
 #define SCENE_TITLE 0
 #define SCENE_MENU_1 1

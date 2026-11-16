@@ -60,8 +60,8 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
     itemInUse->mBehindDistance = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mBehindDistance, kart->mScale.z);
     itemInUse->mKartHopHeight = kart->mHopHeight;
-    itemInUse->mMovingForward = Vec3DotUnrounded(&itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartVelocity) > 0;
-    VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
+    itemInUse->mMovingForward = VecFx32_CrossProduct_0(&itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartVelocity) > 0;
+    VecFx32_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
     scale.x = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.x, kart->mScaleBase.x);
     scale.y = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.y, kart->mScaleBase.y);
     scale.z = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.z, kart->mScaleBase.z);
@@ -92,7 +92,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
 
     itemInfoIndex = heldItem->mItemInfoIndex;
     useKind = gItemInfos[itemInfoIndex].mUseKind;
-    isWiFi = gRaceSetup->mMode == MODE_WIFI;
+    isWiFi = g_GlobalCO->mMode == MODE_WIFI;
     if (heldItem->mUsesTimer != 0) {
         if (heldItem->mTimer > heldItem->mUseTimerLimit) {
             return;
@@ -131,7 +131,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (useHook != NULL) {
         useHook(itemInUse, heldItem);
     }
-    SetupKartAiItemInUseEntry(itemInUse->mKart);
+    StructMQRacerEntry_SomeFn_87(itemInUse->mKart);
     ResetHeldItem(heldItem);
     if (itemInUse->mIsActiveItem != FALSE) {
         SetActiveItem(itemInUse->mKartItems, itemInUse->mItemInfoIndex);
@@ -206,12 +206,12 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
-    courseHitAttributeBit = GetKartCourseHitAttributeBit(itemInUse->mKart);
-    outOfView = IsKartOutOfView(itemInUse->mKart);
+    courseHitAttributeBit = StructMQRacerEntry_SomeFn_71(itemInUse->mKart);
+    outOfView = StructMQRacerEntry_SomeFn_83(itemInUse->mKart);
     for (index = 0; index < objectCount; index++) {
         object = objects[index];
         object->mAgeFrames = object->mAgeFrames + 1;
-        VEC_Subtract(&object->mPos, &object->mPrevPos, &object->mVelocity);
+        VecFx32_Subtract(&object->mPos, &object->mPrevPos, &object->mVelocity);
         object->mPrevPos = object->mPos;
         if (itemInUse->mObjectStartFramesLeft == 0) {
             object->mNormal = itemInUse->mKartOrientation.mRows[1];
@@ -243,8 +243,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         }
         FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex, 0x6000);
         for (index = 0; index < gFoundCollisionSlotCount; index++) {
-            if ((gFoundCollisionSlotFlags[index] & 0x4000) != 0) {
-                ItemObject *other = gFoundCollisionSlotObjects[index];
+            if ((g_SomePointer6Size100[index] & 0x4000) != 0) {
+                ItemObject *other = g_SomePointer7Size200[index];
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
@@ -253,8 +253,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                     continue;
                 }
                 CollideItemObjects(object, other);
-            } else if ((gFoundCollisionSlotFlags[index] & 0x2000) != 0) {
-                MapObject *other = gFoundCollisionSlotObjects[index];
+            } else if ((g_SomePointer6Size100[index] & 0x2000) != 0) {
+                MapObject *other = g_SomePointer7Size200[index];
                 if (DoesMapObjectRespondToItemObject(other, object) == FALSE) {
                     continue;
                 }
@@ -321,10 +321,10 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     s32 kartMoveLength;
     s32 speed;
 
-    kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
+    kartMoveLength = VecFx32_Norm(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
         speed = baseSpeed + MUL_FIXED12_NO_ROUND(kartMoveLength, speedFactor);
-        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartMovement, &throwDirection);
+        VecFx32_AddScale1(forwardWeight, &itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartMovement, &throwDirection);
     } else {
         Vec3 *kartVector;
 
@@ -332,7 +332,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
         if (SQUARE_SUM3(kartVector->x, kartVector->y, kartVector->z) >=
             0x10) {
             speed = baseSpeed + MUL_FIXED12_NO_ROUND(kartMoveLength, speedFactor);
-            VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mRows[2], kartVector, &throwDirection);
+            VecFx32_AddScale1(forwardWeight, &itemInUse->mKartOrientation.mRows[2], kartVector, &throwDirection);
         } else {
             speed = baseSpeed - kartMoveLength;
             throwDirection = itemInUse->mKartOrientation.mRows[2];
@@ -343,7 +343,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     }
     if (SQUARE_SUM3(throwDirection.x, throwDirection.y, throwDirection.z) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
+        Vector3_MaybeNormalize(&throwDirection, outDirection);
     }
     return speed;
 }
@@ -352,11 +352,11 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     Vec3 throwDirection;
     s32 kartMoveLength;
 
-    kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
+    kartMoveLength = VecFx32_Norm(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
         speed -= kartMoveLength;
-        VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mPointMotion, &throwDirection);
-        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mRows[2], &throwDirection, &throwDirection);
+        VecFx32_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mPointMotion, &throwDirection);
+        VecFx32_AddScale1(forwardWeight, &itemInUse->mKartOrientation.mRows[2], &throwDirection, &throwDirection);
         throwDirection.x = -throwDirection.x;
         throwDirection.y = -throwDirection.y;
         throwDirection.z = -throwDirection.z;
@@ -371,7 +371,7 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     }
     if (SQUARE_SUM3(throwDirection.x, throwDirection.y, throwDirection.z) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
+        Vector3_MaybeNormalize(&throwDirection, outDirection);
     }
     return speed;
 }
@@ -419,14 +419,14 @@ void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
 void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
     if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
         object->mTransformMtx.mRows[2] = *viewAxis;
-        Vec3CrossUnrounded(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
+        Vector3_Cross(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
         if ((s64) object->mTransformMtx.mRows[0].x * object->mTransformMtx.mRows[0].x +
                 (s64) object->mTransformMtx.mRows[0].y * object->mTransformMtx.mRows[0].y +
                 (s64) object->mTransformMtx.mRows[0].z * object->mTransformMtx.mRows[0].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
+            Vector3_MaybeNormalize(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
         }
-        Vec3CrossUnrounded(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
+        Vector3_Cross(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
                            &object->mTransformMtx.mRows[1]);
         {
             Vec3 *position;
@@ -451,7 +451,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     ItemObject *object;
     void *matrix;
 
-    model = gItemModels[pool->mKind];
+    model = g_ItemHolder[pool->mKind];
     takenCount = pool->mTakenCount;
     activeCount = pool->mActiveCount;
     QueueNsbmdModelMaterial(model);
@@ -477,14 +477,14 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
         }
         if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
             object->mTransformMtx.mRows[2] = *viewAxis;
-            Vec3CrossUnrounded(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
+            Vector3_Cross(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
             if ((s64) object->mTransformMtx.mRows[0].x * object->mTransformMtx.mRows[0].x +
                     (s64) object->mTransformMtx.mRows[0].y * object->mTransformMtx.mRows[0].y +
                     (s64) object->mTransformMtx.mRows[0].z * object->mTransformMtx.mRows[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
+                Vector3_MaybeNormalize(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
             }
-            Vec3CrossUnrounded(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
+            Vector3_Cross(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
                                &object->mTransformMtx.mRows[1]);
             {
                 Vec3 *position;
@@ -522,7 +522,7 @@ void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCall
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
         }
-        drawCallback(object, callbackArg, gItemModels[pool->mKind]);
+        drawCallback(object, callbackArg, g_ItemHolder[pool->mKind]);
     }
 }
 
@@ -537,14 +537,14 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     QueueNsbmdModelMaterial(model);
     if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
         object->mTransformMtx.mRows[2] = *viewAxis;
-        Vec3CrossUnrounded(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
+        Vector3_Cross(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
         if ((s64) object->mTransformMtx.mRows[0].x * object->mTransformMtx.mRows[0].x +
                 (s64) object->mTransformMtx.mRows[0].y * object->mTransformMtx.mRows[0].y +
                 (s64) object->mTransformMtx.mRows[0].z * object->mTransformMtx.mRows[0].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
+            Vector3_MaybeNormalize(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
         }
-        Vec3CrossUnrounded(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
+        Vector3_Cross(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
                            &object->mTransformMtx.mRows[1]);
         {
             Vec3 *position;

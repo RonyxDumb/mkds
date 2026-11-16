@@ -45,7 +45,7 @@ void SetupExchangeEntry(void) {
 
 void LoadExchangeEntryFileAndSetBgCnt(void) {
     void *xb4MultiNscName = &gXb4MultiNscName3;
-    void *bg2ScrLoader = &GX_LoadBG2Scr;
+    void *bg2ScrLoader = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4MultiNscName, bg2ScrLoader);
     u32 subBg0CntAddress = 0x4001008u;
     u32 subBg0CntValue = (*(u16 *) ((subBg0CntAddress) + (0)));
@@ -115,7 +115,7 @@ void UpdateExchangeEntryButtonsIn(void) {
 }
 
 void UpdateExchangeEntry(void) {
-    OS_Sleep(0xa);
+    Os_Sleep(0xa);
     UpdateExchangeEntryOutcome();
     UpdateExchangeEntryInput();
     UpdateExchangeEntryNop();

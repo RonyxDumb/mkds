@@ -16,12 +16,12 @@ typedef union PxiWord {
 // callbacks declare fewer or different parameter types.
 typedef void (*PXIFifoCallback)();
 
-extern PXIFifoCallback FifoRecvCallbackTable[32];
-extern u16 FifoCtrlInit;
+extern PXIFifoCallback g_FifoCallbackTable[32];
+extern u16 g_FifoInit;
 
-void PXI_Init(void);
-void PXIi_HandlerRecvFifoNotEmpty(void);
-s32 PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
-s32 PXI_IsCallbackReady(s32 fifotag, s32 proc);
-void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback);
-void PXI_InitFifo(void);
+void j_Fifo_Initialize(void);
+void FIFONotEmptyIRQHandler(void);
+s32 Fifo_SendWord(s32 fifotag, u32 data, s32 err);
+s32 Fifo_IsHandlerReady(s32 fifotag, s32 proc);
+void Fifo_RegisterHandler(s32 fifotag, PXIFifoCallback callback);
+void Fifo_Initialize(void);

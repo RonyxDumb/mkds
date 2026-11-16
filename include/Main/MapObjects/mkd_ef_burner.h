@@ -56,5 +56,5 @@ void InitMkdEfBurner(
 
 extern const u16 gMkdEfBurnerDisabledFlag;
 extern const u32 gMkdEfBurnerSkipSoundFlag;
-extern struct MapObjectModel *gMkdEfBurner;
+extern struct MapObjectModel *g_SomeMapObject1;
 extern const MapObjectKindDescriptor gNsKiller2KindDescriptor;

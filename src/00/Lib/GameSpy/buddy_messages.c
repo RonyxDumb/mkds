@@ -394,7 +394,7 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
     if (profileEntry->mBuddyStatus != NULL) {
         buddyIndex = profileEntry->mBuddyStatus->mIndex;
         if (buddyIndex < 0) {
-            AssertionFailed("index >= 0", "gpiBuddy.c", NULL, 0x1fd);
+            LogThrowAssertion("index >= 0", "gpiBuddy.c", NULL, 0x1fd);
         }
         DWCi_GsFree(profileEntry->mBuddyStatus->mStatusString);
         profileEntry->mBuddyStatus->mStatusString = NULL;
@@ -407,7 +407,7 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
         }
         gpState->mBuddyCount--;
         if (gpState->mBuddyCount < 0) {
-            AssertionFailed("iconnection->profileList.numBuddies >= 0", "gpiBuddy.c", NULL, 0x204);
+            LogThrowAssertion("iconnection->profileList.numBuddies >= 0", "gpiBuddy.c", NULL, 0x204);
         }
         GpiForEachProfileWhileNonZero(connection, GpiDecrementBuddyIndexAbove, (void *) buddyIndex);
     }

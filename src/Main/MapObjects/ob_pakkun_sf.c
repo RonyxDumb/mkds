@@ -84,12 +84,12 @@ void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha
     MtxFx43 *matrix;
     gObPakkunSf->mFrameIndex = ((obPakkunSf->mFramesSinceInit & OB_PAKKUN_SF_FRAME_TOGGLE_BIT) >> 4);
     if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == 0) {
-        matrix = SetViewRotatedMatrixPos(&obPakkunSf->mPushedObject.mMapObject.mPos);
+        matrix = MaybeGetBBMtxAtPosition(&obPakkunSf->mPushedObject.mMapObject.mPos);
         DrawNsbmdModelWithMatrixAndMaxAlpha(gObPakkunSf, matrix, &obPakkunSf->mPushedObject.mMapObject.mScale, 0,
                                             alpha);
         return;
     }
-    matrix = SetViewRotatedMatrixPos(&obPakkunSf->mPushedObject.mMapObject.mPos);
+    matrix = MaybeGetBBMtxAtPosition(&obPakkunSf->mPushedObject.mMapObject.mPos);
     DrawNsbmdModelWithMatrixAndAngle(gObPakkunSf, matrix, obPakkunSf->mPushedObject.mMotion.mAngle,
                                      &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
 }
@@ -114,7 +114,7 @@ void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mPushedObject.mMapObject.mPos);
         StartSoundFromParams(&soundRequest);
     }
-    AdvanceStateMachine(&obPakkunSf->mPushedObject.mMapObject.mStateMachine);
+    StateDualHandler_Execute(&obPakkunSf->mPushedObject.mMapObject.mStateMachine);
 }
 
 u8 CollideKartWithObPakkunSf(ObPakkunSf *obPakkunSf, void *kart, u8 *firstResponse, u8 *response) {
@@ -134,10 +134,10 @@ u8 CollideItemObjectWithObPakkunSf(ObPakkunSf *obPakkunSf, void *itemObject, u8 
 void CreateObPakkunSf(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile("ob_pakkun_sf.nsbmd");
-    nsbtpFile = FindCourseMapObjFile("ob_pakkun_sf.nsbtp");
-    CreateNsbmdModel(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
-    SetNsbmdModelFixedAttributes(gObPakkunSf);
+    nsbmdFile = FormatFindMapObjFileBuffer_from_thumb("ob_pakkun_sf.nsbmd");
+    nsbtpFile = FormatFindMapObjFileBuffer_from_thumb("ob_pakkun_sf.nsbtp");
+    CreateMapObjectSubFrom_from_thumb(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
+    StructMapObjectSub_SomeFn_1(gObPakkunSf);
 }
 
 #pragma thumb off
@@ -158,14 +158,14 @@ void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
 
 MapObjectKindData *CreateSecondHandKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gSecondHandKindData;
     return kindData;
 }
 
 MapObjectList *CreateSecondHandDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     gSecondHandDrawList = drawList;
     *drawList = gSecondHandDrawListData;
     SetDrawListSlot(&gSecondHandDrawList);
@@ -174,7 +174,7 @@ MapObjectList *CreateSecondHandDrawList(void) {
 
 MapObjectList *CreateSecondHandUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gSecondHandUpdateList = updateList;
     *updateList = gSecondHandUpdateListData;
     SetUpdateListSlot(&gSecondHandUpdateList);
@@ -189,7 +189,7 @@ void DrawSecondHand(u32 unused, SecondHand *secondHand, u32 unusedArg, u32 alpha
 }
 
 void UpdateSecondHand(u32 unused, SecondHand *secondHand) {
-    AdvanceStateMachine(&secondHand->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&secondHand->mMapObject.mStateMachine);
     QuaternionMultiplyAngleAroundY(&secondHand->mInitialRotationQuaternion, secondHand->mMapObject.mAngle,
                                    &secondHand->mRotationQuaternion);
     Matrix3x3FromQuaternion(&secondHand->mMapObject.mMatrix.mAxes, &secondHand->mRotationQuaternion);
@@ -281,8 +281,8 @@ void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s3
 #pragma thumb on
 
 void CreateSecondHand(void) {
-    CreateNsbmd(&gSecondHand, FindCourseMapObjFile("second_hand.nsbmd"), NULL);
-    SetNsbmdPolygonIdLightEmiAll(gSecondHand, 0x3f, 2, 0x294a);
+    CreateNsbmd(&gSecondHand, FormatFindMapObjFileBuffer_from_thumb("second_hand.nsbmd"), NULL);
+    StructML_SomeFn_1(gSecondHand, 0x3f, 2, 0x294a);
 }
 
 #pragma thumb off

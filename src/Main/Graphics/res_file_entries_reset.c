@@ -2,13 +2,13 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "linked_list_init.h"
 
-NNSFndList gResFileEntries;
+NNSFndList g_LoadedModelTextureList;
 
-void ResetResFileEntries(void) {
+void InitializeLoadedModelTextureList(void) {
     NNSFndList *list;
     u32 offset;
     u32 unusedScratch;
-    list = &gResFileEntries;
+    list = &g_LoadedModelTextureList;
     offset = 0u;
-    NNS_FndInitList(list, offset);
+    IntrusiveListWrapper_InitializeEmpty(list, offset);
 }
