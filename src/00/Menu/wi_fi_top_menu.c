@@ -146,9 +146,9 @@ void AdvanceWiFiTopMenuSlideIn(void) {
 }
 
 void AdvanceWiFiTopMenuWaitReturnButton(void) {
-    int isReturnShown;
-    isReturnShown = IsSelectReturnShownNoRequest();
-    if (isReturnShown != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_BROWSE;
         SetSelectReturnSoundId(0xf);
     }
@@ -161,8 +161,8 @@ void AdvanceWiFiTopMenuBrowse(void) {
     BOOL pairRecentlyLost = FALSE;
     s32 previousIndex;
     s32 pressedKeys;
-    BOOL backPairNewUnlessRecentlyLost;
-    s32 backPairRecentlyLost;
+    BOOL returnPairNewUnlessRecentlyLost;
+    s32 returnPairRecentlyLost;
 
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
         gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
@@ -178,16 +178,16 @@ void AdvanceWiFiTopMenuBrowse(void) {
     }
     pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
     if ((u16) pressedKeys == 0) {
-        backPairRecentlyLost = backPairNewUnlessRecentlyLost = FALSE;
+        returnPairRecentlyLost = returnPairNewUnlessRecentlyLost = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-            backPairRecentlyLost = 1;
+            returnPairRecentlyLost = 1;
         }
-        if (backPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        if (returnPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
-            backPairNewUnlessRecentlyLost = TRUE;
+            returnPairNewUnlessRecentlyLost = TRUE;
         }
-        if (backPairNewUnlessRecentlyLost == FALSE ||
+        if (returnPairNewUnlessRecentlyLost == FALSE ||
             IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
                                                   gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;

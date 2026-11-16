@@ -326,11 +326,11 @@ void SetWiFiVSSettingFlag(s32 flag) {
 }
 
 BOOL IsWiFiSessionOffOutsideLogin(void) {
-    BOOL valid = TRUE;
+    BOOL notInLoginMenu = TRUE;
     if (gWiFiStates != NULL && gWiFiStates->mState == WIFI_STATE_LOGIN_MENU) {
-        valid = FALSE;
+        notInLoginMenu = FALSE;
     }
-    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF && valid != FALSE) {
+    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF && notInLoginMenu != FALSE) {
         return TRUE;
     }
     return FALSE;

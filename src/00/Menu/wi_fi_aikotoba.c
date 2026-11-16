@@ -136,9 +136,9 @@ void AdvanceWiFiAikotobaSlideIn(void) {
 }
 
 void AdvanceWiFiAikotobaWaitSelectReturn(void) {
-    int isReturnShown;
-    isReturnShown = IsSelectReturnShownNoRequest();
-    if (isReturnShown != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_INPUT;
     }
 }
@@ -150,7 +150,7 @@ void AdvanceWiFiAikotobaInput(void) {
     BOOL pairRecentlyLost;
     u16 hasPair;
     s32 previousIndex;
-    u32 pressedKeys;
+    u32 pressedKeyA;
     WiFiAikotoba *wiFiAikotoba;
 
     pairNewUnlessRecentlyLost = FALSE;
@@ -187,11 +187,11 @@ void AdvanceWiFiAikotobaInput(void) {
     RequestSelectReturnPressWithSound(0);
     return;
 next:
-    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
-    if ((u16) pressedKeys != 0 || hitIndex <= 1) {
+    pressedKeyA = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+    if ((u16) pressedKeyA != 0 || hitIndex <= 1) {
         wiFiAikotoba = gWiFiAikotoba;
         previousIndex = wiFiAikotoba->mSelectedIndex;
-        if ((u16) pressedKeys == 0) {
+        if ((u16) pressedKeyA == 0) {
             switch (hitIndex) {
                 case 0:
                     wiFiAikotoba->mSelectedIndex = 0;
@@ -245,7 +245,7 @@ void AdvanceWiFiAikotobaSlideOut(void) {
     s32 rowIndex;
     s32 cellIndex;
     s32 unusedValue;
-    void *bmgEntry;
+    void *noticeText;
 
     if (GetWiFiNextScene() == -1 && IsBuddyRecordBlockFull() == 0 &&
         gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
@@ -273,8 +273,8 @@ void AdvanceWiFiAikotobaSlideOut(void) {
         if (IsBuddyRecordBlockFull() != 0 && gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
             gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_NOTICE;
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_NONE;
-            bmgEntry = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0xf);
-            SetupTxtSystemMainTextButton(bmgEntry, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 6));
+            noticeText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0xf);
+            SetupTxtSystemMainTextButton(noticeText, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 6));
             gWiFiAikotoba->mStateFrames = 0;
             return;
         }

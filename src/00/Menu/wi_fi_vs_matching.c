@@ -217,16 +217,16 @@ void ReleaseWiFiVSMatching(void) {
 }
 
 void LocateAndQueueWiFiVSMatching(void) {
-    Ncgr *chr;
+    Ncgr *chars;
     Nscr *scrn;
-    Nclr *pltt;
+    Nclr *palette;
     vu16 zero;
     u16 paletteColor;
     s32 colorIndex;
 
-    LocateNcgr(&chr, FindSceneFile("WiFi_VS_matching_s_b.ncgr"));
+    LocateNcgr(&chars, FindSceneFile("WiFi_VS_matching_s_b.ncgr"));
     LocateNscr(&scrn, FindSceneFile("WiFi_VS_matching_s.nscr"));
-    LocateNclr(&pltt, FindSceneFile("WiFi_VS_matching_s_b.nclr"));
+    LocateNclr(&palette, FindSceneFile("WiFi_VS_matching_s_b.nclr"));
     gWiFiVSMatching->mWiFiVSMatchingBncl = FindSceneFile("WiFi_VS_matching.bncl");
     gWiFiVSMatching->mWiFiVSMatchingBnbl = FindSceneFile("WiFi_VS_matching.bnbl");
     gWiFiVSMatching->mWiFiVSMatchingBnll = FindSceneFile("WiFi_VS_matching.bnll");
@@ -238,9 +238,9 @@ void LocateAndQueueWiFiVSMatching(void) {
     zero = 0;
     MIi_CpuClear16(zero, gWiFiVSMatching->mNscrCopy, 0x1000);
     MIi_CpuCopy16(scrn->mData, gWiFiVSMatching->mNscrCopy, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(0x17, 0, chr->mData, chr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, chars->mData, chars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gWiFiVSMatching->mNscrCopy, 0x1000);
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, pltt->mData, 0x80);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, palette->mData, 0x80);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, gWiFiVSMatching->mWiFiVSMatchingSNcgr->mData,
                                        gWiFiVSMatching->mWiFiVSMatchingSNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSMatching->mWiFiVSMatchingSONclr->mData,
@@ -305,7 +305,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
     u16 hasPair;
     u32 secondTotal;
     s32 playerIndex;
-    s32 sh;
+    s32 v1;
     s32 otherCount;
     s32 otherIndex;
     BOOL blinkOn;
@@ -443,8 +443,8 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
         gWiFiVSMatching->mBlinkFrames = 0;
     }
     if (otherCount > 0) {
-        sh = WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES >> (otherCount - 1);
-        if (gWiFiVSMatching->mBlinkFrames % sh >= sh / 2) {
+        v1 = WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES >> (otherCount - 1);
+        if (gWiFiVSMatching->mBlinkFrames % v1 >= v1 / 2) {
             blinkOn = TRUE;
         }
     }
@@ -459,13 +459,13 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
             gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[otherIndex]].mVisible = 0;
         }
     }
-    sh = gWiFiVSMatching->mShownEntryCount;
+    v1 = gWiFiVSMatching->mShownEntryCount;
     while (otherCount < gWiFiVSMatching->mShownEntryCount) {
         StartWiFiMatchingEntryHideSeq();
-        sh--;
+        v1--;
         otherCount++;
     }
-    gWiFiVSMatching->mShownEntryCount = sh;
+    gWiFiVSMatching->mShownEntryCount = v1;
 }
 
 void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
@@ -473,7 +473,7 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
     u16 angle = (frame << 16) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES;
     s32 scale = ((0x13 - frame) * 0xf33) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES + 0xcd;
     s32 otherIndex;
-    Nclr *emblemSBNclr;
+    Nclr *emblemPalette;
 
     for (otherIndex = 0; otherIndex < 3; otherIndex++) {
         SetLayoutEntryAngleAndScale(
@@ -482,7 +482,7 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES) {
         if (IsTxtSystemClosedNoOpenRequest() != 0) {
-            emblemSBNclr = GetEmblemSBNclr();
+            emblemPalette = GetEmblemSBNclr();
             for (otherIndex = 0; otherIndex < 3; otherIndex++) {
                 gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingEmblemCellIndices[otherIndex]].mVisible = 0;
             }
@@ -495,7 +495,7 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
                                                                         gWiFiVSMatching->mWiFiVSMatchingBncl)
                                                            << 5,
                                                        gWiFiVSMatching->mOtherEmblems[otherIndex], 0x200);
-                    NNS_GfdRegisterNewVramTransferTask(0x1e, (otherIndex + 3) << 5, emblemSBNclr->mData, 0x20);
+                    NNS_GfdRegisterNewVramTransferTask(0x1e, (otherIndex + 3) << 5, emblemPalette->mData, 0x20);
                 }
                 gWiFiVSMatching
                     ->mWiFiVSMatchingTable[gWiFiVSMatchingSearchLabelIndices[otherIndex] +

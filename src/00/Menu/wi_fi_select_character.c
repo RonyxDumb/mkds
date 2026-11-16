@@ -65,7 +65,7 @@ void AdvanceWiFiSelectCharacterState(void) {
 }
 
 void WriteSelectCharacterRegistersWrapper(void) {
-    u32 unusedScratch;
+    u32 unusedValue;
     WriteSelectCharacterRegisters();
 }
 

@@ -273,8 +273,8 @@ void AdvanceWiFiVSSettingWaitInput(void) {
     BOOL pairNewUnlessRecentlyLost = FALSE;
     u32 hitIndex = -1;
     BOOL pairRecentlyLost = FALSE;
-    BOOL backPairNewUnlessRecentlyLost;
-    s32 backPairRecentlyLost;
+    BOOL returnPairNewUnlessRecentlyLost;
+    s32 returnPairRecentlyLost;
     s32 pressedKeys;
     InputSlot *inputSlot;
     u32 messageIndex;
@@ -294,16 +294,16 @@ void AdvanceWiFiVSSettingWaitInput(void) {
     inputSlot = &gInputSlots[slotIndex];
     pressedKeys = inputSlot->mPressedBits & PAD_KEY_B;
     if ((u16) pressedKeys == 0) {
-        backPairRecentlyLost = backPairNewUnlessRecentlyLost = FALSE;
+        returnPairRecentlyLost = returnPairNewUnlessRecentlyLost = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-            backPairRecentlyLost = 1;
+            returnPairRecentlyLost = 1;
         }
-        if (backPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        if (returnPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
-            backPairNewUnlessRecentlyLost = TRUE;
+            returnPairNewUnlessRecentlyLost = TRUE;
         }
-        if (backPairNewUnlessRecentlyLost == FALSE ||
+        if (returnPairNewUnlessRecentlyLost == FALSE ||
             IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
                                                   gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
@@ -616,9 +616,9 @@ void UpdateWiFiVSSettingOffsets(void) {
     s32 rowIndex;
     s32 entryIndex;
     s32 copyIndex;
-    s32 layoutCount;
+    s32 cellCount;
 
-    layoutCount = gWiFiVSSetting->mWiFiVSSettingBncl->mCount;
+    cellCount = gWiFiVSSetting->mWiFiVSSettingBncl->mCount;
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (entryIndex = 0; entryIndex < gWiFiVSSettingOffsetCellCounts[rowIndex]; entryIndex++) {
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[rowIndex][entryIndex]].mOffsetX =
@@ -628,14 +628,14 @@ void UpdateWiFiVSSettingOffsets(void) {
         }
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-        (gWiFiVSSetting->mWiFiVSSettingTable + layoutCount)[gWiFiVSSettingLabelIndices[rowIndex]].mOffsetX =
+        (gWiFiVSSetting->mWiFiVSSettingTable + cellCount)[gWiFiVSSettingLabelIndices[rowIndex]].mOffsetX =
             gWiFiVSSetting->mRowOffsets[rowIndex][0];
-        (gWiFiVSSetting->mWiFiVSSettingTable + layoutCount)[gWiFiVSSettingLabelIndices[rowIndex]].mOffsetY =
+        (gWiFiVSSetting->mWiFiVSSettingTable + cellCount)[gWiFiVSSettingLabelIndices[rowIndex]].mOffsetY =
             gWiFiVSSetting->mRowOffsets[rowIndex][1];
     }
     for (copyIndex = 0; copyIndex < 3; copyIndex++) {
-        (gWiFiVSSetting->mWiFiVSSettingTable + layoutCount)[1].mOffsetX = gWiFiVSSetting->mRowOffsets[1][0];
-        (gWiFiVSSetting->mWiFiVSSettingTable + layoutCount)[1].mOffsetY = gWiFiVSSetting->mRowOffsets[1][1];
+        (gWiFiVSSetting->mWiFiVSSettingTable + cellCount)[1].mOffsetX = gWiFiVSSetting->mRowOffsets[1][0];
+        (gWiFiVSSetting->mWiFiVSSettingTable + cellCount)[1].mOffsetY = gWiFiVSSetting->mRowOffsets[1][1];
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[rowIndex][0]].mOffsetX -=
@@ -647,7 +647,7 @@ void UpdateWiFiVSSettingOffsets(void) {
 
 void UpdateWiFiVSSettingHighlight(void) {
     s32 rowIndex;
-    BOOL hidden = FALSE;
+    BOOL visible = FALSE;
 
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         if (rowIndex == gWiFiVSSetting->mRow && gWiFiVSSetting->mHighlightVisible != FALSE) {
@@ -655,7 +655,7 @@ void UpdateWiFiVSSettingHighlight(void) {
             SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[rowIndex], 14, gWiFiVSSetting->mWiFiVSSettingBnll,
                                  gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingBncl);
         } else {
-            gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[rowIndex][1]].mVisible = hidden;
+            gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[rowIndex][1]].mVisible = visible;
             SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[rowIndex], 15, gWiFiVSSetting->mWiFiVSSettingBnll,
                                  gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingBncl);
         }
@@ -664,8 +664,8 @@ void UpdateWiFiVSSettingHighlight(void) {
 
 void AdvanceWiFiVSSettingIndexTimers(void) {
     s32 timerIndex;
-    BOOL hiddenOtherRow = FALSE;
-    BOOL hiddenTimerDone = FALSE;
+    BOOL otherRowVisible = FALSE;
+    BOOL timerDoneVisible = FALSE;
 
     for (timerIndex = 0; timerIndex < 2; timerIndex++) {
         if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING) {
@@ -675,14 +675,14 @@ void AdvanceWiFiVSSettingIndexTimers(void) {
                 (&gWiFiVSSetting->mIndexDecrementTimer)[timerIndex]--;
             } else {
                 gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[0][timerIndex]].mVisible =
-                    hiddenTimerDone;
+                    timerDoneVisible;
                 gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[1][timerIndex]].mVisible = 1;
             }
         } else {
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[0][timerIndex]].mVisible =
-                hiddenOtherRow;
+                otherRowVisible;
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[1][timerIndex]].mVisible =
-                hiddenOtherRow;
+                otherRowVisible;
         }
     }
 }
