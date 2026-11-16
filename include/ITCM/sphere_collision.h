@@ -15,8 +15,8 @@ typedef struct CourseTriangle {
     /* 0e */ u16 mHitValue;
 } CourseTriangle;
 
-// Object at gCourseCollision (0x3c bytes): three tables, a tree of word offsets, three words, three masks and three
-// shift counts.
+// The course collision data: points, normals, triangles, the tree over them, and the origin, masks and shifts for
+// lookups.
 typedef struct CourseCollision {
     /* 00 */ Vec3 *mPoints;
     /* 04 */ Vec3s16 *mNormals;

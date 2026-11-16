@@ -12,7 +12,7 @@ typedef struct MacAddress {
     /* 0 */ u8 mBytes[6];
 } MacAddress;
 
-// 0x40 bytes moved as one value.
+// Sixteen words handled as one value.
 typedef struct Words16 {
     /* 0 */ u32 mWords[16];
 } Words16;
@@ -28,7 +28,7 @@ enum {
     EXCHANGE_RESULT_KIND_WORDS_B,
 };
 
-// 0xe8 bytes.
+// A result of the exchange: its text, kind and four value strings.
 typedef struct ExchangeResult {
     /* 00 */ char mText[0x20];
     /* 20 */ s32 mKind;
@@ -46,7 +46,7 @@ enum {
     KIND5_ITEM202_WORDS_B,
 };
 
-// 0x60 bytes.
+// A record of the result packet: its text, items 202 and 205, and the flag that stores the values as hex.
 typedef struct ExchangeResultRecord {
     /* 00 */ char mText[0x2c];
     /* 2c */ u32 mItem202Value;
@@ -55,13 +55,13 @@ typedef struct ExchangeResultRecord {
     /* 5c */ s32 mStoreValuesAsHex;
 } ExchangeResultRecord;
 
-// 0x48 bytes.
+// The words of item 20a of the exchange result, followed by two more words.
 typedef struct ExchangeResultItem20a {
     /* 00 */ Words16 mBytes;
     /* 40 */ u32 mUnk_40[2];
 } ExchangeResultItem20a;
 
-// Entry of the list at gRawEntries, 0xc0 bytes.
+// One access point as the scan returned it: address, SSID, flags, rate sets, beacon period and channel.
 typedef struct RawEntry {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
@@ -77,9 +77,7 @@ typedef struct RawEntry {
     /* 38 */ u8 pad_38[0x88];
 } RawEntry;
 
-// The items of the result packet, 0x254 bytes. The words below the record are only cleared with the rest; the values
-// are four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte
-// array.
+// The items of the result packet: words, an ExchangeResultRecord, the values and item 20a.
 typedef struct ExchangeResultItems {
     /* 000 */ u32 mWords[0x40];
     /* 100 */ ExchangeResultRecord mRecord;

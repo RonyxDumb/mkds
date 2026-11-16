@@ -45,7 +45,7 @@ typedef struct RawEntry RawEntry;
 
 typedef struct OamEntry OamEntry;
 
-// 0xc bytes allocated by CreateAnimatedIcon.
+// An animated icon: its task, OAM entry, palette index and step frames.
 typedef struct AnimatedIcon {
     /* 00 */ TaskEntry *mTask;
     /* 04 */ OamEntry *mOamEntry;

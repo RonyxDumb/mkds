@@ -31,14 +31,14 @@
 #define MULTIBOOT_CHILD_STATE_SEND_COMPLETE 5
 #define MULTIBOOT_CHILD_STATE_BOOT_STARTABLE 6
 
-// One 0x1e-byte record of MultiBootParent.
+// One multiboot child: its MAC address and aid.
 typedef struct MultiBootChildRecord {
     /* 00 */ u8 mUnk_00[0x16];
     /* 16 */ u8 mMacAddress[6];
     /* 1c */ u16 mAid;
 } MultiBootChildRecord;
 
-// The first 0xe bytes of MultiBootParent: the state and the child masks.
+// The state of a multiboot parent and its child masks: requested, download, send complete and boot startable.
 typedef struct MultiBootParentHeader {
     /* 00 */ u16 mState;
     /* 02 */ u16 mMask;

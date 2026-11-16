@@ -27,7 +27,7 @@ enum {
 #define EDIT_ADDR_KEY_CANCEL 12
 #define EDIT_ADDR_KEY_OK 13
 
-// Object behind gEditAddrKeyboard.
+// The on-screen keyboard that edits an address: digit and extra keys, row texts, cursor and highlighted key.
 typedef struct EditAddrKeyboard {
     /* 00 */ void *mRowTexts[4];
     /* 10 */ OamEntry *mDigitKeys[10];

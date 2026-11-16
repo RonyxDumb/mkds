@@ -17,7 +17,7 @@ enum {
     AP_SET_TYPE_EMPTY = 0xff,
 };
 
-// 0xf0 bytes; the object at gApStore holds four of them at a stride of 0x100.
+// One saved access point setting: ISP login, SSIDs, WEP keys, IP, gateway, DNS and authentication type.
 typedef struct ApEntry {
     /* 00 */ u8 mIspId[0x20];
     /* 20 */ u8 mIspPass[0x20];
@@ -36,7 +36,7 @@ typedef struct ApEntry {
     /* ef */ u8 mEntrySetBits;
 } ApEntry;
 
-// Entry at offset 0x400 of the object at gApStore, and the bytes after it.
+// A working copy of an ApEntry with its netmask, entry index and the IP and DNS none flags.
 typedef struct ApWorkCopy {
     /* 00 */ ApEntry mEntry;
     /* f0 */ u8 mNetmask[4];

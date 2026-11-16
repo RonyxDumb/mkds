@@ -137,7 +137,7 @@ typedef struct SingleValueRecord {
     /* 30 */ u8 mValue[0x40];
 } SingleValueRecord;
 
-// A record with four values: its value length, string and four 0x40-byte values.
+// A record with four values: its value length, a string and four WEP keys.
 typedef struct FourValueRecord {
     /* 000 */ u8 pad_000[4];
     /* 004 */ u32 mValueLength;

@@ -12,7 +12,7 @@ typedef void (*ExchangeFreeFunc)(void *block);
 
 typedef struct HashContext HashContext;
 
-// Four hash words, two bit-count words and the 0x40-byte block being filled.
+// A hash computation in progress: the hash words, the bit count and the block being filled.
 typedef struct HashContext {
     /* 00 */ u32 mHashWords[4];
     /* 10 */ u32 mBitCountLow;
@@ -80,7 +80,7 @@ typedef struct SocketAddress {
     /* 4 */ u32 mAddress;
 } SocketAddress;
 
-// One 0x30-byte record cut from a RawEntry: name, its length, address and whether it is secured.
+// A short record of one found access point: SSID and its length, address and whether it is encrypted.
 typedef struct EntrySummary {
     /* 00 */ u32 mSsidLength;
     /* 04 */ char mSsid[0x20];

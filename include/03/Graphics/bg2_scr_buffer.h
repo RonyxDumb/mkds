@@ -3,7 +3,7 @@
 #include "types.h"
 #include "03/System/tasks.h"
 
-// Object behind gBg2ScrBuffer.
+// A BG2 screen map buffer with its task and an upload request flag.
 typedef struct Bg2ScrBuffer {
     /* 000 */ TaskEntry *mTask;
     /* 004 */ u8 mScr[0x600];

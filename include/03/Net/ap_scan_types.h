@@ -9,7 +9,7 @@
 #define AP_CAPA_LEVEL_ENCRYPTED 1
 #define AP_CAPA_LEVEL_SECURITY_ELEMENT 2
 
-// Entry of the table at offset 0x1300 of an ApScan.
+// One access point found by a scan: SSID, BSSID, link level and capability level.
 typedef struct ApScanEntry {
     /* 00 */ u8 mSsid[0x20];
     /* 20 */ u8 mBssid[6];
@@ -17,7 +17,7 @@ typedef struct ApScanEntry {
     /* 28 */ u8 mCapaLevel;
 } ApScanEntry;
 
-// Object that gApScan points to (0x1e60 bytes).
+// The access point scan: its scan buffer, the table of found entries, scan parameters, status and stop request.
 typedef struct ApScan {
     /* 0000 */ u8 mUnk_0000[0xf00];
     /* 0f00 */ u8 mScanBuf[0x400];

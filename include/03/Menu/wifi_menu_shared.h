@@ -42,7 +42,7 @@ typedef struct Jb3List {
 // Objects whose layout isn't known yet.
 typedef struct UsbScan UsbScan;
 typedef struct MultiBootParent MultiBootParent;
-// Object behind gLinkLevel.
+// A link level icon: its OAM entry, task and image row.
 typedef struct LinkLevel {
     /* 00 */ OamEntry *mOamEntry;
     /* 04 */ TaskEntry *mTask;
@@ -201,7 +201,7 @@ typedef struct ChildWaitSharedEntry {
     /* 04 */ u8 mPayload[0x40];
 } ChildWaitSharedEntry;
 
-// Object behind gChildWaitSessionView.
+// The child wait session: its shared entries, block number, channel, state, handshake and multiboot game registry.
 typedef struct ChildWaitSessionView {
     /* 000 */ ChildWaitSharedEntry mSendEntryStorage;
     /* 044 */ u8 pad_44[0xbc];

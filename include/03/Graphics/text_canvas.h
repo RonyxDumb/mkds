@@ -11,7 +11,7 @@ void DrawCanvasText(BgTextCanvas *canvas, unsigned int xPos, unsigned int yPos, 
 #include "Main/Graphics/text_canvas.h"
 #include "char_canvas_text_draw.h"
 
-// 0x38-byte object; InitBgTextCanvas sets it up.
+// A text canvas drawn into a background: its char canvas, text canvas, chars and upload task.
 typedef struct BgTextCanvas {
     /* 00 */ NNSG2dCharCanvas mCharCanvas;
     /* 20 */ TextCanvas mTextCanvas;
