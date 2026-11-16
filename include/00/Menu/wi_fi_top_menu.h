@@ -10,8 +10,8 @@ struct Ncgr;
 struct Nclr;
 
 // Values of WiFiTopMenu.mState: the menu fades in, slides in, waits for the return button, lets one of the three items
-// be picked and slides out; WAIT_MESSAGE shows the message for a missing friend key; WAIT_CHOICE and WAIT_NEXT_SCENE
-// are never entered.
+// be picked and slides out; WAIT_MESSAGE shows the message for a missing friend key; WAIT_CHOICE and
+// WAIT_NOT_LOGGED_IN_THEN_TITLE are never entered.
 enum {
     WIFI_TOP_MENU_STATE_WAIT_FADE,
     WIFI_TOP_MENU_STATE_SLIDE_IN,
