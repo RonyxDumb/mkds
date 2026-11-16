@@ -7,10 +7,10 @@ the CodeWarrior mwccarm 1.2 base compiler; flags and evidence are in `compiler.m
 
 ## Repository Layout
 
-- `src/Main/Unknown/` holds the main binary's code and `src/ITCM/` the code that runs from ITCM, one file per unit,
-  named `code_<address>.c`.
+- `src/Main/` holds the main binary's code, one folder per area, and `src/ITCM/` the code that runs from ITCM, one
+  file per unit, named for what it holds.
   `src/00/`, `src/01/`, `src/03/` hold overlays 0, 1 and 3. Library code is in `libs/`: `libs/msl/` for the C library, `libs/mathlib/` for the arithmetic routines the compiler calls, `libs/NitroSDK/`, `libs/NitroSystem/` and `libs/NitroDWC/` by module (`os`, `gx`, `g3d`, `account`, ...), `libs/spl/` for the particle library.
-  `include/` mirrors `src/` (`include/01/code_0218254c.h` for `src/01/code_0218254c.c`); a library's headers are in
+  `include/` mirrors `src/` (`include/Main/Race/race_hud_lap_time.h` for `src/Main/Race/race_hud_lap_time.c`); a library's headers are in
   its `include/` folder (`libs/msl/include/`, `libs/NitroSDK/os/include/`). Hand-written assembly units are `.s` files next to the C ones (`libs/mathlib/src/`).
 - `config/usa/arm9/` is the `dsd` configuration of the main module: `symbols.txt`, `relocs.txt`, `delinks.txt` (the
   unit list), `force_active.txt`, `lcf_edits.txt`, `config.yaml`. `itcm/` and `dtcm/` have the same three files for the
@@ -52,10 +52,10 @@ the CodeWarrior mwccarm 1.2 base compiler; flags and evidence are in `compiler.m
    entry in `config/usa/arm9/delinks.txt` (see `CONTRIBUTING.md`): the source path, one line per section it owns,
    and `complete` once it links from source:
 
-       src/Main/Title.c:
+       src/Main/Menu/select_character.c:
            complete
-           .text       start:0x02004a20 end:0x02004c48
-           .rodata     start:0x0205f010 end:0x0205f0a4
+           .text       start:0x02025f80 end:0x02027df8
+           .rodata     start:0x021534bc end:0x02153614
 
    A unit's `.text` range starts at its first function and ends on a 4-byte boundary after the padding
    (`tools/check_units.py`). Shared types go in `include/`, library declarations in `libs/<name>/include/`. Each
@@ -129,7 +129,7 @@ Run these from the repository root after `python3 tools/configure.py` (the ones 
 - The main module's units are ARM by default. A Thumb function there sits after `#pragma thumb on`, an ARM one in a
   Thumb file between `#pragma thumb off` and `#pragma thumb on` (`src/Main/System/heap_array_alloc.c`).
 - `#pragma optimize_for_size on` goes after the includes of a unit compiled for size (1.00, 1.6).
-  `#pragma avoid_byte all` is on a few library files (`libs/msl/src/code_0214177c.c`).
+  `#pragma avoid_byte all` is on a few library files (`libs/msl/src/double_digits_math_functions.c`).
 - Adding per-file flags to `PATH_ADD_FLAGS` changes the build for that file only; probe with
   `--unit <source path>` so the probe uses the same flags.
 
@@ -718,7 +718,7 @@ Expression shapes:
   (IsEntryRaceEnded).
 - A conditional branch to a shared `pop` exit where ours has predicated epilogue copies (`popne {r4, lr}`), 4 to 8
   bytes longer: the unit is compiled for size. `#pragma optimize_for_size on` after the includes matched every
-  function of code_02030708.c and code_0203606c.c. Apply it only when all functions of the unit match with it.
+  function of `multi_select_ns_pair_new.c` and `backup_command.c`. Apply it only when all functions of the unit match with it.
 
 - A jump-table bound one higher than ours: the switch has an empty trailing `case N:`. An unused `cmp rN, #K` just
   before the epilogue is an empty `case K: break;` (func_0200a1bc, func_0200a7b0).

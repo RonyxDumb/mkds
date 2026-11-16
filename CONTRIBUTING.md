@@ -4,7 +4,7 @@
 | Path | Contents |
 | --- | --- |
 | `config/<ver>/` | `dsd` configuration: symbols, relocations and file boundaries (`delinks.txt`) |
-| `src/Main/` | Game code from the main ARM9 binary, by subsystem; `Unknown/` for files whose purpose isn't known yet |
+| `src/Main/` | Game code from the main ARM9 binary, one folder per area (`Kart/`, `Menu/`, `Race/` ...) |
 | `src/ITCM/` | Game code that runs from ITCM |
 | `src/NN/` | Game code from overlay `NN` (`00`, `01` and `03` so far); the folder gets a name (`NN_Name`) once the overlay's purpose is known |
 | `include/` | Game headers, by subsystem |
@@ -54,11 +54,11 @@
 
 ## Headers
 - Headers go in `include/` (library headers in `libs/<name>/include/`), never next to a source file. Include them by
-  that path: `#include "01/code_0218254c.h"`. There is one copy of every header.
-- Each source file has a header with the same path and name: `src/01/code_0218254c.c` →
-  `include/01/code_0218254c.h`. It declares every function and global the file defines (not its statics), and the
+  that path: `#include "Main/Race/race_hud_lap_time.h"`. There is one copy of every header.
+- Each source file has a header with the same path and name: `src/Main/Race/race_hud_lap_time.c` →
+  `include/Main/Race/race_hud_lap_time.h`. It declares every function and global the file defines (not its statics), and the
   structs they use.
-- A header that uses a struct only through a pointer declares it (`typedef struct Unk0206bcb0 Unk0206bcb0;`) instead of
+- A header that uses a struct only through a pointer declares it (`typedef struct Kart Kart;`) instead of
   including the struct's header. A file that reads a struct's members includes that struct's header itself.
 - Give parameters and return values the types the code shows:
   - a pointer whose fields the code reads or writes: a pointer to a struct (`Unk<addr>` until it has a name);
@@ -77,23 +77,31 @@
   file with most of the functions that use it, or in a shared `types_<area>.h`. Never define the same struct twice
   under two names; add the missing members to the existing one.
 
-For example, `include/01/code_0218254c.h`:
+For example, `include/Main/Race/race_hud_lap_time.h`:
 ```c
 #pragma once
 
 #include "types.h"
-#include "01/code_02181c3c.h" // Unk02181c3c
+#include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
+#include "touch_panel_sampling.h"
 
-// Object with a flags word at 0x48.
-typedef struct Unk0218274c {
-    /* 00 */ u8 mUnk_00[0x48];
-    /* 48 */ u32 mUnk_48;
-} Unk0218274c;
+// Minutes, seconds and milliseconds summed part by part (seconds and milliseconds can pass 59 and 999).
+typedef struct MinuteSecondMillisecondTotal {
+    /* 00 */ s32 mMinutes;
+    /* 04 */ s32 mSeconds;
+    /* 08 */ s32 mMilliseconds;
+} MinuteSecondMillisecondTotal;
 
-void func_ov001_0218263c(void *param_1, Unk02181c3c *param_2);
-u8 func_ov001_0218274c(Unk02181c3c *param_1, Unk0218274c *param_2, u8 *param_3, u8 *param_4);
+s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMillisecondTotal *second,
+                          MinuteSecondMillisecondTime *difference);
+void StartRaceHudLapTimeDisplay(void);
+
+// Largest lap time difference shown: 99 minutes, 59 seconds and 999 milliseconds.
+#define RACE_HUD_LAP_TIME_MAX_MINUTE 99
+#define RACE_HUD_LAP_TIME_MAX_SECOND 59
+#define RACE_HUD_LAP_TIME_MAX_MILLISECOND 999
 ```
-and `src/01/code_0218254c.c` starts with `#include "01/code_0218254c.h"`, then the headers of the files it calls.
+and `src/Main/Race/race_hud_lap_time.c` starts with `#include "Main/Race/race_hud_lap_time.h"`, then the headers of the files it calls.
 
 ## Adding a source file
 1. Add the file and its section ranges to the right `delinks.txt`; `dsd` splits the original object there. A `.text`
