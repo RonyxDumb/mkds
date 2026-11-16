@@ -64,7 +64,7 @@
 
 MapObjectKindRow gMapObjectKindRows[133] = {
     {101, (MapObjectKindDescriptor *) &gItemBoxKindDescriptor, NULL},
-    {201, (MapObjectKindDescriptor *) &gGroupItemBoxKindDescriptor, NULL},
+    {MAP_OBJECT_KIND_GROUP_ITEM_BOX, (MapObjectKindDescriptor *) &gGroupItemBoxKindDescriptor, NULL},
     {111, (MapObjectKindDescriptor *) &gPooledItemBoxKindDescriptor, NULL},
     {405, (MapObjectKindDescriptor *) &gBusAKindDescriptor, &gBusAKindInfo},
     {410, (MapObjectKindDescriptor *) &gCarAKindDescriptor, &gCarAKindInfo},
