@@ -98,7 +98,7 @@ typedef struct ParticleAnimEntry {
 } ParticleAnimEntry;
 
 void SPLManager_DeleteEmitter(SPLManager *mgr, ParticleEmitter *emtr);
-ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
+ParticleEmitter *SPLManager_CreateEmitterWithCallback(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
                                                    void (*initCallback)(ParticleEmitter *emtr, s32 param));
 ParticleEmitter *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 *pos);
 void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix);
@@ -108,7 +108,7 @@ s32 SPLManager_UploadTextures(SPLManager *mgr);
 s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 isSpecial));
 s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 isSpecial));
 void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data);
-SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,
+SPLManager *SPLManager_Create(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,
                            u16 maxPolyId);
 u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt);
 u32 SPLUtil_AllocTextureVRAM(s32 size, s32 is4x4);
@@ -118,7 +118,7 @@ void SPLManager_DrawChildParticles(SPLManager *mgr);
 void SPLManager_DrawParticles(SPLManager *mgr);
 void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr);
 void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos);
-void SPLUtil_SetTexture_Stub(ParticleTexture *tex);
+void SPLUtil_SetTextureNop(ParticleTexture *tex);
 void SPLUtil_SetTexture(ParticleTexture *tex);
 void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl);
 void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl);

@@ -1725,7 +1725,7 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     reg_G3_MTX_MODE = 1;
 }
 
-void SPLUtil_SetTexture_Stub(ParticleTexture *tex) {}
+void SPLUtil_SetTextureNop(ParticleTexture *tex) {}
 
 void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     ParticleResourceHeader *header;
@@ -1971,7 +1971,7 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     if (header->mFlags.mHasTextureAnim) {
         textureFunc = SPLUtil_SetTexture;
     } else {
-        textureFunc = SPLUtil_SetTexture_Stub;
+        textureFunc = SPLUtil_SetTextureNop;
     }
     for (particle = emitter->mParticles.mFront; particle != 0; particle = particle->mNext) {
         textureFunc(mgr->mTextures + particle->mTextureIndex);
@@ -2059,7 +2059,7 @@ u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt) {
     return (NNS_GfdDefaultFuncAllocPlttVram(size, is4Pltt, 0) & 0xffff) << 3;
 }
 
-SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,
+SPLManager *SPLManager_Create(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,
                            u16 maxPolyId) {
     SPLManager *mgr;
     s32 index;
@@ -2333,7 +2333,7 @@ ParticleEmitter *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 
     return emtr;
 }
 
-ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
+ParticleEmitter *SPLManager_CreateEmitterWithCallback(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
                                                    void (*initCallback)(ParticleEmitter *emtr, s32 param)) {
     ParticleEmitter *emtr;
 

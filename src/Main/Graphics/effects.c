@@ -73,13 +73,13 @@ void InitEffects(void *defaultHeap) {
     }
     gSPLManagerHeap = effectHeap;
     gRaceEffectSPLManager =
-        SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
+        SPLManager_Create(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
     raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
     SPLManager_LoadResources(gRaceEffectSPLManager, raceEffectFile);
     SPLManager_UploadTextures(gRaceEffectSPLManager);
     SPLManager_UploadPalettes(gRaceEffectSPLManager);
     ResizeMainEffectArchiveBlock(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
-    gRaceEffectFogOffSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
+    gRaceEffectFogOffSPLManager = SPLManager_Create(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
     raceEffectFogOffFile = FindMainRaceOrMainEffectFile(gRaceEffectFogOffSpaName);
     SPLManager_LoadResources(gRaceEffectFogOffSPLManager, raceEffectFogOffFile);
     SPLManager_UploadTextures(gRaceEffectFogOffSPLManager);
@@ -92,7 +92,7 @@ void InitEffects(void *defaultHeap) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         missionEffectFile = NULL;
-        gMissionRunSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
+        gMissionRunSPLManager = SPLManager_Create(HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
         LoadFileIntoHeap(gMissionEffectSpaName, effectHeap, &missionEffectFile);
         SPLManager_LoadResources(gMissionRunSPLManager, missionEffectFile);
         SPLManager_UploadTextures(gMissionRunSPLManager);
@@ -177,7 +177,7 @@ void StartEffectWithCallback(u32 effectId, const Vec3 *position, void *callbackP
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    SPLManager_CreateEmitterWithCallbackEx(splManager, resourceId, &emitterPosition, (s32) callbackParam,
+    SPLManager_CreateEmitterWithCallback(splManager, resourceId, &emitterPosition, (s32) callbackParam,
                                            (void (*)(ParticleEmitter *, s32)) initCallback);
 }
 
