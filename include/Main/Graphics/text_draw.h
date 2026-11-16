@@ -13,10 +13,10 @@
 // cut to that width; and the variant of the tag that marks where FormatMessageWithText inserts its text. (The cut
 // player-name case runs on into the owner-text case.)
 #define TEXT_TAG_NAME_PLAYER 0
-#define TEXT_TAG_NAME_PLAYER_FIT 1
+#define TEXT_TAG_NAME_PLAYER_WITHIN_WIDTH 1
 #define TEXT_TAG_NAME_OWNER_TEXT 10
-#define TEXT_TAG_NAME_OWNER_TEXT_FIT 11
-#define TEXT_TAG_VARIANT_INSERT 0xff
+#define TEXT_TAG_NAME_OWNER_TEXT_WITHIN_WIDTH 11
+#define TEXT_TAG_NAME_INSERT 0xff
 
 // A tag in message text: a char code, its size, kind and variant.
 typedef struct TextTagWithCharCode {

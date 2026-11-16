@@ -117,7 +117,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                                 break;
-                            case TEXT_TAG_NAME_PLAYER_FIT:
+                            case TEXT_TAG_NAME_PLAYER_WITHIN_WIDTH:
                                 playerNameCharCount = CopyTextWithinWidth(
                                     gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
                                 for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
@@ -155,7 +155,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                                 break;
-                            case TEXT_TAG_NAME_OWNER_TEXT_FIT:
+                            case TEXT_TAG_NAME_OWNER_TEXT_WITHIN_WIDTH:
                                 ownerTextCharCount =
                                     CopyTextWithinWidth(gStartupWork->mOwnerText, ownerTextChars);
                                 for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
@@ -337,7 +337,7 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
 
     length = 0;
     while (*message != 0x1a || ((TextTagWithCharCode *) message)->mKind != TEXT_TAG_KIND_NAME ||
-           ((TextTagWithCharCode *) message)->mVariant != TEXT_TAG_VARIANT_INSERT) {
+           ((TextTagWithCharCode *) message)->mVariant != TEXT_TAG_NAME_INSERT) {
         formattedText[length] = *message;
         length++;
         message++;

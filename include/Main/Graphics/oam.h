@@ -10,7 +10,7 @@ typedef struct TextCanvas TextCanvas;
 #define GLYPH_PIXEL_TEXT 1
 #define GLYPH_PIXEL_OUTLINE 2
 // mNoPairCount counts up while it is at most this value (so it stops one higher); only touch sampling counts it.
-#define INPUT_PAIR_NO_PAIR_COUNT_LIMIT 5
+#define INPUT_PAIR_NO_PAIR_COUNT_STOPS_ABOVE 5
 // IsPairRecentlyLost answers yes while there is no pair and mNoPairCount is below this.
 #define INPUT_PAIR_RECENTLY_LOST_FRAMES 5
 
