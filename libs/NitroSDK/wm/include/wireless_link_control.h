@@ -73,9 +73,10 @@ typedef enum WirelessResult {
 
 typedef void (*WirelessMessageCallback)(WirelessMessage *);
 
-// Called with the message of the port; each user reads it through its own view (data sharing, ROM archive, MP link).
+// Called with the message of the port; each user reads it through its own view of it (for example data sharing, ROM
+// archive, MP link, multiboot).
 typedef void (*WirelessPortCallback)(void *portMessage);
-// Callback of a port send, unprototyped for the same reason.
+// Callback of a port send; declared without parameters because each sender's callback takes its own parameters.
 typedef void (*WirelessSendCallback)();
 
 // The name part of UserGameDetails: mName.
@@ -108,7 +109,8 @@ typedef struct UserGameDetails {
     /* 36 */ UserGameNameBlock mNameInfo;
 } UserGameDetails;
 
-// The game info of a scan beacon: mKind, mMemberCount and mGameInfoPart, or a character, course and time.
+// The game info of a scan beacon, read in two views of the same bytes: mKind, mMemberCount and mGameInfoPart, and a
+// ghost's character, course and time.
 typedef struct UserGameInfo {
     union {
         struct {
@@ -156,7 +158,7 @@ typedef struct WMGameInfo {
     /* 10 */ UserGameInfo mUserGameInfo;
 } WMGameInfo;
 
-// The description of a wireless network: its length, signal strength, BSSID, SSID and the rest of the BSS data.
+// The description of a wireless network: its length, mRssi, BSSID, SSID and the rest of the BSS data.
 typedef struct WMBssDesc {
     /* 00 */ u16 mLength;
     /* 02 */ u16 mRssi;
@@ -181,9 +183,7 @@ typedef struct WMBssDesc {
     /* 40 */ WMGameInfo mGameInfo;
 } WMBssDesc;
 
-// System work area set up by WmInitCore. The callback tables are indexed by the command number of the message that
-// WmReceiveFifo takes.
-// Bytes of the system buffer that the WMArm9Buf occupies; the arm7 area follows.
+// Bytes at the start of the system buffer reserved for the WMArm9Buf; the area mWM7 points to follows them.
 #define WIRELESS_ARM9_BUF_SIZE 0x200
 
 typedef struct WMArm9Buf {
@@ -218,7 +218,8 @@ enum {
     WIRELESS_UNIT_STATE_CHILD_WITH_DCF = 11,
 };
 
-// The wireless status area the other processor writes; WM_ReadStatus copies it.
+// The wireless status area in the system buffer; this code only reads it (after invalidating the cache) and
+// WM_ReadStatus copies it.
 typedef struct WMStatus {
     /* 000 */ u16 mState;
     /* 002 */ u8 mBusyApiid[2];
@@ -317,7 +318,8 @@ struct WirelessMessage {
     /* 38 */ WMGameInfo mGameInfo;
 };
 
-// The message WmReceiveFifo builds for a port receive callback: the command, result, state, port, buffer and data.
+// The message WmReceiveFifo builds (gPortCallbackEvent) and passes to every port callback when a parent or child
+// connects or disconnects: the command, result, state, port, aid, own index and sequence number.
 typedef struct WMPortRecvCallback {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
@@ -356,7 +358,7 @@ typedef struct WMMpRecvHeader {
     /* 0a */ u8 mData[1];
 } WMMpRecvHeader;
 
-// One station's record in the MP receive buffer: length, rate, mAid, response flag, header and mPayload.
+// One station's record in the MP receive buffer: mLength, mRateRssi, mAid, mNoResponse, mWmHeader and mPayload.
 typedef struct WMMpRecvData {
     /* 00 */ u16 mLength;
     /* 02 */ u16 mRateRssi;
@@ -405,7 +407,7 @@ typedef struct StartScanExRequest {
     /* 36 */ u16 mSsidMatchLength;
 } StartScanExRequest;
 
-// The scan parameters of WM_StartScan: the scan buffer, channel, channel time and BSSID.
+// The scan parameters of WM_StartScan: the scan buffer, channel, mMaxChannelTime and BSSID.
 typedef struct ScanParam {
     /* 00 */ void *mScanBuf;
     /* 04 */ u16 mChannel;
