@@ -39,11 +39,12 @@ typedef struct CourseCollision {
 #define COURSE_QUERY_SKIP_TAGGED_TRIANGLES 4
 
 // Groups of bits in the collision bits CollideSphereWithCourse stores.
-// Floor hits (the bits the kart code reads as the ground attribute).
+// Ground hits (the bits the kart code reads as the ground attribute).
 #define COURSE_HIT_GROUND 0x1e34ef
 // Wall hits.
 #define COURSE_HIT_WALL 0x214300
-// Surfaces that make a hitting item fade out.
+// Surfaces that make a hitting item fade out (except the KOURA_W kind in thrown and link-following items) and put a
+// kart at its keyed placement.
 #define COURSE_HIT_FADES_ITEMS 0x8000
 // Boost surface (items set ITEM_OBJECT_FLAG_ON_BOOST_SURFACE from it).
 #define COURSE_HIT_BOOST_SURFACE 0x80000

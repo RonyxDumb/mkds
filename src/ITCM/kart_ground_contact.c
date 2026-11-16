@@ -102,8 +102,8 @@ void ClearKartGroundContact(Kart *kart, u32 clearedBits) {
     StopKartCurrentEffects(kart);
 }
 
-// Returns TRUE while the kart is below y = 0 and starts the respawn wait once; at y >= 0 it clears kart flag bits and
-// returns FALSE.
+// Returns TRUE while the kart is below y = 0 and, unless it is a WiFi peer or already waiting, starts the respawn wait;
+// at y >= 0 it clears motion and drive flag bits and returns FALSE.
 BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     void *soundHandleEntry;
     u32 kartIndex;
@@ -176,8 +176,8 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *groundNormal) {
     }
 }
 
-// Counts mAirborneFrames, also clears mAirTiltAngle, sets or clears KART_MOTION_AIRBORNE_LONG and stores mLastGroundY.
-// Not run while the kart is below y = 0.
+// On the ground: clears mAirborneFrames, mAirTiltAngle and KART_MOTION_AIRBORNE_LONG and stores mLastGroundY. In the
+// air: counts mAirborneFrames and sets KART_MOTION_AIRBORNE_LONG once it exceeds KART_AIRBORNE_LONG_FRAMES.
 void UpdateKartAirborne(Kart *kart) {
     if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
         kart->mAirborneFrames = 0;
@@ -225,7 +225,7 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *groundNormal) {
     QuaternionNormalize(&kart->mCombinedQuaternion, &kart->mCombinedQuaternion);
 }
 
-// Runs only on a step with a ground hit (non-zero normal).
+// Runs only on a step with a course hit whose normal has a squared length of at least 0x10.
 void RefreshKartSurface(Kart *kart) {
     s32 hitValue = PickCollisionHitValue(0x1e34ef);
     s32 surfaceGroup;

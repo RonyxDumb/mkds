@@ -23,8 +23,8 @@ typedef struct JointScaleCommand {
 // and collision step frames a kart that holds still needs before its tilt freezes.
 #define KART_AIRBORNE_LONG_FRAMES 5
 #define KART_STILL_HOLD_STEP_FRAMES 100
-// Tilt of the kart nose during a hop: the start value, the limit past which it falls back, and the value it falls back
-// to.
+// Values for Kart.mHopTiltAngle during a hop: the start value, the limit past which it falls back, and the value it
+// falls back to.
 #define KART_HOP_TILT_START 0x9c4
 #define KART_HOP_TILT_LIMIT 0x6a4
 #define KART_HOP_TILT_RESET 0x352

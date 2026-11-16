@@ -4,8 +4,8 @@
 
 struct KartAi;
 
-// CPU kart steering by the turn angle toward the next point: the angle above which it steers by itself, the angle
-// below which the gesso heading swing runs, and the speed that swing needs.
+// CPU kart steering by mTurnAngleDegrees toward the next point: the angle above which the heading is turned by it, the
+// angle below which the gesso heading swing runs, and the speed that swing needs.
 #define KART_AI_STEER_MIN_TURN_ANGLE 0x2000
 #define KART_AI_GESSO_SWING_MAX_TURN_ANGLE 0x46000
 #define KART_AI_GESSO_SWING_MIN_SPEED 0x3000
