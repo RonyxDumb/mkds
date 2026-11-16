@@ -449,9 +449,9 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
     s32 height;
 
     if (!(state->mFlag & G3D_RS_FLAG_SKIP_ALL) && (state->mFlag & G3D_RS_FLAG_NODE_VISIBLE)) {
-        if ((state->mMatAnmResult->mPrmTexImage & G3D_TEX_GEN_MASK) != G3D_TEX_GEN_NORMAL) {
+        if ((state->mMatAnmResult->mPrmTexImage & G3D_TEX_GEN_MASK) != G3D_TEX_GEN_ENV_MAP) {
             state->mMatAnmResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
-            state->mMatAnmResult->mPrmTexImage |= G3D_TEX_GEN_NORMAL;
+            state->mMatAnmResult->mPrmTexImage |= G3D_TEX_GEN_ENV_MAP;
             gEnvMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(gEnvMapTexImageParamCommand[0], &gEnvMapTexImageParamCommand[1], 1);
         }
@@ -539,9 +539,9 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         NNS_G3dGetCurrentMtx(&curMatrix, 0);
         storeIdx = 0x1e;
         NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
-        if ((state->mMatAnmResult->mPrmTexImage & G3D_TEX_GEN_MASK) != G3D_TEX_GEN_VERTEX) {
+        if ((state->mMatAnmResult->mPrmTexImage & G3D_TEX_GEN_MASK) != G3D_TEX_GEN_PROJ_MAP) {
             state->mMatAnmResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
-            state->mMatAnmResult->mPrmTexImage |= G3D_TEX_GEN_VERTEX;
+            state->mMatAnmResult->mPrmTexImage |= G3D_TEX_GEN_PROJ_MAP;
             gPrjMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(gPrjMapTexImageParamCommand[0], &gPrjMapTexImageParamCommand[1], 1);
         }

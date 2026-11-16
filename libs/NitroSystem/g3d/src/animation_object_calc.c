@@ -105,7 +105,7 @@ void SetTexParamaters_(const NNSG3dResTex *pTex, const u32 *pTexName, NNSG3dMatA
 
     texEntry = NNS_G3dGetResDataByName(&pTex->mDict, pTexName);
     imageParam = pResult->mPrmTexImage;
-    if ((texEntry->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4_COMPRESSED) {
+    if ((texEntry->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4) {
         keyOffset = pTex->mTexInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
     } else {
         keyOffset = pTex->mTex4x4Info.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
@@ -658,7 +658,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
     tag = OFFSET_PTR(const u32, jntAnm, jntAnm->mTagOffsets[node]);
     flags = tag[0];
     if (flags & 1) {
-        out->mFlag = G3D_JNT_ANM_ALL_IDENTITY;
+        out->mFlag = G3D_JNT_ANM_SRT_IS_IDENTITY;
     } else {
         cursor = tag + 1;
         if ((frame & 0xfff) && (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_BLEND)) {

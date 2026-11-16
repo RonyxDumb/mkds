@@ -23,7 +23,7 @@ typedef struct NNSG3dVisAnmResult {
 #define G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY 0x8
 #define G3D_JNT_ANM_SCALE_EX1_IS_IDENTITY 0x10
 #define G3D_JNT_ANM_SCALE_EX_ARE_IDENTITY 0x18
-#define G3D_JNT_ANM_ALL_IDENTITY 0x7
+#define G3D_JNT_ANM_SRT_IS_IDENTITY 0x7
 
 // Result of a joint animation for one node. Bit 0 of mFlag says the scale is one, bit 1 that the rotation is zero,
 // bit 2 that the translation is zero, bits 3 and 4 that mScaleEx0 and mScaleEx1 are one.
@@ -145,7 +145,7 @@ typedef struct NNSG3dRenderObj {
 #define MAT_RESULT_TEX_NO_TRANSLATION 0x4
 #define MAT_RESULT_TEX_MATRIX_SET 0x8
 #define MAT_RESULT_TEX_MATRIX_MULTIPLY 0x10
-#define MAT_RESULT_WIREFRAME 0x20
+#define MAT_RESULT_CLEAR_ALPHA 0x20
 // NNSG3dJntAnmResult.mFlag bits.
 #define JNT_RESULT_NO_ROTATION 0x2
 #define JNT_RESULT_NO_TRANSLATION 0x4
@@ -157,7 +157,7 @@ typedef struct NNSG3dRenderObj {
 #define MAT_DATA_TEX_UNIT_SCALE 0x2
 #define MAT_DATA_TEX_NO_ROTATION 0x4
 #define MAT_DATA_TEX_NO_TRANSLATION 0x8
-#define MAT_DATA_WIREFRAME 0x20
+#define G3D_MAT_FLAG_CLEAR_ALPHA 0x20
 // Polygon attribute bits 16 to 20, the alpha of the polygon.
 #define G3D_POLYGON_ATTR_ALPHA_MASK 0x1f0000
 // Entries of the callback vectors of NNSG3dRS (one per SBC command number).

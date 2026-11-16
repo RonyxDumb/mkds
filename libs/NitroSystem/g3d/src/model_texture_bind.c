@@ -23,7 +23,7 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
     NNSG3dResMatData *matEntry;
 
     matIndices = (u8 *) mat + data->mOffset;
-    if ((texData->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4_COMPRESSED) {
+    if ((texData->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4) {
         keyOffset = tex->mTexInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
     } else {
         keyOffset = tex->mTex4x4Info.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;

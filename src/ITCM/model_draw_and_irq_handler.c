@@ -323,8 +323,8 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     dictBase = resMat + 4;
     entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
     if (*(u16 *) (resMat + *(u32 *) (dictBase + *(u16 *) (resMat + 0xa) + entrySize * materialIndex + 4) + 0x1e) &
-        MAT_DATA_WIREFRAME) {
-        result->mFlag |= MAT_RESULT_WIREFRAME;
+        G3D_MAT_FLAG_CLEAR_ALPHA) {
+        result->mFlag |= MAT_RESULT_CLEAR_ALPHA;
     }
     matFlags = matData->mFlag;
     mask = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
@@ -374,7 +374,7 @@ done:
     renderState->mMatAnmResult = result;
     matAnm = renderState->mMatAnmResult;
     if (matAnm->mPrmPolygonAttr & G3D_POLYGON_ATTR_ALPHA_MASK) {
-        if (matAnm->mFlag & MAT_RESULT_WIREFRAME) {
+        if (matAnm->mFlag & MAT_RESULT_CLEAR_ALPHA) {
             matAnm->mPrmPolygonAttr &= ~G3D_POLYGON_ATTR_ALPHA_MASK;
         }
         renderState->mFlag &= ~RENDER_STATE_NO_ALPHA;
