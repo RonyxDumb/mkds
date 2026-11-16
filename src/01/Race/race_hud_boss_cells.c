@@ -56,7 +56,7 @@ void UpdateRaceHudSubScreenIwanteCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIwanteCells->mCells[cellCount].mDrawPos,
                                                 subScreenScale, 1, 1)) {
-                if (IsIwanteWalkB((MissionRunMapObject *) object)) {
+                if (IsIwanteHandShapeWalkB((MissionRunMapObject *) object)) {
                     entryIndex = (object->mFlags & MAP_OBJECT_FLAG_MIRRORED) ? 0xc8 : 0xc6;
                 } else {
                     entryIndex = (object->mFlags & MAP_OBJECT_FLAG_MIRRORED) ? 0xc7 : 0xc5;

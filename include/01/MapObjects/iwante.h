@@ -3,8 +3,8 @@
 #include "types.h"
 #include "01/MapObjects/mission_run_map_object.h"
 
-// Values of mHandShape and mHandOrder. A hand's mHandShape is the collision shape set by SetIwanteNoneCollision to
-// SetIwanteHitReactionCollision. mHandOrder uses 4 and 5 for the hand that is currently the second or first one.
+// Values of mHandShape and mHandOrder. A hand's mHandShape is the collision shape set by SetIwanteHandShapeNone to
+// SetIwanteHandShapeHitReaction. mHandOrder uses 4 and 5 for the hand that is currently the second or first one.
 enum {
     IWANTE_HAND_SHAPE_NONE,
     IWANTE_HAND_SHAPE_WALK_A,
@@ -116,8 +116,8 @@ void StartIwanteHandMoveToPoints(MissionRunMapObject *mapObject);
 void StartIwanteHandReachMovePoint(MissionRunMapObject *mapObject);
 void StartIwanteHandFall(MissionRunMapObject *mapObject);
 void StartIwanteHandLand(MissionRunMapObject *mapObject);
-void StartIwanteHandChangeToWalkA(MissionRunMapObject *mapObject);
-void StartIwanteHandChangeToWalkB(MissionRunMapObject *mapObject);
+void StartIwanteHandChangeToWalkAHold(MissionRunMapObject *mapObject);
+void StartIwanteHandChangeToWalkBHold(MissionRunMapObject *mapObject);
 void StartIwanteHandMoveVertical(MissionRunMapObject *mapObject);
 void StartIwanteHandMoveVerticalBack(MissionRunMapObject *mapObject);
 u32 AdvanceIwanteHandVerticalSound(MissionRunMapObject *mapObject);
@@ -130,12 +130,12 @@ void StartIwanteHandWalkAWalk(MissionRunMapObject *mapObject);
 void StartIwanteHandWalkBWalk(MissionRunMapObject *mapObject);
 void StartIwanteHandWalkWithEffects(MissionRunMapObject *mapObject);
 void StartIwanteHandWalk(MissionRunMapObject *mapObject);
-void SetIwanteWalkAHitCollision(MissionRunMapObject *mapObject);
-void SetIwanteHitReactionCollision(MissionRunMapObject *mapObject);
-void SetIwanteWalkBCollision(MissionRunMapObject *mapObject);
-void SetIwanteWalkACollision(MissionRunMapObject *mapObject);
-void SetIwanteNoChainCameraWalkA(MissionRunMapObject *mapObject);
-void SetIwanteNoneCollision(MissionRunMapObject *mapObject);
+void SetIwanteHandShapeWalkAItemPush(MissionRunMapObject *mapObject);
+void SetIwanteHandShapeHitReaction(MissionRunMapObject *mapObject);
+void SetIwanteHandShapeWalkB(MissionRunMapObject *mapObject);
+void SetIwanteHandShapeWalkA(MissionRunMapObject *mapObject);
+void SetIwanteHandShapeWalkAStartup(MissionRunMapObject *mapObject);
+void SetIwanteHandShapeNone(MissionRunMapObject *mapObject);
 void SetIwanteHandsPoints(void);
 void SetIwanteHandsApproachPoint(void);
 void IwanteKartResponse11Callback(MissionRunMapObject *mapObject, Kart *kart);

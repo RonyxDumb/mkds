@@ -86,7 +86,7 @@ MapObjectKindDescriptor gKingTeresaKindDescriptor = {0,
                                                      NULL,
                                                      {NULL, NULL, NULL, NULL}};
 
-u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
+u16 IsIwanteHandShapeWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mHandShape == IWANTE_HAND_SHAPE_WALK_B;
 }
 
@@ -580,15 +580,15 @@ void HideKingTeresaWithoutEffects(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mFlags |= gKingTeresaHiddenFlag;
 }
 
-void StartKingTeresaStayHidden(MissionRunMapObject *mapObject) {
+void StartKingTeresaWaitHidden(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
     SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
 }
 
-void StartKingTeresaHideThenStayHidden(MissionRunMapObject *mapObject) {
+void StartKingTeresaHideThenWaitHidden(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 5, AdvanceKingTeresaFollowKart);
     HideKingTeresaWithEffects(mapObject);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mHideFrameCount, StartKingTeresaStayHidden);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mHideFrameCount, StartKingTeresaWaitHidden);
     if (gKingTeresaState != KING_TERESA_STATE_HIDDEN) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
@@ -663,7 +663,7 @@ void KingTeresaStandingsEndCallback(void) {
 void StartKingTeresaSecondAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
-                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, StartKingTeresaHideThenStayHidden);
+                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, StartKingTeresaHideThenWaitHidden);
 }
 
 void StartKingTeresaFirstAnimation(MissionRunMapObject *mapObject) {
