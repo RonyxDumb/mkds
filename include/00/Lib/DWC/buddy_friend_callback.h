@@ -22,10 +22,10 @@ enum {
     BUDDY_UPDATE_STATE_DONE,
 };
 
-// Buddy layer of the online connection: it makes the GP buddy list and the saved list (mBuddies) agree and reports the
-// end through mResultCallback (mBuddiesChanged says the list must be saved).
 typedef void (*DWCBuddyFriendCallback)(s32 index, void *arg);
 
+// Buddy layer of the online connection: it makes the GP buddy list and the saved list (mBuddies) agree and reports the
+// end through mResultCallback (mBuddiesChanged says the list must be saved).
 typedef struct WiFiBuddySync {
     // Values BUDDY_SYNC_STATE_*: set by DWCi_FriendInit and CloseStatsAndResetBuddySync (NONE), StartBuddySync
     // (UPDATING) and DWCi_EndUpdateServers (FINISHED); only compared elsewhere.

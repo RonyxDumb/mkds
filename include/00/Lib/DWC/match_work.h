@@ -34,12 +34,12 @@ enum {
     WIFI_MATCH_STATE_MIN_COMPLETE_POLL = 19,
 };
 
-// The matching object, embedded in WiFiConnection as mMatching and reached through gWiFiMatching; not WiFiVSMatching,
-// the VS screen.
 typedef struct GTI2Socket GTI2Socket;
 typedef s32 MatchEvalFunc();
 typedef void (*DWCMatchedSCCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
 
+// The matching object, embedded in WiFiConnection as mMatching and reached through gWiFiMatching; not WiFiVSMatching,
+// the VS screen.
 typedef struct WiFiMatching {
     /* 000 */ struct GPConnection *mGpConnection;
     // Address of WiFiConnection.mSocket, so a socket made or cleared later is seen; every use except the NULL tests

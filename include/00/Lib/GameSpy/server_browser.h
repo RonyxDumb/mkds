@@ -9,9 +9,9 @@ typedef struct SBServerList SBServerList;
 typedef struct SBServer SBServer;
 typedef struct MatchingServerList MatchingServerList;
 
-// The server browser object: its query engine, its server list and the callback it reports to.
 typedef void (*ServerBrowserCallback)(MatchingServerList *list, s32 event, SBServer *server, u32 instance);
 
+// The server browser object: its query engine, its server list and the callback it reports to.
 typedef struct MatchingServerList {
     /* 000 */ SBQueryEngine mEngine;
     /* 04c */ SBServerList mList;
