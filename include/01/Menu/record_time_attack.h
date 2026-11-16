@@ -124,7 +124,7 @@ enum {
 // Values of BackupAccess.mCopyPass: one copy, or the first or second of the two copies of a block.
 enum { BACKUP_COPY_PASS_SINGLE, BACKUP_COPY_PASS_FIRST, BACKUP_COPY_PASS_SECOND };
 
-// Object behind gBackupAccess.
+// The state of save memory access: status, error, lock, the read and write requests with their buffers, the ghost slot.
 typedef struct BackupAccess {
     /* 00 */ s32 mStatus;
     /* 04 */ s32 mErrorCode;

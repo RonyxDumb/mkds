@@ -40,7 +40,7 @@ enum {
 #define OPTION_HENSYU_MENU_PRESS_FRAMES 10
 #define OPTION_HENSYU_MENU_HIGHLIGHT_FRAME 5
 
-// Object behind gOptionHensyuMenu.
+// The Hensyu (edit) option menu: its state, selected index, heap and layout tables.
 typedef struct OptionHensyuMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
@@ -207,7 +207,7 @@ extern const char *gMissionRunMSselMNscrName;
 extern const char *gMissionRunMSselMNcerName;
 extern TestScene *gTestScene;
 extern SelectBattleStage *gSelectBattleStage;
-// One pair of halfwords of the object behind gOptionEmbremSelect.
+// The x and y offset of one cell group of the emblem option screen.
 typedef struct OptionEmbremSelectOffset {
     /* 00 */ s16 mOffsetX;
     /* 02 */ s16 mOffsetY;
@@ -235,7 +235,7 @@ enum {
 // Frames the cells of a row shift after its choice changed (OptionEmbremSelect.mOffsetTimers count them down).
 #define OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES 6
 
-// Object behind gOptionEmbremSelect.
+// The emblem option screen: its state, selected row, the emblem off choice, slide offsets, heap and layout tables.
 typedef struct OptionEmbremSelect {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;

@@ -39,7 +39,7 @@ enum {
     SELECT_GHOST_STATE_SLIDE_OUT,
 };
 
-// Object behind gSelectGhost.
+// The ghost select screen: its state, selected index, scroll offsets, layout tables, OAM lists and result.
 typedef struct SelectGhost {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupCourseTaMBncl;

@@ -31,7 +31,7 @@ enum {
 // NicknameScene.mNextScene while no scene is requested.
 #define NICKNAME_SCENE_NEXT_NONE (-1)
 
-// Object behind gNicknameScene.
+// The nickname scene: its state, heap, previous and next scene and display settings.
 typedef struct NicknameScene {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;

@@ -19,7 +19,7 @@ typedef struct LldData {
     /* 02 */ LldRecord mRecords[1];
 } LldData;
 
-// Group of 0x20 bytes at OamBuffer.mOams.
+// An OAM affine parameter group: the entries mPA to mPD, each kept in the spare halfword of an OAM entry.
 typedef struct OamAffineGroup {
     /* 00 */ u8 mUnk_00[0x6];
     /* 06 */ s16 mPA;

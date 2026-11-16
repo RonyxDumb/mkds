@@ -6,9 +6,7 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/Kart/shadow_model.h" // ShadowModel
 
-// The model bundle of one map object kind: one per kind (the global g<Stem> that Create<Stem> stores), shared by every
-// object of the kind; 0x2c bytes, the allocation size. A creator builds exactly one of mNsbmdModel / mAnimatedModel /
-// mShadowModel and leaves the others 0; the draw tests each.
+// The model bundle of one map object kind, shared by all objects of the kind: its scale, models and animations.
 typedef struct MapObjectModel {
     // Three words (1.0 = 0x1000 each) set by the creators and sent to the geometry engine as the scale command (0x1b)
     // by both draw functions; afterwards only the mirror setter writes them (it flips the sign of x and y).

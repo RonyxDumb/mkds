@@ -25,7 +25,7 @@ enum {
     OPTION_TOP_ROW_ERASE_DATA,
 };
 
-// Object behind gOptionTopMenu.
+// The top menu of the options: its state, selected index, heap and layout tables.
 typedef struct OptionTopMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
@@ -99,7 +99,7 @@ enum {
 // Frames the cells of a row shift after a left or right press (RecordGpx.mOffsetTimers count them down).
 #define RECORD_GPX_OFFSET_TIMER_FRAMES 6
 
-// Object behind gRecordGpx.
+// The Grand Prix record screen: its state, selected index, scroll offsets, heap, layout tables and trophy files.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMNcer;

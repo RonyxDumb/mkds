@@ -46,7 +46,7 @@ enum {
 // Frames the cells of a row shift after its value changed (OptionSelectMenu.mOffsetTimers count them down).
 #define OPTION_SELECT_OFFSET_TIMER_FRAMES 6
 
-// Object behind gOptionSelectMenu.
+// The option select menu with two setting rows and an OK entry: their values, saved values, offsets and layout tables.
 typedef struct OptionSelectMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;

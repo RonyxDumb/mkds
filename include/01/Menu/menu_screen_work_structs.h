@@ -81,7 +81,8 @@ enum {
 #define MISSION_RUN_LVSEL_HOLD_FRAMES 5
 #define MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES 5
 
-// Object behind gMissionRunLVsel.
+// The mission run level select screen: its state, highlight timers, reached level, index, result, heap and layout
+// tables.
 typedef struct MissionRunLVsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunLVselSNcer;
     // mr/Mission_run_LVsel_s_7.bncl when mUnk_4a >= 6, else _s_6; Bnbl and Bnll follow the same test
@@ -143,7 +144,7 @@ enum {
 #define MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES 100
 #define MISSION_RUN_MSSEL_VRAM_TRANSFER_FRAME 5
 
-// Object behind gMissionRunMSsel.
+// The mission run mission select screen: its state, shown mission, mission table and rows, palette blend and result.
 typedef struct MissionRunMSsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunMSselMNcer;
     /* 04 */ LayoutEntryTable *mMissionRunMSselMBncl;
@@ -227,7 +228,7 @@ enum {
 #define SELECT_ENGINE_SLIDE_OUT_DISTANCE_X 192
 #define SELECT_ENGINE_SLIDE_DISTANCE_Y 192
 
-// Object behind gSelectEngine.
+// The engine class select screen: its state, selected index, the alternate cell, layout tables and result.
 typedef struct SelectEngine {
     /* 00 */ struct NNSG2dCellDataBank *mSelectEngineMNcer;
     /* 04 */ struct LayoutEntryTable *mSelectEngineMBncl;
@@ -314,7 +315,7 @@ enum {
 // Emblem.mCursorSizeIndex while the grid is pressed: no brush frame is shown.
 #define EMBLEM_BRUSH_NONE (-1)
 
-// Object behind gEmblemCursor, allocated by CreateEmblemCursorAndGrid.
+// The emblem editor cursor: its mode and size, the origin, the current and previous cell and the side.
 typedef struct EmblemCursor {
     /* 00 */ s32 mMode;
     /* 04 */ s32 mSizeIndex;
