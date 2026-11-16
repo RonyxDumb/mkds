@@ -94,7 +94,7 @@ typedef struct CoverPooHole {
 #define COVER_POO_HOLE_TILT_SOUND_ID 0x16f
 #define COVER_POO_HOLE_ITEM_HIT_SOUND_ID 0x1b0
 
-BOOL IsCoverPooHoleRaising(CoverPooHole *coverPooHole);
+BOOL IsCoverPooHoleRaiseState(CoverPooHole *coverPooHole);
 MapObjectList *CreateCoverPooHoleUpdateList(void);
 MapObjectList *CreateCoverPooHoleDrawList(void);
 MapObjectKindData *CreateCoverPooHoleKindData(void);
