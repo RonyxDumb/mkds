@@ -41,13 +41,13 @@ void AdvanceEmblemGridScreen(void) {
     }
 
     if (GetEmblemInputNewBits(8)) {
-        ActivateEmblemEntry(0x1a, 0);
+        ActivateEmblemEntry(EMBLEM_ENTRY_CHOISES, 0);
     } else if (GetEmblemInputNewBits(4)) {
-        ActivateEmblemEntry(0x19, 0);
+        ActivateEmblemEntry(EMBLEM_ENTRY_CAMERA, 0);
     } else if (GetEmblemInputNewBits(2)) {
-        ActivateEmblemEntry(0x17, 0);
+        ActivateEmblemEntry(EMBLEM_ENTRY_SWAP_CELLS, 0);
     } else if (GetEmblemInputNewBits(0x800)) {
-        ActivateEmblemEntry(0x2a, 0);
+        ActivateEmblemEntry(EMBLEM_ENTRY_TOGGLE_BUTTON, 0);
     } else {
         buttonCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 8);
         GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex]);
@@ -117,7 +117,8 @@ void AdvanceEmblemGridScreen(void) {
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    if (gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex] != 0x17 || IsEmblemGridChanged()) {
+                    if (gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex] != EMBLEM_ENTRY_SWAP_CELLS ||
+                        IsEmblemGridChanged()) {
                         ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex], 0);
                     }
                 } else {
@@ -332,7 +333,8 @@ void AdvanceEmblemGridScreen(void) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 7), 0);
     }
 
-    if (IsEmblemGridChanged() && GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, 0x17)) == 2) {
-        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0x17), 0);
+    if (IsEmblemGridChanged() &&
+        GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, EMBLEM_ENTRY_SWAP_CELLS)) == 2) {
+        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, EMBLEM_ENTRY_SWAP_CELLS), 0);
     }
 }

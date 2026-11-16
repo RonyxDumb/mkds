@@ -47,15 +47,29 @@ Emblem *gEmblem;
 
 const s32 gEmblemLPressButtonCursorIndices[4] = {0, 6, 3, 9};
 const s32 gEmblemSubBg3AffineMatrix[4] = {0x400, 0, 0, 0x400};
-const s32 gEmblemButtonLldEntries[12] = {0xe, 0xf, 0x10, 0x14, 0x16, 0x17, 0x11, 0x12, 0x13, 0x15, 0x16, 0x17};
-const s32 gEmblemTemplateScreenColorEntries[16] = {0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22,
-                                                   0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a};
+const s32 gEmblemButtonLldEntries[12] = {
+    EMBLEM_ENTRY_DRAW_BRUSH_FIRST,
+    EMBLEM_ENTRY_DRAW_BRUSH_FIRST + 1,
+    EMBLEM_ENTRY_DRAW_BRUSH_FIRST + 2,
+    EMBLEM_ENTRY_FILL,
+    EMBLEM_ENTRY_TEMPLATE_BUTTON,
+    EMBLEM_ENTRY_SWAP_CELLS,
+    EMBLEM_ENTRY_ERASE_BRUSH_FIRST,
+    EMBLEM_ENTRY_ERASE_BRUSH_FIRST + 1,
+    EMBLEM_ENTRY_ERASE_BRUSH_FIRST + 2,
+    EMBLEM_ENTRY_PICK_VALUE,
+    EMBLEM_ENTRY_TEMPLATE_BUTTON,
+    EMBLEM_ENTRY_SWAP_CELLS};
+const s32 gEmblemTemplateScreenColorEntries[16] = {
+    EMBLEM_ENTRY_COLOR_FIRST, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22,
+    0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, EMBLEM_ENTRY_TOGGLE_BUTTON};
 const s32 gEmblemRPressButtonCursorIndices[4] = {0, 6, 3, 9};
-const s32 gEmblemColorLldEntries[16] = {0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22,
-                                        0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a};
-const s32 gEmblemTemplateLldEntries[29] = {3,    4,    5,    6,    7,    8,    9,    0xa,  0xb,  0xc,
-                                           0xd,  0xe,  0xf,  0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16,
-                                           0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f};
+const s32 gEmblemColorLldEntries[16] = {
+    EMBLEM_ENTRY_COLOR_FIRST, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22,
+    0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, EMBLEM_ENTRY_TOGGLE_BUTTON};
+const s32 gEmblemTemplateLldEntries[29] = {
+    EMBLEM_TEMPLATE_ENTRY_FIRST, 4,    5,    6,    7,    8,    9,    0xa,  0xb,  0xc,  0xd,  0xe,  0xf,  0x10, 0x11,
+    0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f};
 const s32 gEmblemButtonCursorHorizontalMoves[3][12] = {{6, 7, 8, 9, 4, 5, 0, 1, 2, 3, 0xa, 0xb},
                                                        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb},
                                                        {6, 7, 8, 9, 4, 5, 0, 1, 2, 3, 0xa, 0xb}};
@@ -511,14 +525,14 @@ void ResetEmblemButton(void *lld, s32 index) {
 }
 
 void StartEmblemModeButtonPress(void *lld, s32 index) {
-    ResetEmblemButton(gEmblem->mEmblemSLld, 14);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 15);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 16);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 17);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 18);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 19);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 20);
-    ResetEmblemButton(gEmblem->mEmblemSLld, 21);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_DRAW_BRUSH_FIRST);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_DRAW_BRUSH_FIRST + 1);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_DRAW_BRUSH_FIRST + 2);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_ERASE_BRUSH_FIRST);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_ERASE_BRUSH_FIRST + 1);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_ERASE_BRUSH_FIRST + 2);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_FILL);
+    ResetEmblemButton(gEmblem->mEmblemSLld, EMBLEM_ENTRY_PICK_VALUE);
     SetLldEntryCallback(GetLldEntry(lld, index), (s32(*)(LldEntry *)) AdvanceEmblemModeButtonPress);
 }
 
@@ -1006,7 +1020,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
             break;
         case EMBLEM_STATE_TEMPLATE:
             switch (entryIndex) {
-                case 0:
+                case EMBLEM_TEMPLATE_ENTRY_BACK:
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonHold((gEmblem->mEmblemTemplateSLld), 1);
@@ -1056,7 +1070,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         ClearEmblemGridCopied();
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemTemplateSLld), entryIndex);
-                        gEmblem->mTemplateCursorIndex = entryIndex - 3;
+                        gEmblem->mTemplateCursorIndex = entryIndex - EMBLEM_TEMPLATE_ENTRY_FIRST;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -1211,7 +1225,8 @@ void AdvanceEmblemGridScreen(void) {
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    if (gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex] != 0x17 || IsEmblemGridChanged()) {
+                    if (gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex] != EMBLEM_ENTRY_SWAP_CELLS ||
+                        IsEmblemGridChanged()) {
                         ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex], 0);
                     }
                 } else {
@@ -1426,8 +1441,9 @@ void AdvanceEmblemGridScreen(void) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 7), 0);
     }
 
-    if (IsEmblemGridChanged() && GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, 0x17)) == 2) {
-        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0x17), 0);
+    if (IsEmblemGridChanged() &&
+        GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, EMBLEM_ENTRY_SWAP_CELLS)) == 2) {
+        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, EMBLEM_ENTRY_SWAP_CELLS), 0);
     }
 }
 
@@ -1462,7 +1478,7 @@ void AdvanceEmblemTemplateScreen(void) {
         return;
     }
     if (GetEmblemInputNewBits(2) != 0) {
-        ActivateEmblemEntry(0, 0);
+        ActivateEmblemEntry(EMBLEM_TEMPLATE_ENTRY_BACK, 0);
         return;
     }
     horizontalStep = 0;
@@ -1477,11 +1493,11 @@ void AdvanceEmblemTemplateScreen(void) {
     gEmblem->mColorCursorIndex = colorStep + (GetEmblemCursorCellValue() - 1);
     colorIndexLowWrapped = gEmblem->mColorCursorIndex;
     if (colorIndexLowWrapped < 0) {
-        colorIndexLowWrapped = 0xe;
+        colorIndexLowWrapped = EMBLEM_COLOR_COUNT - 1;
     }
     gEmblem->mColorCursorIndex = colorIndexLowWrapped;
     colorIndexHighWrapped = gEmblem->mColorCursorIndex;
-    if (colorIndexHighWrapped > 0xe) {
+    if (colorIndexHighWrapped > EMBLEM_COLOR_COUNT - 1) {
         colorIndexHighWrapped = 0;
     }
     gEmblem->mColorCursorIndex = colorIndexHighWrapped;

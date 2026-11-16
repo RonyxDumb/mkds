@@ -140,7 +140,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
             break;
         case EMBLEM_STATE_TEMPLATE:
             switch (entryIndex) {
-                case 0:
+                case EMBLEM_TEMPLATE_ENTRY_BACK:
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonHold((gEmblem->mEmblemTemplateSLld), 1);
@@ -190,7 +190,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         ClearEmblemGridCopied();
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemTemplateSLld), entryIndex);
-                        gEmblem->mTemplateCursorIndex = entryIndex - 3;
+                        gEmblem->mTemplateCursorIndex = entryIndex - EMBLEM_TEMPLATE_ENTRY_FIRST;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;

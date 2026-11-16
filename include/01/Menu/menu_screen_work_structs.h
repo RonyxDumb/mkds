@@ -270,9 +270,9 @@ enum {
     EMBLEM_BRUSH_3X3,
 };
 
-// Entries of the emblem screen's sub layout (the entryIndex of ActivateEmblemEntry and the entries of
-// gEmblemColorLldEntries): the draw and erase brushes of three sizes each, the fill and pick value modes, the template,
-// swap, camera and choices buttons, the colors and the button that toggles the frame of entry
+// Entries of the emblem screen's sub layout (the entryIndex of ActivateEmblemEntry in the grid state and the entries
+// of gEmblemColorLldEntries): the draw and erase brushes of three sizes each, the fill and pick value modes, the
+// template, swap, camera and choices buttons, the colors and the button that shows or hides entry
 // EMBLEM_ENTRY_TOGGLE_TARGET.
 enum {
     EMBLEM_ENTRY_DRAW_BRUSH_FIRST = 0xe,
@@ -288,10 +288,11 @@ enum {
     EMBLEM_ENTRY_TOGGLE_BUTTON = 0x2a,
 };
 
-// Calls of the callbacks that animate an emblem entry (LldEntry.mCallbackCallCount): the first phase (shrink) and the
-// second phase (grow, or hold) each take EMBLEM_BUTTON_PHASE_CALLS, together EMBLEM_BUTTON_BOUNCE_CALLS; the color
-// cursor grow runs the pending transition at EMBLEM_BUTTON_TRANSITION_CALL and ends after EMBLEM_BUTTON_FINISH_CALLS.
-// Each call of the shrink or grow changes the scale by EMBLEM_BUTTON_SCALE_STEP.
+// Calls of the entry callbacks (LldEntry.mCallbackCallCount): a shrink and a grow take EMBLEM_BUTTON_PHASE_CALLS each,
+// together EMBLEM_BUTTON_BOUNCE_CALLS; the color cursor callbacks wait through the half they do not animate, and the
+// button hold lasts EMBLEM_BUTTON_BOUNCE_CALLS. The bounce-then-wait callback runs the pending transition at
+// EMBLEM_BUTTON_TRANSITION_CALL and ends after EMBLEM_BUTTON_FINISH_CALLS; a shrink or grow call changes the scale by
+// EMBLEM_BUTTON_SCALE_STEP.
 #define EMBLEM_BUTTON_PHASE_CALLS 5
 #define EMBLEM_BUTTON_BOUNCE_CALLS 10
 #define EMBLEM_BUTTON_TRANSITION_CALL 11
