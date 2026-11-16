@@ -32,7 +32,7 @@ void DGT_Hash1SetSource(DGTHash1Context *ctx, const void *input, u32 length) {
     int blocks;
     const u8 *src;
 
-    used = (u32) ctx->mLength & DGT_HASH1_BLOCK_MASK;
+    used = (u32) ctx->mLength & HASH_BLOCK_OFFSET_MASK;
     ctx->mLength += length;
     room = 0x40 - used;
     if (room > length) {
@@ -52,10 +52,10 @@ void DGT_Hash1SetSource(DGTHash1Context *ctx, const void *input, u32 length) {
         src += 0x40;
         ProcessBlock(ctx);
     }
-    if ((length & DGT_HASH1_BLOCK_MASK) == 0) {
+    if ((length & HASH_BLOCK_OFFSET_MASK) == 0) {
         return;
     }
-    MI_CpuCopy8(src, ctx->mBuffer8, length & DGT_HASH1_BLOCK_MASK);
+    MI_CpuCopy8(src, ctx->mBuffer8, length & HASH_BLOCK_OFFSET_MASK);
 }
 
 // Appends the 0x80 pad, zeros and the bit count (an extra block is hashed first if fewer than 8 bytes remain after the
@@ -71,7 +71,7 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     bitsLow = bits;
     bitsHigh = bits >> 32;
     DGT_Hash1SetSource(ctx, &gHash1Padding, 1);
-    used = ctx->mLength & DGT_HASH1_BLOCK_MASK;
+    used = ctx->mLength & HASH_BLOCK_OFFSET_MASK;
     room = 0x40 - used;
     if (room < 8) {
         MI_CpuFill8(ctx->mBuffer8 + used, 0, room);

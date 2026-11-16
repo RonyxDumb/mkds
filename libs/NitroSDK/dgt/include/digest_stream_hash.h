@@ -11,7 +11,7 @@ typedef struct DGTHash1Context {
 } DGTHash1Context;
 
 // A block is 64 bytes; this masks a byte count down to the position inside the block.
-#define DGT_HASH1_BLOCK_MASK 0x3f
+#define HASH_BLOCK_OFFSET_MASK 0x3f
 
 extern u32 gHash1WordOrder[48];
 extern u32 gHash1RoundConstants[64];
