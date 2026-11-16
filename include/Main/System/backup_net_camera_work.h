@@ -643,9 +643,7 @@ typedef struct MultiBootStateView {
 #define MP_CHILD_DELAY_FRAMES 0xb4
 #define MP_CHILD_DELAY_RANDOM_MIN_FRAMES 0x78
 #define MP_CHILD_DELAY_RANDOM_SPREAD_FRAMES 0xb4
-// MBUserInfo.mNameLength of the names the multiboot parent and the scan connect child send, and the player numbers
-// they announce.
-#define MULTIBOOT_USER_NAME_LENGTH 10
+// The player numbers the multiboot parent and the scan connect child announce.
 #define MULTIBOOT_PARENT_PLAYER_NUMBER 8
 #define SCAN_CONNECT_PLAYER_NUMBER 9
 // ParentParameter.mParentMaxSize and mChildMaxSize of this game's connections.

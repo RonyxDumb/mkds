@@ -149,33 +149,33 @@ void MBi_ParentCallback(WirelessMessage *result) {
     switch (result->mCommand) {
         case WIRELESS_REQUEST_POWER_UP_STACK:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                gWirelessWork->mCallback(0x100, result);
+                gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             MBi_OnInitializeDone();
             return;
         case WIRELESS_REQUEST_SET_TIMEOUT:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                gWirelessWork->mCallback(0x100, result);
+                gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             MBi_CheckWmErrcode(WIRELESS_REQUEST_CONFIGURE_HOST,
                                WM_SetParentParameter(MBi_ParentCallback, (ParentParameter *) gWirelessWork));
             return;
         case WIRELESS_REQUEST_CONFIGURE_HOST:
-            gWirelessWork->mCallback(0x15, result);
+            gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_PARENT_STARTED, result);
             MBi_CheckWmErrcode(WIRELESS_REQUEST_WATCH_BEACONS, WM_SetBeaconIndication(MBi_ParentCallback, 1));
             return;
         case WIRELESS_REQUEST_WATCH_BEACONS:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                gWirelessWork->mCallback(0x100, result);
+                gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             MBi_CheckWmErrcode(WIRELESS_REQUEST_OPEN_HOST, WMi_StartParentEx(MBi_ParentCallback, mbi_power_save_mode));
             return;
         case WIRELESS_REQUEST_OPEN_HOST:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                gWirelessWork->mCallback(0x100, result);
+                gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             switch (result->mReplyState) {
@@ -188,7 +188,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
                         return;
                     }
                     gWirelessWork->mConnectedAids |= 1 << result->mLength;
-                    gWirelessWork->mCallback(0, result);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_CHILD_CONNECTED, result);
                     if (gWirelessWork->mMPStarted == 0 && mbc->mStartMpBusy == 0) {
                         mbc->mStartMpBusy = 1;
                         flag = 1;
@@ -204,20 +204,20 @@ void MBi_ParentCallback(WirelessMessage *result) {
                     if (MBi_IsSendEnabled() == 0) {
                         return;
                     }
-                    gWirelessWork->mCallback(0x19, NULL);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
                     return;
                 case WIRELESS_STATE_UNLINKED:
                     BIT_CLEAR(gWirelessWork->mConnectedAids, result->mLength);
-                    gWirelessWork->mCallback(1, result);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_CHILD_DISCONNECTED, result);
                     return;
                 case WIRELESS_STATE_FORWARD_UNLESS_RESETTING:
                     if (gWirelessWork->mResetting == 1) {
                         return;
                     }
-                    gWirelessWork->mCallback(0x1c, result);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_BEACON_INDICATION, result);
                     return;
                 default:
-                    gWirelessWork->mCallback(0x100, result);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                     return;
             }
         case WIRELESS_REQUEST_BEGIN_EXCHANGE:
@@ -225,13 +225,13 @@ void MBi_ParentCallback(WirelessMessage *result) {
             switch (result->mState) {
                 case WIRELESS_STATE_EXCHANGE_BEGUN:
                     gWirelessWork->mMPStarted = 1;
-                    gWirelessWork->mCallback(0x19, NULL);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
                     return;
                 case WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER:
-                    gWirelessWork->mCallback(3, result->mRecvBuf);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_MP_DATA_RECEIVED, result->mRecvBuf);
                     return;
                 default:
-                    gWirelessWork->mCallback(0x100, result);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                     return;
             }
         case WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA:
@@ -253,7 +253,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
             gWirelessWork->mDataQueued = 0;
             if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mCallback(2, result);
-                gWirelessWork->mCallback(0x19, NULL);
+                gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
                 return;
             }
             if (result->mResultCode == WIRELESS_RESULT_SEND_BACKLOG) {
@@ -261,13 +261,13 @@ void MBi_ParentCallback(WirelessMessage *result) {
                 return;
             }
             gWirelessWork->mCallback(0x13, result);
-            gWirelessWork->mCallback(0x19, NULL);
+            gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
             return;
         case WIRELESS_REQUEST_RESTART:
             if (mbc->mIsStartedEx == 0) {
                 if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                     gWirelessWork->mResetting = 0;
-                    gWirelessWork->mCallback(0x100, result);
+                    gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                     return;
                 }
                 gWirelessWork->mConnectedAids = 0;
@@ -280,12 +280,12 @@ void MBi_ParentCallback(WirelessMessage *result) {
         case WIRELESS_REQUEST_CLOSE_STACK:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mResetting = 0;
-                gWirelessWork->mCallback(0x100, result);
+                gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             gWirelessWork->mMbIsStarted = 0;
             mbc->mIsMbInitialized = 0;
-            gWirelessWork->mCallback(0x11, result);
+            gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_ENDED, result);
             return;
         case WIRELESS_REQUEST_LEAVE:
             if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
@@ -314,7 +314,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
             }
             break;
         default:
-            gWirelessWork->mCallback(0x100, result);
+            gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
             return;
     }
 }
@@ -342,16 +342,16 @@ void MBi_ChildCallback(WirelessMessage *result) {
     switch (result->mCommand) {
         case WIRELESS_REQUEST_POWER_UP_STACK:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                work->mCallback(0x100, result);
+                work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
-            work->mCallback(0x15, result);
+            work->mCallback(MULTIBOOT_PARENT_EVENT_PARENT_STARTED, result);
             MBi_CheckWmErrcode(WIRELESS_REQUEST_SET_TIMEOUT, WM_SetLifeTime(MBi_ChildCallback, mbi_life_table_no,
                                                                         mbi_life_cam, mbi_life_frame, mbi_life_mp));
             return;
         case WIRELESS_REQUEST_SET_TIMEOUT:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                work->mCallback(0x100, result);
+                work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             gScanParams.mScanBuf = work->mScanBuffer;
@@ -359,7 +359,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 gScanParams.mChannel = 1;
             }
             if (gScanParams.mMaxChannelTime == 0) {
-                gScanParams.mMaxChannelTime = MULTIBOOT_SCAN_MAX_CHANNEL_TIME;
+                gScanParams.mMaxChannelTime = MULTIBOOT_SCAN_DEFAULT_MAX_CHANNEL_TIME;
             }
             gScanParams.mBssid[0] = 0xff;
             gScanParams.mBssid[1] = 0xff;
@@ -373,7 +373,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
             return;
         case WIRELESS_REQUEST_BEGIN_SEARCH:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                work->mCallback(0x100, result);
+                work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             switch (result->mReplyState) {
@@ -437,12 +437,12 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     MBi_CheckWmErrcode(WIRELESS_REQUEST_BEGIN_SEARCH, WM_StartScan(MBi_ChildCallback, &gScanParams));
                     return;
                 default:
-                    work->mCallback(0x100, result);
+                    work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                     return;
             }
         case WIRELESS_REQUEST_STOP_SEARCH:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
-                work->mCallback(0x100, result);
+                work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             MBi_CheckWmErrcode(WIRELESS_REQUEST_ENTER_HOST,
@@ -477,7 +477,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     work->mMPStarted = 0;
                     return;
                 default:
-                    work->mCallback(0x100, result);
+                    work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                     return;
             }
         case WIRELESS_REQUEST_BEGIN_EXCHANGE:
@@ -487,13 +487,13 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     if (MBi_IsSendEnabled() == 0) {
                         return;
                     }
-                    work->mCallback(0x19, NULL);
+                    work->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
                     return;
                 case WIRELESS_STATE_EXCHANGE_IGNORED_FIRST:
                 case WIRELESS_STATE_EXCHANGE_IGNORED_SECOND:
                     return;
                 default:
-                    work->mCallback(0x100, result);
+                    work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                     return;
             }
         case WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA:
@@ -505,12 +505,12 @@ void MBi_ChildCallback(WirelessMessage *result) {
             } else {
                 work->mCallback(0x12, result);
             }
-            work->mCallback(0x19, NULL);
+            work->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
             return;
         case WIRELESS_REQUEST_RESTART:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mResetting = 0;
-                work->mCallback(0x100, result);
+                work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             work->mConnectedAids = 0;
@@ -520,18 +520,18 @@ void MBi_ChildCallback(WirelessMessage *result) {
         case WIRELESS_REQUEST_CLOSE_STACK:
             if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mResetting = 0;
-                work->mCallback(0x100, result);
+                work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
                 return;
             }
             work->mMbIsStarted = 0;
             mbc->mIsMbInitialized = 0;
-            work->mCallback(0x11, result);
+            work->mCallback(MULTIBOOT_PARENT_EVENT_ENDED, result);
             return;
         case WIRELESS_REQUEST_BEGIN_KEY_SHARE:
             if (MBi_IsSendEnabled() == 0) {
                 return;
             }
-            work->mCallback(0x19, NULL);
+            work->mCallback(MULTIBOOT_PARENT_EVENT_MP_SEND_READY, NULL);
             return;
         case WIRELESS_REQUEST_EVENT_REPORT:
             switch (result->mState) {
@@ -543,7 +543,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
             }
             return;
         default:
-            work->mCallback(0x100, result);
+            work->mCallback(MULTIBOOT_PARENT_EVENT_REQUEST_FAILED, result);
             return;
     }
 }
@@ -600,7 +600,7 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
         cursor++;
     }
     MI_CpuCopy8(user, &parentWork->mUser, sizeof(MBUserInfo));
-    if (user->mNameLength < MB_USER_NAME_LENGTH) {
+    if (user->mNameLength < MULTIBOOT_USER_NAME_LENGTH) {
         parentWork->mUser.mName[user->mNameLength] = 0;
     }
     wirelessWork->mSendDataSize = MULTIBOOT_PARENT_SEND_DATA_SIZE;
@@ -649,7 +649,7 @@ u32 MB_SetParentCommParam(u32 sendDataSize, u32 maxChildren) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    if (MBi_IsCommSizeValid(sendDataSize, 8, maxChildren) == 0) {
+    if (MBi_IsCommSizeValid(sendDataSize, MULTIBOOT_PARENT_RECEIVE_DATA_SIZE, maxChildren) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -697,7 +697,7 @@ s32 MBi_StartParentCore(u16 channel) {
     gWirelessWork->mChannel = channel;
     parentWork = mbc;
     gWMSysBuf = (void *) (((u32) parentWork + 0x7d1f) & ~0x1f);
-    callback = parentWork->mCallback;
+    callback = parentWork->mParentCallback;
     clearValues[0] = 0;
     MIi_CpuClear16(clearValues[0], parentWork->mChildUser, 0x69c0);
     MB_CommSetParentStateCallback(callback);
@@ -712,7 +712,7 @@ s32 MBi_StartParentCore(u16 channel) {
     clearValues[1] = 0;
     MIi_CpuClear16(clearValues[1], mbc->mFileInfo, 0x5d40);
     MI_CpuFill8(mbc->mReq2child, 0, sizeof(mbc->mReq2child));
-    gWirelessWork->mMode = MB_MODE_PARENT;
+    gWirelessWork->mMode = MULTIBOOT_MODE_PARENT;
     gWirelessWork->mCallback = MBi_CommParentCallback;
     gWirelessWork->mCommandCallback = MBi_ParentCallback;
     gWirelessWork->mParentMaxSize = gWirelessWork->mSendDataSize;
@@ -807,7 +807,7 @@ void MB_DisconnectChild(u32 childIndex) {
         MI_CpuFill8(mbc->mChildggid + slot, 0, 4);
         MI_CpuFill8(OFFSET_PTR(MBUserInfo, mbc->mChildUser, slot * 0x16), 0, sizeof(MBUserInfo));
         MBi_ClearParentPieceBuffer(childIndex);
-        value = 0;
+        value = MULTIBOOT_CHILD_REQUEST_NONE;
         mbc->mReq2child[slot] = value;
         entryIndex = mbc->mChildEntryIndex[slot];
         value = ~value;
@@ -859,7 +859,7 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
         return 1;
     }
     switch (work->mMode) {
-        case MB_MODE_PARENT:
+        case MULTIBOOT_MODE_PARENT:
             if (work->mContSend == 0) {
                 value = 0x3e8;
             } else {
@@ -873,7 +873,7 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
                 result = 0;
             }
             return result;
-        case MB_MODE_CHILD:
+        case MULTIBOOT_MODE_CHILD:
             result = MBi_SetMPData(MBi_ChildCallback, data, sizeHalfword, 0, childMaskHalfword);
             if (result == 2) {
                 gWirelessWork->mDataQueued = 1;
@@ -953,7 +953,7 @@ void MBi_CheckWmErrcode(u16 command, s32 resultCode) {
     if (resultCode != 2 && resultCode != 0) {
         report[0] = command;
         report[1] = resultCode;
-        gWirelessWork->mCallback(0xff, (WirelessMessage *) report);
+        gWirelessWork->mCallback(MULTIBOOT_PARENT_EVENT_CALL_ERROR, (WirelessMessage *) report);
     }
 }
 

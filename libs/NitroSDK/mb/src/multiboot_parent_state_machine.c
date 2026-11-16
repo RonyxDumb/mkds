@@ -16,7 +16,7 @@ u8 prev_fid = 0xff;
 void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback) {
     u32 enabled = (OS_DisableInterrupts());
     u32 previousState;
-    mbc->mCallback = parentStateCallback;
+    mbc->mParentCallback = parentStateCallback;
     previousState = (OS_RestoreInterrupts(enabled));
 }
 
@@ -88,8 +88,8 @@ void MBi_CommChangeParentState(u32 child, u32 value, void *data) {
 void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data) {
     MB_CommPWork *work;
     work = mbc;
-    if (work->mCallback != NULL) {
-        work->mCallback(child, value, data);
+    if (work->mParentCallback != NULL) {
+        work->mParentCallback(child, value, data);
     }
 }
 
@@ -120,7 +120,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 MI_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
                 MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, sizeof(MBUserInfo));
                 MBi_ClearParentPieceBuffer(eventData->mLength);
-                value = 0;
+                value = MULTIBOOT_CHILD_REQUEST_NONE;
                 mbc->mReq2child[eventData->mLength - 1] = value;
                 aid = eventData->mLength;
                 childEntryIndex = mbc->mChildEntryIndex[(s32) aid - 1];
@@ -153,7 +153,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
         case MULTIBOOT_PARENT_EVENT_MP_SEND_READY:
             MBi_CommParentSendData();
             break;
-        case MULTIBOOT_PARENT_EVENT_BEACON_DUE:
+        case MULTIBOOT_PARENT_EVENT_BEACON_INDICATION:
             slotIndex = 0;
             childBit = 0;
             do {
@@ -176,7 +176,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 MB_SendGameInfoBeacon(ggid, tgid, MBi_GetAttribute());
             }
             break;
-        case MULTIBOOT_PARENT_EVENT_ERROR:
+        case MULTIBOOT_PARENT_EVENT_CALL_ERROR:
             switch (eventData->mResultCode) {
                 case WIRELESS_RESULT_REFUSED:
                 case WIRELESS_RESULT_SWITCHED_OFF:
@@ -215,7 +215,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
             break;
     }
     if (eventCode == MULTIBOOT_PARENT_EVENT_ENDED) {
-        callback = mbc->mCallback;
+        callback = mbc->mParentCallback;
         MemFillWordsByBlock_inline(mbc, 0x7d00);
         mbc = NULL;
         if (callback != NULL) {

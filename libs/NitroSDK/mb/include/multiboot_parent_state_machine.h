@@ -28,8 +28,8 @@ enum {
     MULTIBOOT_PARENT_EVENT_ENDED = 0x11,
     MULTIBOOT_PARENT_EVENT_PARENT_STARTED = 0x15,
     MULTIBOOT_PARENT_EVENT_MP_SEND_READY = 0x19,
-    MULTIBOOT_PARENT_EVENT_BEACON_DUE = 0x1c,
-    MULTIBOOT_PARENT_EVENT_ERROR = 0xff,
+    MULTIBOOT_PARENT_EVENT_BEACON_INDICATION = 0x1c,
+    MULTIBOOT_PARENT_EVENT_CALL_ERROR = 0xff,
     MULTIBOOT_PARENT_EVENT_REQUEST_FAILED = 0x100,
 };
 
@@ -87,7 +87,7 @@ typedef struct MB_CommPWork {
     /* 1340 */ MBUserInfo mChildUser[15];
     /* 148a */ u16 mChildversion[15];
     /* 14a8 */ u32 mChildggid[15];
-    /* 14e4 */ MBParentStateCallback mCallback;
+    /* 14e4 */ MBParentStateCallback mParentCallback;
     /* 14e8 */ u32 mPCommState[15];
     /* 1524 */ u8 mEntryCount;
     /* 1525 */ u8 mCurFileid;

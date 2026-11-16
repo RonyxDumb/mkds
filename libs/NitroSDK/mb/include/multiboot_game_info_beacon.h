@@ -8,7 +8,7 @@
 // runs.
 enum {
     MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON = 0,
-    MULTIBOOT_DATA_ATTR_FIXED_NO_ICON = 1,
+    MULTIBOOT_DATA_ATTR_FIXED_WITHOUT_ICON = 1,
     MULTIBOOT_DATA_ATTR_VOLATILE = 2,
 };
 
@@ -70,7 +70,7 @@ typedef struct MbBeaconRecvStatus {
 } MbBeaconRecvStatus;
 
 // Characters in the name of a user.
-#define MB_USER_NAME_LENGTH 10
+#define MULTIBOOT_USER_NAME_LENGTH 10
 
 // A multiboot user: favourite colour, player number and name (mNameLength, mName).
 typedef struct MBUserInfo {
@@ -82,7 +82,7 @@ typedef struct MBUserInfo {
         };
     };
     /* 01 */ u8 mNameLength;
-    /* 02 */ u16 mName[MB_USER_NAME_LENGTH];
+    /* 02 */ u16 mName[MULTIBOOT_USER_NAME_LENGTH];
 } MBUserInfo;
 
 // A multiboot game info beacon: the game group id, data attribute, file number, sequence numbers and checksum.

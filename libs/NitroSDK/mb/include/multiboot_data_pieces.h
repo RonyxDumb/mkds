@@ -6,7 +6,7 @@
 typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 
 // Bytes of request data one child sends in pieces; MBi_SetChildMPMaxSize divides it by the piece size.
-#define MULTIBOOT_CHILD_MP_BUFFER_SIZE 0x1e
+#define MULTIBOOT_CHILD_PIECE_BUFFER_SIZE 0x1e
 
 // ParentMessage.mKind.
 typedef enum ParentMessageKind {

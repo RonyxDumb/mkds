@@ -43,7 +43,7 @@ void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *re
     value = MBi_ReadIconInfo(params->mIconCharPathp, entry->mIcon, 1) == 0;
     iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, entry->mIcon, 0) == 0;
     if ((value | iconPaletteMissing) != 0) {
-        entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_NO_ICON;
+        entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_WITHOUT_ICON;
         MemFillWordsByBlock_inline(entry, 0x220);
     }
     entry->mGgid = params->mGgid;
