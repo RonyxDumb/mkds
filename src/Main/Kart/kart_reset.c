@@ -380,7 +380,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     }
     if (kart->mSecondCollisionSlot == -1) {
         kart->mSecondCollisionSlot = CreateCollisionSlot(
-            &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+            &kart->mSecondCollisionCenter, SHIFT_LEFT_FROM_FIXED12(kart->mPhysicalParam->mRadius, 15), 0x800, kart);
     }
     kart->mEntryFlags |= KART_ENTRY_SCALING_IN;
     kart->mEntryFlags &= ~(KART_ENTRY_REMOVED | KART_ENTRY_HIDDEN);

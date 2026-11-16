@@ -463,8 +463,8 @@ void UpdateWanwanLunge(void *stateObject) {
         wanwan->mTargetFrame += 0xb4;
     }
     VEC_Subtract(&wanwan->mTargetPos, &wanwan->mMapObject.mPos, &offset);
-    wanwan->mMapObject.mPosStep.x += (s32) (((s64) offset.x << 5) >> 12);
-    wanwan->mMapObject.mPosStep.z += (s32) (((s64) offset.z << 5) >> 12);
+    wanwan->mMapObject.mPosStep.x += (s32) SHIFT_LEFT_FROM_FIXED12(offset.x, 5);
+    wanwan->mMapObject.mPosStep.z += (s32) SHIFT_LEFT_FROM_FIXED12(offset.z, 5);
     if (WanwanGetHorizontalLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x40000000) {
         wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x4cc);
         wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x4cc);
@@ -581,8 +581,8 @@ void UpdateWanwanPullBack(void *stateObject) {
                 (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) >=
         (s64) radius * radius) {
         VEC_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
-        wanwan->mMapObject.mPosStep.x += (s32) (((s64) toCenter.x << 2) >> 12);
-        wanwan->mMapObject.mPosStep.z += (s32) (((s64) toCenter.z << 2) >> 12);
+        wanwan->mMapObject.mPosStep.x += (s32) SHIFT_LEFT_FROM_FIXED12(toCenter.x, 2);
+        wanwan->mMapObject.mPosStep.z += (s32) SHIFT_LEFT_FROM_FIXED12(toCenter.z, 2);
         if (XzLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x1000000) {
             wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x199);
             wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x199);

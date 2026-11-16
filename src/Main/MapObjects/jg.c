@@ -632,9 +632,9 @@ void UpdateJgPosition(void) {
                     speed = -speed;
                 }
                 if (Vec3DotUnrounded(&normalVec, &gJgMatrix.mRows[0]) > 0) {
-                    gJgShiftSpeedX = ((s64) speed << 11) >> 12;
+                    gJgShiftSpeedX = SHIFT_LEFT_FROM_FIXED12(speed, 11);
                 } else {
-                    gJgShiftSpeedX = -(s32) (((s64) speed << 11) >> 12);
+                    gJgShiftSpeedX = -(s32) SHIFT_LEFT_FROM_FIXED12(speed, 11);
                 }
                 gJgVelocityFactorX += 0xc;
                 gJgProbeStep = 0xc;

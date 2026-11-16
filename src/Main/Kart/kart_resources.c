@@ -177,7 +177,7 @@ void InitKartResources(Kart *kart) {
     }
     if (kart->mSecondCollisionSlot == -1) {
         kart->mSecondCollisionSlot = CreateCollisionSlot(
-            &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+            &kart->mSecondCollisionCenter, SHIFT_LEFT_FROM_FIXED12(kart->mPhysicalParam->mRadius, 15), 0x800, kart);
     }
     kart->mMotionFlags |= KART_MOTION_ON_GROUND;
     kart->mCollisionStepFrames = KART_COLLISION_STEP_FRAMES_FULL;

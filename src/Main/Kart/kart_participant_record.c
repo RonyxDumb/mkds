@@ -656,9 +656,9 @@ s32 StartKartPushDoubleFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
     unitY = gKartVec3UnitY;
     Vec3CrossUnrounded(&unitY, &flatDirection, &kart->mRotationAxis);
     if (!(kart->mEntryFlags & KART_ENTRY_WIFI_PEER)) {
-        pushX = ((s64) flatDirection.x << 14) >> 12;
-        pushY = ((s64) flatDirection.y << 14) >> 12;
-        pushZ = ((s64) flatDirection.z << 14) >> 12;
+        pushX = SHIFT_LEFT_FROM_FIXED12(flatDirection.x, 14);
+        pushY = SHIFT_LEFT_FROM_FIXED12(flatDirection.y, 14);
+        pushZ = SHIFT_LEFT_FROM_FIXED12(flatDirection.z, 14);
         kart->mHitVelocity.x += pushX;
         kart->mHitVelocity.z += pushZ;
         kart->mVerticalSpeed += pushY;

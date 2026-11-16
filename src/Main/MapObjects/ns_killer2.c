@@ -64,9 +64,9 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
     if (flag == 1) {
         nsKiller2->mParkTimer = NS_KILLER2_HIT_PARK_FRAMES;
         nsKiller2->mMode = 1;
-        nsKiller2->mMapObject.mPosStep.x = ((s64) nsKiller2->mMapObject.mPosStep.x << 10) >> 12;
-        nsKiller2->mMapObject.mPosStep.y = ((s64) nsKiller2->mMapObject.mPosStep.y << 10) >> 12;
-        nsKiller2->mMapObject.mPosStep.z = ((s64) nsKiller2->mMapObject.mPosStep.z << 10) >> 12;
+        nsKiller2->mMapObject.mPosStep.x = SHIFT_LEFT_FROM_FIXED12(nsKiller2->mMapObject.mPosStep.x, 10);
+        nsKiller2->mMapObject.mPosStep.y = SHIFT_LEFT_FROM_FIXED12(nsKiller2->mMapObject.mPosStep.y, 10);
+        nsKiller2->mMapObject.mPosStep.z = SHIFT_LEFT_FROM_FIXED12(nsKiller2->mMapObject.mPosStep.z, 10);
         nsKiller2->mMapObject.mPosStep.y = 0x4000;
         nsKiller2->mMapObject.mFlags |= gNsKiller2DisabledFlag;
         if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {

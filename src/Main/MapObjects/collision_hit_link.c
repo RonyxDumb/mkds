@@ -183,7 +183,7 @@ void UpdateKoopaBlockAccelerate(void *stateObject) {
     KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower = &koopaBlock->mFollower;
     s32 progress = GetGroupFollowerProgress(follower);
-    s32 angle = (u16) (((s64) progress << 18) >> 12);
+    s32 angle = (u16) SHIFT_LEFT_FROM_FIXED12(progress, 18);
     s16 sine = FX_SinIdx(angle);
     s32 speed = MUL_FIXED12_NO_ROUND(sine, koopaBlock->mFollowSpeed);
     s32 inverseProgressLength;

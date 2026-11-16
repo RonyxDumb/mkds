@@ -900,7 +900,7 @@ void StartItemInUseOne(ItemInUse *itemInUse) {
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
     inUseAlias->mBehindDirection.z = -forwardAxis->z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
@@ -920,7 +920,7 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
     inUseAlias->mBehindDirection.z = -forwardAxis->z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
@@ -959,7 +959,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
     inUseAlias->mBehindDirection.x = -direction.x;
     inUseAlias->mBehindDirection.y = -direction.y;
     inUseAlias->mBehindDirection.z = -direction.z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 behindPos);
     if (itemInUse->mObjectCount > 1) {
@@ -1026,9 +1026,9 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     object = itemInUse->mObjects[0];
     AdvanceItemInUseOne(itemInUse);
     if ((object->mFlags & ITEM_OBJECT_FLAG_IN_USE) != 0) {
-        direction.x = ((s64) inUseAlias->mBehindDirection.x << 13) >> 12;
-        direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
-        direction.z = ((s64) inUseAlias->mBehindDirection.z << 13) >> 12;
+        direction.x = SHIFT_LEFT_FROM_FIXED12(inUseAlias->mBehindDirection.x, 13);
+        direction.y = SHIFT_LEFT_FROM_FIXED12(inUseAlias->mBehindDirection.y, 13);
+        direction.z = SHIFT_LEFT_FROM_FIXED12(inUseAlias->mBehindDirection.z, 13);
         VEC_Add(&direction, &itemInUse->mKartOrientation.mRows[2], &direction);
         lengthSquared = LENGTH_SQUARED(direction);
         if (lengthSquared >= 0x10) {
@@ -1068,7 +1068,7 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
     itemInUse->mBehindDirection.x = -itemInUse->mKartOrientation.mRows[2].x;
     itemInUse->mBehindDirection.y = -forwardAxis->y;
     itemInUse->mBehindDirection.z = -forwardAxis->z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &itemInUse->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &itemInUse->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
@@ -1119,7 +1119,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     objectCount = itemInUse->mObjectCount;
     kartVector = kartItems->mKart->mPointMotion;
     objects = itemInUse->mObjects;
-    minDistance = itemInUse->mBehindDistance + (s32) (((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12);
+    minDistance = itemInUse->mBehindDistance + (s32) SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     previousPos = &inUseAlias->mBehindPos;
     maxGap = MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, 0x3000);
     behindDirection = &inUseAlias->mBehindDirection;
@@ -1142,7 +1142,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
         historyIndex = inUseAlias->mHopHeightHistoryCount & ITEM_IN_USE_HOP_HISTORY_MASK;
         inUseAlias->mHopHeightHistoryCount = inUseAlias->mHopHeightHistoryCount + 1;
         inUseAlias->mHopHeightHistory[0][historyIndex] = inUseAlias->mSmoothedHopHeight;
-        speedFactor = ((s64) itemInUse->mKartVelocityLength << 9) >> 12;
+        speedFactor = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartVelocityLength, 9);
         if (speedFactor > 0x1000) {
             speedFactor = 0x1000;
         }

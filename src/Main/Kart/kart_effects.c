@@ -989,7 +989,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     effect->mDirection = directionHalfwords;
     distanceSlope = gOldLuigiAgbFirstChaseEffectDistanceSlope + extraDistance;
     VEC_MultAdd(gOldLuigiAgbFirstChaseEffectBaseDistance +
-                    (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12),
+                    MUL_FIXED12_ROUNDED_S64(distanceSlope, speedRatio),
                 &forwardFlat, &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
     effectPos.y = effectPos.y - MUL_FIXED12_ROUNDED(gOldLuigiAgbFirstChaseEffectHeightDrop, speedRatio);
@@ -1118,7 +1118,7 @@ void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
     extraDistance = extraDistance * 3;
-    VEC_MultAdd((s32) (((s64) extraDistance * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat,
+    VEC_MultAdd(MUL_FIXED12_ROUNDED_S64(extraDistance, speedRatio) + 0x5800, &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;

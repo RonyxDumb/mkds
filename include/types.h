@@ -43,6 +43,14 @@ typedef s32 BOOL;
 #define MUL_FIXED12_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 12))
 #define MUL_FIXED24_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 24))
 
+// The value shifted up by bits and then down by the 12 fractional bits, in 64 bits.
+#define SHIFT_LEFT_FROM_FIXED12(value, bits) (((s64) (value) << (bits)) >> 12)
+// MUL_FIXED12_ROUNDED with both operands cast to s64.
+#define MUL_FIXED12_ROUNDED_S64(a, b) ((s32) (((s64) (a) * (s64) (b) + 0x800) >> 12))
+// CROSS2_FIXED12_ROUNDED with the cast on the last operand of the second product instead of the first.
+#define CROSS2_FIXED12_ROUNDED_LAST_S64(leftFirst, rightFirst, leftSecond, rightSecond)                                \
+    ((s32) (((s64) (leftFirst) * (rightFirst) - (leftSecond) * (s64) (rightSecond) + 0x800) >> 12))
+
 // Sum of two, three or four fixed-point products, shifted down to 12 fractional bits.
 #define DOT2_FIXED12(leftFirst, rightFirst, leftSecond, rightSecond)                                                   \
     (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond)) >> 12)
