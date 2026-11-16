@@ -891,7 +891,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST:
             switch (AdvanceConnectionSetup(0, NULL)) {
-                case 1:
+                case MP_STATE_ADVANCE_FINISHED:
                     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0xf));
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);
@@ -1032,7 +1032,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_REQUEST_BLOCK_COUNT:
             switch (AdvanceBlockCountRequest()) {
-                case 1:
+                case MP_STATE_ADVANCE_FINISHED:
                     ResetPendingFiles();
                     SetBlockEntryBuffer(0, GetSlotGhostBuffer());
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_RECEIVE_BLOCKS;
@@ -1044,7 +1044,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_RECEIVE_BLOCKS:
             switch (AdvanceBlockReceive()) {
-                case 1:
+                case MP_STATE_ADVANCE_FINISHED:
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_AFTER_RECEIVE;
                     break;
                 case MP_STATE_ADVANCE_OWN_INDEX_LOST:
