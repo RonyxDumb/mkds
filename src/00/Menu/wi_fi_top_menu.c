@@ -34,6 +34,7 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u8 gWiFiTopMenuSTableIndices[3] = {6, 7, 8};
 const u8 gWiFiTopMenuCellIndices[3] = {9, 0xa, 0xb};
@@ -439,7 +440,7 @@ void AdvanceWiFiTopMenu(void) {
 }
 
 void WriteWiFiTopMenuRegisters(void) {
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
 }
 
 void RegisterWiFiTopMenuCallbacks(void) {

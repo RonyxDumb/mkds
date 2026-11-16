@@ -410,7 +410,7 @@ void InitMenu(void) {
     }
     InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
     switch (GetMenuEntryKind()) {
-        case MENU_ENTRY_FIRST_SCREEN:
+        case MENU_ENTRY_SINGLE_PLAY_SELECT:
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             SetRaceSetupRequested(1);
             break;
@@ -419,7 +419,7 @@ void InitMenu(void) {
             switch (GetRaceSetupCopy()->mMode) {
                 case MODE_GRAND_PRIX:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, SCREEN_NONE);
-                    SetMenuEntryKind(0);
+                    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
                     SetRaceSetupRequested(1);
                     break;
                 case MODE_VS:
@@ -430,7 +430,7 @@ void InitMenu(void) {
                     break;
                 case MODE_TIME_ATTACK:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, SCREEN_NONE);
-                    SetMenuEntryKind(0);
+                    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
                     SetRaceSetupRequested(1);
                     break;
             }
@@ -446,7 +446,7 @@ void InitMenu(void) {
                     break;
                 case MODE_TIME_ATTACK:
                     SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, SCREEN_NONE);
-                    SetMenuEntryKind(0);
+                    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
                     SetRaceSetupRequested(1);
                     break;
             }
@@ -458,7 +458,7 @@ void InitMenu(void) {
             } else {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, SCREEN_NONE);
             }
-            SetMenuEntryKind(0);
+            SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             SetRaceSetupRequested(1);
             break;
         case MENU_ENTRY_SELECT_GAME:
@@ -468,7 +468,7 @@ void InitMenu(void) {
             CopyCurrentToRaceSetupCopy();
             GetRaceSetupCopy()->mMode = MODE_TIME_ATTACK;
             SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, SCREEN_NONE);
-            SetMenuEntryKind(0);
+            SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             SetRaceSetupRequested(1);
             break;
     }

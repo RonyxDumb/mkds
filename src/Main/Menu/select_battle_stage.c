@@ -5,6 +5,7 @@
 #include "01/Menu/select_battle_stage_screen.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma optimize_for_size on
 #pragma thumb on
@@ -29,12 +30,12 @@ void UpdateSelectBattleStage(void) {
             break;
         case -2:
             SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
-            BattleStageSetMenuEntryKind(0);
+            BattleStageSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             BattleStageSetRaceSetupRequested(1);
             break;
         case -1:
             SwitchMenuScreen(0x1b, SCREEN_NONE);
-            BattleStageSetMenuEntryKind(0);
+            BattleStageSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             BattleStageSetRaceSetupRequested(1);
             break;
     }

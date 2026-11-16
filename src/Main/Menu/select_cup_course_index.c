@@ -251,7 +251,7 @@ void RequestSelectCupCourseSlideOut(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_OUT;
     gSelectCupCourse->mStateFrames = 0;
     if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
-        if (gSelectCupCourse->mResult == 1) {
+        if (gSelectCupCourse->mResult == MENU_SCREEN_RESULT_NEXT) {
             if (HasNoSelectableGhost() != FALSE) {
                 RequestSelectReturnSlideOut();
             }
@@ -338,7 +338,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
 }
 
 void ReleaseSelectCupCourse(void) {
-    if (gSelectCupCourse->mResult == 1) {
+    if (gSelectCupCourse->mResult == MENU_SCREEN_RESULT_NEXT) {
         if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
             if (HasNoSelectableGhost() != FALSE) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
@@ -378,8 +378,8 @@ void AdvanceSelectCupCourseSlideIn(void) {
 
     gSelectCupCourse->mStateFrames++;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
-        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
+        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
+        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             gSelectCupCourse->mBg0Offset = offsetY;

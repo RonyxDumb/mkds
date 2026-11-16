@@ -94,7 +94,7 @@ void LocateAndQueueRecordVSErase(void) {
     gRecordVSErase->mRecordVSSEraseBnbl = sceneFile;
     sceneFile = FindSceneFile(gRecordVSSEraseBnllName);
     gRecordVSErase->mRecordVSSEraseBnll = sceneFile;
-    sceneFile = HeapAlloc(gRecordVSErase->mHeap, (0x00000800u));
+    sceneFile = HeapAlloc(gRecordVSErase->mHeap, SECOND_SCREEN_MAP_BYTES);
     gRecordVSErase->mSecondScreenMapBuffer = sceneFile;
     sceneFile = FindSceneFile(gRecordVSSBNcgrName);
     LocateNcgr(&sbChars, sceneFile);
@@ -111,7 +111,7 @@ void LocateAndQueueRecordVSErase(void) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, eraseScreenMap[0]->mData,
                                        eraseScreenMap[0]->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, (0x00000800u),
-                                       gRecordVSErase->mSecondScreenMapBuffer, (0x00000800u));
+                                       gRecordVSErase->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, sbPalette->mData, 0x40);
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x40, emblemPalette->mData, 0x20);
 }

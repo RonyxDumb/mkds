@@ -92,7 +92,7 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = SINGLE_PLAY_SELECT_OFFSCREEN_X;
         }
-        SwitchMenuScreen(GetNextMenuScreenNumber(), 0x1f);
+        SwitchMenuScreen(GetNextMenuScreenNumber(), SCREEN_NONE);
     }
     DrawSinglePlaySelectCells();
 }

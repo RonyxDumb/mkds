@@ -24,6 +24,7 @@
 #include "Main/Menu/multi_simple.h"
 #include "Main/Menu/menu_connection_kind.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 void SetNextGrandPrixEntries(void) {
@@ -161,7 +162,7 @@ void SetNextRaceSetupFromCopy(void) {
     u16 rowIndex;
     u8 tableRowColumn[2];
 
-    if (GetMenuEntryKind() != 2) {
+    if (GetMenuEntryKind() != MENU_ENTRY_COURSE_SELECT) {
         if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
             switch (GetRaceSetupCopy()->mEngineIndex) {
                 case ENGINE_CLASS_SLOW:

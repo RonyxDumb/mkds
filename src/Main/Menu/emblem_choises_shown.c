@@ -19,6 +19,7 @@
 #include "Main/Race/race_hud_sub_screen_shine16_cells.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 EmblemChoises *gEmblemChoises;
 
@@ -196,7 +197,7 @@ void DrawEmblemChoises(void) {
             if (gEmblemChoises->mHideCallback != NULL) {
                 gEmblemChoises->mHideCallback();
             } else {
-                EmblemChoisesWriteSubBlendAlpha(0, 0, 6, 10);
+                EmblemChoisesWriteSubBlendAlpha(0, 0, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
             }
         }
     }

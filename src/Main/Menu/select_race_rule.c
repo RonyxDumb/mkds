@@ -68,7 +68,7 @@ void AdvanceSelectRaceRuleWaitConfirmAnswer(void) {
         switch (GetSelectChoisesIndex()) {
             case 0:
                 RequestSelectRaceRuleSlideOut();
-                gSelectRaceRule->mResult = 1;
+                gSelectRaceRule->mResult = MENU_SCREEN_RESULT_NEXT;
                 StartPlayerEntryListKind(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
                 RequestSelectReturnSlideOut();
                 break;
@@ -218,8 +218,9 @@ s32 AdvanceSelectRaceRule(void) {
     }
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mState == SELECT_RACE_RULE_STATE_SLIDE_OUT) {
-        if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
-                                             selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
+        if (selectRaceRule->mResult == MENU_SCREEN_RESULT_NEXT &&
+            (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
+             selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
             if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnHiddenNoSlideInRequest() != 0) {
                 return gSelectRaceRule->mResult;
             }

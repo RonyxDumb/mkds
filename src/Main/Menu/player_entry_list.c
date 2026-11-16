@@ -189,9 +189,10 @@ void AdvancePlayerEntryListOffsets(void) {
     AdvanceInterpolation(&gPlayerEntryList->mInterpolations[2]);
     AdvanceEntrySlots();
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
-                                 gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot],
-                                 gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames, 10);
+        offsetX =
+            InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
+                           gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot],
+                           gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames, PLAYER_ENTRY_LIST_MOVE_FRAMES);
         fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX = offsetX;
         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mOffsetX =
             fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX;
@@ -515,7 +516,7 @@ void AdvancePlayerEntryList(void) {
                     } else {
                         counter = 0;
                     }
-                    if (counter == 0xff) {
+                    if (counter == SELECT_CHARACTER_SEND_BYTE_NONE) {
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible =
                             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;

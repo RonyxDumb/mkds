@@ -53,6 +53,7 @@
 #include "Main/Menu/select_kart_data.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Race/race_setup_block.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 
@@ -1249,7 +1250,7 @@ void ReleaseSelectCharacter(void) {
 void WriteSelectCharacterRegisters(void) {
     u32 displayBits = 0x18;
 
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     if (!(gSelectCharacter->mState == SELECT_CHARACTER_STATE_DONE &&
           gSelectCharacter->mResult == MENU_SCREEN_RESULT_BACK)) {
         displayBits |= 1;

@@ -422,10 +422,10 @@ typedef struct SelectCupCourse {
     /* 14 */ LayoutEntryTable *mSelectCupMBnbl;
     /* 18 */ struct LayoutEntryTable *mSelectCupMBnll;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
-    // the halfword at 0x027ffc40 is not 2
+    // mBootType is not BOOT_TYPE_MULTIBOOT
     /* 1c */ LayoutTableEntry *mSelectCupCourseTaOrVsMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
-    // the halfword at 0x027ffc40 is not 2
+    // mBootType is not BOOT_TYPE_MULTIBOOT
     /* 20 */ LayoutTableEntry *mSelectCupMTable;
     /* 24 */ void *mSecondScreenMapBuffer;
     /* 28 */ struct Bmg *mCommonMessages;
@@ -662,8 +662,9 @@ typedef struct GhostRecordSet {
 #define SELECT_CUP_M_OFFSCREEN_Y 0xc0
 #define SELECT_CUP_M_SUB_END_OFFSET_Y (-0x20)
 
-// Values of SelectCupM.mState and mNextState: the main objects slide down off the screen while the lower objects come
-// in from above (SCROLL_DOWN), or the same slide runs backwards (SCROLL_UP).
+// Values of SelectCupM.mState and mNextState: the main objects slide down off the screen while the sub objects come in
+// from above (SCROLL_DOWN), or the same slide runs backwards (SCROLL_UP); in the multiboot boot type nothing moves and
+// only mStateFrames counts.
 enum {
     SELECT_CUP_M_STATE_SCROLL_DOWN,
     SELECT_CUP_M_STATE_SCROLL_UP,

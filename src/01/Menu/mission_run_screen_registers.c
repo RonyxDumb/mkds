@@ -18,6 +18,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Menu/ghost_scene.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma optimize_for_size on
 
@@ -38,10 +39,10 @@ void WriteMissionRunLVselScreenRegisters(void) {
 void UpdateMissionRunLVsel(void) {
     switch (AdvanceMissionRunLVsel()) {
         case MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN:
-            SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);
+            SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, SCREEN_NONE);
             break;
         case MISSION_RUN_LVSEL_RESULT_BACK:
-            SwitchMenuScreen(0, 0x1f);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             break;
     }
 }
@@ -71,10 +72,10 @@ void WriteMissionRunMSselScreenRegisters(void) {
 void UpdateMissionRunMSsel(void) {
     switch (AdvanceMissionRunMSsel()) {
         case MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN:
-            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, 0x1f);
+            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             break;
         case MISSION_RUN_MSSEL_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
+            SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, SCREEN_NONE);
             break;
     }
 }
@@ -98,18 +99,18 @@ void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
 void UpdateTimeAttackTopMenu(void) {
     switch (AdvanceTimeAttackTopMenu()) {
         case TIME_ATTACK_TOP_RESULT_SELECT_CHARACTER:
-            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, SCREEN_NONE);
             break;
         case TIME_ATTACK_TOP_RESULT_SEND_GHOST:
-            SwitchMenuScreen(0x1c, 0x1f);
+            SwitchMenuScreen(0x1c, SCREEN_NONE);
             SetGhostSceneInitialCallbacksIndex(GHOST_SCENE_CALLBACKS_SEND);
             break;
         case TIME_ATTACK_TOP_RESULT_GET_GHOST:
-            SwitchMenuScreen(0x1c, 0x1f);
+            SwitchMenuScreen(0x1c, SCREEN_NONE);
             SetGhostSceneInitialCallbacksIndex(GHOST_SCENE_CALLBACKS_GET_SCAN);
             break;
         case TIME_ATTACK_TOP_RESULT_RETURN:
-            SwitchMenuScreen(0, 0x1f);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             break;
     }
 }
@@ -128,10 +129,10 @@ void WriteTimeAttackCharacterRegisters(void) {
 void UpdateTimeAttackSelectCharacter(void) {
     switch (AdvanceSelectCharacter()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_KART_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_KART_TIME_ATTACK, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
+            SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, SCREEN_NONE);
             break;
     }
 }
@@ -148,10 +149,10 @@ void WriteTimeAttackKartRegisters(void) {
 void UpdateTimeAttackSelectKart(void) {
     switch (AdvanceSelectKart()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, SCREEN_NONE);
             break;
     }
 }
@@ -179,14 +180,14 @@ void TimeAttackSetRaceSetupRequested(s32 value) {
 void UpdateTimeAttackSelectCupGrid(void) {
     switch (AdvanceSelectCupGrid()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_CUP_M_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CUP_M_TIME_ATTACK, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_KART_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_KART_TIME_ATTACK, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_LEAVE:
-            SwitchMenuScreen(0, 0x1f);
-            TimeAttackSetMenuEntryKind(0);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
+            TimeAttackSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             TimeAttackSetRaceSetupRequested(1);
             break;
     }
@@ -206,13 +207,13 @@ void UpdateTimeAttackSelectCupCourse(void) {
     switch (AdvanceSelectCupCourse()) {
         case MENU_SCREEN_RESULT_NEXT:
             if (HasNoSelectableGhost()) {
-                SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, 0x1f);
+                SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             } else {
-                SwitchMenuScreen(SCREEN_SELECT_GHOST, 0x1f);
+                SwitchMenuScreen(SCREEN_SELECT_GHOST, SCREEN_NONE);
             }
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_CUP_M_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CUP_M_TIME_ATTACK, SCREEN_NONE);
             break;
     }
 }

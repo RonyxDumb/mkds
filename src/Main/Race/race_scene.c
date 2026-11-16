@@ -322,7 +322,7 @@ void SetPickedValue(u32 pickedValue) {
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    gMenuShared->mMenuEntryKind = MENU_ENTRY_FIRST_SCREEN;
+    gMenuShared->mMenuEntryKind = MENU_ENTRY_SINGLE_PLAY_SELECT;
     nextScene = -1;
     switch (pickedValue) {
         case CHOISES_S_PICK_STAFF_CREDITS:

@@ -50,7 +50,7 @@ void AdvanceWiFiSelectCharacterState(void) {
     s32 selectResult;
 
     selectResult = AdvanceSelectCharacter();
-    if (selectResult == 1 || selectResult == 3) {
+    if (selectResult == 1 || selectResult == SELECT_CHARACTER_RESULT_TIME_UP) {
         if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(WIFI_STATE_CONNECTION_LOST);
             return;
@@ -58,7 +58,7 @@ void AdvanceWiFiSelectCharacterState(void) {
         if (selectResult == 1) {
             RequestWiFiState(WIFI_STATE_SELECT_KART);
         }
-        if (selectResult == 3) {
+        if (selectResult == SELECT_CHARACTER_RESULT_TIME_UP) {
             RequestWiFiState(WIFI_STATE_VS_COURSE_SELECT);
         }
     }

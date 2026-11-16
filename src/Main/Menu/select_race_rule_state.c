@@ -1726,8 +1726,9 @@ void ReleaseSelectRaceRule(void) {
     u32 dispcntBits8To12;
     u32 bg2Control;
     selectRaceRule = gSelectRaceRule;
-    if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
-                                         selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
+    if (selectRaceRule->mResult == MENU_SCREEN_RESULT_NEXT &&
+        (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
+         selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
         dispcntBits8To12 = ((reg_GX_DISPCNT) & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
         dispcntBits8To12 &= ~3;
         (reg_GX_DISPCNT) = ((reg_GX_DISPCNT) & ~REG_GX_DISPCNT_DISPLAY_MASK) | (dispcntBits8To12 << 8);
@@ -1988,7 +1989,7 @@ void AdvanceSelectRaceRuleWaitPress(void) {
             return;
         }
         RequestSelectRaceRuleSlideOut();
-        gSelectRaceRule->mResult = 1;
+        gSelectRaceRule->mResult = MENU_SCREEN_RESULT_NEXT;
         StartPlayerEntryListKind(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
     }
 }

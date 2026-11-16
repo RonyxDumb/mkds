@@ -53,6 +53,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Race/race_setup_block.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u16 gKeyTargets12RowsRow0[4] = {0xffff, 4, 1, 0xffff};
 const u16 gKeyTargets8RowsRow7[4] = {4, 0xffff, 0xffff, 6};
@@ -580,7 +581,7 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_SEND_KART:
             SetDataSharingSendByteWhenSynced(selectKart->mKartIndex | 0x80);
-            gSelectKart->mResult = 1;
+            gSelectKart->mResult = MENU_SCREEN_RESULT_NEXT;
             gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
             break;
         case SELECT_KART_STATE_CHOOSE:
@@ -592,7 +593,7 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mTouchRect == SELECT_KART_TOUCH_RECT_CONFIRM ||
                 IsSelectKartModeAndTimerZero() != 0) {
                 gSelectKart->mStateFrames = 0;
-                gSelectKart->mResult = 1;
+                gSelectKart->mResult = MENU_SCREEN_RESULT_NEXT;
                 gSelectKart->mState = SELECT_KART_STATE_CONFIRM;
                 selectKartParts->mCellTable[18].mVisible = 0;
                 SetLabelPaletteIndex(gSelectKartSLabelCanvasEntries[6].mLabelIndex, 0, selectKartParts->mLabelLayout,
@@ -711,7 +712,8 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_SLIDE_OUT:
             if (selectKart->mInterpolations[4].mState == INTERPOLATION_STATE_AT_START) {
-                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
+                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored =
+                    selectKart->mResult == MENU_SCREEN_RESULT_NEXT;
                 gSelectKart->mState = SELECT_KART_STATE_DONE;
             }
             SetSelectKartSPartsOffsetY();
@@ -777,7 +779,7 @@ u32 SelectKartMB_IsMultiBootChildWrapper(void) {
 
 void ReleaseSelectKart(void) {
     int result;
-    if ((gSelectKart->mResult == 1) && (result = SelectKartGetConnectionKind(), result == 2)) {
+    if ((gSelectKart->mResult == MENU_SCREEN_RESULT_NEXT) && (result = SelectKartGetConnectionKind(), result == 2)) {
         ClearSelectReturnDisplayBitOn();
     }
     result = SelectKartMB_IsMultiBootChildWrapper();
@@ -857,7 +859,7 @@ void WriteSelectKartRegisters(void) {
     SelectKartGXS_SetVisiblePlane(displayBits);
     SelectKartG2S_SetBG3Offset(0, -interpolatedValue);
     WriteSubBg3CntBits(2);
-    WriteSubBlendAlpha(0, 0x3f, 6, 10);
+    WriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     if (interpolatedValue != 0 && gSelectKart->mState != SELECT_KART_STATE_DONE) {
         WriteSubWinEnableBits(1);
         SelectKartG2S_SetWnd0InsidePlane(0x1f, 1);

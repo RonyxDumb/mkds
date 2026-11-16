@@ -35,6 +35,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 
@@ -77,7 +78,7 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         }
         GetRaceSetupCopy()->mBattleKind = battleKind;
     }
-    gSelectGame->mResult = 1;
+    gSelectGame->mResult = MENU_SCREEN_RESULT_NEXT;
     gSelectGame->mState = SELECT_GAME_STATE_WAIT_PRESS;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -250,7 +251,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
     }
-    gMenuShared->mMenuEntryKind = 0;
+    gMenuShared->mMenuEntryKind = MENU_ENTRY_SINGLE_PLAY_SELECT;
     FrmHeapShrinkInParent(gSelectGame->mHeap);
 }
 

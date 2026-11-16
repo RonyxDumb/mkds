@@ -15,6 +15,7 @@
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 void LoadSelectBattleStageData(void) {
     void *sceneFile;
@@ -300,7 +301,7 @@ void AdvanceSelectBattleStageInput(void) {
             goto next;
         }
     }
-    if (gMenuShared->mMenuEntryKind == 2) {
+    if (gMenuShared->mMenuEntryKind == MENU_ENTRY_COURSE_SELECT) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_RETURN_PRESS;
         RequestSelectReturnPressWithSound(0);
         gSelectBattleStage->mWaitForReturnHidden = FALSE;
@@ -506,6 +507,6 @@ void WriteSelectBattleStageRegisters(void) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~REG_G2_BG2CNT_PRIORITY_MASK) | 1;
     reg_G2_BLDCNT = 0;
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     reg_G2_BG2OFS = ((gSelectBattleStage->mSlideOffsetY - gSelectBattleStage->mOffset) << 16) & 0x1ff0000;
 }

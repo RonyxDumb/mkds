@@ -47,10 +47,10 @@ void WriteSelectGhostScreenRegisters(void) {
 void UpdateSelectGhost(void) {
     switch (AdvanceSelectGhost()) {
         case SELECT_GHOST_RESULT_CHOSEN:
-            SwitchMenuScreen(29, 0x1f);
+            SwitchMenuScreen(29, SCREEN_NONE);
             break;
         case SELECT_GHOST_RESULT_RETURN:
-            SwitchMenuScreen(25, 0x1f);
+            SwitchMenuScreen(25, SCREEN_NONE);
             break;
     }
 }
@@ -80,10 +80,10 @@ void WriteSelectCupMScreenRegisters(void) {
 void UpdateSelectCupM(void) {
     switch (AdvanceSelectCupM()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_CUP_COURSE_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CUP_COURSE_TIME_ATTACK, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, SCREEN_NONE);
             break;
     }
 }
@@ -101,10 +101,10 @@ void WriteSelectEngineScreenRegisters(void) {
 void UpdateSelectEngine(void) {
     switch (AdvanceSelectEngine()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(0, 0x1f);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             break;
     }
 }
@@ -122,10 +122,10 @@ void WriteSelectCharacterScreenRegisters(void) {
 void UpdateSelectCharacter(void) {
     switch (AdvanceSelectCharacter()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_KART_GRAND_PRIX, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_KART_GRAND_PRIX, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_ENGINE, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_ENGINE, SCREEN_NONE);
             break;
     }
 }
@@ -143,10 +143,10 @@ void WriteSelectKartScreenRegisters(void) {
 void UpdateSelectKart(void) {
     switch (AdvanceSelectKart()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_GRAND_PRIX, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_GRAND_PRIX, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, SCREEN_NONE);
             break;
     }
 }

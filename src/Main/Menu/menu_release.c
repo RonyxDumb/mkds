@@ -27,7 +27,7 @@ void ReleaseMenu(void) {
     ClearLinkLevelIconsPointer();
     ClearPicksHolderPointer();
     ReleaseAllResFiles();
-    SetMenuEntryKind(0);
+    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
     SetUnfilledNotEliminated(0);
     WriteMainBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     MenuWriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);

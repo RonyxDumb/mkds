@@ -660,13 +660,15 @@ void UpdateKeyboardNameButtons(void) {
     charIndex = 0;
     gKeyboard->mButtonEnabled[0] = FALSE;
     for (; charIndex < GetKeyboardTextIndex(); charIndex++) {
-        if (GetKeyboardText()[charIndex] != 0x20 && GetKeyboardText()[charIndex] != 0x3000) {
+        if (GetKeyboardText()[charIndex] != KEYBOARD_VALUE_SPACE &&
+            GetKeyboardText()[charIndex] != KEYBOARD_VALUE_KANA_SPACE) {
             gKeyboard->mButtonEnabled[0] = TRUE;
         }
     }
     textLimit = gKeyboardTextLimits[KEYBOARD_KIND_NAME];
     if (textLimit - 1 == GetKeyboardTextIndex()) {
-        if ((GetKeyboardText() + textLimit)[-1] != 0x20 && (GetKeyboardText() + textLimit)[-1] != 0x3000 &&
+        if ((GetKeyboardText() + textLimit)[-1] != KEYBOARD_VALUE_SPACE &&
+            (GetKeyboardText() + textLimit)[-1] != KEYBOARD_VALUE_KANA_SPACE &&
             (GetKeyboardText() + textLimit)[-1] != 0) {
             gKeyboard->mButtonEnabled[0] = TRUE;
         }

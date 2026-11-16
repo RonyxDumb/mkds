@@ -356,7 +356,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
         StartMissionRunLVselSeq(2);
     } else {
         gMissionRunLVsel->mIndex = GetMissionTableRow() - 1;
-        if (GetPreviousMenuScreenNumber() == 0x1f) {
+        if (GetPreviousMenuScreenNumber() == SCREEN_NONE) {
             StartMissionRunLVselSeq(1);
         } else {
             StartMissionRunLVselSeq(0);

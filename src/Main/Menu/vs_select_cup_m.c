@@ -18,6 +18,7 @@
 #include "Main/Race/race_hud_sub_screen_rain_star_cells.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 
@@ -167,7 +168,7 @@ void UpdateVsSelectCupGrid(void) {
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             }
-            VsSelectCupSetMenuEntryKind(0);
+            VsSelectCupSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             VsSelectCupSetRaceSetupRequested(1);
             break;
     }

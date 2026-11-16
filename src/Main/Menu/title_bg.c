@@ -37,6 +37,7 @@
 #include "vram_load_2d_graphics.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u16 gTitleDisplaySettingsDesc[20] = {1, 0x1e, 0x1c, 1, 0, 0,     0,    2, 0x60, 0x10,
                                            0, 1,    0,    0, 4, 0x100, 0x80, 0, 8,    0};
@@ -202,7 +203,7 @@ void CreateTitleScene(void) {
     TitleGX_SetOBJVRamModeChar(0x10);
     TitleGXS_SetOBJVRamModeChar(0x10);
     TitleWriteMainBlendAlpha(4, 8, 0, 0x10);
-    TitleWriteSubBlendAlpha(0, 0x3f, 6, 10);
+    TitleWriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     WriteMainWinEnableBits(0);
     TitleWriteSubWinEnableBits(0);
     config.mUseTxtSystem = 0;
@@ -222,7 +223,7 @@ void CreateTitleScene(void) {
     SetMultiSimple(0);
     ClearShuffledIndices();
     TitleSetRaceSetupRequested(1);
-    TitleSetMenuEntryKind(0);
+    TitleSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
     TitleSetUnfilledNotEliminated(0);
     TitleSetLVselIndex6Requested(0);
     ResetRaceSetup();

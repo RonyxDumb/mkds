@@ -5,20 +5,21 @@
 #include "sound_archive_load.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Menu/select_cup_grid.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma optimize_for_size on
 
 void UpdateSelectCupGrid(void) {
     switch (AdvanceSelectCupGrid()) {
         case MENU_SCREEN_RESULT_NEXT:
-            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, 0x1f);
+            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(SCREEN_SELECT_KART_GRAND_PRIX, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_KART_GRAND_PRIX, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_LEAVE:
-            SwitchMenuScreen(0, 0x1f);
-            SelectCupGridSetMenuEntryKind(0);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
+            SelectCupGridSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             SelectCupGridSetRaceSetupRequested(1);
             break;
     }

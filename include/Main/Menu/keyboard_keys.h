@@ -55,7 +55,7 @@ typedef enum KeyboardLayoutId {
 #define KEYBOARD_VALUE_CYCLE_CHAR_TABLES 0x13
 #define KEYBOARD_VALUE_SPACE 0x20
 #define KEYBOARD_VALUE_FIRST_CHARACTER 0x20
-#define KEYBOARD_VALUE_IDEOGRAPHIC_SPACE 0x3000
+#define KEYBOARD_VALUE_KANA_SPACE 0x3000
 
 // KeyboardInput.mTouchStatus: no touch, the touch pressed this call, still pressed, released this call.
 #define KEYBOARD_TOUCH_IDLE 0

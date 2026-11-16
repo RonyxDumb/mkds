@@ -20,6 +20,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u8 gWiFiAikotobaCellIndices[2] = {6, 7};
 const u8 gWiFiAikotobaSTableIndices[2] = {4, 5};
@@ -372,7 +373,7 @@ void AdvanceWiFiAikotoba(void) {
 }
 
 void WriteWiFiAikotobaRegisters(void) {
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
 }
 
 void RegisterWiFiAikotobaCallbacks(void) {

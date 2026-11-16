@@ -53,7 +53,8 @@ struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 
 #pragma thumb on
 
-// Sets the digit cells for the place of the kart among the karts that appear for the character and for how many appear.
+// Sets the digit cells for the place of the kart among the karts that appear for the character and for how many appear;
+// a number under 10 shows only its ones digit.
 void WriteKartPositionAndCount(s32 position, s32 kartCount) {
     CellFileSet *fileSet;
     s32 tens;
@@ -75,7 +76,8 @@ void WriteKartPositionAndCount(s32 position, s32 kartCount) {
     }
 }
 
-// List callback: action 1 prints the label of a row, action 0 sets the highlight value of the seven slots.
+// List callback: action 1 prints the label of a row into a slot, action 0 sets the label palette index of the seven
+// slots (one index for the selected slot, another for the rest).
 void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     CellFileSet *fileSet;
     void *text;
@@ -258,7 +260,8 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
     }
 }
 
-// Picks a course index at random that none of the stored course ids of the earlier races has.
+// Picks a random start in the course table and steps forward to the first course whose id is none of the stored course
+// ids of the earlier races.
 s32 PickRandomCourseIndexNotRaced(void) {
     WiFiVSCourseSelect *courseSelect;
     RandomState64 *random;

@@ -14,6 +14,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u8 gOptionHensyuMenuSTableIndices[2] = {4, 5};
 const u8 gOptionHensyuMenuXluCellIndices[2] = {0, 1};
@@ -323,7 +324,7 @@ void AdvanceOptionHensyuMenu(void) {
 }
 
 void WriteOptionHensyuMenuRegisters(void) {
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
 }
 
 void RegisterOptionHensyuMenuCallbacks(void) {

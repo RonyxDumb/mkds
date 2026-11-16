@@ -16,7 +16,7 @@ void SetMenuEntryKind(unsigned int entryKind);
 // sets it for the way back from a race and some screens set it before they leave the menu; screens clear it to 0 once
 // it is used, and the cup grid, the battle stage screen and SetNextRaceSetupFromCopy test it.
 typedef enum MenuEntryKind {
-    MENU_ENTRY_FIRST_SCREEN = 0,
+    MENU_ENTRY_SINGLE_PLAY_SELECT = 0,
     // The select character screen of the race mode.
     MENU_ENTRY_CHARACTER_SELECT = 1,
     // The course picking screen of the race mode: cup grid (versus, time attack) or battle stage.

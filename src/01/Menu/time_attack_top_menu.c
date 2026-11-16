@@ -145,7 +145,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackTopMenu->mSubOamList = subOam;
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_NONE;
     RequestTimeAttackTopMenuSlideIn();
-    if (GetPreviousMenuScreenNumber() == 0x1f) {
+    if (GetPreviousMenuScreenNumber() == SCREEN_NONE) {
         if (gMenuShared->mGhostSceneInitialCallbacksIndex == GHOST_SCENE_CALLBACKS_SEND) {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
         } else {

@@ -143,7 +143,7 @@ void AdvanceSelectCupCourseWaitPicked(void) {
                     return;
                 }
                 SetCourseIdFromSelectCupCourse();
-                gSelectCupCourse->mResult = 1;
+                gSelectCupCourse->mResult = MENU_SCREEN_RESULT_NEXT;
                 RequestSelectCupCourseSlideOut();
                 return;
             }
@@ -204,7 +204,7 @@ void AdvanceSelectCupCourseCloseChoices(void) {
                 switch (choiceIndex) {
                     case 0:
                         SetCourseIdFromSelectCupCourse();
-                        gSelectCupCourse->mResult = 1;
+                        gSelectCupCourse->mResult = MENU_SCREEN_RESULT_NEXT;
                         RequestSelectCupCourseSlideOut();
                         break;
                     case -1:
@@ -222,7 +222,7 @@ void AdvanceSelectCupCourseCloseChoices(void) {
                     switch (choiceIndex) {
                         case 0:
                             SetCourseIdFromSelectCupCourse();
-                            gSelectCupCourse->mResult = 1;
+                            gSelectCupCourse->mResult = MENU_SCREEN_RESULT_NEXT;
                             RequestSelectCupCourseSlideOut();
                             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                                 SlideOutSelectRaceRuleWait();
@@ -250,7 +250,7 @@ void AdvanceSelectCupCourseSlideOut(void) {
         return;
     }
     if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
-        if (gSelectCupCourse->mResult == 1) {
+        if (gSelectCupCourse->mResult == MENU_SCREEN_RESULT_NEXT) {
             if (HasNoSelectableGhost() != FALSE) {
                 movesTaOrVsCells = TRUE;
             } else {
@@ -262,8 +262,8 @@ void AdvanceSelectCupCourseSlideOut(void) {
     } else {
         movesTaOrVsCells = TRUE;
     }
-    InterpolateS16(1, 0, 0x100, gSelectCupCourse->mStateFrames, 10);
-    offsetY = InterpolateS16(1, 0, -0xc0, gSelectCupCourse->mStateFrames, 10);
+    InterpolateS16(1, 0, 0x100, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
+    offsetY = InterpolateS16(1, 0, -0xc0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
     if (movesTaOrVsCells != FALSE) {
         cellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
         gSelectCupCourse->mBg0Offset = offsetY;

@@ -159,7 +159,7 @@ s32 KeyboardKeyCallback(u32 keyValue, s32 newPress) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1eb);
             break;
         case KEYBOARD_VALUE_SPACE:
-        case KEYBOARD_VALUE_IDEOGRAPHIC_SPACE:
+        case KEYBOARD_VALUE_KANA_SPACE:
             if (newPress != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ea);
             }
@@ -824,8 +824,8 @@ KeyboardRect *FindKeyboardRectByValue(u16 value) {
             case 10:
                 return rects + 1;
             case KEYBOARD_VALUE_SPACE:
-            case KEYBOARD_VALUE_IDEOGRAPHIC_SPACE:
-                return rects + 2;
+            case KEYBOARD_VALUE_KANA_SPACE:
+                return rects + KEYBOARD_RECT_INDEX_SPACE;
         }
         for (rectIndex = 0; rectIndex < rectCount; rectIndex++) {
             if (rects[rectIndex].mWidth > 1 && rects[rectIndex].mHeight > 1 &&
@@ -866,7 +866,7 @@ s32 GetKeyboardRectValue(KeyboardRect *keyboardRect) {
                     case 1:
                         return 0xa;
                     case KEYBOARD_RECT_INDEX_SPACE:
-                        return 0x20;
+                        return KEYBOARD_VALUE_SPACE;
                 }
                 return charMap[rects[rectIndex].mKeyId - fixedKeyCount - 1];
             }
@@ -893,7 +893,7 @@ s32 GetKeyboardValueForKeyId(u32 keyId) {
                     case 2:
                         return 0xa;
                     case KEYBOARD_KEY_ID_SPACE:
-                        return KEYBOARD_VALUE_IDEOGRAPHIC_SPACE;
+                        return KEYBOARD_VALUE_KANA_SPACE;
                     case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
                         return KEYBOARD_VALUE_HIRAGANA;
                     case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
@@ -1380,7 +1380,7 @@ u16 ConvertCharPair1(u16 charCode) {
     u16 converted;
     u16 mapped;
 
-    if (charCode == 0 || charCode == 0x3000) {
+    if (charCode == 0 || charCode == KEYBOARD_VALUE_KANA_SPACE) {
         return charCode;
     }
     if (IsCharInTable2(charCode) != 0) {
@@ -1406,7 +1406,7 @@ u16 ConvertCharPair2(u16 charCode) {
     u16 converted;
     u16 mapped;
 
-    if (charCode == 0 || charCode == 0x3000) {
+    if (charCode == 0 || charCode == KEYBOARD_VALUE_KANA_SPACE) {
         return charCode;
     }
     if (IsCharInTable1(charCode) != 0) {
@@ -1424,7 +1424,7 @@ u16 ConvertCharPair3(u16 charCode) {
     u16 converted;
     u16 mapped;
 
-    if (charCode == 0 || charCode == 0x3000) {
+    if (charCode == 0 || charCode == KEYBOARD_VALUE_KANA_SPACE) {
         return charCode;
     }
     if (IsCharInTable1(charCode) != 0) {
@@ -1446,7 +1446,7 @@ u16 CycleCharTables(u16 charCode) {
     u16 *found;
     u16 *otherTable;
 
-    if (charCode == 0 || charCode == 0x3000) {
+    if (charCode == 0 || charCode == KEYBOARD_VALUE_KANA_SPACE) {
         return charCode;
     }
     for (tableIndex = 0, tablePtr = gCharTables; tableIndex < 4; tablePtr++, tableIndex++) {
@@ -1459,7 +1459,7 @@ u16 CycleCharTables(u16 charCode) {
     if (tableIndex < 4) {
         for (offset = 1; offset < 4; offset++) {
             otherTable = gCharTables[(tableIndex + offset) % 4];
-            if (otherTable[charIndex] != 0x3000) {
+            if (otherTable[charIndex] != KEYBOARD_VALUE_KANA_SPACE) {
                 return otherTable[charIndex];
             }
         }
@@ -1731,7 +1731,7 @@ u16 LookupCharInTablePair(u16 **tablePair, u16 charCode) {
         found = wcschr(tablePair[tableIndex], charCode);
         if (found != NULL) {
             mapped = tablePair[1 - tableIndex][found - tablePair[tableIndex]];
-            if (mapped != 0x3000) {
+            if (mapped != KEYBOARD_VALUE_KANA_SPACE) {
                 return mapped;
             }
             return charCode;

@@ -36,6 +36,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 WiFiStateCallbacks gWiFiVSSettingCallbacks = {InitWiFiVSSetting, ReleaseWiFiVSSetting, AdvanceWiFiVSSetting,
                                               WriteWiFiVSSettingRegisters};
@@ -747,7 +748,7 @@ void WriteWiFiVSSettingRegisters(void) {
     subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     subDisplayBits |= 9;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
-    G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     bgOffsetX = -gWiFiVSSetting->mRowOffsets[1][0];
     if (bgOffsetX <= -256) {
         bgOffsetX = -256;
