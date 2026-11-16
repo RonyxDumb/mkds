@@ -69,7 +69,7 @@ int WM_SetGameInfo(WirelessMessageCallback callback, const void *userGameInfo, u
     if (userGameInfo == 0) {
         return 6;
     }
-    if (userGameInfoSize > 0x70) {
+    if (userGameInfoSize > WIRELESS_PARENT_GAME_INFO_MAX_LENGTH) {
         return 6;
     }
     MIi_CpuCopy16(userGameInfo, tmpUserGameInfoBuf, userGameInfoSize);

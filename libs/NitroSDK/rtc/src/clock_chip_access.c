@@ -134,7 +134,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
         }
         return;
     }
-    if (status == 0) {
+    if (status == CLOCK_REPLY_STATUS_SUCCESS) {
         result = RTC_RESULT_SUCCESS;
         switch (gClockRequest.mSequence) {
             case RTC_SEQ_GET_DATE:
@@ -272,7 +272,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
             case CLOCK_REPLY_STATUS_BUSY:
                 result = RTC_RESULT_BUSY;
                 break;
-            case CLOCK_REPLY_STATUS_OK:
+            case CLOCK_REPLY_STATUS_SUCCESS:
             case CLOCK_REPLY_STATUS_FATAL_ERROR:
             default:
                 result = RTC_RESULT_FATAL_ERROR;

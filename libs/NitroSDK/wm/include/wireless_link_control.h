@@ -138,8 +138,9 @@ typedef struct UserGameInfo {
     };
 } UserGameInfo;
 
-// Bits of WMGameInfo.mAttribute: the beacon belongs to an entry-accepting parent, a multiboot parent, and the two
-// flags the parent passes to MB_ReadMultiBootParentBssDesc (ksFlag, flagTwo).
+// Bits of WMGameInfo.mAttribute: ENTRY is required by the scan code before it uses a beacon, MULTIBOOT marks a
+// multiboot parent; KS_FLAG and CS_FLAG are set from the ksFlag and flagTwo arguments of MB_ReadMultiBootParentBssDesc
+// and MB_FakeReadParentBssDesc, which pass 0 and 0 here.
 #define WIRELESS_ATTRIBUTE_ENTRY 0x1
 #define WIRELESS_ATTRIBUTE_MULTIBOOT 0x2
 #define WIRELESS_ATTRIBUTE_KS_FLAG 0x4
@@ -158,6 +159,17 @@ typedef struct WMGameInfo {
     /* 10 */ UserGameInfo mUserGameInfo;
 } WMGameInfo;
 
+// Limits of WmCheckParentParameter, WM_SetGameInfo and the scan requests: game info bytes, beacon period range, last
+// channel number (channels count from 1), scan buffer bytes, SSID bytes, and the information elements
+// WM_GetOtherElements keeps from a beacon.
+#define WIRELESS_PARENT_GAME_INFO_MAX_LENGTH 0x70
+#define WIRELESS_BEACON_PERIOD_MIN 10
+#define WIRELESS_BEACON_PERIOD_MAX 0x3e8
+#define WIRELESS_CHANNEL_MAX 0xe
+#define WIRELESS_SCAN_BUFFER_MAX_SIZE 0x400
+#define WIRELESS_SSID_MAX_LENGTH 0x20
+#define WIRELESS_OTHER_ELEMENTS_MAX_COUNT 0x10
+
 // The description of a wireless network: its length, mRssi, BSSID, SSID and the rest of the BSS data.
 typedef struct WMBssDesc {
     /* 00 */ u16 mLength;
@@ -165,7 +177,7 @@ typedef struct WMBssDesc {
     /* 04 */ u8 mBssid[6];
     /* 0a */ u16 mSsidLength;
     /* 0c */ union {
-        u8 mSsid[32];
+        u8 mSsid[WIRELESS_SSID_MAX_LENGTH];
         u16 mSsidHalfwords[16];
     };
     /* 2c */ u16 mCapaInfo;
@@ -346,7 +358,7 @@ typedef struct WMOtherElements {
         /* 00 */ u8 mId;
         /* 01 */ u8 mLength;
         /* 04 */ const u8 *mBody;
-    } mElement[16];
+    } mElement[WIRELESS_OTHER_ELEMENTS_MAX_COUNT];
 } WMOtherElements;
 
 // Header of the MP receive buffer: mCount is the number of records, mLength the size of each, and the records start at
@@ -389,7 +401,7 @@ typedef struct ScanExParam {
     /* 0a */ u8 mBssid[6];
     /* 10 */ u16 mScanType;
     /* 12 */ u16 mSsidLength;
-    /* 14 */ u8 mSsid[0x20];
+    /* 14 */ u8 mSsid[WIRELESS_SSID_MAX_LENGTH];
     /* 34 */ u16 mSsidMatchLength;
     /* 36 */ u8 mUnk_36[0xe];
 } ScanExParam;
@@ -404,7 +416,7 @@ typedef struct StartScanExRequest {
     /* 0c */ u8 mBssid[6];
     /* 12 */ u16 mScanType;
     /* 14 */ u16 mSsidLength;
-    /* 16 */ u8 mSsid[0x20];
+    /* 16 */ u8 mSsid[WIRELESS_SSID_MAX_LENGTH];
     /* 36 */ u16 mSsidMatchLength;
 } StartScanExRequest;
 
@@ -425,16 +437,6 @@ typedef struct StartScanRequest {
     /* 08 */ u16 mMaxChannelTime;
     /* 0a */ u8 mBssid[6];
 } StartScanRequest;
-
-// Limits WmCheckParentParameter and the scan requests accept: game info bytes, beacon period range, last channel
-// number (channels count from 1), scan buffer bytes, SSID bytes, and the information elements kept from a beacon.
-#define WIRELESS_PARENT_GAME_INFO_MAX_LENGTH 0x70
-#define WIRELESS_BEACON_PERIOD_MIN 10
-#define WIRELESS_BEACON_PERIOD_MAX 0x3e8
-#define WIRELESS_CHANNEL_MAX 0xe
-#define WIRELESS_SCAN_BUFFER_MAX_SIZE 0x400
-#define WIRELESS_SSID_MAX_LENGTH 0x20
-#define WIRELESS_OTHER_ELEMENTS_MAX_COUNT 0x10
 
 // Parent parameters of WM_SetParentParameter.
 typedef struct ParentParameter {

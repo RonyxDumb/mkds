@@ -10,7 +10,7 @@ typedef void (*PMSleepCallback)(void *arg);
 // Values of the status argument of PMi_SetLEDAsync.
 enum {
     POWER_LED_STATUS_ON = 1,
-    POWER_LED_STATUS_BLINK_SLOW,
+    POWER_LED_STATUS_SECOND,
     POWER_LED_STATUS_THIRD,
 };
 

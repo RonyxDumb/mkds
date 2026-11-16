@@ -13,8 +13,8 @@ void StartTouchAutoSampling(void) {
         return;
     }
     TP_RequestAutoSamplingStartAsync(0xa, 4, gTouchMicInput->mAutoSamples, 5);
-    TP_WaitBusy(2);
-    TP_CheckError(2);
+    TP_WaitBusy(TOUCH_FLAG_AUTO_ON);
+    TP_CheckError(TOUCH_FLAG_AUTO_ON);
     gTouchMicInput->mTouchAutoSampling = 1;
 }
 
@@ -35,8 +35,8 @@ void StopTouchAutoSampling(void) {
         return;
     }
     TP_RequestAutoSamplingStopAsync();
-    TP_WaitBusy(4);
-    TP_CheckError(4);
+    TP_WaitBusy(TOUCH_FLAG_AUTO_OFF);
+    TP_CheckError(TOUCH_FLAG_AUTO_OFF);
     gTouchMicInput->mTouchAutoSampling = 0;
 }
 
@@ -97,7 +97,7 @@ void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverT
     if (gTouchMicInput->mTouchAutoSampling) {
         pointX = (packedTouchPoint >> 8) & 0xff;
         pointY = packedTouchPoint & 0xff;
-        if (pointY > 0xbf) {
+        if (pointY > TOUCH_SCREEN_MAX_Y) {
             point.mY = 0;
             point.mX = 0;
             point.mTouch = 0;

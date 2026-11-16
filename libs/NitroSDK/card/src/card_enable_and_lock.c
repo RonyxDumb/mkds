@@ -8,7 +8,6 @@ CARDiCommon gAccessState;
 CARDiCommandArg gRequestBlock;
 u32 gAccessEnabled[8];
 
-// Returns the enable flag.
 u32 CARD_IsEnabled(void) {
     return gAccessEnabled[0];
 }

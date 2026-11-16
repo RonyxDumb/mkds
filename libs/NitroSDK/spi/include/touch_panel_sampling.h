@@ -16,7 +16,7 @@ typedef struct TPData {
 } TPData;
 
 // TPData.mValidity written for a reading to ignore; 0 is a usable reading.
-#define TP_VALIDITY_INVALID_XY 3
+#define TOUCH_VALIDITY_INVALID 3
 
 // A calibration for TP_SetCalibrateParam, as TP_CalcCalibrateParam computes it: mX0 and mY0 with the mXDotSize and
 // mYDotSize of a screen dot.

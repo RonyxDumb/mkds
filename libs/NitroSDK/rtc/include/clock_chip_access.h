@@ -29,7 +29,7 @@ typedef enum RTCResult {
 // Values of the status byte in the low byte of a reply from the other processor: 0 is success, any value not listed is
 // a fatal error.
 enum {
-    CLOCK_REPLY_STATUS_OK = 0,
+    CLOCK_REPLY_STATUS_SUCCESS = 0,
     CLOCK_REPLY_STATUS_INVALID_COMMAND,
     CLOCK_REPLY_STATUS_ILLEGAL_STATUS,
     CLOCK_REPLY_STATUS_BUSY,

@@ -16,7 +16,6 @@ void CARD_Enable(u32 enable);
 // Returns when the enable flag is not 0, otherwise calls OS_Terminate.
 void CARD_CheckEnabled(void);
 
-// Returns the enable flag.
 u32 CARD_IsEnabled(void);
 
 typedef struct CARDiCommon CARDiCommon;

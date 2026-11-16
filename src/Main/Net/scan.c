@@ -193,7 +193,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     if (chosenSlot == NULL) {
         return;
     }
-    if ((scanBuffer->mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
+    if ((scanBuffer->mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_MULTIBOOT) != 0) {
         if (connection->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
             if (userGameInfo->mKind == USER_GAME_INFO_KIND_NAME_INFO) {
@@ -265,8 +265,8 @@ void StartScanCallback(WirelessMessage *event) {
                         gConnectionWork->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mGameInfoLength >= SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID &&
                                scanBuffer.mGameInfo.mGgid == CONNECTION_GAME_GROUP_ID &&
-                               (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) != 0) {
-                        if ((scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
+                               (scanBuffer.mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_ENTRY) != 0) {
+                        if ((scanBuffer.mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_MULTIBOOT) != 0) {
                             gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_MULTIBOOT;
                         } else {
                             gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_NON_MULTIBOOT;
@@ -278,7 +278,7 @@ void StartScanCallback(WirelessMessage *event) {
                     accepted = TRUE;
                     if (scanBuffer.mGameInfoLength < SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID ||
                         scanBuffer.mGameInfo.mGgid != CONNECTION_GAME_GROUP_ID ||
-                        (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) == 0) {
+                        (scanBuffer.mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_ENTRY) == 0) {
                         accepted = FALSE;
                     } else if (gConnectionWork->mScanFilterCallback != 0) {
                         if (gConnectionWork->mScanFilterCallback(&scanBuffer) == 0) {

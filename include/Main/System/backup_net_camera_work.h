@@ -614,9 +614,6 @@ typedef struct MultiBootStateView {
 // WMBssDesc.mGameInfoLength that covers WMGameInfo.mGgid, and the exact mUserGameInfoLength of this game's beacons.
 #define SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID 8
 #define USER_GAME_INFO_BYTES 0x1c
-// WMGameInfo.mAttribute bits: the parent accepts entries, and it is a multiboot parent.
-#define BEACON_ATTRIBUTE_ENTRY_OPEN 1
-#define BEACON_ATTRIBUTE_MULTIBOOT 2
 // Bit 15 of the parent TGID the non-multiboot-setup parents create; the scan that fills ScanSlot entries keeps only
 // beacons that carry it.
 #define PARENT_TGID_FLAG 0x8000

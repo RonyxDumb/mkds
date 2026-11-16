@@ -23,8 +23,8 @@ void InitKeyTouchInput(void) {
     }
     TP_SetCalibrateParam(&calibration);
     TP_RequestAutoSamplingStartAsync(0, 4, gKeyTouchInput->mTouchSamples, 5);
-    TP_WaitBusy(2);
-    if (TP_CheckError(2) != 0) {
+    TP_WaitBusy(TOUCH_FLAG_AUTO_ON);
+    if (TP_CheckError(TOUCH_FLAG_AUTO_ON) != 0) {
         OS_Terminate();
     }
     UpdateKeyTouchInput();
@@ -33,8 +33,8 @@ void InitKeyTouchInput(void) {
 void ReleaseKeyTouchInput(void) {
     do {
         TP_RequestAutoSamplingStopAsync();
-        TP_WaitBusy(4);
-    } while (TP_CheckError(4) != 0);
+        TP_WaitBusy(TOUCH_FLAG_AUTO_OFF);
+    } while (TP_CheckError(TOUCH_FLAG_AUTO_OFF) != 0);
     FreeExpHeapBlockAndClearPointer(&gKeyTouchInput);
 }
 

@@ -43,7 +43,6 @@ typedef struct InstDrumSet {
     /* 02 */ SNDInstData mInstOffset[1];
 } InstDrumSet;
 
-// Entries of a key split instrument.
 #define KEY_SPLIT_ENTRY_COUNT 8
 
 // Eight bytes (0 for an unused entry), then eight 12-byte entries.

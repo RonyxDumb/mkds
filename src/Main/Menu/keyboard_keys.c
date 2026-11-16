@@ -1359,7 +1359,7 @@ void PollKeyboard(void) {
         TP_GetCalibratedPoint(&touchPoint, &rawSample);
     } else {
         touchPoint.mTouch = 0;
-        touchPoint.mValidity = TP_VALIDITY_INVALID_XY;
+        touchPoint.mValidity = TOUCH_VALIDITY_INVALID;
     }
     AdvanceKeyboardKeys(((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff, touchPoint);
 }

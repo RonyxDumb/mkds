@@ -136,7 +136,7 @@ u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData) {
     }
     gPowerSleepHandshakeReplyReceived = 0;
     PMi_SleepEndFlag = 0;
-    PMi_SetLCDPower(0, 2, 0, 0);
+    PMi_SetLCDPower(0, POWER_LED_STATUS_SECOND, 0, 0);
     PMi_SendPxiData((trigger & 0xff) | 0x2006100);
     PMi_SendPxiData((keyIntrData & 0xffff) | 0x1010000);
     return 0;
@@ -216,7 +216,7 @@ u32 PMi_SetLEDAsync(u32 status, PMCallback callback, void *arg) {
         case POWER_LED_STATUS_THIRD:
             utilityCommand = POWER_UTILITY_LED_FOR_THIRD_STATUS;
             break;
-        case POWER_LED_STATUS_BLINK_SLOW:
+        case POWER_LED_STATUS_SECOND:
             utilityCommand = POWER_UTILITY_LED_FOR_SECOND_STATUS;
             break;
         default:
@@ -411,7 +411,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     }
     if (shutdownRequested == 0) {
         if (lcdPower == 1) {
-            PMi_SetLCDPower(1, 1, 1, 0);
+            PMi_SetLCDPower(1, POWER_LED_STATUS_ON, 1, 0);
         } else {
             PMi_SetLED(POWER_LED_STATUS_ON);
         }
