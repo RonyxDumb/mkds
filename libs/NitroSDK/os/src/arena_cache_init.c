@@ -104,7 +104,11 @@ void *OS_GetInitArenaHi(OSArenaId id) {
 void *OS_GetInitArenaLo(OSArenaId id) {
     switch (id) {
         case OS_ARENA_MAIN:
+#ifdef version_EUR
+            return (void *) 0x21da340;
+#else
             return (void *) 0x21da300;
+#endif
         case OS_ARENA_MAINEX:
             if (gArena2Enabled == 0 || (OS_GetConsoleType() & 3) == 1) {
                 return NULL;

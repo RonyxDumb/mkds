@@ -5,1727 +5,875 @@
     .bss        start:0x021b4c60 end:0x021b7ba0 kind:bss align:32
 
 // provisional: file name and boundaries
-src/00/code_02180650.c:
+src/00/Scene/wi_fi_menu_scene.c:
     complete
-    .text       start:0x02180650 end:0x02180668
+    .text       start:0x021804e0 end:0x02180600
+    .data       start:0x021b0800 end:0x021b0820
+    .bss        start:0x021b4c60 end:0x021b4c64
 
 // provisional: file name and boundaries
-src/00/code_021806a0.c:
+src/00/Menu/wi_fi_states.c:
     complete
-    .text       start:0x021806a0 end:0x021806e0
+    .text       start:0x02180600 end:0x02180c04
+    .data       start:0x021b0820 end:0x021b0a78
+    .bss        start:0x021b4c64 end:0x021b4c68
 
 // provisional: file name and boundaries
-src/00/code_02180704.c:
+src/00/Menu/wi_fi_login_menu.c:
     complete
-    .text       start:0x02180704 end:0x02180724
+    .text       start:0x02180c04 end:0x02181714
+    .data       start:0x021b0a78 end:0x021b0ae4
+    .bss        start:0x021b4c68 end:0x021b4c6c
 
 // provisional: file name and boundaries
-src/00/code_021816a0.c:
+src/00/Menu/wi_fi_top_menu.c:
     complete
-    .text       start:0x021816a0 end:0x021816a4
+    .text       start:0x02181714 end:0x02181fcc
+    .rodata     start:0x021b05c0 end:0x021b05e8
+    .data       start:0x021b0ae4 end:0x021b0b8c
+    .bss        start:0x021b4c6c end:0x021b4c70
 
 // provisional: file name and boundaries
-src/00/code_02181738.c:
+src/00/Menu/wi_fi_vs_setting.c:
     complete
-    .text       start:0x02181738 end:0x02181758
+    .text       start:0x02181fcc end:0x0218330c
+    .rodata     start:0x021b05e8 end:0x021b0658
+    .data       start:0x021b0b8c end:0x021b0cb4
+    .bss        start:0x021b4c70 end:0x021b4c74
 
 // provisional: file name and boundaries
-src/00/code_02181904.c:
+src/00/Menu/wi_fi_vs_matching.c:
     complete
-    .text       start:0x02181904 end:0x0218198c
+    .text       start:0x0218330c end:0x021848c8
+    .rodata     start:0x021b0658 end:0x021b06bc
+    .data       start:0x021b0cb4 end:0x021b0e30
+    .bss        start:0x021b4c74 end:0x021b4c78
 
 // provisional: file name and boundaries
-src/00/code_02181d20.c:
+src/00/Menu/wi_fi_select_character.c:
     complete
-    .text       start:0x02181d20 end:0x02181d44
+    .text       start:0x021848c8 end:0x021849e0
+    .data       start:0x021b0e30 end:0x021b0e40
+    .bss        start:0x021b4c78 end:0x021b4c7c
 
 // provisional: file name and boundaries
-src/00/code_02181dd0.c:
+src/00/Menu/wi_fi_select_kart.c:
     complete
-    .text       start:0x02181dd0 end:0x02181df0
+    .text       start:0x021849e0 end:0x02184aa4
+    .data       start:0x021b0e40 end:0x021b0e50
+    .bss        start:0x021b4c7c end:0x021b4c80
 
 // provisional: file name and boundaries
-src/00/code_02181df8.c:
-    .text       start:0x02181df8 end:0x02181e8c
-
-// provisional: file name and boundaries
-src/00/code_021823b0.c:
+src/00/Menu/wi_fi_vs_course_select.c:
     complete
-    .text       start:0x021823b0 end:0x021823e4
+    .text       start:0x02184aa4 end:0x02184ba8
+    .data       start:0x021b0e50 end:0x021b0e60
+    .bss        start:0x021b4c80 end:0x021b4c84
 
 // provisional: file name and boundaries
-src/00/code_02182d28.c:
-    .text       start:0x02182d28 end:0x02182d74
-
-// provisional: file name and boundaries
-src/00/code_02182de8.c:
+src/00/Menu/wi_fi_aikotoba.c:
     complete
-    .text       start:0x02182de8 end:0x02182e18
+    .text       start:0x02184ba8 end:0x02185344
+    .rodata     start:0x021b06bc end:0x021b06d8
+    .data       start:0x021b0e60 end:0x021b0f00
+    .bss        start:0x021b4c84 end:0x021b4c88
 
 // provisional: file name and boundaries
-src/00/code_02184934.c:
+src/00/Menu/wi_fi_aikotoba_check.c:
     complete
-    .text       start:0x02184934 end:0x02184950
+    .text       start:0x02185344 end:0x021857b8
+    .rodata     start:0x021b06d8 end:0x021b06e8
+    .data       start:0x021b0f00 end:0x021b0fd8
+    .bss        start:0x021b4c88 end:0x021b4c8c
 
 // provisional: file name and boundaries
-src/00/code_02184a50.c:
+src/00/Menu/wi_fi_connection_lost.c:
     complete
-    .text       start:0x02184a50 end:0x02184a6c
+    .text       start:0x021857b8 end:0x02185954
+    .data       start:0x021b0fd8 end:0x021b0fe8
+    .bss        start:0x021b4c8c end:0x021b4c90
 
 // provisional: file name and boundaries
-src/00/code_02184b4c.c:
+src/00/Lib/DWC/server_auth.c:
     complete
-    .text       start:0x02184b4c end:0x02184ba8
+    .text       start:0x02185954 end:0x02186634
+    .data       start:0x021b0fe8 end:0x021b1204
+    .bss        start:0x021b4c90 end:0x021b4ca8
 
 // provisional: file name and boundaries
-src/00/code_02184bcc.c:
+src/00/Lib/DWC/http_client.c:
     complete
-    .text       start:0x02184bcc end:0x02184bec
+    .text       start:0x02186634 end:0x02187484
+    .data       start:0x021b1204 end:0x021b1384
+    .bss        start:0x021b4ca8 end:0x021b4cac
 
 // provisional: file name and boundaries
-src/00/code_021850b0.c:
+src/00/Lib/DWC/network_check_thread.c:
     complete
-    .text       start:0x021850b0 end:0x021850d0
+    .text       start:0x02187484 end:0x021881d0
+    .data       start:0x021b1384 end:0x021b1488
+    .bss        start:0x021b4cac end:0x021b4d00
 
 // provisional: file name and boundaries
-src/00/code_02185164.c:
-    .text       start:0x02185164 end:0x02185230
-
-// provisional: file name and boundaries
-src/00/code_0218554c.c:
-    .text       start:0x0218554c end:0x021855f8
-
-// provisional: file name and boundaries
-src/00/code_02185818.c:
+src/00/Lib/DWC/base64_and_access_point_check.c:
     complete
-    .text       start:0x02185818 end:0x0218583c
+    .text       start:0x021881d0 end:0x021884d8
+    .data       start:0x021b1488 end:0x021b14d0
 
 // provisional: file name and boundaries
-src/00/code_02186628.c:
+src/00/Lib/DWC/ca_info_globalsign_root.c:
     complete
-    .text       start:0x02186628 end:0x02186634
+    .data       start:0x021b14d0 end:0x021b161c
 
 // provisional: file name and boundaries
-src/00/code_02186998.c:
+src/00/Lib/DWC/ca_info_baltimore_root.c:
     complete
-    .text       start:0x02186998 end:0x02186a10
+    .data       start:0x021b161c end:0x021b176c
 
 // provisional: file name and boundaries
-src/00/code_02186a38.c:
+src/00/Lib/DWC/ca_info_gte_global_root.c:
     complete
-    .text       start:0x02186a38 end:0x02186a84
+    .data       start:0x021b176c end:0x021b1854
 
 // provisional: file name and boundaries
-src/00/code_02186d04.c:
+src/00/Lib/DWC/ca_info_gte_root.c:
     complete
-    .text       start:0x02186d04 end:0x02186d7c
+    .data       start:0x021b1854 end:0x021b1918
 
 // provisional: file name and boundaries
-src/00/code_02187230.c:
+src/00/Lib/DWC/ca_info_nintendo.c:
     complete
-    .text       start:0x02187230 end:0x02187274
+    .data       start:0x021b1918 end:0x021b1a00
 
 // provisional: file name and boundaries
-src/00/code_02187484.c:
+src/00/Lib/DWC/ca_info_thawte_premium_server.c:
     complete
-    .text       start:0x02187484 end:0x02187490
+    .data       start:0x021b1a00 end:0x021b1b20
 
 // provisional: file name and boundaries
-src/00/code_021874c0.c:
-    .text       start:0x021874c0 end:0x021874ec
-
-// provisional: file name and boundaries
-src/00/code_02187fb8.c:
-    .text       start:0x02187fb8 end:0x02188008
-
-// provisional: file name and boundaries
-src/00/code_02188584.c:
+src/00/Lib/DWC/ca_info_thawte_server.c:
     complete
-    .text       start:0x02188584 end:0x021885ec
+    .data       start:0x021b1b20 end:0x021b1c38
 
 // provisional: file name and boundaries
-src/00/code_02188694.c:
+src/00/Lib/DWC/ca_info_verisign_class3_g2.c:
+    complete
+    .data       start:0x021b1c38 end:0x021b1d64
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_verisign_class3_g3.c:
+    complete
+    .data       start:0x021b1d64 end:0x021b1f18
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_verisign_class3.c:
+    complete
+    .data       start:0x021b1f18 end:0x021b1ff4
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_rsa_secure_server.c:
+    complete
+    .data       start:0x021b1ff4 end:0x021b20d0
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/access_point_state.c:
+    complete
+    .text       start:0x021884d8 end:0x02188694
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/access_point_alloc.c:
+    complete
     .text       start:0x02188694 end:0x02188720
 
 // provisional: file name and boundaries
-src/00/code_02188ea0.c:
+src/00/Lib/DWC/access_point_manager.c:
+    complete
+    .text       start:0x02188720 end:0x02188de4
+    .bss        start:0x021b4d00 end:0x021b4d14
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/access_point_wep_key.c:
+    complete
+    .text       start:0x02188de4 end:0x02188ea0
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/access_point_auth_mode.c:
     complete
     .text       start:0x02188ea0 end:0x02188ec0
 
 // provisional: file name and boundaries
-src/00/code_021892f4.c:
-    complete
-    .text       start:0x021892f4 end:0x02189350
-
-// provisional: file name and boundaries
-src/00/code_02189420.c:
-    complete
-    .text       start:0x02189420 end:0x02189440
-
-// provisional: file name and boundaries
-src/00/code_02189478.c:
-    complete
-    .text       start:0x02189478 end:0x021894e4
-
-// provisional: file name and boundaries
-src/00/code_02189714.c:
-    complete
-    .text       start:0x02189714 end:0x0218973c
-
-// provisional: file name and boundaries
-src/00/code_02189888.c:
-    complete
-    .text       start:0x02189888 end:0x021898dc
-
-// provisional: file name and boundaries
-src/00/code_0218a194.c:
-    complete
-    .text       start:0x0218a194 end:0x0218a1bc
-
-// provisional: file name and boundaries
-src/00/code_0218a24c.c:
-    complete
-    .text       start:0x0218a24c end:0x0218a294
-
-// provisional: file name and boundaries
-src/00/code_0218a658.c:
-    complete
-    .text       start:0x0218a658 end:0x0218a67c
-
-// provisional: file name and boundaries
-src/00/code_0218a6c8.c:
-    complete
-    .text       start:0x0218a6c8 end:0x0218a71c
-
-// provisional: file name and boundaries
-src/00/code_0218a918.c:
-    complete
-    .text       start:0x0218a918 end:0x0218a9bc
-
-// provisional: file name and boundaries
-src/00/code_0218ab14.c:
-    complete
-    .text       start:0x0218ab14 end:0x0218ab18
-
-// provisional: file name and boundaries
-src/00/code_0218acb0.c:
-    complete
-    .text       start:0x0218acb0 end:0x0218acf4
-
-// provisional: file name and boundaries
-src/00/code_0218ae5c.c:
-    complete
-    .text       start:0x0218ae5c end:0x0218ae68
-
-// provisional: file name and boundaries
-src/00/code_0218aea4.c:
-    complete
-    .text       start:0x0218aea4 end:0x0218af28
-
-// provisional: file name and boundaries
-src/00/code_0218af9c.c:
-    complete
-    .text       start:0x0218af9c end:0x0218afa0
-
-// provisional: file name and boundaries
-src/00/code_0218afb8.c:
-    complete
-    .text       start:0x0218afb8 end:0x0218afd4
-
-// provisional: file name and boundaries
-src/00/code_0218b220.c:
-    complete
-    .text       start:0x0218b220 end:0x0218b228
-
-// provisional: file name and boundaries
-src/00/code_0218b244.c:
-    complete
-    .text       start:0x0218b244 end:0x0218b260
-
-// provisional: file name and boundaries
-src/00/code_0218b27c.c:
-    complete
-    .text       start:0x0218b27c end:0x0218b280
-
-// provisional: file name and boundaries
-src/00/code_0218b3ac.c:
-    .text       start:0x0218b3ac end:0x0218b3f4
-
-// provisional: file name and boundaries
-src/00/code_0218b458.c:
-    complete
-    .text       start:0x0218b458 end:0x0218b474
-
-// provisional: file name and boundaries
-src/00/code_0218b570.c:
-    complete
-    .text       start:0x0218b570 end:0x0218b590
-
-// provisional: file name and boundaries
-src/00/code_0218b64c.c:
-    .text       start:0x0218b64c end:0x0218b708
-
-// provisional: file name and boundaries
-src/00/code_0218c45c.c:
-    complete
-    .text       start:0x0218c45c end:0x0218c468
-
-// provisional: file name and boundaries
-src/00/code_0218cdc4.c:
-    complete
-    .text       start:0x0218cdc4 end:0x0218cdd8
-
-// provisional: file name and boundaries
-src/00/code_0218d0c8.c:
-    complete
-    .text       start:0x0218d0c8 end:0x0218d0e4
-
-// provisional: file name and boundaries
-src/00/code_0218d180.c:
-    complete
-    .text       start:0x0218d180 end:0x0218d1dc
-
-// provisional: file name and boundaries
-src/00/code_0218d2a8.c:
-    complete
-    .text       start:0x0218d2a8 end:0x0218d340
-
-// provisional: file name and boundaries
-src/00/code_0218d430.c:
-    .text       start:0x0218d430 end:0x0218d488
-
-// provisional: file name and boundaries
-src/00/code_0218da04.c:
-    complete
-    .text       start:0x0218da04 end:0x0218da9c
-
-// provisional: file name and boundaries
-src/00/code_0218daf8.c:
-    complete
-    .text       start:0x0218daf8 end:0x0218db48
-
-// provisional: file name and boundaries
-src/00/code_0218dc44.c:
-    complete
-    .text       start:0x0218dc44 end:0x0218dc94
-
-// provisional: file name and boundaries
-src/00/code_0218dd18.c:
-    complete
-    .text       start:0x0218dd18 end:0x0218dd38
-
-// provisional: file name and boundaries
-src/00/code_0218dd8c.c:
-    complete
-    .text       start:0x0218dd8c end:0x0218dddc
-
-// provisional: file name and boundaries
-src/00/code_0218e0e0.c:
-    complete
-    .text       start:0x0218e0e0 end:0x0218e0fc
-
-// provisional: file name and boundaries
-src/00/code_0218e2c0.c:
-    complete
-    .text       start:0x0218e2c0 end:0x0218e2dc
-
-// provisional: file name and boundaries
-src/00/code_0218e368.c:
-    complete
-    .text       start:0x0218e368 end:0x0218e3b8
-
-// provisional: file name and boundaries
-src/00/code_0218e644.c:
-    complete
-    .text       start:0x0218e644 end:0x0218e68c
-
-// provisional: file name and boundaries
-src/00/code_0218e8b4.c:
-    complete
-    .text       start:0x0218e8b4 end:0x0218e8bc
-
-// provisional: file name and boundaries
-src/00/code_0218eb9c.c:
-    complete
-    .text       start:0x0218eb9c end:0x0218ebe8
-
-// provisional: file name and boundaries
-src/00/code_0218ed74.c:
-    complete
-    .text       start:0x0218ed74 end:0x0218ee1c
-
-// provisional: file name and boundaries
-src/00/code_0218f130.c:
-    complete
-    .text       start:0x0218f130 end:0x0218f15c
-
-// provisional: file name and boundaries
-src/00/code_0218f808.c:
-    complete
-    .text       start:0x0218f808 end:0x0218f848
-
-// provisional: file name and boundaries
-src/00/code_0218f960.c:
-    .text       start:0x0218f960 end:0x0218fa98
-
-// provisional: file name and boundaries
-src/00/code_02190968.c:
-    complete
-    .text       start:0x02190968 end:0x02190988
-
-// provisional: file name and boundaries
-src/00/code_02190b80.c:
-    complete
-    .text       start:0x02190b80 end:0x02190ba0
-
-// provisional: file name and boundaries
-src/00/code_02191200.c:
-    complete
-    .text       start:0x02191200 end:0x02191284
-
-// provisional: file name and boundaries
-src/00/code_0219210c.c:
-    complete
-    .text       start:0x0219210c end:0x0219218c
-
-// provisional: file name and boundaries
-src/00/code_02192d64.c:
-    complete
-    .text       start:0x02192d64 end:0x02192e04
-
-// provisional: file name and boundaries
-src/00/code_021935bc.c:
-    complete
-    .text       start:0x021935bc end:0x02193634
-
-// provisional: file name and boundaries
-src/00/code_02193e70.c:
-    complete
-    .text       start:0x02193e70 end:0x02193eac
-
-// provisional: file name and boundaries
-src/00/code_02193f18.c:
-    complete
-    .text       start:0x02193f18 end:0x02193f2c
-
-// provisional: file name and boundaries
-src/00/code_021947e4.c:
-    complete
-    .text       start:0x021947e4 end:0x02194808
-
-// provisional: file name and boundaries
-src/00/code_02194874.c:
-    complete
-    .text       start:0x02194874 end:0x0219488c
-
-// provisional: file name and boundaries
-src/00/code_021948bc.c:
-    complete
-    .text       start:0x021948bc end:0x021948f8
-
-// provisional: file name and boundaries
-src/00/code_021960a4.c:
-    complete
-    .text       start:0x021960a4 end:0x02196240
-
-// provisional: file name and boundaries
-src/00/code_021965a0.c:
-    complete
-    .text       start:0x021965a0 end:0x021965c8
-
-// provisional: file name and boundaries
-src/00/code_02196714.c:
-    complete
-    .text       start:0x02196714 end:0x021967b4
-
-// provisional: file name and boundaries
-src/00/code_02196914.c:
-    complete
-    .text       start:0x02196914 end:0x02196960
-
-// provisional: file name and boundaries
-src/00/code_02196ae0.c:
-    .text       start:0x02196ae0 end:0x02196b90
-
-// provisional: file name and boundaries
-src/00/code_021971c8.c:
-    complete
-    .text       start:0x021971c8 end:0x021971ec
-
-// provisional: file name and boundaries
-src/00/code_0219742c.c:
-    complete
-    .text       start:0x0219742c end:0x0219746c
-
-// provisional: file name and boundaries
-src/00/code_02197ddc.c:
-    complete
-    .text       start:0x02197ddc end:0x02197e8c
-
-// provisional: file name and boundaries
-src/00/code_02198584.c:
-    complete
-    .text       start:0x02198584 end:0x021985ec
-
-// provisional: file name and boundaries
-src/00/code_02198714.c:
-    complete
-    .text       start:0x02198714 end:0x02198748
-
-// provisional: file name and boundaries
-src/00/code_0219887c.c:
-    complete
-    .text       start:0x0219887c end:0x021988e8
-
-// provisional: file name and boundaries
-src/00/code_02198d04.c:
-    .text       start:0x02198d04 end:0x0219903c
-
-// provisional: file name and boundaries
-src/00/code_0219922c.c:
-    complete
-    .text       start:0x0219922c end:0x021992d4
-
-// provisional: file name and boundaries
-src/00/code_021997f8.c:
-    complete
-    .text       start:0x021997f8 end:0x0219981c
-
-// provisional: file name and boundaries
-src/00/code_02199a0c.c:
-    complete
-    .text       start:0x02199a0c end:0x02199ad8
-
-// provisional: file name and boundaries
-src/00/code_02199f80.c:
-    complete
-    .text       start:0x02199f80 end:0x02199fa4
-
-// provisional: file name and boundaries
-src/00/code_0219a014.c:
-    complete
-    .text       start:0x0219a014 end:0x0219a01c
-
-// provisional: file name and boundaries
-src/00/code_0219a09c.c:
-    complete
-    .text       start:0x0219a09c end:0x0219a0d0
-
-// provisional: file name and boundaries
-src/00/code_0219a3f4.c:
-    complete
-    .text       start:0x0219a3f4 end:0x0219a430
-
-// provisional: file name and boundaries
-src/00/code_0219b580.c:
-    complete
-    .text       start:0x0219b580 end:0x0219b5a8
-
-// provisional: file name and boundaries
-src/00/code_0219b694.c:
-    .text       start:0x0219b694 end:0x0219b704
-
-// provisional: file name and boundaries
-src/00/code_0219bab4.c:
-    complete
-    .text       start:0x0219bab4 end:0x0219bac8
-
-// provisional: file name and boundaries
-src/00/code_0219bea8.c:
-    .text       start:0x0219bea8 end:0x0219bf10
-
-// provisional: file name and boundaries
-src/00/code_0219c0c4.c:
-    complete
-    .text       start:0x0219c0c4 end:0x0219c0f4
-
-// provisional: file name and boundaries
-src/00/code_0219c39c.c:
-    complete
-    .text       start:0x0219c39c end:0x0219c3b0
-
-// provisional: file name and boundaries
-src/00/code_0219c3e4.c:
-    complete
-    .text       start:0x0219c3e4 end:0x0219c400
-
-// provisional: file name and boundaries
-src/00/code_0219c79c.c:
-    .text       start:0x0219c79c end:0x0219c824
-
-// provisional: file name and boundaries
-src/00/code_0219c954.c:
-    .text       start:0x0219c954 end:0x0219c990
-
-// provisional: file name and boundaries
-src/00/code_0219c9c4.c:
-    complete
-    .text       start:0x0219c9c4 end:0x0219c9d8
-
-// provisional: file name and boundaries
-src/00/code_0219caac.c:
-    .text       start:0x0219caac end:0x0219cb00
-
-// provisional: file name and boundaries
-src/00/code_0219cc00.c:
-    complete
-    .text       start:0x0219cc00 end:0x0219cc30
-
-// provisional: file name and boundaries
-src/00/code_0219d128.c:
-    complete
-    .text       start:0x0219d128 end:0x0219d14c
-
-// provisional: file name and boundaries
-src/00/code_0219d2c4.c:
-    complete
-    .text       start:0x0219d2c4 end:0x0219d2e8
-
-// provisional: file name and boundaries
-src/00/code_0219d478.c:
-    complete
-    .text       start:0x0219d478 end:0x0219d49c
-
-// provisional: file name and boundaries
-src/00/code_0219d4f8.c:
-    complete
-    .text       start:0x0219d4f8 end:0x0219d504
-
-// provisional: file name and boundaries
-src/00/code_0219d630.c:
-    complete
-    .text       start:0x0219d630 end:0x0219d674
-
-// provisional: file name and boundaries
-src/00/code_0219d6c4.c:
-    complete
-    .text       start:0x0219d6c4 end:0x0219d734
-
-// provisional: file name and boundaries
-src/00/code_0219d8c8.c:
-    complete
-    .text       start:0x0219d8c8 end:0x0219d934
-
-// provisional: file name and boundaries
-src/00/code_0219daa8.c:
-    complete
-    .text       start:0x0219daa8 end:0x0219dabc
-
-// provisional: file name and boundaries
-src/00/code_0219e134.c:
-    complete
-    .text       start:0x0219e134 end:0x0219e138
-
-// provisional: file name and boundaries
-src/00/code_0219f4c4.c:
-    .text       start:0x0219f4c4 end:0x0219f544
-
-// provisional: file name and boundaries
-src/00/code_0219fb14.c:
-    .text       start:0x0219fb14 end:0x0219fb48
-
-// provisional: file name and boundaries
-src/00/code_021a10b0.c:
-    complete
-    .text       start:0x021a10b0 end:0x021a1140
-
-// provisional: file name and boundaries
-src/00/code_021a141c.c:
-    complete
-    .text       start:0x021a141c end:0x021a1430
-
-// provisional: file name and boundaries
-src/00/code_021a1488.c:
-    .text       start:0x021a1488 end:0x021a1514
-
-// provisional: file name and boundaries
-src/00/code_021a15f8.c:
-    complete
-    .text       start:0x021a15f8 end:0x021a1620
-
-// provisional: file name and boundaries
-src/00/code_021a1754.c:
-    complete
-    .text       start:0x021a1754 end:0x021a1798
-
-// provisional: file name and boundaries
-src/00/code_021a2cac.c:
-    complete
-    .text       start:0x021a2cac end:0x021a2ccc
-
-// provisional: file name and boundaries
-src/00/code_021a2e7c.c:
-    .text       start:0x021a2e7c end:0x021a2eec
-
-// provisional: file name and boundaries
-src/00/code_021a2f98.c:
-    complete
-    .text       start:0x021a2f98 end:0x021a3030
-
-// provisional: file name and boundaries
-src/00/code_021a31a4.c:
-    complete
-    .text       start:0x021a31a4 end:0x021a31d4
-
-// provisional: file name and boundaries
-src/00/code_021a321c.c:
-    complete
-    .text       start:0x021a321c end:0x021a323c
-
-// provisional: file name and boundaries
-src/00/code_021a3678.c:
-    complete
-    .text       start:0x021a3678 end:0x021a3690
-
-// provisional: file name and boundaries
-src/00/code_021a369c.c:
-    complete
-    .text       start:0x021a369c end:0x021a3744
-
-// provisional: file name and boundaries
-src/00/code_021a3760.c:
-    complete
-    .text       start:0x021a3760 end:0x021a377c
-
-// provisional: file name and boundaries
-src/00/code_021a37dc.c:
-    .text       start:0x021a37dc end:0x021a3810
-
-// provisional: file name and boundaries
-src/00/code_021a38d8.c:
-    complete
-    .text       start:0x021a38d8 end:0x021a3910
-
-// provisional: file name and boundaries
-src/00/code_021a39c4.c:
-    complete
-    .text       start:0x021a39c4 end:0x021a39d8
-
-// provisional: file name and boundaries
-src/00/code_021a3e5c.c:
-    complete
-    .text       start:0x021a3e5c end:0x021a3eb0
-
-// provisional: file name and boundaries
-src/00/code_021a3f78.c:
-    complete
-    .text       start:0x021a3f78 end:0x021a3fc8
-
-// provisional: file name and boundaries
-src/00/code_021a41a0.c:
-    complete
-    .text       start:0x021a41a0 end:0x021a41dc
-
-// provisional: file name and boundaries
-src/00/code_021a4480.c:
-    complete
-    .text       start:0x021a4480 end:0x021a44a0
-
-// provisional: file name and boundaries
-src/00/code_021a4610.c:
-    complete
-    .text       start:0x021a4610 end:0x021a4654
-
-// provisional: file name and boundaries
-src/00/code_021a4784.c:
-    complete
-    .text       start:0x021a4784 end:0x021a47ac
-
-// provisional: file name and boundaries
-src/00/code_021a4818.c:
-    complete
-    .text       start:0x021a4818 end:0x021a4868
-
-// provisional: file name and boundaries
-src/00/code_021a49a0.c:
-    complete
-    .text       start:0x021a49a0 end:0x021a4a08
-
-// provisional: file name and boundaries
-src/00/code_021a574c.c:
-    complete
-    .text       start:0x021a574c end:0x021a57a8
-
-// provisional: file name and boundaries
-src/00/code_021a58a4.c:
-    complete
-    .text       start:0x021a58a4 end:0x021a58dc
-
-// provisional: file name and boundaries
-src/00/code_021a5930.c:
-    complete
-    .text       start:0x021a5930 end:0x021a5948
-
-// provisional: file name and boundaries
-src/00/code_021a5b30.c:
-    complete
-    .text       start:0x021a5b30 end:0x021a5b3c
-
-// provisional: file name and boundaries
-src/00/code_021a666c.c:
-    complete
-    .text       start:0x021a666c end:0x021a669c
-
-// provisional: file name and boundaries
-src/00/code_021a6908.c:
-    .text       start:0x021a6908 end:0x021a6934
-
-// provisional: file name and boundaries
-src/00/code_021a6d1c.c:
-    complete
-    .text       start:0x021a6d1c end:0x021a6d5c
-
-// provisional: file name and boundaries
-src/00/code_021a7048.c:
-    complete
-    .text       start:0x021a7048 end:0x021a7064
-
-// provisional: file name and boundaries
-src/00/code_021a7088.c:
-    complete
-    .text       start:0x021a7088 end:0x021a70b0
-
-// provisional: file name and boundaries
-src/00/code_021a71a4.c:
-    complete
-    .text       start:0x021a71a4 end:0x021a71c0
-
-// provisional: file name and boundaries
-src/00/code_021a72a4.c:
-    complete
-    .text       start:0x021a72a4 end:0x021a72c4
-
-// provisional: file name and boundaries
-src/00/code_021a73d8.c:
-    complete
-    .text       start:0x021a73d8 end:0x021a740c
-
-// provisional: file name and boundaries
-src/00/code_021a7bc8.c:
-    complete
-    .text       start:0x021a7bc8 end:0x021a7bfc
-
-// provisional: file name and boundaries
-src/00/code_021a86bc.c:
-    complete
-    .text       start:0x021a86bc end:0x021a86e8
-
-// provisional: file name and boundaries
-src/00/code_021a8878.c:
-    complete
-    .text       start:0x021a8878 end:0x021a88a8
-
-// provisional: file name and boundaries
-src/00/code_021a8960.c:
-    complete
-    .text       start:0x021a8960 end:0x021a8994
-
-// provisional: file name and boundaries
-src/00/code_021a8a54.c:
-    complete
-    .text       start:0x021a8a54 end:0x021a8a5c
-
-// provisional: file name and boundaries
-src/00/code_021a8ad0.c:
-    complete
-    .text       start:0x021a8ad0 end:0x021a8ae8
-
-// provisional: file name and boundaries
-src/00/code_021a8bb0.c:
-    complete
-    .text       start:0x021a8bb0 end:0x021a8bc0
-
-// provisional: file name and boundaries
-src/00/code_021a8d98.c:
-    complete
-    .text       start:0x021a8d98 end:0x021a8db8
-
-// provisional: file name and boundaries
-src/00/code_021a8e78.c:
-    complete
-    .text       start:0x021a8e78 end:0x021a8f0c
-
-// provisional: file name and boundaries
-src/00/code_021a9088.c:
-    complete
-    .text       start:0x021a9088 end:0x021a90a0
-
-// provisional: file name and boundaries
-src/00/code_021a9104.c:
-    complete
-    .text       start:0x021a9104 end:0x021a911c
-
-// provisional: file name and boundaries
-src/00/code_021a9200.c:
-    .text       start:0x021a9200 end:0x021a9228
-
-// provisional: file name and boundaries
-src/00/code_021a9610.c:
-    complete
-    .text       start:0x021a9610 end:0x021a9640
-
-// provisional: file name and boundaries
-src/00/code_021a998c.c:
-    .text       start:0x021a998c end:0x021a9aa0
-
-// provisional: file name and boundaries
-src/00/code_021aa004.c:
-    complete
-    .text       start:0x021aa004 end:0x021aa054
-
-// provisional: file name and boundaries
-src/00/code_021aa380.c:
-    complete
-    .text       start:0x021aa380 end:0x021aa398
-
-// provisional: file name and boundaries
-src/00/code_021aa3b8.c:
-    .text       start:0x021aa3b8 end:0x021aa468
-
-// provisional: file name and boundaries
-src/00/code_021aa5b0.c:
-    complete
-    .text       start:0x021aa5b0 end:0x021aa5e0
-
-// provisional: file name and boundaries
-src/00/code_021aa7b4.c:
-    complete
-    .text       start:0x021aa7b4 end:0x021aa7f8
-
-// provisional: file name and boundaries
-src/00/code_021aaaec.c:
-    complete
-    .text       start:0x021aaaec end:0x021aaaf8
-
-// provisional: file name and boundaries
-src/00/code_021ab548.c:
-    complete
-    .text       start:0x021ab548 end:0x021ab5bc
-
-// provisional: file name and boundaries
-src/00/code_021ab6d4.c:
-    complete
-    .text       start:0x021ab6d4 end:0x021ab728
-
-// provisional: file name and boundaries
-src/00/code_021ab7b4.c:
-    complete
-    .text       start:0x021ab7b4 end:0x021ab7e8
-
-// provisional: file name and boundaries
-src/00/code_021abc24.c:
-    complete
-    .text       start:0x021abc24 end:0x021abca0
-
-// provisional: file name and boundaries
-src/00/code_021abd2c.c:
-    complete
-    .text       start:0x021abd2c end:0x021abd68
-
-// provisional: file name and boundaries
-src/00/code_021ac37c.c:
-    complete
-    .text       start:0x021ac37c end:0x021ac3a8
-
-// provisional: file name and boundaries
-src/00/code_021acc68.c:
-    complete
-    .text       start:0x021acc68 end:0x021acc8c
-
-// provisional: file name and boundaries
-src/00/code_021acfd8.c:
-    complete
-    .text       start:0x021acfd8 end:0x021ad018
-
-// provisional: file name and boundaries
-src/00/code_021ad36c.c:
-    complete
-    .text       start:0x021ad36c end:0x021ad3b8
-
-// provisional: file name and boundaries
-src/00/code_021ad734.c:
-    .text       start:0x021ad734 end:0x021ad754
-
-// provisional: file name and boundaries
-src/00/code_021adb80.c:
-    complete
-    .text       start:0x021adb80 end:0x021adbac
-
-// provisional: file name and boundaries
-src/00/code_021ae01c.c:
-    complete
-    .text       start:0x021ae01c end:0x021ae048
-
-// provisional: file name and boundaries
-src/00/code_021ae100.c:
-    complete
-    .text       start:0x021ae100 end:0x021ae134
-
-// provisional: file name and boundaries
-src/00/code_021ae214.c:
-    complete
-    .text       start:0x021ae214 end:0x021ae244
-
-// provisional: file name and boundaries
-src/00/code_021ae258.c:
-    complete
-    .text       start:0x021ae258 end:0x021ae2f4
-
-// provisional: file name and boundaries
-src/00/code_021ae958.c:
-    complete
-    .text       start:0x021ae958 end:0x021ae984
-
-// provisional: file name and boundaries
-src/00/code_021af284.c:
-    complete
-    .text       start:0x021af284 end:0x021af2a0
-
-// provisional: file name and boundaries
-src/00/code_02180638.c:
-    complete
-    .text       start:0x02180638 end:0x02180650
-
-// provisional: file name and boundaries
-src/00/code_021806e0.c:
-    complete
-    .text       start:0x021806e0 end:0x021806ec
-
-// provisional: file name and boundaries
-src/00/code_02180c28.c:
-    complete
-    .text       start:0x02180c28 end:0x02180c3c
-
-// provisional: file name and boundaries
-src/00/code_021884fc.c:
-    complete
-    .text       start:0x021884fc end:0x02188508
-
-// provisional: file name and boundaries
-src/00/code_02188528.c:
-    complete
-    .text       start:0x02188528 end:0x02188534
-
-// provisional: file name and boundaries
-src/00/code_0218b228.c:
-    complete
-    .text       start:0x0218b228 end:0x0218b244
-
-// provisional: file name and boundaries
-src/00/code_0218b260.c:
-    complete
-    .text       start:0x0218b260 end:0x0218b27c
-
-// provisional: file name and boundaries
-src/00/code_0218f7f8.c:
-    complete
-    .text       start:0x0218f7f8 end:0x0218f808
-
-// provisional: file name and boundaries
-src/00/code_02194b9c.c:
-    complete
-    .text       start:0x02194b9c end:0x02194ba4
-
-// provisional: file name and boundaries
-src/00/code_021a323c.c:
-    complete
-    .text       start:0x021a323c end:0x021a3264
-
-// provisional: file name and boundaries
-src/00/code_021a3744.c:
-    complete
-    .text       start:0x021a3744 end:0x021a3758
-
-// provisional: file name and boundaries
-src/00/code_021a8b08.c:
-    complete
-    .text       start:0x021a8b08 end:0x021a8b10
-
-// provisional: file name and boundaries
-src/00/code_021ae304.c:
-    complete
-    .text       start:0x021ae304 end:0x021ae314
-
-// provisional: file name and boundaries
-src/00/code_021b02b0.c:
-    complete
-    .text       start:0x021b02b0 end:0x021b02bc
-
-// provisional: file name and boundaries
-src/00/code_02181674.c:
-    complete
-    .text       start:0x02181674 end:0x0218167c
-
-// provisional: file name and boundaries
-src/00/code_021848ec.c:
-    complete
-    .text       start:0x021848ec end:0x021848f4
-
-// provisional: file name and boundaries
-src/00/code_02184a04.c:
-    complete
-    .text       start:0x02184a04 end:0x02184a0c
-
-// provisional: file name and boundaries
-src/00/code_02188508.c:
-    complete
-    .text       start:0x02188508 end:0x02188528
-
-// provisional: file name and boundaries
-src/00/code_0218a018.c:
-    complete
-    .text       start:0x0218a018 end:0x0218a064
-
-// provisional: file name and boundaries
-src/00/code_0218b434.c:
-    complete
-    .text       start:0x0218b434 end:0x0218b440
-
-// provisional: file name and boundaries
-src/00/code_0218cd74.c:
-    complete
-    .text       start:0x0218cd74 end:0x0218cd94
-
-// provisional: file name and boundaries
-src/00/code_0218d218.c:
-    complete
-    .text       start:0x0218d218 end:0x0218d238
-
-// provisional: file name and boundaries
-src/00/code_0218e3b8.c:
-    complete
-    .text       start:0x0218e3b8 end:0x0218e3c4
-
-// provisional: file name and boundaries
-src/00/code_0218e8bc.c:
-    complete
-    .text       start:0x0218e8bc end:0x0218e8c4
-
-// provisional: file name and boundaries
-src/00/code_02196590.c:
-    complete
-    .text       start:0x02196590 end:0x021965a0
-
-// provisional: file name and boundaries
-src/00/code_02196e48.c:
-    complete
-    .text       start:0x02196e48 end:0x02196e50
-
-// provisional: file name and boundaries
-src/00/code_02198a84.c:
-    complete
-    .text       start:0x02198a84 end:0x02198a8c
-
-// provisional: file name and boundaries
-src/00/code_02198b9c.c:
-    complete
-    .text       start:0x02198b9c end:0x02198ba8
-
-// provisional: file name and boundaries
-src/00/code_02199a00.c:
-    complete
-    .text       start:0x02199a00 end:0x02199a0c
-
-// provisional: file name and boundaries
-src/00/code_02199fa4.c:
-    complete
-    .text       start:0x02199fa4 end:0x02199fb0
-
-// provisional: file name and boundaries
-src/00/code_0219a3e8.c:
-    complete
-    .text       start:0x0219a3e8 end:0x0219a3f4
-
-// provisional: file name and boundaries
-src/00/code_0219b9b4.c:
-    complete
-    .text       start:0x0219b9b4 end:0x0219b9c4
-
-// provisional: file name and boundaries
-src/00/code_021a3668.c:
-    complete
-    .text       start:0x021a3668 end:0x021a3678
-
-// provisional: file name and boundaries
-src/00/code_021a6aa0.c:
-    complete
-    .text       start:0x021a6aa0 end:0x021a6abc
-
-// provisional: file name and boundaries
-src/00/code_021a8aa8.c:
-    complete
-    .text       start:0x021a8aa8 end:0x021a8ab8
-
-// provisional: file name and boundaries
-src/00/code_021a8ae8.c:
-    complete
-    .text       start:0x021a8ae8 end:0x021a8b08
-
-// provisional: file name and boundaries
-src/00/code_021a8b10.c:
-    complete
-    .text       start:0x021a8b10 end:0x021a8b20
-
-// provisional: file name and boundaries
-src/00/code_021a91b4.c:
-    complete
-    .text       start:0x021a91b4 end:0x021a91cc
-
-// provisional: file name and boundaries
-src/00/code_021abc04.c:
-    complete
-    .text       start:0x021abc04 end:0x021abc24
-
-// provisional: file name and boundaries
-src/00/code_021ac3a8.c:
-    complete
-    .text       start:0x021ac3a8 end:0x021ac3e4
-
-// provisional: file name and boundaries
-src/00/code_021acef0.c:
-    complete
-    .text       start:0x021acef0 end:0x021acef8
-
-// provisional: file name and boundaries
-src/00/code_0218b474.c:
-    complete
-    .text       start:0x0218b474 end:0x0218b48c
-
-// provisional: file name and boundaries
-src/00/code_0219960c.c:
-    complete
-    .text       start:0x0219960c end:0x02199614
-
-// provisional: file name and boundaries
-src/00/code_ov000_021804e0.c:
-    complete
-    .text       start:0x021804e0 end:0x021804f4
-
-// provisional: file name and boundaries
-src/00/code_021804f4.c:
-    complete
-    .text       start:0x021804f4 end:0x02180500
-
-// provisional: file name and boundaries
-src/00/code_021806ec.c:
-    complete
-    .text       start:0x021806ec end:0x02180704
-
-// provisional: file name and boundaries
-src/00/code_02180be8.c:
-    complete
-    .text       start:0x02180be8 end:0x02180c04
-
-// provisional: file name and boundaries
-src/00/code_021816a4.c:
-    complete
-    .text       start:0x021816a4 end:0x021816b0
-
-// provisional: file name and boundaries
-src/00/code_02181e8c.c:
-    complete
-    .text       start:0x02181e8c end:0x02181e98
-
-// provisional: file name and boundaries
-src/00/code_02185230.c:
-    complete
-    .text       start:0x02185230 end:0x0218523c
-
-// provisional: file name and boundaries
-src/00/code_021855f8.c:
-    complete
-    .text       start:0x021855f8 end:0x02185604
-
-// provisional: file name and boundaries
-src/00/code_02185920.c:
-    complete
-    .text       start:0x02185920 end:0x0218592c
-
-// provisional: file name and boundaries
-src/00/code_02186a84.c:
-    complete
-    .text       start:0x02186a84 end:0x02186a9c
-
-// provisional: file name and boundaries
-src/00/code_021884d8.c:
-    complete
-    .text       start:0x021884d8 end:0x021884e4
-
-// provisional: file name and boundaries
-src/00/code_02188ec0.c:
+src/00/Lib/DWC/access_point_power_mode.c:
     complete
     .text       start:0x02188ec0 end:0x02188ee0
 
 // provisional: file name and boundaries
-src/00/code_0218e2a4.c:
+src/00/Lib/DWC/access_point_connect.c:
     complete
-    .text       start:0x0218e2a4 end:0x0218e2c0
+    .text       start:0x02188ee0 end:0x021892f4
 
 // provisional: file name and boundaries
-src/00/code_0218e56c.c:
+src/00/Lib/DWC/access_point_close.c:
     complete
-    .text       start:0x0218e56c end:0x0218e57c
+    .text       start:0x021892f4 end:0x02189350
 
 // provisional: file name and boundaries
-src/00/code_0218fa98.c:
+src/00/Lib/DWC/no_internet_error.c:
     complete
-    .text       start:0x0218fa98 end:0x0218faac
+    .text       start:0x02189350 end:0x02189420
 
 // provisional: file name and boundaries
-src/00/code_0219a01c.c:
+src/00/Lib/DWC/no_access_point_error.c:
     complete
-    .text       start:0x0219a01c end:0x0219a028
+    .text       start:0x02189420 end:0x02189440
 
 // provisional: file name and boundaries
-src/00/code_0219a028.c:
+src/00/Lib/DWC/program_error.c:
     complete
-    .text       start:0x0219a028 end:0x0219a044
+    .text       start:0x02189440 end:0x02189478
 
 // provisional: file name and boundaries
-src/00/code_0219a5e8.c:
+src/00/Lib/DWC/connect_result.c:
     complete
-    .text       start:0x0219a5e8 end:0x0219a604
+    .text       start:0x02189478 end:0x021894e4
 
 // provisional: file name and boundaries
-src/00/code_0219b844.c:
+src/00/Lib/DWC/search_list_build.c:
     complete
-    .text       start:0x0219b844 end:0x0219b868
+    .text       start:0x021894e4 end:0x0218973c
+    .rodata     start:0x021b06e8 end:0x021b0704
+    .data       start:0x021b20d0 end:0x021b20dc
 
 // provisional: file name and boundaries
-src/00/code_0219b8a8.c:
+src/00/Lib/DWC/access_point_scan.c:
     complete
-    .text       start:0x0219b8a8 end:0x0219b8bc
+    .text       start:0x0218973c end:0x02189888
+    .rodata     start:0x021b0704 end:0x021b0738
 
 // provisional: file name and boundaries
-src/00/code_0219b8f0.c:
+src/00/Lib/DWC/stealth_search_check.c:
     complete
-    .text       start:0x0219b8f0 end:0x0219b8fc
+    .text       start:0x02189888 end:0x021898dc
 
 // provisional: file name and boundaries
-src/00/code_0219b958.c:
+src/00/Lib/DWC/access_point_search.c:
     complete
-    .text       start:0x0219b958 end:0x0219b964
+    .text       start:0x021898dc end:0x0218a018
 
 // provisional: file name and boundaries
-src/00/code_0219b998.c:
+src/00/Lib/DWC/address_convert.c:
     complete
-    .text       start:0x0219b998 end:0x0219b9b4
+    .text       start:0x0218a018 end:0x0218a064
 
 // provisional: file name and boundaries
-src/00/code_0219bb50.c:
+src/00/Lib/DWC/socket_config.c:
     complete
-    .text       start:0x0219bb50 end:0x0219bb68
+    .text       start:0x0218a064 end:0x0218a0f4
+    .rodata     start:0x021b0738 end:0x021b0790
+    .data       start:0x021b20dc end:0x021b20e8
 
 // provisional: file name and boundaries
-src/00/code_0219c384.c:
-    complete
-    .text       start:0x0219c384 end:0x0219c39c
-
-// provisional: file name and boundaries
-src/00/code_0219c3b0.c:
-    complete
-    .text       start:0x0219c3b0 end:0x0219c3cc
-
-// provisional: file name and boundaries
-src/00/code_0219c3cc.c:
-    complete
-    .text       start:0x0219c3cc end:0x0219c3e4
-
-// provisional: file name and boundaries
-src/00/code_0219c93c.c:
-    complete
-    .text       start:0x0219c93c end:0x0219c954
-
-// provisional: file name and boundaries
-src/00/code_0219d934.c:
-    complete
-    .text       start:0x0219d934 end:0x0219d948
-
-// provisional: file name and boundaries
-src/00/code_0219de4c.c:
-    complete
-    .text       start:0x0219de4c end:0x0219de5c
-
-// provisional: file name and boundaries
-src/00/code_021a31d4.c:
-    complete
-    .text       start:0x021a31d4 end:0x021a31e8
-
-// provisional: file name and boundaries
-src/00/code_021a4b84.c:
-    complete
-    .text       start:0x021a4b84 end:0x021a4b98
-
-// provisional: file name and boundaries
-src/00/code_02182fdc.c:
-    .text       start:0x02182fdc end:0x02184354
-
-// provisional: file name and boundaries
-src/00/code_021b0014.c:
-    complete
-    .text start:0x021b0014 end:0x021b0240
-
-// provisional: file name and boundaries
-src/00/code_02185368.c:
-    complete
-    .text       start:0x02185368 end:0x0218536c
-
-// provisional: file name and boundaries
-src/00/code_021857dc.c:
-    complete
-    .text       start:0x021857dc end:0x021857e0
-
-// provisional: file name and boundaries
-src/00/code_0219dd48.c:
-    complete
-    .text       start:0x0219dd48 end:0x0219dd4c
-
-// provisional: file name and boundaries
-src/00/code_0219de64.c:
-    complete
-    .text       start:0x0219de64 end:0x0219de68
-
-// provisional: file name and boundaries
-src/00/code_0219ded8.c:
-    complete
-    .text       start:0x0219ded8 end:0x0219dedc
-
-// provisional: file name and boundaries
-src/00/code_0219dedc.c:
-    complete
-    .text       start:0x0219dedc end:0x0219dee0
-
-// provisional: file name and boundaries
-src/00/code_021b04cc.c:
-    complete
-    .text       start:0x021b04cc end:0x021b04d0
-
-// provisional: file name and boundaries
-src/00/code_021b04d0.c:
-    complete
-    .text       start:0x021b04d0 end:0x021b04d4
-
-// provisional: file name and boundaries
-src/00/code_021aae2c.c:
-    complete
-    .text       start:0x021aae2c end:0x021aae44
-
-// provisional: file name and boundaries
-src/00/code_021acec8.c:
-    complete
-    .text       start:0x021acec8 end:0x021acee0
-
-// provisional: file name and boundaries
-src/00/code_021aa398.c:
-    complete
-    .text       start:0x021aa398 end:0x021aa3b8
-
-// provisional: file name and boundaries
-src/00/code_0218167c.c:
-    complete
-    .text       start:0x0218167c end:0x02181684
-
-// provisional: file name and boundaries
-src/00/code_021acee0.c:
-    complete
-    .text       start:0x021acee0 end:0x021acee8
-
-// provisional: file name and boundaries
-src/00/code_021acee8.c:
-    complete
-    .text       start:0x021acee8 end:0x021acef0
-
-// provisional: file name and boundaries
-src/00/code_0218afa0.c:
-    complete
-    .text       start:0x0218afa0 end:0x0218afac
-
-// provisional: file name and boundaries
-src/00/code_0218b440.c:
-    complete
-    .text       start:0x0218b440 end:0x0218b44c
-
-// provisional: file name and boundaries
-src/00/code_021a3690.c:
-    complete
-    .text       start:0x021a3690 end:0x021a369c
-
-// provisional: file name and boundaries
-src/00/code_021a6d5c.c:
-    complete
-    .text       start:0x021a6d5c end:0x021a6d6c
-
-// provisional: file name and boundaries
-src/00/code_021ae2f4.c:
-    complete
-    .text       start:0x021ae2f4 end:0x021ae304
-
-// provisional: file name and boundaries
-src/00/code_021ae244.c:
-    complete
-    .text       start:0x021ae244 end:0x021ae258
-
-// provisional: file name and boundaries
-src/00/code_02181684.c:
-    complete
-    .text       start:0x02181684 end:0x021816a0
-
-// provisional: file name and boundaries
-src/00/code_021a8ab8.c:
-    complete
-    .text       start:0x021a8ab8 end:0x021a8ad0
-
-// provisional: file name and boundaries
-src/00/code_021a8a5c.c:
-    complete
-    .text       start:0x021a8a5c end:0x021a8a80
-
-// provisional: file name and boundaries
-src/00/code_02181df0.c:
-    complete
-    .text       start:0x02181df0 end:0x02181df8
-
-// provisional: file name and boundaries
-src/00/code_021a3758.c:
-    complete
-    .text       start:0x021a3758 end:0x021a3760
-
-// provisional: file name and boundaries
-src/00/code_021a8c8c.c:
-    complete
-    .text       start:0x021a8c8c end:0x021a8c94
-
-// provisional: file name and boundaries
-src/00/code_0219de5c.c:
-    complete
-    .text       start:0x0219de5c end:0x0219de64
-
-// provisional: file name and boundaries
-src/00/code_021a8e70.c:
-    complete
-    .text       start:0x021a8e70 end:0x021a8e78
-
-// provisional: file name and boundaries
-src/00/code_021a9008.c:
-    complete
-    .text       start:0x021a9008 end:0x021a9010
-
-// provisional: file name and boundaries
-src/00/code_021a9010.c:
-    complete
-    .text       start:0x021a9010 end:0x021a9018
-
-// provisional: file name and boundaries
-src/00/code_0218e49c.c:
-    complete
-    .text       start:0x0218e49c end:0x0218e4b4
-
-// provisional: file name and boundaries
-src/00/code_0218e524.c:
-    complete
-    .text       start:0x0218e524 end:0x0218e53c
-
-// provisional: file name and boundaries
-src/00/code_0218e53c.c:
-    complete
-    .text       start:0x0218e53c end:0x0218e554
-
-// provisional: file name and boundaries
-src/00/code_0218e554.c:
-    complete
-    .text       start:0x0218e554 end:0x0218e56c
-
-// provisional: file name and boundaries
-src/00/code_0218afac.c:
-    complete
-    .text       start:0x0218afac end:0x0218afb8
-
-// provisional: file name and boundaries
-src/00/code_0218b44c.c:
-    complete
-    .text       start:0x0218b44c end:0x0218b458
-
-// provisional: file name and boundaries
-src/00/code_02180c04.c:
-    complete
-    .text       start:0x02180c04 end:0x02180c28
-
-// provisional: file name and boundaries
-src/00/code_02181714.c:
-    complete
-    .text       start:0x02181714 end:0x02181738
-
-// provisional: file name and boundaries
-src/00/code_02181fcc.c:
-    complete
-    .text       start:0x02181fcc end:0x02181ff0
-
-// provisional: file name and boundaries
-src/00/code_021848c8.c:
-    complete
-    .text       start:0x021848c8 end:0x021848ec
-
-// provisional: file name and boundaries
-src/00/code_021849e0.c:
-    complete
-    .text       start:0x021849e0 end:0x02184a04
-
-// provisional: file name and boundaries
-src/00/code_02184aa4.c:
-    complete
-    .text       start:0x02184aa4 end:0x02184ac8
-
-// provisional: file name and boundaries
-src/00/code_02184ba8.c:
-    complete
-    .text       start:0x02184ba8 end:0x02184bcc
-
-// provisional: file name and boundaries
-src/00/code_02185344.c:
-    complete
-    .text       start:0x02185344 end:0x02185368
-
-// provisional: file name and boundaries
-src/00/code_021857b8.c:
-    complete
-    .text       start:0x021857b8 end:0x021857dc
-
-// provisional: file name and boundaries
-src/00/code_02184ac8.c:
-    complete
-    .text       start:0x02184ac8 end:0x02184ad0
-
-// provisional: file name and boundaries
-src/00/code_021805b4.c:
-    complete
-    .text       start:0x021805b4 end:0x021805cc
-
-// provisional: file name and boundaries
-src/00/code_021884e4.c:
-    complete
-    .text       start:0x021884e4 end:0x021884fc
-
-// provisional: file name and boundaries
-src/00/code_0218a118.c:
-    complete
-    .text       start:0x0218a118 end:0x0218a130
-
-// provisional: file name and boundaries
-src/00/code_0218a0f4.c:
+src/00/Lib/DWC/connect_test_retry.c:
     complete
     .text       start:0x0218a0f4 end:0x0218a118
 
 // provisional: file name and boundaries
-src/00/code_0218a64c.c:
+src/00/Lib/DWC/connect_test_end.c:
+    complete
+    .text       start:0x0218a118 end:0x0218a130
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/connect_test_process.c:
+    complete
+    .text       start:0x0218a130 end:0x0218a194
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/connect_test_create.c:
+    complete
+    .text       start:0x0218a194 end:0x0218a1bc
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ip_address_get.c:
+    complete
+    .text       start:0x0218a1bc end:0x0218a24c
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/connect_test_start.c:
+    complete
+    .text       start:0x0218a24c end:0x0218a294
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/connect_test_run.c:
+    complete
+    .text       start:0x0218a294 end:0x0218a350
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ssid_wep_decode.c:
+    complete
+    .text       start:0x0218a350 end:0x0218a64c
+    .rodata     start:0x021b0790 end:0x021b07b0
+    .data       start:0x021b20e8 end:0x021b2168
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/usb_wep_key.c:
     complete
     .text       start:0x0218a64c end:0x0218a658
 
 // provisional: file name and boundaries
-src/00/code_02194ba4.c:
+src/00/Lib/DWC/usb_access_point_check.c:
+    complete
+    .text       start:0x0218a658 end:0x0218a67c
+    .data       start:0x021b2168 end:0x021b2174
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/shop_access_point_key.c:
+    complete
+    .text       start:0x0218a67c end:0x0218a71c
+    .data       start:0x021b2174 end:0x021b2180
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/stream_cipher.c:
+    complete
+    .text       start:0x0218a71c end:0x0218a918
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/server_query_engine.c:
+    complete
+    .text       start:0x0218a918 end:0x0218aefc
+    .data       start:0x021b2180 end:0x021b21a4
+
+src/00/Lib/GameSpy/server_record.c:
+    complete
+    .text       start:0x0218aefc end:0x0218b458
+    .data       start:0x021b21a4 end:0x021b21e8
+    .bss        start:0x021b4d14 end:0x021b4d20
+
+src/00/Lib/GameSpy/server_browser.c:
+    complete
+    .text       start:0x0218b458 end:0x0218b8e4
+    .data       start:0x021b21e8 end:0x021b21ec
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/server_list.c:
+    complete
+    .text       start:0x0218b8e4 end:0x0218d488
+    .data       start:0x021b21ec end:0x021b22b0
+    .bss        start:0x021b4d20 end:0x021b4d24
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/availability_check.c:
+    complete
+    .text       start:0x0218d488 end:0x0218d818
+    .data       start:0x021b22b0 end:0x021b22d8
+    .bss        start:0x021b4d24 end:0x021b4e04
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/dynamic_array.c:
+    complete
+    .text       start:0x0218d818 end:0x0218dd8c
+    .data       start:0x021b22d8 end:0x021b2354
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/hash_table.c:
+    complete
+    .text       start:0x0218dd8c end:0x0218e0e0
+    .data       start:0x021b2354 end:0x021b23a4
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/table_create.c:
+    complete
+    .text       start:0x0218e0e0 end:0x0218e0fc
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/md5_base64_encode.c:
+    complete
+    .text       start:0x0218e0fc end:0x0218e2a4
+    .rodata     start:0x021b07b0 end:0x021b07bc
+    .data       start:0x021b23a4 end:0x021b23ac
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/random_seed.c:
+    complete
+    .text       start:0x0218e2a4 end:0x0218e2dc
+    .data       start:0x021b23ac end:0x021b23b0
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/socket_calls.c:
+    complete
+    .text       start:0x0218e2dc end:0x0218e908
+    .data       start:0x021b23b0 end:0x021b23e8
+    .bss        start:0x021b4e04 end:0x021b4e48
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/presence_api.c:
+    complete
+    .text       start:0x0218e908 end:0x0218f2e8
+    .data       start:0x021b23e8 end:0x021b2528
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/connection_update.c:
+    complete
+    .text       start:0x0218f2e8 end:0x0218f7f8
+    .data       start:0x021b2528 end:0x021b2718
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/presence_connection.c:
+    complete
+    .text       start:0x0218f7f8 end:0x0218f960
+    .data       start:0x021b2718 end:0x021b273c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/buddy_messages.c:
+    complete
+    .text       start:0x0218f960 end:0x021905d4
+    .data       start:0x021b273c end:0x021b287c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/message_buffer_read.c:
+    complete
+    .text       start:0x021905d4 end:0x021906e4
+    .data       start:0x021b287c end:0x021b2890
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/send_buffer.c:
+    complete
+    .text       start:0x021906e4 end:0x02190cd4
+    .data       start:0x021b2890 end:0x021b2a38
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/callback_queue.c:
+    complete
+    .text       start:0x02190cd4 end:0x02190ff8
+    .data       start:0x021b2a38 end:0x021b2ae8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/login_connect.c:
+    complete
+    .text       start:0x02190ff8 end:0x0219210c
+    .data       start:0x021b2ae8 end:0x021b2f58
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/info_cache_free.c:
+    complete
+    .text       start:0x0219210c end:0x0219218c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_info.c:
+    complete
+    .text       start:0x0219218c end:0x02193634
+    .data       start:0x021b2f58 end:0x021b3264
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/operation_queue.c:
+    complete
+    .text       start:0x02193634 end:0x02193b88
+    .data       start:0x021b3264 end:0x021b332c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/peer_connection.c:
+    complete
+    .text       start:0x02193b88 end:0x021947e4
+    .data       start:0x021b332c end:0x021b354c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_empty_check.c:
+    complete
+    .text       start:0x021947e4 end:0x02194808
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_find_by_buddy.c:
+    complete
+    .text       start:0x02194808 end:0x02194828
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_walk.c:
+    complete
+    .text       start:0x02194828 end:0x021948f8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_list.c:
+    complete
+    .text       start:0x021948f8 end:0x02194b9c
+    .data       start:0x021b354c end:0x021b35b8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_compare.c:
+    complete
+    .text       start:0x02194b9c end:0x02194ba4
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/profile_hash.c:
     complete
     .text       start:0x02194ba4 end:0x02194bb8
 
 // provisional: file name and boundaries
-src/00/code_02197b08.c:
+src/00/Lib/GameSpy/profile_search.c:
+    complete
+    .text       start:0x02194bb8 end:0x02196480
+    .data       start:0x021b35b8 end:0x021b39a8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/unique_nick_transfer.c:
+    complete
+    .text       start:0x02196480 end:0x02196590
+    .data       start:0x021b39a8 end:0x021b3a0c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/error_message_set.c:
+    complete
+    .text       start:0x02196590 end:0x021965a0
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/error_set.c:
+    complete
+    .text       start:0x021965a0 end:0x021965c8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/reply_parse.c:
+    complete
+    .text       start:0x021965c8 end:0x02196960
+    .data       start:0x021b3a0c end:0x021b3b2c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/persistent_stats.c:
+    complete
+    .text       start:0x02196960 end:0x02197b08
+    .data       start:0x021b3b2c end:0x021b3e6c
+    .bss        start:0x021b4e48 end:0x021b5284
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/challenge_response_check.c:
     complete
     .text       start:0x02197b08 end:0x02197b34
 
 // provisional: file name and boundaries
-src/00/code_021868a4.c:
+src/00/Lib/GameSpy/challenge_response.c:
     complete
-    .text       start:0x021868a4 end:0x021868d0
+    .text       start:0x02197b34 end:0x02197d20
+    .data       start:0x021b3e6c end:0x021b3ea4
 
 // provisional: file name and boundaries
-src/00/code_02194828.c:
+src/00/Lib/GameSpy/byte_buffer.c:
     complete
-    .text       start:0x02194828 end:0x02194840
+    .text       start:0x02197d20 end:0x02197e8c
+    .data       start:0x021b3ea4 end:0x021b3f50
 
 // provisional: file name and boundaries
-src/00/code_0219b9c4.c:
+src/00/Lib/GameSpy/connection_events.c:
     complete
-    .text       start:0x0219b9c4 end:0x0219b9d4
+    .text       start:0x02197e8c end:0x02198584
+    .data       start:0x021b3f50 end:0x021b3f8c
 
 // provisional: file name and boundaries
-src/00/code_021970e4.c:
+src/00/Lib/GameSpy/connection_lifecycle.c:
     complete
-    .text       start:0x021970e4 end:0x021970fc
+    .text       start:0x02198584 end:0x0219887c
 
 // provisional: file name and boundaries
-src/00/code_021a6fa8.c:
+src/00/Lib/GameSpy/socket_accessors.c:
     complete
-    .text       start:0x021a6fa8 end:0x021a6fb4
+    .text       start:0x0219887c end:0x021988e8
+    .data       start:0x021b3f8c end:0x021b3fa4
 
 // provisional: file name and boundaries
-src/00/code_0219eac8.c:
+src/00/Lib/GameSpy/connection_control.c:
     complete
-    .text       start:0x0219eac8 end:0x0219eaf4
+    .text       start:0x021988e8 end:0x02198a8c
 
 // provisional: file name and boundaries
-src/00/code_021a158c.c:
+src/00/Lib/GameSpy/protocol_messages.c:
     complete
-    .text       start:0x021a158c end:0x021a15b0
+    .text       start:0x02198a8c end:0x0219a044
+    .data       start:0x021b3fa4 end:0x021b3fc8
 
 // provisional: file name and boundaries
-src/00/code_021a1ac0.c:
+src/00/Lib/GameSpy/socket_connections.c:
     complete
-    .text       start:0x021a1ac0 end:0x021a1ae0
+    .text       start:0x0219a044 end:0x0219a61c
 
 // provisional: file name and boundaries
-src/00/code_021a1798.c:
+src/00/Lib/GameSpy/message_check.c:
     complete
-    .text       start:0x021a1798 end:0x021a17bc
+    .text       start:0x0219a61c end:0x0219a654
+    .data       start:0x021b3fc8 end:0x021b3fcc
+
+src/00/Lib/GameSpy/address_text_convert.c:
+    complete
+    .text       start:0x0219a654 end:0x0219a7e4
+    .data       start:0x021b3fcc end:0x021b400c
+    .bss        start:0x021b5284 end:0x021b52b4
 
 // provisional: file name and boundaries
-src/00/code_021aefa8.c:
+src/00/Lib/GameSpy/nat_negotiation.c:
     complete
-    .text       start:0x021aefa8 end:0x021aefb4
+    .text       start:0x0219a7e4 end:0x0219b1d4
+    .data       start:0x021b400c end:0x021b4054
+    .bss        start:0x021b52b4 end:0x021b54c8
 
 // provisional: file name and boundaries
-src/00/code_021aefb4.c:
-    complete
-    .text       start:0x021aefb4 end:0x021aefc0
-
-// provisional: file name and boundaries
-src/00/code_021937c0.c:
-    complete
-    .text       start:0x021937c0 end:0x021937e8
-
-// provisional: file name and boundaries
-src/00/code_021937e8.c:
-    complete
-    .text       start:0x021937e8 end:0x02193818
-
-// provisional: file name and boundaries
-src/00/code_02193f2c.c:
-    complete
-    .text       start:0x02193f2c end:0x02193f50
-
-// provisional: file name and boundaries
-src/00/code_0219a604.c:
-    complete
-    .text       start:0x0219a604 end:0x0219a61c
-
-// provisional: file name and boundaries
-src/00/code_021a6c68.c:
-    complete
-    .text       start:0x021a6c68 end:0x021a6c90
-
-// provisional: file name and boundaries
-src/00/code_02180600.c:
-    complete
-    .text       start:0x02180600 end:0x02180608
-
-// provisional: file name and boundaries
-src/00/code_02180608.c:
-    complete
-    .text       start:0x02180608 end:0x02180638
-
-// provisional: file name and boundaries
-src/00/code_0219b1d4.c:
+src/00/Lib/GameSpy/negotiator_free.c:
     complete
     .text       start:0x0219b1d4 end:0x0219b1f8
 
 // provisional: file name and boundaries
-src/00/code_0218ed44.c:
+src/00/Lib/DWC/friends_match_session.c:
     complete
-    .text       start:0x0218ed44 end:0x0218ed74
+    .text       start:0x0219b1f8 end:0x0219c384
+    .data       start:0x021b4054 end:0x021b4064
+    .bss        start:0x021b54c8 end:0x021b5650
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/error_state.c:
+    complete
+    .text       start:0x0219c384 end:0x0219c3e4
+    .bss        start:0x021b5650 end:0x021b5658
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/login_process.c:
+    complete
+    .text       start:0x0219c3e4 end:0x0219caac
+    .data       start:0x021b4064 end:0x021b4068
+    .bss        start:0x021b5658 end:0x021b5664
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/login_init.c:
+    complete
+    .text       start:0x0219caac end:0x0219cb00
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/persist_callback_level.c:
+    complete
+    .text       start:0x0219cb00 end:0x0219cc00
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/buddy_request_callbacks.c:
+    complete
+    .text       start:0x0219cc00 end:0x0219cfc0
+    .data       start:0x021b4068 end:0x021b4078
+
+src/00/Lib/DWC/buddy_status_error.c:
+    complete
+    .text       start:0x0219cfc0 end:0x0219d128
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/buddy_friends.c:
+    complete
+    .text       start:0x0219d128 end:0x0219d948
+    .data       start:0x021b4078 end:0x021b40b0
+    .bss        start:0x021b5664 end:0x021b5668
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/friend_status.c:
+    complete
+    .text       start:0x0219d948 end:0x0219dabc
+    .data       start:0x021b40b0 end:0x021b40b8
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/matchmaking.c:
+    complete
+    .text       start:0x0219dabc end:0x021a2ccc
+    .data       start:0x021b40b8 end:0x021b41f0
+    .bss        start:0x021b5668 end:0x021b5dd0
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/data_transport.c:
+    complete
+    .text       start:0x021a2ccc end:0x021a3264
+    .data       start:0x021b41f0 end:0x021b41f4
+    .bss        start:0x021b5dd0 end:0x021b5dd4
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/match_send_and_key_value_strings.c:
+    complete
+    .text       start:0x021a3264 end:0x021a3668
+    .data       start:0x021b41f4 end:0x021b4200
+    .bss        start:0x021b5dd4 end:0x021b5dec
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/memory_allocator.c:
+    complete
+    .text       start:0x021a3668 end:0x021a3758
+    .bss        start:0x021b5dec end:0x021b5df4
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/internet_connection.c:
+    complete
+    .text       start:0x021a3758 end:0x021a3a18
+    .data       start:0x021b4200 end:0x021b426c
+    .bss        start:0x021b5df4 end:0x021b5df8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/query_reporting.c:
+    complete
+    .text       start:0x021a3a18 end:0x021a4b84
+    .data       start:0x021b426c end:0x021b4484
+    .bss        start:0x021b5df8 end:0x021b5f50
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/query_key_register.c:
+    complete
+    .text       start:0x021a4b84 end:0x021a4b98
+    .data       start:0x021b4484 end:0x021b49b4
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/wireless_connection_manager.c:
+    complete
+    .text       start:0x021a4b98 end:0x021a666c
+    .rodata     start:0x021b07bc end:0x021b07e4
+    .bss        start:0x021b5f50 end:0x021b5f54
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/oldest_access_point.c:
+    complete
+    .text       start:0x021a666c end:0x021a669c
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/access_point_list.c:
+    complete
+    .text       start:0x021a669c end:0x021a6908
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/wifi_stack_bridge.c:
+    complete
+    .text       start:0x021a6908 end:0x021a6c08
+    .bss        start:0x021b5f54 end:0x021b5f80
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/rssi_link_level.c:
+    complete
+    .text       start:0x021a6c08 end:0x021a6d1c
+    .bss        start:0x021b5f80 end:0x021b5f94
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/link_on_and_bssid_compare.c:
+    complete
+    .text       start:0x021a6d1c end:0x021a6d5c
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/socket_library_startup.c:
+    complete
+    .text       start:0x021a6d5c end:0x021a6f18
+    .bss        start:0x021b5f94 end:0x021b5fd8
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/socket_commands.c:
+    complete
+    .text       start:0x021a6f18 end:0x021a78a4
+    .bss        start:0x021b5fd8 end:0x021b5ffc
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/socket_runtime.c:
+    complete
+    .text       start:0x021a78a4 end:0x021a8a5c
+    .bss        start:0x021b5ffc end:0x021b6004
+
+// provisional: file name and boundaries
+src/00/Lib/NitroWiFi/socket_api_calls.c:
+    complete
+    .text       start:0x021a8a5c end:0x021a91b4
+    .data       start:0x021b49b4 end:0x021b49f4
+    .bss        start:0x021b6004 end:0x021b617c
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/https_session_upkeep.c:
+    complete
+    .text       start:0x021a91b4 end:0x021a9200
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/https_enable_flag.c:
+    complete
+    .text       start:0x021a9200 end:0x021a9228
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/https_protocol.c:
+    complete
+    .text       start:0x021a9228 end:0x021ab6d4
+    .data       start:0x021b49f4 end:0x021b4a64
+    .bss        start:0x021b617c end:0x021b6364
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/md5_internal_hash.c:
+    complete
+    .text       start:0x021ab6d4 end:0x021abc04
+    .data       start:0x021b4a64 end:0x021b4be4
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/md5_byte_copy.c:
+    complete
+    .text       start:0x021abc04 end:0x021abc24
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/sha1_digest_result.c:
+    complete
+    .text       start:0x021abc24 end:0x021abca0
+    .data       start:0x021b4be4 end:0x021b4c24
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/sha1_update.c:
+    complete
+    .text       start:0x021abca0 end:0x021abd2c
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/sha1_start.c:
+    complete
+    .text       start:0x021abd2c end:0x021abd68
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/sha1_block_transform.c:
+    complete
+    .text       start:0x021abd68 end:0x021ac37c
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/bytes_from_words.c:
+    complete
+    .text       start:0x021ac37c end:0x021ac3a8
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/sha1_schedule_word.c:
+    complete
+    .text       start:0x021ac3a8 end:0x021ac3e4
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/big_integer_power_and_rc4.c:
+    complete
+    .text       start:0x021ac3e4 end:0x021acbf8
+
+src/00/Lib/CPS/big_integer_multiply.c:
+    complete
+    .text       start:0x021acbf8 end:0x021acc68
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/big_integer_add_part.c:
+    complete
+    .text       start:0x021acc68 end:0x021acc8c
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/big_integer_add_subtract.c:
+    complete
+    .text       start:0x021acc8c end:0x021acec8
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/big_integer_digit_count.c:
+    complete
+    .text       start:0x021acec8 end:0x021acee0
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/md5_finish.c:
+    complete
+    .text       start:0x021acee0 end:0x021acee8
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/md5_update.c:
+    complete
+    .text       start:0x021acee8 end:0x021acef0
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/md5_begin.c:
+    complete
+    .text       start:0x021acef0 end:0x021acef8
+
+// provisional: file name and boundaries
+src/00/Lib/CPS/tcp_ip_stack.c:
+    complete
+    .text       start:0x021acef8 end:0x021b05c0
+    .data       start:0x021b4c24 end:0x021b4c60
+    .bss        start:0x021b6364 end:0x021b7ba0

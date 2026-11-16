@@ -37,12 +37,12 @@ _Last updated 2026-11-14. Over time: [graph](progress/usa/progress.svg), [`progr
 
 | Measure | Progress |
 |---|---|
-| Matched code | 51.12% (964,162 / 1,886,120 bytes) |
-| Linked code (complete units) | 3.16% (59,640 bytes) |
-| Overall accuracy (fuzzy) | 59.20% |
-| Matched functions | 7,422 / 11,497 |
+| Matched code | 99.83% (1,882,966 / 1,886,120 bytes) |
+| Linked code (complete units) | 99.83% (1,882,966 bytes) |
+| Overall accuracy (fuzzy) | 99.83% |
+| Matched functions | 11,498 / 11,498 |
 
-_Last updated 2026-10-29. Over time: [graph](progress/eur/progress.svg), [`progress/eur/history.csv`](progress/eur/history.csv)._
+_Last updated 2026-11-16. Over time: [graph](progress/eur/progress.svg), [`progress/eur/history.csv`](progress/eur/history.csv)._
 <!-- progress:eur:end -->
 
 ## Documentation
@@ -50,7 +50,7 @@ _Last updated 2026-10-29. Over time: [graph](progress/eur/progress.svg), [`progr
 - [CONTRIBUTING.md](CONTRIBUTING.md): repository layout, naming and workflow
 - [docs/compiler.md](docs/compiler.md): how the compiler and flags were identified
 - [docs/decompiling.md](docs/decompiling.md): source patterns that matter for matching
-- [docs/versions.md](docs/versions.md): shared-source validation on Europe
+- [docs/versions.md](docs/versions.md): the European version: regional code and how its configuration was made
 
 Built with [ds-decomp](https://github.com/AetiasHax/ds-decomp), Metrowerks CodeWarrior for DS run through
 [wibo](https://github.com/decompals/wibo), and [objdiff](https://github.com/encounter/objdiff).
