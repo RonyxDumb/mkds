@@ -25,8 +25,7 @@ typedef struct KartAiItemUseEntry {
     /* 0a */ u16 mTimerRandomLimit;
 } KartAiItemUseEntry;
 
-// Object of 0x24 bytes at 0x11c of the object KartAi starts: pointers to entries of the tables at
-// gCurrentHeldItemEntries (0x04) and gBattleItemInUseEntries or gCurrentItemInUseEntries (0x08).
+// The state of a kart AI using items: the held item and item in use entries, their timers and the pending throw bits.
 typedef struct KartAiItemUse {
     /* 00 */ s16 mHeldItemTimer;
     /* 02 */ s16 mItemInUseTimer;

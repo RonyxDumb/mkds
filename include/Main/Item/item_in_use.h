@@ -12,7 +12,7 @@
 
 #define KART_TIRE_COUNT 4
 
-// The object behind the word at 0x20 of a KartModelsEntry: the vectors from 0x48.
+// The offsets of a kart model: the tire name and offsets and the offsets for each character.
 typedef struct KartOffsetData {
     /* 00 */ char mTireName[0x10];
     /* 10 */ s32 mFirstTiresScale;
@@ -20,7 +20,7 @@ typedef struct KartOffsetData {
     /* 44 */ Vec3 mCharacterOffsets[13];
 } KartOffsetData;
 
-// The object behind the word at 0x54 of a KartModelsEntry.
+// The translations of the four tires of a kart model.
 typedef struct KartTireTranslations {
     union {
         Vec3 mTranslations[KART_TIRE_COUNT];
@@ -43,8 +43,7 @@ typedef struct KartTireTranslations {
 // mBlendProgress runs 0 to this (1.0 in 20.12 fixed point).
 #define KART_MODEL_COLOR_BLEND_PROGRESS_END 0x1000
 
-// Halfwords at 0x6a of a KartModelsEntry: three packed colours (0x00, 0x02, 0x04), per-channel start values and
-// differences, and a step at 0x2a.
+// The colour fade of a kart model: diffuse, emission and ambient colours, their start and step per channel.
 typedef struct KartModelColorBlend {
     /* 00 */ u16 mDiffColor;
     /* 02 */ u16 mEmiColor;
@@ -70,7 +69,7 @@ typedef struct KartModelColorBlend {
     /* 2a */ s16 mBlendProgress;
 } KartModelColorBlend;
 
-// Words and halfwords from 0x24 of a KartModelsEntry.
+// The state of a character animation: turn frame, change timer and the next animation to play.
 typedef struct CharacterAnimationState {
     /* 00 */ s32 mTurnFrameOffset;
     /* 04 */ BOOL mAnimationChangeTimerSet;
@@ -137,8 +136,7 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_SECOND_LAUNCH_FRAME 4
 #define ITEM_IN_USE_THIRD_LAUNCH_FRAME 0
 
-// Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the
-// gItemKinds entries: three ItemObject pointers at 0x14, vectors from 0x2c to 0x0e4.
+// An item a kart is using: its objects, the kart state it follows and the positions it keeps behind the kart.
 typedef struct ItemInUse {
     /* 000 */ vs32 mObjectKind;
     /* 004 */ s32 mItemInfoIndex;

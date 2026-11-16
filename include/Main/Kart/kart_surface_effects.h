@@ -4,7 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
 
-// Node of the list at 0x80 of a ParticipantKartRecordState: a halfword at 0x08 and an ParticipantKartRecord at 0x0c.
+// A node of the participant kart record list: a record with the timer that applies it.
 typedef struct ParticipantKartRecordNode {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ s16 mApplyTimer;

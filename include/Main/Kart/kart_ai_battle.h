@@ -36,8 +36,7 @@ enum {
 #define KART_AI_CONTACT_FRAMES_SLOW 0xb4
 #define KART_AI_CONTACT_FRAMES_REQUEST_LINK 0xb4
 
-// Object of 0x34 bytes at 0xe8 of the object KartAi starts: PickBattleKartAiRaceStart writes the words at 0x28 and 0x2c
-// and the halfword at 0x30.
+// The speed limit of a race kart AI: base, current and turn limits, rank, table index and the race start boosts.
 typedef struct KartAiRaceSpeedLimit {
     /* 00 */ s32 mBaseSpeedLimit;
     /* 04 */ s32 mSpeedLimit;
@@ -55,8 +54,7 @@ typedef struct KartAiRaceSpeedLimit {
     /* 32 */ u8 mUnk_32[2];
 } KartAiRaceSpeedLimit;
 
-// Object at 0x140 of the object KartAi starts: AdvanceBattleKartAiSpeedLimit and SetBattleKartAiTurnSpeedLimit write
-// the words at 0x04, 0x0c and 0x10.
+// The speed limit of a battle kart AI: base, current and turn limits.
 typedef struct KartAiSpeedLimit {
     /* 00 */ s32 mBaseSpeedLimit;
     /* 04 */ s32 mSpeedLimit;

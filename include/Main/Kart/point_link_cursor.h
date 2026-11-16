@@ -12,8 +12,7 @@ struct Kart;
 struct PointLinkCursor;
 struct KartAiItemUseEntry;
 
-// Four points, a parameter (0x1000 = one segment) and two words at 0x34 and 0x38. The camera position is blended from
-// the four points.
+// A curve through four points, advanced by mParam; the camera position is blended along it.
 typedef struct PosCurve {
     /* 00 */ Vec3 mPoints[4];
     /* 30 */ s32 mParam;

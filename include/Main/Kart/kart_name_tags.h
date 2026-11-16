@@ -5,8 +5,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "matrix44_concat.h"
 
-// 0x24-byte entry: the word at 0x00 and the halfword at 0x08 are tested by DrawKartNameTagTexture and
-// UploadTextureAndPalette, the words at 0x1c and 0x20 are passed to the function given to DrawKartNameTagTexture.
+// One texture and palette to upload for a kart name tag: sizes, data pointers and the size it is drawn at.
 typedef struct TexPlttEntry {
     /* 00 */ u32 mTexImageParam;
     /* 04 */ s32 mTexByteCount;

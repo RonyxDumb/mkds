@@ -5,8 +5,7 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/Kart/kart_palette_stem_tables.h" // StemSetParams
 
-// 0x14 bytes: a table of 0x6c-byte objects at 0x00, three tables of 0x38-byte objects at 0x04, 0x08 and 0x0c, and the
-// number of entries of the first table at 0x10.
+// A set of models (mNsbmds, mNsbmdCount) with the animations that go with them.
 typedef struct StemSet {
     /* 00 */ Nsbmd *mNsbmds;
     /* 04 */ ModelAnimation *mNsbcaNsbmaNsbtp[3];

@@ -5,8 +5,7 @@
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 
-// Element of gItemPools[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that AdvanceBouncingItem,
-// InitBouncingItem and ThrowBouncingItem use after the shared part.
+// An item object that bounces along the ground, with the number of bounces it has left.
 typedef struct BouncingItemObject {
     /* 000 */ ItemObject mItemObject;
     /* 12c */ s32 mBouncesRemaining;

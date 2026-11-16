@@ -15,8 +15,7 @@ typedef struct PointLinkCursor {
     /* 1e */ u8 mBranchChoiceCount;
 } PointLinkCursor;
 
-// Object of 0x2a bytes: an PointLinkCursor at 0x00, a word at 0x20, the halfword at 0x24 given to GetKart and
-// halfwords at 0x26 and 0x28.
+// A cursor that moves a killer along a point link path: the angle to the next link, its kart and the end count.
 typedef struct KartKillerCursor {
     /* 00 */ PointLinkCursor mPointLinkCursor;
     /* 20 */ s32 mAngleToLinkDegrees;

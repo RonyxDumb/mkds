@@ -8,8 +8,7 @@
 typedef struct ItemInUse ItemInUse;
 typedef struct ItemKouraR ItemKouraR;
 
-// Element of gItemPools[0], [1] and [5] up to 0x168: the word and the three vectors from 0x12c and the words
-// and halfword from 0x154 that the functions of this file read after the shared part.
+// An item object that moves in a direction: its speed, direction vectors, hits left and hit options.
 typedef struct DirectedItemObject {
     /* 000 */ ItemObject mItemObject;
     /* 12c */ s32 mSpeed;

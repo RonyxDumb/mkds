@@ -8,7 +8,7 @@
 
 typedef struct MtxFx43 MtxFx43;
 
-// A registered resource file and its texture; the entries form the list gResFileEntries (links at 0x00 and 0x04).
+// A loaded model resource file with its texture, kept in the list gResFileEntries.
 typedef struct ResFileEntry {
     /* 00 */ void *mUnk_00;
     /* 04 */ void *mUnk_04;

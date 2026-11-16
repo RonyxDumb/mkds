@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 
-// Object DrawShadowModel works on.
+// A shadow model: the model, its polygon id and alpha, and a flag that says if it is drawn.
 typedef struct ShadowModel {
     /* 00 */ Nsbmd mNsbmd;
     /* 6c */ u16 mPolygonId;

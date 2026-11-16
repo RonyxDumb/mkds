@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 
-// Row of the array at 0x00 of the object behind gCourseMap.
+// One map object row of the course map: position, rotation, scale, kind, group, settings and time attack flags.
 typedef struct CourseMapRow {
     /* 00 */ Vec3 mPosition;
     /* 0c */ Vec3 mRotationDegrees;
