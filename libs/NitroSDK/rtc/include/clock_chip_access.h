@@ -26,7 +26,8 @@ typedef enum RTCResult {
     RTC_RESULT_MAX
 } RTCResult;
 
-// Nonzero reply status codes the clock processor puts in the low byte of a reply.
+// Values of the status byte in the low byte of a reply from the other processor: 0 is success, any value not listed is
+// a fatal error.
 enum {
     CLOCK_REPLY_STATUS_OK = 0,
     CLOCK_REPLY_STATUS_INVALID_COMMAND,
@@ -82,7 +83,7 @@ typedef struct RTCAlarmParam {
     /* 0c */ u32 mEnable;
 } RTCAlarmParam;
 
-// The clock chip's date: year, month, day and weekday.
+// The real time clock's date words: year, month, day and weekday.
 typedef struct RTCRawDate {
     /* 00 */ u32 mYear : 8;
     /* 00 */ u32 mMonth : 5;
@@ -93,7 +94,7 @@ typedef struct RTCRawDate {
     /* 00 */ u32 : 5;
 } RTCRawDate;
 
-// The clock chip's time: hour, afternoon flag, minute and second.
+// The real time clock's time words: hour, afternoon flag, minute and second.
 typedef struct RTCRawTime {
     /* 00 */ u32 mHour : 6;
     /* 00 */ u32 mAfternoon : 1;
@@ -108,7 +109,7 @@ typedef struct RTCRawTime {
 #define CLOCK_ALARM_INTR_MODE_NONE 0
 #define CLOCK_ALARM_INTR_MODE_ALARM1 4
 
-// The clock chip's status register 2: the interrupt modes.
+// The real time clock's status register 2: mIntrMode and mIntr2Mode.
 typedef struct RTCRawStatus2 {
     /* 00 */ u16 mIntrMode : 4;
     /* 00 */ u16 : 2;
@@ -116,7 +117,7 @@ typedef struct RTCRawStatus2 {
     /* 00 */ u16 : 9;
 } RTCRawStatus2;
 
-// A clock chip alarm register: mWeek, mHour and mMinute with the enable bits mWe, mHe and mMe.
+// A real time clock alarm register: mWeek, mHour with mAfternoon and mMinute, with the enable bits mWe, mHe and mMe.
 typedef struct RTCRawAlarm {
     /* 00 */ u32 mWeek : 3;
     /* 00 */ u32 : 4;
@@ -147,7 +148,8 @@ typedef union RTCRawData {
     } mAlarm;
 } RTCRawData;
 
-// The clock chip request in flight: its lock, callback, result buffers and which request it is.
+// The real time clock request being handled: mLock, mCallback with mCallbackArg, the mBuffer result words, mSequence,
+// mIndex, mInterrupt and mCommonResult.
 typedef struct RTCWork {
     // Nonzero while a request is in flight.
     /* 00 */ vu32 mLock;
