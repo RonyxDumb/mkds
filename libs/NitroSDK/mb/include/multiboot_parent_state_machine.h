@@ -16,10 +16,11 @@
 
 struct SegmentBuffer;
 
-// Called with the child index, the event code and a message or user info that depends on the code.
+// Called with the child index, the new MBCommPState value and a pointer that is the wireless message, the child's user
+// info, an error code (u16) or NULL, depending on the value.
 typedef void (*MBParentStateCallback)(u32 child, u32 code, void *data);
 
-// Values of the event code MBi_CommParentCallback receives, named by what the handler does with them.
+// Event codes sent to MBi_CommParentCallback through mCallback; the callback ignores every other code it is given.
 enum {
     MULTIBOOT_PARENT_EVENT_CHILD_CONNECTED = 0,
     MULTIBOOT_PARENT_EVENT_CHILD_DISCONNECTED = 1,

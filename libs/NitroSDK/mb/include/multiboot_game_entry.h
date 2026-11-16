@@ -9,7 +9,7 @@
 #include "file_handle_setup.h"
 #include "multiboot_game_info_beacon.h"
 
-// One multiboot game as received: icon, parent, name, introduction, player counts and flags, mNext and mBssDesc.
+// One multiboot game a parent offers: icon, parent, name, introduction, player counts and flags, mNext and mBssDesc.
 typedef struct GameInfoEntry {
     /* 000 */ u8 mIcon[0x220];
     /* 220 */ u8 mParent[0x16];

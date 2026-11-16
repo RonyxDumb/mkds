@@ -28,7 +28,7 @@ typedef struct ScanEntry {
     /* 178 */ u8 mUnk_178[8];
 } ScanEntry;
 
-// The multiboot wireless work: the game group id, entry and multiboot flags, the child limit and the key sharing flags.
+// The multiboot wireless work: the game group id, mEntryFlag, mMultiBootFlag, mMaxChildren, mKsFlag and mCsFlag.
 typedef struct MBiParam {
     /* 000 */ u8 mUnk_000[8];
     /* 008 */ u32 mGgid;

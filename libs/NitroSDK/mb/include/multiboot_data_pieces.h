@@ -5,7 +5,7 @@
 
 typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 
-// Bytes of one child MP exchange that hold pieces; MBi_SetChildMPMaxSize divides it by the piece size.
+// Bytes of request data one child sends in pieces; MBi_SetChildMPMaxSize divides it by the piece size.
 #define MULTIBOOT_CHILD_MP_BUFFER_SIZE 0x1e
 
 // ParentMessage.mKind.
@@ -36,7 +36,7 @@ typedef struct ParentMessage {
     /* 4 */ u16 mSeqno;
 } ParentMessage;
 
-// A message from a multiboot child: its kind and the piece request with the piece data.
+// A message from a multiboot child: mKind, then either mPieceRequestByte with mPieceData, or mPieceRequest with mData.
 typedef struct ChildMessage {
     /* 00 */ u8 mKind;
     /* 01 */ u8 mPad1;

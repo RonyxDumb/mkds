@@ -4,20 +4,23 @@
 #include "wireless_link_control.h"
 
 // Values of mDataAttr in the game info entries and in the beacon block: the whole entry with its icon, the entry
-// without the icon (sent when the icon files could not be read), and the part that changes while the game runs.
+// without the icon (used when an icon file is missing or has the wrong size), and the part that changes while the game
+// runs.
 enum {
     MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON = 0,
     MULTIBOOT_DATA_ATTR_FIXED_NO_ICON = 1,
     MULTIBOOT_DATA_ATTR_VOLATILE = 2,
 };
 
-// Bytes of game info in one beacon block, and how many blocks a fixed entry takes with and without the icon.
+// The most bytes of game info one beacon block holds, and how many blocks a fixed entry takes with and without the
+// icon.
 #define MULTIBOOT_GAME_INFO_BLOCK_SIZE 0x62
 #define MULTIBOOT_FIXED_BLOCK_COUNT_WITH_ICON 9
 #define MULTIBOOT_FIXED_BLOCK_COUNT_NO_ICON 4
 
 // Count-down counts: a received entry lives this long without a new beacon; while one entry is followed the scan
-// counts in bigger steps for the lock time, and the follow ends after that many lost beacons in a row.
+// counts in bigger steps, the follow lasts the lock time, and it ends early when more than the limit of calls in a row
+// report no beacon.
 #define MULTIBOOT_GAME_INFO_LIFETIME 0x1771
 #define MULTIBOOT_LOCKED_SCAN_COUNT_UNIT 0x16
 #define MULTIBOOT_LOCK_TIME_COUNT 0x321
