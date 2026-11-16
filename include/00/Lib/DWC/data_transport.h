@@ -55,7 +55,9 @@ typedef struct WiFiPeerMessage {
     /* 2c */ u32 mReceiveTimeoutTime;
 } WiFiPeerMessage;
 
-// Message framing on top of the Gt2 socket: one WiFiPeerMessage per peer, split into chunks and sent again each frame.
+// The message layer: one WiFiPeerMessage per peer; a reliable message goes out in chunks of at most mSendChunkSize, as
+// many as the socket has room for when it is sent and the rest one chunk per frame while there is room, and the
+// callbacks report sends, receives, receive timeouts and latency.
 typedef struct WiFiMessageLayer {
     /* 000 */ WiFiPeerMessage mPeers[32];
     // Called after a send was queued or finished, with (size, index).

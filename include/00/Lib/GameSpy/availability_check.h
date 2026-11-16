@@ -9,7 +9,7 @@ typedef struct SbServer SbServer;
 
 s32 FloatKeyCompare(SbServer **entry1, SbServer **entry2);
 s32 IntKeyCompare(SbServer **entry1, SbServer **entry2);
-// First byte of the availability check packet.
+// Type byte of the availability check: the first byte of the request packet and the third byte of the reply header.
 #define AVAILABLE_PACKET_TYPE 9
 
 s32 GSIAvailableCheckThink(void);

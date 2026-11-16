@@ -3,9 +3,10 @@
 #include "types.h"
 #include "00/Lib/GameSpy/connection_events.h"
 
-// Milliseconds: a connection that has not finished connecting is dropped after SERVER_TIMEOUT, an unconfirmed message
-// is sent again after RESEND_TIME, an acknowledgement waits PENDING_ACK_TIME for company, and a connection that sent
-// nothing for KEEP_ALIVE_TIME gets a keep-alive message.
+// Milliseconds: an incoming connection that has not reached GT2_CONNECTION_AWAIT_DECISION is dropped after
+// GTI2_SERVER_TIMEOUT (an outgoing one uses its own mTimeSinceCreateLimit), an unconfirmed message is sent
+// again after GTI2_RESEND_TIME, an acknowledgement still unsent GTI2_PENDING_ACK_TIME after it was noted is sent by
+// itself, and a connection that sent nothing for GTI2_KEEP_ALIVE_TIME gets a keep-alive message.
 #define GTI2_SERVER_TIMEOUT 60000
 #define GTI2_RESEND_TIME 1000
 #define GTI2_PENDING_ACK_TIME 100

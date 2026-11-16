@@ -28,7 +28,8 @@ enum {
     AUTO_CONNECT_TYPE_NINTENDOWFC_SSID,
 };
 
-// A scan result of an access point (beacon and duplicate counts, type, channel, SSID) kept in the search list.
+// An access point to scan for (a received-beacon flag, a duplicate-match flag, type, channel, SSID length and SSID)
+// kept in the search list.
 typedef struct ACSL {
     /* 00 */ u8 mBeaconReceived : 4;
     /* 00 */ u8 mDuplicateMatch : 4;

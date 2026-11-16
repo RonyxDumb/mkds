@@ -31,7 +31,7 @@ s32 SOC_Cleanup(void);
 s32 SOC_Startup(void *configPointer);
 void FreeFunc_SOCL(u32 *memory);
 void *AllocFunc_SOCL(u32 size);
-// Commands of SOC_Fcntl and the bit of the flags that makes a socket not block.
+// Commands of SOC_Fcntl and the bit of the flags that marks a socket as not blocking.
 #define SOC_F_GETFL 3
 #define SOC_F_SETFL 4
 #define SOC_O_NONBLOCK 4

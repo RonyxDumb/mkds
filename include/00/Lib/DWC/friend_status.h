@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// Status of a friend as the matching code reports it through the status of the profile connection.
+// Values of GpBuddyStatus.mStatus: what a player's profile status says; set with DWCi_SetGPStatus and read from friends
+// by DWC_GetFriendStatusSC.
 enum {
     DWC_STATUS_OFFLINE,
     DWC_STATUS_ONLINE,

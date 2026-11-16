@@ -1063,7 +1063,8 @@ u32 DWCi_IsShutdownMatch(void) {
     return 0;
 }
 
-// Resets the per-search fields; level 2 keeps the participant list, 1 clears it, 0 also resets the mode and callbacks.
+// Resets the per-search fields; level 2 keeps the participant list, 1 clears it, 0 also resets the mode, entry count
+// and new-participant callback; levels 2 and 1 set the state for some modes.
 void DWCi_ResetMatchParam(s32 level) {
     vu16 commandPortFill;
     vu16 connectPortFill;
@@ -1145,7 +1146,8 @@ void DWCi_ResetMatchParam(s32 level) {
     }
 }
 
-// Sets mode, second value and result callback for a new search and registers the key names 0x32 to 0x36.
+// Resets all search fields, then sets mode, entry count and result callback for a new search and registers keys 0x32 to
+// 0x36.
 void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedCallback matchedCallback, u32 matchedParam) {
     WiFiMatching **matchingSlot;
     DWCi_ResetMatchParam(0);
@@ -1336,8 +1338,8 @@ u32 DWCi_DoNatNegotiationAsync(DWCNNInfo *nnInfo) {
     return beginResult;
 }
 
-// Sends a command straight to an address in mode 0 and by GP text otherwise (command 6 can also go to an address);
-// commands 2, 6, 8 and 9 are remembered to be sent again.
+// Sends a command straight to an address in mode 0, or command 6 in mode 3 or to a distant friend; otherwise as GP text
+// to the profile. Commands 2, 6, 8 and 9 are stored as the last command; 6 and 8 are sent again from it.
 u32 DWCi_SendMatchCommand(u32 command, u32 profileId, u32 address, u32 port, void *values, s32 valueCount) {
     char numBuf[0x10];
     char message[0x200];

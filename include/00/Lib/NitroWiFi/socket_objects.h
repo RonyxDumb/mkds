@@ -69,7 +69,7 @@ enum {
 typedef struct CPSSoc {
     /* 00 */ struct OSThread *mThread;
     /* 04 */ u32 mBlockType;
-    // TCP_SOCKET_STATE_*
+    // SOCKET_STATE_*
     /* 08 */ u8 mState;
     /* 09 */ u8 mUseHttps;
     /* 0a */ u16 mLocalPort;

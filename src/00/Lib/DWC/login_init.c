@@ -2,15 +2,15 @@
 #include "cpu_copy_fill.h"
 #include "00/Lib/DWC/login_process.h"
 
-// Returns mPendingStatsRequestCount of gWiFiBuddySync (no NULL test); DWCi_FriendProcess reports an error when requests
-// are pending but the stats link is gone.
+// Returns mPendingStatsRequestCount of gWiFiBuddySync (no NULL test); DWCi_FriendProcess reports an error while this is
+// nonzero and PersistThink returns FALSE.
 u32 DWCi_GetPersCallbackLevel(void) {
     return gWiFiBuddySync->mPendingStatsRequestCount;
 }
 
 // Per login (called by DWC_InitFriendsMatch after the caller zeroed the connection; not once at boot): stores
-// gWiFiLogin, zeroes the 0x264 bytes and stores the GP connection, product id, saved record and the callback pair. Pair
-// of DWCi_ShutdownLogin.
+// gWiFiLogin, zeroes it, sets the state to idle and stores the GP connection, product id, game code, user data and the
+// callback pair. Pair of DWCi_ShutdownLogin.
 void InitWiFiLogin(WiFiLogin *login, DWCAccUserData *userData, GpConnection *gpConnection, u32 productId, u32 gamecode,
                    void (*resultCallback)(), void *resultCallbackArg) {
     gWiFiLogin = login;

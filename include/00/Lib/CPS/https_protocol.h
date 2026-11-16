@@ -18,13 +18,14 @@ enum {
     ASN1_TAG_GENERALIZED_TIME = 0x18,
 };
 
-// Values of the mode argument of ParseTaggedItem: what is kept while walking the certificate.
+// Values of the mode argument of ParseTaggedItem: 0 keeps the first and second value of the first item, 1 keeps
+// neither, 2 stores modulus and exponent in mItemRecord.
 enum {
     TAGGED_ITEM_MODE_KEEP_VALUES = 0,
     TAGGED_ITEM_MODE_PUBLIC_KEY = 2,
 };
 
-// Positions in gTaggedItemPrefixes, the object identifiers the walk looks for.
+// Positions in gTaggedItemPrefixes, the byte prefixes the walk looks for.
 enum {
     TAGGED_ITEM_NONE,
     TAGGED_ITEM_RSA_ENCRYPTION,
@@ -34,8 +35,8 @@ enum {
     TAGGED_ITEM_COMMON_NAME,
 };
 
-// Content types of a record, the types of the handshake messages inside a handshake record, the length of the record
-// header, and the digest sizes in bytes.
+// Types of a record, the types of the handshake messages inside a handshake record, and the length of the record
+// header.
 enum {
     TLS_CONTENT_CHANGE_CIPHER_SPEC = 0x14,
     TLS_CONTENT_ALERT = 0x15,

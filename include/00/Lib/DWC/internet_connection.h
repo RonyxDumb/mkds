@@ -18,7 +18,7 @@ enum {
     INET_STATUS_FAILED_SMALL_CODE = 8,
 };
 
-// Values of the type argument of DWC_SetAuthServer: which login server the connection uses.
+// Values of the type argument of DWC_SetAuthServer: which authentication server address is set.
 enum {
     DWC_CONNECTINET_AUTH_TEST,
     DWC_CONNECTINET_AUTH_DEVELOP,

@@ -49,9 +49,7 @@ typedef struct WiFiBuddySync {
     // Entry of the list the sync step is on; advanced by the step loop and by the profile-search reply
     // (DWCi_GPProfileSearchCallback).
     /* 1c */ u8 mSyncIndex;
-    // 1 when the sync rewrote or merged an entry; given to the result callback, whose receiver sets
-    // WiFiSession.mBuddiesChanged so the list is saved (buddy_changed_callback.c). Set early in the reply handler
-    // DWCi_GPProfileSearchCallback, so it can be 1 without a change.
+    // WiFiSession.mBuddiesChanged (WiFiSessionBuddySyncCallback) so the list is saved. Set early in the reply handler
     /* 1d */ u8 mBuddiesChanged;
     /* 1e */ u8 mBuddyUpdateState;
     // Parts of the sync that ended; at 2 DWCi_FriendProcess calls DWCi_EndUpdateServers (the finish step). Part 1 is

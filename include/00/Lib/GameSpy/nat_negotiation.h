@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/negotiator_free.h" // NatTraversalEntry
+#include "00/Lib/GameSpy/negotiator_free.h" // NatNegotiator
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/query_reporting.h"
 
@@ -10,9 +10,9 @@ typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
-// Sockets a negotiation sends from (NN_PT_*: the game port, then two others, each answered by its own acknowledgement),
-// how a negotiation ends (FINISHED_*, the mFinished byte of a connect message), the port of the matchup server, and
-// how often and how long (milliseconds) the init and ping messages are sent again.
+// Port types of an init message (NN_PT_*): NN_PT_GP is sent from the game socket to the first matchup server, NN_PT_NN1
+// from the negotiation socket to the first, NN_PT_NN2 from the negotiation socket to the second; each is answered by
+// its own acknowledgement (mInitAckRecv).
 #define NN_PT_GP 0
 #define NN_PT_NN1 1
 #define NN_PT_NN2 2
@@ -41,7 +41,7 @@ enum {
     NAT_PACKET_PING = 7,
 };
 
-// The NAT negotiation connect message: cookie, remote address and port, and the data received and finished flags.
+// The NAT negotiation connect message: cookie, remote address and port, the got-your-data flag and the finished code.
 typedef struct ConnectPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;
@@ -53,7 +53,8 @@ typedef struct ConnectPacket {
     /* 13 */ u8 mFinished;
 } ConnectPacket;
 
-// The NAT negotiation init message: cookie, port type and client index.
+// The short NAT negotiation message (init acknowledgement, echo request and reply, connect acknowledgement): cookie,
+// port type and client index.
 typedef struct InitPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;

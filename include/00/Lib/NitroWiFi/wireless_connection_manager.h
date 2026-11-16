@@ -54,14 +54,15 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
-// Values of the mode member of a WEP key: the key length (5, 13 and 16 bytes).
+// Values of the mode member of a WEP key: 0 for no key, otherwise the key length in bytes (5, 13 or 16).
 #define WCM_WEPMODE_NONE 0
 #define WEP_KEY_MODE_SHORT 1
 #define WEP_KEY_MODE_LONG 2
 #define WEP_KEY_MODE_LONGEST 3
 
-// Bits of WCMWork.mOption: TEST bits say a setting is made, the FILTER bit next to it gives its value (channel bits
-// are numbered from channel 1).
+// Bits of WCMWork.mOption and of the option argument of WCM_UpdateOption: a TEST bit in the argument replaces that
+// setting, the FILTER bit next to it holds its value; channel bit n is channel n (no channel given selects channels 1,
+// 7 and 13).
 #define WCM_OPTION_TEST_CHANNEL 0x00008000
 #define WCM_OPTION_CHANNEL_1 (WCM_OPTION_TEST_CHANNEL | 0x00000002)
 #define WCM_OPTION_CHANNEL_7 (WCM_OPTION_TEST_CHANNEL | 0x00000080)
@@ -82,7 +83,8 @@ typedef struct WCMApListHeader {
 #define WCM_OPTION_TEST_ROUNDSCAN 0x00800000
 #define WCM_OPTION_ROUNDSCAN_IGNORE (WCM_OPTION_TEST_ROUNDSCAN | 0x00000000)
 
-// Rates that the connect adds to the support set of an access point it could not join.
+// Rates added to the support set of the access point when a connect fails with status 0x12; the connect is then tried
+// once more.
 #define WCM_CAMOUFLAGE_RATESET 0x0024
 
 // Values of WCMWork.mPhase, which WCM_GetPhase returns (NONE before the work area is set up). Each Async call moves the

@@ -864,8 +864,8 @@ void WcmWmcbCommon(WirelessMessage *callback) {
     }
 }
 
-// Kept as asm: it counts leading zeros with clz.
-// clang-format off
+// Both functions are asm: WcmCountBits counts the set bits of its argument (one clz per bit), WcmCountLeadingZero
+// returns clz of its argument.
 #pragma thumb off
 asm u32 WcmCountBits(u32 bits) {
     mov r1, r0

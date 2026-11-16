@@ -39,7 +39,8 @@ static u32 gSessKey = 0;
 static u32 gConnId = 0;
 static s32 gGamePort = 0;
 static s32 gRcvLen = 0;
-// Values of gStatsInitState: the connect to the stats server runs socket connect, challenge, session key.
+// Values of gStatsInitState: NONE before the start, then the connect to the stats server runs socket connect,
+// challenge, session key (COMPLETE); FAILED after an error.
 enum {
     GSTATS_INIT_NONE,
     GSTATS_INIT_FAILED,

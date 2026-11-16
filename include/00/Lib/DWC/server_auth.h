@@ -72,7 +72,7 @@ u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 
 #include "00/Lib/DWC/http_transfer.h"
 
-// The allocator, free function and ids a DWCAuth object is created with.
+// The ingamesn and gsbrcd strings and the allocator and free function a DWCAuth object is created with.
 typedef struct AuthCreateParams {
     /* 00 */ char mIngamesn[0x15];
     /* 15 */ char mGsbrcd[0xc];
@@ -96,13 +96,16 @@ enum {
     AUTH_RETURN_HTTP_STATUS_BASE = 0x59d8,
 };
 
-// Bytes of the result block that DWC_Auth_GetResult copies out: DWCAuth.mReturncode up to mCreateParams.
+// Bytes of DWCAuth from mReturncode up to mCreateParams: DWC_Auth_Create clears them and DWC_Auth_GetResult copies them
+// out (or zeroes the caller's block).
 #define AUTH_RESULT_BYTES 0x1c4
 
-// Size of the block DWCi_Auth allocates under the name "bmwork" for the update id and new id results.
+// Size of the block ParseAuthHttpResult allocates under the name "bmwork" for the update id and new id results; the
+// block is used from the next 32-byte boundary.
 #define AUTH_BMWORK_BYTES 0x71f
 
-// The server login: reply strings (token, challenge, cookie), HTTP labels, its Http connection, thread and abort flag.
+// The server authentication: error, return code, reply strings (retcode, datetime, locator, token, challenge, cookie),
+// the create parameters, HTTP labels, its Http connection, thread, mutex and abort flag.
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
     /* 004 */ s32 mError;

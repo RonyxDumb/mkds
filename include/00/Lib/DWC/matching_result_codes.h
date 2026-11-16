@@ -1,7 +1,8 @@
 #pragma once
 
-// Result codes of the profile, server browser, reporter, NAT negotiation and transport calls that the matching code
-// turns into its error codes.
+// Result codes of the profile, server browser, reporter, NAT negotiation, transport, stats connect and availability
+// check calls, and why a transport connection closed, that the matching, login and friend code turn into their error
+// codes.
 
 // Results of the profile calls.
 enum {
@@ -23,7 +24,7 @@ enum {
     sbe_paramerror,
 };
 
-// Errors of the reporter start.
+// Errors of the reporter: the result of starting it and the errors it reports to its add error callback.
 enum {
     e_qrnoerror,
     e_qrwsockerror,
@@ -49,7 +50,7 @@ enum {
     nr_unknownerror,
 };
 
-// Results of the transport calls (connect and the like).
+// Results of gt2Connect and gti2CreateSocket.
 enum {
     GT2Success,
     GT2OutOfMemory,

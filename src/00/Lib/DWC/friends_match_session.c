@@ -56,9 +56,8 @@ s32 stLastSocketError = 0;
 DWCConnectionInfo stConnectionInfoList[32];
 void *stGt2ConnectionList[32];
 
-// Sets up the object at each login (the caller zeroes the 0xdb4 bytes first, wifi_session_login.c): stores
-// gWiFiConnection, builds the login, buddy, matching and net-layer objects and copies the game name and key. Undone
-// by DWC_ShutdownFriendsMatch.
+// Sets up the object at each login (the caller zeroes it first): stores gWiFiConnection, builds the login, buddy,
+// matching and net-layer objects and copies the game name and key. Undone by DWC_ShutdownFriendsMatch.
 void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 productId, const char *gameName,
                           const char *secretKey, s32 sendBufferSize, s32 receiveBufferSize, void *friendList,
                           s32 friendListLength) {
@@ -251,7 +250,9 @@ void DWC_ProcessFriendsMatch(void) {
     }
 }
 
-// Also stores playerName and reserved into the login object (mLogin.mPlayerName / mReserved).
+// Starts the login when there is no error and the state is IDLE: stores the callback pair and playerName and reserved
+// (mLogin.mPlayerName / mReserved), then goes to GP_SETUP and starts the availability check; stops the login when the
+// unit is not online.
 void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32 callbackArg) {
     if (DWCi_IsError() == 0) {
         if (gWiFiConnection->mState == WIFI_CONNECTION_IDLE) {
@@ -865,8 +866,8 @@ void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
     }
 }
 
-// Slot 3 of the record (Gt2CallElapsedTimeCallback): the body only forwards (connection,
-// elapsed time) to DWCi_PingCallback, which calls the layer's mPingCallback with the time and the peer index.
+// Slot 3 of the record (Gt2CallElapsedTimeCallback): the body only forwards (connection, elapsed time) to
+// DWCi_PingCallback, which calls the layer's mPingCallback, when it is set, with the time and the peer's aid.
 void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }

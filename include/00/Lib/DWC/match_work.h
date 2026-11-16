@@ -149,8 +149,10 @@ enum {
     WIFI_MATCH_MODE_SERVER_CLIENT = 3,
 };
 
-// Retry counts and timeouts (milliseconds) of the matching: a command is sent again after DWC_MATCH_CMD_RTT_TIMEOUT
-// and given up after DWC_MATCH_CMD_RETRY_MAX tries; a friend reservation is kept for DWC_MATCH_RESV_KEEP_TIME_FRIEND.
+// Timeouts (milliseconds) and retry limits of the matching. A CONNECT_INFO command with
+// no answer is sent again after DWC_MATCH_CMD_RTT_TIMEOUT; the resend, reserve retry and connect retry counters give up
+// once they pass DWC_MATCH_CMD_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
+// DWC_MATCH_CMD_RTT_TIMEOUT in a filter search and after DWC_MATCH_RESV_KEEP_TIME_FRIEND in every mode.
 #define DWC_MAX_CONNECTIONS 32
 #define DWC_MATCH_CMD_RETRY_MAX 5
 #define DWC_MATCH_CMD_RTT_TIMEOUT 6000

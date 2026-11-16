@@ -7,7 +7,7 @@ typedef struct GpConnection GpConnection;
 u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message);
 u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, const char *locationString);
 
-// The status of a buddy: profile id, status and location strings, address and port.
+// The status of a buddy: profile id, status, status and location strings, IP and port.
 typedef struct GpBuddyStatus {
     /* 000 */ u32 mProfileId;
     /* 004 */ s32 mStatus;

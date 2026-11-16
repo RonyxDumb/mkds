@@ -3,7 +3,8 @@
 #include "types.h"
 #include "00/Lib/GameSpy/login_connect.h"
 
-// Which profile field gpiSetInfos and gpiSetInfoi set (the argument "info").
+// Values of the "info" argument of gpiSetInfos and gpiSetInfoi: which profile value to send. Each function takes its
+// own subset and answers "Invalid info." to the rest; neither takes GP_BIRTHDAY.
 enum {
     GP_NICK = 0x700,
     GP_UNIQUENICK,

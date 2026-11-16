@@ -16,7 +16,8 @@ enum {
     PROFILE_SEARCH_KIND_UNIQUE_NICK = 8,
 };
 
-// A profile search: its socket, input and output buffers and the nick, email, name and password it looks for.
+// The data of a search operation: its kind, socket, input and output buffers, the nick, uniquenick, email, names,
+// password and cdkey it sends, and the icquin, skip, product id, processing and remove members.
 typedef struct GPISearchData {
     /* 000 */ s32 mKind;
     /* 004 */ s32 mSocket;
@@ -66,7 +67,8 @@ enum {
     PROFILE_SEARCH_STATE_REPLY_READ = 5,
 };
 
-// A queued profile operation: its type, search data, blocking flag, completion callback, state and result.
+// A queued profile operation: its type, data (the search data of a search, the connect data of a connect), blocking
+// flag, callback, state, id, result and the next operation.
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
     /* 04 */ GPISearchData *mData;
@@ -89,7 +91,8 @@ typedef enum GpiPeerState {
     PROFILE_PEER_STATE_CLOSED = 0x6a,
 } GpiPeerState;
 
-// A peer connection: its state, socket, profile id, timeout counters and the input and output byte buffers.
+// A peer connection: its state, socket, profile id, timeout time, nack count, the input and output byte buffers and the
+// queued messages.
 typedef struct GpiPeer {
     /* 00 */ s32 mState;
     /* 04 */ u32 mInitiated;

@@ -50,9 +50,8 @@ typedef struct WiFiLogin {
     // The reply's second string (mPartnerChallenge) is the password substitute the library hashes, not
     // the library's '\challenge\' (a random string the library makes).
     /* 4c */ char mAuthToken[0x100];
-    // Second string of the HTTP reply (0x100 buffer), the second GP connect credential: GpiStartConnect copies it to
-    // GPIConnectData.mPartnerChallenge and GpiWriteLogin hashes it where it would hash the password. Not the
-    // library's \challenge\ value.
+    // GPIConnectData.mPartnerChallenge (when the token and this string are both non-empty) and GpiWriteLogin hashes it
+    // where it would hash the password. Not the
     /* 14c */ char mPartnerChallenge[0x100];
     /* 24c */ char mUsername[9];
     /* 255 */ char mGsbrcd[0xf];

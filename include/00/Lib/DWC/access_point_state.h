@@ -14,8 +14,9 @@ enum {
 };
 
 // Values of ACHOLD.mPhase, the steps of the automatic connect: start up the wireless layer, scan around, scan the
-// channels of the listed access points, scan for hidden ones, connect to an access point, retry the connect, test the
-// connection (get an address, open a socket, run the test), then finish or fail.
+// channels where a found access point differs, scan for stealth access points, finish the scan, connect to an access
+// point, retry the connect, test the connection (start the socket, get an address, create the check, run it, end it; a
+// failed test cleans up and goes back to the connect retry), then complete, fail or end.
 enum {
     AC_PHASE_START = 1,
     AC_PHASE_STARTING_UP = 2,

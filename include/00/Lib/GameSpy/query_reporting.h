@@ -3,7 +3,8 @@
 #include "types.h"
 #include "00/Lib/GameSpy/socket_calls.h" // SOCSockAddrIn
 
-// Packet types of the query and reporting protocol (the third byte of a query, the first byte of a reply).
+// Packet types of the query and reporting protocol (the third byte of a query, the first byte of every packet the
+// reporter sends).
 enum {
     PACKET_QUERY = 0,
     PACKET_CHALLENGE = 1,
@@ -16,9 +17,10 @@ enum {
     PACKET_KEEPALIVE = 8,
 };
 
-// Milliseconds between the heartbeats and keepalives the reporter sends: QR_FIRST_HEARTBEAT_MS is the wait for a
-// heartbeat that is still unanswered (it is sent again), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the shortest gap before a
-// heartbeat that reports a state change.
+// Milliseconds: QR_FIRST_HEARTBEAT_MS is the wait before a heartbeat is sent again while no query has arrived yet
+// (mListedState counts the sends; at 4 the no challenge error is reported), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the
+// shortest gap since the last heartbeat before one that reports a state change, QR_HEARTBEAT_INTERVAL_MS the normal gap
+// between heartbeats and QR_KEEPALIVE_INTERVAL_MS the gap between keepalives.
 #define QR_FIRST_HEARTBEAT_MS 10000
 #define QR_MIN_STATE_CHANGE_HEARTBEAT_MS 10000
 #define QR_HEARTBEAT_INTERVAL_MS 60000

@@ -18,7 +18,7 @@ typedef struct SendMessageRequest {
     /* 0b */ u8 mUnk_0b[8];
 } SendMessageRequest;
 
-// Four bytes copied byte by byte (CopyUnalignedWord in server_list.c); the target may be unaligned.
+// Four bytes copied one byte at a time by CopyUnalignedWord in server_list.c.
 typedef struct UnalignedWord {
     /* 0 */ u8 mBytes[4];
 } UnalignedWord;

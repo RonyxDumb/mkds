@@ -10,8 +10,9 @@ void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata
 void DWCi_QR2TeamKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *userData);
 void DWCi_QR2PlayerKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *userData);
 
-// Key ids of the matching server's query reports: the reserved ids of the reporter, then the ids of this matching
-// code, then the game's own keys from DWC_QR2_GAME_KEY_START on (there are DWC_QR2_GAME_RESERVED_KEYS of them).
+// Key ids of the matching server's query reports: two reserved ids of the reporter (the completed and entry counts),
+// then the ids of this matching code, then the game's own keys from SERVER_KEY_GAME_FIRST on (there are
+// DWC_QR2_GAME_RESERVED_KEYS of them).
 #define NUMPLAYERS_KEY 8
 #define MAXPLAYERS_KEY 10
 #define NUM_RESERVED_KEYS 50
@@ -24,7 +25,7 @@ void DWCi_QR2PlayerKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *u
 #define DWC_QR2_GAME_KEY_START 100
 #define DWC_QR2_GAME_RESERVED_KEYS (MAX_REGISTERED_KEYS - NUM_RESERVED_KEYS - (100 - NUM_RESERVED_KEYS))
 
-// Value of the version key.
+// The matching version: the value of the version key and the version in the header of every matching command.
 #define DWC_MATCHING_VERSION 3
 
 // Values of the keytype argument of the key list callback.

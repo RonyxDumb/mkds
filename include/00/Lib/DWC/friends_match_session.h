@@ -35,9 +35,8 @@ enum {
 typedef void (*DWCLoginCallback)(s32 error, u32 profileId, u32 arg);
 
 typedef struct WiFiConnection {
-    // Gt2Socket * (declared void *): created by DWCi_GT2Startup when the login succeeds (called from
-    // login_process.c), closed by DWC_ShutdownFriendsMatch or by the socket's own callback DWCi_GT2SocketErrorCallback,
-    // which sets it NULL.
+    // Created by DWCi_GT2Startup when the login succeeds (called from login_process.c), closed by
+    // DWC_ShutdownFriendsMatch; the socket's own error callback DWCi_GT2SocketErrorCallback sets it NULL.
     /* 00 */ Gt2Socket *mSocket;
     // Slot 0 of a Gt2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
     // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect call):
@@ -47,9 +46,9 @@ typedef struct WiFiConnection {
     // (DWCi_RecvCallback).
     /* 08 */ void (*mDataCallback)();
     /* 0c */ s32 (*mClosedCallback)();
-    // Slot 3 of the record at mResultCallback: forwards (connection, elapsed time) to the net layer's mPingCallback
-    // callback (DWCi_PingCallback). Slot 2 (mClosedCallback) is the connection-closed
-    // handler DWCi_GT2ClosedCallback.
+    // Slot 3 of the record at mResultCallback: DWCi_GT2PingCallback, which forwards (connection, elapsed time) to
+    // DWCi_PingCallback and so to the message layer's mPingCallback. Slot 2 (mClosedCallback) is
+    // DWCi_GT2ClosedCallback.
     /* 10 */ void (*mElapsedTimeCallback)();
     // Passed to gti2CreateSocket as the send buffer size (0 selects 0x2000).
     /* 14 */ u32 mSendBufferSize;
@@ -97,9 +96,8 @@ typedef struct WiFiConnection {
     // mBuddySyncCallbackArg) when the sync ends or fails.
     /* 64 */ void (*mBuddySyncCallback)();
     /* 68 */ void *mBuddySyncCallbackArg;
-    // Set by DWC_ConnectToAnybodyAsync and its buddy variant; DWCi_MatchedCallback calls it with (result, flag,
-    // mMatchingCallbackArg) for matching modes 0 and 1 (the pair at 0x74 / 0x78 is called for modes 2 and 3 and is
-    // never set).
+    // Set by DWC_ConnectToAnybodyAsync and DWC_ConnectToFriendsAsync; DWCi_MatchedCallback calls it with (result, flag,
+    // mMatchingCallbackArg) for matching modes 0 and 1; modes 2 and 3 call mMatchedSCCallback, which nothing sets.
     /* 6c */ void (*mMatchingCallback)(u32 error, u32 cancel, void *arg);
     /* 70 */ void *mMatchingCallbackArg;
     /* 74 */ void (*mMatchedSCCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, void *arg);

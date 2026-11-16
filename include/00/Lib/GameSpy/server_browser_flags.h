@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// Bits of SbServer.mStateFlags: which data the server has and which query is waiting for its reply.
+// Bits of SbServer.mStateFlags: which keys the server has, which query is pending, a timed-out query and a received
+// reply (TimeoutOldQueries applies the timed-out bit and the pending clears to mFlags).
 #define STATE_BASICKEYS (1 << 0)
 #define STATE_FULLKEYS (1 << 1)
 #define STATE_PENDINGBASICQUERY (1 << 2)
@@ -15,7 +16,8 @@
 #define MAX_QUERY_MSEC 2500
 #define SL_LAN_SEARCH_TIME 2000
 
-// Bits of SbServer.mFlags as the server list sends them.
+// Bits of SbServer.mFlags: the flag byte of a server entry in the server list, which says which fields follow; the
+// local scan also sets two of them itself.
 #define UNSOLICITED_UDP_FLAG 1
 #define PRIVATE_IP_FLAG 2
 #define CONNECT_NEGOTIATE_FLAG 4
@@ -25,12 +27,14 @@
 #define HAS_KEYS_FLAG 64
 #define HAS_FULL_RULES_FLAG 128
 
-// Kinds of query the engine sends to a server.
+// Kinds of update the browser asks the query engine for: a basic or a full query; the ICMP kind makes the engine do
+// nothing.
 #define QTYPE_BASIC 0
 #define QTYPE_FULL 1
 #define QTYPE_ICMP 2
 
-// Request types the list sends to the master server, and the types of the messages it pushes back.
+// Request type of a message the list sends to the master server, and the types of the messages the master server pushes
+// to the list.
 #define SEND_MESSAGE_REQUEST 2
 #define PUSH_KEYS_MESSAGE 1
 #define PUSH_SERVER_MESSAGE 2
@@ -44,7 +48,7 @@
 #define ALTERNATE_SOURCE_IP 8
 #define LIMIT_RESULT_COUNT 128
 
-// Port the master server reports for a game name it does not know yet.
+// Port value the master server sends in place of the default port when an error text follows.
 #define LIST_UNKNOWN_GAME_PORT 0xffff
 
 // Port of the master server, as stored in network byte order (28910).

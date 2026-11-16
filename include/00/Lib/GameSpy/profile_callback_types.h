@@ -9,7 +9,7 @@ typedef enum GpRequestResult {
     GP_REQUEST_CONNECT_FAILED = 4
 } GpRequestResult;
 
-// A growable byte buffer: its data, capacity, length and read position.
+// A growable byte buffer: its data, capacity, length and the position up to which it was read or sent.
 typedef struct GpiBuffer {
     /* 00 */ u8 *mBuffer;
     /* 04 */ s32 mCapacity;
@@ -56,7 +56,8 @@ enum {
     PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS,
 };
 
-// One callback waiting in the queue: the function, its argument data, its kind and the next entry.
+// One callback waiting in the queue: the function, its argument data, its kind, the operation it belongs to
+// (mOperationId) and the next entry.
 typedef struct GpiQueuedCallback {
     /* 00 */ GpiCallback mCallback;
     /* 08 */ struct CallbackArgData *mArg;
