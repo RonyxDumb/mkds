@@ -44,6 +44,10 @@ enum {
 // Courses in a cup; RaceSetup.mCourseNumber and RaceSetupHeader.mCourseNumber count them from 1.
 #define COURSES_PER_CUP 4
 
+// Values of KartEntryPlayer.mTeamIndex in team modes: the first or the second team.
+#define RACE_TEAM_INDEX_FIRST 0
+#define RACE_TEAM_INDEX_SECOND 1
+
 // The player of a kart entry: kind, team, index, name, emblem, friend data and region.
 typedef struct KartEntryPlayer {
     /* 00 */ u32 mKind;

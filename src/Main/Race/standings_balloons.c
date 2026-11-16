@@ -756,10 +756,10 @@ void InitStandings(void) {
         kartStanding->mRankIndex = kartIndex;
         if (kartIndex < gRaceSetup->mKartCount) {
             switch (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex) {
-                case 0:
+                case RACE_TEAM_INDEX_FIRST:
                     kartStanding->mTeamId = STANDINGS_TEAM_ID_FIRST_TEAM;
                     break;
-                case 1:
+                case RACE_TEAM_INDEX_SECOND:
                     kartStanding->mTeamId = STANDINGS_TEAM_ID_SECOND_TEAM;
                     break;
                 default:

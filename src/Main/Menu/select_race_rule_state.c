@@ -5,6 +5,7 @@
 #include "Main/Scene/display_settings.h"
 #include "Main/Menu/picks_holder.h"
 #include "Main/Menu/select_return.h"
+#include "Main/Race/race_setup_block.h"
 #include "Main/Graphics/palette_blend.h"
 #include "Main/Menu/kart_icon_row.h"
 #include "Main/System/input_slots.h"
@@ -427,11 +428,11 @@ u32 GetOtherTeamIndex(u32 team) {
     u32 otherTeam = 2;
 
     switch (team) {
-        case 0:
-            otherTeam = 1;
+        case RACE_TEAM_INDEX_FIRST:
+            otherTeam = RACE_TEAM_INDEX_SECOND;
             break;
-        case 1:
-            otherTeam = 0;
+        case RACE_TEAM_INDEX_SECOND:
+            otherTeam = RACE_TEAM_INDEX_FIRST;
             break;
     }
     return otherTeam;
