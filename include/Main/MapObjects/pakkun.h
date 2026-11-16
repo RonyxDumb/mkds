@@ -61,7 +61,8 @@ MapObjectList *CreatePakkunUpdateList(void);
 MapObjectList *CreatePakkunZHeadDrawList(void);
 MapObjectList *CreatePakkunBodyDrawList(void);
 MapObjectList *CreatePakkunMouthDrawList(void);
-void UpdatePakkun(void *mapObjectList, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdatePakkun(void *mapObjectList,
+                  Pakkun *pakkun); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitPakkunObjects(void);
 void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun);
 void SetupDrawPakkunBody(void *mapObjectList);

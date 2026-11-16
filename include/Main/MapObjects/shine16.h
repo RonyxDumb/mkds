@@ -129,7 +129,7 @@ MapObjectList *CreateShine16ShadowDrawList(void);
 MapObjectList *CreateShine16DrawList(void);
 MapObjectKindData *CreateShine16KindData(void);
 void UpdateShine16(void *mapObjectList,
-                   Shine16 *shine16); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                   Shine16 *shine16); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 
 void AdvanceShine16ShadowAngleIndex(void);
 void DrawShine16Shadow(void *mapObjectList, Shine16 *shine16, void *unused, s32 maxAlpha);

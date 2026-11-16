@@ -39,7 +39,7 @@ MapObjectList *CreateShineBalloonDrawList(void);
 
 MapObjectKindData *CreateShineBalloonKindData(void);
 
-/* skipped for objects with mFlags & 4 (parked pool objects) */
+/* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
 void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
 void SetupDrawShineBalloon(void *mapObjectList);

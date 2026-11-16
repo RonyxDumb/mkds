@@ -113,7 +113,8 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
 void InitBound(Bound *bound);
 MapObjectList *CreateSunUpdateList(void);
 MapObjectList *CreateSunDrawList(void);
-void UpdateSun(MapObjectList *mapObjectList, Sun *sun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateSun(MapObjectList *mapObjectList,
+               Sun *sun); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitSunObjects(MapObjectList *mapObjectList);
 void DrawSun(void *mapObjectList, Sun *sun);
 

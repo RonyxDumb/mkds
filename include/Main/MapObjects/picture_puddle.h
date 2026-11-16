@@ -30,7 +30,7 @@ void CreatePuddle(void *mapObjectList);
 MapObjectList *CreatePictureUpdateList(void);
 MapObjectList *CreatePictureDrawList(void);
 void UpdatePicture(void *mapObjectList,
-                   Picture *picture); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                   Picture *picture); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawPicture(void *mapObjectList, Picture *picture);
 void CreatePicture1AndPicture2(void *mapObjectList);
 

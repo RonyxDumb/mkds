@@ -98,8 +98,9 @@ BOOL IsCoverPooHoleRaiseState(CoverPooHole *coverPooHole);
 MapObjectList *CreateCoverPooHoleUpdateList(void);
 MapObjectList *CreateCoverPooHoleDrawList(void);
 MapObjectKindData *CreateCoverPooHoleKindData(void);
-void UpdateCoverPooHole(void *mapObjectList,
-                        CoverPooHole *coverPooHole); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateCoverPooHole(
+    void *mapObjectList,
+    CoverPooHole *coverPooHole); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 s32 CoverPooHoleFX_MulInline(s32 value, s32 scale);
 s32 CoverPooHoleFX_SinIdx(s32 angle);
 void InitCoverPooHoleObjects(MapObjectList *mapObjectList);

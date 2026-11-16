@@ -27,7 +27,7 @@ void CreateChandelier(void *mapObjectList);
 MapObjectList *CreateTownMonteUpdateList(void);
 MapObjectList *CreateTownMonteDrawList(void);
 void UpdateTownMonte(void *mapObjectList,
-                     TownMonte *townMonte); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                     TownMonte *townMonte); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitTownMonteObjects(MapObjectList *mapObjectList);
 void DrawTownMonte(void *mapObjectList, TownMonte *townMonte);
 // The parameter is the draw group (typed MapObjectModel here); its +0x14 is the callback that runs after the group's
@@ -40,6 +40,6 @@ void InitCourseMapRowKindData(MapObject *mapObject);
 MapObjectList *CreateAirshipUpdateList(void);
 MapObjectList *CreateAirshipDrawList(void);
 void UpdateAirship(void *mapObjectList,
-                   Airship *airship); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                   Airship *airship); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 
 extern MapObjectModel *gChandelier;

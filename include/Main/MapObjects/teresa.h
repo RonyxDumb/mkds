@@ -49,7 +49,8 @@ void StartTeresa(Vec3 *startPos);
 void ClearTeresaTimers(void);
 MapObjectList *CreateTeresaUpdateList(void);
 MapObjectList *CreateTeresaDrawList(void);
-void UpdateTeresa(void *mapObjectList, Teresa *teresa); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateTeresa(void *mapObjectList,
+                  Teresa *teresa); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 s16 TeresaFX_CosIdx(s32 angle);
 s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier);
 s16 TeresaFX_SinIdx(s32 angle);

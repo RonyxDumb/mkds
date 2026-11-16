@@ -44,8 +44,9 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner);
 MapObjectList *CreateMkdEfBurnerUpdateList(void);
 MapObjectList *CreateMkdEfBurnerDrawList(void);
 MapObjectKindData *CreateMkdEfBurnerKindData(void);
-void UpdateMkdEfBurner(void *mapObjectList,
-                       MkdEfBurner *mkdEfBurner); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateMkdEfBurner(
+    void *mapObjectList,
+    MkdEfBurner *mkdEfBurner); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitMkdEfBurnerObjects(MapObjectList *mapObjectList);
 void DrawMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner);
 void SetupDrawMkdEfBurner(void *mapObjectList);

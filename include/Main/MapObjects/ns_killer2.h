@@ -46,7 +46,7 @@ void CreateNsKiller2UpdateList(void);
 void CreateNsKiller2DrawList(void);
 void CreateNsKiller2KindData(void);
 void UpdateNsKiller2(void *mapObjectList,
-                     NsKiller2 *nsKiller2); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                     NsKiller2 *nsKiller2); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2);
 void CreateNsKiller2AndNsKiller2S(void *mapObjectList);
 u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *resultPtr);
@@ -56,7 +56,7 @@ void InitNsKiller2(NsKiller2 *nsKiller2);
 MapObjectList *CreateNsKiller1UpdateList(void);
 MapObjectList *CreateNsKiller1DrawList(void);
 void UpdateNsKiller1(void *mapObjectList,
-                     NsKiller1 *nsKiller1); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                     NsKiller1 *nsKiller1); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitNsKiller1Objects(MapObjectList *mapObjectList);
 void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1);
 void CreateNsKiller1(void *mapObjectList);

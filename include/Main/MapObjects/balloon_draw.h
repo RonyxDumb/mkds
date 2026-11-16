@@ -20,7 +20,7 @@ void ResetBalloons(void);
 MapObjectList *CreateBalloonUpdateList(void);
 MapObjectList *CreateBalloonDrawList(void);
 void UpdateBalloon(void *mapObjectList,
-                   Balloon *balloon); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                   Balloon *balloon); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void UpdateBalloonAngle(Balloon *balloon);
 
 u32 GetBalloonDistanceSquared(Balloon *balloon);

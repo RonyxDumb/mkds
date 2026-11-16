@@ -38,7 +38,7 @@ MapObjectList *CreateFireball2UpdateList(void);
 MapObjectList *CreateFireball2DrawList(void);
 MapObjectKindData *CreateFireball2KindData(void);
 void UpdateFireball2(void *mapObjectList,
-                     Fireball2 *fireball2); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                     Fireball2 *fireball2); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitFireball2Objects(MapObjectList *mapObjectList);
 void DrawFireball2(void *mapObjectList, Fireball2 *fireball2);
 void SetupDrawFireball2(void *mapObjectList);

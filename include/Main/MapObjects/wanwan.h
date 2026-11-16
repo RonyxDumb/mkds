@@ -84,7 +84,8 @@ void UpdateWanwanRoam(void *stateObject);
 void EnterWanwanRoam(void *stateObject);
 u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
-void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateWanwan(void *unused,
+                  Wanwan *wanwan); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
 MapObjectList *CreateWanwanUpdateList(void);
 WanwanDrawList *CreateWanwanDrawList(void);

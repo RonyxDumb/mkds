@@ -50,7 +50,7 @@ MapObjectList *CreateBasabasaUpdateList(void);
 MapObjectList *CreateBasabasaDrawList(void);
 MapObjectKindData *CreateBasabasaKindData(void);
 void UpdateBasabasa(void *mapObjectList,
-                    Basabasa *basabasa); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                    Basabasa *basabasa); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawBasabasa(void *mapObjectList, Basabasa *basabasa);
 void SetupDrawBasabasa(void *mapObjectList);
 u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedFirstResponse, u8 *inOutResult);

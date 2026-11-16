@@ -54,7 +54,7 @@ MapObjectList *CreateFlipperUpdateList(void);
 MapObjectList *CreateFlipperDrawList(void);
 MapObjectKindData *CreateFlipperKindData(void);
 void UpdateFlipper(void *mapObjectList,
-                   Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                   Flipper *flipper); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitFlipperObjects(MapObjectList *mapObjectList);
 void DrawFlipper(void *mapObjectList, Flipper *flipper);
 void CreateFlipper(void *mapObjectList);

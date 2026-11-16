@@ -22,7 +22,8 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
 MapObjectKindData *CreateBridgeKindData(void);
 MapObjectList *CreateBridgeDrawList(void);
 MapObjectList *CreateBridgeUpdateList(void);
-void UpdateBridge(s32 unused, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateBridge(s32 unused,
+                  Bridge *bridge); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha);
 void DrawAllBridges(void *viewMatrix);
 

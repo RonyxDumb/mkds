@@ -51,7 +51,7 @@ typedef struct MoveTree {
 MapObjectList *CreateBakubakuUpdateList(void);
 MapObjectList *CreateBakubakuDrawList(void);
 void UpdateBakubaku(void *mapObjectList,
-                    Bakubaku *bakubaku); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                    Bakubaku *bakubaku); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitBakubakuObjects(MapObjectList *mapObjectList);
 void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku);
 void CreateBakubakuAndBakuShadow(void *mapObjectList);
@@ -59,7 +59,7 @@ MapObjectList *CreateMoveTreeUpdateList(void);
 MapObjectList *CreateMoveTreeDrawList(void);
 MapObjectKindData *CreateMoveTreeKindData(void);
 void UpdateMoveTree(void *mapObjectList,
-                    MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                    MoveTree *moveTree); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitMoveTreeObjects(MapObjectList *mapObjectList);
 void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha);
 void CreateMoveTree(void *mapObjectList);
