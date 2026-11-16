@@ -33,11 +33,13 @@ extern const u8 gOptionTopMenuXluCellIndices[3];
 extern const u8 gOptionTopMenuCellIndices[3];
 
 // Frames of the slide in and the slide out of the option top menu cells, and the distance they travel (mOffsetX);
-// mBg0Offset slides by OPTION_TOP_BG0_SLIDE_DISTANCE alongside when the screen comes from or goes to the settings menu.
+// mBg0Offset slides by OPTION_TOP_BG0_SLIDE_DISTANCE alongside: at the slide in when the previous option state is
+// OPTION_STATE_SELECT_MENU and the erase data row is not selected, at the slide out when the next option state is
+// OPTION_STATE_SELECT_MENU.
 #define OPTION_TOP_SLIDE_FRAMES 10
 #define OPTION_TOP_SLIDE_DISTANCE 250
 #define OPTION_TOP_BG0_SLIDE_DISTANCE 50
 
-// Frames the pressed row is shown before the slide out; the highlight comes back at the fifth.
+// Frames AdvanceOptionTopMenuPress runs before the slide out; mHighlightVisible is set again from the fifth.
 #define OPTION_TOP_PRESS_FRAMES 10
 #define OPTION_TOP_HIGHLIGHT_FRAME 5

@@ -262,7 +262,7 @@ void RequestSelectEngineSlideIn(void) {
 }
 
 // Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
-// mState and runs AdvanceSelectEngineSettle.
+// mState and runs AdvanceSelectEnginePressOffsetAfterSlideIn.
 void RequestSelectEngineSettle(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_SETTLE;
     gSelectEngine->mStateFrames = 0;

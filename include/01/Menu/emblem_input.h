@@ -3,12 +3,14 @@
 #include "types.h"
 #include "01/MapObjects/mission_run_map_object.h"
 
-// Calls a key has been held at which it repeats (the held counts also count 1 for the first call), and calls a touch
-// must stay within one pixel of its previous point to count as pressed and released.
+// A held key repeats on its first call and again whenever its held count is EMBLEM_INPUT_REPEAT_CALLS (the count steps
+// back to it after 16); a touch that stays within 1 of its previous x and y for more than
+// EMBLEM_INPUT_STILL_PRESS_CALLS calls counts as pressed and released.
 #define EMBLEM_INPUT_REPEAT_CALLS 0xf
 #define EMBLEM_INPUT_STILL_PRESS_CALLS 0x3c
 
-// The emblem editor input: pointer position, press, release and down state and how long each button has been held.
+// The emblem editor input: the touch point with its press, release and down state, and for each button the number of
+// calls it has been held (the count cycles between 15 and 16 once held longer).
 typedef struct EmblemInput {
     /* 0x00 */ s32 mX;
     /* 0x04 */ s32 mY;

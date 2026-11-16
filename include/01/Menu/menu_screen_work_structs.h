@@ -69,8 +69,8 @@ enum {
     MISSION_RUN_LVSEL_RESULT_BACK,
 };
 
-// Index of the last level (MissionRunLVsel.mIndex is the level number minus one); a reached level of this index selects
-// the layout with seven levels.
+// Index of the last level (MissionRunLVsel.mIndex is the level number minus one); the layout with seven levels is used
+// once MissionRunLVsel.mReachedLevel is at least this.
 #define MISSION_RUN_LVSEL_LAST_LEVEL_INDEX 6
 
 // Frames of the slide in and the slide out (the BG0 layer travels MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE), of the hold
@@ -129,13 +129,14 @@ enum {
     MSSEL_STATE_SLIDE_OUT,
 };
 
-// MissionRunMSsel.mIndex of the boss entry, which is shown differently until the boss was recorded and cannot be
-// picked before all missions are recorded.
+// MissionRunMSsel.mIndex of the boss entry (the ninth): it cannot be picked until all the other missions are recorded,
+// and its cells differ until then; once they are, its palette blends until the boss itself is recorded.
 #define MISSION_RUN_MSSEL_BOSS_INDEX 8
 
-// Frames of the slide in and the slide out, of the hold before the choices open, of the index change animation, and of
-// the highlight timer of a picked or moved-to entry; the palette blend of the boss entry repeats every
-// MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES, and the VRAM transfer queued during the slide in starts at its fifth frame.
+// Frames of the slide in and the slide out, of the hold before the choices open, of the highlight timer of a picked or
+// moved-to entry, and of the palette blend of the boss entry (a period of MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES); the
+// VRAM transfer queued during the slide out starts at its fifth frame. The index change animation takes
+// MENU_INDEX_CHANGE_FRAMES.
 #define MISSION_RUN_MSSEL_SLIDE_FRAMES 10
 #define MISSION_RUN_MSSEL_HOLD_FRAMES 5
 #define MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES 7
@@ -208,17 +209,18 @@ enum {
     SELECT_ENGINE_ENTRY_MIRROR,
 };
 
-// Values of SelectEngine.mResult, returned by AdvanceSelectEngine: an entry was pressed, or the return button.
+// Values of SelectEngine.mResult; AdvanceSelectEngine returns it once the slide out is done, as MENU_SCREEN_RESULT_NEXT
+// (an entry was pressed) or MENU_SCREEN_RESULT_BACK (the return button).
 enum {
     SELECT_ENGINE_RESULT_NONE,
     SELECT_ENGINE_RESULT_CHOSEN,
     SELECT_ENGINE_RESULT_RETURN,
 };
 
-// Frames of the slide in and the slide out, of the press and settle animation (GetSelectedPressOffset) with its
-// highlight at the fifth, and of an index change (SelectEngine.mIndexChangeFramesRemaining counts them down). The
-// cells slide in from SELECT_ENGINE_SLIDE_IN_DISTANCE_X, out to SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, and vertically by
-// SELECT_ENGINE_SLIDE_DISTANCE_Y.
+// Frames of the slide in and the slide out, of the settle animation (GetSelectedPressOffset) and of the press state
+// that follows a choice (it shows the highlight again when mStateFrames is 5), and of an index change
+// (MENU_INDEX_CHANGE_FRAMES). The cells slide in from SELECT_ENGINE_SLIDE_IN_DISTANCE_X, out to
+// SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, and vertically by SELECT_ENGINE_SLIDE_DISTANCE_Y.
 #define SELECT_ENGINE_SLIDE_FRAMES 10
 #define SELECT_ENGINE_PRESS_FRAMES 10
 #define SELECT_ENGINE_HIGHLIGHT_FRAME 5
@@ -305,7 +307,8 @@ enum {
 // button).
 #define EMBLEM_COLOR_COUNT 15
 
-// Entries of the template screen: the back button, then one entry per template from EMBLEM_TEMPLATE_ENTRY_FIRST on.
+// Entries of the template screen: the entry that leaves it (B activates it too), then one entry per template from / //
+// EMBLEM_TEMPLATE_ENTRY_FIRST on.
 enum {
     EMBLEM_TEMPLATE_ENTRY_BACK = 0,
     EMBLEM_TEMPLATE_ENTRY_FIRST = 3,

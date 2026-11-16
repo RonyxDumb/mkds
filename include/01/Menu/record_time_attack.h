@@ -33,21 +33,24 @@ enum {
     RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT,
 };
 
-// Frames of each slide of the screen (cells and BG layers); the cells travel RECORD_TATT_SLIDE_DISTANCE sideways, the
-// top layer RECORD_TATT_TOP_SLIDE_DISTANCE.
+// Frames of each slide of the screen (cells and BG layers); the cells and the BG1 and BG3 layers travel
+// RECORD_TATT_SLIDE_DISTANCE sideways, BG0, the BG1 Y offset and main table cell 0 RECORD_TATT_TOP_SLIDE_DISTANCE
+// vertically.
 #define RECORD_TATT_SLIDE_FRAMES 10
 #define RECORD_TATT_SLIDE_DISTANCE 256
 #define RECORD_TATT_TOP_SLIDE_DISTANCE 192
 
-// Frames of the press animation of a row (GetSelectedPressOffset).
+// Frames AdvanceRecordTAttPressButton runs the press animation (GetSelectedPressOffset) of its cells before the clear
+// question slides out.
 #define RECORD_TATT_PRESS_FRAMES 10
 
 // Frames into the slide out that hides the cells 12 and 13 of the sub layout table, and into the slide in that shows
-// cell 12 again, when the clear prompt or the time text opens or closes.
+// cell 12 again, when the clear question or the time record characters open or close.
 #define RECORD_TATT_HIDE_CELLS_FRAME 7
 #define RECORD_TATT_SHOW_CELL_FRAME 2
 
-// Frames the cells of a row shift after a left or right press (RecordTAtt.mOffsetTimers count them down).
+// Frames the Running cells (gRecordTAttRunningSTableIndices) shift after a left or right press
+// (RecordTAtt.mOffsetTimers[0] left, [1] right count them down).
 #define RECORD_TATT_OFFSET_TIMER_FRAMES 6
 
 // Entries of gRecordTAttCourseIds, the courses RecordTAtt.mIndex walks through.
@@ -124,7 +127,8 @@ enum {
 // Values of BackupAccess.mCopyPass: one copy, or the first or second of the two copies of a block.
 enum { BACKUP_COPY_PASS_SINGLE, BACKUP_COPY_PASS_FIRST, BACKUP_COPY_PASS_SECOND };
 
-// The state of save memory access: status, error, lock, the read and write requests with their buffers, the ghost slot.
+// The backup access: mStatus, mErrorCode, mLockId, the read and write requests with their addresses and buffers, and
+// mSlotGhostIndex.
 typedef struct BackupAccess {
     /* 00 */ s32 mStatus;
     /* 04 */ s32 mErrorCode;

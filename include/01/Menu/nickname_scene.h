@@ -19,8 +19,8 @@
 #include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "03/Net/essid_packet_steps.h"
 
-// States of NicknameScene.mState and mNextState: wait for the
-// fade, then three message boxes in a row.
+// States of NicknameScene.mState and mNextState: wait for the fade, then three message boxes; answer 0 of the first or
+// second box goes on to the next box and the other answer leaves, either answer of the third leaves.
 enum {
     NICKNAME_SCENE_STATE_WAIT_FADE,
     NICKNAME_SCENE_STATE_FIRST_MESSAGE,

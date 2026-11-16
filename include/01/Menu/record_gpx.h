@@ -52,8 +52,9 @@ typedef struct OptionTopMenu {
     /* 3c */ struct Bmg *mCommonMessages;
 } OptionTopMenu;
 
-// Values of RecordGpx.mIndex and the cup arguments of the record screen helpers: the cups in the order of their
-// names in common.bmg (entries 0x25 to 0x2c, gRecordGpxCupMessageIndices).
+// Values of RecordGpx.mIndex and the cup arguments of the record screen helpers: the cups in the order of the
+// common.bmg entries 0x25 to 0x2c (gRecordGpxCupMessageIndices). Cups 0, 1, 4 and 5 are always selectable; 2, 3, 6 and
+// 7 only when their backup flags are set (IsRecordGpxCupSelectable).
 enum {
     RECORD_GPX_CUP_MUSHROOM,
     RECORD_GPX_CUP_FLOWER,
@@ -82,24 +83,26 @@ enum {
     RECORD_INDEX_MOVE_PREVIOUS,
 };
 
-// The strip of the sub screen map (offset and size in bytes) that SetupRecordGpx fills from the map when the cup backup
-// flag is set and from the zeroed RecordGpx.mZeroBuffer otherwise.
+// The strip of the sub screen map (offset and size in bytes) that SetupRecordGpx copies from the map when the cup
+// backup flag of the selected cup is set; otherwise it reads the same offset in RecordGpx.mZeroBuffer, which holds only
+// RECORD_GPX_MAP_STRIP_BYTES zeroed bytes, so that read lies past the buffer.
 #define RECORD_GPX_MAP_STRIP_OFFSET 0x3c6
 #define RECORD_GPX_MAP_STRIP_BYTES 0x134
 
-// Frames of each slide of the screen (cells, pages and the BG0 layer); the cells travel RECORD_GPX_SLIDE_DISTANCE
-// sideways, the BG0 layer RECORD_GPX_BG0_SLIDE_DISTANCE.
+// Frames of each slide of the screen (cells, pages and the BG0 layer); the cells and pages travel
+// RECORD_GPX_SLIDE_DISTANCE sideways, the BG0 layer RECORD_GPX_BG0_SLIDE_DISTANCE vertically.
 #define RECORD_GPX_SLIDE_FRAMES 10
 #define RECORD_GPX_SLIDE_DISTANCE 256
 #define RECORD_GPX_BG0_SLIDE_DISTANCE 192
 
-// RecordGpx.mBg3OffsetY while no cup flag of the backup is set.
+// RecordGpx.mBg3OffsetY that InitRecordGpx stores when none of the cup backup flags is set; it stores 0 otherwise.
 #define RECORD_GPX_NO_CUP_BG3_OFFSET_Y 16
 
-// Frames the cells of a row shift after a left or right press (RecordGpx.mOffsetTimers count them down).
+// Frames the Running cells (gRecordGpxRunningSTableIndices) shift after a left or right press
+// (RecordGpx.mOffsetTimers[0] left, [1] right count them down).
 #define RECORD_GPX_OFFSET_TIMER_FRAMES 6
 
-// The Grand Prix record screen: its state, selected index, scroll offsets, heap, layout tables and trophy files.
+// The Grand Prix record screen: its state, selected index, BG offsets, heap, layout tables and trophy files.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMNcer;
@@ -130,8 +133,8 @@ typedef struct RecordGpx {
     /* 68 */ s32 mStateFrames;
     // The register receives the negation of this value in its upper half-word.
     /* 6c */ s32 mBg0Offset;
-    // X half of reg_G2S_DB_BG3OFS: the SUB engine's BG3, stored negated; the Y half is mBg3OffsetY (also the y
-    // of the S cells)
+    // mBg3OffsetX goes to the X half of reg_G2S_DB_BG3OFS (sub engine BG3) negated; mBg3OffsetY goes to the Y half,
+    // also negated, and is also the y offset of the S cells.
     /* 70 */ s32 mBg3OffsetX;
     /* 74 */ s32 mBg3OffsetY;
     /* 78 */ s32 mIndex;

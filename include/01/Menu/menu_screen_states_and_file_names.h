@@ -36,11 +36,13 @@ enum {
 #define OPTION_HENSYU_MENU_SLIDE_FRAMES 10
 #define OPTION_HENSYU_MENU_SLIDE_DISTANCE 250
 
-// Frames the chosen row is shown before the slide out; the highlight comes back at the fifth.
+// Frames the chosen row is held before the slide out; a row chosen while already selected has its highlight hidden
+// until the fifth frame.
 #define OPTION_HENSYU_MENU_PRESS_FRAMES 10
 #define OPTION_HENSYU_MENU_HIGHLIGHT_FRAME 5
 
-// The Hensyu (edit) option menu: its state, selected index, heap and layout tables.
+// The option menu with two rows, one leading to the keyboard scene and one to the emblem screens: its state, selected
+// index, heap and layout tables.
 typedef struct OptionHensyuMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
@@ -103,7 +105,8 @@ typedef struct MissionRunData {
     /* 48 */ struct MissionRunMapObject *mMapObjects[8];
 } MissionRunData;
 
-// Bytes of one 8 by 8 tile of cells; CreateEmblemGrid allocates the cell buffers one tile longer than the grid.
+// Bytes of one 8 by 8 tile of cells; CreateEmblemGrid allocates mBuffers[1] and mBuffers[2] one tile longer than the
+// grid, and GetEmblemGridCharSize reports that length.
 #define EMBLEM_GRID_TILE_BYTES 0x40
 
 // A square grid of mSide by mSide cells.
@@ -227,11 +230,13 @@ enum {
 #define OPTION_EMBREM_SELECT_SLIDE_FRAMES 10
 #define OPTION_EMBREM_SELECT_SLIDE_DISTANCE 250
 
-// Frames the chosen row is shown before the slide out; the highlight comes back at the fifth.
+// Frames the chosen row is held before the slide out; a row chosen while already selected has its highlight hidden
+// until the fifth frame.
 #define OPTION_EMBREM_SELECT_PRESS_FRAMES 10
 #define OPTION_EMBREM_SELECT_HIGHLIGHT_FRAME 5
 
-// Frames the cells of a row shift after its choice changed (OptionEmbremSelect.mOffsetTimers count them down).
+// Frames the cells listed in gOptionEmbremSelectTimerCellIndices shift after the emblem off choice is stepped left or
+// right (OptionEmbremSelect.mOffsetTimers count them down while row 1 is selected).
 #define OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES 6
 
 // The emblem option screen: its state, selected row, the emblem off choice, slide offsets, heap and layout tables.
@@ -302,13 +307,14 @@ enum {
     TIME_ATTACK_TOP_STATE_SLIDE_OUT,
 };
 
-// Frames of the slide in and the slide out; the rows travel TIME_ATTACK_TOP_SLIDE_DISTANCE sideways, the BG0 layer
-// TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE.
+// Frames of the slide in and the slide out; the rows travel TIME_ATTACK_TOP_SLIDE_DISTANCE sideways (mOffsetX), and
+// mBg0Offset runs between 0 and -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE.
 #define TIME_ATTACK_TOP_SLIDE_FRAMES 10
 #define TIME_ATTACK_TOP_SLIDE_DISTANCE 224
 #define TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE 192
 
-// Frames of the press animation of a row (GetSelectedPressOffset); its highlight is shown at the fifth.
+// Frames of the GetSelectedPressOffset animation, run by the settle state for every row and by the press state for the
+// chosen row; the press state shows its highlight again when mStateFrames is 5.
 #define TIME_ATTACK_TOP_PRESS_FRAMES 10
 #define TIME_ATTACK_TOP_HIGHLIGHT_FRAME 5
 

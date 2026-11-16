@@ -39,11 +39,13 @@ enum {
 #define OPTION_SELECT_BG_SLIDE_DISTANCE 140
 #define OPTION_SELECT_BG2_SLIDE_DISTANCE 40
 
-// Frames the chosen OK entry is shown before the slide out; the highlight comes back at the fifth.
+// Frames AdvanceOptionSelectMenuOkPressedDelay runs before the slide out; mHighlightVisible is set again from the
+// fifth.
 #define OPTION_SELECT_PRESS_FRAMES 10
 #define OPTION_SELECT_HIGHLIGHT_FRAME 5
 
-// Frames the cells of a row shift after its value changed (OptionSelectMenu.mOffsetTimers count them down).
+// Frames the cells of a row shift after a left or right press or a touch on its left or right arrow
+// (OptionSelectMenu.mOffsetTimers count them down).
 #define OPTION_SELECT_OFFSET_TIMER_FRAMES 6
 
 // The option select menu with two setting rows and an OK entry: their values, saved values, offsets and layout tables.

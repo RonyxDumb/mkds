@@ -10,13 +10,13 @@ typedef struct SelectBattleStageNscrRect {
     /* 03 */ u8 mLastRow;
 } SelectBattleStageNscrRect;
 
-// The stages (SelectBattleStage.mIndex) listed top to bottom.
+// The stages SelectBattleStage.mIndex walks through with the up and down keys.
 #define SELECT_BATTLE_STAGE_COUNT 6
 
-// Frames of the slide in and the slide out; the layers slide in from SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y and _X, the
-// stage cells from SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE. The slide in is followed by SETTLE_FRAMES of the press
-// offset animation (GetSelectedPressOffset), which the press of a stage plays as well; its highlight shows at the
-// fifth.
+// Frames of the slide in and the slide out; the layers slide from SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y and _X, the
+// stage cells from SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE. The slide in is followed by
+// SELECT_BATTLE_STAGE_SETTLE_FRAMES of the press offset animation (GetSelectedPressOffset), which the press of a stage
+// plays as well; the highlight of a pressed stage shows again at the fifth.
 #define SELECT_BATTLE_STAGE_SLIDE_FRAMES 10
 #define SELECT_BATTLE_STAGE_SETTLE_FRAMES 10
 #define SELECT_BATTLE_STAGE_HIGHLIGHT_FRAME 5
@@ -24,7 +24,8 @@ typedef struct SelectBattleStageNscrRect {
 #define SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X 256
 #define SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE 220
 
-// Frames the cells of a stage shift after the index changed or a stage was pressed (mOffsetTimer counts them down).
+// Frames mOffset follows gSelectBattleStageOffsets after the index changed or a stage was pressed (mOffsetTimer counts
+// them down); mOffset moves main cells 1 to 3 and the BG2 layer vertically.
 #define SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES 6
 
 extern const u8 gSelectBattleStageSTableIndices[6][3];
