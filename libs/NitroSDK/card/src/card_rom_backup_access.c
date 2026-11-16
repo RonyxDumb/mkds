@@ -278,8 +278,9 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
     }
 }
 
-// Task for a ROM read the DMA path did not take: reads the rest through CARDRomStat.mReadFunc, then ends the transfer
-// and calls the callback.
+// Finishes a ROM read the DMA path did not take: copies from the cached page, reads the rest through
+// CARDRomStat.mReadFunc, then ends the transfer and calls the callback. Runs as the worker task or directly on the
+// calling thread.
 void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
     CARDiCommon *common;
     CARDRomStat *romStat;
@@ -344,7 +345,8 @@ void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, vo
     }
 }
 
-// Sets up the card state once: clears the transfer words, CARDi_InitCommon, stores the page reader in gRomReadState and
+// Does nothing when CARDiCommon.mFlag is already set. Otherwise sets the initialized bit, resets mSrc, mDst, mLen,
+// mDma, the callback and gRomBaseOffset, calls CARDi_InitCommon, stores the page reader in gRomReadState.mReadFunc and
 // installs the pull-out callback.
 void CARD_Init(void) {
     CARDiCommon *common;
@@ -364,7 +366,7 @@ void CARD_Init(void) {
     CARD_InitPulledOutCallback();
 }
 
-// Waits for the running transfer to end.
+// Waits for the running transfer to end. Returns 1 when CARDiCommandArg.mResult is 0.
 int CARD_WaitRomAsync(void) {
     return CARDi_WaitAsync();
 }
@@ -374,8 +376,9 @@ RomPageReadFunc CARDi_GetRomAccessor(void) {
     return CARDi_ReadCard;
 }
 
-// Task that sends the backup transfer in pieces of at most 0x100 bytes through CARDiCommon.mBackupCachePageBuf, then
-// ends the transfer and calls the callback.
+// Runs a backup transfer in pieces of at most 0x100 bytes through CARDiCommon.mBackupCachePageBuf, as the worker task
+// or directly on the calling thread. Stops early when a request fails or the stop bit is set, then ends the transfer
+// and calls the callback.
 void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
     u32 reqType;
     u32 reqMode;
@@ -472,7 +475,8 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback,
     return common->mCmd->mResult == ACCESS_RESULT_OK;
 }
 
-// Sets the backup type, then reads one byte of the backup to identify it. Returns 1 when CARDiCommandArg.mResult is 0.
+// Sets the backup type, sends the identify request, then reads one byte of the backup. Returns 1 when
+// CARDiCommandArg.mResult is 0. A type of 0 ends in OS_Terminate.
 int CARD_IdentifyBackup(s32 type) {
     CARDiCommon *common;
     CARDCallback callback;
@@ -515,7 +519,7 @@ int CARD_IdentifyBackup(s32 type) {
     return common->mCmd->mResult == ACCESS_RESULT_OK;
 }
 
-// Waits for the running transfer to end.
+// Waits for the running transfer to end. Returns 1 when CARDiCommandArg.mResult is 0.
 int CARD_WaitBackupAsync(void) {
     return CARDi_WaitAsync();
 }
@@ -525,8 +529,9 @@ int CARD_TryWaitBackupAsync(void) {
     return CARDi_TryWaitAsync();
 }
 
-// An unsupported type clears mType and mTotalSize and stores ROM_ACCESS_UNSUPPORTED_TYPE in
-// CARDiCommandArg.mResult; type 0 only clears the description and stores nothing.
+// Fills CARDiCommandArg.mType and the device description (mTotalSize, mSectSize, mPageSize, mAddrWidth, mProgramPage,
+// mWritePage, mWritePageTotal) for a backup type. Type 0 only clears them. An unsupported type clears mType and
+// mTotalSize and stores ROM_ACCESS_UNSUPPORTED_TYPE in CARDiCommandArg.mResult.
 void CARDi_IdentifyBackupCore(s32 type) {
     CARDiCommandArg *commandArg;
     u32 size;
@@ -609,8 +614,8 @@ void CARDi_SetTask(void (*task)(CARDiCommon *)) {
     OS_WakeupThreadDirect(&common->mThread);
 }
 
-// Takes the lock for the owner and target, waiting while another owner holds it. Reusing an owner with a different
-// target ends in OS_Terminate.
+// Takes the lock for the owner and target and adds one to CARDiCommon.mLockRef, waiting while another owner holds it.
+// The same owner takes it again without waiting; a different target for that owner ends in OS_Terminate.
 void CARDi_LockResource(u32 owner, u32 target) {
     CARDiCommon *common;
     u32 savedInterrupts;
@@ -633,8 +638,8 @@ void CARDi_LockResource(u32 owner, u32 target) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Gives the lock back. At a count of 0 the owner becomes -3 and the waiting threads wake up. A wrong owner or target
-// ends in OS_Terminate.
+// Gives the lock back: subtracts one from CARDiCommon.mLockRef and, when it reaches 0, sets mLockOwner to -3 and wakes
+// the waiting threads. A different owner, a count already 0 or a different target ends in OS_Terminate.
 void CARDi_UnlockResource(u32 owner, u32 target) {
     CARDiCommon *common;
     u32 savedInterrupts;
@@ -658,8 +663,9 @@ void CARDi_UnlockResource(u32 owner, u32 target) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Sets up the lock and the command block, creates the worker thread and installs the tag 11 reply callback. Enables
-// card access unless the halfword at 0x027ffc40 is 2.
+// Sets up the lock and the command block, creates the worker thread and installs the tag 11 reply callback. Unless
+// mWmBootBuf.mBootType is BOOT_TYPE_MULTIBOOT, it also copies the ROM header to HW_CARD_ROM_HEADER at the start and
+// enables card access at the end.
 void CARDi_InitCommon(void) {
     CARDiCommon *common;
 
