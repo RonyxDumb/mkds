@@ -154,10 +154,6 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void MBi_ReadSegmentHeader(u32 *segmentHeader, u32 offsetStart, u32 offsetEnd, int fillFlag) {
     u32 rangeStart;
     if (offsetStart < (0x00004000u)) {

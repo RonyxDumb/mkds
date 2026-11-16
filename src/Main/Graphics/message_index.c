@@ -26,9 +26,7 @@ const s32 gCourseMessageIndexTable[48] = {-1,   0x4c, -1,   -1,   -1,   -1,   -1
 u32 GetCharacterSeqPairNo(u32 characterIndex) {
     return gCharacterSeqPairNoTable[characterIndex];
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 GetCharacterKartIndexByMode(s32 characterIndex) {
     s32 kartIndex = -1;
     switch (GetRaceSetupCopy()->mMode) {
@@ -58,15 +56,10 @@ s32 FindKartTableIndex(u32 kartIndex) {
     }
     return foundIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKartIndexAtTableIndex(u32 tableIndex) {
     return gKartIndexTable[tableIndex];
 }
-#pragma thumb off
-
-#pragma thumb on
 
 int CountKartsWithinAppearLimit(KartAppear *appear, u32 characterIndex) {
     int count;
@@ -86,9 +79,6 @@ int CountKartsWithinAppearLimit(KartAppear *appear, u32 characterIndex) {
     return count;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 s32 GetKartPositionWithinAppearLimit(KartAppear *appear, u32 characterIndex, s32 kartIndex) {
     s32 position = 1;
     s32 tableIndex;
@@ -111,21 +101,14 @@ s32 GetKartPositionWithinAppearLimit(KartAppear *appear, u32 characterIndex, s32
     } while (tableIndex != startIndex);
     return position;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKartMessageIndex(u32 kartIndex) {
     return gKartMessageIndexTable[kartIndex];
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetCourseMessageIndex(u32 courseId) {
     return gCourseMessageIndexTable[courseId];
 }
-#pragma thumb off
-
-#pragma thumb on
 
 int GetGhostCourseMessageIndex(int courseId) {
     int messageIndex;

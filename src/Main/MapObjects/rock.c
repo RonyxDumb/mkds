@@ -279,21 +279,15 @@ void CreateNsbmdAndShadowNsbmd(void *mapObjectList, const char *name, const char
     SetNsbmdPolygonIdLightEmiAll(gRock, 0x3f, 2, 0x294a);
     SetNsbmdPolygonIdAll(gRock, 7);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateRock(void *mapObjectList) {
     CreateNsbmdAndShadowNsbmd(mapObjectList, "rock.nsbmd", "rock_shadow.nsbmd");
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateRock2(void *mapObjectList) {
     CreateNsbmdAndShadowNsbmd(mapObjectList, "rock2.nsbmd", "rock2_shadow.nsbmd");
 }
-#pragma thumb off
 
-#pragma thumb on
 // Fills a Rock from its course map row; both Rock kinds use it.
 void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     CourseMapGroupEntry *startEntry;
@@ -339,9 +333,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     }
     rock->mMapObject.mFlags |= gRockThirdFlag;
 }
-#pragma thumb off
 
-#pragma thumb on
 // Turns the stored offsets of the loaded collision file into pointers.
 void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) {
     *collision = *file;
@@ -351,9 +343,7 @@ void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) 
     collision->mTree = OFFSET_PTR(u8, file, (u32) collision->mTree);
     gSearchCollisionSlots = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitCourseCollision(void) {
     LoadCourseCollisionData(&gCourseCollision, FindCourseFile("course_collision.kcl"));
 }

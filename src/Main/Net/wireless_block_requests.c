@@ -43,10 +43,6 @@ WBTCommand *GetNextRequestAddress(void) {
     return &gBlockTransfer.mNextRequest;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 TrySetNextRequest(const WBTCommand *request) {
     u32 savedInterrupts;
     WBTCommand *nextRequest;
@@ -65,10 +61,6 @@ u32 TrySetNextRequest(const WBTCommand *request) {
     return 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 WBTBlockInfoList *GetBlockListHead(void) {
     return gBlockListHead;
 }
@@ -76,10 +68,6 @@ WBTBlockInfoList *GetBlockListHead(void) {
 void SetBlockListHead(WBTBlockInfoList *head) {
     gBlockListHead = head;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 WBTBlockInfoList *FindBlockById(u32 blockId) {
     WBTBlockInfoList *node;
@@ -91,10 +79,6 @@ WBTBlockInfoList *FindBlockById(u32 blockId) {
     return NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WBT_SetOwnAid(u32 index) {
     gOwnIndex = index;
 }
@@ -102,10 +86,6 @@ void WBT_SetOwnAid(u32 index) {
 u32 WBT_GetOwnAid(void) {
     return gOwnIndex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 s32 WBT_AidbitmapToAid(s32 mask) {
     s32 aid;
@@ -150,10 +130,6 @@ u32 WBT_SetPacketSize(s32 sendSize, s32 receiveSize) {
     return 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 int WBT_NumOfRegisteredBlock(void) {
     int count;
     WBTBlockInfoList *node;
@@ -163,10 +139,6 @@ int WBT_NumOfRegisteredBlock(void) {
     }
     return count;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *userId, u8 *data, u32 size, u16 permissionBmp) {
     WBTBlockInfoList *lastNode;
@@ -333,10 +305,6 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
     return WriteEmptyPacket(buffer, 0xfffe, 0);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReceivePacketFromIndex(u32 index, const u8 *packet, int size) {
     if (0 < size) {
         WBT_CallPacketRecvHook(GetBlockTransfer(), index, packet, size);
@@ -346,10 +314,6 @@ void ReceivePacketFromIndex(u32 index, const u8 *packet, int size) {
 void ReceiveParentPacket(const u8 *packet, u32 size) {
     WBT_CallPacketRecvHook(GetBlockTransfer(), 0, packet, size);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void BuildChildPacketUnchecked(u8 *buffer, s32 bufferSize) {
     BlockTransfer *transfer;

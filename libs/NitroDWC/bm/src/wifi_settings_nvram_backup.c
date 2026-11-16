@@ -56,10 +56,6 @@ BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 ReadNvramEntriesOffset(u16 *buffer) {
     int readResult;
     readResult = readNvram(0x20, 0x20, buffer);
@@ -139,15 +135,9 @@ u32 WriteNvramEntriesWithCrc16(u8 *data) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WritePackedWiFiInfo(const u8 *packedWiFiInfo) {
     MI_CpuCopy8(packedWiFiInfo, gPackedWiFiInfo, 14);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u8 DWCi_BACKUPlConvMaskCidr(const u8 *mask) {
     s32 count;

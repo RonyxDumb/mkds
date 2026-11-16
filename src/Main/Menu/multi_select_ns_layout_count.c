@@ -628,10 +628,6 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     FrmHeapShrinkInParent(gMultiSelectMember->mHeap);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 BOOL MultiSelectMemberIsSubSlideInDone(void) {
     if (gMultiSelectMember->mInterpolations[2].mState == INTERPOLATION_STATE_AT_END) {
         return 1;
@@ -659,10 +655,6 @@ void DrawMultiSelectMember(void) {
         } while (screenIndex < 2);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
     CellFileSet *subFileSet;
@@ -983,20 +975,12 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseMultiSelectMember(void) {
     SetTxtSystemBgOffsetRequested(0, 0);
     ClearPaletteBlendPointer();
     HeapDestroy(gMultiSelectMember->mHeap);
     *&gMultiSelectMember = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteMultiSelectMemberRegisters(void) {
     s32 displayBits;

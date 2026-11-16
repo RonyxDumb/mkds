@@ -142,10 +142,6 @@ void CreateObPakkunSf(void) {
     SetNsbmdModelFixedAttributes(gObPakkunSf);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
     obPakkunSf->mPushedObject.mMapObject.mPos.y =
         obPakkunSf->mPushedObject.mMapObject.mPos.y +

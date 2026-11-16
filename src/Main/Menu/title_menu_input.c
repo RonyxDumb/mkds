@@ -131,9 +131,6 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
     SetupAndDrawTitleTable();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 TitleSlideOutReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }

@@ -60,16 +60,12 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
     }
     DrawSinglePlaySelectCells();
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteSinglePlaySelect2Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }
-#pragma thumb off
 
-#pragma thumb on
 #pragma optimize_for_size on
 void UpdateSinglePlaySelectMenuScreen2(void) {
     s32 frame;
@@ -96,16 +92,12 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
     }
     DrawSinglePlaySelectCells();
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteSinglePlaySelect3Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }
-#pragma thumb off
 
-#pragma thumb on
 #pragma optimize_for_size on
 void UpdateSinglePlaySelectMenuScreen3(void) {
     s32 nextScreenAndModeTable[5][2] = {{4, 0}, {0x14, 1}, {8, 3}, {0xe, 2}, {0x12, 4}};

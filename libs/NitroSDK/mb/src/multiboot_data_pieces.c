@@ -15,16 +15,10 @@ void MBi_SetChildMPMaxSize(s32 packetSize) {
     gPieceSizes.mBufSize = MULTIBOOT_CHILD_PIECE_BUFFER_SIZE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer) {
     gPieceBuffer = buffer;
     MI_CpuFill8(buffer, 0, sizeof(MbRequestPieceBuf));
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_ClearParentPieceBuffer(s32 child) {
     s32 childIndex;
@@ -35,10 +29,6 @@ void MBi_ClearParentPieceBuffer(s32 child) {
         gPieceBuffer->mDataBmp[childIndex] = 0;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u8 *MBi_MakeParentSendBuffer(ParentMessage *message, u8 *output) {
     u8 *cursor;

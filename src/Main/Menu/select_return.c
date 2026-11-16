@@ -67,15 +67,11 @@ s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     gSelectReturn->mSoundId = SELECT_RETURN_SOUND_ID;
     return subCharOffset;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearSelectReturnPointer(void) {
     gSelectReturn = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitSelectReturnDisplay(void) {
     u32 subDisplayBits;
     subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
@@ -146,9 +142,6 @@ void AdvanceSelectReturnSlideIn(void) {
         gSelectReturn->mSlideInRequested = FALSE;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectReturnShown(void) {
     SelectReturn *selectReturn;
@@ -163,9 +156,6 @@ void AdvanceSelectReturnShown(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceSelectReturnPress(void) {
     SelectReturn *selectReturn;
     selectReturn = gSelectReturn;
@@ -308,9 +298,6 @@ BOOL IsSelectReturnHiddenNoSlideInRequest(void) {
     }
     return result;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 int LookupSelectReturnSlideInBg2Offset(int frame) {
     if (frame < 0) {
@@ -332,45 +319,32 @@ int LookupSelectReturnSlideOutBg2Offset(int frame) {
     return gSelectReturnSlideOutBg2Offsets[frame];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 BOOL IsSelectReturnShownNoRequestAndInRect(s32 pointX, s32 pointY) {
     if (IsSelectReturnShownNoRequest() != 0 && pointX >= 0 && pointX <= 0x28 && pointY >= 0x98 && pointY <= 0xc0) {
         return TRUE;
     }
     return FALSE;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearSelectReturnDisplayBitOn(void) {
     gSelectReturn->mDisplayBitOn = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetSelectReturnDisplayBitOn(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gSelectReturn->mDisplayBitOn = TRUE;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetSelectReturnSoundId(u32 soundId) {
     gSelectReturn->mSoundId = soundId;
 }
-#pragma thumb off
 
-#pragma thumb on
 // Zeroes the char buffer gate; StartSelectChoises sets it after taking the strings.
 void ClearSelectChoisesUseCharBuffers(void) {
     gSelectChoises->mUseCharBuffers = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     s32 canvasIndex;
     s32 charSpacing;
@@ -417,15 +391,11 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     gSelectChoises->mIndexNoneSoundId = SELECT_CHOISES_NONE_SOUND_ID;
     return subCharOffset;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearSelectChoisesPointer(void) {
     gSelectChoises = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 InitSelectChoisesDisplay(void) {
     u32 operandBits;
     u32 registerValue;
@@ -443,9 +413,6 @@ u32 InitSelectChoisesDisplay(void) {
     *(u16 *) ((registerAddress) + 0u) = registerValue;
     return operandBits;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 s32 LoadSelectChoises(s32 subCharOffset) {
     Ncgr *chars;
@@ -694,9 +661,6 @@ void AdvanceSelectChoisesChoose(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectChoisesChosen(void) {
     SelectChoises *selectChoises;
@@ -718,10 +682,6 @@ void AdvanceSelectChoisesChosen(void) {
         RefreshAndQueueSelectChoises();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectChoises(void) {
     if (gSelectChoises->mEnabled != 0) {
@@ -824,9 +784,6 @@ BOOL IsSelectChoisesHiddenNoRequest(void) {
     }
     return result;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 s32 GetSelectChoisesIndex(void) {
     if (gSelectChoises->mIndexNone != 0) {

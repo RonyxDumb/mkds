@@ -36,9 +36,6 @@ void UpdateBattleSelectCharacter(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteBattleSelectRaceRuleRegisters(void) {
     int screenChanged;

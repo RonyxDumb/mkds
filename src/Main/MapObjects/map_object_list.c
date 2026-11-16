@@ -55,10 +55,6 @@ void ClearMapObjectListSlots(void) {
     } while (index < 0x10);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind,
                                 Vec3 *hitOffset) {
     s32 bestResponse;
@@ -116,10 +112,6 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
     }
     return bestResponse;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetMapObjectKindCount(void) {
     return (gMapObjectKindCount);

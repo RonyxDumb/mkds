@@ -116,17 +116,9 @@ void LocateAndQueueRecordVSErase(void) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x40, emblemPalette->mData, 0x20);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 GetRecordVSEraseFirstRecordIndex(void) {
     return gRecordVSErase->mPageIndex * 5;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 BOOL IsRecordVSEraseRowFilled(int row) {
     int firstRecordIndex;
@@ -138,10 +130,6 @@ BOOL IsRecordVSEraseRowFilled(int row) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateRecordVSEraseRows(void) {
     s32 rowIndex;
@@ -304,25 +292,17 @@ void RefreshRecordVSErasePage(void) {
     PrintRecordVSEraseShownRecord();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 IncrementRecordVSErasePageIndex(void) {
     s32 pageIndex = gRecordVSErase->mPageIndex + 1;
     gRecordVSErase->mPageIndex = pageIndex;
     return pageIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 DecrementRecordVSErasePageIndex(void) {
     s32 pageIndex = gRecordVSErase->mPageIndex - 1;
     gRecordVSErase->mPageIndex = pageIndex;
     return pageIndex;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void IncrementRecordVSEraseIndex(void) {
     int rowFilled;
@@ -359,10 +339,6 @@ void DecrementRecordVSEraseIndex(void) {
     gRecordVSErase->mIndex = previousIndex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSEraseOffsetTimers(void) {
     s32 firstRecordIndex;
     BOOL hiddenA;
@@ -394,20 +370,12 @@ void AdvanceRecordVSEraseOffsetTimers(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsRecordVSEraseIndexChangeRunning(void) {
     if (gRecordVSErase->mIndexChangeTimer != 0) {
         return 1;
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSEraseIndexChange(void) {
     s32 mainCellCount;
@@ -711,10 +679,6 @@ void ReleaseRecordVSErase(void) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (planeBits << 8);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSEraseOpenIntroText(void) {
     int txtSystemNoCloseRequest;
     txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
@@ -738,10 +702,6 @@ void AdvanceRecordVSEraseCloseIntroText(void) {
         RequestRecordVSEraseSlideInSub();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSEraseSlideInSub(void) {
     s16 offsetX;
@@ -1053,10 +1013,6 @@ void AdvanceRecordVSEraseSubSlideOut(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSEraseOpenConfirmText(void) {
     int noCloseRequest;
     noCloseRequest = IsTxtSystemOpenNoCloseRequest();
@@ -1064,10 +1020,6 @@ void AdvanceRecordVSEraseOpenConfirmText(void) {
         RequestRecordVSEraseWaitConfirmAnswer();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSEraseWaitConfirmAnswer(void) {
     u16 firstRecordIndex;

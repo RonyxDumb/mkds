@@ -25,9 +25,7 @@ u32 InitMapObjectUpdateList(MapObjectList *list) {
     *(u32 *) ((listPointer) + 32u) = valueA;
     return valueA;
 }
-#pragma thumb off
 
-#pragma thumb on
 // While still unset, also fills the list's words 0x18 to 0x20.
 void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject) {
     u16 mapObjectIndex;
@@ -48,9 +46,6 @@ void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject
         mapObjectList->mItemFirstResponse = GetItemObjectFirstResponse(6, mapObject);
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetUpdateListSlot(void *listSlot) {
     (*(MapObjectList **) listSlot)->mDrawOrder = listSlot;

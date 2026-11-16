@@ -781,18 +781,12 @@ void InitKartModelsEntry(void *entry) {
     entryAddress = (entryAddress) + 148u;
     *(u16 *) ((entryAddress) + 0u) = fieldValue;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void ResetKartKillerAnimationLooping(KartModelsEntry *kartModelsEntry) {
     ResetModelAnimationLooping(&kartModelsEntry->mKillerItemAnimation,
                                GetModelAnimationFrameCountFixed(&gKartModels->mKillerItemNsbca));
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitCharacterAnimationState(u32 animationStateAddress) {
     u32 animationState = animationStateAddress;
     u32 zero;
@@ -803,9 +797,6 @@ void InitCharacterAnimationState(u32 animationStateAddress) {
     *(u32 *) ((animationState) + 4u) = zero;
     *(u16 *) ((animationState) + 16u) = zero;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 // TRUE when the entry's character files use the P name list.
 BOOL IsCharacterPNameUsed(s32 kartIndex) {
@@ -831,20 +822,12 @@ BOOL IsCharacterPNameUsed(s32 kartIndex) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Stores the kart index modulo 3.
 void SetKartModelsEntryVariant(KartModelsEntry *kartModelsEntry, int kartIndex) {
     u16 variant;
     variant = kartIndex % 3;
     kartModelsEntry->mVariant = variant;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitKartModels(void *heap, u32 kartCount) {
     u8 *kartOffsetFile;
@@ -1204,10 +1187,6 @@ void InitKartModelMenuAppearAndPalette(void *heap, s32 createKartAppear) {
     gKartModelMenu->mSelectModel = NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void CreateKartModelMenuCharacter(void *heap, Nsbmd *nsbmd, void *animation, NNSG3dResFileHeader *modelFile,
                                   NNSG3dResFileHeader *textureFile, void *animationFile) {
     NNSG3dResMdl *mdl;
@@ -1241,10 +1220,6 @@ void CreateKartModelMenuTire(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
     SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_MENU);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void *CreateKartModelMenuShadow(ShadowModel *shadowModel, NNSG3dResFileHeader *modelFile) {
     return InitShadowModel(shadowModel, modelFile, 3);
 }
@@ -1259,10 +1234,6 @@ void LoadKartModelMenuSelectModel(void *heap) {
     SetNsbmdPolygonIdAll(gKartModelMenu->mSelectModel, 2);
     NNS_G3dMdlSetMdlXLDepthUpdateAll(gKartModelMenu->mSelectModel->mResMdl, 1);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadKartModelMenuEmblemTexData(NNSG3dResFileHeader *file) {
     gKartModelMenu->mEmblemTex = NNS_G3dGetTex(file);
@@ -1297,10 +1268,6 @@ void InitKartModelMenuView(KartModelMenuView *view, int flag) {
     view->mBg0Offset = bg0Offset;
     view->mBg0Direction = 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
     NNSG3dResMdl *mdl;
@@ -1654,10 +1621,6 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupKartModelEmblemTex(KartModelMenuSlot *slot) {
     if ((gKartModelMenu->mUseEmblemTex != FALSE) && (slot->mEmblemTex != NULL)) {
         NNS_G3dReleaseMdlTexEx(slot->mKartNsbmd->mResMdl, (const u32 *) gEmblemTextureName);
@@ -1666,10 +1629,6 @@ void SetupKartModelEmblemTex(KartModelMenuSlot *slot) {
         NNS_G3dBindMdlPlttEx(slot->mKartNsbmd->mResMdl, slot->mEmblemTex, (const u32 *) gEmblemPaletteName);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceKartModelMenu(s32 mirrorMode) {
     KartModelMenuView *view;
@@ -1904,10 +1863,6 @@ void StartKartModelMenuTimedSpinStop(void) {
     gKartModelMenu->mSpinStopFrames = 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetKartModelMenuSpinStopped(u32 flag) {
     gKartModelMenu->mSpinStopped = flag;
 }
@@ -1931,17 +1886,9 @@ void AdvanceAngleToward(u16 *angle, int targetAngle, u32 easeFactor) {
     *angle = oldAngle;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 Nclr *GetEmblemSBNclr(void) {
     return gEmblemSBNclr;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Bytes of the exp heap that holds the kart model menu files.
 #define KART_MODEL_MENU_HEAP_SIZE 0xf000
@@ -1965,10 +1912,6 @@ void InitKartModelMenuFiles(void *heap, KartModelMenuFiles *files) {
     files->mLoadRequested = FALSE;
     files->mLoadStep = 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadKartAndCharacterFiles(void) {
     KartModelMenuFiles *files;
@@ -2057,10 +2000,6 @@ void AdvanceKartModelMenuLoad(void) {
         }
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitLnkVramManagers(void *heap) {
     u32 texWorkSize;

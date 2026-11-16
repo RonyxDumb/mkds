@@ -13,9 +13,6 @@
 u32 TitleSelectPressReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateTitleSelectPress(void) {
     s32 titleStateFrames;

@@ -191,10 +191,6 @@ s32 AdvanceMultiSelectNS(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseMultiSelectNS(void) {
     SendLedPatternNone();
     HeapDestroy(gMultiSelectNS->mHeap);

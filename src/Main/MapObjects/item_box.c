@@ -104,9 +104,6 @@ void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
     GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitGroupItemBoxObjects(void) {
     gGroupItemBoxHeightAngle = 0;
     gGroupItemBoxHeightOffset = 0;

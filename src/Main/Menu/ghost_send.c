@@ -122,10 +122,6 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostSendEndConnectionText(void) {
     void *text;
     void *buttonText;
@@ -134,10 +130,6 @@ void SetupGhostSendEndConnectionText(void) {
     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_TEXT_END_CONNECTION;
     SetupTxtSystemSubTextButton(text, buttonText);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void PrintGhostSendCounts(void) {
     u16 text[6];
@@ -193,19 +185,11 @@ void PrintSelectedGhostSendRecord(void) {
                          GetListedGhostCourseId(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex), &recordTime);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostSendMainText(void) {
     void *text;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0);
     SetupTxtSystemMainTextShort(text, 0, 0, 0, 0, 0, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
     u16 name[11];
@@ -538,18 +522,10 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
     return -1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseTimeAttackGhostSend(void) {
     HeapDestroy(gTimeAttackGhostSend->mHeap);
     gTimeAttackGhostSend = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteTimeAttackGhostSendRegisters(void) {
     s16 interpolatedValue = GetInterpolatedValue(&gTimeAttackGhostSend->mInterpolation);

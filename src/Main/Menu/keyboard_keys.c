@@ -334,10 +334,6 @@ void AdvanceKeyboardTextEntry(void) {
     GetKeyboardKeyValue();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void UploadKeyboardBg2Data(void) {
     DC_FlushRange(gKeyboardTextEntry->mBg2Scr, gKeyboardTextEntry->mBg2ScrSize);
     GXS_LoadBG2Scr(gKeyboardTextEntry->mBg2Scr, 0, gKeyboardTextEntry->mBg2ScrSize);
@@ -345,17 +341,11 @@ void UploadKeyboardBg2Data(void) {
     GXS_LoadBG2Char(gKeyboardTextEntry->mBg2Char, 0, gKeyboardTextEntry->mBg2CharSize);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetKeyboardScreenMapTopBitsWrapper(u32 topBits) {
     u32 topBitsCopy = topBits;
     u32 unusedValue;
     SetKeyboardScreenMapTopBits(topBitsCopy);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SelectKeyboardLayout(u32 layoutIndex) {
     switch (layoutIndex) {
@@ -402,10 +392,6 @@ void SetKeyboardOffset(s32 offsetX, s32 offsetY) {
                            gKeyboardTextEntry->mOffsetY + gKeyboardTextEntry->mButton1Y1);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetKeyboardButton0Corners(u32 startX, u32 startY, u32 endX, u32 endY) {
     KeyboardTextEntry **keyboardTextEntryPointer;
     KeyboardTextEntry *keyboardTextEntry;
@@ -436,10 +422,6 @@ void SetKeyboardButton1Corners(u32 startX, u32 startY, u32 endX, u32 endY) {
                            keyboardTextEntry->mOffsetY + keyboardTextEntry->mButton1Y1);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void MoveKeyboardCursorToValueWrapper(u16 value) {
     MoveKeyboardCursorToValue(value);
 }
@@ -447,10 +429,6 @@ void MoveKeyboardCursorToValueWrapper(u16 value) {
 u32 GetKeyboardCursorValueWrapper(void) {
     return GetKeyboardCursorValue();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void GetKeyboardCursorBoundsRelative(s32 *left, s32 *top, s32 *right, s32 *bottom) {
     s32 value;
@@ -481,10 +459,6 @@ void GetKeyboardCursorBoundsRelative(s32 *left, s32 *top, s32 *right, s32 *botto
     *bottom = value;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetKeyboardText(const u16 *text) {
     s32 charIndex;
 
@@ -505,17 +479,9 @@ void SetKeyboardText(const u16 *text) {
     gKeyboardTextEntry->mText[gKeyboardTextEntry->mTextLimit] = 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 *GetKeyboardText(void) {
     return gKeyboardTextEntry->mText;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetKeyboardTextLimit(u16 textLimit) {
     gKeyboardTextEntry->mTextLimit = textLimit;
@@ -526,34 +492,18 @@ void SetKeyboardTextLimit(u16 textLimit) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 GetKeyboardTextIndex(void) {
     return gKeyboardTextEntry->mTextIndex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ClearKeyboardInput(void) {
     MemFillWordsByBlock_inline(&gKeyboardInput, 0x28);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitKeyboardInput(void) {
     ClearKeyboardInput();
     gKeyboardInput.mTouchEnabled = TRUE;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
     u32 changedKeys;
@@ -598,9 +548,6 @@ void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 GetKeyboardKeysPressed(u32 mask) {
     u32 value = mask;
     u32 pressedKeys;
@@ -609,9 +556,7 @@ u32 GetKeyboardKeysPressed(u32 mask) {
     value = (pressedKeys) + (0u);
     return value;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardKeysDown(u32 mask) {
     u32 value = mask;
     u32 downKeys;
@@ -620,49 +565,36 @@ u32 GetKeyboardKeysDown(u32 mask) {
     value = (downKeys) + (0u);
     return value;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardTouchDown(void) {
     u32 touchDown;
     touchDown = gKeyboardInput.mTouchDown;
     return touchDown;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardTouchStatus(void) {
     u32 touchStatus;
     touchStatus = gKeyboardInput.mTouchStatus;
     return touchStatus;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardLastTouchX(void) {
     u32 lastTouchX;
     lastTouchX = gKeyboardInput.mLastTouchX;
     return lastTouchX;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardLastTouchY(void) {
     u32 lastTouchY;
     lastTouchY = gKeyboardInput.mLastTouchY;
     return lastTouchY;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 IsKeyboardTouchEnabled(void) {
     u32 touchEnabled;
     touchEnabled = gKeyboardInput.mTouchEnabled;
     return touchEnabled;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupRepeatCounterDefault(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = 0x0u;
@@ -678,10 +610,6 @@ void SetupRepeatCounter(RepeatCounter *repeatCounter, u32 firstFireFrame, u32 re
     repeatCounter->mRepeatFireFrame = ((firstFireFrame) + (repeatGap));
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRepeatCounter(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = repeatCounter->mRepeatFrames + 1;
     if (repeatCounter->mRepeatFrames == repeatCounter->mFirstFireFrame ||
@@ -693,18 +621,10 @@ void AdvanceRepeatCounter(RepeatCounter *repeatCounter) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ResetRepeatCounter(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = 0x0u;
     repeatCounter->mFired = 0x0u;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 BOOL IsRepeatCounterFiring(RepeatCounter *repeatCounter) {
     if (repeatCounter->mRepeatFrames == repeatCounter->mFirstFireFrame ||
@@ -937,16 +857,10 @@ void SetupKeyboardInputMasks(u16 firstMask, u16 secondMask, u16 thirdMask) {
                            (gKeyboardInputMasks[0] | PAD_KEY_DIRECTIONS | gKeyboardInputMasks[1]));
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void StoreKeyboardOffset(s32 offsetX, s32 offsetY) {
     gKeyboardOffsetX = offsetX;
     gKeyboardOffsetY = offsetY;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void GetKeyboardCursorRectBounds(s32 *left, s32 *top, s32 *right, s32 *bottom) {
     if (gKeyboardKeys.mCursorRect != NULL && left != NULL && top != NULL && right != NULL && bottom != NULL) {
@@ -983,37 +897,25 @@ void InitKeyboardKeysAndCanvas(struct NNSG2dFont *font, void *bg2Char, u16 *bg2S
     gCharTablePair3[1] = gCharTables[3];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetKeyboardScreenMapTopBits(u32 topBits) {
     u32 topBitsCopy = topBits;
     u32 unusedValue;
     gKeyboardCanvas.mScreenMapTopBits = topBitsCopy;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetKeyboardGlyphColor(u32 color) {
     u32 colorCopy = color;
     u32 unusedValue;
     gKeyboardCanvas.mGlyphColor = colorCopy;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetKeyboardCursorCallback(u16 (*callback)(s32, u16)) {
     gKeyboardKeys.mCursorCallback = callback;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetKeyboardKeyCallback(s32 (*callback)(u32, s32)) {
     gKeyboardKeys.mKeyCallback = callback;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void CallKeyboardKeyCallback(s32 newPress) {
     if (gKeyboardKeys.mKeyCallback != NULL) {
@@ -1366,17 +1268,11 @@ void PollKeyboard(void) {
     AdvanceKeyboardKeys(((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff, touchPoint);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 GetKeyboardKeyValue(void) {
     u32 keyValue;
     keyValue = gKeyboardKeys.mKeyValue;
     return keyValue;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u16 ConvertCharPair1(u16 charCode) {
     u16 converted;
@@ -1771,10 +1667,6 @@ void SetupKeyboardLayoutHiragana(KeyboardRect *rects, Ncgr *ncgr, u32 rectCount)
     SetupKeyboardLayout(rects, ncgr, HiraganaKatakanaLayoutCallback, 9, rectCount, gKbdmapHiragana);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupKeyboardLayoutAscii(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
     u16 *keyIds;
     keyIds = &gKeyboardKeys.mChosenKeyId;
@@ -1807,10 +1699,6 @@ void SetupKeyboardLayoutOther3(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectC
     SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther3);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetKeyboardRect(KeyboardRect *rect, u32 left, u32 top, u32 right, u32 bottom) {
     if (rect != NULL) {
         rect->mX = left;
@@ -1821,10 +1709,6 @@ void SetKeyboardRect(KeyboardRect *rect, u32 left, u32 top, u32 right, u32 botto
         rect->mKeyId = KEYBOARD_RECT_ID_PLAIN;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetKeyboardButton0Rect(u32 left, u32 top, u32 right, u32 bottom) {
     SetKeyboardRect(&gKeyboardKeys.mButton0Rect, left, top, right, bottom);

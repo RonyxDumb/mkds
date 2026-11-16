@@ -167,9 +167,6 @@ void PlaceScrollListScrollEntry(void) {
             (gScrollList->mRowCount - 5);
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetScrollListHiddenBottomSlot(void) {
     u32 slot;
@@ -190,10 +187,6 @@ void SetScrollListSlotVisible(s32 slot, s32 visible) {
         scrollList->mEntries[slot + scrollList->mGroupFirstEntries[group]].mVisible = visible;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetScrollListPositionYDifference(u32 first, u32 second) {
     return (((gScrollList->mEntries[second].mPositionY)) - ((gScrollList->mEntries[first].mPositionY)));
@@ -582,10 +575,6 @@ void AdvanceScrollList(void) {
     }
     PlaceScrollListScrollEntry();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetScrollListSelectedRow(void) {
     return (gScrollList->mSelectedRow);

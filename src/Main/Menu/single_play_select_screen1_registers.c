@@ -50,9 +50,6 @@ void SetupSinglePlaySelectGraphics(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 void UpdateSinglePlaySelectSubCells(void) {
     LayoutTableEntry *subCells;
@@ -79,9 +76,6 @@ void UpdateSinglePlaySelectSubCells(void) {
         subCells[selectedIndex + 10].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void DrawSinglePlaySelectCells(void) {
     MenuScene *menu;
@@ -94,16 +88,11 @@ void DrawSinglePlaySelectCells(void) {
                     menu->mSinglePlaySelectModeSLayoutTable);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WriteSinglePlaySelect0Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }
-#pragma thumb off
 
-#pragma thumb on
 #pragma optimize_for_size on
 void UpdateSinglePlaySelectMenuScreen0(void) {
     s32 frame;
@@ -133,9 +122,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
     }
     DrawSinglePlaySelectCells();
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteSinglePlaySelect1Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();

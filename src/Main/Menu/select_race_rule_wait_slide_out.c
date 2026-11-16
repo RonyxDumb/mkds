@@ -52,10 +52,6 @@ void LocateAndQueueSelectRaceRuleWait(void) {
                                        cellPalette[0]->mDataSize);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RequestSelectRaceRuleWaitSlideIn(void) {
     u16 cellEntryCount;
 
@@ -112,18 +108,10 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     AdvanceSelectRaceRuleWait();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ClearSelectRaceRuleWaitPointer(void) {
     ClearWaitPointer();
     gSelectRaceRuleWait = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectRaceRuleWaitSlideIn(void) {
     u16 cellEntryCount;
@@ -176,18 +164,11 @@ void SlideInSelectRaceRuleWait(void) {
     RequestSelectRaceRuleWaitSlideIn();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void PlaceSelectRaceRuleWait(void) {
     RequestSelectRaceRuleWaitSlideOut();
     RequestSelectRaceRuleWaitRest();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SlideOutSelectRaceRuleWait(void) {
     u32 unused;
     RequestSelectRaceRuleWaitSlideOut();

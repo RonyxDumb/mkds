@@ -381,9 +381,6 @@ void InitMapObjectViewState(void) {
     gItemSoundCameraHeightLimit = 0x12c000;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, s32 nearDistance, s32 farDistance) {
     gViewFrustumBeforeRotation.mNear = nearDistance << 4;
     gViewFrustum.mNear = nearDistance << 4;
@@ -444,47 +441,33 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
                                            &gViewFrustumBeforeRotation.mBottomPlaneNormal);
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearMapObjectList(MapObjectList *list) {
     list->mMapObjects = NULL;
     list->mMapObjectCount = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 void DrawListAddToMapObjectListCount(MapObjectList *list, s32 count) {
     list->mMapObjectCount += count;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 InitMapObjectDrawList(MapObjectList *list) {
     list->mMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount << 2);
     list->mMapObjectCount = 0;
     return 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 AddMapObjectToDrawList(MapObjectList *list, MapObject *mapObject) {
     u32 index = list->mMapObjectCount;
     list->mMapObjectCount = index + 1;
     list->mMapObjects[index] = mapObject;
     return index << 2;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetDrawListSlot(void *listSlot) {
     *(u32 *) ((u8 *) (u32) (((u32) * (const u32 *) ((u8 *) (u32) listSlot + 0))) + 40) = (u32) listSlot;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitMapObjectDrawOrder(MapObjectList *list) {
     s32 objectIndex;
 
@@ -1046,10 +1029,6 @@ void UnparkFlaggedMapObjects(void) {
         mapObjectSlot++;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Stores the mask of the nonzero decimal digits of number (bit d for digit d) in mDigitMask; a number of 10000 or more
 // first sets MAP_OBJECT_FLAG_NUMBER_OVERFLOW in mFlags and has 10000 taken off.

@@ -86,9 +86,6 @@ u32 IsSelectCupCourseIndexChangeRunning(void) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceSelectCupCourseIndexChange(void) {
     s32 taOrVsCellCount;
     s16 offsetY;
@@ -214,9 +211,6 @@ void RequestSelectCupCourseWaitChoices(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestSelectCupCourseChoose(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CHOOSE;
@@ -226,9 +220,6 @@ void RequestSelectCupCourseChoose(void) {
     SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RequestSelectCupCourseCloseChoices(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CLOSE_CHOICES;
     gSelectCupCourse->mStateFrames = 0;
@@ -356,9 +347,6 @@ void ReleaseSelectCupCourse(void) {
     HeapDestroy(gSelectCupCourse->mHeap);
     gSelectCupCourse = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupCourseWaitFade(void) {
     int fadesClear;
@@ -368,9 +356,6 @@ void AdvanceSelectCupCourseWaitFade(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceSelectCupCourseSlideIn(void) {
     s16 offsetY;
     s32 taOrVsCellCount;
@@ -419,9 +404,6 @@ void AdvanceSelectCupCourseSlideIn(void) {
         RequestSelectCupCourseWaitReturn();
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupCourseWaitReturn(void) {
     int returnRequested;

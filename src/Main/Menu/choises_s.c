@@ -235,17 +235,11 @@ BOOL IsAllMissionRecords5To7AtGoalEnd(void) {
     }
     return 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetChoisesSOpenDuringRace(void) {
     return (gChoisesS->mOpenDuringRace);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 u32 IsChoisesSOpen(void) {
     if (GetChoisesSOpenDuringRace() != 0 || gChoisesS->mOpenAfterRace != 0) {
@@ -253,9 +247,6 @@ u32 IsChoisesSOpen(void) {
     }
     return 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetChoisesSOpenDuringRace(u32 openFlag) {
     int wasOpen;
@@ -286,9 +277,6 @@ int GetChoisesSPickedValue(void) {
     return pickedValue;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 void WriteChoisesSValueTiles(u16 *screenMap, s32 column, s32 row) {
     SetScreenMapBlockLowBits(screenMap, column, row, 1, 1, 4);
@@ -362,9 +350,6 @@ void WriteChoisesSSelectedValueTiles(s32 selectedIndex) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteChoisesSListScreenMap(void) {
     WriteChoisesSListTiles();
@@ -670,9 +655,6 @@ void UpdateChoisesS(void) {
         gChoisesS->mOpenDuringRaceFrames = 0;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateChoisesSScreenMap(void) {
     int isOpen;

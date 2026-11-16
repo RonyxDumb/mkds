@@ -30,9 +30,6 @@ void SetupMPLink(MPLink *link) {
     gMPLink->mReceiveBuffer = NULL;
     gMPLink->mCallback = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetMPLinkCallback(MPLinkEventCallback callback) {
     u32 irqState = (OS_DisableInterrupts());
@@ -40,10 +37,6 @@ void SetMPLinkCallback(MPLinkEventCallback callback) {
     gMPLink->mCallback = callback;
     irqStateBeforeRestore = (OS_RestoreInterrupts(irqState));
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     s32 wmResult;
@@ -361,10 +354,6 @@ void CloseScanConnect(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void FinishScanConnect(void) {
     gScanConnectInitialized = FALSE;
     gScanConnectWork->mEndRequested = FALSE;
@@ -383,10 +372,6 @@ void SetScanConnectStateCallback(ScanConnectStateFunc callback) {
     irqStateBeforeRestore = (OS_RestoreInterrupts(irqState));
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetScanConnectStateAndNotify(u32 state, void *info) {
     u32 irqState;
     irqState = OS_DisableInterrupts();
@@ -396,10 +381,6 @@ void SetScanConnectStateAndNotify(u32 state, void *info) {
         gScanConnectWork->mStateCallback(state, info);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void StartRepeatedScan(ScanEventCallback callback, u32 ggid) {
     gScanConnectWork->mScanCallback = callback;
@@ -411,10 +392,6 @@ void StartRepeatedScan(ScanEventCallback callback, u32 ggid) {
     gScanConnectWork->mUnk_05ee = 0;
     ScanConnectStartScan();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ScanConnectStartScan(void) {
     s32 wmResult;
@@ -514,15 +491,9 @@ void SetScanBssid(const u8 *bssid) {
     dest[5] = bssid[5];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearUseScanBssid(void) {
     gScanConnectWork->mUseScanBssid = FALSE;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void EntryCallback(u32 event, void *entry, u32 entryIndex) {
     switch (event) {
@@ -559,10 +530,6 @@ void RequestEndScan(void) {
     gScanConnectWork->mRepeatScan = FALSE;
     gScanConnectWork->mEndScanRequested = TRUE;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ScanConnectEndScan(void) {
     u32 wirelessResult;

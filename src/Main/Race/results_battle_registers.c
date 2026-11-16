@@ -361,10 +361,6 @@ s32 IsResultsBattleTimerBelowChoiceStart(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void StartResultsBattleChoices(void) {
     void *firstText;
     void *secondText;
@@ -694,10 +690,6 @@ void SetupResultsBattleTeamIcons(void *heap) {
     mainCellFileSet->mCellTable[0x38].mVisible = mainCellFileSet->mCellTable[0x39].mVisible;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 static inline void ResultsBattleMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);
@@ -938,10 +930,6 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     InitTrophy(8, value);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
@@ -1149,9 +1137,6 @@ void ReleaseResultsBattle(void) {
     ReleaseSceneText();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ResultsBattleWriteSceneTextRegistersWrapper(void) {
     u32 unused;
     WriteSceneTextRegisters();

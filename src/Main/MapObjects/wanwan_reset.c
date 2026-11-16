@@ -122,9 +122,7 @@ void CreateWanwanAndRockShadow(void) {
     CreateShadowModel(&gWanwanRockShadow, FindCourseMapObjFile("rock_shadow.nsbmd"), 0x3f);
     SetNsbmdPolygonIdLightEmiAll(gWanwan, 0x3f, 2, 0x294a);
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
     wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
@@ -146,9 +144,7 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
                                                  COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE, wanwan);
     wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared;
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
     wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
@@ -162,9 +158,7 @@ void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, gGroupFollowerSpeed, row->mSettings[0]);
     ResetWanwan(wanwan);
 }
-#pragma thumb off
 
-#pragma thumb on
 void ResetWanwan(Wanwan *wanwan) {
     wanwan->mMapObject.mPos = wanwan->mCenterPos;
     wanwan->mMapObject.mPosStep.x = 0;

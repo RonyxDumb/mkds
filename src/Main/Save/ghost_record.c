@@ -34,10 +34,6 @@ void WriteSlotGhostRecord(u8 index, SlotGhostRecord *source) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReadSlotGhostRecord(u32 slotIndex) {
     SlotGhostRecord *ghostRecord;
 

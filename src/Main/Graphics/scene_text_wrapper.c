@@ -7,9 +7,7 @@ void ReleaseSceneTextWrapper(void) {
     u32 unused;
     ReleaseSceneText();
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteSceneTextRegistersWrapper(void) {
     u32 unused;
     WriteSceneTextRegisters();

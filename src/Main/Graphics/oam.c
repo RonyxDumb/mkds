@@ -179,10 +179,6 @@ u32 NextRandomBelowByConnectionKind(u32 limit) {
     return NextRandomBelowU16(randomState, limit);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 GetCupCourseId(s32 cupIndex, s32 courseIndex) {
     return gCupCourseIds[cupIndex * 4 + courseIndex];
 }

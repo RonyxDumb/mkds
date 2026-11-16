@@ -193,10 +193,6 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void PickRandomCharactersAndKarts(CharacterKartPicks *picks) {
     PickRandomCharacters(picks);
     PickRandomKarts(picks);

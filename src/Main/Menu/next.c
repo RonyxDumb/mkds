@@ -52,9 +52,6 @@ void SetNextGrandPrixEntries(void) {
                                                     : 3);
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetNextTimeAttackEntries(void) {
     u8 entryIndex;

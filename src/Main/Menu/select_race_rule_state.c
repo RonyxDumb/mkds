@@ -306,10 +306,6 @@ u16 GetSelectRaceRuleHumanCount(void) {
     return gSelectRaceRule->mTeamHumanCounts[0] + gSelectRaceRule->mTeamHumanCounts[1];
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 GetSelectRaceRuleCpuCount(void) {
     SelectRaceRule *selectRaceRule;
     selectRaceRule = gSelectRaceRule;
@@ -318,10 +314,6 @@ u16 GetSelectRaceRuleCpuCount(void) {
     }
     return selectRaceRule->mTeamNonHumanCounts[0] + selectRaceRule->mTeamNonHumanCounts[1];
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Moves the highlight to the next row, then onto the button, then back to row 0; a row with a zero table entry is
 // skipped.
@@ -401,10 +393,6 @@ void MoveSelectRaceRuleRowPrevious(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 GetSelectRaceRuleTeamPlayerCount(s32 team) {
     SelectRaceRule *selectRaceRule;
     selectRaceRule = gSelectRaceRule;
@@ -421,18 +409,10 @@ BOOL IsPlayerTeamPlayerCountNotOne(s32 entryIndex) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetSelectRaceRulePlayerTeam(u16 entryIndex, u32 team) {
     gSelectRaceRule->mPlayerTeamIndices[entryIndex] = team;
     SetEntryTeamIndex(entryIndex, gSelectRaceRuleTeamsToSetupCopy[team]);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 BOOL IsSelectRaceRuleEntryHuman(u16 entryIndex) {
     u32 humanCount;
@@ -442,10 +422,6 @@ BOOL IsSelectRaceRuleEntryHuman(u16 entryIndex) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetOtherTeamIndex(u32 team) {
     u32 otherTeam = 2;
@@ -460,10 +436,6 @@ u32 GetOtherTeamIndex(u32 team) {
     }
     return otherTeam;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Returns the team with more players, or 2 when they are equal or row 1 is 0.
 u32 GetLargerTeamIndex(void) {
@@ -483,10 +455,6 @@ u32 GetLargerTeamIndex(void) {
     }
     return 2;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Picks a random CPU entry; FALSE when there are none.
 BOOL PickSelectRaceRuleCpuEntry(u16 *entryOut) {
@@ -1745,10 +1713,6 @@ void ReleaseSelectRaceRule(void) {
     gSelectRaceRule = NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceSelectRaceRuleWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
@@ -1756,10 +1720,6 @@ void AdvanceSelectRaceRuleWaitFade(void) {
         RequestSelectRaceRuleSlideIn();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectRaceRuleSlideIn(void) {
     SelectRaceRule *selectRaceRule;
@@ -1993,10 +1953,6 @@ void AdvanceSelectRaceRuleWaitPress(void) {
         StartPlayerEntryListKind(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectRaceRuleWaitConfirmOpen(void) {
     int state1WithoutRequest;

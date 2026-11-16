@@ -42,10 +42,6 @@ void InitResultsByMode(void *heap) {
         reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceResultsByMode(SceneNumbers *sceneNumbers) {
     int result;
     result = IsDataSharingIncomplete();

@@ -80,10 +80,6 @@ void SortRecordRange(s32 first, u16 count) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void CreateRecordList(void *heap) {
     void *value;
     gRecordList = HeapAlloc(heap, sizeof(*gRecordList));
@@ -95,15 +91,9 @@ void CreateRecordList(void *heap) {
     gRecordList->mEmblem2Bin = value;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearRecordListPointer(void) {
     gRecordList = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 // Fills the table with the used slots, flagged ones first, each group ordered by key.
 void BuildRecordList(void) {
@@ -237,10 +227,6 @@ s32 GetRecordFriendKeyText(u16 listIndex, void *text) {
     return GetBuddyFriendKeyText(gRecordList->mEntries[listIndex].mRecordIndex, text);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void LocateAndQueueRecordVS(void) {
     void *file;
     Nclr *emblemPalette;
@@ -307,17 +293,9 @@ void LocateAndQueueRecordVS(void) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x40, emblemPalette->mData, 0x20);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 GetRecordVSFirstRecordIndex(void) {
     return gRecordVS->mPageIndex * 5;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 BOOL IsRecordVSRowFilled(int row) {
     int firstIndex;
@@ -329,10 +307,6 @@ BOOL IsRecordVSRowFilled(int row) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Shows or hides the objects of the five rows and of each row's flag.
 void AdvanceRecordVSRowObjects(void) {
@@ -476,25 +450,17 @@ void RefreshRecordVSPage(void) {
     PrintRecordVSShownRecord();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 IncrementRecordVSPageIndex(void) {
     s32 pageIndex = gRecordVS->mPageIndex + 1;
     gRecordVS->mPageIndex = pageIndex;
     return pageIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 DecrementRecordVSPageIndex(void) {
     s32 pageIndex = gRecordVS->mPageIndex - 1;
     gRecordVS->mPageIndex = pageIndex;
     return pageIndex;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void IncrementRecordVSIndex(void) {
     int isFilled;
@@ -530,10 +496,6 @@ void DecrementRecordVSIndex(void) {
     }
     gRecordVS->mIndex = previousIndex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSOffsetTimers(void) {
     s32 buttonIndex;
@@ -577,20 +539,12 @@ void ToggleRecordVSRowFlag(s32 row) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 BOOL IsRecordVSIndexChangeRunning(void) {
     if (gRecordVS->mIndexChangeTimer != 0) {
         return 1;
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSIndexChange(void) {
     u16 mainBase;

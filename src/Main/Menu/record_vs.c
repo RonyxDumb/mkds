@@ -86,10 +86,6 @@ void AdvanceRecordVSWaitFade(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSSlideInMain(void) {
     u16 transientBase;
     u16 mainBase;
@@ -159,10 +155,6 @@ void AdvanceRecordVSSlideInSub(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSWaitReturnButton(void) {
     int selectReturnShownNoRequest;
     selectReturnShownNoRequest = IsSelectReturnShownNoRequest();
@@ -170,10 +162,6 @@ void AdvanceRecordVSWaitReturnButton(void) {
         RequestRecordVSBrowse();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSBrowse(void) {
     s32 downRectIndex;
@@ -644,19 +632,11 @@ void AdvanceRecordVS(void) {
                     recordVS->mRecordVSSTable);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WriteRecordVSBgOffsets(void) {
     reg_G2_BG0OFS = (-gRecordVS->mBg0OffsetX & 0x1ff) | ((-gRecordVS->mBg0OffsetY << 16) & 0x1ff0000);
     reg_G2_BG1OFS = (-gRecordVS->mBg1OffsetX & 0x1ff) | ((-gRecordVS->mBg1OffsetY << 16) & 0x1ff0000);
     AdvanceRecordSceneRegistersTimer();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteRecordVSRegisters(void) {
     u32 planeBits;
@@ -683,10 +663,6 @@ void ClearRecordScreenCallbacksKeepRegisters(void) {
     gRecordScene->mScreenCallbacks.mAdvance = NULL;
     gRecordScene->mScreenCallbacks.mWriteOffsets = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadRecordSceneData(void) {
     void *file;
@@ -798,10 +774,6 @@ void LoadRecordSceneData(void) {
     LoadCupMarkData();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitRecordSceneObject(void *heap, s16 previousScene) {
     SceneTextInitParams sceneTextInitParams;
     gRecordScene = HeapAlloc(heap, sizeof(*gRecordScene));
@@ -842,10 +814,6 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseRecordSceneObject(void) {
     ClearRecordListPointer();
     gRecordScene->mScreenCallbacks.mRelease();
@@ -854,10 +822,6 @@ void ReleaseRecordSceneObject(void) {
     ReleaseSceneText();
     *&gRecordScene = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Switches to the requested screen when there is one, then runs the running screen's step.
 void AdvanceRecordScene(void) {
@@ -897,34 +861,20 @@ void AdvanceRecordScene(void) {
     AdvanceLinkLevelIcons();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WriteRecordSceneRegisters(void) {
     gRecordScene->mScreenCallbacks.mWriteOffsets();
     WriteSceneTextRegisters();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetRecordScreenCallbacks(const RecordScreenCallbacks *callbacks) {
     gRecordScene->mScreenCallbacks = *callbacks;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RequestRecordScreen(s32 screen) {
     u32 screenCopy = screen;
     u32 unused;
     gRecordScene->mNextScreen = screenCopy;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetRecordPrevScreen(void) {
     return (gRecordScene->mPrevScreen);
@@ -942,10 +892,6 @@ void SetRecordNextScene(u32 scene) {
     gRecordScene->mNextScene = (u16) scene;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Counts the registers timer down and calls the screen's register writer when it reaches 0.
 void AdvanceRecordSceneRegistersTimer(void) {
     if (gRecordScene->mRegistersTimer > 0) {
@@ -956,29 +902,20 @@ void AdvanceRecordSceneRegistersTimer(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 GetRecordScenePageIndex(void) {
     return gRecordScene->mPageIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetRecordSceneIndex(void) {
     return gRecordScene->mIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetRecordScenePageIndex(u32 pageIndex) {
     u32 pageIndexCopy = pageIndex;
     u32 unused;
     gRecordScene->mPageIndex = (u16) pageIndexCopy;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetRecordSceneIndex(u32 index) {
     u32 indexCopy = index;
     u32 unused;

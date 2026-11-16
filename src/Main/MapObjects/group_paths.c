@@ -194,10 +194,6 @@ void InitGroupPaths(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitGroupFollowerForGroup(GroupFollower *follower, u16 groupIndex, int speed) {
     follower->mGroupIndex = groupIndex;
     BuildGroupPath(follower->mGroupIndex, &gCourseMap->mEntryGroups[follower->mGroupIndex]);

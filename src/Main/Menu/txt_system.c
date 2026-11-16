@@ -149,15 +149,10 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     gTxtSystem->mMode = 0;
     return subCharOffset;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearTxtSystemPointer(void) {
     gTxtSystem = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void InitTxtSystemDisplay(void) {
     u32 mainDisplayBits;
@@ -297,9 +292,6 @@ void RefreshTxtSystemScreenBuffers(u32 *drawFlags) {
         drawFlags++;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueTxtSystemButtonColors(void) {
     TxtSystem *txtSystem;
@@ -333,10 +325,6 @@ void ResetTxtSystemButtonColors(void) {
         } while (buttonEntryIndex < 2);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Closed: serves an open request by building the screens and queueing them.
 void AdvanceTxtSystemClosed(void) {
@@ -648,17 +636,10 @@ void RequestTxtSystemOpen(void) {
     }
     gTxtSystem->mOpenRequested = 1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupTxtSystemMainText(void *text) {
     SetupTxtSystemMainTextEx(text, 1, 1, 1, 0, 0, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupTxtSystemMainTextEx(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 openFromIndex, s32 closeToIndex,
                               s32 mainAnim, s32 subAnim) {
@@ -701,18 +682,11 @@ void SetupTxtSystemMainTextShort(void *text, u32 mainBlendPlanes, u32 subBlendPl
     gTxtSystem->mOpenFromIndex = openFromIndex;
     gTxtSystem->mCloseToIndex = closeToIndex;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupTxtSystemMainTextButton(void *text, void *buttonText) {
     u32 subBlendPlanes = ((0x1u) + (0x0u));
     SetupTxtSystemMainTextButtonEx(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u, 0x0u);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                     u32 openFromIndex, u32 closeToIndex, u32 mainAnim) {
@@ -778,17 +752,9 @@ void SetupTxtSystemMainTextTwoButtonsEx(void *text, void *buttonText, void *seco
     gTxtSystem->mCloseToIndex = closeToIndex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupTxtSystemSubText(void *text) {
     SetupTxtSystemSubTextEx(text, 1, 1, 1, 0, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                              u32 subAnim) {
@@ -811,18 +777,10 @@ void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes
     gTxtSystem->mCloseToIndex = closeToIndex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupTxtSystemSubTextButton(void *text, void *buttonText) {
     u32 subBlendPlanes = ((0x1u) + (0x0u));
     SetupTxtSystemSubTextButtonEx(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                    u32 openFromIndex, u32 closeToIndex) {
@@ -922,25 +880,17 @@ BOOL IsTxtSystemOpenAfterOpening(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 s32 GetTxtSystemSelectedIndex(void) {
     u32 selectedIndex;
     selectedIndex = gTxtSystem->mSelectedIndex;
     return selectedIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 GetTxtSystemDone(void) {
     u32 done;
     done = gTxtSystem->mDone;
     return done;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetTxtSystemInputAccepted(void) {
     return gTxtSystem->mInputAccepted;
@@ -949,10 +899,6 @@ u32 GetTxtSystemInputAccepted(void) {
 void SetTxtSystemMode(u32 mode) {
     gTxtSystem->mMode = mode;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetTxtSystemBgOffsetRequested(int mainOffset, int subOffset) {
     if (mainOffset < -0x96) {
@@ -971,9 +917,6 @@ void SetTxtSystemBgOffsetRequested(int mainOffset, int subOffset) {
     gTxtSystem->mBgOffsetRequested[1] = subOffset;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetTxtSystemSoundId(int soundIndex, u32 soundId) {
     u32 offset = soundIndex;
     u32 soundIdCopy = soundId;
@@ -985,9 +928,6 @@ void SetTxtSystemSoundId(int soundIndex, u32 soundId) {
     offset = 0x2250u;
     *(u32 *) ((address) + (offset)) = soundIdCopy;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetTxtSystemOpenSoundId(u32 soundId) {
     gTxtSystem->mOpenSoundId = soundId;

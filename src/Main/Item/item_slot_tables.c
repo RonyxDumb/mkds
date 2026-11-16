@@ -473,15 +473,9 @@ u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     return data;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u8 *ComputeItemSlotTableDataEnd(u8 *data) {
     return data + 2 + data[1] * data[0];
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
     u16(*tab)[0x12];

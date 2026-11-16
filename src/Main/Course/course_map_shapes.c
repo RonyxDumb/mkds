@@ -57,9 +57,7 @@ const CourseMapSectionLoader gCourseMapSectionLoaders[17] = {
 CourseMap *AllocCourseMap(void *heap) {
     return HeapAlloc(heap, sizeof(CourseMap));
 }
-#pragma thumb off
 
-#pragma thumb on
 u16 ReadCourseMapSectionCount(void **cursor) {
     u32 *countWord;
     u16 count;
@@ -178,17 +176,11 @@ void BuildCourseMapEntryGroupTable(void *heap) {
     }
     SetCourseMapCheckpointTotals();
 }
-#pragma thumb off
-
-#pragma thumb on
 
 CourseMapEntryGroupTableRow *GetCourseMapEntryGroupTableRow(u32 groupIndex) {
     return gCourseMap->mEntryGroupTable + groupIndex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *route, u16 pointIndex) {
     CourseMapItemPoint *itemPoint;
     ItemPointLink *link;
@@ -464,9 +456,7 @@ u32 LoadCourseMapSettingsData(CourseMapSettingsSection *section) {
     gCourseMap->mSettings = &section->mSettings;
     return 1;
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 LoadCourseMapStartPlacementsData(void *section, ...) {
     gCourseMap->mStartPlacementCount = ReadCourseMapSectionCount(&section);
     gCourseMap->mStartPlacements = section;
@@ -705,17 +695,11 @@ s32 LoadCourseMapBattleOrRaceRoutesData(void *section, ...) {
     }
     return 1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 CourseMapShape *GetCourseMapShape(u32 shapeIndex) {
     return &gCourseMap->mShapes[shapeIndex];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void BuildCourseMapZoneShapeLists(void) {
     void *heap;
     CourseMapShape *shape;
@@ -741,9 +725,6 @@ void BuildCourseMapZoneShapeLists(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void CountCourseMapPointLinkShapes(void) {
     u16 count;
@@ -771,9 +752,6 @@ void CountCourseMapMissionEndShapes(void) {
     gCourseMap->mMissionEndShapeCount = count;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 s32 LoadCourseMapShapesData(void *section, ...) {
     gCourseMap->mShapeCount = ReadCourseMapSectionCount(&section);
     if (gCourseMap->mShapeCount == 0) {

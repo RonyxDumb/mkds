@@ -52,9 +52,6 @@ void UpdateVsSelectCharacter(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectKartRegisters(void) {
     int screenChanged;
@@ -81,9 +78,6 @@ void UpdateVsSelectKart(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectRaceRuleRegisters(void) {
     int screenChanged;
@@ -114,9 +108,6 @@ void UpdateVsSelectRaceRule(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectCupGridRegisters(void) {
     int flag;
@@ -173,9 +164,6 @@ void UpdateVsSelectCupGrid(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectCupCourseRegisters(void) {
     int flag;

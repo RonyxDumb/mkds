@@ -207,10 +207,6 @@ s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers) {
     return -1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseWLMenuMessage(void) {
     HeapDestroy(gWLMenuMessage->mHeap);
     gWLMenuMessage = NULL;
@@ -233,9 +229,6 @@ void WriteWLMenuMessageRegisters(void) {
     WLMenuMessageG2S_SetBG3Offset(-gWLMenuMessage->mBg3Offset, 0);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WriteWLMenuMessageRegistersWrapper(void) {
     u32 unusedScratch;
     WriteWLMenuMessageRegisters();

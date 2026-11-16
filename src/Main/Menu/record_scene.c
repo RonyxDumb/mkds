@@ -135,24 +135,16 @@ void InitRecordScene(s16 *sceneNumbers) {
     InitRecordSceneObject(heap, *sceneNumbers);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ReleaseRecordScene(void) {
     ReleaseRecordSceneObject();
     gRecordMainOam = NULL;
     gRecordSubOam = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteRecordSceneRegistersCallback(void) {
     WriteRecordSceneRegisters();
     UploadOamLists(gRecordMainOam, gRecordSubOam);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateRecordScene(SceneNumbers *sceneNumbers) {
     ClearOamListCounts(gRecordMainOam, gRecordSubOam);

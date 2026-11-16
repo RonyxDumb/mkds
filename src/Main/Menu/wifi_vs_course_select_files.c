@@ -492,18 +492,10 @@ s32 AdvanceWiFiVSCourseSelect(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseWiFiVSCourseSelect(void) {
     HeapDestroy(gWiFiVSCourseSelect->mHeap);
     *&gWiFiVSCourseSelect = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteWiFiVSCourseSelectRegisters(void) {
     s32 window0V;
@@ -527,10 +519,6 @@ void WriteWiFiVSCourseSelectRegisters(void) {
                              ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadWiFiVSCourseSelectFiles(void) {
     void *file;

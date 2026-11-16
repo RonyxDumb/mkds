@@ -20,10 +20,6 @@ void PackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRe
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord) {
     int cupCourseIndex;
     cupCourseIndex = FindCupCourseIndex(courseId);
@@ -32,10 +28,6 @@ void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord) 
                              timeRecord);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
     if (packedCourseTimeRecord->mFilled != 0) {

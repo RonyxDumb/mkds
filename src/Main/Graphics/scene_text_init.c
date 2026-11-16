@@ -53,10 +53,6 @@ void InitSceneText(void *heap, SceneTextInitParams *config) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseSceneText(void) {
     if (gSceneText->mUseTxtSystem != FALSE) {
         ClearTxtSystemPointer();

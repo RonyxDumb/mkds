@@ -51,15 +51,11 @@ void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
         gPaletteBlend->mBlendTo[colorIndex].mBits10To14 = (color & 0x7c00) >> 10;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearPaletteBlendPointer(void) {
     gPaletteBlend = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void BlendPaletteColors(s32 weight) {
     s32 colorIndex;
     PaletteBlend *paletteBlend;

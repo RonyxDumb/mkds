@@ -287,9 +287,6 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
     CARDi_RequestStreamCommand(address, (u32) destination, byteCount, FinishBackupRead, callback, 1, 6, 1, 0);
     return 1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void StartBackupReadOneCopy(u32 address, void *destination, u32 byteCount, void (*callback)(u32 *, u32),
                             u32 expectedFirstWord) {

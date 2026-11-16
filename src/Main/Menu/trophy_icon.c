@@ -59,17 +59,9 @@ void CreateTrophyIcon(void *heap) {
     gTrophyIcon->mBncl = sceneFile;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ClearTrophyIconPointer(void) {
     gTrophyIcon = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLayout, u32 destIndex, u16 paletteSlot,
                      int queueSelector) {

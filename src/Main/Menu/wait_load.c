@@ -53,9 +53,6 @@ void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTabl
     gWait->mFrameIndexFrames = WAIT_FRAME_INDEX_CHANGE_FRAMES - 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearWaitPointer(void) {
     gWait = NULL;
 }

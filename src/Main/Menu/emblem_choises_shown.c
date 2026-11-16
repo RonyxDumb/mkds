@@ -139,9 +139,6 @@ void WriteEmblemChoisesSelectedTiles(s32 choiceIndex) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteEmblemChoisesScreenMap(void) {
     WriteEmblemChoisesTiles();
@@ -282,9 +279,7 @@ void UpdateEmblemChoises(void) {
         }
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteEmblemChoisesScreenMapWrapper(void) {
     u32 unusedValue;
     WriteEmblemChoisesScreenMap();
@@ -344,29 +339,19 @@ void InitEmblemChoises(void) {
         }
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearEmblemChoisesPointer(void) {
     gEmblemChoises = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void RequestEmblemChoisesGraphicsUpload(void) {
     gEmblemChoises->mGraphicsUploadRequested = TRUE;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetEmblemChoisesResult(void) {
     return (gEmblemChoises->mResult);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetEmblemChoisesShownAndReset(u32 shown) {
     gEmblemChoises->mShown = shown;
     ResetEmblemChoisesState();

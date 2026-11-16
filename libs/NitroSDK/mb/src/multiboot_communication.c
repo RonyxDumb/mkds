@@ -124,10 +124,6 @@ u32 MBi_IsSendEnabled(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void MBi_OnInitializeDone(void) {
     u32 result;
     result = WM_SetIndCallback(MBi_ParentCallback);
@@ -135,10 +131,6 @@ void MBi_OnInitializeDone(void) {
     result = WM_SetLifeTime(MBi_ParentCallback, mbi_life_table_no, mbi_life_cam, mbi_life_frame, mbi_life_mp);
     MBi_CheckWmErrcode(WIRELESS_REQUEST_SET_TIMEOUT, result);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Handles the results of the parent start-up steps, then child connects, disconnects and sent data.
 void MBi_ParentCallback(WirelessMessage *result) {
@@ -733,10 +725,6 @@ s32 MB_StartParentFromIdle(u16 channel) {
     return MBi_StartParentCore(channel);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 int MBi_CallReset(void) {
     int result;
     result = WM_Reset(gWirelessWork->mCommandCallback);
@@ -747,15 +735,9 @@ int MBi_CallReset(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 MBi_OnReset(void) {
     return MBi_CallReset();
 }
-#pragma thumb off
-
-#pragma thumb on
 
 // Starts a reset, on the worker when there is one; returns 1 when a reset is already under way.
 u32 MBi_CommEnd(void) {
@@ -777,10 +759,6 @@ u32 MBi_CommEnd(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void MB_EndToIdle(void) {
     u32 savedInterrupts;
     savedInterrupts = ((s64) OS_DisableInterrupts());
@@ -790,10 +768,6 @@ void MB_EndToIdle(void) {
     MBi_CommEnd();
     OS_RestoreInterrupts(savedInterrupts);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void MB_DisconnectChild(u32 childIndex) {
     u32 slot;
@@ -827,17 +801,11 @@ void MB_DisconnectChild(u32 childIndex) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void MBi_SetMaxScanTime(u32 maxChannelTime) {
     u32 maxChannelTimeCopy = maxChannelTime;
     u32 unusedValue;
     gScanParams.mMaxChannelTime = maxChannelTimeCopy;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 s32 MBi_SetMPData(WirelessMessageCallback callback, void *data, s32 dataSize, u16 unusedValue, u16 childMask) {
     s32 result;
@@ -887,10 +855,6 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 MBi_GetGgid(void) {
     return gWirelessWork->mGgid;
 }
@@ -898,10 +862,6 @@ u32 MBi_GetGgid(void) {
 u16 MBi_GetTgid(void) {
     return gWirelessWork->mTgid;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u8 MBi_GetAttribute(void) {
     MBiParam *work;
@@ -933,20 +893,12 @@ u8 MBi_GetAttribute(void) {
     return bit8 | (bit4 | (bit1 | bit2));
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 MBi_IsStarted(void) {
     if (gWirelessWork->mMbIsStarted == 1) {
         return 1;
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_CheckWmErrcode(u16 command, s32 resultCode) {
     u16 report[2];

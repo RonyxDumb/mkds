@@ -106,23 +106,15 @@ s32 UpdateMessageScreen(void) {
     }
     return gMessageScreen->mResult;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearMessageScreenChars(void) {
     MI_CpuFill8(gMessageScreen->mCharBuffer, 0u, 0x1400u);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void *GetMessageScreenCharBuffer(void) {
     return gMessageScreen->mCharBuffer;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearMessageScreenMap(void) {
     volatile u16 zero;
     zero = 0;
@@ -291,15 +283,11 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
         oam->mCharAndPaletteBits = (0x400 - (index + 1) * 4) | 0xd000;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearLinkLevelIconsPointer(void) {
     gLinkLevelIcons = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetupLinkLevelIcons(void) {
     s32 iconIndex;
     Ncgr *chars;
@@ -398,9 +386,7 @@ void AdvanceLinkLevelIcons(void) {
         }
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetLinkLevelIconEnabled(u32 index, u32 enabled) {
     gLinkLevelIcons->mIconEnabled[index] = enabled;
 }

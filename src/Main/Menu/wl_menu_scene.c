@@ -133,10 +133,6 @@ void AdvanceWLMenuScene(void *sceneNumbers) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseWLMenuScene(void) {
     int isMultiBootChild;
     gWLMenuScene->mCurrentCallbacks->mRelease();

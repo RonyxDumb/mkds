@@ -34,9 +34,7 @@ void *CreateMapObjectUpdateList(void *init, void *forEachObject, void *beforeObj
     list->mAfterObjects = 0;
     return list;
 }
-#pragma thumb off
 
-#pragma thumb on
 // The 1 in the name is the value stored at +0x18, not a slot of the kind row.
 void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
@@ -47,9 +45,7 @@ void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObje
     list->mAfterObjects = 0;
     return list;
 }
-#pragma thumb off
 
-#pragma thumb on
 void *CreateMapObjectDrawList2(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
     list->mPassOrPosStepMode = MAP_OBJECT_LIST_PASS_SECOND;
@@ -59,9 +55,7 @@ void *CreateMapObjectDrawList2(void *init, void *forEachObject, void *beforeObje
     list->mAfterObjects = 0;
     return list;
 }
-#pragma thumb off
 
-#pragma thumb on
 MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const char *name) {
     MapObjectModel *mapObjectModel;
 
@@ -77,9 +71,7 @@ MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const
     mapObjectModel->mScale = gMapObjectModelFrameAnimatedScale;
     return mapObjectModel;
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const char *name) {
     void *courseMapObjFile;
 
@@ -88,9 +80,7 @@ void CreateMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const ch
     InitModelAnimationWithEntries(0, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[0],
                                   mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const char *name) {
     void *courseMapObjFile;
 
@@ -99,9 +89,7 @@ void CreateMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const ch
     InitModelAnimationWithEntries(1, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[3],
                                   mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, const char *name) {
     void *courseMapObjFile;
 
@@ -110,9 +98,7 @@ void CreateMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, const ch
     InitModelAnimationWithEntries(2, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[1],
                                   mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
-#pragma thumb off
 
-#pragma thumb on
 MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const char *name) {
     MapObjectModel *mapObjectModel;
     void *courseMapObjFile;
@@ -127,9 +113,7 @@ MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const c
     mapObjectModel->mScale = gMapObjectModelFrameShadowScale;
     return mapObjectModel;
 }
-#pragma thumb off
 
-#pragma thumb on
 MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const char *name) {
     MapObjectModel *mapObjectModel;
     void *courseMapObjFile;
@@ -151,9 +135,7 @@ MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const ch
     mapObjectModel->mScale = gMapObjectModelFrameNsbmdScale;
     return mapObjectModel;
 }
-#pragma thumb off
 
-#pragma thumb on
 // Like CreateMapObjectModelNsbmd with a second file, the .nsbtp (named like Init<Kind><Kind>).
 MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, const char *modelName,
                                                const char *animationName) {

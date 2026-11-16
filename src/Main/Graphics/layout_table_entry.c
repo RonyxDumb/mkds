@@ -31,10 +31,6 @@ void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
                      LayoutTableEntry **tableOut) {
     u16 count;
@@ -138,10 +134,6 @@ void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, NNSG2dCellData
         DrawLayoutEntry(entryIndex, cells, cellLayout, labelLayout, oamList, table + entryIndex, 0);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells,
                           LayoutEntryTable *labelLayout, void *oamList, LayoutTableEntry *table) {

@@ -148,10 +148,6 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
     return 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void StartBackupWriteTwoCopies(u32 firstAddress, u32 secondAddress, u32 *source, u32 byteCount,
                                void (*callback)(u32 *, u32), s32 hasPrefix) {
     gBackupAccess->mSecondPassAddress = secondAddress;

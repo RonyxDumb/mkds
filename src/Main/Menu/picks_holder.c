@@ -38,10 +38,6 @@ void CreatePicksHolder(void *heap) {
     gPicksHolder->mPicks = CreateCharacterKartPicks(heap);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ClearPicksHolderPointer(void) {
     gPicksHolder = NULL;
 }

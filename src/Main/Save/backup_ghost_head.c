@@ -63,21 +63,13 @@ void ReadBackupSlotGhost(u32 index, SlotGhostRecord *ghostRecord) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void CopyBackupReadToGhostRecordHead(u32 *buffer, u32 length) {
     MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, 48u);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CopyBackupReadToGhostListEntry(u32 *buffer, u32 length) {
     MI_CpuCopy8(buffer, gBackupAccess->mReadTarget, 0x230u);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void ReadBackupGhostRecordHead(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord) {
     BackupAccess *backupAccess;

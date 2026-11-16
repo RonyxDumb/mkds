@@ -374,17 +374,13 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     dossun->mSineBaseY = dossun->mMapObject.mPos.y;
     dossun->mEnteredWaitBeforeFollow = FALSE;
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateDossunAndDossunShadow(void) {
     CreateNsbmd(&gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
     CreateShadowModel(&gDossunShadow, FindCourseMapObjFile("dossun_shadow.nsbmd"), 0x3f);
     SetNsbmdPolygonIdLightEmiAll(gDossun, 0x3f, 2, 0x294a);
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mIsSlowVariant = row->mSettings[0];
     InitGroupFollower(&dossun->mFollower, row, dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000);

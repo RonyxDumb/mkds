@@ -229,10 +229,6 @@ void CreateTitleScene(void) {
     ResetRaceSetup();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseTitleSceneObject(void) {
     ReleaseSceneText();
     gTitleScene = NULL;

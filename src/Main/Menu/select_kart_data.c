@@ -248,10 +248,6 @@ void SetKartMenuParamElementOffset(s32 elementIndex, s32 endCellIndex, s32 param
     parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mPosition - startCell->mPosition) / 100;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RefreshKartMenuParamElements(void) {
     int result;
     CellFileSet *parts;
@@ -872,9 +868,6 @@ void WriteSelectKartRegisters(void) {
         WritePlayerEntryListRegisters();
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadSelectKartData(void) {
     void *fileData;

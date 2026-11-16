@@ -143,20 +143,12 @@ void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedS
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostMainTextEx(void) {
     void *message;
     message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 3);
     SetTxtSystemBgOffsetRequested(0xfffffff4, 0);
     SetupTxtSystemMainTextEx(message, 0, 0, 0, 0, 0, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 static inline s32 GhostGetSlotIsBackupCommandRunning(void) {
     BackupAccess *backupAccess = gBackupAccess;
@@ -433,18 +425,10 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseTimeAttackGhostGetSlot(void) {
     HeapDestroy(gTimeAttackGhostGetSlot->mHeap);
     gTimeAttackGhostGetSlot = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteGhostGetSlotRegisters(void) {
     s32 offset;
@@ -488,19 +472,11 @@ void StartTimeAttackGhostGetScanWaitErrorMessage(void) {
     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostMainTextShort(void) {
     void *message;
     message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 1);
     SetupTxtSystemMainTextShort(message, 0, 0, 0, 0, 0, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Selects the previous filled entry whose counter has run up to its end; a nonzero argument wraps from the first entry
 // to the last.
@@ -603,10 +579,6 @@ void SetScanSelectedEntryHighlight(s32 cursorVisible) {
                          subCellFileSet->mCellLayout);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostSubTextTwoButtons(void) {
     void *message;
     void *firstButtonText;
@@ -617,10 +589,6 @@ void SetupGhostSubTextTwoButtons(void) {
     SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
     SetupTxtSystemSubTextTwoButtonsEx(message, firstButtonText, secondButtonText, 0, 0, 1, 1, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateScanSelectedIndex(void) {
     TimeAttackGhostGetScan *object;
@@ -859,10 +827,6 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     SetSelectReturnSoundId(0xf);
     FrmHeapShrinkInParent(gTimeAttackGhostGetScan->mHeap);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 static inline s32 GhostGetScanIsBackupCommandRunning(void) {
     BackupAccess *backupAccess = gBackupAccess;
@@ -1210,10 +1174,6 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     }
     return result;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ReleaseTimeAttackGhostGetScan(void) {
     HeapDestroy((void *) ((u32) gTimeAttackGhostGetScan->mHeap));

@@ -108,10 +108,6 @@ void ResetEntrySlots(void) {
     } while (slotIndex < 8);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Moves each entry toward its target slot one slot at a time, each move taking 10 frames.
 void AdvanceEntrySlots(void) {
     s32 entryIndex;
@@ -615,18 +611,10 @@ void AdvancePlayerEntryList(void) {
                     fileSet->mCellTable);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleasePlayerEntryList(void) {
     HeapDestroy(gPlayerEntryList->mHeap);
     *&gPlayerEntryList = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WritePlayerEntryListRegisters(void) {
     u32 displayBits = 0x19;
@@ -692,10 +680,6 @@ void LoadPlayerEntryListFiles(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsPlayerEntryListTimerZero(void) {
     if (gPlayerEntryList->mTimer == 0) {
         return 1;
@@ -721,10 +705,6 @@ u32 IsEveryPlayerKartStored(void) {
     }
     return allKartsStored;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void StartPlayerEntryListKind(s32 kind) {
     s32 entryIndex;
@@ -784,10 +764,6 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
     gPlayerEntryList->mUseTeams = useTeams;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetEntryTeamIndex(int entryIndex, int teamIndex) {
     u32 slot;
     if ((gPlayerEntryList->mUseTeams != 0) && (teamIndex != gPlayerEntryList->mEntries[entryIndex].mTeamIndex)) {
@@ -800,10 +776,6 @@ void SetEntryTeamIndex(int entryIndex, int teamIndex) {
     }
     gPlayerEntryList->mEntries[entryIndex].mTeamIndex = teamIndex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetPlayerEntryListShowAllEntries(s32 showAll) {
     s32 entryIndex;
@@ -832,9 +804,6 @@ void SetPlayerEntryListShowAllEntries(s32 showAll) {
     gPlayerEntryList->mShowAllEntries = showAll;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RequestPlayerEntryListSetup(void) {
     gPlayerEntryList->mSetupPending = TRUE;
 }

@@ -121,10 +121,6 @@ void SetKeyboardButtonCorners(void) {
     SetKeyboardButton1Corners(0x82, 0x7a, 0xdc, 0x8e);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void PrintKeyboardButtonTexts(void) {
     s32 kindIndex;
     for (kindIndex = 0; kindIndex < 2; kindIndex++) {
@@ -312,9 +308,6 @@ void InitKeyboard(void *heap, s32 mode) {
     HideKeyboardFirstBufferObjects();
     WriteKeyboardObjectOffsets();
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void ReleaseKeyboard(void) {
     ClearLinkLevelIconsPointer();
@@ -322,9 +315,6 @@ void ReleaseKeyboard(void) {
     gKeyboard = NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WriteKeyboardObjectOffsets(void) {
     u16 cellCounts[2];
     s32 cursorLeft;
@@ -404,9 +394,6 @@ void WriteKeyboardObjectOffsets(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueKeyboardScreenMap(void) {
     Nscr *screenMap;
@@ -457,9 +444,6 @@ void LoadKeyboardFiles(void) {
     GXS_LoadBGPltt(palette->mData, 0, 0x80);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitKeyboardDisplay(void) {
     u32 subDisplayBits;
     reg_G2S_DB_BLDCNT = 0;
@@ -650,9 +634,6 @@ void AdvanceKeyboardWaitFadeName(void) {
         gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 1;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateKeyboardNameButtons(void) {
     s32 charIndex;
@@ -685,9 +666,6 @@ void UpdateKeyboardNameButtons(void) {
     gKeyboard->mCursorOnButton[1] = FALSE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceKeyboardSlideInName(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
@@ -1206,9 +1184,7 @@ void WriteKeyboardRegisters(void) {
     UploadKeyboardBg2Data();
     WriteSceneTextRegisters();
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardNextScene(void) {
     return gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene;
 }

@@ -88,10 +88,6 @@ void LoadCommonKartIconData(void) {
     } while (paletteCount < 3);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void CreateKartIcon(void *heap) {
     int nclrIndex;
 
@@ -103,10 +99,6 @@ void CreateKartIcon(void *heap) {
     }
     gKartIcon->mBncl = FindSceneFile(gKartIconBnclName);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void CreateCommonKartIcon(void *heap) {
     s32 nclrIndex;
@@ -120,15 +112,9 @@ void CreateCommonKartIcon(void *heap) {
     gKartIcon->mBncl = FindSceneFile(gCommonKartIconBnclName);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearKartIconPointer(void) {
     gKartIcon = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueKartIcon(s32 iconIndex, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl,
                    u32 destinationBnclIndex, u16 paletteIndex, s32 queueSelector) {

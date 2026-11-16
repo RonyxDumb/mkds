@@ -313,10 +313,6 @@ void SetupKartEmblemTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     texPlttEntry->mTexData = emblemTex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupKartEntryNameTexture(TexPlttEntry *texPlttEntry, u32 kartIndex) {
     u16 kartPaletteColor;
     u16 *plttBuffer;
@@ -344,10 +340,6 @@ void SetPaletteKartColor(TexPlttEntry *texPlttEntry, u32 kartIndex) {
     plttData[1] = kartPaletteColor;
     DC_FlushRange(plttData, 8);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     u8 *pixels;

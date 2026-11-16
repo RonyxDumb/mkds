@@ -105,9 +105,6 @@ void RefreshSelectCupGridCupsEnabled(void) {
     } while (cupIndex < 8);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitSelectCupGridCells(void) {
     s32 cupCellIndex;
     s32 index;
@@ -257,9 +254,6 @@ void SetCupFromSelectCupGrid(void) {
     SetCupIndex(gSelectCupGridCupIndices[gSelectCupGrid->mIndex]);
     SetCourseId(gSelectCupGridFirstCourseIds[gSelectCupGrid->mIndex]);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 IsSelectCupGridIndexChangeRunning(void) {
     if (gSelectCupGrid->mIndexChangeTimer != 0) {
@@ -267,10 +261,6 @@ u32 IsSelectCupGridIndexChangeRunning(void) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupGridIndexChange(void) {
     u16 mainCellCount;
@@ -448,10 +438,6 @@ void RequestSelectCupGridWaitConfirmOpen(void) {
     StartSelectChoises(firstChoiceText, GetBmgEntry(gSelectCupGrid->mCommonMessages, 2), 0);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RequestSelectCupGridWaitConfirmChoices(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_CHOICES;
     gSelectCupGrid->mStateFrames = 0;
@@ -459,10 +445,6 @@ void RequestSelectCupGridWaitConfirmChoices(void) {
     SetSelectChoisesSoundId(1, SELECT_CHOISES_SECOND_SOUND_ID);
     SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestSelectCupGridWaitConfirmAnswer(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_ANSWER;
@@ -484,10 +466,6 @@ void RequestSelectCupGridWaitExitOpen(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RequestSelectCupGridWaitExitChoices(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_CHOICES;
     gSelectCupGrid->mStateFrames = 0;
@@ -495,10 +473,6 @@ void RequestSelectCupGridWaitExitChoices(void) {
     SetSelectChoisesSoundId(1, 0xf);
     SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestSelectCupGridWaitExitAnswer(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_ANSWER;
@@ -591,10 +565,6 @@ void ReleaseSelectCupGrid(void) {
     gSelectCupGrid = NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceSelectCupGridWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
@@ -602,10 +572,6 @@ void AdvanceSelectCupGridWaitFade(void) {
         RequestSelectCupGridSlideIn();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupGridSlideIn(void) {
     u16 mainCellCount;
@@ -661,10 +627,6 @@ void AdvanceSelectCupGridSlideIn(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceSelectCupGridWaitReturn(void) {
     int isReturnShownNoRequest;
     isReturnShownNoRequest = IsSelectReturnShownNoRequest();
@@ -672,10 +634,6 @@ void AdvanceSelectCupGridWaitReturn(void) {
         RequestSelectCupGridChoose();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupGridChoose(void) {
     InputSlotIndex inputIndex;
@@ -857,10 +815,6 @@ void AdvanceSelectCupGridWaitChosen(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceSelectCupGridWaitConfirmOpen(void) {
     int isChooseNoRequest;
     AdvanceSelectCupGridShownCourse();
@@ -878,10 +832,6 @@ void AdvanceSelectCupGridWaitConfirmChoices(void) {
         RequestSelectCupGridWaitConfirmAnswer();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupGridWaitConfirmAnswer(void) {
     s32 choiceIndex;
@@ -904,10 +854,6 @@ void AdvanceSelectCupGridWaitConfirmAnswer(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceSelectCupGridWaitExitOpen(void) {
     int isChooseNoRequest;
     AdvanceSelectCupGridShownCourse();
@@ -916,10 +862,6 @@ void AdvanceSelectCupGridWaitExitOpen(void) {
         RequestSelectCupGridWaitExitChoices();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupGridWaitExitChoices(void) {
     s32 choiceIndex;
@@ -1088,9 +1030,6 @@ s32 AdvanceSelectCupGrid(void) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WriteSelectCupGridRegisters(void) {
     u32 scratchValue;
     u32 registerValue;

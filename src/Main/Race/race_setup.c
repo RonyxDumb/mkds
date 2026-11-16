@@ -92,9 +92,6 @@ void ResetRaceSetupCopy(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 RaceSetupCopy *GetRaceSetupCopy(void) {
     return gRaceSetupCopy;
@@ -196,10 +193,6 @@ void CopyEntriesToRaceSetupCopy(void) {
         }
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetCourseId(void) {
     return (gRaceSetupCopy->mCourseId);
@@ -313,10 +306,6 @@ void ClearUseTeams(void) {
     gRaceSetupCopy->mUseTeams = 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetTeamIndex(u16 entryIndex, u32 teamIndex) {
     gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = teamIndex;
 }
@@ -340,10 +329,6 @@ void SetListedCpuSlot(u16 entryIndex, u32 cpuSlot) {
 void SetKartStored(u16 entryIndex, u32 kartStored) {
     gRaceSetupCopy->mEntries[entryIndex].mKartStored = kartStored;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetRaceSetupCopyGhostRecordIndex(u32 ghostRecordIndex) {
     gRaceSetupCopy->mGhostRecordIndex = ghostRecordIndex;

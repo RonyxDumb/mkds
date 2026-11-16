@@ -98,10 +98,6 @@ void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 MBi_IsTaskAvailable(void) {
     if (gWorkerQueue != NULL) {
         return 1;
@@ -109,9 +105,6 @@ u32 MBi_IsTaskAvailable(void) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void MBi_InitTaskInfo(void *taskInfo) {
     void *target = taskInfo;
     u32 fillValue;
@@ -121,9 +114,6 @@ void MBi_InitTaskInfo(void *taskInfo) {
     byteCount = 32u;
     MI_CpuFill8(target, fillValue, byteCount);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 MBi_IsTaskBusy(WorkerTask *task) {
     if (task->mInUse != 0) {
@@ -199,10 +189,6 @@ void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
     }
     OS_RestoreInterrupts(savedInterrupts);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_EndTaskThread(void *done) {
     u32 savedInterrupts;

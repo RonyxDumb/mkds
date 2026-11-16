@@ -312,10 +312,6 @@ void BuildResultArchivePathWithLanguage(char *path) {
                 ".carc");
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void BuildStaffRollArchivePath(char *path) {
     u32 languageCode;
     languageCode = GetLanguageCode();
@@ -342,10 +338,6 @@ void BuildArchivePathWithLanguage(const char *prefix, char *path) {
     languageCode = GetLanguageCode();
     OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "%s_%s.carc", prefix, languageCode);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     char path[ARCHIVE_PATH_SIZE] = {0};
@@ -654,15 +646,9 @@ void ReleaseArchiveSlots(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetHeapGroupId(u32 groupId) {
     NNS_FndSetGroupIDForExpHeap(GetHeap(GetCurrentHeapCall()), groupId);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void *FindArchiveFile(const char *archiveName, const char *path) {
     char fullPath[ARCHIVE_PATH_SIZE];
@@ -675,10 +661,6 @@ void *FindArchiveFile(const char *archiveName, const char *path) {
     return ArchiveFileGetAddress((const u8 *) fullPath);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void *FindMainRaceOrMainEffectFile(const char *path) {
     void *file;
     file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_RACE], path);
@@ -687,10 +669,6 @@ void *FindMainRaceOrMainEffectFile(const char *path) {
     }
     return file;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Searches the archives that are loaded, in a fixed order, and returns the first match.
 void *FindFileInLoadedArchives(const char *path) {
@@ -739,10 +717,6 @@ void *FindSceneFile(const char *path) {
     return file;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void *FindCourseFile(const char *path) {
     void *file;
     file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_COURSE], path);
@@ -782,10 +756,6 @@ void *FindKartModelFile(const char *path) {
     }
     return file;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void *LoadKartModelFile(const char *path) {
     void *file;
@@ -836,10 +806,6 @@ void *LoadKartModelFile(const char *path) {
     return file;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReplaceKm1ArchiveWithKm2(void) {
     ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MAIN_A);
     SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
@@ -884,10 +850,6 @@ void ReleaseKartModelLoadSlotsForScene(void) {
     SetHeapGroupId((u16) HEAP_GROUP_SCENE);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32 uncompress, u32 flag) {
     ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
     buffer->mHeap = heap;
@@ -897,10 +859,6 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32
     buffer->mUnk_08_30 = flag;
     buffer->mUnk_08_31 = 1;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Sets up 12 archive buffers on three heaps.
 void InitArchiveBuffers(NNSiFndHeapHead *firstHeap, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *lastHeap) {
@@ -928,19 +886,11 @@ void InitArchiveBuffersOnOverlayHeap(void) {
     InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, 0x1e, 0, 0);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RequestArchiveLoad(const void *path, s32 bufferIndex) {
     ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
     AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->mByteSize, buffer->mUncompress);
     buffer->mUnk_08_31 = 1;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
     u32 languageCode;
@@ -970,10 +920,6 @@ void RequestMenuDLArchives(void) {
     RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", ARCHIVE_BUFFER_MENU_DL_LANGUAGE);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RequestRaceArchives(void *courseId, void *kind) {
     char path[ARCHIVE_PATH_SIZE];
     ResetPendingFiles();
@@ -996,20 +942,12 @@ void RequestRaceArchives(void *courseId, void *kind) {
     gArchiveSlots->mCourseId = courseId;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
     RequestArchiveLoad("/data/Scene/ResultDL.carc", ARCHIVE_BUFFER_RESULT_DL);
     RequestArchiveLoadWithLanguage("/data/Scene/ResultDL_", ARCHIVE_BUFFER_RESULT_DL_LANGUAGE);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ClearArchiveBuffersMap2DLoadFlag(void) {
     s32 bufferIndex;

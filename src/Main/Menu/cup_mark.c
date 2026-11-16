@@ -91,15 +91,9 @@ void CreateCommonCupMark(void *heap) {
     gCupMark->mBncl = sceneFile;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearCupMarkPointer(void) {
     gCupMark = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
                   u16 paletteSlot, s32 queueSelector) {
@@ -146,15 +140,9 @@ void CreateSelectCupNameM(void *heap) {
     gSelectCupNameM->mBncl = sceneFile;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearSelectCupNameMPointer(void) {
     gSelectCupNameM = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueSelectCupNameM(u32 nameIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
                          u32 queueSelector) {

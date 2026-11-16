@@ -35,10 +35,6 @@ void InitMPChunkBuffers(void *heap) {
     } while (slot < MP_PARTICIPANT_SLOT_COUNT);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 static inline u32 MPStatesGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
@@ -200,10 +196,6 @@ u32 AdvanceMainAndMenuDLArchives(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Asks for state 16 with the next race's course and mode.
 void RequestMPWaitRaceArchives(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
@@ -215,10 +207,6 @@ void RequestMPWaitRaceArchives(void *courseId, void *mode) {
     gConnectionWork->mCourseId = courseId;
     gConnectionWork->mMode = mode;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestMPWaitResultArchives(void) {
     MPStateMachine *stateMachine;
@@ -257,10 +245,6 @@ u32 AdvanceRaceArchives(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void EnterMPWaitRaceArchives(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
@@ -284,10 +268,6 @@ void UpdateMPWaitRaceArchives(void *stateObject) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void LoadCourseSoundSetCallback(void) {
     u32 loaded;
 
@@ -305,10 +285,6 @@ void EnterMPLoadCourseSound(void *stateObject) {
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateMPLoadCourseSound(void *stateObject) {
     int result;

@@ -20,10 +20,6 @@ void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback) {
     previousState = (OS_RestoreInterrupts(enabled));
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void *MB_CommGetChildUser(u32 child) {
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
@@ -358,20 +354,12 @@ void MBi_CommParentRecvData(WMMpRecvHeader *header) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 int MBi_CommParentSendMsg(u8 messageKind, u32 childMask) {
     ParentMessage message;
     message.mKind = messageKind;
     MBi_MakeParentSendBuffer(&message, (u8 *) mbc);
     return MBi_BlockHeaderEnd(6, childMask, (u32) mbc);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 MBi_CommParentSendDLFileInfo(void) {
     ParentMessage message;
@@ -442,10 +430,6 @@ void MBi_ReloadCache(DataRangeLoadJob *job) {
         OS_Terminate();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 MBi_CommParentSendBlock(void) {
     ParentMessage message;
@@ -577,10 +561,6 @@ int MBi_CommParentSendData(void) {
     }
     return result;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_calc_sendblock(u32 entryIndex) {
     MB_CommPWork *entry;

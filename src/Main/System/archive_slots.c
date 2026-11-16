@@ -188,10 +188,6 @@ u32 GetLanguageCode(void) {
     return (u32) gLanguageCodes[languageIndex];
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
     languageIndex = gConnectionWork->mLanguageIndex;

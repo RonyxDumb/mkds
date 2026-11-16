@@ -571,18 +571,10 @@ void SetSelectCharacterBracketsMoving(void) {
     sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RefreshSelectCharacterRowCells(void) {
     SetSelectCharacterBracketsMoving();
     MoveSelectCharacterBracketsToRow();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupSelectCharacterRow(s32 previousTableIndex) {
     gSelectCharacter->mPreviousTableIndex = previousTableIndex;
@@ -610,10 +602,6 @@ void SetupSelectCharacterRow(s32 previousTableIndex) {
     gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsSelectCharacterModeAndTimerZero(void) {
     int result;
     if ((gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION) &&
@@ -622,10 +610,6 @@ u32 IsSelectCharacterModeAndTimerZero(void) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetSelectCharacterAngleAndScale(void) {
     CellFileSet *sParts = &gSelectCharacter->mSParts;
@@ -639,10 +623,6 @@ void SetSelectCharacterAngleAndScale(void) {
         }
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     void *heap;
@@ -886,10 +866,6 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     FrmHeapShrinkInParent(gSelectCharacter->mHeap);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
     BOOL result = FALSE;
@@ -1232,10 +1208,6 @@ int AdvanceSelectCharacter(void) {
     }
     return result;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ReleaseSelectCharacter(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {

@@ -105,10 +105,6 @@ void InitBouncingItemBoxMapObjects(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitBouncingItemBoxTimers(void) {
     s32 timerIndex;
     u32 *timerCursor;

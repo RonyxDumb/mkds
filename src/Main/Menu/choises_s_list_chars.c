@@ -49,9 +49,6 @@ u32 IsChoisesSPickLocked(void) {
     return (gChoisesS->mPickLocked);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 // In mode 5 the sequence index is always 4, whatever the selected value.
 void StartChoisesSSelectedValueSeq(void) {
@@ -83,9 +80,6 @@ void StartChoisesSSelectedValueSeq(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetChoisesSListCharsSize(int valueCount) {
     if (valueCount < 0) {

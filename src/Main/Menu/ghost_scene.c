@@ -56,10 +56,6 @@ u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex) {
     return gCupCourseIdTable[cupCourseIndex / 4][cupCourseIndex % 4];
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Unpacks the Chars, Cells, Palette and ScreenMap files of the ghost scene in place; nothing is kept.
 void LoadGhostSceneFiles(void) {
     void *file;
@@ -121,10 +117,6 @@ void LoadGhostSceneFiles(void) {
     LoadNscrData(screenMaps, file);
     LoadKartIconData();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitGhostScene(void *heap) {
     SceneTextInitParams arg;
@@ -247,10 +239,6 @@ void WriteGhostSceneRegisters(void) {
     UploadOamLists(gGhostScene, gGhostScene->mSubOam);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, const s16 (*labelRows)[4], void *name, s32 characterIndex,
                           s32 kartIndex, s32 courseId, MinuteSecondMillisecondTime *time) {
     u16 timeText[10];
@@ -275,10 +263,6 @@ void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, const s16 (*labelRows)[4]
         GetCellPaletteIndex(labelRows[1][3], fileSets->mCellFileSets[0].mCells, fileSets->mCellFileSets[0].mCellLayout),
         0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 GhostRecord *GetCourseGhostBuffer(void) {
     return gGhostScene->mCourseGhostBuffer;

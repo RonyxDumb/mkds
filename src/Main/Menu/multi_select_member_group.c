@@ -220,10 +220,6 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
                          cellFileSet->mCellLayout);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Fills with 0 using a volatile halfword.
 static inline void MultiSelectMI_CpuClear16(void *destination, s32 byteCount) {
     volatile u16 zero = 0;
@@ -554,18 +550,10 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseMultiSelectMemberGroup(void) {
     HeapDestroy(gMultiSelectMemberGroup->mHeap);
     *&gMultiSelectMemberGroup = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteMultiSelectMemberGroupRegisters(void) {
     u32 displayBits = 0x16;

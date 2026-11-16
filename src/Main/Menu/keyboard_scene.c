@@ -27,9 +27,7 @@ void InitKeyboardScene(s16 *sceneNumbers) {
     gKeyboardScene = HeapAlloc(heap, sizeof(*gKeyboardScene));
     InitKeyboard(heap, sceneNumbers[0]);
 }
-#pragma thumb off
 
-#pragma thumb on
 void ReleaseKeyboardScene(void) {
     ReleaseKeyboard();
     gKeyboardScene = NULL;
@@ -61,9 +59,6 @@ s32 RunKeyboardScene(void *sceneNumbers) {
     RunScene(sceneNumbers, &callbacks);
     return 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 RaceHudOamBuffer *GetKeyboardFirstBuffer(void) {
     return &gKeyboardScene->mMainOam;

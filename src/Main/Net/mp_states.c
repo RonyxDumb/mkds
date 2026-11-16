@@ -44,10 +44,6 @@ void RequestMPReadyAfterCombine(void) {
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 static inline u32 MPStatesGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;
@@ -101,10 +97,6 @@ void EnterMPLoadDlArchives(void *stateObject) {
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void UpdateMPLoadDLArchives(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
@@ -115,10 +107,6 @@ void UpdateMPLoadDLArchives(void *stateObject) {
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateMPWaitRomArchive(void *stateObject) {
     BOOL shouldRequestState;
@@ -178,10 +166,6 @@ void EnterMPLoadSoundData(void *stateObject) {
     gConnectionWork->mCallbackFailed = 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void UpdateMPLoadSoundData(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
@@ -192,10 +176,6 @@ void UpdateMPLoadSoundData(void *stateObject) {
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Clears the per-slot flags of received chunks: 0x12 per slot for the parent, 2 for a child.
 void EnterMPStartExchange(void *stateObject) {
@@ -246,15 +226,9 @@ void EnterMPExchangeOwnRecords(void *stateObject) {
     gConnectionWork->mMPStateMachine.mEntryWaitFrames = 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void QueueMPChunkCallback(void) {
     gConnectionWork->mMPStateMachine.mChunkSendFlags |= 1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBitmap) {
     u8 *packet;
@@ -457,10 +431,6 @@ void UpdateMPSendPlayerNames(void *stateObject) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void EnterMPStartDataSharing(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
@@ -472,10 +442,6 @@ void EnterMPStartDataSharing(void *stateObject) {
         SetMPFrequency(1);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateMPStartDataSharing(void *stateObject) {
     if (gConnectionWork->mRequestPending != 0) {
@@ -526,15 +492,10 @@ void UpdateMPExchangePlayerBits(void *stateObject) {
         QueueMPDataPlayerBits((u16) ownIndex, 1);
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void EnterMPSendPlayerBits(void *stateObject) {
     gConnectionWork->mPlayerSendIndex = 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateMPSendPlayerBits(void *stateObject) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
@@ -554,9 +515,6 @@ void UpdateMPSendPlayerBits(void *stateObject) {
         MPStatesRequestMPState(MP_STATE_SEND_PLAYER_NAMES);
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void EnterMPReadyNop(void *stateObject) {}
 

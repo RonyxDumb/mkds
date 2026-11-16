@@ -26,15 +26,10 @@ QueueMPDataToPortParams gPacketPortParams = {PacketPortSendCallback, 0, {0, 0}, 
 void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
     gConnectionWork->mBlockEntries[entryIndex].mBuffer = buffer;
 }
-#pragma thumb off
 
-#pragma thumb on
 void PacketPortSendCallback(void) {
     gConnectionWork->mTransferFlags &= ~1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueuePacketToPort(void) {
     u16 packetSize;

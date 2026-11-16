@@ -68,10 +68,6 @@ BOOL LoadPendingFiles(void) {
     return FALSE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ResetPendingFiles(void) {
     int entryIndex;
     BlockTransferView *view;
@@ -94,10 +90,6 @@ void ResetPendingFiles(void) {
     } while (entryIndex < CONNECTION_BLOCK_ENTRY_COUNT);
     view->mNextLoadIndex = CONNECTION_BLOCK_ENTRY_COUNT;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, s32 uncompress) {
     u16 entryIndex;
