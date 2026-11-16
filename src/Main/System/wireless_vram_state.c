@@ -28,7 +28,8 @@ void InitWvrState(void) {
 void ClearLcdcBanksByState(void) {
     switch (gWvrState.mState) {
         case WIRELESS_VRAM_STATE_STARTED:
-            GX_SetBankForLCDC(0x1f7);
+            GX_SetBankForLCDC(VRAM_BANK_A | VRAM_BANK_B | VRAM_BANK_C | VRAM_BANK_E | VRAM_BANK_F | VRAM_BANK_G |
+                              VRAM_BANK_H | VRAM_BANK_I);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0x60000);
             MemFillWordsByBlock_inline((void *) 0x6880000, 0x24000);
             break;
@@ -36,7 +37,8 @@ void ClearLcdcBanksByState(void) {
             break;
         case WIRELESS_VRAM_STATE_STOPPED:
         case WIRELESS_VRAM_STATE_UNUSED:
-            GX_SetBankForLCDC(0x1ff);
+            GX_SetBankForLCDC(VRAM_BANK_A | VRAM_BANK_B | VRAM_BANK_C | VRAM_BANK_D | VRAM_BANK_E | VRAM_BANK_F |
+                              VRAM_BANK_G | VRAM_BANK_H | VRAM_BANK_I);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0xa4000);
             break;
     }
@@ -104,7 +106,7 @@ void ClearLcdcBankAndStartWvrAndWait(void) {
         GX_SetBankForLCDC(VRAM_BANK_D);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
-        if (WVR_StartUpAsync(8, WvrCallback, WIRELESS_VRAM_STATE_STARTED) != 1) {
+        if (WVR_StartUpAsync(VRAM_BANK_D, WvrCallback, WIRELESS_VRAM_STATE_STARTED) != 1) {
             OS_Terminate();
         }
     }

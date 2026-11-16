@@ -142,7 +142,7 @@ s32 FSi_ReadDirCommand(FSFile *dir) {
     if (entry->mIsDirectory != 0) {
         FSi_ReadTable(&readParam, &parent, 2);
         entry->mId.h.mArc = dir->mArc;
-        entry->mId.h.mOwnId = parent & 0xfff;
+        entry->mId.h.mOwnId = parent & FILE_DIR_ID_MASK;
         entry->mId.h.mIndex = 0;
         entry->mId.w.mUnk_08 = 0;
     } else {

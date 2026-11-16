@@ -281,7 +281,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
             StopSceneSoundSetSeq();
         }
     }
-    if ((exitValue != 0 || GetNextSceneNumber() == 0) && gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
+    if ((exitValue != 0 || GetNextSceneNumber() == SCENE_TITLE) && gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
     }
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_TOP_MENU) {
@@ -312,7 +312,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     } while (!AreBrightnessFadesFaded());
 end:
     SetNoKeysAndUpdateInputSlots();
-    if (RunSceneIsWiFiSessionStateZero() && (exitValue != 0 || GetNextSceneNumber() == 0)) {
+    if (RunSceneIsWiFiSessionStateZero() && (exitValue != 0 || GetNextSceneNumber() == SCENE_TITLE)) {
         gSceneRunState->mRunStep = SCENE_RUN_STEP_CONNECTION_END;
         gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
         isDone = FALSE;

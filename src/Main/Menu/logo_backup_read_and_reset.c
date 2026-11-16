@@ -25,7 +25,7 @@ void UpdateLogoWaitBackupRead(void *stateObject) {
         return;
     }
     readStatus = gBackupBuffers->mReadStatus;
-    if (readStatus != 0) {
+    if (readStatus != BACKUP_READ_STATUS_OK) {
         if (readStatus == BACKUP_READ_STATUS_BLOCKS_FAILED) {
             gLogoScene->mUnk_2c_1 = 1;
             stateMachine = &gLogoScene->mStateMachine;

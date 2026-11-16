@@ -29,6 +29,7 @@
 #include "Main/Scene/display_settings_descs.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "capture_output_effect.h"
 
 void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName) {
@@ -88,18 +89,18 @@ void InitLogoScene(void *heap) {
 void ApplySavedSoundMode(void) {
     s32 outputEffect;
     s32 soundMode;
-    outputEffect = 0;
+    outputEffect = SOUND_OUTPUT_EFFECT_NONE;
     gLogoScene = NULL;
     soundMode = gBackupBuffers->mFirstBlock->mSoundMode;
     switch (soundMode) {
         case SOUND_MODE_STEREO:
             break;
         case SOUND_MODE_HEADPHONES:
-            outputEffect = 2;
+            outputEffect = SOUND_OUTPUT_EFFECT_HEADPHONE;
             break;
         case SOUND_MODE_SURROUND:
         default:
-            outputEffect = 1;
+            outputEffect = SOUND_OUTPUT_EFFECT_SURROUND;
             break;
     }
     SetSoundOutputEffect(outputEffect);

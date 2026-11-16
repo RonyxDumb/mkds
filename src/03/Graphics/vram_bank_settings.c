@@ -64,7 +64,7 @@ void ResetVramOamAndPalettes(void) {
     vu32 mainPaletteFill;
     vu32 subPaletteFill;
 
-    GX_SetBankForLCDC(0x1f3);
+    GX_SetBankForLCDC(VRAM_BANK_A | VRAM_BANK_B | VRAM_BANK_E | VRAM_BANK_F | VRAM_BANK_G | VRAM_BANK_H | VRAM_BANK_I);
     lcdcLowFill = 0;
     MIi_CpuClearFast(lcdcLowFill, (void *) 0x6800000, 0x40000);
     lcdcHighFill = 0;

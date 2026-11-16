@@ -11,8 +11,8 @@ void ResetInputSlot(InputSlot *slot) {
     slot->mRepeatState = INPUT_REPEAT_IDLE;
     slot->mRepeatCallCount = 0x0u;
     slot->mRepeatMask = 0x0u;
-    slot->mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
-    slot->mRepeatIntervalLimit = INPUT_REPEAT_INTERVAL_FRAMES;
+    slot->mRepeatDelayLimit = 0x14u;
+    slot->mRepeatIntervalLimit = 0x8u;
     slot->mHoldLong = 0x0u;
     slot->mLongHoldEnabled = 0x0u;
     slot->mHoldStartTick = 0;

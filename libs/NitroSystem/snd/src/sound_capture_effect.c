@@ -141,7 +141,7 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
         captureFormat = 0;
     }
     if (type != 2) {
-        playChannels = 10;
+        playChannels = SOUND_CAPTURE_CHANNEL_BITS;
     }
     if (callback != 0) {
         alarm = NNS_SndAllocAlarm();
@@ -149,17 +149,17 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
             return 0;
         }
     }
-    if (NNS_SndLockCapture(3) == 0) {
+    if (NNS_SndLockCapture(SOUND_CAPTURE_UNIT_BITS) == 0) {
         if (alarm >= 0) {
             NNS_SndFreeAlarm(alarm);
         }
         return 0;
     }
-    if (NNS_SndLockChannel(10) == 0) {
+    if (NNS_SndLockChannel(SOUND_CAPTURE_CHANNEL_BITS) == 0) {
         if (alarm >= 0) {
             NNS_SndFreeAlarm(alarm);
         }
-        NNS_SndUnlockCapture(3);
+        NNS_SndUnlockCapture(SOUND_CAPTURE_UNIT_BITS);
         return 0;
     }
     SND_SetupChannelPcm(1, waveFormat, left, loop != 0 ? 1 : 2, 0, length >> 2, volume, 0, timerPeriod, panLeft);
@@ -172,7 +172,7 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     if (type == 1) {
         SND_SetOutputSelector(1, 2, 1, 1);
     }
-    SND_StartTimer(playChannels, 3, alarm >= 0 ? 1 << alarm : 0, 0);
+    SND_StartTimer(playChannels, SOUND_CAPTURE_UNIT_BITS, alarm >= 0 ? 1 << alarm : 0, 0);
     capture->mActiveFlag = 1;
     capture->mType = type;
     capture->mChBitMask = SOUND_CAPTURE_CHANNEL_BITS;

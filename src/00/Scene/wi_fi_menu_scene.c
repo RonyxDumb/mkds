@@ -17,6 +17,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/scene_numbers.h"
 
 OamEntryList *gWiFiMenuOamLists;
 
@@ -44,7 +45,7 @@ void UpdateWiFiMenuScene(SceneNumbers *sceneNumbers) {
     HideUnusedOams(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
     if (sceneNumbers != NULL) {
         if (GetWiFiNextScene() != -1) {
-            if (GetWiFiNextScene() == 0) {
+            if (GetWiFiNextScene() == SCENE_TITLE) {
                 gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
             }
             sceneNumbers->mNextScene = GetWiFiNextScene();

@@ -244,7 +244,7 @@ void AdvanceRecordVSBrowse(void) {
         return;
     }
     RequestRecordVSSubSlideOut();
-    if (GetRecordPrevScene() == 12) {
+    if (GetRecordPrevScene() == SCENE_WIFI_MENU) {
         gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
         RequestSelectReturnPressWithSound(1);
         return;
@@ -477,7 +477,7 @@ void AdvanceRecordVSMainSlideOut(void) {
     s32 labelIndex;
     s16 offset;
     if (GetRecordNextScene() == -1 && gRecordVS->mNextScreen == RECORD_SCREEN_OUTSIDE) {
-        SetRecordNextScene(12);
+        SetRecordNextScene(SCENE_WIFI_MENU);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
@@ -660,7 +660,7 @@ void WriteRecordVSBgOffsets(void) {
 
 void WriteRecordVSRegisters(void) {
     u32 planeBits;
-    if (GetRecordPrevScene() == 12) {
+    if (GetRecordPrevScene() == SCENE_WIFI_MENU) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1b00;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
     } else {

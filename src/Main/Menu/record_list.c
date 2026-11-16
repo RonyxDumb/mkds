@@ -908,7 +908,7 @@ void InitRecordVS(void *heap) {
         } else {
             gRecordVS->mState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
             RequestRecordVSMainSlideOut();
-            if (GetRecordPrevScene() == 12) {
+            if (GetRecordPrevScene() == SCENE_WIFI_MENU) {
                 gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
             } else {
                 gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;

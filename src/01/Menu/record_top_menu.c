@@ -523,7 +523,7 @@ void AdvanceRecordTopMenuSlideOut(void) {
     s32 mainLayoutCount;
 
     if (GetRecordNextScene() == -1 && gRecordTopMenu->mRecordScreen == RECORD_SCREEN_START) {
-        SetRecordNextScene(0);
+        SetRecordNextScene(SCENE_TITLE);
     }
     gRecordTopMenu->mStateFrames++;
     offsetX = InterpolateS16(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
