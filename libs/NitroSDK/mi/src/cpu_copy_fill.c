@@ -67,7 +67,7 @@ fillb_word_loop:
 
 // Copies size bytes (whole words) from srcp to destp: 32 bytes per step while a full block remains, then a word at a
 // time.
-// Kept as asm: saves r4-r10 without lr and a padding word, and copies with conditional `ldmlt` / `stmlt` lists.
+// Kept as asm: saves r4-r10 without lr or a padding word, and copies with conditional `ldmlt` / `stmlt` lists.
 asm void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
     // ip = end of the whole 32-byte blocks.
@@ -127,7 +127,8 @@ asm void MI_Copy48B(const void *pSrc, void *pDest) {
 }
 
 // Copies 16 words from pSrc to pDest.
-// Kept as asm: copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip.
+// Kept as asm: copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip; the last group is `ldm r0` (no write-back)
+// into r0, r2, r3 and ip.
 asm void MI_Copy64B(const void *pSrc, void *pDest) {
     ldmia r0!, {r2, r3, ip}
     stmia r1!, {r2, r3, ip}
