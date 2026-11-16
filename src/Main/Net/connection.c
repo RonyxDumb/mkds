@@ -145,7 +145,7 @@ BOOL UpdateDataSharing(void) {
     BOOL allRead;
     u16 participantIndex;
     u16 clearIndex;
-    u8 receivedMask;
+    u8 leftMask;
     u8 *sharedData;
     u8 buf[8][8];
     u32 participantMask;
@@ -199,13 +199,13 @@ BOOL UpdateDataSharing(void) {
     allRead = TRUE;
     sharedData = WM_GetSharedDataAddress(gConnectionWork->mSharingInfo, gConnectionWork->mSharingDataSet, 0);
     if (sharedData != NULL) {
-        receivedMask = sharedData[4];
-        if (receivedMask != 0) {
+        leftMask = sharedData[4];
+        if (leftMask != 0) {
             for (participantIndex = 0; participantIndex < 8; participantIndex++) {
                 bit = 1 << participantIndex;
                 participantMask = gConnectionWork->mParticipantMask;
                 entryIndex = gConnectionWork->mParticipantPosByIndex[participantIndex].mEntryIndex;
-                if ((participantMask & bit) != 0 && (receivedMask & bit) != 0) {
+                if ((participantMask & bit) != 0 && (leftMask & bit) != 0) {
                     gConnectionWork->mParticipantMask = participantMask & ~bit;
                     if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
                         RemoveRaceProgressKart(entryIndex);
@@ -464,19 +464,19 @@ void *RomArchiveAllocFunc(s32 unusedValue, u32 size, void *block) {
 
 void StartRomArchiveTransfer(void) {
     u32 role;
-    BOOL flag;
+    BOOL allowed;
     BOOL shouldStart;
 
     gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_TRANSFER;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        flag = TRUE;
+        allowed = TRUE;
         role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-            flag = FALSE;
+            allowed = FALSE;
         }
-        if (flag != FALSE) {
+        if (allowed != FALSE) {
             shouldStart = TRUE;
         }
     }
@@ -528,19 +528,19 @@ void StartRomArchiveSend(void) {
 
 void StopRomArchiveTransfer(void) {
     u32 role;
-    BOOL flag;
+    BOOL allowed;
     BOOL shouldStop;
 
     gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
     gConnectionWork->mRequestPending = 1;
     shouldStop = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        flag = TRUE;
+        allowed = TRUE;
         role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-            flag = FALSE;
+            allowed = FALSE;
         }
-        if (flag != FALSE) {
+        if (allowed != FALSE) {
             shouldStop = TRUE;
         }
     }

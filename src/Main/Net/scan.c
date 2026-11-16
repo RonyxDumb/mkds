@@ -244,7 +244,7 @@ void StartScanCallback(WirelessMessage *event) {
     s32 countedIndex;
     ScanSlot *countedSlot;
     ScanStateView *scanState;
-    u16 value;
+    u16 hostAid;
     BOOL accepted;
     ScanSlot *slot;
 
@@ -258,10 +258,10 @@ void StartScanCallback(WirelessMessage *event) {
                 MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, sizeof(WMBssDesc));
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == CONNECTION_STATE_ENDED) {
-                    value = event->mAid;
+                    hostAid = event->mAid;
                     if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
                         gConnectionWork->mMatchingHostFound = 1;
-                        gConnectionWork->mMatchingHostAid = value;
+                        gConnectionWork->mMatchingHostAid = hostAid;
                         gConnectionWork->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mGameInfoLength >= SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID &&
                                scanBuffer.mGameInfo.mGgid == CONNECTION_GAME_GROUP_ID &&
@@ -271,7 +271,7 @@ void StartScanCallback(WirelessMessage *event) {
                         } else {
                             gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_NON_MULTIBOOT;
                         }
-                        gConnectionWork->mOtherHostAid = value;
+                        gConnectionWork->mOtherHostAid = hostAid;
                         gConnectionWork->mUnk_1ede = 0;
                     }
                 } else {

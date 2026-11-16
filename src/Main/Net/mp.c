@@ -21,9 +21,9 @@ void InitMPChunkBuffers(void *heap) {
     int slot;
     int byteOffset;
     void *allocation;
-    ConnectionWork **workAddress;
+    ConnectionWork **workPointerAddress;
     allocation = HeapAllocAligned(heap, MP_CHUNK_PACKET_BYTES, HEAP_ALIGN_CACHE_LINE);
-    workAddress = &gConnectionWork;
+    workPointerAddress = &gConnectionWork;
     gConnectionWork->mChunkBuffer = allocation;
     slot = 0;
     byteOffset = 0;

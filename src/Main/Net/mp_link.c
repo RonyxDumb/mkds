@@ -36,9 +36,9 @@ void SetupMPLink(MPLink *link) {
 
 void SetMPLinkCallback(MPLinkEventCallback callback) {
     u32 irqState = (OS_DisableInterrupts());
-    u32 restoredIrq;
+    u32 irqStateBeforeRestore;
     gMPLink->mCallback = callback;
-    restoredIrq = (OS_RestoreInterrupts(irqState));
+    irqStateBeforeRestore = (OS_RestoreInterrupts(irqState));
 }
 
 #pragma thumb off
@@ -240,12 +240,12 @@ void StartResetCallback(WirelessMessage *result) {
 
 u32 IsMPReadyToQueueData(void) {
     u32 ready = 0;
-    u32 mpActive = 0;
+    u32 startedAndNothingQueued = 0;
     MPLink *mpLink = gMPLink;
     if (mpLink->mMPStarted == TRUE && mpLink->mDataQueued == FALSE) {
-        mpActive = 1;
+        startedAndNothingQueued = 1;
     }
-    if (mpActive != 0 && mpLink->mResetting == FALSE) {
+    if (startedAndNothingQueued != 0 && mpLink->mResetting == FALSE) {
         ready = 1;
     }
     return ready;
@@ -306,13 +306,13 @@ void ClearPortCallback(void) {
     WM_SetPortCallback(MP_LINK_PORT, NULL, NULL);
 }
 
-void InitScanConnectWork(ScanConnectWork *work, void *initData) {
+void InitScanConnectWork(ScanConnectWork *work, void *userInfo) {
     if (gScanConnectInitialized == FALSE) {
         gScanConnectInitialized = TRUE;
         MI_CpuFill8(work, 0, SCAN_CONNECT_WORK_SIZE);
         gScanConnectWork = work;
         work->mState = SCAN_CONNECT_STATE_IDLE;
-        MI_CpuCopy8(initData, gScanConnectWork->mUserInfo, 0x16);
+        MI_CpuCopy8(userInfo, gScanConnectWork->mUserInfo, 0x16);
         MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mBeaconRecvStatus);
         MB_InitRecvGameInfoStatus();
         MBi_SetScanLockFunc(SetScanBssid, ClearUseScanBssid);
@@ -378,9 +378,9 @@ u32 GetScanConnectWorkSize(void) {
 
 void SetScanConnectStateCallback(ScanConnectStateFunc callback) {
     u32 irqState = (OS_DisableInterrupts());
-    u32 restoredIrq;
+    u32 irqStateBeforeRestore;
     gScanConnectWork->mStateCallback = callback;
-    restoredIrq = (OS_RestoreInterrupts(irqState));
+    irqStateBeforeRestore = (OS_RestoreInterrupts(irqState));
 }
 
 #pragma thumb off
@@ -401,9 +401,9 @@ void SetScanConnectStateAndNotify(u32 state, void *info) {
 
 #pragma thumb on
 
-void StartRepeatedScan(ScanEventCallback callback, u32 param) {
+void StartRepeatedScan(ScanEventCallback callback, u32 ggid) {
     gScanConnectWork->mScanCallback = callback;
-    gScanConnectWork->mScanGgid = param;
+    gScanConnectWork->mScanGgid = ggid;
     gScanConnectWork->mScanParams.mChannel = 0;
     gScanConnectWork->mScanParams.mScanBuf = &gScanConnectWork->mScanBuffer;
     gScanConnectWork->mRepeatScan = TRUE;
@@ -565,10 +565,10 @@ void RequestEndScan(void) {
 #pragma thumb on
 
 void ScanConnectEndScan(void) {
-    u32 wmResult;
-    wmResult = WM_EndScan(ScanConnectEndScanCallback);
-    if (wmResult != WIRELESS_CALL_QUEUED) {
-        ReportScanError(SCAN_ERROR_END, wmResult & 0xffff);
+    u32 wirelessResult;
+    wirelessResult = WM_EndScan(ScanConnectEndScanCallback);
+    if (wirelessResult != WIRELESS_CALL_QUEUED) {
+        ReportScanError(SCAN_ERROR_END, wirelessResult & 0xffff);
     }
 }
 

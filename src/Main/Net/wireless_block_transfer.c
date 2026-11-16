@@ -58,14 +58,14 @@ fail:
 BOOL StoreReceivedChunk(WBTPacketBitmap *bitmap, s32 chunkIndex, const u8 *chunkData) {
     u32 chunkSize;
     u8 *buffer;
-    u32 lastChunkSize;
+    u32 remainder;
     chunkSize = WBT_GetPeerPacketLength();
     buffer = bitmap->mBuffer;
     if (chunkIndex < bitmap->mTotal) {
         if (chunkIndex == bitmap->mTotal - 1) {
-            lastChunkSize = _s32_div_f(bitmap->mLength, chunkSize) >> 32;
-            if (lastChunkSize != 0) {
-                MI_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, lastChunkSize);
+            remainder = _s32_div_f(bitmap->mLength, chunkSize) >> 32;
+            if (remainder != 0) {
+                MI_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, remainder);
             } else {
                 MI_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, chunkSize);
             }
@@ -359,15 +359,15 @@ s32 ReplyToBlockCountRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer
     s32 blockCount;
     u32 ownPacketLength;
     BlockTransferEntry *entry;
-    u16 targetMask;
+    u16 indexMask;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
-    targetMask = 1 << entryIndex;
+    indexMask = 1 << entryIndex;
     if (entry->mState == XFER_ENTRY_AWAITING_ANSWER) {
         if (entry->mPacketKind == XFER_PACKET_HANDSHAKE_ASK) {
             blockCount = WBT_NumOfRegisteredBlock();
             ownPacketLength = WBT_GetOwnPacketLength();
-            packetSize = WriteBlockCountReplyPacket(buffer, targetMask, entry->mRequestId, blockCount, ownPacketLength,
+            packetSize = WriteBlockCountReplyPacket(buffer, indexMask, entry->mRequestId, blockCount, ownPacketLength,
                                                     WBT_GetPeerPacketLength());
             entry->mState = XFER_ENTRY_FREE;
         }
@@ -377,14 +377,14 @@ s32 ReplyToBlockCountRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer
 
 s32 ReplyToNoMissingChunk(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize) {
     s32 packetSize;
-    u16 targetMask;
+    u16 indexMask;
     BlockTransferEntry *entry;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
-    targetMask = 1 << entryIndex;
+    indexMask = 1 << entryIndex;
     if (entry->mState == XFER_ENTRY_AWAITING_ANSWER) {
         if (entry->mPacketKind == XFER_PACKET_ALL_HELD) {
-            packetSize = WriteNoMissingChunkReplyPacket(buffer, targetMask, entry->mRequestId, entry->mBlockId);
+            packetSize = WriteNoMissingChunkReplyPacket(buffer, indexMask, entry->mRequestId, entry->mBlockId);
             entry->mState = XFER_ENTRY_FREE;
         }
     }
@@ -393,14 +393,14 @@ s32 ReplyToNoMissingChunk(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s
 
 s32 ReplyToBytesPacket(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize) {
     s32 packetSize;
-    u16 targetMask;
+    u16 indexMask;
     BlockTransferEntry *entry;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
-    targetMask = 1 << entryIndex;
+    indexMask = 1 << entryIndex;
     if (entry->mState == XFER_ENTRY_AWAITING_ANSWER) {
         if (entry->mPacketKind == XFER_PACKET_CUSTOM) {
-            packetSize = WriteBytesReplyPacket(buffer, targetMask, entry->mRequestId);
+            packetSize = WriteBytesReplyPacket(buffer, indexMask, entry->mRequestId);
             entry->mState = XFER_ENTRY_FREE;
         }
     }
@@ -458,22 +458,22 @@ s32 ReplyToBlockDataRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer,
 // Sends nothing while the chunk address is 0.
 s32 ReplyToBlockNodeRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize) {
     s32 packetSize;
-    u32 targetMask;
-    u32 chunkBuffer;
+    u32 indexMask;
+    u32 chunkAddress;
     BlockTransferEntry *entry;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
     if (entry->mState == XFER_ENTRY_AWAITING_ANSWER) {
         if (WBT_GetOwnAid() == 0) {
-            targetMask = 0xffff;
+            indexMask = 0xffff;
         } else {
-            targetMask = 1;
+            indexMask = 1;
         }
         if (entry->mPacketKind == XFER_PACKET_LAYOUT_ASK) {
-            chunkBuffer = WBTi_GetPacketBuffer(entry->mBlockId, entry->mChunkIndex);
-            if (chunkBuffer != 0) {
-                packetSize = WriteBlockNodePacket(buffer, targetMask, entry->mRequestId, entry->mBlockId,
-                                                  entry->mChunkIndex, chunkBuffer, WBT_GetOwnPacketLength());
+            chunkAddress = WBTi_GetPacketBuffer(entry->mBlockId, entry->mChunkIndex);
+            if (chunkAddress != 0) {
+                packetSize = WriteBlockNodePacket(buffer, indexMask, entry->mRequestId, entry->mBlockId,
+                                                  entry->mChunkIndex, chunkAddress, WBT_GetOwnPacketLength());
                 entry->mState = XFER_ENTRY_FREE;
             }
         }
@@ -484,21 +484,21 @@ s32 ReplyToBlockNodeRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer,
 // Sends the node packet even when the chunk address is 0.
 s32 ReplyToBlockNodeRequestAlways(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize) {
     s32 packetSize;
-    u32 targetMask;
-    u32 chunkBuffer;
+    u32 indexMask;
+    u32 chunkAddress;
     BlockTransferEntry *entry;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
     if (entry->mState == XFER_ENTRY_AWAITING_ANSWER) {
         if (WBT_GetOwnAid() == 0) {
-            targetMask = 0xffff;
+            indexMask = 0xffff;
         } else {
-            targetMask = 1;
+            indexMask = 1;
         }
         if (entry->mPacketKind == XFER_PACKET_LAYOUT_ASK) {
-            chunkBuffer = WBTi_GetPacketBuffer(entry->mBlockId, entry->mChunkIndex);
-            packetSize = WriteBlockNodePacket(buffer, targetMask, entry->mRequestId, entry->mBlockId,
-                                              entry->mChunkIndex, chunkBuffer, WBT_GetOwnPacketLength());
+            chunkAddress = WBTi_GetPacketBuffer(entry->mBlockId, entry->mChunkIndex);
+            packetSize = WriteBlockNodePacket(buffer, indexMask, entry->mRequestId, entry->mBlockId,
+                                              entry->mChunkIndex, chunkAddress, WBT_GetOwnPacketLength());
             entry->mState = XFER_ENTRY_FREE;
         }
     }

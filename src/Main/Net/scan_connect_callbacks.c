@@ -39,8 +39,8 @@ u32 StartConnectToEntry(u32 entryIndex) {
 
 void MPLinkCallback(s32 eventKind, void *eventInfo) {
     WirelessMessage *info = eventInfo;
-    u16 resultCode;
-    u16 commandCode;
+    u16 callErrorKind;
+    u16 replyErrorKind;
     u16 code;
     switch (eventKind) {
         case MP_LINK_EVENT_UNUSED:
@@ -89,8 +89,8 @@ void MPLinkCallback(s32 eventKind, void *eventInfo) {
                         code = SCAN_CONNECT_ERROR_OTHER;
                         break;
                 }
-                resultCode = code;
-                gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &resultCode);
+                callErrorKind = code;
+                gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &callErrorKind);
             }
             break;
         case MP_LINK_EVENT_REPLY_FAILED:
@@ -115,8 +115,8 @@ void MPLinkCallback(s32 eventKind, void *eventInfo) {
                         code = SCAN_CONNECT_ERROR_OTHER;
                         break;
                 }
-                commandCode = code;
-                gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &commandCode);
+                replyErrorKind = code;
+                gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &replyErrorKind);
             }
             break;
         case MP_LINK_EVENT_SEND_BUSY:

@@ -290,16 +290,16 @@ u32 WBTi_GetPacketBuffer(u32 blockIdOrPosition, u32 chunkIndex) {
     return 0;
 }
 
-void WBTi_InitBitmap(WBTPacketBitmap *state, s32 size, void *chunkBitmap, u32 buffer) {
+void WBTi_InitBitmap(WBTPacketBitmap *bitmap, s32 size, void *chunkBitmap, u32 buffer) {
     s32 chunkSize;
     chunkSize = WBT_GetPeerPacketLength();
-    state->mLength = size;
-    state->mPickedChunkIndex = 0;
-    state->mCurrent = 0;
-    state->mCount = 0;
-    state->mTotal = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
-    state->mBitmap = chunkBitmap;
-    state->mBuffer = (u8 *) buffer;
+    bitmap->mLength = size;
+    bitmap->mPickedChunkIndex = 0;
+    bitmap->mCurrent = 0;
+    bitmap->mCount = 0;
+    bitmap->mTotal = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
+    bitmap->mBitmap = chunkBitmap;
+    bitmap->mBuffer = (u8 *) buffer;
     MI_CpuFill8(chunkBitmap, 0, WBT_CalcPacketbitmapSize(size));
 }
 

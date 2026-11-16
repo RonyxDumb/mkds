@@ -168,7 +168,7 @@ int WBT_NumOfRegisteredBlock(void) {
 
 #pragma thumb on
 
-s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 permissionBmp) {
+s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *userId, u8 *data, u32 size, u16 permissionBmp) {
     WBTBlockInfoList *lastNode;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
@@ -189,8 +189,8 @@ s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 
     node->mDataInfo.mId = blockId;
     node->mDataInfo.mBlockSize = size;
     node->mPermissionBmp = permissionBmp;
-    if (info != NULL) {
-        MI_CpuCopy8(info, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
+    if (userId != NULL) {
+        MI_CpuCopy8(userId, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
     } else {
         MI_CpuFill8(node->mDataInfo.mUserId, 0, sizeof(node->mDataInfo.mUserId));
     }

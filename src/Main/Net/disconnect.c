@@ -353,19 +353,19 @@ static inline void SetGroupSendMaskIfMultibootSetup(u8 groupSendMask) {
 }
 
 static inline void RemoveChildrenInMask(u16 removeMask) {
-    u16 childIndex;
+    u16 aid;
     u32 isSyncedRace;
 
-    for (childIndex = 0; childIndex < 8; childIndex++) {
-        if (BIT_IS_SET(removeMask, childIndex)) {
+    for (aid = 0; aid < 8; aid++) {
+        if (BIT_IS_SET(removeMask, aid)) {
             isSyncedRace = gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE ? 1 : 0;
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
-                BIT_CLEAR(gConnectionWork->mChildren.mChildMask, childIndex);
+                BIT_CLEAR(gConnectionWork->mChildren.mChildMask, aid);
                 if (isSyncedRace != 0) {
-                    BIT_SET(gConnectionWork->mRemovedChildMask, childIndex);
+                    BIT_SET(gConnectionWork->mRemovedChildMask, aid);
                 }
             }
-            BIT_CLEAR(gConnectionWork->mGroupSendMask, childIndex);
+            BIT_CLEAR(gConnectionWork->mGroupSendMask, aid);
         }
     }
     if (DisconnectGetConnectionMode() != CONNECTION_MODE_PARENT) {

@@ -426,17 +426,17 @@ void EnterMPSendPlayerNames(void *stateObject) {
 }
 
 void UpdateMPSendPlayerNames(void *stateObject) {
-    u8 playerIndex;
+    u8 indexOrRecordMask;
     u8 receivedMask;
     u32 receivedBit;
 
     switch (MPStatesGetConnectionMode()) {
         case CONNECTION_MODE_PARENT:
-            playerIndex = gConnectionWork->mPlayerSendIndex;
+            indexOrRecordMask = gConnectionWork->mPlayerSendIndex;
             receivedMask = gConnectionWork->mRecordReceivedMask;
-            receivedBit = receivedMask & (1 << playerIndex);
+            receivedBit = receivedMask & (1 << indexOrRecordMask);
             if (receivedBit != 0) {
-                if (QueueMPDataPlayerName(playerIndex, receivedMask) != FALSE) {
+                if (QueueMPDataPlayerName(indexOrRecordMask, receivedMask) != FALSE) {
                     gConnectionWork->mPlayerSendIndex++;
                 }
             } else {
@@ -447,9 +447,9 @@ void UpdateMPSendPlayerNames(void *stateObject) {
             }
             break;
         case CONNECTION_MODE_CHILD:
-            playerIndex = gConnectionWork->mRecordReceivedMask;
+            indexOrRecordMask = gConnectionWork->mRecordReceivedMask;
             receivedMask = gConnectionWork->mNamesStoredMask;
-            if (playerIndex == (playerIndex & receivedMask)) {
+            if (indexOrRecordMask == (indexOrRecordMask & receivedMask)) {
                 MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
             }
             break;

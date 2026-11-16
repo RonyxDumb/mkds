@@ -109,7 +109,7 @@ static inline u32 GetWorkConnectionMode(ConnectionWork *connectionWork) {
 }
 
 // Returns 1 once the last step is issued, 2 on failure, 3 when an error has been recorded, 0 otherwise.
-s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
+s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
     BOOL finished;
 
     finished = FALSE;
@@ -154,7 +154,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
             break;
         case CONNECTION_STEP_CHECKING_CHANNELS:
             SetParentChannelLowestSum();
-            FillGhostParentParameter(ghostSource);
+            FillGhostParentParameter(ghostRecord);
             SetParentParameter();
             break;
         case CONNECTION_STEP_CONFIGURING_HOST:
@@ -468,15 +468,15 @@ void ResetDataSharing(DataSharing *dataSharing) {
 void ResetConnectionData(void) {
     u8 *bytes;
     s32 childIndex;
-    s32 innerIndex;
+    s32 i;
     s32 byteIndex;
     s32 targetByteIndex;
 
     for (childIndex = 0; childIndex < 7; childIndex++) {
         gConnectionWork->mChildren.mEntries[childIndex].mAid = CHILD_ENTRY_NO_AID;
         bytes = gConnectionWork->mChildren.mEntries[childIndex].mBytes;
-        for (innerIndex = 0; innerIndex < 6; innerIndex++) {
-            bytes[innerIndex] = 0;
+        for (i = 0; i < 6; i++) {
+            bytes[i] = 0;
         }
     }
     gConnectionWork->mChildren.mExpectedRecordMask = 0;
@@ -491,10 +491,10 @@ void ResetConnectionData(void) {
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, PLAYER_NAME_BYTES);
     gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mLanguageIndex = gStartupWork->mLanguageIndex;
     gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mChildCount = 0;
-    for (innerIndex = 0; innerIndex < 4; innerIndex++) {
-        gConnectionWork->mScanSlots[innerIndex].mInUse = 0;
-        gConnectionWork->mScanSlots[innerIndex].mAge = 0;
-        bytes = gConnectionWork->mScanSlots[innerIndex].mKey.mBytes;
+    for (i = 0; i < 4; i++) {
+        gConnectionWork->mScanSlots[i].mInUse = 0;
+        gConnectionWork->mScanSlots[i].mAge = 0;
+        bytes = gConnectionWork->mScanSlots[i].mKey.mBytes;
         for (byteIndex = 0; byteIndex < 6; byteIndex++) {
             bytes[byteIndex] = 0;
         }
