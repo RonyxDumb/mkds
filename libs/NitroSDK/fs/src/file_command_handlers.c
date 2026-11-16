@@ -32,7 +32,7 @@ s32 FSi_StrNICmp(const u8 *str1, const u8 *str2, u32 len) {
 void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len) {
     FSArchive *archive;
     s32 result;
-    u32 enabled;
+    u32 savedInterrupts;
 
     archive = param->mArc;
     archive->mFlag |= ARCHIVE_FLAG_SYNC_COMMAND;
@@ -43,13 +43,13 @@ void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len) {
             archive->mFlag &= ~ARCHIVE_FLAG_SYNC_COMMAND;
             break;
         case ARCHIVE_RESULT_RUNNING_IN_BACKGROUND:
-            enabled = OS_DisableInterrupts();
+            savedInterrupts = OS_DisableInterrupts();
             if (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND) {
                 do {
                     OS_SleepThread(&archive->mSyncQ);
                 } while (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND);
             }
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             break;
     }
     param->mPos += len;
