@@ -1,7 +1,7 @@
 #include "code_02022aa8.h"
 
 #include "code_020219e8.h"
-#include "code_020245a4.h"
+#include "nftr.h"
 #include "Main/Unknown/code_02024000.h"
 #include "Main/Unknown/unk_02153000.h"
 #include "Main/Unknown/code_02022000.h"

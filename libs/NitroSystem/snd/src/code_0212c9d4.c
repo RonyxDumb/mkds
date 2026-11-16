@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_02021000.h"
 #include "resource_mgr.h"
 #include "code_0212f788.h"
-#include "code_0212f864.h"
+#include "interpolator.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "00/code_02188720.h"
 

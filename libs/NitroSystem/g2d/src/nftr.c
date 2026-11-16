@@ -1,4 +1,4 @@
-#include "code_020245a4.h"
+#include "nftr.h"
 #include "code_0200fc8c.h"
 
 u16 CharReadHalfword(u16 **a) {

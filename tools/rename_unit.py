@@ -32,7 +32,7 @@ def include_name(header: Path) -> str:
     """The path a header is included by: below include/ (game) or below libs/<name>/include/ (library)."""
     parts = header.parts
     i = parts.index("include")
-    return str(Path(*parts[i + 1:]))
+    return Path(*parts[i + 1:]).as_posix()
 
 
 def main():
@@ -73,15 +73,15 @@ def main():
                           if p.suffix in (".c", ".cpp", ".h", ".hpp")]:
                     edit(p.relative_to(ROOT), lambda t: inc.sub(lambda m: m.group(1) + ni + '"', t))
         # delinks entries, per-path settings and docs: the exact source path
-        exact = re.compile(r"(?<![\w/])" + re.escape(str(old)) + r"(?![\w.])")
+        exact = re.compile(r"(?<![\w/])" + re.escape(old.as_posix()) + r"(?![\w.])")
         for p in list((ROOT / "config").rglob("delinks.txt")) + [ROOT / "tools/project.py"] + \
                  list((ROOT / "docs").rglob("*.md")) + [ROOT / f for f in ("README.md", "CONTRIBUTING.md", "INSTALL.md")]:
             if p.exists():
-                edit(p.relative_to(ROOT), lambda t: exact.sub(str(new), t))
+                edit(p.relative_to(ROOT), lambda t: exact.sub(new.as_posix(), t))
         if (ROOT / oh).exists():
-            exact_h = re.compile(r"(?<![\w/])" + re.escape(str(oh)) + r"(?![\w.])")
+            exact_h = re.compile(r"(?<![\w/])" + re.escape(oh.as_posix()) + r"(?![\w.])")
             for p in list((ROOT / "docs").rglob("*.md")) + [ROOT / "CONTRIBUTING.md"]:
-                edit(p.relative_to(ROOT), lambda t: exact_h.sub(str(nh), t))
+                edit(p.relative_to(ROOT), lambda t: exact_h.sub(nh.as_posix(), t))
 
     for old, new in moves:
         print(f"move {old} -> {new}")
@@ -91,7 +91,7 @@ def main():
         return
     for old, new in moves:
         (ROOT / new).parent.mkdir(parents=True, exist_ok=True)
-        r = subprocess.run(["git", "mv", str(old), str(new)], cwd=ROOT, capture_output=True, text=True)
+        r = subprocess.run(["git", "mv", old.as_posix(), new.as_posix()], cwd=ROOT, capture_output=True, text=True)
         if r.returncode:
             (ROOT / old).rename(ROOT / new)
     moved = dict(moves)
