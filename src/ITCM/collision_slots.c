@@ -13,8 +13,8 @@
 #include "registers.h"
 
 void UpdateCollisionSlotBounds(void) {
-    s32 slotIndex = 0;
-    s32 activeCount = 0;
+    s32 i = 0;
+    s32 j = 0;
     s32 endIndex;
     s32 scanIndex;
     CollisionSlot *slot;
@@ -25,11 +25,11 @@ void UpdateCollisionSlotBounds(void) {
     CollisionSlotEnd *previousEnd;
     u32 swapTemp;
     CollisionSlotEnd *lowEnds;
-    CollisionSlotEnd *otherEndA;
-    CollisionSlotEnd *otherEndB;
+    CollisionSlotEnd *currentOtherEnd;
+    CollisionSlotEnd *previousOtherEnd;
     if (gCollisionSlotCount > 0) {
         do {
-            slot = &gCollisionSlots[slotIndex];
+            slot = &gCollisionSlots[i];
             center = slot->mCenterPos;
             radius = slot->mRadius;
             if (center != NULL) {
@@ -38,53 +38,53 @@ void UpdateCollisionSlotBounds(void) {
                     if (flags & 0x100) {
                         slot->mFlags = flags & ~0x100;
                     } else {
-                        activeCount++;
+                        j++;
                         goto next;
                     }
                 }
-                activeCount++;
+                j++;
                 slot->mHighZ = center->z + radius;
                 slot->mLowZ = center->z - radius;
                 gCollisionSlotHighEnds[slot->mHighEndIndex].mEndX = (center->x + radius) >> 11;
                 gCollisionSlotLowEnds[slot->mLowEndIndex].mEndX = (center->x - radius) >> 11;
             }
         next:
-            slotIndex++;
-        } while (activeCount < gCollisionSlotCount);
+            i++;
+        } while (j < gCollisionSlotCount);
     }
-    for (slotIndex = 1; slotIndex < gCollisionSlotCount; slotIndex++) {
-        activeCount = slotIndex;
-        while ((currentEnd = &gCollisionSlotHighEnds[activeCount],
-                previousEnd = &gCollisionSlotHighEnds[activeCount - 1], previousEnd->mEndX > currentEnd->mEndX) &&
-               activeCount >= 1) {
+    for (i = 1; i < gCollisionSlotCount; i++) {
+        j = i;
+        while ((currentEnd = &gCollisionSlotHighEnds[j],
+                previousEnd = &gCollisionSlotHighEnds[j - 1], previousEnd->mEndX > currentEnd->mEndX) &&
+               j >= 1) {
             swapTemp = *(u32 *) currentEnd;
             *(u32 *) currentEnd = *(u32 *) previousEnd;
             *(u32 *) previousEnd = swapTemp;
             lowEnds = gCollisionSlotLowEnds;
-            otherEndA = &lowEnds[currentEnd->mOtherEndIndex];
-            otherEndB = &lowEnds[previousEnd->mOtherEndIndex];
-            otherEndA->mOtherEndIndex++;
-            otherEndB->mOtherEndIndex--;
-            gCollisionSlots[otherEndA->mSlotIndexOrScanLimit].mHighEndIndex++;
-            gCollisionSlots[otherEndB->mSlotIndexOrScanLimit].mHighEndIndex--;
+            currentOtherEnd = &lowEnds[currentEnd->mOtherEndIndex];
+            previousOtherEnd = &lowEnds[previousEnd->mOtherEndIndex];
+            currentOtherEnd->mOtherEndIndex++;
+            previousOtherEnd->mOtherEndIndex--;
+            gCollisionSlots[currentOtherEnd->mSlotIndexOrScanLimit].mHighEndIndex++;
+            gCollisionSlots[previousOtherEnd->mSlotIndexOrScanLimit].mHighEndIndex--;
             if (currentEnd->mSlotIndexOrScanLimit == previousEnd->mOtherEndIndex) {
                 scanIndex = currentEnd->mSlotIndexOrScanLimit;
                 do {
                     scanIndex++;
-                } while (gCollisionSlotLowEnds[scanIndex].mOtherEndIndex < activeCount);
+                } while (gCollisionSlotLowEnds[scanIndex].mOtherEndIndex < j);
                 currentEnd->mSlotIndexOrScanLimit = scanIndex;
             }
             if (previousEnd->mSlotIndexOrScanLimit > currentEnd->mOtherEndIndex) {
                 previousEnd->mSlotIndexOrScanLimit = currentEnd->mOtherEndIndex;
             }
-            activeCount--;
+            j--;
         }
     }
-    for (slotIndex = 1; slotIndex < gCollisionSlotCount; slotIndex++) {
-        activeCount = slotIndex;
-        while ((currentEnd = &gCollisionSlotLowEnds[activeCount], previousEnd = &gCollisionSlotLowEnds[activeCount - 1],
+    for (i = 1; i < gCollisionSlotCount; i++) {
+        j = i;
+        while ((currentEnd = &gCollisionSlotLowEnds[j], previousEnd = &gCollisionSlotLowEnds[j - 1],
                 previousEnd->mEndX > currentEnd->mEndX) &&
-               activeCount >= 1) {
+               j >= 1) {
             swapTemp = *(u32 *) currentEnd;
             *(u32 *) currentEnd = *(u32 *) previousEnd;
             *(u32 *) previousEnd = swapTemp;
@@ -95,18 +95,18 @@ void UpdateCollisionSlotBounds(void) {
             if (currentEnd->mOtherEndIndex > previousEnd->mOtherEndIndex) {
                 for (endIndex = currentEnd->mOtherEndIndex;
                      endIndex > previousEnd->mOtherEndIndex &&
-                     gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit == activeCount - 1;
+                     gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit == j - 1;
                      endIndex--) {
                     gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit++;
                 }
             } else {
                 endIndex = previousEnd->mOtherEndIndex;
                 while (endIndex > currentEnd->mOtherEndIndex &&
-                       gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit == activeCount) {
+                       gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit == j) {
                     gCollisionSlotHighEnds[endIndex--].mSlotIndexOrScanLimit--;
                 }
             }
-            activeCount--;
+            j--;
         }
     }
 }
@@ -123,10 +123,10 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
     CollisionSlotEnd *lowEnds;
     s32 highScan;
     CollisionSlotEnd *highEnds;
-    s32 lowScanLimit;
+    s32 bigStepLimit;
     s32 scanIndex;
     s16 minIndex;
-    u32 firstIndex;
+    u32 scanLimit;
     CollisionSlot *otherSlot;
     u16 otherFlags;
     if (slotId < 0 || slotId >= 0x100) {
@@ -154,16 +154,16 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
     while (highScan > 0 && highEnds[highScan - 1].mEndX >= lowX) {
         highScan--;
     }
-    lowScanLimit = lastIndex - 7;
-    while (lowScan < lowScanLimit && lowEnds[lowScan + 8].mEndX <= highX) {
+    bigStepLimit = lastIndex - 7;
+    while (lowScan < bigStepLimit && lowEnds[lowScan + 8].mEndX <= highX) {
         lowScan += 8;
     }
     while (lowScan < lastIndex && lowEnds[lowScan + 1].mEndX <= highX) {
         lowScan++;
     }
     scanIndex = (s16) lowScan;
-    firstIndex = highEnds[highScan].mSlotIndexOrScanLimit;
-    minIndex = firstIndex;
+    scanLimit = highEnds[highScan].mSlotIndexOrScanLimit;
+    minIndex = scanLimit;
     if (scanIndex < minIndex) {
         return;
     }
@@ -195,25 +195,25 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
     }
 }
 
-s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 level) {
+s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 farDistanceSquared, u16 alpha) {
     s32 result;
     s32 offsetX;
     s32 offsetY;
     s32 offsetZ;
-    s32 distSq;
+    s32 horizontalDistanceSquared;
     s32 xSquared;
-    s32 bottomDot;
+    s32 bottomDotX;
     maxDistance = FROM_FIXED12(maxDistance + radius);
     offsetZ = FROM_FIXED12(pos->z - gViewFrustum.mCameraPos.z);
     offsetX = FROM_FIXED12(pos->x - gViewFrustum.mCameraPos.x);
     xSquared = offsetX * offsetX;
-    distSq = offsetZ * offsetZ + xSquared;
-    result = distSq & ~0xc000001f;
-    if (distSq > nearDistSq) {
+    horizontalDistanceSquared = offsetZ * offsetZ + xSquared;
+    result = horizontalDistanceSquared & ~0xc000001f;
+    if (horizontalDistanceSquared > farDistanceSquared) {
         result |= gViewTestDistanceLimitFlag;
     }
-    if (distSq > maxDistance * maxDistance) {
-        if (level <= 1) {
+    if (horizontalDistanceSquared > maxDistance * maxDistance) {
+        if (alpha <= 1) {
             return result | 3;
         }
         result |= gViewTestMaxDistanceFlag;
@@ -239,8 +239,8 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 
         radius) {
         return result | 2;
     }
-    bottomDot = offsetX * gViewFrustum.mBottomPlaneNormal.x;
-    if (offsetZ * gViewFrustum.mBottomPlaneNormal.z + (offsetY * gViewFrustum.mBottomPlaneNormal.y + bottomDot) >
+    bottomDotX = offsetX * gViewFrustum.mBottomPlaneNormal.x;
+    if (offsetZ * gViewFrustum.mBottomPlaneNormal.z + (offsetY * gViewFrustum.mBottomPlaneNormal.y + bottomDotX) >
         radius) {
         result |= 2;
     }
@@ -251,22 +251,22 @@ static inline s32 GetFrustumLeftPlaneNormalY(ViewFrustum *viewFrustum) {
     return viewFrustum->mLeftPlaneNormal.y;
 }
 
-s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 level) {
+s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 farDistanceSquared, u16 alpha) {
     Vec3 offset;
     s32 result;
-    s32 distSq;
+    s32 horizontalDistanceSquared;
     s32 offsetX;
     maxDistance = FROM_FIXED12(maxDistance + radius);
     VEC_Subtract(pos, &gViewFrustum.mCameraPos, &offset);
     offset.x = FROM_FIXED12(pos->x - gViewFrustum.mCameraPos.x);
     offset.z = FROM_FIXED12(pos->z - gViewFrustum.mCameraPos.z);
-    distSq = offset.x * offset.x + offset.z * offset.z;
-    result = distSq & ~0xc000001f;
-    if (distSq > nearDistSq) {
+    horizontalDistanceSquared = offset.x * offset.x + offset.z * offset.z;
+    result = horizontalDistanceSquared & ~0xc000001f;
+    if (horizontalDistanceSquared > farDistanceSquared) {
         result |= gViewTestDistanceLimitFlag;
     }
-    if (distSq > maxDistance * maxDistance) {
-        if (level <= 1) {
+    if (horizontalDistanceSquared > maxDistance * maxDistance) {
+        if (alpha <= 1) {
             return result | 3;
         }
         result |= gViewTestMaxDistanceFlag;
@@ -286,26 +286,26 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDist
     return result;
 }
 
-void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directionB) {
+void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *toTarget, Vec3 *kartForward) {
     Kart *kart = kartAi->mKart;
     Vec3 linkPos;
     Vec3 linkDir;
-    Vec3 nextLinkPos;
-    Vec3 nextLinkDir;
+    Vec3 contactLinkPos;
+    Vec3 contactLinkDir;
     Vec3 kartUp;
     Vec3 turnCross;
     Vec3 flatTarget;
     Vec3 flatLinkDir;
     Vec3 contactUp;
     Vec3 contactCross;
-    Vec3 flatNextDir;
-    Vec3 offsetToLink;
+    Vec3 flatContactLinkDir;
+    Vec3 offsetFromLink;
     s32 dot;
     s32 speedFactor;
     s32 unused;
     s32 turnSign;
     BOOL steered;
-    Vec3 *surfaceNormal;
+    Vec3 *kartUpRow;
     Kart *aiKart;
     if (kart->mState != KART_STATE_NORMAL) {
         return;
@@ -319,23 +319,23 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
     steered = FALSE;
     CallKartAiLinkPosAndDirection(&linkPos, &linkDir, kartAi);
     if (kartAi->mContactStage == KART_AI_CONTACT_STEER_FLAT) {
-        surfaceNormal = &kart->mRotationRow1;
-        dot = VEC_DotProduct(surfaceNormal, &linkDir);
-        flatLinkDir.x = linkDir.x - MUL_FIXED12_NO_ROUND(surfaceNormal->x, dot);
-        flatLinkDir.y = linkDir.y - MUL_FIXED12_NO_ROUND(surfaceNormal->y, dot);
-        flatLinkDir.z = linkDir.z - MUL_FIXED12_NO_ROUND(surfaceNormal->z, dot);
+        kartUpRow = &kart->mRotationRow1;
+        dot = VEC_DotProduct(kartUpRow, &linkDir);
+        flatLinkDir.x = linkDir.x - MUL_FIXED12_NO_ROUND(kartUpRow->x, dot);
+        flatLinkDir.y = linkDir.y - MUL_FIXED12_NO_ROUND(kartUpRow->y, dot);
+        flatLinkDir.z = linkDir.z - MUL_FIXED12_NO_ROUND(kartUpRow->z, dot);
         if (Vec3DotUnrounded(&kart->mRotationRow2, &flatLinkDir) > -0x333) {
-            CallKartAiLinkPosAndDirection(&nextLinkPos, &nextLinkDir, kartAi);
+            CallKartAiLinkPosAndDirection(&contactLinkPos, &contactLinkDir, kartAi);
             aiKart = kartAi->mKart;
             steered = TRUE;
-            VEC_Subtract(&aiKart->mPos, &nextLinkPos, &offsetToLink);
-            offsetToLink.y = 0;
+            VEC_Subtract(&aiKart->mPos, &contactLinkPos, &offsetFromLink);
+            offsetFromLink.y = 0;
             GetKartUp(aiKart, &contactUp);
-            dot = VEC_DotProduct(&contactUp, &nextLinkDir);
-            flatNextDir.x = nextLinkDir.x - MUL_FIXED12_NO_ROUND(contactUp.x, dot);
-            flatNextDir.y = nextLinkDir.y - MUL_FIXED12_NO_ROUND(contactUp.y, dot);
-            flatNextDir.z = nextLinkDir.z - MUL_FIXED12_NO_ROUND(contactUp.z, dot);
-            Vec3CrossUnrounded(&offsetToLink, &flatNextDir, &contactCross);
+            dot = VEC_DotProduct(&contactUp, &contactLinkDir);
+            flatContactLinkDir.x = contactLinkDir.x - MUL_FIXED12_NO_ROUND(contactUp.x, dot);
+            flatContactLinkDir.y = contactLinkDir.y - MUL_FIXED12_NO_ROUND(contactUp.y, dot);
+            flatContactLinkDir.z = contactLinkDir.z - MUL_FIXED12_NO_ROUND(contactUp.z, dot);
+            Vec3CrossUnrounded(&offsetFromLink, &flatContactLinkDir, &contactCross);
             turnSign = Vec3DotUnrounded(&contactUp, &contactCross) > 0 ? 1 : -1;
             kart->mHeadingAngle += turnSign * 200;
             goto end;
@@ -347,11 +347,11 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
             speedFactor = 0x1000;
         }
         GetKartUp(kart, &kartUp);
-        dot = VEC_DotProduct(&kartUp, directionA);
-        flatTarget.x = directionA->x - MUL_FIXED12_NO_ROUND(kartUp.x, dot);
-        flatTarget.y = directionA->y - MUL_FIXED12_NO_ROUND(kartUp.y, dot);
-        flatTarget.z = directionA->z - MUL_FIXED12_NO_ROUND(kartUp.z, dot);
-        Vec3CrossUnrounded(directionB, &flatTarget, &turnCross);
+        dot = VEC_DotProduct(&kartUp, toTarget);
+        flatTarget.x = toTarget->x - MUL_FIXED12_NO_ROUND(kartUp.x, dot);
+        flatTarget.y = toTarget->y - MUL_FIXED12_NO_ROUND(kartUp.y, dot);
+        flatTarget.z = toTarget->z - MUL_FIXED12_NO_ROUND(kartUp.z, dot);
+        Vec3CrossUnrounded(kartForward, &flatTarget, &turnCross);
         kart->mHeadingAngle +=
             (turnSign = Vec3DotUnrounded(&kartUp, &turnCross) > 0 ? 1 : -1) *
             (MUL_FIXED12_NO_ROUND((s32) (((s64) kartAi->mTurnAngleDegrees * 0xB60B60B60BLL + 0x80000000LL) >> 32),

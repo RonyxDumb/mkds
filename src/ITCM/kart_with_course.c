@@ -38,9 +38,9 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     Vec3 normal;
     Vec3 pushVector;
     Vec3 landingPushVector;
-    s32 bit100000WasSet;
-    s32 bit200000WasSet;
-    u32 collisionMask;
+    s32 attractorPullWasSet;
+    s32 courseSoundWasPlayed;
+    u32 maskedCollisionFlags;
     s32 lowestOffsetLength;
     s32 pushStrength;
     s32 dot;
@@ -48,8 +48,8 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     BOOL rotationExceeded;
 
     secondNormal = gKartVec3UnitY;
-    bit100000WasSet = (kart->mMotionFlags & KART_MOTION_ATTRACTOR_PULL) ? 1 : 0;
-    bit200000WasSet = (kart->mDriveFlags & KART_DRIVE_COURSE_SOUND_PLAYED) ? 1 : 0;
+    attractorPullWasSet = (kart->mMotionFlags & KART_MOTION_ATTRACTOR_PULL) ? 1 : 0;
+    courseSoundWasPlayed = (kart->mDriveFlags & KART_DRIVE_COURSE_SOUND_PLAYED) ? 1 : 0;
     *groundNormal = kart->mGroundNormal;
     if (StartKartRespawnWaitIfBelowZero(kart) != FALSE) {
         return;
@@ -57,7 +57,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     if (CollideSphereWithCourse(&kart->mCollisionCenter, &kart->mPrevCollisionCenter, &kart->mTurnedForward,
                                 kart->mRadius, 1, kart->mCollisionSlot, &pushOut, &normal, &secondNormal,
                                 &collisionFlags, &lowestOffset, &pointMotion, &headingDelta, &hitObjects) != 0) {
-        collisionMask = collisionFlags & 0x1e34ef;
+        maskedCollisionFlags = collisionFlags & 0x1e34ef;
         VEC_Add(&kart->mPos, &pushOut, &kart->mPos);
         AdvanceCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, (collisionFlags & 0x3c000000) >> 26,
                                 kart->mVelocityLength);
@@ -65,7 +65,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         AdvanceKartPointMotion(kart, collisionFlags, &pointMotion, headingDelta);
         if (collisionFlags & 0x200300) {
             ApplyKartCourseContact(kart, collisionFlags, &secondNormal);
-            if (collisionMask != 0) {
+            if (maskedCollisionFlags != 0) {
                 dot = VEC_DotProduct(&normal, &kart->mHitVelocity);
                 kart->mHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, dot);
                 kart->mHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, dot);
@@ -109,7 +109,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         }
         if (collisionFlags & 0x8c10) {
             if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && (collisionFlags & 0x10)) {
-                if (bit200000WasSet == 0) {
+                if (courseSoundWasPlayed == 0) {
                     ApplyCourseSoundTableEntry((u16) ((PickCollisionHitValue(0x10) & 0xe0) >> 5));
                 }
                 kart->mDriveFlags |= KART_DRIVE_COURSE_SOUND_PLAYED;
@@ -133,7 +133,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 CallKartAiRequestLink(kart->mAi);
             }
         }
-        if (collisionMask != 0) {
+        if (maskedCollisionFlags != 0) {
             *groundNormal = normal;
             if (LENGTH_SQUARED(*groundNormal) >= 0x10) {
                 kart->mDriveFlags &= ~KART_DRIVE_JUMP_PAD;
@@ -197,7 +197,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         ApplyKartWaterDepth(kart);
     }
     if ((kart->mEffectFlags & KART_EFFECT_ATTRACTOR) && kart->mState == KART_STATE_NORMAL) {
-        ApplyKartAttractorPull(kart, groundNormal, bit100000WasSet);
+        ApplyKartAttractorPull(kart, groundNormal, attractorPullWasSet);
     }
     kart->mAttractorPullSpeed = MUL_FIXED12_NO_ROUND(kart->mAttractorPullSpeed, 0xf33);
     value = kart->mAttractorPullSpeed;

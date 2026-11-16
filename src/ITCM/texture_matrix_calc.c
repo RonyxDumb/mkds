@@ -39,14 +39,14 @@ void texmtxCalc_flagTS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult)
 }
 
 void texmtxCalc_flagTR_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
-    s32 negScale;
+    s32 negDoubleScale;
 
     matrix->mRows[0].x = matAnmResult->mScaleST[0];
     matrix->mRows[1].y = matAnmResult->mScaleST[1];
     matrix->mRows[0].y = 0;
     matrix->mRows[3].x = 0;
-    negScale = -(matAnmResult->mScaleST[1] << 1);
-    matrix->mRows[3].y = (matAnmResult->mOrigHeight * (negScale + 0x2000)) << 3;
+    negDoubleScale = -(matAnmResult->mScaleST[1] << 1);
+    matrix->mRows[3].y = (matAnmResult->mOrigHeight * (negDoubleScale + 0x2000)) << 3;
     matrix->mRows[1].x = 0;
 }
 

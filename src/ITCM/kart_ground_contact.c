@@ -144,8 +144,8 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     return FALSE;
 }
 
-void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
-    s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, direction);
+void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *groundNormal) {
+    s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, groundNormal);
     s32 maxFactor;
 
     if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
@@ -192,16 +192,16 @@ void UpdateKartAirborne(Kart *kart) {
     }
 }
 
-void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
+void AdvanceKartOrientation(Kart *kart, Vec3 *groundNormal) {
     Vec4 tiltQuaternion;
-    u32 value;
+    u32 unused;
 
     kart->mVelocityScaleFactor = TO_FIXED12(1);
     if (kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
-        AdvanceKartQuaternionFromVector(kart, direction);
+        AdvanceKartQuaternionFromVector(kart, groundNormal);
     }
     QuaternionBlend(&kart->mTiltQuaternion, &kart->mAirTiltQuaternion, &kart->mTiltQuaternion,
                     kart->mQuaternionBlendFactor);
@@ -351,7 +351,7 @@ void AdvanceKartHop(Kart *kart) {
 void AdvanceKartEffects(Kart *kart) {
     KartTurnEffects *turnEffects;
     KartEffects *effects;
-    u32 kartFlags;
+    u32 motionFlags;
 
     if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
         turnEffects = GetKartTurnEffects(kart->mIndex);
@@ -364,9 +364,9 @@ void AdvanceKartEffects(Kart *kart) {
         StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     }
     kart->mEffectVelocity = kart->mVelocity;
-    kartFlags = kart->mMotionFlags;
-    if (kartFlags & KART_MOTION_ON_GROUND) {
-        if (!(kartFlags & KART_MOTION_STILL_HOLD)) {
+    motionFlags = kart->mMotionFlags;
+    if (motionFlags & KART_MOTION_ON_GROUND) {
+        if (!(motionFlags & KART_MOTION_STILL_HOLD)) {
             kart->mEffectVelocity.y = kart->mEffectVelocity.y - kart->mVerticalSpeed;
         }
     }

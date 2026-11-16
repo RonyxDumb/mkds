@@ -67,38 +67,38 @@ void Matrix4x3FromQuaternion(MtxFx43 *mtx, const Vec4 *quat) {
     s32 quatY;
     s32 quatZ;
     s32 quatW;
-    s32 zx;
-    s32 xx;
-    s32 ww;
-    s32 yy;
-    s32 zw;
-    s32 zy;
-    s32 wx;
-    s32 wy;
-    s32 xy;
+    s32 quatWY;
+    s32 quatYY;
+    s32 quatXX;
+    s32 quatZZ;
+    s32 quatWX;
+    s32 quatWZ;
+    s32 quatXY;
+    s32 quatXZ;
+    s32 quatYZ;
 
     quatX = quat->x;
     quatY = quat->y;
     quatZ = quat->z;
     quatW = quat->wComponent;
-    zx = quatW * quatY >> 11;
-    xx = quatY * quatY >> 11;
-    ww = quatX * quatX >> 11;
-    yy = quatZ * quatZ >> 11;
-    zw = quatW * quatX >> 11;
-    zy = quatW * quatZ >> 11;
-    wx = quatX * quatY >> 11;
-    wy = quatX * quatZ >> 11;
-    xy = quatY * quatZ >> 11;
-    elements[0] = 0x1000 - (xx + yy);
-    elements[1] = wx + zy;
-    elements[2] = wy - zx;
-    elements[3] = wx - zy;
-    elements[4] = 0x1000 - (yy + ww);
-    elements[5] = xy + zw;
-    elements[6] = wy + zx;
-    elements[7] = xy - zw;
-    elements[8] = 0x1000 - (ww + xx);
+    quatWY = quatW * quatY >> 11;
+    quatYY = quatY * quatY >> 11;
+    quatXX = quatX * quatX >> 11;
+    quatZZ = quatZ * quatZ >> 11;
+    quatWX = quatW * quatX >> 11;
+    quatWZ = quatW * quatZ >> 11;
+    quatXY = quatX * quatY >> 11;
+    quatXZ = quatX * quatZ >> 11;
+    quatYZ = quatY * quatZ >> 11;
+    elements[0] = 0x1000 - (quatYY + quatZZ);
+    elements[1] = quatXY + quatWZ;
+    elements[2] = quatXZ - quatWY;
+    elements[3] = quatXY - quatWZ;
+    elements[4] = 0x1000 - (quatZZ + quatXX);
+    elements[5] = quatYZ + quatWX;
+    elements[6] = quatXZ + quatWY;
+    elements[7] = quatYZ - quatWX;
+    elements[8] = 0x1000 - (quatXX + quatYY);
     elements[9] = 0;
     elements[10] = 0;
     elements[11] = 0;
@@ -111,38 +111,38 @@ void Matrix3x3FromQuaternion(MtxFx33 *mtx, void *quatPtr) {
     s32 quatY;
     s32 quatZ;
     s32 quatW;
-    s32 zx;
-    s32 xx;
-    s32 ww;
-    s32 yy;
-    s32 zw;
-    s32 zy;
-    s32 wx;
-    s32 wy;
-    s32 xy;
+    s32 quatWY;
+    s32 quatYY;
+    s32 quatXX;
+    s32 quatZZ;
+    s32 quatWX;
+    s32 quatWZ;
+    s32 quatXY;
+    s32 quatXZ;
+    s32 quatYZ;
 
     quatX = quat->x;
     quatY = quat->y;
     quatZ = quat->z;
     quatW = quat->wComponent;
-    zx = quatW * quatY >> 11;
-    xx = quatY * quatY >> 11;
-    ww = quatX * quatX >> 11;
-    yy = quatZ * quatZ >> 11;
-    zw = quatW * quatX >> 11;
-    zy = quatW * quatZ >> 11;
-    wx = quatX * quatY >> 11;
-    wy = quatX * quatZ >> 11;
-    xy = quatY * quatZ >> 11;
-    elements[0] = 0x1000 - (xx + yy);
-    elements[1] = wx + zy;
-    elements[2] = wy - zx;
-    elements[3] = wx - zy;
-    elements[4] = 0x1000 - (yy + ww);
-    elements[5] = xy + zw;
-    elements[6] = wy + zx;
-    elements[7] = xy - zw;
-    elements[8] = 0x1000 - (ww + xx);
+    quatWY = quatW * quatY >> 11;
+    quatYY = quatY * quatY >> 11;
+    quatXX = quatX * quatX >> 11;
+    quatZZ = quatZ * quatZ >> 11;
+    quatWX = quatW * quatX >> 11;
+    quatWZ = quatW * quatZ >> 11;
+    quatXY = quatX * quatY >> 11;
+    quatXZ = quatX * quatZ >> 11;
+    quatYZ = quatY * quatZ >> 11;
+    elements[0] = 0x1000 - (quatYY + quatZZ);
+    elements[1] = quatXY + quatWZ;
+    elements[2] = quatXZ - quatWY;
+    elements[3] = quatXY - quatWZ;
+    elements[4] = 0x1000 - (quatZZ + quatXX);
+    elements[5] = quatYZ + quatWX;
+    elements[6] = quatXZ + quatWY;
+    elements[7] = quatYZ - quatWX;
+    elements[8] = 0x1000 - (quatXX + quatYY);
 }
 
 void AdvanceKartMotion(Kart *kart) {
@@ -237,8 +237,8 @@ void AddKartSurfaceSoundRequest(Kart *kart, s32 entryIndex) {
 s32 AdvanceKartRank(Kart *kart) {
     BOOL passedKart;
     s32 newRank;
-    s32 aheadKartIndex;
-    Kart *aheadKart;
+    s32 behindKartIndex;
+    Kart *behindKart;
 
     passedKart = FALSE;
     newRank = GetKartRank(kart->mIndex);
@@ -247,10 +247,10 @@ s32 AdvanceKartRank(Kart *kart) {
             SetSceneSoundRank((newRank - 1));
         }
         if (newRank < kart->mRank && newRank < gRaceSetup->mKartCount) {
-            aheadKartIndex = GetKartAtRank(newRank + 1);
-            if (aheadKartIndex >= 0) {
-                aheadKart = GetKart((u16) aheadKartIndex);
-                if (!(aheadKart->mEntryFlags & (KART_ENTRY_GHOST | KART_ENTRY_TERESA | KART_ENTRY_PARKED))) {
+            behindKartIndex = GetKartAtRank(newRank + 1);
+            if (behindKartIndex >= 0) {
+                behindKart = GetKart((u16) behindKartIndex);
+                if (!(behindKart->mEntryFlags & (KART_ENTRY_GHOST | KART_ENTRY_TERESA | KART_ENTRY_PARKED))) {
                     passedKart = TRUE;
                 }
             }
@@ -277,7 +277,7 @@ void AdvanceKartCollisionTimer(Kart *kart) {
 }
 
 void AdvanceKartInputAndTurn(Kart *kart) {
-    s32 inputValue;
+    s32 turnApplied;
     s32 lowSpeedTurn;
     enum { ENTRY_INDEX_FIRST } entryIndex;
 
@@ -289,7 +289,7 @@ void AdvanceKartInputAndTurn(Kart *kart) {
         }
     }
     if (IsRaceStarted() == 1) {
-        inputValue = 0;
+        turnApplied = 0;
         if (IsKartNotNormalOrFlagged(kart) != FALSE) {
             entryIndex = kart->mEntryIndex;
             gInputSlots[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT;
@@ -313,11 +313,11 @@ void AdvanceKartInputAndTurn(Kart *kart) {
             if (!(kart->mMotionFlags & KART_MOTION_DRIFTING)) {
                 lowSpeedTurn = TryTurnKartAtLowSpeed(kart);
             }
-            inputValue = ApplyKartTurnInput(kart, lowSpeedTurn);
+            turnApplied = ApplyKartTurnInput(kart, lowSpeedTurn);
             AdvanceKartDrift(kart);
             AdvanceKartForwardSpeedAndAngles(kart);
         }
-        AdvanceKartTurnHeading(kart, inputValue);
+        AdvanceKartTurnHeading(kart, turnApplied);
         if (AdvanceKartRank(kart) == 0) {
             return;
         }
@@ -331,10 +331,10 @@ void AdvanceKartInputAndTurn(Kart *kart) {
     SetKartMissionRunInputMask(kart);
     UpdateKartInputFlags(kart);
     entryIndex = kart->mEntryIndex;
-    inputValue = gInputSlots[entryIndex].mBits;
-    if ((u16) (inputValue & PAD_KEY_LEFT)) {
+    turnApplied = gInputSlots[entryIndex].mBits;
+    if ((u16) (turnApplied & PAD_KEY_LEFT)) {
         kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
-    } else if ((u16) (inputValue & PAD_KEY_RIGHT)) {
+    } else if ((u16) (turnApplied & PAD_KEY_RIGHT)) {
         kart->mDriveFlags |= KART_DRIVE_TURN_RIGHT;
     }
     kart->mMotionFlags |= KART_MOTION_ON_GROUND;
@@ -405,32 +405,32 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
     BOOL airborne = FALSE;
     s32 turned = 0;
     enum { TURN_SIGN_NEUTRAL } turnSign = 1;
-    s32 speedMagnitude;
+    s32 magnitude;
     s32 forwardSpeed;
-    u32 kartFlags;
+    u32 motionFlags;
     u16 keyBits;
     enum { ENTRY_INDEX_FIRST } entryIndex;
-    u32 kartFlagsCopy;
+    u32 motionFlagsCopy;
 
     if (kart->mEffectFlags & (KART_EFFECT_KILLER | KART_EFFECT_HEADING_SWING)) {
         return 0;
     }
     forwardSpeed = kart->mForwardSpeed;
-    speedMagnitude = forwardSpeed > 0 ? forwardSpeed : -forwardSpeed;
-    if (speedMagnitude < 0x2000) {
-        speedMagnitude = forwardSpeed <= 0 ? -forwardSpeed : forwardSpeed;
-        turnRate = ((turnRate + (s16) MUL_FIXED12_NO_ROUND(turnRate, speedMagnitude >> 1)) << 15) >> 16;
+    magnitude = forwardSpeed > 0 ? forwardSpeed : -forwardSpeed;
+    if (magnitude < 0x2000) {
+        magnitude = forwardSpeed <= 0 ? -forwardSpeed : forwardSpeed;
+        turnRate = ((turnRate + (s16) MUL_FIXED12_NO_ROUND(turnRate, magnitude >> 1)) << 15) >> 16;
     }
-    kartFlags = kart->mMotionFlags;
-    if ((kartFlags & KART_MOTION_HOP_STEER) && (kartFlags & KART_MOTION_HOPPING)) {
-        speedMagnitude = kart->mTurnDirection * 0x168;
+    motionFlags = kart->mMotionFlags;
+    if ((motionFlags & KART_MOTION_HOP_STEER) && (motionFlags & KART_MOTION_HOPPING)) {
+        magnitude = kart->mTurnDirection * 0x168;
         if (lowSpeedTurn == 0) {
-            speedMagnitude = speedMagnitude * ((kartFlags & KART_MOTION_REVERSING) ? -1 : 1);
+            magnitude = magnitude * ((motionFlags & KART_MOTION_REVERSING) ? -1 : 1);
         }
         if (kart->mEntryFlags & KART_ENTRY_CPU) {
-            speedMagnitude = speedMagnitude << 1;
+            magnitude = magnitude << 1;
         }
-        kart->mHeadingAngle = kart->mHeadingAngle - speedMagnitude;
+        kart->mHeadingAngle = kart->mHeadingAngle - magnitude;
         entryIndex = kart->mEntryIndex;
         keyBits = gInputSlots[entryIndex].mBits;
         if ((u16) (keyBits & PAD_KEY_LEFT)) {
@@ -440,7 +440,7 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
         }
         return 1;
     }
-    if (!(kartFlags & KART_MOTION_ON_GROUND)) {
+    if (!(motionFlags & KART_MOTION_ON_GROUND)) {
         entryIndex = kart->mEntryIndex;
         keyBits = gInputSlots[entryIndex].mBits;
         if ((u16) (keyBits & PAD_KEY_UP)) {
@@ -456,11 +456,11 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
         }
         airborne = TRUE;
     }
-    kartFlagsCopy = kart->mMotionFlags;
-    kartFlags = kartFlagsCopy;
-    if (((kartFlags & KART_MOTION_REVERSING) &&
+    motionFlagsCopy = kart->mMotionFlags;
+    motionFlags = motionFlagsCopy;
+    if (((motionFlags & KART_MOTION_REVERSING) &&
          (u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_B)) ||
-        ((kartFlags & KART_MOTION_REVERSING) && !(kartFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)))) {
+        ((motionFlags & KART_MOTION_REVERSING) && !(motionFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)))) {
         turnSign = -1;
         turnRate = (s16) ((s16) turnRate * (s16) turnSign);
     }
@@ -477,12 +477,12 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
 }
 
 s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32 airborne, u32 turnFlag) {
-    s16 driftAngle;
+    s16 driftAnglePerFrame;
     s16 turnRate;
-    u32 kartFlags;
+    u32 motionFlags;
     s32 turnProduct;
 
-    driftAngle = kart->mDriftHeadingAnglePerFrame;
+    driftAnglePerFrame = kart->mDriftHeadingAnglePerFrame;
     kart->mDriveFlags |= turnFlag;
     if (airborne != 0) {
         if (!(kart->mMotionFlags & KART_MOTION_DRIFTING)) {
@@ -490,20 +490,20 @@ s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32
         }
         return 1;
     }
-    kartFlags = kart->mMotionFlags;
-    if (kartFlags & KART_MOTION_DRIFTING) {
+    motionFlags = kart->mMotionFlags;
+    if (motionFlags & KART_MOTION_DRIFTING) {
         turnProduct = kart->mTurnDirection * direction;
         turnRate = kart->mPhysicalParam->mDriftTurnRate;
         if (turnProduct > 0) {
-            turnRate = -driftAngle;
+            turnRate = -driftAnglePerFrame;
         } else {
-            turnRate = turnRate + driftAngle;
+            turnRate = turnRate + driftAnglePerFrame;
         }
     } else {
         turnProduct = gTurnHeadingReductionAtSpeedLimit * turnSign;
         turnRate = baseTurnRate - MUL_FIXED12_NO_ROUND(turnProduct, kart->mVelocityLengthRatio);
     }
-    if (kartFlags & KART_MOTION_ON_GROUND) {
+    if (motionFlags & KART_MOTION_ON_GROUND) {
         kart->mTurnRatio += direction * 0x666;
         if (kart->mTurnRatio > FIXED12_UNIT) {
             kart->mTurnRatio = FIXED12_UNIT;
@@ -629,7 +629,7 @@ void AdvanceKartForwardSpeedAndAngles(Kart *kart) {
     s32 baseAcceleration;
     BOOL notDrifting;
     s32 value;
-    s32 flags;
+    s32 flagsOrRatio;
     u32 flagBits;
 
     notDrifting = (kart->mMotionFlags & KART_MOTION_DRIFTING) == 0;
@@ -643,10 +643,10 @@ void AdvanceKartForwardSpeedAndAngles(Kart *kart) {
         endRatio = kart->mPhysicalParam->mDriftEndRatio;
     }
     baseAcceleration = acceleration;
-    flags = kart->mDriveFlags;
-    if (flags & KART_DRIVE_BOOST) {
+    flagsOrRatio = kart->mDriveFlags;
+    if (flagsOrRatio & KART_DRIVE_BOOST) {
         AdvanceKartBoost(&acceleration, kart);
-    } else if (flags & KART_DRIVE_BRAKE_HELD) {
+    } else if (flagsOrRatio & KART_DRIVE_BRAKE_HELD) {
         acceleration = -0x19a;
         if (kart->mEffectFlags & KART_EFFECT_STAR) {
             acceleration = -0x4cd;
@@ -656,32 +656,32 @@ void AdvanceKartForwardSpeedAndAngles(Kart *kart) {
             acceleration = 0x4cd;
         } else {
             value = kart->mForwardSpeed;
-            flags = kart->mVelocityLengthRatio;
+            flagsOrRatio = kart->mVelocityLengthRatio;
             if (value < 0) {
                 acceleration = baseAcceleration + MUL_FIXED12_ROUNDED(-value, 0x52);
-            } else if (flags < 0x800) {
+            } else if (flagsOrRatio < 0x800) {
                 acceleration = baseAcceleration;
-            } else if (flags > endRatio) {
+            } else if (flagsOrRatio > endRatio) {
                 acceleration = endAcceleration;
             } else {
                 value = FX_Div(baseAcceleration - endAcceleration, endRatio - 0x800);
-                flags = flags - 0x800;
-                acceleration = baseAcceleration - MUL_FIXED12_NO_ROUND(value, flags);
+                flagsOrRatio = flagsOrRatio - 0x800;
+                acceleration = baseAcceleration - MUL_FIXED12_NO_ROUND(value, flagsOrRatio);
             }
         }
     }
     if (kart->mEffectFlags & KART_EFFECT_HEADING_SWING) {
         AdvanceKartHeadingSwing(kart);
     }
-    flags = kart->mDriveFlags;
-    if (flags & KART_DRIVE_JUMP_PAD) {
+    flagsOrRatio = kart->mDriveFlags;
+    if (flagsOrRatio & KART_DRIVE_JUMP_PAD) {
         kart->mForwardSpeed += 0x1000;
     } else if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
         flagBits = kart->mEffectFlags;
         if (!(flagBits & KART_EFFECT_HEADING_SWING)) {
-            if (flags & KART_DRIVE_BRAKING) {
+            if (flagsOrRatio & KART_DRIVE_BRAKING) {
                 kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, 0xfae);
-            } else if (flags & (KART_DRIVE_ACCEL_HELD | KART_DRIVE_BRAKE_HELD | KART_DRIVE_BOOST)) {
+            } else if (flagsOrRatio & (KART_DRIVE_ACCEL_HELD | KART_DRIVE_BRAKE_HELD | KART_DRIVE_BOOST)) {
                 kart->mForwardSpeed += acceleration;
             } else if (!(flagBits & KART_EFFECT_KILLER)) {
                 kart->mMotionFlags |= KART_MOTION_COASTING;

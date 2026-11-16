@@ -443,15 +443,15 @@ void NNSi_G3dFuncSbc_SHP(NNSG3dRS *renderState, u32 option) {
     u32 stateFlags;
     NNSG3dResDict *resShp;
     u8 *shpData;
-    u8 *dictBase;
+    u8 *entries;
     u32 shapeIndex;
 
     stateFlags = renderState->mFlag;
     if (!(stateFlags & 0x200) && (stateFlags & 1) && !(stateFlags & 2)) {
         resShp = renderState->mResShp;
         shapeIndex = renderState->mC[1];
-        dictBase = (u8 *) resShp + resShp->mOfsEntry;
-        shpData = (u8 *) resShp + *(u32 *) (dictBase + *(u16 *) dictBase * shapeIndex + 4);
+        entries = (u8 *) resShp + resShp->mOfsEntry;
+        shpData = (u8 *) resShp + *(u32 *) (entries + *(u16 *) entries * shapeIndex + 4);
         NNS_G3dFuncSbcShpTable[*(u16 *) shpData](renderState, option, shpData, shapeIndex);
     }
     renderState->mC += 2;
