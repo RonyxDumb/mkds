@@ -1,4 +1,5 @@
 #include "Main/Sound/race_end_seq_menu_seqs_and_emblem_sound.h"
+#include "Main/Course/course_sound_object.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 #include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
 #include "Main/Sound/scene_players_start_stop_and_release.h"
@@ -245,7 +246,7 @@ s32 GetLastLapCourseSoundId(void) {
                     seqId = 0x104;
                     break;
                 default:
-                    seqId = 0x107;
+                    seqId = COURSE_SOUND_ID_CROSS_SECOND_PART;
                     break;
             }
             break;
@@ -256,7 +257,7 @@ s32 GetLastLapCourseSoundId(void) {
                     seqId = 0x19c;
                     break;
                 default:
-                    seqId = 0x19f;
+                    seqId = COURSE_SOUND_ID_MARIO_SECOND_PART;
                     break;
             }
             break;
