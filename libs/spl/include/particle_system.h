@@ -11,7 +11,8 @@
 #define SPL_COLOR_CHANNEL_MASK 0x1f
 #define SPL_ALPHA_MAX 0x1f
 
-// Time scale of a particle: this value divided by the length in frames, so that the time reaches it at the end.
+// Time scale of a particle: this value divided by the length in frames; the scaled age shifted right by 8 then reaches
+// about 0xff at the end.
 #define SPL_TIME_SCALE_END 0xffff
 
 // Indexed by the rotate kind of an emitter's header.

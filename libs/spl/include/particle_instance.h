@@ -261,7 +261,7 @@ typedef struct ParticleEmitterFlags {
 typedef struct ParticleEmitter ParticleEmitter;
 typedef struct ParticleResource ParticleResource;
 
-// One behaviour of a particle: the mApply function and its mData.
+// One behavior of a particle: the mApply function and its mData.
 typedef struct ParticleBehaviorEntry {
     /* 00 */ void (*mApply)(); // called with four arguments; the type of the first differs per entry
     /* 04 */ void *mData;
@@ -278,7 +278,8 @@ struct ParticleResource {
     /* 1c */ u16 mBehaviorCount;
 };
 
-// The emitter state read by the side and follow effects: velocity factor index, counting flag, step count, side index.
+// The emitter state read by the kart current, side and water effects: velocity factor index, counting flag, step count,
+// side index.
 typedef struct EmitterCallbackBytes {
     /* 00 */ u8 mVelocityFactorIndex;
     /* 01 */ u8 mCounting;
@@ -286,7 +287,8 @@ typedef struct EmitterCallbackBytes {
     /* 03 */ u8 mSideIndex;
 } EmitterCallbackBytes;
 
-// The same four bytes as AdvanceOtherKartEffect and PlaceOtherKartEffect use them.
+// The same four bytes for the other-kart effects: the first and second kart index, which of them is shown and the
+// switch counter.
 typedef struct EmitterOtherKartBytes {
     /* 00 */ u8 mFirstKartIndex;
     /* 01 */ u8 mSecondKartIndex;
