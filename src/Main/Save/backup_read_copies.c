@@ -37,7 +37,7 @@ void RunFileReadThread(void *unused) {
     romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
         waitIrqState = OS_DisableInterrupts();
-        parentView = &gRomArchiveTransfer.mParentView;
+        parentView = &gRomArchiveTransfer.mParentOrChildView;
         node = parentView->mPendingHead;
         if (node == NULL) {
             do {
@@ -66,12 +66,12 @@ void RunFileReadThread(void *unused) {
             node->mLastLoadedBufferIndex = 1;
             node->mLoadingBufferIndex = ROM_ARCHIVE_NODE_NO_BUFFER;
             updateIrqState = OS_DisableInterrupts();
-            ActivateRomArchiveNode(&gRomArchiveTransfer.mParentView, node, 1);
+            ActivateRomArchiveNode(&gRomArchiveTransfer.mParentOrChildView, node, 1);
             OS_RestoreInterrupts(updateIrqState);
         } else {
             FS_CloseFile(&node->mFile);
             updateIrqState = OS_DisableInterrupts();
-            FreeRomArchiveNode(&gRomArchiveTransfer.mParentView, node);
+            FreeRomArchiveNode(&gRomArchiveTransfer.mParentOrChildView, node);
             OS_RestoreInterrupts(updateIrqState);
         }
     }

@@ -362,14 +362,14 @@ typedef struct RomArchiveParentView {
     /* 46d8 */ s32 mActiveMask;
     /* 46dc */ s32 mRequestMask;
     /* 46e0 */ BOOL mPacketSizeChangePending;
-    /* 46e4 */ s32 mQueuedNodeCount;
+    /* 46e4 */ s32 mRequestedNodeCount;
     /* 46e8 */ s32 mPacketSizeMessageMask;
     /* 46ec */ s32 mNewParentPacketSize;
     /* 46f0 */ u8 mUnk_46f0[0x10];
 } RomArchiveParentView;
 
 // The ROM archive transfer over the wireless link: mIsParent, mState, the packet sizes, the archive block and
-// mParentView.
+// mParentOrChildView.
 typedef struct RomArchiveTransfer {
     /* 0000 */ u32 mIsParent;
     /* 0004 */ BOOL mSendAllowed;
@@ -386,7 +386,7 @@ typedef struct RomArchiveTransfer {
     /* 0030 */ u16 mPort;
     /* 0032 */ u8 mUnk_0032[0xe];
     /* 0040 */ u8 mPacketBuffer[0x400];
-    /* 0440 */ RomArchiveParentView mParentView;
+    /* 0440 */ RomArchiveParentView mParentOrChildView;
 } RomArchiveTransfer;
 
 extern RomArchiveTransfer gRomArchiveTransfer;
