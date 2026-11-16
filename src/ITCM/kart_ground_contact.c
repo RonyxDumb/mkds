@@ -406,13 +406,13 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
 
 void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValues *scaleValues,
                                JointScaleCommand *command, u32 srtFlags) {
-    u8 optionFlags = command->mOptionFlags;
+    u8 optionFlags = command->mScaleCacheFlags;
     u32 nodeIndex;
 
     if (srtFlags & 4) {
         jntAnmResult->mFlag |= 1;
         if (optionFlags & 2) {
-            nodeIndex = command->mNodeId;
+            nodeIndex = command->mNodeDescIndex;
             NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] |= 1 << (nodeIndex & 0x1f);
         }
     } else {
@@ -420,7 +420,7 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
         jntAnmResult->mScale.y = scaleValues->mScale.y;
         jntAnmResult->mScale.z = scaleValues->mScale.z;
         if (optionFlags & 2) {
-            nodeIndex = command->mNodeId;
+            nodeIndex = command->mNodeDescIndex;
             NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] &= ~(1 << (nodeIndex & 0x1f));
             NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.x = scaleValues->mScaleInverse.x;
             NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.y = scaleValues->mScaleInverse.y;

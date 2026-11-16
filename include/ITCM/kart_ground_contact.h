@@ -14,9 +14,9 @@ typedef struct JointScaleValues {
 // The node, parent and option flags of one joint scale command.
 typedef struct JointScaleCommand {
     /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mNodeId;
+    /* 01 */ u8 mNodeDescIndex;
     /* 02 */ u8 mParentId;
-    /* 03 */ u8 mOptionFlags;
+    /* 03 */ u8 mScaleCacheFlags;
 } JointScaleCommand;
 
 // Frames in the air after which the kart counts as airborne for a long time (KART_MOTION_AIRBORNE_LONG, the air tilt),
