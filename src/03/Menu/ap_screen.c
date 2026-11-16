@@ -351,9 +351,9 @@ void MoveApSelection(int direction) {
             break;
         case AP_SELECTED_MULTI: {
             u8 rememberedIndex = gAp->mRememberedEntryIndex;
-            s32 targetIndex = rememberedIndex + 4;
+            s32 resetSelectedIndex = rememberedIndex + 4;
             if (direction == 1) {
-                gApSelectedIndex = targetIndex;
+                gApSelectedIndex = resetSelectedIndex;
             } else if (direction == 3) {
                 gApSelectedIndex = rememberedIndex;
             } else {

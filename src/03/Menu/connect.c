@@ -205,12 +205,12 @@ void AdvanceConnectRequest(TaskEntry *entry, void *arg) {
 
 u32 ConnectAllocExpHeapBlockWrapper(u32 unused, u32 size) {
     u32 allocatedBlock;
-    u32 blockSize = size;
+    u32 sizeThenAlignment = size;
     u32 allocFunctionAddress;
-    allocatedBlock = (blockSize) + (0u);
-    blockSize = 32u;
+    allocatedBlock = (sizeThenAlignment) + (0u);
+    sizeThenAlignment = 32u;
     allocFunctionAddress = (u32) &AllocExpHeapBlock;
-    allocatedBlock = (u32) AllocExpHeapBlock(allocatedBlock, blockSize);
+    allocatedBlock = (u32) AllocExpHeapBlock(allocatedBlock, sizeThenAlignment);
     return allocatedBlock;
 }
 

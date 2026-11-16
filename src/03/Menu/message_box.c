@@ -39,11 +39,11 @@ MessageBox *gMessageBox;
 
 int GetMessageBoxResult(void) {
     u32 boxResult;
-    u32 boxData;
+    u32 box;
     boxResult = (u32) &gMessageBox;
-    boxData = *(const u32 *) ((boxResult) + 0u);
+    box = *(const u32 *) ((boxResult) + 0u);
     boxResult = 27u;
-    boxResult = *(const s8 *) ((boxData) + (boxResult));
+    boxResult = *(const s8 *) ((box) + (boxResult));
     return boxResult;
 }
 

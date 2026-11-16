@@ -254,7 +254,7 @@ void GetScrollBarPartRect(s32 part, Rect *rect) {
 }
 
 void PlaceScrollBar(s32 offset) {
-    ScrollBar *state = gScrollBar;
-    SetOamRangePosition(state->mResource, -1, state->mX, offset + state->mY);
+    ScrollBar *scrollBar = gScrollBar;
+    SetOamRangePosition(scrollBar->mResource, -1, scrollBar->mX, offset + scrollBar->mY);
     gScrollBar->mOffset = offset;
 }

@@ -201,13 +201,13 @@ void UpdateApScanFadeOut(void) {
 }
 
 void UpdateApScanRelease(void) {
-    int queryResult;
-    queryResult = IsBlendBrightnessFadeSlotBusy(1);
-    if (((queryResult == 0) && (queryResult = IsBlendBrightnessFadeSlotBusy(0), queryResult == 0)) &&
-        (queryResult = IsSlideButtonsNotSlidingOut(), queryResult != 0)) {
+    int result;
+    result = IsBlendBrightnessFadeSlotBusy(1);
+    if (((result == 0) && (result = IsBlendBrightnessFadeSlotBusy(0), result == 0)) &&
+        (result = IsSlideButtonsNotSlidingOut(), result != 0)) {
         do {
-            queryResult = StopApScan();
-        } while (queryResult == 0);
+            result = StopApScan();
+        } while (result == 0);
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         HideSubScreenMessage();

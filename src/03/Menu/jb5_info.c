@@ -35,7 +35,7 @@ void SetupJb5Info(void) {
 void LoadJb5InfoFileAndSetBgCnt(void) {
     void *filePath = &"char/jb5Info.nsc.l";
     void *loadFunction = &GX_LoadBG2Scr;
-    u32 fileToVram = LoadFileToVram(filePath, loadFunction);
+    u32 bg2ScrLoadResult = LoadFileToVram(filePath, loadFunction);
     u32 subBg0CntAddress = 0x4001008u;
     u32 subBg0Cnt = (*(u16 *) ((subBg0CntAddress) + (0)));
     u32 subBg0CntCleared = ((subBg0Cnt) & ~(0x3u));
