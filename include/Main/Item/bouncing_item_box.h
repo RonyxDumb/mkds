@@ -3,9 +3,11 @@
 #include "types.h"
 #include "Main/Item/item_gesso.h"
 
-// Limit of an OrthoQuad corner coordinate in either direction; the corners are clamped to it.
+// Limit of an OrthoQuad corner coordinate: the corners are clamped to plus and minus it by
+// AdvanceOrthoQuadCornersByVelocity (the mVelocityMode 0 branch clamps only the negative Y side).
 #define ORTHO_QUAD_COORD_LIMIT 0x3ccd
-// OrthoQuad.mTimer & this is 0 once every 16 frames, when the quad picks a new corner.
+// AdvanceOrthoQuadCornersByVelocity decrements OrthoQuad.mTimer; when mTimer & this is 0 (every 16th call past the move
+// start) the quad picks a new mPickedCornerIndex.
 #define ORTHO_QUAD_CORNER_PICK_MASK 0xf
 
 // The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.

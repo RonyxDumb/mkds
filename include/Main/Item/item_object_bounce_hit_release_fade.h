@@ -10,8 +10,9 @@ extern const u16 gItemObjectReleaseTimerPendingBit;
 
 typedef struct ItemObject ItemObject;
 
-// Values of gItemHitTypes and the hit type of ApplyItemObjectHitType (0 is no reaction): bounce off what was hit, or be
-// pushed away and fade out used up.
+// Values of gItemHitTypes and the hit type of ApplyItemObjectHitType (0 is no reaction): bounce off what was hit (a
+// second bounce deflects in a random direction; an object held in an ItemInUse ignores it), or be pushed away and fade
+// out used up.
 #define ITEM_HIT_TYPE_BOUNCE 1
 #define ITEM_HIT_TYPE_FADE_OUT 2
 

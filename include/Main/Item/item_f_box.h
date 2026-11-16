@@ -6,7 +6,8 @@
 typedef struct ItemObject ItemObject;
 typedef struct ItemFBox ItemFBox;
 
-// One item data record: the bytes passed on, then its kind, message kind and the frame stamp.
+// One item data record: the bytes passed on, then its kind, message kind and the frame stamp (only set in a delayed
+// record).
 typedef struct ItemDataRecord {
     /* 00 */ u8 mData[0x14];
     /* 14 */ vu32 mKind;

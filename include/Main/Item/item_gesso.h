@@ -16,8 +16,9 @@
 #define ITEM_GESSO_HALF_SCALE 0x800
 
 // Steps of the gItemGessoSteps table, by what the code does at them: the table has ITEM_GESSO_STEP_COUNT rows. Step 2
-// and the last step fade the ink out; step 4 has the plain scale; SPREAD and HALF_SCALE set their own target scales;
-// the step after HALF_SCALE plays no start sound; a removed kart jumps to HALF_SCALE.
+// and the last step fade the gesso out (mFadesOut); step 4 has the plain scale; WIDE_SCALE and HALF_SCALE set their
+// own target scales; a kart that is removed, has the star, respawn-drop or killer effect or keyed placement sends
+// steps 4 to 0xc to HALF_SCALE.
 #define ITEM_GESSO_STEP_COUNT 0x11
 #define ITEM_GESSO_STEP_FADES_OUT_FIRST 2
 #define ITEM_GESSO_STEP_PLAIN_SCALE 4
@@ -28,7 +29,7 @@
 #define ITEM_GESSO_STEP_FADES_OUT_LAST 0x10
 // ItemGesso.mShear is kept within plus and minus this.
 #define ITEM_GESSO_SHEAR_LIMIT 0x266
-// Most ink quads one kart gets (ItemGesso.mOrthoQuadCounts).
+// Most ortho quads one kart gets (ItemGesso.mOrthoQuadCounts).
 #define ITEM_GESSO_MAX_QUADS_PER_KART 4
 
 // Object of item kind 10, element of gItemPools[10].

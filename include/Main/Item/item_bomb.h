@@ -37,10 +37,12 @@ void ParkItemBombMapObject(ItemBomb *bomb);
 
 struct ModelEffect;
 
-// ItemBomb.mTimer counts down to the explosion. It starts at ITEM_BOMB_FUSE_FRAMES, at the short value for a bomb
-// dropped with the down key or one that starts falling, and at the throw's timer for a thrown bomb. A bomb that waits
-// for its end block timer gets the end-block value at 0; the bomb flashes below the flash start; the last frames hold
-// the final value and flash value; the map object is disabled in the last frames.
+// ItemBomb.mTimer counts down to the explosion (its expiry reaches RequestItemBombExplode through the kind's fade-out
+// callback). It starts at ITEM_BOMB_FUSE_FRAMES, at ITEM_BOMB_SHORT_FUSE_FRAMES for a bomb dropped with the down key or
+// one that starts falling again, and at the timerStart argument of ThrowItemBombFromSlot. While mTimerEndBlockTimer is
+// above 0 a timer that reaches 0 becomes ITEM_BOMB_END_BLOCK_FUSE_FRAMES; below ITEM_BOMB_FLASH_START_FRAMES the model
+// flashes; a kart within the explode radius caps mTimer at ITEM_BOMB_FINAL_FUSE_FRAMES and mModelFrameTimer at
+// ITEM_BOMB_FINAL_FLASH_FRAMES; below ITEM_BOMB_MAP_OBJECT_DISABLE_FRAMES the map object is disabled.
 #define ITEM_BOMB_FUSE_FRAMES 300
 #define ITEM_BOMB_SHORT_FUSE_FRAMES 0x5a
 #define ITEM_BOMB_END_BLOCK_FUSE_FRAMES 0x10
@@ -48,13 +50,15 @@ struct ModelEffect;
 #define ITEM_BOMB_FINAL_FUSE_FRAMES 4
 #define ITEM_BOMB_FINAL_FLASH_FRAMES 3
 #define ITEM_BOMB_MAP_OBJECT_DISABLE_FRAMES 0x10
-// Frames after a rest request during which the timer cannot end (ItemBomb.mTimerEndBlockTimer).
+// Frames after a rest request during which the timer cannot end, and during which AdvanceItemBomb skips
+// ClampItemBombTimerByDistance (ItemBomb.mTimerEndBlockTimer).
 #define ITEM_BOMB_END_BLOCK_FRAMES 0x10e
-// ItemBomb.mModelFrameTimer: the flashing model shows its second frame below ITEM_BOMB_FLASH_SHOWN_FRAMES; the timer
-// restarts from a quarter of mTimer but never below ITEM_BOMB_FLASH_MIN_PERIOD.
+// ItemBomb.mModelFrameTimer: the flashing model shows its second frame while the timer is above 0 and below
+// ITEM_BOMB_FLASH_SHOWN_FRAMES; the timer restarts from a quarter of mTimer but never below ITEM_BOMB_FLASH_MIN_PERIOD.
 #define ITEM_BOMB_FLASH_SHOWN_FRAMES 6
 #define ITEM_BOMB_FLASH_MIN_PERIOD 8
-// Bounces a thrown bomb and a dropped bomb make; the bomb looks for the nearest kart after them.
+// ItemBomb.mBouncingItemObject.mBouncesRemaining of a thrown bomb and of a dropped bomb at the start; the bomb looks
+// for the nearest kart once it has fewer left than these, that is after its first bounce.
 #define ITEM_BOMB_THROWN_BOUNCES 3
 #define ITEM_BOMB_DROPPED_BOUNCES 2
 // ItemBomb.mNearestKartDistanceSquared before a kart is found, and the value below which it is measured again from the

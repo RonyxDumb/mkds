@@ -28,7 +28,8 @@ typedef struct ItemTeresa ItemTeresa;
 #define ITEM_TERESA_PACKET_STATE 1
 #define ITEM_TERESA_PACKET_TAKEN_ITEM 2
 #define ITEM_TERESA_PACKET_GIVEN_ITEM 3
-// Points of the path the Boo follows when it took nothing, and the index it starts from.
+// Points of the path the Boo follows when it took nothing, and the index of the last of the four points loaded to start
+// it.
 #define ITEM_TERESA_PATH_POINT_COUNT 11
 #define ITEM_TERESA_PATH_START_INDEX 3
 // State frames: the frame of the take-item state at which the dip (drop and rise of the offset) starts, the frames of

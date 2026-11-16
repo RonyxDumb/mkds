@@ -26,19 +26,23 @@ typedef enum ItemKouraRState {
     ITEM_KOURA_R_STATE_GLIDE_TO_KART_VELOCITY = 6, // moves with the velocity added toward the kart
 } ItemKouraRState;
 
-// State frames of the seek-after-throw and follow-link states of a red shell: after the first it tests every kart for
-// the nearest one it can target; after the second it tests only the kart whose index is the race frame modulo 8.
+// State frames (calls) of the seek-after-throw and follow-link states of a red shell: above the first the state tests
+// every kart for the nearest one it can target; above the second it tests only the kart whose index is the race frame
+// modulo 8. In follow-link the test also drops karts that are not ahead of the owner (checkRank).
 #define ITEM_KOURA_R_NEAREST_TARGET_FRAMES 4
 #define ITEM_KOURA_R_SINGLE_KART_TEST_FRAMES 0x10
 // State frames of the follow-link state after which the shell flies straight (30 seconds).
 #define ITEM_KOURA_R_FOLLOW_LINK_LIMIT_FRAMES 0x708
-// Frames of the close-in state in which the shell hits the kart once it is within one and a half radii.
+// Frames of the close-in state during which the shell hits the kart only once its horizontal distance is below the kart
+// radius plus one and a half shell radii; after them it hits at once.
 #define ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES 0x14
-// An object that is not held plays the target kart sound only while its age is below this (2 seconds).
+// An object without ITEM_OBJECT_FLAG_IN_USE that is active and has ITEM_OWNER_KOURA_R_TARGETED starts the sound only
+// while its age is below this (2 seconds).
 #define ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES 0x78
-// Frames in a Wi-Fi race that the shell may stay within the kart's radius before it fades out.
+// Checks, one per two frames, in a Wi-Fi race that find the shell within the kart's radius (mRadius times the kart
+// scale); above this count it fades out.
 #define ITEM_KOURA_R_NEAR_KART_LIMIT_FRAMES 0x5a
-// Age (10 seconds) at which a green shell is used up.
+// Age (10 seconds) above which a green shell has no hits left (mHitsRemaining is set to 0).
 #define ITEM_KOURA_G_LIFETIME_FRAMES 0x258
 
 // Koura: a shell. Object of the red shell (item kind 1), element of gItemPools[1].

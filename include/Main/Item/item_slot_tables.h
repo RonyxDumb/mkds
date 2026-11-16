@@ -12,7 +12,8 @@ typedef struct ItemSlotTable {
 
 
 
-// The source row numbers one item slot row is remapped from.
+// For a race of N karts: the 1-based source row of the item slot table that each of the first N rows is copied from
+// (gItemSlotRowRemaps[N - 1]).
 typedef struct ItemSlotRowRemap {
     /* 00 */ u16 mSourceRowNumbers[7];
 } ItemSlotRowRemap;

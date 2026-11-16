@@ -73,26 +73,31 @@ extern SegmentProgress gJgSegmentProgress;
 // ItemObject.mAlpha of a fully opaque item (the polygon alpha has five bits).
 #define ITEM_OBJECT_ALPHA_OPAQUE 0x1f
 
-// ItemObject.mRadius and mCourseRadius that ResetItemObject gives every object until its kind sets its own.
+// ItemObject.mRadius and mCourseRadius that ResetItemObject gives every object until a scale update sets them from the
+// kind's radii.
 #define ITEM_OBJECT_INITIAL_RADIUS 0x7b
 
-// Frames after a course hit (ItemObject.mFramesSinceCourseHit, mFramesSinceReset) that still count as recent; the
-// counters start at this value when no hit happened.
+// Frames after a course hit (ItemObject.mFramesSinceCourseHit, mFramesSinceReset) that count as recent (a counter below
+// this is recent); mFramesSinceCourseHit starts at this value, mFramesSinceReset at this value unless ResetItemObject's
+// flag is set (then 0), and the counters stop one past it.
 #define ITEM_OBJECT_RECENT_HIT_FRAMES 5
 
-// ItemObject.mAlpha below which a fading object gives up its collision slot.
+// ItemObject.mAlpha below which an object whose release timer runs gives up its collision slot.
 #define ITEM_OBJECT_FADE_ALPHA_NO_COLLISION 0xa
 
-// A resting object re-tests its hit link on the frames whose number modulo 8 equals ItemObject.mCreationNumber & this.
+// A resting object whose mHitLinkTimer is above 0 re-tests its hit link on the frames whose number modulo 8 equals
+// ItemObject.mCreationNumber & this.
 #define ITEM_OBJECT_CREATION_PHASE_MASK 7
 
-// ItemObject.mScaleTargetOrSpeed and the gap of mScale.x and mScale.y below which the scale swing is at rest.
+// The size of ItemObject.mScaleTargetOrSpeed and of mScale.x - mScale.y under which SwingItemObjectScale stops (it sets
+// mScaleTargetOrSpeed to 0).
 #define ITEM_OBJECT_SCALE_SWING_REST 0x29
 
 // ItemObject.mPendingUpdateCount bit set when the object has frames to catch up.
 #define ITEM_OBJECT_PENDING_UPDATE_CATCH_UP 0x8000
 
-// Age (5 seconds) after which a resting object counts as old and may be released.
+// Age (5 seconds) above which a resting object that advances with AdvanceRestingItemObject counts as old and may be
+// released.
 #define ITEM_OBJECT_OLD_FRAMES 0x12c
 
 // Bits of ItemObject.mFlags. The low 12 bits are events of the current frame: UpdateItemObject clears them first.
@@ -108,41 +113,41 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OBJECT_EXCLUDED_AGE_FRAMES 0x1e
 // Fade-out (ITEM_OBJECT_FLAG_FADING_OUT) began this frame.
 #define ITEM_OBJECT_FLAG_FADE_OUT_STARTED 0x1
-// The release timer (ITEM_OBJECT_FLAG_RELEASING) began this frame.
+// Release (immediate or by the release timer) began this frame; see ITEM_OBJECT_FLAG_RELEASING.
 #define ITEM_OBJECT_FLAG_RELEASE_STARTED 0x2
 // The object was returned to its pool; UpdateItemObject then stops.
 #define ITEM_OBJECT_FLAG_RELEASED 0x4
-// A falling object touched the ground this frame.
+// A falling or bouncing object settled on the ground this frame (not set when it was hit this step).
 #define ITEM_OBJECT_FLAG_LANDED 0x8
 // A bouncing object bounced off the ground this frame.
 #define ITEM_OBJECT_FLAG_BOUNCED 0x10
-// A thrown or falling object hit a wall this frame.
+// A bouncing or falling object hit a wall this frame; a thrown object only if it has a hit limit.
 #define ITEM_OBJECT_FLAG_HIT_WALL 0x20
 // The scale (and with it the radii) was changed this frame.
 #define ITEM_OBJECT_FLAG_SCALE_CHANGED 0x40
-// The normal was set by code; UpdateItemObject then does not blend it back toward up.
+// Keep the normal as set: UpdateItemObject does not blend it back toward up and the draw matrix is built from it.
 #define ITEM_OBJECT_FLAG_KEEP_NORMAL 0x80
 // A ground hit replaced the normal this frame.
 #define ITEM_OBJECT_FLAG_NORMAL_CHANGED 0x100
 // The object is held in a kart's ItemInUse.
 #define ITEM_OBJECT_FLAG_IN_USE 0x1000
-// The object was taken from its pool and is running.
+// The object was started (StartItemObject, StartItemObjectFromData); it stays set after release until the next reset.
 #define ITEM_OBJECT_FLAG_ACTIVE 0x2000
-// Set when the object is launched or starts falling; stays set while it rests.
+// Set when the object is launched (cleared again if it fades out at once) or starts falling; stays set while it rests.
 #define ITEM_OBJECT_FLAG_LAUNCHED 0x4000
 // The object rests on the course.
 #define ITEM_OBJECT_FLAG_RESTING 0x8000
-// The view test of the object failed.
+// The object is outside the view (its view test, or its kart's out-of-view flag for a held object).
 #define ITEM_OBJECT_FLAG_OUT_OF_VIEW 0x10000
 // No ground hit in the last 5 frames (ItemObject.mFramesSinceCourseHit).
 #define ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT 0x20000
 // Set while ItemObject.mFramesSinceReset is below 5; a held object takes it from the kart course hit attribute bit.
 #define ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE 0x40000
-// Fade-out is running.
+// Fade-out is running; the bomb and Koura W also set it when they explode or burst.
 #define ITEM_OBJECT_FLAG_FADING_OUT 0x80000
-// The release timer is running.
+// Release (immediate or by the release timer) is under way.
 #define ITEM_OBJECT_FLAG_RELEASING 0x100000
-// Fade-out or release has begun.
+// Either ITEM_OBJECT_FLAG_FADING_OUT or ITEM_OBJECT_FLAG_RELEASING is set.
 #define ITEM_OBJECT_FLAGS_ENDING 0x180000
 // The object is hit-tested even when the entry kart is far from the tested kart.
 #define ITEM_OBJECT_FLAG_HITS_FAR_KARTS 0x200000
@@ -150,11 +155,11 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE 0x400000
 // The scale is not grown or swung by UpdateItemObject.
 #define ITEM_OBJECT_FLAG_FIXED_SCALE 0x800000
-// A hit bounced the object once; the next hit deflects it in a random direction.
+// An object hit bounced it once; the next object hit deflects it in a random direction unless it is resting.
 #define ITEM_OBJECT_FLAG_BOUNCED_BEFORE 0x1000000
 // The object was deflected in a random direction.
 #define ITEM_OBJECT_FLAG_DEFLECTED 0x2000000
-// The object was hit during the current step.
+// Another object hit it during the current step; cleared when the step ends.
 #define ITEM_OBJECT_FLAG_HIT_THIS_STEP 0x4000000
 // The object was created in a Wi-Fi race (ResetItemObject, MODE_WIFI): its changes are sent as item events.
 #define ITEM_OBJECT_FLAG_WIFI_RACE 0x8000000
@@ -176,11 +181,13 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OWNER_FADE_OUT_PENDING 0x800
 // Any of the four pending bits.
 #define ITEM_OWNER_PENDING_MASK 0xf00
-// A red shell has this object as its target.
+// The object was started while a red shell was targeting its owner kart.
 #define ITEM_OWNER_KOURA_R_TARGETED 0x1000
-// Together with ITEM_OWNER_EXCLUDED: the owner stays excluded until the object hits the course.
+// With ITEM_OWNER_EXCLUDED: instead of the age limit, the exclusion ends once the object is older than 4 frames and had
+// a ground hit in the last 5 frames.
 #define ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT 0x2000
-// The owner kart is not hit by the object; cleared after 30 frames or at the first course hit.
+// The owner kart is not hit by the object and its held objects do not collide with it; cleared when the object is older
+// than 30 frames, on a wall or map object hit, or (with ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT) after a ground hit.
 #define ITEM_OWNER_EXCLUDED 0x4000
 // The owner index is not valid (the owner reads as kart 8).
 #define ITEM_OWNER_NO_OWNER 0x8000
@@ -304,7 +311,7 @@ typedef struct RaceProgressKart {
     /* 4c */ s32 mCheckpointTestedBits[0x10];
 } RaceProgressKart;
 
-// The race clock and the finish counters at the start of RaceProgress.
+// The race clock, the rank time and the finished and removed counts at the start of RaceProgress.
 typedef struct RaceProgressHeader {
     /* 00 */ s32 mElapsedFrames;
     // Gate of the clock; cleared by FinishRaceProgressKartWithEndKind (finish request for ANY entry: mission goal,
@@ -370,7 +377,8 @@ typedef struct RankPointRow {
     /* 00 */ u8 mPoints[8];
 } RankPointRow;
 
-// The race progress (gRaceProgress): per-kart progress and status, the rank order, the race clock and the generators.
+// The race progress (gRaceProgress): per-kart progress and status, the rank order, the race clock, the random
+// generators, the rank files and the score terms.
 typedef struct RaceProgress {
     /* 000 */ RaceProgressHeader mHeader;
     /* 014 */ RaceProgressKart mKarts[8];
@@ -421,7 +429,7 @@ typedef struct RaceProgress {
     /* 500 */ RaceProgressScoreTerms mScoreTerms;
 } RaceProgress;
 
-// The record of one item object kind: its pool sizes and the callbacks for setup, reset, start, advance, draw, release.
+// The record of one item object kind: its pool sizes, radii, scales, sound ids and callbacks.
 typedef struct ItemKind {
     /* 00 */ s32 mObjectSize;
     // Most objects of the kind that may be in use, copied to the pool; CreateItemKinds changes it in modes 2, 4 and 5.
@@ -516,7 +524,7 @@ typedef enum {
 struct ItemInUse;
 struct HeldItem;
 
-// One of the 18 items: its object kind and count, use kind and the hook called after its use.
+// One of the 18 items: its object kind and count, use kind and the hook called when its use starts.
 typedef struct ItemInfo {
     // Gate of the roll and of the hand-over of the rolled item; set per mode by CreateItemInfos
     /* 00 */ BOOL mEnabled;
@@ -605,7 +613,8 @@ typedef enum {
     ITEM_OBJECT_KIND_NONE
 } ItemObjectKind;
 
-// ItemKind.mLimit (objects the pool holds) of the bouncing item box in a battle and of the mushroom in a Wi-Fi race.
+// ItemKind.mLimit (the most objects of the kind that may be in use) of the bouncing item box in a battle and of the
+// mushroom in a Wi-Fi race.
 #define ITEM_BATTLE_BOUNCING_ITEM_BOX_LIMIT 8
 #define ITEM_WIFI_KINOKO_LIMIT 0x20
 

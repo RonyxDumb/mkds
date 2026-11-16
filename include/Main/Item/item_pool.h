@@ -49,10 +49,9 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 #define KART_ITEMS_THROW_FORWARD 0x10
 // The down key was held when the item was used (TryAddKartItemFlags and AdvanceItemInUseOne set it).
 #define KART_ITEMS_DOWN 0x20
-// Set every frame by AdvanceItemInUseOne while a single item is held in use; AddKartItemUseFlags clears it and adds the
-// end-use bit.
-// Other bits of KartItems.mFlags, as the const words of the same names (gKartItems...Bit) set them; KEY_PRESSED is set
-// with KEY_DOWN on the frame the item key goes down, KEY_RELEASED on the frame it comes up.
+// Other bits of KartItems.mFlags; the gKartItems...Bit words set most of them. KEY_PRESSED is set with KEY_DOWN on the
+// frame the item key goes down, KEY_RELEASED on the frame it comes up. IN_USE_ADVANCED is set every frame by
+// AdvanceItemInUseOne while a single item is held in use; AddKartItemUseFlags clears it and adds END_USE.
 #define KART_ITEMS_HELD 2
 #define KART_ITEMS_START_USE 0x40
 #define KART_ITEMS_START_ALLOWED 0x200
@@ -69,7 +68,8 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 #define KART_ITEMS_START_ALLOWED 0x200
 #define KART_ITEMS_KEY_DOWN 0x1000
 #define KART_ITEMS_KEY_RELEASED 0x4000
-// Free objects (ItemPool.mLimit - mReservedCount) below which UpdateItemPool releases old objects to make room.
+// Below this many free objects (ItemPool.mLimit - mReservedCount), a pool with mLimit above 1 makes room in
+// UpdateItemPool: it starts the release of an old resting object or reorders the objects for release.
 #define ITEM_POOL_LOW_FREE_OBJECTS 2
 
 // One item record per kart (gKartItems): the item roulette, the held item, the item in use and the kart.

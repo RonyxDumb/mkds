@@ -12,7 +12,8 @@
 
 #define KART_TIRE_COUNT 4
 
-// The offsets of a kart model: the tire name and offsets and the offsets for each character.
+// The offsets of a kart model: the tire name, the scale of the first tires, the tire offsets and the offsets for each
+// character.
 typedef struct KartOffsetData {
     /* 00 */ char mTireName[0x10];
     /* 10 */ s32 mFirstTiresScale;
@@ -43,7 +44,8 @@ typedef struct KartTireTranslations {
 // mBlendProgress runs 0 to this (1.0 in 20.12 fixed point).
 #define KART_MODEL_COLOR_BLEND_PROGRESS_END 0x1000
 
-// The colour fade of a kart model: diffuse, emission and ambient colours, their start and step per channel.
+// The colour fade of a kart model: diffuse, emission and ambient colours, each with a start and the difference to the
+// target per channel, and mBlendProgress.
 typedef struct KartModelColorBlend {
     /* 00 */ u16 mDiffColor;
     /* 02 */ u16 mEmiColor;
@@ -69,7 +71,8 @@ typedef struct KartModelColorBlend {
     /* 2a */ s16 mBlendProgress;
 } KartModelColorBlend;
 
-// The state of a character animation: turn frame, change timer and the next animation to play.
+// The state of a character animation: the turn frame offset with the middle frame and its reciprocal, the change timer
+// and the next animation to play.
 typedef struct CharacterAnimationState {
     /* 00 */ s32 mTurnFrameOffset;
     /* 04 */ BOOL mAnimationChangeTimerSet;
@@ -111,13 +114,16 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_HOP_HISTORY_SIZE 0x10
 #define ITEM_IN_USE_HOP_HISTORY_MASK 0xf
 #define ITEM_IN_USE_HOP_HISTORY_DELAY 6
-// Kart speed (ItemInUse.mKartVelocityLength) below which a thrown bouncing item box keeps no velocity.
+// Kart speed (ItemInUse.mKartVelocityLength) below which a bouncing item box that is not thrown forward is dropped with
+// no velocity.
 #define ITEM_THROW_STILL_KART_SPEED 0x1000
-// Kart speeds (ItemInUse.mKartVelocityLength) below which a thrown item gets a random sideways offset, and below which
-// an item thrown backwards from a hop is moved back from the kart.
+// Kart speeds (ItemInUse.mKartVelocityLength) below which a thrown item gets a random offset in x and z of its
+// direction, and below which an item thrown backwards from a hop, while its scale.z is below 0xccd, is moved up and
+// back from the kart.
 #define ITEM_THROW_RANDOM_SPREAD_KART_SPEED 0x3000
 #define ITEM_THROW_HOP_OFFSET_KART_SPEED 0x2000
-// ItemInUse.mCircleAngleSpeed at the start of a circle item, its limit and its per-frame increase.
+// ItemInUse.mCircleAngleSpeed at the start of a circle item, the value below which the speed still grows, and its
+// increase per call.
 #define ITEM_IN_USE_CIRCLE_START_SPEED 0x258
 #define ITEM_IN_USE_CIRCLE_MAX_SPEED 0x578
 #define ITEM_IN_USE_CIRCLE_SPEED_STEP 0x46

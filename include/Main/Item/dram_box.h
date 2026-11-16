@@ -15,7 +15,7 @@
 
 extern MtxFx33 gItemFBoxRotation;
 
-// A mission run box map object: the collision map object and nothing more.
+// A mission run box map object: its mCollisionMapObject.
 typedef struct MissionRunBox {
     /* 000 */ CollisionMapObject mCollisionMapObject;
 } MissionRunBox;
