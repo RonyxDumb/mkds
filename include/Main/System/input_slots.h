@@ -216,10 +216,10 @@ typedef struct InputSlotAtNoPairCount {
 } InputSlotAtNoPairCount;
 
 // Slot 7 from mSourceKind on: mNextBits is the mBits of slot 8.
-typedef struct EmblemInputSlotView {
+typedef struct PadOrParticipantSlotBitsView {
     /* 00 */ u8 mUnk_00[0x22];
     /* 22 */ volatile u16 mNextBits;
-} EmblemInputSlotView;
+} PadOrParticipantSlotBitsView;
 
 // Slot 8 (INPUT_SLOT_PAD_OR_PARTICIPANT) from mWritesKeyBits on: mPair is the mPair of that slot.
 typedef struct PadOrParticipantSlotPairView {
@@ -233,7 +233,7 @@ typedef struct PadOrParticipantSlotPairView {
 #define gInputHasPairs ((InputSlotAtHasPair *) &gInputSlots[0].mPair.mHasPair)
 #define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
 #define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
-#define gEmblemInputSlotView ((EmblemInputSlotView *) &gInputSlots[7].mSourceKind)
+#define gEmblemInputSlotView ((PadOrParticipantSlotBitsView *) &gInputSlots[7].mSourceKind)
 #define gPadOrParticipantSlotPairView                                                                                  \
     ((PadOrParticipantSlotPairView *) &gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mWritesKeyBits)
 
