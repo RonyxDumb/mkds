@@ -38,7 +38,7 @@ typedef struct KeyTouchInput {
             u8 mPressed : 1;
             u8 mPressedOrRepeated : 1;
             u8 mReleased : 1;
-            u8 mOther : 4;
+            u8 mUnused : 4;
         } mBits;
     };
 } KeyTouchInput;
