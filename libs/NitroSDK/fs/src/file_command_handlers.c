@@ -98,7 +98,7 @@ s32 FSi_WriteFileCommand(FSFile *file) {
 // Directory seek command: reads the directory table entry for the directory in FSFile.mArg.
 s32 FSi_SeekDirCommand(FSFile *dir) {
     FSArchive *archive;
-    FileLocation *arg;
+    FileCommandData *arg;
     FSArchiveFNT tableEntry;
     FSiSyncReadParam readParam;
 
@@ -171,7 +171,7 @@ s32 FSi_FindPathCommand(FSFile *dir) {
     u32 isDirName;
     s32 nameLen;
     u32 ch;
-    FileLocation *result;
+    FileCommandData *result;
 
     wantsDir = dir->mFindDirectory;
     path = dir->mPath;
@@ -240,7 +240,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
     FSArchive *archive;
     FSDirEntry entry;
     FSFile searchFile;
-    FileLocation *arg;
+    FileCommandData *arg;
     u32 dirId;
     u32 fileId;
     u32 dirIndex;

@@ -25,7 +25,7 @@ typedef struct FSFileID {
 // FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
 // FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words
 // (FS_SeekFile, FSi_ReadFileCore, FSi_ReadFileCommand).
-typedef union FileLocation {
+typedef union FileCommandData {
     struct {
         /* 00 */ u32 mUnk_00;
         /* 04 */ u32 mUnk_04;
@@ -57,7 +57,7 @@ typedef union FileLocation {
         /* 04 */ s32 mUnk_04;
         /* 08 */ s32 mUnk_08;
     } p;
-} FileLocation;
+} FileCommandData;
 
 typedef struct FSFileLink {
     /* 00 */ FSFile *mPrev;
@@ -147,15 +147,15 @@ typedef struct FSFile {
     /* 10 */ u32 mCommand; // index passed to FSi_TranslateCommand by FSi_ExecuteSyncCommand and FSi_ExecuteAsyncCommand
     /* 14 */ s32 mError; // set from a return value in FSi_TranslateCommand and FSi_ReleaseCommand
     /* 18 */ OSThreadQueue mQueue;
-    /* 20 */ FileLocation mProp;
+    /* 20 */ FileCommandData mProp;
     union {
         /* 2c */ u32 mPosition;
         /* 2c */ u32 mParentId;
     };
-    /* 30 */ FileLocation mArg;
+    /* 30 */ FileCommandData mArg;
     /* 3c */ const u8 *mPath;
     /* 40 */ u32 mFindDirectory;
-    /* 44 */ FileLocation *mResult;
+    /* 44 */ FileCommandData *mResult;
 } FSFile;
 
 // A file system archive: its name, links to other archives, flags, file list, thread queues, base address, FAT and FNT
@@ -210,10 +210,10 @@ typedef struct FSArchiveFNT {
     /* 06 */ u16 mParent;
 } FSArchiveFNT;
 
-// Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a FileLocation, then a flag, a length
+// Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a FileCommandData, then a flag, a length
 // and the bytes.
 typedef struct FSDirEntry {
-    /* 00 */ FileLocation mId;
+    /* 00 */ FileCommandData mId;
     /* 0c */ u32 mIsDirectory;
     /* 10 */ u32 mNameLength;
     /* 14 */ u8 mName[0x80];

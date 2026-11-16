@@ -7,11 +7,11 @@
 #include "cpu_copy_fill.h"
 
 FSArchive *arc_list;
-FileLocation current_dir_pos;
+FileCommandData current_dir_pos;
 
 // Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
-    FileLocation pos;
+    FileCommandData pos;
     s32 charIndex;
     FSArchive *archive;
     s32 loaded;
@@ -234,7 +234,7 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
 
 // Sets the current directory.
 u32 FS_ChangeDir(const u8 *path) {
-    FileLocation dirPos;
+    FileCommandData dirPos;
     FSFile searchFile;
 
     FS_InitFile(&searchFile);
