@@ -107,8 +107,10 @@ void UpdateCameraAngleEntry(Camera *camera);
 void UpdateCameraPosCurveLookAtKart(Camera *camera);
 // Does nothing while mCourseMapCamera is NULL. Otherwise runs the entry (UpdateCameraByEntryKind), counts
 // mCourseMapCameraFrames and, when it reaches the entry's mFrameCount, starts the entry at mNextIndex (sets
-// gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift 1 it also starts the
-// next entry of gSecondChainCamera. UpdateRace reaches it once a frame, only while gRace.mUseChainCameras is non-zero.
+// gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift
+// CAMERA_FRUSTUM_SHIFT_UP it also starts the next entry of gSecondChainCamera. UpdateRace reaches it only while
+// gRace.mUseChainCameras is non-zero: once a frame for gFirstChainCamera, and for gSecondChainCamera too in
+// UpdateChainCameraPair unless its mFrustumShift is 2.
 void UpdateCameraEntry(Camera *camera);
 // Steps gFirstChainCamera (UpdateCameraEntry), updates its view, stores it in gCurrentChainCamera and returns its view
 // matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 4.
@@ -160,9 +162,10 @@ void ApplyCameraFrustum(Camera *camera, s32 useSecondFar);
 MtxFx44 *GetProjectionMatrix(void);
 
 // The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
-// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstBattleSequenceCamera is set.
-// The Kart code starts its kind 6 and kind 8 entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The
-// chain cameras also run entries but never pick by position.
+// and is stepped by TryUpdateEntryCamera. mKind is CAMERA_KIND_ENTRY, or CAMERA_KIND_ENTRY_SEQUENCE in MODE_BATTLE when
+// CourseMap.mFirstBattleSequenceCamera is set. The Kart code starts its COURSE_MAP_CAMERA_KIND_ANGLE_START and
+// COURSE_MAP_CAMERA_KIND_MISSION_RUN entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The chain
+// cameras also run entries but never pick by position.
 extern Camera *gEntryCamera;
 extern struct Camera *gChaseCamera;
 extern s32 gDefaultLookAtHeight;

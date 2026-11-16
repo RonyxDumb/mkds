@@ -133,8 +133,9 @@ typedef struct KartAi {
 // The wider limit used by the held-item turn checks (a held item request
 // is skipped at or above it).
 #define KART_AI_ITEM_TURN_ANGLE_LIMIT_WIDE 0x14000
-// Frames of the CPU drift before it may roll for the charge; frames its contact timer runs; the speed below which a
-// contact starts it; and the frames the item throw timers run.
+// The mDriftFrames count at which the CPU drift rolls once for the charge (when mDriftChargeRollAllowed); the
+// mContactTimer value a contact sets; the speed below which a contact (with KART_MOTION_OBJECT_CONTACT or
+// COURSE_CONTACT) sets it; and the calls of AdvanceItemBitRequests that count the throw timers down.
 #define KART_AI_DRIFT_CHARGE_ROLL_FRAMES 0x28
 #define KART_AI_CONTACT_TIMER_FRAMES 10
 #define KART_AI_CONTACT_MAX_SPEED 0x3000

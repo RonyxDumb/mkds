@@ -456,7 +456,8 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
-    if (kartAi->mDriftState == KART_AI_DRIFT_NONE && linkValue >= 1 && linkValue <= 4) {
+    if (kartAi->mDriftState == KART_AI_DRIFT_NONE && linkValue >= KART_AI_DRIFT_LINK_LEFT_ROLL &&
+        linkValue <= KART_AI_DRIFT_LINK_RIGHT_NO_ROLL) {
         conditionsMet = FALSE;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
@@ -1294,8 +1295,8 @@ void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         }
         raceSpeedLimit->mTurnSpeedLimit = limit;
         turnAngle = kartAi->mTurnAngleDegrees;
-        if (turnAngle > 0x5000) {
-            ratio = MUL_FIXED12_NO_ROUND(turnAngle - 0x5000, 0x5b);
+        if (turnAngle > KART_AI_TURN_SLOWDOWN_START_ANGLE) {
+            ratio = MUL_FIXED12_NO_ROUND(turnAngle - KART_AI_TURN_SLOWDOWN_START_ANGLE, 0x5b);
             if (ratio > 0x1000) {
                 ratio = 0x1000;
             }

@@ -1985,7 +1985,7 @@ void LoadKartAndCharacterFiles(void) {
     kartIndex = gKartModelMenu->mLoadSlot->mKartIndex;
     loadFiles->mLoadStep = 0;
     NNS_FndDestroyExpHeap(loadFiles->mHeap);
-    loadFiles->mHeap = NNS_FndCreateExpHeapEx(loadFiles->mHeapMemory, 0xf000, 0);
+    loadFiles->mHeap = NNS_FndCreateExpHeapEx(loadFiles->mHeapMemory, KART_MODEL_MENU_HEAP_SIZE, 0);
     if (characterIndex != -1 && loadFiles->mCharacterNsbmdFile != NULL) {
         NNS_G3dResDefaultRelease(loadFiles->mCharacterNsbmdFile);
         NNS_G3dResDefaultRelease(loadFiles->mCharacterNsbtxFile);

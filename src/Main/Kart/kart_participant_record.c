@@ -2831,7 +2831,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     kart->mPos.x = newPos.x;
     kart->mPos.z = newPos.z;
     startedState = 0;
-    if (((kart->mParticipantRecordData->mAppliedFlags & 1) != 0) != ((recordFlags & 1) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_HOP) != 0) !=
+            ((recordFlags & KART_EVENT_HOP) != 0) &&
         (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
         stateAgain = ((volatile Kart *) kart)->mParticipantRecordData;
         stateAgain->mHopSpeed = KART_HOP_SPEED;

@@ -552,8 +552,8 @@ void CollideKartWithKarts(Kart *kart) {
                     } else {
                         kart->mKartCollisionTimer = KART_COLLISION_TIMER_FRAMES;
                     }
-                    StartKartModelScaleAnimation(kart, 2);
-                    StartKartModelScaleAnimation(otherKart, 2);
+                    StartKartModelScaleAnimation(kart, KART_MODEL_SCALE_BUMP);
+                    StartKartModelScaleAnimation(otherKart, KART_MODEL_SCALE_BUMP);
                     kart->mKartCollisionDelayTimer = KART_COLLISION_DELAY_FRAMES;
                     if (effectsStarted == 0) {
                         effectsStarted = TryStartKartCollisionEffects(kart, &normal, callbackValue);

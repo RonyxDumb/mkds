@@ -532,7 +532,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                         StartEffectWithCallback(0x3b, &effectPos, kart, SetEffectScaleFromKart);
                     }
                 }
-                StartKartModelScaleAnimation(kart, 2);
+                StartKartModelScaleAnimation(kart, KART_MODEL_SCALE_BUMP);
             }
         }
         if (forwardDot > 0) {
