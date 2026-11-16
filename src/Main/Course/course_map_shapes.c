@@ -326,7 +326,7 @@ void BuildCourseMapRacePointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapRoute *firstRoute;
     RacePointLink **linkPointers;
-    CourseMapRoute *lastRoute;
+    CourseMapRoute *route;
     s32 index;
     RacePointLink *link;
     s32 slotIndex;
@@ -349,14 +349,14 @@ void BuildCourseMapRacePointLinks(void *heap) {
         link->mValues = NULL;
         link->mRadius = 0;
     }
-    lastRoute = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
-    lastEntry = lastRoute->mFirstEntry + lastRoute->mEntryCount - 1;
+    route = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
+    lastEntry = route->mFirstEntry + route->mEntryCount - 1;
     linkPointers[2] = linkPointers[0] + lastEntry;
     BuildCourseMapRaceRouteLinks(linkPointers[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
     for (index = 0; index < gCourseMap->mRaceRouteCount; index++) {
-        lastRoute = gCourseMap->mRaceRoutes + (u16) index;
-        if (linkPointers[0][lastRoute->mFirstEntry].mNextCount == 0) {
-            BuildCourseMapRaceRouteLinks(NULL, lastRoute, lastRoute->mFirstEntry);
+        route = gCourseMap->mRaceRoutes + (u16) index;
+        if (linkPointers[0][route->mFirstEntry].mNextCount == 0) {
+            BuildCourseMapRaceRouteLinks(NULL, route, route->mFirstEntry);
         }
     }
 }
