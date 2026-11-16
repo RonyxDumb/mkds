@@ -32,7 +32,7 @@ u32 fsi_digest_key_len = 0x40;
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
 s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
     if (info->mCompressedSizeAndFlags.bytes[3] & 1) {
-        return info->mCompressedSizeAndFlags.f.mCompressedSize;
+        return info->mCompressedSizeAndFlags.f.mCompressed;
     }
     return info->mRamSize;
 }
