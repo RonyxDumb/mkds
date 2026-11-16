@@ -56,7 +56,6 @@ u32 StartBlendBrightnessFade(s32 kind, s32 screen, u32 plane, u16 frameCount) {
     return 1;
 }
 
-// Nothing reads or writes these.
 u8 gBlendBrightnessFadeUnusedByte[1];
 u8 gBlendBrightnessFadeUnusedBytes[8];
 
