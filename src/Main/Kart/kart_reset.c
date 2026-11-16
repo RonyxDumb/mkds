@@ -615,7 +615,7 @@ void ResetKart(Kart *kart) {
     kart->mTireTurnAngle = 0;
 }
 
-// Free-list nodes of one kart's participant record state and the bytes of each.
+// The number of record nodes allocated for one kart's participant record state, and the bytes of each node.
 #define PARTICIPANT_RECORD_NODE_COUNT 0x1e
 #define PARTICIPANT_RECORD_NODE_SIZE 0x24
 

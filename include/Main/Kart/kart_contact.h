@@ -20,5 +20,6 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags);
 #define KART_CONTACT_HEADING_KICK_MIN_SPEED 0x2000
 #define KART_CONTACT_GRAZE_HEADING_MIN_SPEED 0x1800
 #define KART_CONTACT_COUNT_MIN_SPEED 0x3000
-// Frames the heading swing at the race start lasts (Kart.mRaceStartFrameCount).
+// Value stored in Kart.mRaceStartFrameCount when the race start heading swing begins; nothing reads it (the swing ends
+// when mHeadingAngleOffset crosses 0).
 #define KART_RACE_START_HEADING_SWING_FRAMES 0x78

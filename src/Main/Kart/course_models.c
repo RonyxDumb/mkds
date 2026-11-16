@@ -118,7 +118,8 @@ void WriteKartToParticipantRecord(Kart *kart) {
     record->mTurnAngle = kart->mTurnAngle;
 }
 
-// Finds and builds the course models, and also sets the matrix and the per-course flags.
+// Finds and builds the course models and their animations, sets the alpha and depth settings of two courses, the matrix
+// and the fog flags.
 void InitCourseModels(void *heap) {
     NNSG3dResFileHeader *nsbmdFile;
     NNSG3dResFileHeader *nsbtxFile;

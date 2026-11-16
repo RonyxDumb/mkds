@@ -36,5 +36,6 @@ extern struct KartAiShared *gKartAiShared;
 #define KART_AI_LEVEL_LOW 0
 #define KART_AI_LEVEL_MEDIUM 1
 #define KART_AI_LEVEL_HIGH 2
-// Smallest KartAiShared.mFirstRankProgressRatio while the first rank is held.
+// Smallest KartAiShared.mFirstRankProgressRatio once a kart holds the first rank with a scaled progress of 0 or more
+// (below 0 the ratio is stored as 0).
 #define KART_AI_FIRST_RANK_RATIO_MIN 0x19a

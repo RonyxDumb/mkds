@@ -35,9 +35,9 @@ int CollideKartWithMapObjectResponse8(Kart *kart, s32 *output);
 typedef struct MapObject MapObject;
 
 // Collision response 7 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
-// the kart and the map object): runs TryStartKartFlip and, when it starts, for the selected kart increments the
-// counter of the record GetEntryKartCounters returns and sets KART_DRIVE_HIT_STATE in mDriveFlags. Stores 7 through the
-// second parameter and returns 2.
+// the kart and the map object): runs TryStartKartFlip and, when it starts, increments the counter of the record
+// GetEntryKartCounters returns for the selected kart, and for every kart sets KART_DRIVE_HIT_STATE in mDriveFlags.
+// Stores 7 through the second parameter and returns 2.
 int CollideKartWithMapObjectResponse7(Kart *kart, s32 *result);
 // Collision response 5 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): runs TrySpinKart with 2 and, when that succeeds, passes the result of StartEffect with
@@ -82,7 +82,8 @@ void MapObjectResponseNop(void);
 
 s32 CollideKartWithMapObjectNoResponse(Kart *kart, s32 *outValue);
 
-// What ResetKartAtRaceEnd uses to place a kart at the race end: old and record positions, rotation and change.
+// Locals of ResetKartAtRaceEnd: the keep-speed flag and the race end position and rotation from the course map, the
+// position before, and the position change.
 typedef struct KartRaceEndPlacement {
     /* 00 */ s16 mKeepSpeedFlag;
     /* 02 */ u8 mUnk_02[2];
@@ -100,7 +101,8 @@ void FinishKartAtMissionRunEnd(Kart *kart);
 void QueueKartOwnSoundIndex(Kart *kart);
 void StartKartHitReaction(Kart *kart);
 // Entries of the character animation of a kart that the code names: the one a winner and a kart with a star switch to
-// from the base loop (a winner swaps back and forth on a random timer), and the one a losing kart plays.
+// from the base loop (a winner who is not the win count rule winner swaps back and forth on a random timer), and the
+// one a losing kart plays.
 #define KART_CHARACTER_ANIMATION_ALTERNATE 2
 #define KART_CHARACTER_ANIMATION_LOST 3
 void SetKartCharacterAnimation(Kart *kart, s32 animationIndex, s32 useBlend);
@@ -163,29 +165,36 @@ extern const u32 gKartSurfaceStopEffects[8];
 extern const u32 gKartSurfaceKind10Effects[8];
 extern const s32 gKartModelScaleZBumpTable[15];
 
-// Kart.mYRotationAnglePerFrame of a spin, and the frames the driving input stays locked once the spin ends.
+// The size of Kart.mYRotationAnglePerFrame of a spin (negated for the other direction), and the value
+// Kart.mStateEndTimer is set to when the spin ends.
 #define KART_SPIN_ANGLE_PER_FRAME 0x750
 #define KART_SPIN_END_LOCK_FRAMES 10
-// Launch double flip: the vertical speed it starts with, the rotation sum below which a landing adds speed, the frames
-// that must pass before a landing ends it, the collision step frames it sets and the frames the ending rotation runs.
+// Launch double flip: the vertical speed it starts with, the rotation sum below which a landing adds speed, the frame
+// count that must be exceeded before returning to the start height or the ground ends it, the collision step frames it
+// sets and the frames the ending rotation runs.
 #define KART_LAUNCH_FLIP_VERTICAL_SPEED 0x6000
 #define KART_LAUNCH_FLIP_LANDING_ROTATION_LIMIT 0x13000
 #define KART_LAUNCH_FLIP_END_MIN_FRAMES 2
 #define KART_LAUNCH_FLIP_COLLISION_STEP_FRAMES 0x46
 #define KART_LAUNCH_FLIP_ROTATION_END_FRAMES 0x1e
-// Frames the ending rotation of a push flip and of a push double flip runs.
+// Frames Kart.mRotationEndFrames counts after a push flip or push double flip has finished rotating, before the state
+// returns to normal.
 #define KART_PUSH_FLIP_ROTATION_END_FRAMES 0x1e
 #define KART_PUSH_DOUBLE_FLIP_ROTATION_END_FRAMES 10
-// Steps of the thunder shrink and of the scale table effect before the kart is back at full size.
+// Entries of the gKartScaleFactor tables: the steps the thunder shrink and the scale table effect play to get back to
+// full size, and the steps of the kart scale-in and removal shrink.
 #define KART_SCALE_RESTORE_STEPS 0x19
-// Frames of the scale table effect, and the timer value at which its drive flag clears.
+// Frames Kart.mItemEffectData.mScaleEffectTimer counts down before the restore steps run, and the timer value at which
+// its drive flag clears.
 #define KART_SCALE_EFFECT_FRAMES 0x258
 #define KART_SCALE_EFFECT_DRIVE_FLAG_CLEAR_TIMER 0x1c2
 // Teresa effect on a kart that is not the selected one: the toggle divisor and step limit it starts with, the toggle
-// frames after which the kart stays not drawn, and the frame at which the divisor step turns around.
+// frames after which the toggling stops with the kart not drawn, and the mTeresaFrames value at which the divisor step
+// turns around and the toggle count restarts.
 #define KART_TERESA_START_TOGGLE_DIVISOR 2
 #define KART_TERESA_START_STEP_LIMIT 10
 #define KART_TERESA_TOGGLE_END_FRAMES 0x50
 #define KART_TERESA_DIVISOR_TURN_FRAMES 0x172
-// A removed kart is respawned in battle after this many frames.
+// A kart removed in battle is respawned once Kart.mFramesSinceRemovalOrReset reaches this, if it has
+// KART_ENTRY_BATTLE_REMOVAL and is not a CPU, ghost or progress-removed kart and the battle is not decided.
 #define KART_BATTLE_RESPAWN_FRAMES 0xb9

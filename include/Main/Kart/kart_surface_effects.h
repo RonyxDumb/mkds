@@ -4,7 +4,8 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
 
-// A node of the participant kart record list: a record with the timer that applies it.
+// A node of the free and pending record lists of a kart (mFreeRecords, mPendingRecords): a record (mRecord) and the
+// mApplyTimer that counts down to applying it.
 typedef struct ParticipantKartRecordNode {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ s16 mApplyTimer;
@@ -39,10 +40,7 @@ s32 ApplyKartSurfaceKeyedPlacement(Kart *kart);
 // Surface kind 18 (entry 18 of gKartSurfaceFunctions): the body of kind 7, followed by setting
 // KART_DRIVE_BOOST_SPEED_FLOOR in mDriveFlags; returns surface group 8.
 s32 ApplyKartSurfaceBoostWithSpeedFloor(Kart *kart);
-// Surface kind 12 (entry 12 of gKartSurfaceFunctions): sets KART_DRIVE_JUMP_PAD in mDriveFlags, sets mVerticalSpeed
-// from gKartJumpPadVerticalSpeeds and mUnk_4c4 from gKartJumpPadSpeedLimitGoals by mSurfaceVariant, runs
-// StopKartCurrentEffects and returns surface group 8; on course 0xc or 0x28, when mSurfaceGroup was not already 8 or
-// KART_MOTION_STATE_RESET is set in mMotionFlags, it first calls StartSound with 0x15e.
+// from gKartJumpPadVerticalSpeeds and mSurfaceSpeedLimitGoal from gKartJumpPadSpeedLimitGoals by mSurfaceVariant, runs
 s32 ApplyKartSurfaceJumpPad(Kart *kart);
 // Surface kind 7 (entry 7 of gKartSurfaceFunctions): unless mSurfaceGroup is already 8 and KART_MOTION_STATE_RESET is
 // clear in mMotionFlags it runs StartKartBoost and, for the selected kart with mSurfaceVariant above 0, calls
@@ -70,9 +68,9 @@ s32 ApplyKartSurfaceKind1(Kart *kart);
 s32 ApplyKartSurfaceKind20(Kart *kart);
 s32 ApplyKartSurfaceStopEffects(Kart *kart);
 // Collision response 11 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
-// for the kart and the map object): when TryStartKartScaleTableEffect holds for the kart, mScaleEffectMapObject of the
-// kart is not the object and the kart is the selected kart, increments the counter of the record GetEntryKartCounters
-// returns. Stores 0 through the second parameter and returns 0.
+// for the kart and the map object): runs TryStartKartScaleTableEffect and, when it starts and mScaleEffectMapObject of
+// the kart is not the object and the kart is the selected kart, increments the counter of the record
+// GetEntryKartCounters returns. Stores 0 through the second parameter and returns 0.
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject);
 // Collision response 14 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
 // for the kart and the map object): stores 0xc through the second parameter, clears the boost bits of mDriveFlags

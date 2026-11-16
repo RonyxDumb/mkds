@@ -17,8 +17,8 @@ typedef struct KartModelMenuView KartModelMenuView;
 
 // Value of the kart and character indexes of a menu slot or view that shows nothing.
 #define KART_MODEL_MENU_NONE (-1)
-// Last kart index the kart model menu cycles through; the yaw angle it rests at; the frames a timed spin stop waits;
-// the tilt limits and the scale floor of the view.
+// Last kart index the kart model menu cycles through; the yaw angle it rests at; the frame count a timed spin stop must
+// exceed; the tilt limits and the scale floor of the view.
 #define KART_MODEL_MENU_LAST_KART_INDEX 0x23
 #define KART_MODEL_MENU_REST_YAW 0xeaab
 #define KART_MODEL_MENU_SPIN_STOP_FRAMES 0x3c

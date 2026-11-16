@@ -119,15 +119,19 @@ typedef struct KartAi {
 
 // KartAi.mTargetDistanceSquared at or past this (a distance of 300) is too far to use an item on the target.
 #define KART_AI_ITEM_RANGE_SQUARED 0x15f90
-// KartAi.mTargetForwardDot and mEntryForwardDot above this mean the target lies ahead of the kart.
+// KartAi.mTargetForwardDot and mEntryForwardDot above this are the larger dot test; mTargetAhead is set already by a
+// dot above 0.
 #define KART_AI_AHEAD_DOT 0xb33
 // The same dot above this is the looser test used when the target is in range and ahead.
 #define KART_AI_AHEAD_DOT_LOOSE 0x666
-// KartAi.mTurnAngleDegrees above this lowers the turn speed limit in proportion.
+// KartAi.mTurnAngleDegrees above this lowers the turn speed limit in proportion to the excess, the proportion stopping
+// at a cap.
 #define KART_AI_TURN_SLOWDOWN_START_ANGLE 0x5000
-// A held item is used only while KartAi.mTurnAngleDegrees is below this.
+// The held item handlers that wait for the turn (the ...IfTurnUnder10 ones) use the item only while
+// KartAi.mTurnAngleDegrees is below this.
 #define KART_AI_ITEM_TURN_ANGLE_LIMIT 0xa000
-// The same limit for the items that tolerate a wider turn.
+// The wider limit used by the held-item turn checks (a held item request
+// is skipped at or above it).
 #define KART_AI_ITEM_TURN_ANGLE_LIMIT_WIDE 0x14000
 // Frames of the CPU drift before it may roll for the charge; frames its contact timer runs; the speed below which a
 // contact starts it; and the frames the item throw timers run.
@@ -135,7 +139,8 @@ typedef struct KartAi {
 #define KART_AI_CONTACT_FRAMES 10
 #define KART_AI_CONTACT_MAX_SPEED 0x3000
 #define KART_AI_THROW_TIMER_FRAMES 2
-// Point link values that start a CPU drift: the turn side (left or right) and whether the charge roll is allowed.
+// Point link values that start a CPU drift, when the kart is not drifting, a random draw passes, the kart is fast
+// enough and inside the link radius: the turn side (left or right) and whether the charge roll is allowed.
 #define KART_AI_DRIFT_LINK_LEFT_ROLL 1
 #define KART_AI_DRIFT_LINK_LEFT_NO_ROLL 2
 #define KART_AI_DRIFT_LINK_RIGHT_ROLL 3

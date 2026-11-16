@@ -12,7 +12,8 @@ struct Kart;
 struct PointLinkCursor;
 struct KartAiItemUseEntry;
 
-// A curve through four points, advanced by mParam; the camera position is blended along it.
+// A curve over four control points of a camera path: mParam is the position along it and mEntryIndex the last course
+// map entry loaded.
 typedef struct PosCurve {
     /* 00 */ Vec3 mPoints[4];
     /* 30 */ s32 mParam;
