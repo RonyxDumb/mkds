@@ -52,8 +52,8 @@ const SoundRow gSoundRowTable[53] = {
     {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x1b, SOUND_ID_NONE, SOUND_ID_NONE},
     {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x28, 0x1e, SOUND_ID_NONE},
     {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x1c, SOUND_ID_NONE, SOUND_ID_NONE},
-    {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x2b, 0x2b, 0x22},
-    {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x2d, SOUND_ID_NONE, 0x22},
+    {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x2b, 0x2b, SOUND_BANK_SECOND_SHARED},
+    {SCENE_PLAYERS_SEQ_START_UNMATCHED, 0x2d, SOUND_ID_NONE, SOUND_BANK_SECOND_SHARED},
     {SCENE_PLAYERS_PROGRESS_SCENE_STARTED, 0x3f, SOUND_ID_NONE, SOUND_ID_NONE},
     {SCENE_PLAYERS_PROGRESS_SCENE_STARTED, 0x42, SOUND_ID_NONE, SOUND_ID_NONE},
     {SCENE_PLAYERS_PROGRESS_SCENE_STARTED, 0x45, SOUND_ID_NONE, SOUND_ID_NONE},
@@ -262,7 +262,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                                 break;
                         }
                         if (matched != FALSE) {
-                            output->mSecondBankId = SOUND_BANK_MISSION_SECOND;
+                            output->mSecondBankId = SOUND_BANK_SECOND_SHARED;
                         }
                     }
                     break;

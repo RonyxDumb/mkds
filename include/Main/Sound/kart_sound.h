@@ -41,14 +41,15 @@ enum {
 // KartSound.mWhileRequestedSoundId that StopKartSoundWhileRequested compares with and stores once the sound is stopped.
 #define KART_SOUND_WHILE_REQUESTED_STOPPED 0xffff
 
-// Values of KartSound.mVolume below SOUND_VOLUME_MAX.
+// Values of KartSound.mVolume below SOUND_VOLUME_MAX; KART_SOUND_VOLUME_COAST is also the lowest volume
+// StartSoundVolumeFromFractionIfTwo allows.
 #define KART_SOUND_VOLUME_PITCHED_NO_ACCEL 0x46
 #define KART_SOUND_VOLUME_LOW_REV 0x3c
 #define KART_SOUND_VOLUME_COAST 0x32
-
-// Limits of Kart.mVelocityLengthRatio (1.0 is 0x1000) that UpdateKartSound picks the sound by. Without the accelerator:
-// below KART_SOUND_LOW_RATIO_LIMIT the low ratio sound, below KART_SOUND_MID_RATIO_LIMIT the mid ratio sound, else the
-// high ratio one. With the accelerator held (or the brake held while reversing) and mPrevKeyADown 0: below
+//  Limits of Kart.mVelocityLengthRatio (1.0 is 0x1000) that UpdateKartSound picks the sound by after the race start,
+// except with KART_EFFECT_KILLER and while braking forward on the ground. Without the accelerator: below
+// KART_SOUND_LOW_RATIO_LIMIT the low ratio sound, below KART_SOUND_MID_RATIO_LIMIT the mid ratio sound, else the high
+// ratio one. With the accelerator held (or the brake held while reversing) and mPrevKeyADown 0: below
 // KART_SOUND_KEY_A_LOW_RATIO_LIMIT the key A low ratio sound, else the key A high ratio one.
 #define KART_SOUND_LOW_RATIO_LIMIT 0x19a
 #define KART_SOUND_KEY_A_LOW_RATIO_LIMIT 0x333

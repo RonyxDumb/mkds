@@ -20,8 +20,8 @@
 #define SOUND_SOURCE_FLAG_TOGGLE_ENABLED 4
 
 // Bits of PlayingSound.mFlags. PLAYING_SOUND_FLAG_START_PENDING: set when the sound is started, cleared once
-// SetPlayingSoundsParams has started its sequence. PLAYING_SOUND_FLAG_WHILE_REQUESTED: started by
-// StartSoundWhileRequestedEx. PLAYING_SOUND_FLAG_REQUESTED_AGAIN: set by each request of such a sound, cleared by
+// SetPlayingSoundsParams has started its sequence or the sound is stopped. PLAYING_SOUND_FLAG_WHILE_REQUESTED: started
+// by StartSoundWhileRequestedEx. PLAYING_SOUND_FLAG_REQUESTED_AGAIN: set by each request of such a sound, cleared by
 // ExpireWhileRequestedSounds. PLAYING_SOUND_FLAG_UPDATE_IN_TURNS: keeps the source on the in-turns update list; no code
 // in this build sets it. PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH: SetKartThunderShrinkSoundTrackParams does not raise its
 // pitch. PLAYING_SOUND_FLAG_KART_COLLISION and PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT: both set by
@@ -36,7 +36,8 @@
 #define PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT 0x40
 #define PLAYING_SOUND_FLAG_KART_SOUND_RECORD 0x80
 
-// PlayingSound.mSeqArcNo of the sounds indexed by character: KART_SOUND_SET * 14 plus the sound's offset.
+// PlayingSound.mSeqArcNo of the kart sounds whose mSoundId is the character's KART_SOUND_SET_* index * 14 plus the
+// sound's offset.
 #define PLAYING_SOUND_SEQ_ARC_PER_CHARACTER 2
 
 // Largest volume of a sound (PlayingSound.mVolume, SoundParams.mVolume).

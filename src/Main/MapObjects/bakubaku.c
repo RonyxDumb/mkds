@@ -1,5 +1,5 @@
 #include "Main/MapObjects/bakubaku.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "matrix_3x3_basic.h"

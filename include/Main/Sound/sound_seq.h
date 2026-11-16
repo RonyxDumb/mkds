@@ -61,9 +61,9 @@ typedef struct LoadedSoundBanks {
 // the sequence (most gSoundRowTable rows).
 #define SCENE_PLAYERS_SEQ_START_UNMATCHED 0xff
 
-// Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded.
-// LOADED_SOUND_BANKS_MENU_SET is the mBankMask stored after InitSceneSounds loaded bank 0x2c and seq arc 3 for the menu
-// scenes.
+// Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded or being loaded (it is
+// stored before LoadSndBanksAndWaveArcs runs). LOADED_SOUND_BANKS_MENU_SET is the mBankMask stored after
+// InitSceneSounds loaded bank 0x2c and seq arc 3 for the menu scenes.
 #define LOADED_SOUND_BANKS_NONE 0xff00
 #define LOADED_SOUND_BANKS_LOADED 0xfe00
 #define LOADED_SOUND_BANKS_MENU_SET 0xffff
@@ -86,8 +86,8 @@ typedef struct LoadedSoundBanks {
 
 // Scene frames at which the scene sound steps run: the course sequence of a scene starts (most courses; the two later
 // ones), the airship one stops and restarts, the logo scene sequence stops. Race frames: the race sequence starts at
-// SCENE_RACE_SEQ_START_FRAMES and the stored place stops counting after SCENE_RANK_SEQ_FRAMES; a better place can start
-// a sequence only after more than SCENE_RANK_START_DELAY_FRAMES.
+// SCENE_RACE_SEQ_START_FRAMES and the frame count of a started rank sequence is dropped at SCENE_RANK_SEQ_FRAMES; a
+// better place can start a sequence only after more than SCENE_RANK_START_DELAY_FRAMES.
 #define SCENE_COURSE_SEQ_START_FRAMES 0xa
 #define SCENE_COURSE_SEQ_START_LATE_FRAMES 0x28
 #define SCENE_AIRSHIP_SEQ_STOP_FRAMES 0xa0

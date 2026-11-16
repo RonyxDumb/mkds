@@ -1,4 +1,4 @@
-#include "Main/Sound/sound_archive_setup.h"
+#include "Main/Sound/sound_archive_setup_and_file_id_clear.h"
 
 #include "file_command_handlers.h"
 #include "file_archive_access.h"

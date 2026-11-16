@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 
 void StopSndHandleSlots7To11(void);
 

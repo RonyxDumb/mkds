@@ -44,7 +44,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -121,7 +121,7 @@ void StartItemKouraGSound(void *kouraParam, s32 unused) {
     }
     AdvanceSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange,
                                       koura->mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
-    StartSoundWhileRequested(&koura->mDirectedItemObject.mItemObject.mSoundSource, 0xd7, 0x7f, 0);
+    StartSoundWhileRequested(&koura->mDirectedItemObject.mItemObject.mSoundSource, 0xd7, SOUND_VOLUME_MAX, 0);
 }
 
 BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {

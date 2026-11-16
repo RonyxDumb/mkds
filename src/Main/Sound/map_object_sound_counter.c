@@ -7,14 +7,14 @@
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Sound/map_start_sound_full_volume.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/map_object_sound_counter_state.h"
 
-SoundStartParams gBalloonSoundStartParams = {0x154, NULL, 2, 0};
+SoundStartParams gBalloonSoundStartParams = {0x154, NULL, SOUND_FALLOFF_SHORT_RANGE, 0};
 s32 gKartSurfaceSoundSortOffsets[4] = {0xf4240, 0x64, 0x186a0, 0x64};
 
 void ResetMapObjectSoundCounter(void) {
@@ -27,7 +27,7 @@ void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId) {
 
     mapSoundCopy = mapSound;
     counter = gMapObjectSoundCounter;
-    StartSound(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
+    StartSound(&mapSoundCopy->mSoundSource, baseSoundId + counter, (SOUND_VOLUME_MAX - (counter >> 1)) & 0xff, 0);
     gMapObjectSoundCounter = gMapObjectSoundCounter + 0xa;
 }
 
@@ -99,7 +99,7 @@ void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue) {
     PlayingSound *sound;
 
     pitchAndModSpeed = FROM_FIXED12(fixedValue) + 5;
-    sound = StartSoundWhileRequested(&mapSound->mSoundSource, 0x1cd, 0x7f, (s16) pitchAndModSpeed);
+    sound = StartSoundWhileRequested(&mapSound->mSoundSource, 0x1cd, SOUND_VOLUME_MAX, (s16) pitchAndModSpeed);
     if (sound != NULL) {
         NNS_SndPlayerSetTrackModSpeed(&sound->mSeqPlayer, 0xffff, pitchAndModSpeed);
     }

@@ -44,7 +44,7 @@
 #include "Main/Kart/kart_effects.h"
 #include "Main/Kart/camera.h"
 #include "Main/Graphics/disp_cap.h"
-#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
+#include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_bomb.h"
 #include "Main/Graphics/emitters.h"
@@ -1210,7 +1210,7 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
         return;
     }
-    StartSoundWhileRequested(&kart->mSoundSource, 0xd1, 0x7f, 0);
+    StartSoundWhileRequested(&kart->mSoundSource, 0xd1, SOUND_VOLUME_MAX, 0);
 }
 
 // Drift step: the hop, the turn held after it, the charge, and the release with the mini-turbo.

@@ -36,7 +36,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -88,7 +88,7 @@ StateCallbacks gWanwanStateTable[] = {
     {EnterWanwanRest, UpdateWanwanRestNop}, {EnterWanwanFollowPath, UpdateWanwanFollowPath},
 };
 Quaternion gWanwanResetSurfaceOrientation = {{0, 0, 0, 0x1000}};
-SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, 2, 0};
+SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, SOUND_FALLOFF_SHORT_RANGE, 0};
 struct ShadowModel *gWanwanRockShadow;
 struct Nsbmd *gWanwan;
 

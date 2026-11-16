@@ -5,7 +5,8 @@
 #include "linked_palette_vram_alloc.h"
 #include "linked_texture_vram_alloc.h"
 
-// gMicSampleAnalysisMode: how tight the amplitude and interval limits of UpdateMicSampleAnalysis are.
+// gMicSampleAnalysisMode: how tight most amplitude and histogram limits of UpdateMicSampleAnalysis are, and how many
+// matches in a row it needs before it reports a value (the 2nd for loose, the 3rd otherwise).
 #define MICROPHONE_ANALYSIS_MODE_LOOSE 0
 #define MICROPHONE_ANALYSIS_MODE_MIDDLE 1
 #define MICROPHONE_ANALYSIS_MODE_STRICT 2

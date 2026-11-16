@@ -1,5 +1,5 @@
 #include "Main/MapObjects/water.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "Main/System/heap.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/view_frustum.h"

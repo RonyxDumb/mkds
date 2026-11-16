@@ -12,7 +12,7 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

@@ -35,7 +35,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -229,12 +229,12 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             if (IsMapObjectOutOfRange(&dossun->mMapObject) == FALSE) {
                 if (dossun->mMapObject.mFarDistanceSquared ==
                     gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
-                    stateValue = 2;
+                    stateValue = SOUND_FALLOFF_SHORT_RANGE;
                 } else if (dossun->mMapObject.mFarDistanceSquared ==
                            gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
-                    stateValue = 3;
+                    stateValue = SOUND_FALLOFF_MEDIUM_RANGE;
                 } else {
-                    stateValue = 4;
+                    stateValue = SOUND_FALLOFF_LONG_RANGE;
                 }
                 soundRequest.mSoundId = DOSSUN_WAIT_BEFORE_FOLLOW_SOUND_ID;
                 soundRequest.mPositionSource = &dossun->mMapObject.mPos;

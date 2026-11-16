@@ -23,7 +23,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Sound/sound_data_sdat_path.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

@@ -8,5 +8,5 @@ void StartMapObjectSound(MapObject *mapObject, u32 soundId) {
 }
 
 void StartMapObjectSoundWhileRequested(MapObject *mapObject, u32 soundId) {
-    StartSoundWhileRequested(&mapObject->mSound->mSoundSource, soundId, 0x7f, 0);
+    StartSoundWhileRequested(&mapObject->mSound->mSoundSource, soundId, SOUND_VOLUME_MAX, 0);
 }

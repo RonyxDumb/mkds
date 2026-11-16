@@ -13,7 +13,7 @@
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_set_load.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
@@ -257,7 +257,7 @@ void StartKingTeresaAlphaSound(MapObjectSound *mapSound) {
     } else if (attenuation > 0x7f) {
         attenuation = 0x7f;
     }
-    StartSoundWhileRequested(&mapSound->mSoundSource, 0x231, (0x7f - attenuation) & 0xff, 0);
+    StartSoundWhileRequested(&mapSound->mSoundSource, 0x231, (SOUND_VOLUME_MAX - attenuation) & 0xff, 0);
 }
 
 BOOL IsKingTeresaState0Or2Or5(void) {

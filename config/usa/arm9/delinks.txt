@@ -4232,7 +4232,7 @@ src/Main/Sound/sound_file_id_list.c:
     .text       start:0x0210ef50 end:0x0210ef68
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_archive_setup.c:
+src/Main/Sound/sound_archive_setup_and_file_id_clear.c:
     complete
     .text       start:0x0210ef68 end:0x0210f068
 

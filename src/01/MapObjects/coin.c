@@ -19,7 +19,7 @@
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -495,7 +495,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                         coin->mMapObject.mPosStep.z = 0;
                         coin->mState = COIN_STATE_RESTING;
                     }
-                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, 2);
+                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
             }
             break;
@@ -641,7 +641,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                         coin->mMapObject.mPosStep.z = 0;
                         coin->mState = COIN_STATE_RESTING;
                     }
-                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, 2);
+                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
                 if ((collisionBits & 0x800) || coin->mMapObject.mPos.y < 0) {
                     coin->mState = COIN_STATE_FADE_OUT_DROP;

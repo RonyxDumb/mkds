@@ -426,7 +426,7 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
             }
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            if ((gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1) == 6 &&
+            if ((gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1) == MISSION_TABLE_ROW_KING_ICE_DONKETU &&
                 (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
                 if (index == 0) {
                     characterIndex = 7;

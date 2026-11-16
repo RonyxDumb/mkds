@@ -56,7 +56,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/System/heap_call.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

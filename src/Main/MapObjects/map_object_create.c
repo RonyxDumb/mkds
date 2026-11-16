@@ -40,7 +40,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

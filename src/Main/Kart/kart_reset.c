@@ -29,7 +29,7 @@
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
-#include "Main/Sound/sound_and_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -66,7 +66,7 @@
 #include "Main/Graphics/stem_sets.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Sound/kart_request_sort.h"
-#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
+#include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
 #include "Main/Sound/kart_surface_sound.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Sound/kart_sound.h"
@@ -921,7 +921,7 @@ void KartStartSoundFullVolume(void *soundSource, int soundId) {
 }
 
 void StartKartSoundWhileRequested(void *kart, int soundId) {
-    if (StartSoundWhileRequested(kart, soundId, 0x7f, 0) != NULL) {
+    if (StartSoundWhileRequested(kart, soundId, SOUND_VOLUME_MAX, 0) != NULL) {
         ((Kart *) kart)->mSound.mWhileRequestedSoundId = soundId;
     }
 }

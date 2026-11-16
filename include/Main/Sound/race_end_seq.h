@@ -3,8 +3,8 @@
 #include "types.h"
 #include "Main/Menu/menu_screens_work.h"
 
-// Results of GetRaceEndResultKind, which picks the race end seq: best (first place in a grand prix or WiFi race, a win
-// in the other modes, or a new record in time attack), won without being best, and lost.
+// Results of GetRaceEndResultKind, which picks the race end seq: best (first place in a grand prix, WiFi or VS race, a
+// win in a win-count VS, mission run or battle, a won time attack with a first record), won but not best, and lost.
 #define RACE_END_RESULT_BEST 0
 #define RACE_END_RESULT_WON 1
 #define RACE_END_RESULT_LOST 2

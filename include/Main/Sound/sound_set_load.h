@@ -41,7 +41,8 @@ typedef struct LoadedSoundSet {
     /* 0c */ u32 mHeapState;
 } LoadedSoundSet;
 
-// The ids of the sound data files loaded so far (mFileIds, mCount); loads add an id, clearing walks and resets it.
+// The ids of the archive files that were given the address of another loaded file (mFileIds, mCount): each swap load
+// adds one, ClearSndFileAddresses sets their addresses to NULL and ClearSndFileIdList empties the list.
 typedef struct SndFileIdList {
     /* 00 */ u32 mFileIds[16];
     /* 40 */ s32 mCount;
