@@ -154,9 +154,9 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
             if (collisionBits & 0x400) {
                 if (itemObject->mCourseReleaseTimer == 0) {
                     if (itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING) {
-                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_RESTING_RELEASE_FRAMES;
+                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_COURSE_RELEASE_RESTING_FRAMES;
                     } else {
-                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_NOT_RESTING_RELEASE_FRAMES;
+                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_COURSE_RELEASE_NOT_RESTING_FRAMES;
                     }
                 }
             }

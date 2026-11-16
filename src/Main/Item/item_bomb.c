@@ -408,7 +408,8 @@ void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData) {
 
 void InitItemBombFromData(ItemBomb *bomb) {
     SetupItemObjectFromData(&bomb->mBouncingItemObject.mItemObject);
-    StartItemObjectBouncing(&bomb->mBouncingItemObject, bomb->mIsThrown != 0 ? 3 : 2);
+    StartItemObjectBouncing(&bomb->mBouncingItemObject,
+                            bomb->mIsThrown != 0 ? ITEM_BOMB_THROWN_BOUNCES : ITEM_BOMB_DROPPED_BOUNCES);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if (!(bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA)) {
         return;

@@ -525,7 +525,7 @@ void UpdateItemPool(ItemPool *pool) {
     }
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         object = objects[objectIndex];
-        pendingUpdateCount = (u16) (object->mPendingUpdateCount & ~0x8000);
+        pendingUpdateCount = (u16) (object->mPendingUpdateCount & ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP);
         if (pendingUpdateCount <= 0) {
             if (UpdateItemObject(pool, object, 0) != 0) {
                 activeCount = pool->mActiveCount;

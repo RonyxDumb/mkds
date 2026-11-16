@@ -4,7 +4,7 @@
 #include "Main/Item/item_pool.h"
 #include "ITCM/collision_slots.h"
 
-const Vec3 gKouraWBurstStartScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gKouraWGrowStartScale = {0x1000, 0x1000, 0x1000};
 const ItemInfo gItemInfoKinokoP = {1, 1, 0xc, 1, 1, 0, StartItemKinokoPBoost};
 const ItemKind gItemKindKinokoP = {
     0x130, 2,    1,      -1,     -1,    NULL,  NULL, NULL, NULL, NULL,         NULL,     NULL, ComputeViewTest,

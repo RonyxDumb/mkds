@@ -75,7 +75,7 @@ const ItemKind gItemKindGesso = {0x1b4,
                                  1,
                                  1,
                                  0};
-const ItemGessoStep gItemGessoSteps[17] = {
+const ItemGessoStep gItemGessoSteps[ITEM_GESSO_STEP_COUNT] = {
     {0, 0x3800, 0xccd, 0xeb8, 2, 0x10}, {0, -8192, 0x19a, 0xf85, 8, 0xa},    {0, 0x3800, 0x800, 0x1000, 0xa, 6},
     {0, 0, 0x1000, 0, 0, 0xa},          {0, -20480, 0x1000, 0x1000, 3, 0},   {0, -20480, 0x1000, 0xee1, 0, 0xa},
     {-6963, 0x19a, 0xe66, 0xe66, 2, 7}, {0x333, -9011, 0x2e1, 0xf33, 4, 5},  {0x3000, 0x1800, 0xccd, 0xe66, 3, 8},
@@ -398,7 +398,7 @@ void ComputeItemGessoFrameCount(void) {
     const ItemGessoStep *step;
 
     gItemGessoFrameCount = 0xf;
-    for (stepIndex = 0, step = gItemGessoSteps; stepIndex < 0x11; stepIndex++) {
+    for (stepIndex = 0, step = gItemGessoSteps; stepIndex < ITEM_GESSO_STEP_COUNT; stepIndex++) {
         gItemGessoFrameCount += step->mApproachFrameCount + step->mDampFrameCount;
         step++;
     }

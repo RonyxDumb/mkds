@@ -297,7 +297,7 @@ s32 GetItemPointLinkByIndex(s32 idx) {
 void InitSegmentPoints(SegmentPoints *segmentPoints, const Vec3 *points, s32 scale) {
     s32 pointIndex;
 
-    for (pointIndex = 0; pointIndex < 4; pointIndex++) {
+    for (pointIndex = 0; pointIndex < SEGMENT_POINT_COUNT; pointIndex++) {
         segmentPoints->mPointPointers[pointIndex] = &segmentPoints->mPoints[pointIndex];
         segmentPoints->mPoints[pointIndex] = points[pointIndex];
     }

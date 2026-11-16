@@ -90,7 +90,7 @@ void ResetItemGesso(ItemGesso *gesso);
 
 void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 
-extern const ItemGessoStep gItemGessoSteps[17];
+extern const ItemGessoStep gItemGessoSteps[ITEM_GESSO_STEP_COUNT];
 extern s32 gItemGessoFrameCount;
 extern u16 *gItemTeresaFrameScales;
 

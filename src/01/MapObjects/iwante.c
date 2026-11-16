@@ -1,4 +1,5 @@
 #include "01/MapObjects/iwante.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "01/MapObjects/mission_run_repeats_remaining.h"
 
 #include "01/MapObjects/map_object_animation.h"
@@ -1330,7 +1331,7 @@ void StartIwanteChainCameraHold(MissionRunMapObject *mapObject) {
 }
 
 void IwanteItemResponse2Callback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
-    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
+    mapObject->mItemResponse = ITEM_HIT_TYPE_FADE_OUT;
     SetItemCollisionCallback(mapObject, IwanteItemResponse2Callback);
 }
 
@@ -1373,9 +1374,9 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0);
         SetItemCollisionCallback(mapObject, IwanteItemResponse2Callback);
-        mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
+        mapObject->mItemResponse = ITEM_HIT_TYPE_FADE_OUT;
     } else {
-        mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
+        mapObject->mItemResponse = ITEM_HIT_TYPE_FADE_OUT;
         SetItemCollisionCallback(mapObject, IwanteItemHitCallback);
     }
 }

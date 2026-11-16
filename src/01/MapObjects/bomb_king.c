@@ -1,4 +1,5 @@
 #include "01/MapObjects/bomb_king.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "01/MapObjects/bomb_king_sound_and_jump_collision.h"
 #include "01/MapObjects/mission_run_repeats_and_counter.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
@@ -688,7 +689,7 @@ void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *item
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
         }
     }
-    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_BOUNCE;
+    mapObject->mItemResponse = ITEM_HIT_TYPE_BOUNCE;
     SetItemCollisionCallback(mapObject, BombKingItemBounceCallback);
 }
 
@@ -699,7 +700,7 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
     if (IsItemBombStored(mapObject) != 0) {
         ThrowOrReleaseStoredItemBomb(mapObject, NULL, 0);
     }
-    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
+    mapObject->mItemResponse = ITEM_HIT_TYPE_FADE_OUT;
     SetItemCollisionCallback(mapObject, BombKingItemHitCallback);
     if (IsStateNumberBelow(mapObject, 7) != 0) {
         velocity.x = mapObject->mMapObject.mPos.x - itemObject->mPos.x;

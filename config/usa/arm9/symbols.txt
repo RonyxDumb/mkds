@@ -8580,7 +8580,7 @@ gCourseMapItemVec3UnitY kind:data(byte[12]) addr:0x02159cb0
 gItemObjectNoOwnerBit kind:data(byte[2]) addr:0x02159cbc
 gItemInfoKouraW kind:data(byte[28]) addr:0x02159cc0
 gItemKindKouraW kind:data(byte[168]) addr:0x02159cdc
-gKouraWBurstStartScale kind:data(byte[12]) addr:0x02159d84
+gKouraWGrowStartScale kind:data(byte[12]) addr:0x02159d84
 gItemInfoKinokoP kind:data(byte[28]) addr:0x02159d90
 gItemKindKinokoP kind:data(byte[168]) addr:0x02159dac
 gItemInfoBomb kind:data(byte[28]) addr:0x02159e54
