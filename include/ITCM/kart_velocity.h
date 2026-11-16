@@ -4,8 +4,9 @@
 
 typedef struct Kart Kart;
 
-// Frame counts in AdvanceKartByVelocity above which the ahead boost (mAheadBoostFrames) and the star effect
-// (mStarFrames) end and the sinking (mSinkFrames) ends, and the mRevLevel under which the selected kart's start-done
+// Frame counts above which the ahead boost (mAheadBoostFrames) and the star effect
+// (mStarFrames) end (in AdvanceKartByVelocity and AdvanceKartToKeyedPlacement) and the sinking (mSinkFrames) ends (in
+// AdvanceKartByVelocity), and the mRevLevel under which the selected kart's start-done
 // rev is set to 0 after its per-frame decay.
 #define KART_AHEAD_BOOST_MAX_FRAMES 0xb4
 #define KART_STAR_MAX_FRAMES 0x1c2

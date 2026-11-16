@@ -594,8 +594,8 @@ void UpdateKartSpeedLimitGoal(Kart *kart) {
     }
 }
 
-// Called after UpdateKartSpeedLimitGoal each step: the limit falls by 0xf37/0x1000 per step down to the goal and rises
-// to it at once.
+// Called after UpdateKartSpeedLimitGoal each step: the limit is multiplied by 0xf37/0x1000 per step down to the goal
+// and rises to it at once.
 void UpdateKartSpeedLimit(Kart *kart) {
     if (kart->mSpeedLimit > kart->mSpeedLimitGoal) {
         kart->mSpeedLimit = MUL_FIXED12_NO_ROUND(kart->mSpeedLimit, 0xf37);

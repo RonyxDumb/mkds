@@ -625,8 +625,8 @@ void NNSi_G3dFuncSbc_POSSCALE(NNSG3dRS *renderState, u32 option) {
 // clang-format off
 // Interrupt dispatch: returns at once if reg_OS_IME is zero or no enabled interrupt is pending; otherwise takes the
 // lowest pending bit of reg_OS_IE and reg_OS_IF (found with clz), acknowledges it in reg_OS_IF, and runs the function
-// in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch. It is asm because it jumps with a set return
-// address instead of a call (ldr lr, bx).
+// in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch; the function is entered by bx after
+// ldr lr, not by a call.
 asm void OS_IrqHandler(void) {
     stmdb sp!, {lr}
     mov ip, #0x4000000
@@ -655,8 +655,8 @@ L_loop:
 // clang-format off
 // OSThread switch after an interrupt: makes the threads queued at OSi_IrqThreadQueue runnable and empties the queue,
 // then, if a reschedule is asked for and the first runnable thread is a different one, saves the registers of the
-// running thread in its context and loads those of that thread. It is asm because it switches processor modes and moves
-// the whole register set with the user-bank forms of stm and ldm (msr, mrs, ^).
+// running thread in its context and loads those of that thread; it switches processor modes (msr, mrs) and moves the
+// whole register set with the user-bank forms of stm and ldm (^).
 asm void OS_IrqHandler_ThreadSwitch(void) {
     mov r2, #0x1
     mov r3, #0x0

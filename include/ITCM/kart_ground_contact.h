@@ -22,7 +22,8 @@ typedef struct JointScaleCommand {
 // Frames in the air (mAirborneFrames above this): UpdateKartAirborne sets KART_MOTION_AIRBORNE_LONG,
 // AdvanceKartOrientation uses the air tilt and AdvanceKartByVelocity caps the fall speed. KART_STILL_HOLD_STEP_FRAMES:
 // collision step frames after which a kart in KART_MOTION_STILL_HOLD with no hit object and no point motion gets
-// mQuaternionBlendFactor 0 (tilt no longer blends).
+// mQuaternionBlendFactor 0 (tilt no longer blends) when its ground normal is close to the previous one (dot at least
+// 0xe66).
 #define KART_AIRBORNE_LONG_FRAMES 5
 #define KART_STILL_HOLD_STEP_FRAMES 100
 // Values for Kart.mHopTiltAngle during a hop: the start value, the limit past which it falls back, and the value it

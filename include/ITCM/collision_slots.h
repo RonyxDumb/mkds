@@ -18,7 +18,8 @@ s32 TryQuaternionFromVectors(Vec4 *result, const Vec3 *source, const Vec3 *targe
 // Writes to result the quaternion of a rotation about axis by angle (0x10000 per turn): axis scaled by the sine of half
 // the angle in x, y, z and the cosine of half the angle in w.
 void QuaternionFromAxisAngle(const Vec3 *axis, u16 angle, Vec4 *result);
-// Adds to the heading of the CPU Kart in up to three ways (flat contact steer, turn-angle steer, gesso heading swing);
+// Adds to the heading of the CPU Kart in one of two ways (the flat contact steer alone, or the turn-angle steer and the
+// gesso heading swing, either or both);
 // returns at once unless the Kart is in KART_STATE_NORMAL, not hopping and not KART_EFFECT_KILLER; sets
 // KART_DRIVE_TURN_LEFT or KART_DRIVE_TURN_RIGHT in mDriveFlags only when one of the ways ran.
 void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directionB);

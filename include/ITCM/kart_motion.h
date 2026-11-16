@@ -23,8 +23,10 @@ void SetKartPrevCollisionCenter(Kart *kart);
 void ComputeKartCollisionCenter(Vec3 *result, const Vec3 *drawPos, s32 extra, Kart *kart);
 void ComputeKartPointAlongUp(Vec3 *result, const Vec3 *base, s32 extra, Kart *kart);
 void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied);
-// One step of a turn in direction (1 or -1): sets turnFlag in mDriveFlags; in the air outside a drift sets the turn
-// heading goal to KART_AIR_TURN_HEADING_GOAL * direction, otherwise it moves mTurnRatio when on the ground and, for a
+// One step of a turn in direction (1 or -1): sets turnFlag in mDriveFlags; in the air it only sets, outside a drift,
+// the turn
+// heading goal to KART_AIR_TURN_HEADING_GOAL * direction and returns; otherwise it moves mTurnRatio when on the ground
+// and, for a
 // moving Kart not in a low-speed turn, sets the heading goal; always returns 1.
 s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32 airborne, u32 turnFlag);
 s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn);
@@ -37,7 +39,8 @@ void AdvanceKartInputAndTurn(Kart *kart);
 // Counts mKartCollisionTimer down and starts the collision sound when it reaches 0.
 void AdvanceKartCollisionTimer(Kart *kart);
 void UpdateKartSoundWrapper(Kart *kart);
-// Stores the rank in mRank (and tells the scene sound the new rank for the selected Kart); returns TRUE when the rank
+// Stores the rank in mRank (and, when it changed, tells the scene sound the new rank for the selected Kart); returns
+// TRUE when the rank
 // number fell, the new rank is below mKartCount, a Kart exists at the next rank number and its mEntryFlags have none of
 // KART_ENTRY_GHOST, KART_ENTRY_TERESA, KART_ENTRY_PARKED.
 s32 AdvanceKartRank(Kart *kart);
