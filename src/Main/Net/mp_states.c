@@ -32,7 +32,7 @@
 #include "Main/Net/mp.h"
 #include "Main/Save/ghost_record_file.h"
 
-QueueMPDataToPortParams gQueueMPChunkParams = {QueueMPChunkCallback, 0x16c, {0, 0}, 0xe, 2, {0, 0}};
+QueueMPDataToPortParams gQueueMPChunkParams = {QueueMPChunkCallback, MP_CHUNK_PACKET_BYTES, {0, 0}, 0xe, 2, {0, 0}};
 
 #pragma thumb on
 

@@ -633,8 +633,9 @@ typedef struct MultiBootStateView {
 #define SCAN_SLOT_EXPIRE_AGE 0xc8
 // ConnectionWork.mRememberedScanKeyHeld while a remembered beacon key is held.
 #define SCAN_REMEMBERED_KEY_HELD 0xf
-// Frames a multiboot join may take (ConnectionWork.mStepWaitFrames) before it fails; frames the close step waits;
-// frames the parent waits for the children it expects.
+// Calls of AdvanceScanConnect the joining step or the find entry step may wait (ConnectionWork.mStepWaitFrames) before
+// CONNECTION_ERROR_CONNECT_FAILED; calls the close step waits; calls the parent waits for the children it expects (the
+// connect failed callback tests the same count, written as 0x708).
 #define CONNECTION_CONNECT_TIMEOUT_FRAMES 0x4b0
 #define CONNECTION_CLOSE_WAIT_FRAMES 0x3c
 #define CONNECTION_CHILDREN_WAIT_FRAMES 0x708
@@ -1490,14 +1491,16 @@ typedef struct Camera {
     /* 220 */ struct SequenceCameraEntry *mFirstSequenceEntry;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
-    // TRUE from StartEntryCameraAngleStart until mAngleStartFrames reaches 300 (outside mode 2) or
-    // SetEntryCameraUpdateHold replaces the entry. While TRUE the entry is not replaced by the one picked from the
-    // Kart's position; in mode 2 TryUpdateEntryCamera steps the entry by its kind on every call and only
-    // SetEntryCameraUpdateHold clears it.
+    // TRUE from StartEntryCameraAngleStart (when the course has an angle start camera) until mAngleStartFrames reaches
+    // CAMERA_ANGLE_START_FRAMES (outside MODE_BATTLE) or SetEntryCameraUpdateHold(1) replaces the entry (only for an
+    // angle or angle start entry). While TRUE the entry is not replaced by the one picked from the Kart's position; in
+    // MODE_BATTLE TryUpdateEntryCamera steps the entry by its kind on every call and only SetEntryCameraUpdateHold(1)
+    // clears it.
     /* 228 */ BOOL mAngleStartRunning;
     // Counts the calls of TryUpdateEntryCamera that reach the angle start test (not in MODE_BATTLE, and after the staff
     // roll, mEntryUpdateHold, mEntryUpdateDisabled and mMissionRunCameraRunning returns) while mAngleStartRunning is
-    // TRUE; at CAMERA_ANGLE_START_FRAMES it clears
+    // TRUE; at CAMERA_ANGLE_START_FRAMES it clears mAngleStartRunning. Only SetupCamera zeroes it, so
+    // StartEntryCameraAngleStart does not restart the count (it stays at CAMERA_ANGLE_START_FRAMES until then).
     /* 22c */ u16 mAngleStartFrames;
     /* 22e */ u8 mUnk_22e[0x2];
     // Set to 1 by SetEntryCameraUpdateHold(1), which only does so while the current entry is

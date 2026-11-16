@@ -117,7 +117,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
         u16 ownIndex;
 
         ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (ownIndex == 0xffff) {
+        if (ownIndex == CONNECTION_OWN_INDEX_NONE) {
             return 2;
         }
     }
@@ -206,7 +206,7 @@ s32 AdvanceBlockCountRequest(void) {
         u16 ownIndex;
 
         ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (ownIndex == 0xffff) {
+        if (ownIndex == CONNECTION_OWN_INDEX_NONE) {
             return 2;
         }
     }
@@ -269,7 +269,7 @@ s32 AdvanceBlockReceive(void) {
         u16 ownIndex;
 
         ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (ownIndex == 0xffff) {
+        if (ownIndex == CONNECTION_OWN_INDEX_NONE) {
             return 2;
         }
     }

@@ -123,7 +123,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == CONNECTION_MODE_CHILD
                    ? gConnectionWork->mOwnIndex
                    : 0;
-    if (ownIndex == 0xffff && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
+    if (ownIndex == CONNECTION_OWN_INDEX_NONE && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             SetRequestErrorCode(CONNECTION_ERROR_DISCONNECTED);
             return MP_STATE_ADVANCE_DISCONNECTED;
