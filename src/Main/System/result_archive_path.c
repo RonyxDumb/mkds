@@ -4,7 +4,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/archive_buffer.h"
 #include "Main/System/compressed_archive.h"
-#include "Main/Net/search_icon_mb_child_and.h"
+#include "Main/Net/download_screen_files.h"
 #include "Main/Sound/mic_init.h"
 #include "Main/Race/race_scene_callbacks.h"
 #include "Main/Scene/scene_display_archive_work.h"

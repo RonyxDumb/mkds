@@ -2,7 +2,7 @@
 #include "00/Lib/DWC/access_point_state.h"
 #include "00/Lib/DWC/access_point_search.h"
 #include "00/Lib/DWC/address_convert.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "cpu_copy_fill.h"
 
 const SOCConfig gAcSocConfig = {{0, 0, 0, 1},

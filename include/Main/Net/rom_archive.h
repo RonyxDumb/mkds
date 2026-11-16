@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"

@@ -3,7 +3,7 @@
 #include "00/Lib/NitroWiFi/access_point_list.h"
 #include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "03/Net/exchange_result_records.h"
 #include "03/Net/essid_packet_socket.h"
 #include "03/Net/exchange_essid.h"

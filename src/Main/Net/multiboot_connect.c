@@ -5,7 +5,7 @@
 #include "multiboot_mode_constants.h"
 #include "03/Net/essid_packet_steps.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "multiboot_data_pieces.h"
 #include "wireless_beacon_wep_settings.h"
 #include "dma_copy_fill_wait.h"

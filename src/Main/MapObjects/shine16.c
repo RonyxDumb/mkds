@@ -38,7 +38,7 @@
 #include "fixed_vector_math.h"
 #include "Main/Sound/sound_source_init.h"
 #include "Main/MapObjects/woodbox.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "ITCM/sphere_collision.h"
 #include "Main/Sound/shine16_track_params.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"

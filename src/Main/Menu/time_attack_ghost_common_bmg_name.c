@@ -1,3 +1,3 @@
-#include "Main/Menu/time_attack_ghost_get_names_a.h"
+#include "Main/Menu/time_attack_ghost_common_bmg_name.h"
 
 char gTimeAttackGhostGetCommonBmgName[11] = "common.bmg";

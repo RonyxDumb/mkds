@@ -6,7 +6,7 @@
 #include "Main/Menu/choises_s_list_chars.h"
 #include "Main/Race/race_start_sequence.h"
 #include "Main/Race/race_end.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"

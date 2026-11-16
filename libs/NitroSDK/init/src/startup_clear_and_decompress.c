@@ -1,7 +1,7 @@
 #include "startup_clear_and_decompress.h"
 #include "autoload_callback.h"
 #include "build_info_layout.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 
 asm void _start(void) {
     mov ip, #0x4000000

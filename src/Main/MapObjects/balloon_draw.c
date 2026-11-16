@@ -17,7 +17,7 @@
 #include "fixed_vector_math.h"
 #include "particle_instance.h"
 #include "fixed_arctangent.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"

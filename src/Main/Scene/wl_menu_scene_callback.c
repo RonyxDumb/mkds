@@ -2,7 +2,7 @@
 
 #include "Main/System/heap.h"
 #include "Main/Scene/run_scene_connection.h"
-#include "geometry_fast_dma_switch.h"
+#include "geometry_function_tables_and_fast_dma.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/wl_menu_scene.h"
 #include "Main/Kart/kart_effect_param_tables.h"

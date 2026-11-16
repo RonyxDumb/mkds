@@ -1,8 +1,8 @@
 #pragma once
 #include "types.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
-#include "Main/Net/wbt_block_transfer.h"
+#include "multiboot_piece_buffers.h"
+#include "Main/Net/wireless_block_transfer.h"
 
 // Objects whose layout isn't known yet.
 

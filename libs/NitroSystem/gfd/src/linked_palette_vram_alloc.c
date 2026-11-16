@@ -2,7 +2,7 @@
 
 #include "linked_vram_block_pool.h"
 #include "frame_texture_vram_alloc.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "particle_random_state.h"
 #include "microphone_sampling.h"
 #include "linked_texture_vram_alloc.h"

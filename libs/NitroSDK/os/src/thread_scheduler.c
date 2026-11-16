@@ -1,8 +1,8 @@
 #include "thread_scheduler.h"
 #include "registers.h"
 
-#include "Main/Net/wbt_os_thread_globals.h"
-#include "mb_data.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
+#include "multiboot_piece_buffers.h"
 #include "reset_interrupts_halt.h"
 #include "thread_mutex_types.h"
 #include "alarm_timer.h"

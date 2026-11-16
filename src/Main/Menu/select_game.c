@@ -9,7 +9,7 @@
 #include "Main/Net/connect_non_multiboot.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Menu/shuffled_indices.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/select_return.h"

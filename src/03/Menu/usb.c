@@ -22,7 +22,7 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Net/exchange_wcm_state.h"
 #include "03/Menu/menu_pair_loading.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Graphics/hl_scr.h"
 #include "reset_interrupts_halt.h"
 #include "cpu_copy_clear_16.h"

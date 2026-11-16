@@ -2,7 +2,7 @@
 #include "Main/MapObjects/chandelier.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/MapObjects/chandelier_draw.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"

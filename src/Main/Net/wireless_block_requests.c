@@ -1,11 +1,11 @@
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/request_id.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "multiboot_piece_buffers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 

@@ -15,7 +15,7 @@
 #include "03/Graphics/oam_range_entry.h"
 #include "03/Graphics/nce_file.h"
 #include "00/Lib/NitroWiFi/access_point_list.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "thread_scheduler.h"
 #include "tick_counter.h"
 #include "float_subtract_int64_muldiv.h"

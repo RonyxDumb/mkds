@@ -1,6 +1,6 @@
 #include "Main/Race/race_item_slot.h"
 
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/System/key_recording.h"
 #include "Main/Race/standings_balloons.h"
@@ -16,7 +16,7 @@
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "model_material_set.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"

@@ -2,11 +2,11 @@
     .bss        start:0x01ffffa0 end:0x01ffffa0 kind:bss align:32
 
 // provisional: file name and boundaries
-src/ITCM/g3d_draw_and_irq_handler.c:
+src/ITCM/model_draw_and_irq_handler.c:
     complete
     .text       start:0x01ff8000 end:0x01ff9300
 
-src/ITCM/g3d_texture_matrix.c:
+src/ITCM/texture_matrix_calc.c:
     complete
     .text       start:0x01ff9300 end:0x01ff9598
 src/ITCM/kart_ground_contact.c:

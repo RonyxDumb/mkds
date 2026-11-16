@@ -7,7 +7,7 @@
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/star_or_killer_hit_sound.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/segment_curve.h"

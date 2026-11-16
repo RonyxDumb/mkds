@@ -5,7 +5,7 @@
 #include "Main/Graphics/model_animation_loop_mode.h"
 #include "Main/Graphics/model_animation.h"
 #include "Main/Kart/kart_model_path.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 #include "Main/Sound/seq_row.h"

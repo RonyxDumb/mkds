@@ -4,7 +4,7 @@
 #include "03/Net/essid_packet_steps.h"
 #include "reset_interrupts_halt.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "multiboot_communication.h"
 #include "03/Net/multiboot_parent_download.h"
 #include "03/Menu/message_box_create.h"

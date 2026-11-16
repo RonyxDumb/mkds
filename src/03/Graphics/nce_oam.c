@@ -2,7 +2,7 @@
 #include "03/Graphics/nce_file.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Graphics/oam_buffer_entries.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"
 #include "03/Graphics/oam_range.h"

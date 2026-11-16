@@ -33,7 +33,7 @@
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/star_or_killer_hit_sound.h"
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
@@ -70,7 +70,7 @@
 #include "Main/Race/race.h"
 #include "01/MapObjects/hanachan_move_and_followers.h"
 #include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/snd_handle_start.h"
+#include "Main/Sound/sound_handle_start.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 
 const u32 gBombKingSkipKindSoundFlag = 0x40000000;

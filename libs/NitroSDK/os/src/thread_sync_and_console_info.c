@@ -5,8 +5,8 @@
 #include "thread_mutex_types.h"
 #include "thread_scheduler.h"
 #include "reset_interrupts_halt.h"
-#include "Main/Net/wbt_os_thread_globals.h"
-#include "mb_data.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
+#include "multiboot_piece_buffers.h"
 #include "mutex_init_decl.h"
 
 // Clears OSMutex.mQueue, OSMutex.mHolder and OSMutex.mLockCount.

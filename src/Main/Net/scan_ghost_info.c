@@ -1,5 +1,5 @@
 #include "Main/Net/scan_ghost_info.h"
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/participant_get_connection.h"

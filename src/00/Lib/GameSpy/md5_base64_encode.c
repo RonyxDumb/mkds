@@ -3,7 +3,7 @@
 #include "00/Lib/CPS/md5_finish.h"
 #include "00/Lib/CPS/md5_update.h"
 #include "00/Lib/CPS/md5_begin.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "print_memory_multibyte_write.h"
 #include "digest_stream_hash.h"

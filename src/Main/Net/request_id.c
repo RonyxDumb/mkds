@@ -1,8 +1,8 @@
 #include "Main/Net/request_id.h"
 #include "multiboot_parent_state_machine.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 
 #pragma thumb on
 

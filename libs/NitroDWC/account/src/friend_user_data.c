@@ -1,6 +1,6 @@
 #include "friend_user_data.h"
 #include "friend_data_account_fields.h"
-#include "dwc_account_init.h"
+#include "wifi_account_init.h"
 #include "Main/Net/friend_data_player_id.h"
 #include "digest_hmac_overlay_hash.h"
 

@@ -19,7 +19,7 @@
 #include "thread_scheduler.h"
 #include "arena_cache_init.h"
 #include "vram_load_2d_graphics.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Menu/menu_pair_loading.h"
 
 const u8 gMenuPairObjectPaletteIds[3][5] = {{2, 1, 3, 1, 3}, {5, 1, 4, 1, 5}, {7, 1, 7, 1, 6}};

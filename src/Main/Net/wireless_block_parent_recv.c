@@ -1,5 +1,5 @@
-#include "Main/Net/wbt_mp_parent_recv.h"
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_parent_recv.h"
+#include "Main/Net/wireless_block_requests.h"
 
 #pragma thumb on
 

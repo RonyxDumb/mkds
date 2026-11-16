@@ -1,7 +1,7 @@
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "00/Lib/DWC/socket_config.h"
 
-#include "00/Lib/NitroWiFi/socl_startup_commands.h"
+#include "00/Lib/NitroWiFi/socket_startup_commands.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/NitroWiFi/socket_command_packet.h"
 #include "00/Lib/NitroWiFi/link_on_and_bssid_compare.h"
@@ -14,7 +14,7 @@
 #include "cpu_copy_fill.h"
 #include "00/Lib/CPS/stack_globals.h"
 #include "00/Lib/CPS/https_session_upkeep.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "startup_entry.h"
 #include "signed_int_divide.h"

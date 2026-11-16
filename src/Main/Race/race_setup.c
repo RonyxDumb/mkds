@@ -16,7 +16,7 @@
 #include "cell_transfer_state.h"
 #include "cpu_copy_fill.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Net/wifi_race_sync_advance.h"

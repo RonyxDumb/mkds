@@ -1,6 +1,6 @@
 #include "Main/System/key_recording.h"
 #include "Main/System/scene_numbers.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "Main/Race/race_setup_input.h"
 
 #include "Main/Scene/run_scene_connection.h"

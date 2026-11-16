@@ -1,5 +1,5 @@
 #include "frame_texture_vram_alloc.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "vram_alloc_joint_srt.h"
 
 s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32) = FreeTexVram_;

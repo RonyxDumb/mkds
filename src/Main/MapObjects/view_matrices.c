@@ -4,7 +4,7 @@
 
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/MapObjects/pendulum.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "model_material_set.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/view_matrix_queue.h"

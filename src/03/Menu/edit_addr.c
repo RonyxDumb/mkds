@@ -22,7 +22,7 @@
 #include "03/Graphics/oam_buffer_entries.h"
 #include "text_to_number.h"
 #include "cpu_copy_fill.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/Graphics/nce_file.h"
 #include "string.h"

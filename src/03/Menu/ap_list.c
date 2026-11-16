@@ -15,7 +15,7 @@
 #include "03/Menu/way_select.h"
 #include "03/Menu/connect_message_setup.h"
 #include "03/Menu/message_box_create.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Menu/menu_pair_loading.h"

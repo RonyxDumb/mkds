@@ -18,14 +18,14 @@
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/star_or_killer_hit_sound.h"
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/Item/item_koura_w.h"
 #include "fixed_vector_math.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 
 MapObjectKindDescriptor gMissionGateKindDescriptor = {0,
                                                       {0, 0},

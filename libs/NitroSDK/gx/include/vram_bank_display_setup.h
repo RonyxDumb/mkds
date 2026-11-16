@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "fixed_point_graphics_setup.h"
 
 // Sets the display mode of the main screen (DISPCNT bits 16-17) and its background mode (bits 0-3), and saves the

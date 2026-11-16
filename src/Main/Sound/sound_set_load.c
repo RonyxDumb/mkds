@@ -13,7 +13,7 @@
 #include "sound_archive_load_result.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_system.h"
-#include "Main/Sound/snd_arc_setup.h"
+#include "Main/Sound/sound_archive_setup.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"

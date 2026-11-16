@@ -1,5 +1,5 @@
-#include "dwc_account_init.h"
-#include "wifi_id_auth.h"
+#include "wifi_account_init.h"
+#include "wifi_id_and_backup_check.h"
 #include "friend_data_account_fields.h"
 #include "startup_entry.h"
 #include "build_info_layout.h"

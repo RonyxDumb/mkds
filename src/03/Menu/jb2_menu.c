@@ -2,7 +2,7 @@
 #include "03/Menu/way_ap_setup.h"
 
 #include "03/Menu/sub_screen_message.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Menu/selection_objects.h"
 #include "03/System/application.h"
 #include "03/Menu/opt_menu.h"

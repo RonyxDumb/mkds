@@ -1,6 +1,6 @@
 #include "Main/Sound/race_end_seq.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
-#include "Main/Sound/snd_handle_slots.h"
+#include "Main/Sound/sound_handle_slots.h"
 #include "Main/Sound/scene_players_release.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"

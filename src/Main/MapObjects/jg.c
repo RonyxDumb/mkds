@@ -34,7 +34,7 @@
 #include "Main/System/heap.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Race/kart_highest_lap.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/System/heap_call.h"

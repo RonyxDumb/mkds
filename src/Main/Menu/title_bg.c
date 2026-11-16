@@ -26,7 +26,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/file_in_loaded.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Menu/menu.h"
 #include "Main/Menu/shuffled_indices.h"
 #include "Main/Menu/keyboard_cursor_targets.h"

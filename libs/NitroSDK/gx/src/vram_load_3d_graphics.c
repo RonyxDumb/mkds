@@ -3,10 +3,10 @@
 #include "vram_bank_display_setup.h"
 #include "bg_screen_char_pointers.h"
 #include "cpu_copy_fill.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Graphics/animation_function_pointers.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "overlay_section_symbols.h"
 
 u32 gTextureLoadFirstBase = 0;

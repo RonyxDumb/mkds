@@ -4,7 +4,7 @@
 #include "cpu_copy_fill.h"
 #include "multiboot_block_header_end.h"
 #include "multiboot_data_pieces.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "multiboot_file_register.h"
 #include "cpu_copy_clear_16.h"
 #include "multiboot_communication.h"

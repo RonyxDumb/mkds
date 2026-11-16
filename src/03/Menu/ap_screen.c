@@ -14,7 +14,7 @@
 #include "03/Menu/selection_objects.h"
 #include "03/System/task_input.h"
 #include "03/Graphics/dispcnt_window.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Menu/wifi_menu_strings.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Menu/sub_screen_message.h"

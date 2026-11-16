@@ -5,7 +5,7 @@
 #include "reset_interrupts_halt.h"
 #include "multiboot_task_thread.h"
 #include "multiboot_game_info_beacon.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "file_command_handlers.h"
 #include "file_handle_setup.h"
 #include "file_archive_access.h"

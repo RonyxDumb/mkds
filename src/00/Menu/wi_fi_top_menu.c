@@ -6,7 +6,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Scene/display_settings.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam_lists.h"

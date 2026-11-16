@@ -1,7 +1,7 @@
 #include "Main/Scene/menu_scene.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/System/heap.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "Main/Menu/title_scene.h"
 #include "Main/Scene/run_scene_connection.h"
 #include "Main/Scene/scene_connection.h"

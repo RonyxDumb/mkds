@@ -5,8 +5,8 @@
 #include "thread_scheduler.h"
 #include "cpu_copy_fill.h"
 #include "clock_chip_access.h"
-#include "Main/Net/wbt_os_thread_globals.h"
-#include "mb_data.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
+#include "multiboot_piece_buffers.h"
 
 u32 tgid_bak = 0x10000;
 

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "multiboot_parent_state_machine.h"
 #include "multiboot_mode_constants.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "reset_interrupts_halt.h"
 #include "wireless_link_control.h"
 

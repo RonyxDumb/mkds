@@ -1,6 +1,6 @@
 #include "Main/Course/course_sound_slot.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Sound/snd_handle_slots.h"
+#include "Main/Sound/sound_handle_slots.h"
 #include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "Main/Sound/sound_handle_pool.h"

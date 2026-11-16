@@ -1,5 +1,5 @@
 #include "Main/MapObjects/cow.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/MapObjects/basabasa.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/System/backup_net_camera_work.h"

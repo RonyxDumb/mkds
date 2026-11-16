@@ -6,7 +6,7 @@
 #include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 
 const u16 gPakkunSpitDisabledFlag = 1;
 const u32 gPakkunSpitSkipSoundFlag = 0x40000000;

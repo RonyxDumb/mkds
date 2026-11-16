@@ -1,7 +1,7 @@
 #include "Main/MapObjects/iron_ball_kart.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Menu/keyboard_keys.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/heap_call.h"

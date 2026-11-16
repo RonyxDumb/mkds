@@ -13,7 +13,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/map_object_matrix.h"

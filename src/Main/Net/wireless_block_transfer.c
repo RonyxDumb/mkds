@@ -1,11 +1,11 @@
-#include "Main/Net/wbt_block_transfer.h"
+#include "Main/Net/wireless_block_transfer.h"
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/mark_chunk_received.h"
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 #include "Main/Net/request_id.h"
 #include "signed_int_divide.h"
 #include "cpu_copy_fill.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 
 u32 wbt_initialize_flag;
 

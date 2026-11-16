@@ -1,8 +1,8 @@
 #include "vram_bank_display_setup.h"
 
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "overlay_section_symbols.h"
 #include "lock_word_and_bus_ownership.h"
 #include "reset_interrupts_halt.h"

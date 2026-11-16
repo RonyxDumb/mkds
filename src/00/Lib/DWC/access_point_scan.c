@@ -5,7 +5,7 @@
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/DWC/access_point_state.h"
 #include "00/Lib/DWC/access_point_connect.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "cpu_copy_fill.h"
 
 const u32 gAcSearchChannel[13] = {0x8002, 0x8004, 0x8008, 0x8010, 0x8020, 0x8040, 0x8080,

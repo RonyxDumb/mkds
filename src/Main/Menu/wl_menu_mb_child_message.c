@@ -4,7 +4,7 @@
 #include "Main/System/heap.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Net/multiboot_child_files.h"
-#include "Main/Net/search_icon_mb_child_and.h"
+#include "Main/Net/download_screen_files.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"

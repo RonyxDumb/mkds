@@ -1,6 +1,6 @@
 #include "fixed_arctangent.h"
 #include "fixed_vector_math.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 
 const s16 FX_AtanTable_[129] = {
     0,    32,   64,   96,   128,  160,  192,  224,  256,  288,  319,  351,  383,  415,  446,  478,  509,

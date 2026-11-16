@@ -1,7 +1,7 @@
 #include "Main/Kart/kart_effects_ahead.h"
 
 #include "Main/Kart/kart_palette_stem_tables.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "fixed_vector_math.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_ai.h"
@@ -12,7 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "model_material_set.h"
 #include "touch_panel_sampling.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"

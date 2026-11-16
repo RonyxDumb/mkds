@@ -1,4 +1,4 @@
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"

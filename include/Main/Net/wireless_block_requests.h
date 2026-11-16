@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Net/wbt_block_transfer.h"
+#include "Main/Net/wireless_block_transfer.h"
 
 typedef struct WBTCommand WBTCommand;
 typedef struct BlockTransfer BlockTransfer;

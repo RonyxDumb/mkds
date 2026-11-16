@@ -1,7 +1,7 @@
 #include "03/Graphics/hl_scr.h"
 #include "03/Net/essid_packet_steps.h"
 #include "03/Net/ap_entries.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Menu/menu_pair_loading.h"
 
 #include "03/System/tasks.h"

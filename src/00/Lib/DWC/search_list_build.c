@@ -1,7 +1,7 @@
 #include "00/Lib/DWC/search_list_build.h"
 
 #include "00/Lib/DWC/access_point_power_mode.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "cpu_copy_fill.h"
 #include "narrow_string_functions.h"

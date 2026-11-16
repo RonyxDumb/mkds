@@ -20,7 +20,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Net/wifi_session_login.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/wi_fi_session_step.h"

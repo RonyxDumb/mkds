@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 
 typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 

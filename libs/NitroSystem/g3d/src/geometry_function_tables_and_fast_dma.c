@@ -1,9 +1,9 @@
-#include "geometry_fast_dma_switch.h"
+#include "geometry_function_tables_and_fast_dma.h"
 #include "particle_random_state.h"
 #include "linked_palette_vram_alloc.h"
 #include "microphone_sampling.h"
 #include "linked_texture_vram_alloc.h"
-#include "ITCM/g3d_texture_matrix.h"
+#include "ITCM/texture_matrix_calc.h"
 #include "vram_alloc_joint_srt.h"
 #include "ITCM/kart_ground_contact.h"
 

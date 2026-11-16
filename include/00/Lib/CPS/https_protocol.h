@@ -60,7 +60,7 @@ typedef struct HttpsState HttpsState;
 
 #include "00/Lib/wifi_library_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 
 typedef struct CPSSoc CPSSoc;
 

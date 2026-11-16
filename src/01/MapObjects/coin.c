@@ -5,7 +5,7 @@
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "matrix_3x3_basic.h"
 #include "fixed_vector_math.h"
 #include "Main/Graphics/emitters.h"

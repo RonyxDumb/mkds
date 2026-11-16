@@ -14,7 +14,7 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/MapObjects/shadow_model_alpha.h"
 #include "Main/MapObjects/woodbox.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "render_object_callback_link.h"

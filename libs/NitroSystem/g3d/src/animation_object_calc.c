@@ -5,9 +5,9 @@
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"
 #include "color_mask_tables.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "system_state_globals.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "model_draw_state.h"
 
 void (*NNS_G3dFuncSbcTable[32])(NNSG3dRS *, u32) = {NNSi_G3dFuncSbc_NOP,

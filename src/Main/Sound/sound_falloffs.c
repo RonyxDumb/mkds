@@ -17,7 +17,7 @@
 #include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "registers.h"
-#include "Main/Sound/snd_handle_slots.h"
+#include "Main/Sound/sound_handle_slots.h"
 
 void StopKartSoundWhileRequested(Kart *kart) {
     if (kart->mSound.mWhileRequestedSoundId == KART_SOUND_NO_WHILE_REQUESTED_SOUND) {

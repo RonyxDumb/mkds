@@ -1,5 +1,5 @@
 #include "Main/Net/block.h"
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan.h"
 #include "Main/Kart/kart_scale_surface_tables.h"

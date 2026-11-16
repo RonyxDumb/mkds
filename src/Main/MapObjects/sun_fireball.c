@@ -15,7 +15,7 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "fixed_vector_math.h"
-#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/star_or_killer_hit_sound.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/fireball2.h"

@@ -10,7 +10,7 @@
 #include "Main/Item/item_f_box.h"
 #include "Main/Item/item_gesso.h"
 #include "Main/Item/item_pool.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Item/item_model.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_slot_tables.h"

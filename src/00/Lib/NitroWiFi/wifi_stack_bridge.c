@@ -9,7 +9,7 @@
 #include "mutex_init_decl.h"
 #include "signed_int_divide.h"
 #include "wireless_link_control.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 
 WCMCpsifWork gWcmCpsifWork;
 

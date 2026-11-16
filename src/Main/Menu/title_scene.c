@@ -26,7 +26,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Course/course_map_shapes.h"
 #include "Main/Race/race_setup_input.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "Main/System/key_recording.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race.h"

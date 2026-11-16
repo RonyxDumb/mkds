@@ -2,7 +2,7 @@
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "00/Lib/DWC/socket_config.h"
 
-#include "00/Lib/NitroWiFi/socl_startup_commands.h"
+#include "00/Lib/NitroWiFi/socket_startup_commands.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/NitroWiFi/socket_command_packet.h"
 #include "00/Lib/NitroWiFi/link_on_and_bssid_compare.h"
@@ -15,7 +15,7 @@
 #include "cpu_copy_fill.h"
 #include "00/Lib/CPS/stack_globals.h"
 #include "00/Lib/CPS/https_session_upkeep.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "startup_entry.h"
 #include "signed_int_divide.h"
@@ -38,7 +38,7 @@
 #include "00/Lib/GameSpy/query_reporting.h"
 #include "formatted_text_to_buffer.h"
 #include "string_copy_zero_fill.h"
-#include "Main/Net/socl_socket_param_udp.h"
+#include "Main/Net/udp_socket_param.h"
 
 u32 SOCLiResultCodeInConnecting = 0xffffffe6;
 SOCLSocketParam SOCLSocketParamTCP = {0, 1, 0, 0, 0x5ea, 0, 0, 0xbd5, 0, {0x800, 0xc, 8}, {0x800, 0xd, 8}};

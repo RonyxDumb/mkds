@@ -3,7 +3,7 @@
 #include "03/Graphics/message_pool.h"
 #include "03/System/pointer_stack.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/exp_heap.h"
 #include "03/System/pointer_stack_filled.h"

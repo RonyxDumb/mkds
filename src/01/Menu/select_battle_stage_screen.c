@@ -2,7 +2,7 @@
 #include "01/Menu/select_battle_stage_data.h"
 #include "01/Menu/record_gpx_grade_text.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/System/heap.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"

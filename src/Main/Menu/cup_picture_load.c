@@ -5,7 +5,7 @@
 #include "Main/Race/race_start_battle.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/archive_slots.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "print_memory_multibyte_write.h"
 #include "Main/Menu/menu_screen_callbacks.h"
 #include "Main/Menu/cup_picture.h"

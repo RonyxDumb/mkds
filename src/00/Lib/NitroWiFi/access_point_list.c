@@ -1,5 +1,5 @@
 #include "00/Lib/NitroWiFi/access_point_list.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "00/Lib/NitroWiFi/oldest_access_point.h"
 #include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"

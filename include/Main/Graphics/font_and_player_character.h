@@ -49,7 +49,7 @@ NNSG2dCellDataBank *GetPlayerCharacterNcer(int index);
 Ncgr *GetPlayerCharacterNcgr(int index);
 void *GetPlayerCharacterNclr(int index);
 #include "Main/Graphics/chars_block.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Race/point_along_line.h"
 NNSG2dFont *GetFontByIndex(s32 index);
 Nclr *GetPlayerCharacterShyguyNclr(u32 index);

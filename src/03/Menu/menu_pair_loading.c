@@ -4,7 +4,7 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/sub_screen_message.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 
 #include "03/Graphics/message_pool.h"
 #include "03/System/application.h"

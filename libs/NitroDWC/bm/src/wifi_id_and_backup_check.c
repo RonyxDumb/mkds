@@ -1,4 +1,4 @@
-#include "wifi_id_auth.h"
+#include "wifi_id_and_backup_check.h"
 #include "wifi_settings_nvram_backup.h"
 #include "wifi_id_info.h"
 #include "crc_checksum.h"

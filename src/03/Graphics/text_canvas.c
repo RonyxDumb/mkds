@@ -13,7 +13,7 @@
 #include "vram_load_2d_graphics.h"
 #include "cpu_copy_clear_16.h"
 #include "03/System/pointer_stack_delete.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/pointer_stack_filled.h"
 #include "03/Menu/wifi_menu_strings.h"

@@ -19,7 +19,7 @@
 #include "03/Menu/wifi_menu_strings.h"
 #include "vram_load_2d_graphics.h"
 #include "03/Graphics/blend_brightness_fade_slots.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/Graphics/nce_file.h"
 #include "03/Graphics/dispcnt_window.h"

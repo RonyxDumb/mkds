@@ -4,7 +4,7 @@
 #include "reset_interrupts_halt.h"
 #include "00/Lib/DWC/auth_http_params.h"
 #include "wifi_settings_nvram_backup.h"
-#include "wifi_id_auth.h"
+#include "wifi_id_and_backup_check.h"
 #include "00/Lib/DWC/http_header_build.h"
 #include "00/Lib/CPS/tcp_ip_stack.h"
 #include "00/Lib/NitroWiFi/rssi_link_level.h"

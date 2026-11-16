@@ -7,7 +7,7 @@
 #include "cpu_copy_fill.h"
 #include "Main/Net/child_block_transfer.h"
 #include "Main/Net/parent_block_transfer.h"
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 #include "Main/Net/block.h"
 #include "Main/Save/ghost_record_file.h"
 

@@ -32,7 +32,7 @@
 #include "heap_expanded_allocator.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "Main/System/key_recording.h"
 #include "Main/Net/race_connection_flag.h"
 #include "Main/Net/connection_sharing.h"

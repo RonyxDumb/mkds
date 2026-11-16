@@ -1,6 +1,6 @@
 #include "multiboot_data_pieces.h"
 
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "cpu_copy_fill.h"
 
 u8 gLastPieceIndex;

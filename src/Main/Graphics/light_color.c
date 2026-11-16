@@ -1,5 +1,5 @@
 #include "Main/Graphics/light_color.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 
 void SendLight01Color(u16 *colorPtr) {
     u32 color;

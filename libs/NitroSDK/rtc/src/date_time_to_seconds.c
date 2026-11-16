@@ -1,7 +1,7 @@
 #include "date_time_to_seconds.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "vram_bank_display_setup.h"
 
 s32 RTC_ConvertDateToDay(const RTCDate *date) {

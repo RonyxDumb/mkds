@@ -6,7 +6,7 @@
 #include "matrix_3x3_basic.h"
 #include "geometry_engine_setup.h"
 #include "Main/Item/item_in_use.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/System/heap_call.h"
 #include "Main/Scene/display_settings.h"
 #include "Main/System/result_archive_path.h"

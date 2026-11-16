@@ -7,7 +7,7 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/Graphics/stem_set_array.h"
 #include "Main/System/heap.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 #include "Main/Graphics/nsbmd_render_obj.h"

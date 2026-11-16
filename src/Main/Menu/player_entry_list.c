@@ -44,7 +44,7 @@
 #include "Main/System/interpolation.h"
 #include "Main/Menu/select_character.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Save/ghost_record_file.h"

@@ -2,7 +2,7 @@
 #include "03/System/touch_key_input.h"
 
 #include "03/Menu/menu_pair_loading.h"
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/slide_buttons.h"

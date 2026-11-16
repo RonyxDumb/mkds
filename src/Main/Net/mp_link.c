@@ -2,9 +2,9 @@
 
 #include "reset_interrupts_halt.h"
 #include "Main/Net/scan_connect_callbacks.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "multiboot_game_entry.h"
 #include "multiboot_game_info_beacon.h"
 #include "arena_cache_init.h"

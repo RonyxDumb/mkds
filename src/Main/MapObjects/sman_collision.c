@@ -1,7 +1,7 @@
-#include "Main/MapObjects/sman_with.h"
+#include "Main/MapObjects/sman_collision.h"
 #include "Main/Race/gp_records_killer.h"
 
-#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/star_or_killer_hit_sound.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 

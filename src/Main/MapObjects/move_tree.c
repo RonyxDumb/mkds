@@ -1,7 +1,7 @@
 #include "Main/MapObjects/move_tree.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/bakubaku.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "matrix_3x3_basic.h"
 #include "Main/Course/course_map_group_entry.h"

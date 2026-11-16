@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "model_draw_state.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "ITCM/model_draw_and_irq_handler.h"
+#include "Main/Graphics/animation_function_pointers.h"
 
 void NNS_G3dGeUseFastDma(BOOL enabled);
 

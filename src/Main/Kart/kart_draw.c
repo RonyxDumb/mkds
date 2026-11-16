@@ -1,5 +1,5 @@
 #include "Main/Kart/kart_draw.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_in_use.h"
 #include "model_draw_state.h"

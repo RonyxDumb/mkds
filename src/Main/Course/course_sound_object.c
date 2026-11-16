@@ -11,7 +11,7 @@
 #include "touch_panel_sampling.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/view_frustum.h"
-#include "Main/Sound/snd_handle_start.h"
+#include "Main/Sound/sound_handle_start.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Sound/race_end_seq.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"

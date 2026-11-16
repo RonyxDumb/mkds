@@ -19,8 +19,8 @@
 #include "00/Lib/CPS/big_integer_multiply.h"
 #include "00/Lib/CPS/big_integer_add_subtract.h"
 #include "clock_chip_access.h"
-#include "Main/Net/wbt_os_thread_globals.h"
-#include "mb_data.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
+#include "multiboot_piece_buffers.h"
 #include "tick_counter.h"
 #include "date_time_to_seconds.h"
 

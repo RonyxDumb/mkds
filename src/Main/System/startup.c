@@ -1,6 +1,6 @@
 #include "Main/System/startup.h"
 #include "Main/System/heap_call.h"
-#include "dwc_account_init.h"
+#include "wifi_account_init.h"
 
 #include "Main/Scene/display_settings.h"
 #include "arena_cache_init.h"

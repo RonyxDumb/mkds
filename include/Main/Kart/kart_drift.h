@@ -9,7 +9,7 @@
 #include "Main/Sound/kart_sound.h" // KartSound
 
 #include "types.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "model_material_set.h" // MtxFx43
 #include "fixed_vector_math.h" // Vec3s16
 #include "fixed_arctangent.h"

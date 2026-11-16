@@ -99,7 +99,7 @@ libs/NitroSDK/fs/src/overlay_rom_loader.c:
     .bss        start:0x0216f330 end:0x0216f3a8
 
 // provisional: file name and boundaries
-src/Main/Net/wbt_block_transfer.c:
+src/Main/Net/wireless_block_transfer.c:
     complete
     .text       start:0x0200589c end:0x0200635c
     .bss        start:0x0216f3a8 end:0x0216f3ac
@@ -116,12 +116,12 @@ src/Main/Net/append_bytes.c:
     .data       start:0x02161770 end:0x0216177c
 
 // provisional: file name and boundaries
-src/Main/Net/wbt_mp_parent_recv.c:
+src/Main/Net/wireless_block_parent_recv.c:
     complete
     .text       start:0x0200692c end:0x02006954
 
 // provisional: file name and boundaries
-src/Main/Net/wbt_requests.c:
+src/Main/Net/wireless_block_requests.c:
     complete
     .text       start:0x02006954 end:0x020070f0
     .data       start:0x0216177c end:0x02161784
@@ -336,7 +336,7 @@ libs/NitroSystem/g3d/src/model_draw_state.c:
     .bss        start:0x021704e0 end:0x021731e4
 
 // provisional: file name and boundaries
-libs/NitroSystem/g3d/src/geometry_fast_dma_switch.c:
+libs/NitroSystem/g3d/src/geometry_function_tables_and_fast_dma.c:
     complete
     .text       start:0x02012b20 end:0x02012b30
     .data       start:0x02161844 end:0x0216186c
@@ -367,7 +367,7 @@ libs/NitroSystem/g3d/src/texture_pattern_anim_lookup.c:
     .data       start:0x02161924 end:0x02161954
 
 // provisional: file name and boundaries
-libs/NitroSystem/g3d/src/g3d_color_mask_tables.c:
+libs/NitroSystem/g3d/src/material_color_mask_tables.c:
     complete
     .rodata     start:0x02152bec end:0x02152c30
 
@@ -868,7 +868,7 @@ src/Main/Menu/time_attack_ghost_get_slot_data.c:
     .data       start:0x02164460 end:0x021644e0
 
 // provisional: file name and boundaries
-src/Main/Menu/time_attack_ghost_get_names_a.c:
+src/Main/Menu/time_attack_ghost_common_bmg_name.c:
     complete
     .data       start:0x021644e0 end:0x021644ec
 
@@ -980,7 +980,7 @@ src/Main/System/input_slot_repeat.c:
     .text       start:0x02039520 end:0x02039774
 
 // provisional: file name and boundaries
-src/Main/System/wvr_state.c:
+src/Main/System/wireless_vram_state.c:
     complete
     .text       start:0x02039774 end:0x02039c98
     .bss        start:0x021755e4 end:0x021755f4
@@ -2143,7 +2143,7 @@ src/Main/MapObjects/sman.c:
     .bss        start:0x0217b094 end:0x0217b09c
 
 // provisional: file name and boundaries
-src/Main/MapObjects/sman_with.c:
+src/Main/MapObjects/sman_collision.c:
     complete
     .text       start:0x020917d0 end:0x020918a8
     .rodata     start:0x02156458 end:0x02156460
@@ -2747,7 +2747,7 @@ src/Main/System/file_in_loaded.c:
     .text       start:0x020b47b4 end:0x020b47d8
 
 // provisional: file name and boundaries
-src/Main/Race/followed_kart_or.c:
+src/Main/Race/graphic_file_loaders_and_matrix2x2.c:
     complete
     .text       start:0x020b47d8 end:0x020b4dc4
 
@@ -3192,7 +3192,7 @@ src/Main/Net/multiboot_child_files.c:
     .text       start:0x020d1630 end:0x020d1640
 
 // provisional: file name and boundaries
-src/Main/Net/search_icon_mb_child_and.c:
+src/Main/Net/download_screen_files.c:
     complete
     .text       start:0x020d1640 end:0x020d18d4
     .data       start:0x0216b07c end:0x0216b1cc
@@ -3234,7 +3234,7 @@ src/Main/MapObjects/while_requested_full_volume_wrapper.c:
     .text       start:0x020d26e0 end:0x020d26f8
 
 // provisional: file name and boundaries
-src/Main/MapObjects/sound_if_kart_star_or.c:
+src/Main/MapObjects/star_or_killer_hit_sound.c:
     complete
     .text       start:0x020d26f8 end:0x020d275c
 
@@ -4039,7 +4039,7 @@ src/Main/Sound/sound_data_path.c:
     .data       start:0x0216c8b0 end:0x0216c8cc
 
 // provisional: file name and boundaries
-src/Main/Sound/snd_handle_slots.c:
+src/Main/Sound/sound_handle_slots.c:
     complete
     .text       start:0x02108e38 end:0x02108e6c
     .bss        start:0x0217c8d8 end:0x0217c8fc
@@ -4125,7 +4125,7 @@ src/Main/Sound/kart_surface_sound.c:
     .bss        start:0x0217cc90 end:0x0217cd10
 
 // provisional: file name and boundaries
-src/Main/Sound/snd_handle_start.c:
+src/Main/Sound/sound_handle_start.c:
     complete
     .text       start:0x0210b708 end:0x0210b850
 
@@ -4232,7 +4232,7 @@ src/Main/Sound/sound_file_id_list.c:
     .text       start:0x0210ef50 end:0x0210ef68
 
 // provisional: file name and boundaries
-src/Main/Sound/snd_arc_setup.c:
+src/Main/Sound/sound_archive_setup.c:
     complete
     .text       start:0x0210ef68 end:0x0210f068
 
@@ -4450,7 +4450,7 @@ src/Main/Net/wifi_session_login.c:
     .data       start:0x0216e1d0 end:0x0216e1e4
 
 // provisional: file name and boundaries
-src/Main/Net/socl_socket_param_udp.c:
+src/Main/Net/udp_socket_param.c:
     complete
     .data       start:0x0216e1e4 end:0x0216e1fc
 
@@ -5071,7 +5071,7 @@ src/Main/Save/nvram_first_three.c:
     .text       start:0x021519a8 end:0x021519d4
 
 // provisional: file name and boundaries
-libs/NitroDWC/bm/src/wifi_id_auth.c:
+libs/NitroDWC/bm/src/wifi_id_and_backup_check.c:
     complete
     .text       start:0x021519d4 end:0x02151f88
     .rodata     start:0x0216172c end:0x02161730
@@ -5115,7 +5115,7 @@ src/Main/Net/friend_data_player_id.c:
     .data       start:0x0216f2bc end:0x0216f320
 
 // provisional: file name and boundaries
-libs/NitroDWC/account/src/dwc_account_init.c:
+libs/NitroDWC/account/src/wifi_account_init.c:
     complete
     .text       start:0x02152ac8 end:0x02152b5c
 

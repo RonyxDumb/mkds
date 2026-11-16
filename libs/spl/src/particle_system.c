@@ -7,7 +7,7 @@
 #include "vram_load_3d_graphics.h"
 #include "cpu_copy_clear_16.h"
 #include "model_material_set.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "particle_random_state.h"
 #include "linked_palette_vram_alloc.h"
 #include "microphone_sampling.h"

@@ -1,7 +1,7 @@
 #include "00/Menu/wi_fi_aikotoba.h"
 #include "registers.h"
 #include "Main/System/heap.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "Main/Scene/display_settings.h"
 #include "display_blend_affine_setup.h"
 #include "vram_load_2d_graphics.h"

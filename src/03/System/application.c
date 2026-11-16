@@ -1,7 +1,7 @@
 #include "03/System/application.h"
 #include "registers.h"
 
-#include "03/System/dwc_archive.h"
+#include "03/System/wifi_utility_archive.h"
 #include "03/Graphics/oam_range.h"
 #include "03/Sound/sound_seq.h"
 #include "03/System/task_input.h"
@@ -27,7 +27,7 @@
 #include "display_blend_affine_setup.h"
 #include "clock_chip_access.h"
 #include "touch_panel_sampling.h"
-#include "wifi_id_auth.h"
+#include "wifi_id_and_backup_check.h"
 #include "03/System/lcd_power.h"
 
 u8 gQuitFlag[4];

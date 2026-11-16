@@ -1,6 +1,6 @@
 #include "wifi_id_info.h"
 #include "wifi_settings_nvram_backup.h"
-#include "wifi_id_auth.h"
+#include "wifi_id_and_backup_check.h"
 #include "tick_counter.h"
 #include "cpu_copy_fill.h"
 #include "clock_chip_access.h"

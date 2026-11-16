@@ -1,5 +1,5 @@
 #include "frame_palette_vram_alloc.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 #include "particle_random_state.h"
 #include "linked_palette_vram_alloc.h"
 #include "microphone_sampling.h"

@@ -17,7 +17,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/multiboot_child_files.h"
-#include "Main/Net/search_icon_mb_child_and.h"
+#include "Main/Net/download_screen_files.h"
 #include "wireless_link_control.h"
 #include "vram_transfer_queue.h"
 #include "cpu_copy_clear_16.h"

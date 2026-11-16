@@ -2,9 +2,9 @@
 #include "00/Lib/CPS/https_protocol.h"
 #include "startup_entry.h"
 #include "build_info_layout.h"
-#include "Main/Net/wbt_os_thread_globals.h"
+#include "Main/Net/block_transfer_and_thread_globals.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 
 #pragma opt_unpromotetypes on
 

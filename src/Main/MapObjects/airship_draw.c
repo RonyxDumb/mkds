@@ -2,7 +2,7 @@
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/group_follower_init.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Menu/keyboard_char_tables.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "matrix_3x3_basic.h"

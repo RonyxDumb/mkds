@@ -2,7 +2,7 @@
 #include "03/Net/essid_packet_steps.h"
 #include "reset_interrupts_halt.h"
 #include "thread_scheduler.h"
-#include "mb_data.h"
+#include "multiboot_piece_buffers.h"
 #include "multiboot_communication.h"
 
 #include "03/Menu/wifi_menu_shared.h"

@@ -11,7 +11,7 @@
 #include "tick_counter.h"
 #include "irq_wait_handler.h"
 #include "fixed_point_graphics_setup.h"
-#include "Main/System/wvr_state.h"
+#include "Main/System/wireless_vram_state.h"
 #include "geometry_engine_setup.h"
 #include "geometry_render_state.h"
 #include "vram_bank_display_setup.h"

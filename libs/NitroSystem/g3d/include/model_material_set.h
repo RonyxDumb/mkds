@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Graphics/g3d_anm_function_pointers.h"
+#include "Main/Graphics/animation_function_pointers.h"
 
 // Four words of a 2x2 matrix.
 typedef struct MtxFx22 {

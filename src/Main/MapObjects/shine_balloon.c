@@ -11,7 +11,7 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/trophy.h"
 #include "Main/MapObjects/balloon.h"

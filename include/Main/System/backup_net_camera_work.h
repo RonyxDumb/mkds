@@ -10,7 +10,7 @@
 #include "fixed_vector_math.h" // Vec3s16
 #include "geometry_engine_setup.h" // MtxFx44
 #include "model_material_set.h" // MtxFx43
-#include "Main/Net/wbt_requests.h"
+#include "Main/Net/wireless_block_requests.h"
 #include "Main/Kart/point_link_cursor.h" // PosCurve
 #include "Main/Kart/shadow_model.h" // ShadowModel
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd

@@ -9,7 +9,7 @@
 #include "00/Lib/DWC/address_convert.h"
 #include "00/Lib/NitroWiFi/dns_resolver_setting.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
-#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "tick_counter.h"
 u32 ConvNetMask(s32 prefixLength) {
     s32 shiftCount;

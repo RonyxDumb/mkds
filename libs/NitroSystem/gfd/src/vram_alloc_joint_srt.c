@@ -1,5 +1,5 @@
 #include "vram_alloc_joint_srt.h"
-#include "ITCM/g3d_draw_and_irq_handler.h"
+#include "ITCM/model_draw_and_irq_handler.h"
 
 u32 AllocPlttVram_(u32 szByte, BOOL b4Pltt, u32 opt) {
     return 0;
