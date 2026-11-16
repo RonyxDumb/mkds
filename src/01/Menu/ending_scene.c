@@ -162,7 +162,7 @@ void LoadAndQueueEndingSceneData(void) {
                                        gEndingScene->mThanksYouMO00Palette->mDataSize);
 }
 
-void AdvanceEndingSceneWaitFadeIn(void) {
+void AdvanceEndingSceneWaitFirstFadeIn(void) {
     if (AreBrightnessFadesClear() != 0) {
         if (gMenuShared->mStaffRollEndedEarly != 0) {
             gEndingScene->mNextState = ENDING_SCENE_STATE_WAIT_INPUT;
@@ -261,7 +261,7 @@ void AdvanceEndingScene(void) {
     ClearOamListCounts(gEndingScene->mMainOam, NULL);
     switch (gEndingScene->mState) {
         case ENDING_SCENE_STATE_WAIT_FADE_IN:
-            AdvanceEndingSceneWaitFadeIn();
+            AdvanceEndingSceneWaitFirstFadeIn();
             break;
         case ENDING_SCENE_STATE_SHOW_LOGO:
             AdvanceEndingSceneShowLogo();

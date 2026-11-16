@@ -70,7 +70,7 @@ void RequestRecordGpxPageSlideOut(void) {
     gRecordGpx->mStateFrames = 0;
 }
 
-void RequestRecordGpxPageSlideInAndMoveIndex(void) {
+void RequestRecordGpxPageSlideInAndMoveIndexAndSetup(void) {
     gRecordGpx->mNextState = RECORD_GPX_STATE_PAGE_SLIDE_IN;
     gRecordGpx->mStateFrames = 0;
     switch (gRecordGpx->mIndexMoveDirection) {
@@ -349,7 +349,7 @@ void AdvanceRecordGpxPageSlideOut(void) {
         }
     }
     if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
-        RequestRecordGpxPageSlideInAndMoveIndex();
+        RequestRecordGpxPageSlideInAndMoveIndexAndSetup();
     }
 }
 

@@ -311,7 +311,7 @@ other:
 done:
     if (AdvanceRecordTAttButtonSequence() != FALSE) {
         if (CheckRecordTAttFirstRecordFormat() != FALSE) {
-            RequestRecordTAttSlideOutForTimeText();
+            RequestRecordTAttSlideOutForTimeRecordChars();
         }
     }
 }
@@ -362,7 +362,7 @@ void AdvanceRecordTAttSlideOutSide(void) {
         }
     }
     if (gRecordTAtt->mStateFrames >= RECORD_TATT_SLIDE_FRAMES) {
-        RequestRecordTAttSlideInSideAndMoveIndex();
+        RequestRecordTAttSlideInSideAndMoveIndexAndSetup();
     }
 }
 
@@ -487,11 +487,11 @@ void AdvanceRecordTAttPressButton(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     if (gRecordTAtt->mStateFrames >= RECORD_TATT_PRESS_FRAMES) {
-        RequestRecordTAttSlideOutForClearPrompt();
+        RequestRecordTAttSlideOutForAskClear();
     }
 }
 
-void AdvanceRecordTAttSlideOutForClearPrompt(void) {
+void AdvanceRecordTAttSlideOutForAskClear(void) {
     s32 rowIndex;
     u16 subLayoutCount;
     s32 j;
@@ -517,8 +517,8 @@ void AdvanceRecordTAttSlideOutForClearPrompt(void) {
         }
     }
     if (gRecordTAtt->mStateFrames > RECORD_TATT_SLIDE_FRAMES) {
-        if (IsSelectReturnHiddenNoRequest() != 0) {
-            RequestRecordTAttWaitClearPromptOpen();
+        if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
+            RequestRecordTAttWaitAskClearOpen();
         }
     }
     if (gRecordTAtt->mStateFrames == RECORD_TATT_HIDE_CELLS_FRAME) {
@@ -527,7 +527,7 @@ void AdvanceRecordTAttSlideOutForClearPrompt(void) {
     }
 }
 
-void AdvanceRecordTAttWaitClearPromptOpen(void) {
+void AdvanceRecordTAttWaitAskClearOpen(void) {
     if (IsTxtSystemOpenNoCloseRequest() != 0) {
         RequestRecordTAttWaitClearAnswer();
     }
@@ -545,11 +545,11 @@ void AdvanceRecordTAttWaitClearAnswer(void) {
             }
             gRecordTAtt->mClearChosen = TRUE;
         }
-        RequestRecordTAttWaitClearPromptClose();
+        RequestRecordTAttWaitAskClearClose();
     }
 }
 
-void AdvanceRecordTAttWaitClearPromptClose(void) {
+void AdvanceRecordTAttWaitAskClearClose(void) {
     s16 offsetX;
     u16 mainLayoutCount;
 
@@ -573,12 +573,12 @@ void AdvanceRecordTAttWaitClearPromptClose(void) {
     }
     if (gRecordTAtt->mStateFrames >= RECORD_TATT_SLIDE_FRAMES) {
         if (IsTxtSystemClosedNoOpenRequest() != 0) {
-            RequestRecordTAttSlideInAfterClearPrompt();
+            RequestRecordTAttSlideInAfterAskClearAndSetup();
         }
     }
 }
 
-void AdvanceRecordTAttSlideInAfterClearPrompt(void) {
+void AdvanceRecordTAttSlideInAfterAskClear(void) {
     s32 rowIndex;
     u16 subLayoutCount;
     s32 j;
@@ -657,7 +657,7 @@ void AdvanceRecordTAttSlideOutForTimeText(void) {
         }
     }
     if (gRecordTAtt->mStateFrames > RECORD_TATT_SLIDE_FRAMES) {
-        RequestRecordTAttWaitTimeTextOpen();
+        RequestRecordTAttWaitTimeRecordCharsOpen();
     }
     if (gRecordTAtt->mStateFrames == RECORD_TATT_HIDE_CELLS_FRAME) {
         gRecordTAtt->mRecordTAttSTable[12].mVisible = 0;
@@ -669,7 +669,7 @@ void AdvanceRecordTAttWaitTimeTextOpen(void) {
     int txtSystemOpenNoCloseRequest;
     txtSystemOpenNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (txtSystemOpenNoCloseRequest != 0) {
-        RequestRecordTAttWaitTimeTextInput();
+        RequestRecordTAttWaitTimeRecordCharsInput();
     }
 }
 
@@ -697,7 +697,7 @@ void AdvanceRecordTAttWaitTimeTextInput(void) {
             return;
         }
     }
-    RequestRecordTAttWaitTimeTextClose();
+    RequestRecordTAttWaitTimeRecordCharsClose();
     RequestSelectReturnPressWithSound(0);
 }
 
@@ -705,7 +705,7 @@ void AdvanceRecordTAttWaitTimeTextClose(void) {
     int txtSystemClosedNoOpenRequest;
     txtSystemClosedNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (txtSystemClosedNoOpenRequest != 0) {
-        RequestRecordTAttSlideInAfterTimeText();
+        RequestRecordTAttSlideInAfterTimeRecordChars();
     }
 }
 
@@ -772,19 +772,19 @@ void AdvanceRecordTAtt(void) {
             AdvanceRecordTAttPressButton();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_FOR_CLEAR_PROMPT:
-            AdvanceRecordTAttSlideOutForClearPrompt();
+            AdvanceRecordTAttSlideOutForAskClear();
             break;
         case RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_OPEN:
-            AdvanceRecordTAttWaitClearPromptOpen();
+            AdvanceRecordTAttWaitAskClearOpen();
             break;
         case RECORD_TATT_STATE_WAIT_CLEAR_ANSWER:
             AdvanceRecordTAttWaitClearAnswer();
             break;
         case RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_CLOSE:
-            AdvanceRecordTAttWaitClearPromptClose();
+            AdvanceRecordTAttWaitAskClearClose();
             break;
         case RECORD_TATT_STATE_SLIDE_IN_AFTER_CLEAR_PROMPT:
-            AdvanceRecordTAttSlideInAfterClearPrompt();
+            AdvanceRecordTAttSlideInAfterAskClear();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_FOR_TIME_TEXT:
             AdvanceRecordTAttSlideOutForTimeText();

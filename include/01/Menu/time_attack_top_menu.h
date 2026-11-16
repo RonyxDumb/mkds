@@ -18,7 +18,7 @@ void RequestTimeAttackTopMenuSlideOut(void);
 void RequestTimeAttackTopMenuPress(void);
 void RequestTimeAttackTopMenuInput(void);
 void RequestTimeAttackTopMenuWaitSelectReturn(void);
-void RequestTimeAttackTopMenuSettle(void);
+void RequestTimeAttackTopMenuSlideInPressOffset(void);
 void RequestTimeAttackTopMenuSlideIn(void);
 void LocateAndQueueTimeAttackTopMenu(void);
 void LoadTimeAttackTopMenuData(void);

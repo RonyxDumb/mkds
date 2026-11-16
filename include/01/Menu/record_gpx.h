@@ -175,7 +175,7 @@ void ReleaseRecordGpx(void);
 void InitRecordGpx(void *heap);
 void RequestRecordGpxBgSlideOut(void);
 void RequestRecordGpxCellsSlideOut(void);
-void RequestRecordGpxPageSlideInAndMoveIndex(void);
+void RequestRecordGpxPageSlideInAndMoveIndexAndSetup(void);
 void RequestRecordGpxPageSlideOut(void);
 void RequestRecordGpxSelect(void);
 void RequestRecordGpxCellsSlideInAndSetup(void);

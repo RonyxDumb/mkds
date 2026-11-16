@@ -36,7 +36,7 @@ BOOL IsBackupEmblemOff(void);
 void LocateAndQueueOptionEmbremSelect(void);
 /* slot mRelease of OptionStateCallbacks; only clears the global, the state heap is destroyed by
    AdvanceOptionStates after it returns */
-void ReleaseOptionEmbremSelect(void);
+void ClearOptionEmbremSelectPointer(void);
 void InitOptionEmbremSelect(void *heap);
 
 #include "00/Menu/wi_fi_vs_matching.h"

@@ -355,7 +355,7 @@ void RequestRecordTAttSlideOutSide(void) {
     gRecordTAtt->mStateFrames = 0;
 }
 
-void RequestRecordTAttSlideInSideAndMoveIndex(void) {
+void RequestRecordTAttSlideInSideAndMoveIndexAndSetup(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_SIDE;
     gRecordTAtt->mStateFrames = 0;
     switch (gRecordTAtt->mIndexMoveDirection) {
@@ -388,13 +388,13 @@ void RequestRecordTAttPressButton(void) {
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
 }
 
-void RequestRecordTAttSlideOutForClearPrompt(void) {
+void RequestRecordTAttSlideOutForAskClear(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_FOR_CLEAR_PROMPT;
     gRecordTAtt->mStateFrames = 0;
     RequestSelectReturnSlideOut();
 }
 
-void RequestRecordTAttWaitClearPromptOpen(void) {
+void RequestRecordTAttWaitAskClearOpen(void) {
     u16 buf[0x102];
     RecordTAtt *recordTAtt;
     void *text;
@@ -418,14 +418,14 @@ void RequestRecordTAttWaitClearAnswer(void) {
     SetTxtSystemSoundId(0, 11);
 }
 
-void RequestRecordTAttWaitClearPromptClose(void) {
+void RequestRecordTAttWaitAskClearClose(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_CLOSE;
     gRecordTAtt->mStateFrames = 0;
     RequestTxtSystemClose();
     SetTxtSystemSoundId(0, 5);
 }
 
-void RequestRecordTAttSlideInAfterClearPrompt(void) {
+void RequestRecordTAttSlideInAfterAskClearAndSetup(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_AFTER_CLEAR_PROMPT;
     gRecordTAtt->mStateFrames = 0;
     RequestSelectReturnSlideIn();
@@ -433,13 +433,13 @@ void RequestRecordTAttSlideInAfterClearPrompt(void) {
     gRecordTAtt->mRecordTAttSTable[13].mVisible = 0;
 }
 
-void RequestRecordTAttSlideOutForTimeText(void) {
+void RequestRecordTAttSlideOutForTimeRecordChars(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_FOR_TIME_TEXT;
     gRecordTAtt->mStateFrames = 0;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 6);
 }
 
-void RequestRecordTAttWaitTimeTextOpen(void) {
+void RequestRecordTAttWaitTimeRecordCharsOpen(void) {
     s32 sourceIndex;
     s32 destIndex;
     s32 groupPosition;
@@ -469,19 +469,19 @@ void RequestRecordTAttWaitTimeTextOpen(void) {
 }
 
 // Requests state 15.
-void RequestRecordTAttWaitTimeTextInput(void) {
+void RequestRecordTAttWaitTimeRecordCharsInput(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_TIME_TEXT_INPUT;
     gRecordTAtt->mStateFrames = 0;
 }
 
-void RequestRecordTAttWaitTimeTextClose(void) {
+void RequestRecordTAttWaitTimeRecordCharsClose(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_TIME_TEXT_CLOSE;
     gRecordTAtt->mStateFrames = 0;
     RequestTxtSystemClose();
 }
 
 // Requests state 17.
-void RequestRecordTAttSlideInAfterTimeText(void) {
+void RequestRecordTAttSlideInAfterTimeRecordChars(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT;
     gRecordTAtt->mStateFrames = 0;
 }

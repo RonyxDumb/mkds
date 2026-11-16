@@ -263,7 +263,7 @@ void RequestSelectEngineSlideIn(void) {
 
 // Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
 // mState and runs AdvanceSelectEnginePressOffsetAfterSlideIn.
-void RequestSelectEngineSettle(void) {
+void RequestSelectEngineSlideInPressOffset(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_SETTLE;
     gSelectEngine->mStateFrames = 0;
 }
@@ -390,11 +390,11 @@ void AdvanceSelectEngineSlideIn(void) {
         }
     }
     if (gSelectEngine->mStateFrames >= SELECT_ENGINE_SLIDE_FRAMES) {
-        RequestSelectEngineSettle();
+        RequestSelectEngineSlideInPressOffset();
     }
 }
 
-void AdvanceSelectEngineSettle(void) {
+void AdvanceSelectEnginePressOffsetAfterSlideIn(void) {
     s16 selectedPressOffset;
     s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
@@ -610,7 +610,7 @@ int AdvanceSelectEngine(void) {
             AdvanceSelectEngineSlideIn();
             break;
         case SELECT_ENGINE_STATE_SETTLE:
-            AdvanceSelectEngineSettle();
+            AdvanceSelectEnginePressOffsetAfterSlideIn();
             break;
         case SELECT_ENGINE_STATE_WAIT_SELECT_RETURN:
             AdvanceSelectEngineWaitSelectReturn();

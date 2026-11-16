@@ -15,7 +15,7 @@
 
 const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
 const s32 gOptionEmbremSelectSTableCounts[2] = {4, 0xb};
-OptionStateCallbacks gOptionEmbremSelectCallbacks = {InitOptionEmbremSelect, ReleaseOptionEmbremSelect,
+OptionStateCallbacks gOptionEmbremSelectCallbacks = {InitOptionEmbremSelect, ClearOptionEmbremSelectPointer,
                                                      AdvanceOptionEmbremSelect, WriteOptionEmbremSelectRegisters};
 const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0, 0, 0},
                                                     {1, 9, 3, 4, 5, 6, 7, 0xa, 0xb, 0xd, 0xe}};
@@ -67,7 +67,7 @@ void InitOptionEmbremSelect(void *heap) {
     SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
-void ReleaseOptionEmbremSelect(void) {
+void ClearOptionEmbremSelectPointer(void) {
     gOptionEmbremSelect = NULL;
 }
 
@@ -280,7 +280,7 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
     }
     if (gOptionEmbremSelect->mStateFrames >= OPTION_EMBREM_SELECT_SLIDE_FRAMES) {
         if (gOptionEmbremSelect->mStateFrames >= OPTION_EMBREM_SELECT_SLIDE_FRAMES &&
-            (IsSelectReturnShownNoRequest() != 0 || IsSelectReturnHiddenNoRequest() != 0)) {
+            (IsSelectReturnShownNoRequest() != 0 || IsSelectReturnHiddenNoSlideInRequest() != 0)) {
             if (GetOptionNextScene() == -1) {
                 OptionEmbremSelect *optionEmbremSelect = gOptionEmbremSelect;
                 s32 messageIndex;

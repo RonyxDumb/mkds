@@ -82,7 +82,7 @@ void RequestTimeAttackTopMenuSlideIn(void) {
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
 // mState and runs AdvanceTimeAttackTopMenuSettle.
-void RequestTimeAttackTopMenuSettle(void) {
+void RequestTimeAttackTopMenuSlideInPressOffset(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SETTLE;
     gTimeAttackTopMenu->mStateFrames = 0;
 }
@@ -201,7 +201,7 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = offsetX;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = offsetX;
     if (gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_SLIDE_FRAMES) {
-        RequestTimeAttackTopMenuSettle();
+        RequestTimeAttackTopMenuSlideInPressOffset();
     }
 }
 

@@ -136,7 +136,7 @@ void RequestRecordTopMenuSlideIn(void) {
 }
 
 // Requests state 2 for the next update.
-void RequestRecordTopMenuRowsSettle(void) {
+void RequestRecordTopMenuRowsPressOffsetAfterSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SETTLE;
     gRecordTopMenu->mStateFrames = 0;
 }
@@ -383,11 +383,11 @@ void AdvanceRecordTopMenuSlideIn(void) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= RECORD_TOP_MENU_SLIDE_FRAMES) {
-        RequestRecordTopMenuRowsSettle();
+        RequestRecordTopMenuRowsPressOffsetAfterSlideIn();
     }
 }
 
-void AdvanceRecordTopMenuRowsSettle(void) {
+void AdvanceRecordTopMenuRowsPressOffsetAfterSlideIn(void) {
     s16 offsetX;
     s32 rowIndex;
 
@@ -647,7 +647,7 @@ void AdvanceRecordTopMenu(void) {
             AdvanceRecordTopMenuSlideIn();
             break;
         case RECORD_TOP_MENU_STATE_ROWS_SETTLE:
-            AdvanceRecordTopMenuRowsSettle();
+            AdvanceRecordTopMenuRowsPressOffsetAfterSlideIn();
             break;
         case RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN:
             AdvanceRecordTopMenuWaitSelectReturn();
