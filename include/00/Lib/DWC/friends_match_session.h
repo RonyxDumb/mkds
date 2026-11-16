@@ -20,8 +20,8 @@ void DWCi_GPRecvBuddyMessageCallback(GPConnection *connection, BuddyMessageData 
 
 extern s32 stLastSocketError;
 
-// Values of WiFiConnection.mState and mPrevState, in the order a connection goes through them: not started,
-// availability check, login, logged in and waiting, buddy sync, matching, matched.
+// Values of WiFiConnection.mState and mPrevState: not started, availability check, login, logged in, buddy sync
+// (entered from logged in or later, then back to the previous state), matching, matched.
 enum {
     WIFI_CONNECTION_IDLE = 0,
     WIFI_CONNECTION_AVAILABLE_CHECK = 1,
@@ -39,8 +39,9 @@ typedef struct WiFiConnection {
     // DWC_ShutdownFriendsMatch; the socket's own error callback DWCi_GT2SocketErrorCallback sets it NULL.
     /* 00 */ GTI2Socket *mSocket;
     // Slot 0 of a GT2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
-    // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect and accept
-    // calls): result of a Gt2 connect, DWCi_GT2ConnectedCallback (result 6 retries the connect up to 5 times).
+    // mElapsedTimeCallback; the record's address is handed to the matching object and on to the Gt2 connect and accept
+    // calls. This slot: result of a Gt2 connect, DWCi_GT2ConnectedCallback (result 6 retries the connect up to 5
+    // times).
     /* 04 */ void (*mResultCallback)();
     // Slot 1 of the record at mResultCallback: data received from a peer, forwarded through DWCi_GT2ReceivedCallback to
     // DWCi_RecvCallback of the message layer.
@@ -66,7 +67,7 @@ typedef struct WiFiConnection {
     // State before the last DWCi_SetState; DWCi_UpdateServersCallback returns to it when the sync ends.
     /* 28 */ s32 mPrevState;
     // This player's index among the participants: 0 after Init; set from the participant table when a match completes
-    // (no error, no cancel) and a participant id equals mProfileId; read through DWC_GetMyAID.
+    // (no error, no cancel) and a participant's profile id equals mProfileId; read through DWC_GetMyAID.
     /* 2c */ u8 mOwnIndex;
     // 1 only while DWC_CloseAllConnectionsHard closes every peer connection of the socket (state 5 or 6, other
     // participants present); read by DWCi_GT2ClosedCallback to tell this close from a

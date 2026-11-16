@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-// Result of a profile request; 0 is OK. 4 is also stored when the connection could not be opened and when the server
-// answered with an error.
+// Result of a profile request: 0 is OK, any other value is a failure. 4 is stored when the connection could
+// not be opened; the other nonzero PROFILE_RESULT values of a failed step are stored as they are.
 typedef enum ProfileRequestResult {
     PROFILE_REQUEST_OK = 0,
     PROFILE_REQUEST_FAILED = 4

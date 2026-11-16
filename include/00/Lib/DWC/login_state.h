@@ -20,7 +20,7 @@ typedef struct WiFiLogin {
     // WIFI_LOGIN_*; set by InitWiFiLogin, DWCi_LoginAsync, DWCi_GPConnect (its target state), DWCi_GPConnectCallback,
     // DWCi_GPGetInfoCallback and DWCi_CloseLogin.
     /* 04 */ s32 mState;
-    // Game id 0x4d6 (DWC_InitFriendsMatch's titleNumber, its third parameter): given to gpInitialize, which stores it
+    // Product id 0x4d6 (third parameter of DWC_InitFriendsMatch): given to gpInitialize, which stores it
     // as GPIConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
     /* 0c */ u32 mGamecode;

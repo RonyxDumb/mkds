@@ -22,7 +22,7 @@ enum {
 enum {
     AUTH_SERVER_TEST,
     AUTH_SERVER_DEV,
-    AUTH_SERVER_NO_SUBDOMAIN,
+    AUTH_SERVER_NO_TEST_OR_DEV_LABEL,
 };
 
 typedef struct DWCInetControl {

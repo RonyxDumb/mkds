@@ -42,7 +42,7 @@ typedef struct WiFiPeerMessage {
     // Receive state, one of WIFI_PEER_RECEIVE_STATE_*, switched on once per received packet in
     // DWCs_HandleReliableMessage: INITIAL takes only a control header (kinds SYNC_REQUEST to SYNC_GO); EXPECT_HEADER
     // takes any header (set by DWC_SetRecvBuffer and after a finished message); DATA_BODY copies the packets into the
-    // buffer; CONTROL_BODY takes the next packet as the control body and then restores mLastReceiveState; DROP_BODY
+    // buffer; CONTROL_BODY restores mLastReceiveState and takes the next packet as the control body; DROP_BODY
     // drops the next packet and goes back to EXPECT_HEADER.
     /* 1d */ u8 mReceiveState;
     /* 1e */ u8 mLastReceiveState;
@@ -62,7 +62,8 @@ typedef struct WiFiMessageLayer {
     // Called with (size, aid) once a message was handed to the socket: when the last chunk of a reliable message went
     // out (data kind in DWCi_SendReliable, any kind in DWCi_TransportProcess) and for each unreliable send.
     /* 600 */ void (*mSendCallback)(s32 size, u32 aid);
-    // Called with (aid, buffer, size) when a reliable message is complete and for each unreliable message.
+    // Called with (aid, buffer, size) when a reliable data message is complete and for each unreliable message that
+    // fits mReceiveBuffer.
     /* 604 */ void (*mUdpreadCallback)(u32 aid, u8 *buffer, s32 size);
     /* 608 */ void (*mReceiveTimeoutCallback)(u32 aid);
     /* 60c */ void (*mPingCallback)(u32 latency, u32 aid);
@@ -71,7 +72,7 @@ typedef struct WiFiMessageLayer {
     /* 610 */ u16 mSendChunkSize;
 } WiFiMessageLayer;
 
-// The 8-byte header in front of each message: its size, its kind (mType) and two magic characters.
+// The 8-byte header in front of each reliable message: its size, its kind (mType) and two magic characters.
 typedef struct DWCTransportHeader {
     /* 00 */ u32 mSize;
     /* 04 */ u16 mType;

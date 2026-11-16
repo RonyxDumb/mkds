@@ -541,9 +541,9 @@ BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern) {
     }
 }
 
-// Parses and checks the first item of the list message and goes on to the next only when its check failed but
-// mCheckFlagsCallback cleared the flags; mSetupState becomes HTTPS_SETUP_ITEM_LIST_CHECKED when the final flags are 0,
-// else HTTPS_SETUP_FAILED (also when an item does not parse).
+// Parses and checks the first item of the list message and goes on to the next one only while items remain and its
+// check result (the low byte of its flags) was not 0 but mCheckFlagsCallback cleared all the flags; mSetupState becomes
+// HTTPS_SETUP_ITEM_LIST_CHECKED when the final flags are 0, else HTTPS_SETUP_FAILED (also when an item does not parse).
 void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     s32 itemIndex;
     s32 remainingLength;
@@ -722,7 +722,7 @@ void ParseOfferMessage(HttpsState *httpsState, const u8 *message) {
 }
 
 // Transforms the bytes in encrypted with the six length and pointer pairs of privateKey and writes 0x30 bytes to
-// secret; does nothing when privateKey is NULL or its mModulusLength is 0.
+// secret; does nothing when privateKey is NULL, its mModulusLength is 0 or the work block cannot be allocated.
 void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *privateKey) {
     u16 *workBlock;
     u16 *keyBlock;
@@ -1099,8 +1099,8 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection) {
     return 0;
 }
 
-// Reads one record; xors and checks a non-alert record when mSetupState is HTTPS_SETUP_CIPHER_RECORD_RECEIVED or
-// HTTPS_SETUP_COMPLETE, and an alert only when it is longer than 7 bytes; runs the handler of its kind and returns
+// Reads one record; xors and checks a record that is not a status record when mSetupState is
+// HTTPS_SETUP_CIPHER_RECORD_RECEIVED or HTTPS_SETUP_COMPLETE, and a status record only when it is longer than 7 bytes;
 // mSetupState.
 u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
@@ -1128,7 +1128,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                 httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 return httpsState->mSetupState;
             }
-            if (ReadExactReceivedBytes(record, length, connection) == 0 && record[0] == TLS_HANDSHAKE_OFFER) {
+            if (ReadExactReceivedBytes(record, length, connection) == 0 && record[0] == HTTPS_HANDSHAKE_OFFER) {
                 ParseOfferMessageWithThreeByteValues(httpsState, record + 1);
             } else {
                 httpsState->mSetupState = HTTPS_SETUP_FAILED;
@@ -1152,29 +1152,29 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
             return httpsState->mSetupState;
         }
         if (((u8) (httpsState->mSetupState + (0x100 - HTTPS_SETUP_CIPHER_RECORD_RECEIVED)) <= 1 &&
-             recordType != TLS_RECORD_TYPE_STATUS) ||
-            (recordType == TLS_RECORD_TYPE_STATUS && length > 7)) {
+             recordType != HTTPS_RECORD_TYPE_ALERT) ||
+            (recordType == HTTPS_RECORD_TYPE_ALERT && length > 7)) {
             length = XorReceivedRecordWithKeyStreamAndCheckDigest(httpsState, record);
         }
         body = record + TLS_RECORD_HEADER_SIZE;
         length -= TLS_RECORD_HEADER_SIZE;
         switch (recordType) {
-            case TLS_RECORD_TYPE_CIPHER:
+            case HTTPS_RECORD_TYPE_CIPHER:
                 MI_CpuFill8(httpsState->mReceiveRecordCount, 0, 8);
                 httpsState->mSetupState = HTTPS_SETUP_CIPHER_RECORD_RECEIVED;
                 break;
-            case TLS_RECORD_TYPE_STATUS:
+            case HTTPS_RECORD_TYPE_ALERT:
                 if (body[0] == 2) {
                     httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 }
                 break;
-            case TLS_RECORD_TYPE_HANDSHAKE:
+            case HTTPS_RECORD_TYPE_HANDSHAKE:
                 do {
                     messageType = body[0];
                     messageLength = body[3] + ((body[1] << 16) + (body[2] << 8));
                     body += 4;
                     switch (messageType) {
-                        case TLS_HANDSHAKE_OFFER:
+                        case HTTPS_HANDSHAKE_OFFER:
                             if (httpsState->mReceivesOfferRecord != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
                                 ParseOfferMessage(httpsState, body);
                             }
@@ -1182,16 +1182,16 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                         case TLS_HANDSHAKE_CLIENT_KEY_EXCHANGE:
                             rcv_client_key_exchange(httpsState, body);
                             break;
-                        case TLS_HANDSHAKE_ANSWER:
+                        case HTTPS_HANDSHAKE_ANSWER:
                             ParseAnswerMessage(httpsState, body);
                             break;
                         case TLS_HANDSHAKE_CERTIFICATE:
                             ParseAndCheckItemListMessage(httpsState, body);
                             break;
-                        case TLS_HANDSHAKE_ANSWER_END:
+                        case HTTPS_HANDSHAKE_ANSWER_END:
                             httpsState->mSetupState = HTTPS_SETUP_ANSWER_END_RECEIVED;
                             break;
-                        case TLS_HANDSHAKE_DIGESTS:
+                        case HTTPS_HANDSHAKE_DIGESTS:
                             CheckMessageDigestsAndSetState(httpsState, body);
                             break;
                         default:
@@ -1207,7 +1207,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                     }
                 } while (httpsState->mSetupState != HTTPS_SETUP_FAILED);
                 break;
-            case TLS_RECORD_TYPE_DATA:
+            case HTTPS_RECORD_TYPE_DATA:
                 httpsState->mReceivedBlock = record;
                 httpsState->mReceivedBlockOffset = TLS_RECORD_HEADER_SIZE;
                 httpsState->mReceivedBlockEnd = length + TLS_RECORD_HEADER_SIZE;
@@ -1308,7 +1308,7 @@ u8 SendReplyRecord(CPSSoc *connection) {
         return 1;
     }
     cursor = message + TLS_RECORD_HEADER_SIZE;
-    message[5] = TLS_HANDSHAKE_ANSWER;
+    message[5] = HTTPS_HANDSHAKE_ANSWER;
     cursor[1] = 0;
     cursor[2] = 0;
     cursor[3] = 0x46;
@@ -1354,14 +1354,14 @@ u8 SendReplyRecord(CPSSoc *connection) {
             MI_CpuCopy8(itemList->mBytes, cursor, itemListLength);
             cursor += itemListLength;
         }
-        cursor[0] = TLS_HANDSHAKE_ANSWER_END;
+        cursor[0] = HTTPS_HANDSHAKE_ANSWER_END;
         cursor[1] = 0;
         cursor[2] = 0;
         cursor += 3;
         *cursor++ = 0;
     }
     length = cursor - message - TLS_RECORD_HEADER_SIZE;
-    message[0] = TLS_RECORD_TYPE_HANDSHAKE;
+    message[0] = HTTPS_RECORD_TYPE_HANDSHAKE;
     message[1] = 3;
     message[2] = 0;
     message[3] = length >> 8;
@@ -1382,19 +1382,19 @@ void SendOneByteRecordAndMessageDigests(CPSSoc *connection) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
-    message[0] = TLS_RECORD_TYPE_CIPHER;
+    message[0] = HTTPS_RECORD_TYPE_CIPHER;
     message[1] = 3;
     message[2] = 0;
     message[3] = 0;
     message[4] = 1;
     message[5] = 1;
     MI_CpuFill8(httpsState->mSendRecordCount, 0, 8);
-    message[6] = TLS_RECORD_TYPE_HANDSHAKE;
+    message[6] = HTTPS_RECORD_TYPE_HANDSHAKE;
     message[7] = 3;
     message[8] = 0;
     message[9] = 0;
     message[10] = 0x28;
-    message[11] = TLS_HANDSHAKE_DIGESTS;
+    message[11] = HTTPS_HANDSHAKE_DIGESTS;
     message[12] = 0;
     message[13] = 0;
     message[14] = 0x24;
@@ -1461,12 +1461,12 @@ void SendOfferRecord(CPSSoc *connection) {
     cursor[1] = 0;
     bytePtr = cursor + 2;
     payloadLength = bytePtr - message - TLS_RECORD_HEADER_SIZE;
-    message[0] = TLS_RECORD_TYPE_HANDSHAKE;
+    message[0] = HTTPS_RECORD_TYPE_HANDSHAKE;
     message[1] = 3;
     message[2] = 0;
     message[3] = payloadLength >> 8;
     message[4] = payloadLength;
-    message[5] = TLS_HANDSHAKE_OFFER;
+    message[5] = HTTPS_HANDSHAKE_OFFER;
     message[6] = (payloadLength - 4) >> 16;
     message[7] = (payloadLength - 4) >> 8;
     message[8] = payloadLength - 4;
@@ -1535,7 +1535,7 @@ void send_client_key_exchange(CPSSoc *connection) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
-    record[0] = TLS_RECORD_TYPE_HANDSHAKE;
+    record[0] = HTTPS_RECORD_TYPE_HANDSHAKE;
     record[1] = 3;
     record[2] = 0;
     record[3] = (modulusLength + 4) >> 8;
@@ -1729,7 +1729,7 @@ s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *seco
         firstLength -= firstChunkLength;
         MI_CpuCopy8(secondBytes, record + TLS_RECORD_HEADER_SIZE + firstChunkLength, secondChunkLength);
         secondBytes += secondChunkLength;
-        record[0] = TLS_RECORD_TYPE_DATA;
+        record[0] = HTTPS_RECORD_TYPE_DATA;
         record[1] = 3;
         record[2] = recordByte2;
         record[3] = chunkLength >> 8;
@@ -1751,13 +1751,13 @@ s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *seco
     return sentCount;
 }
 
-// Sends the 7-byte record that ends with 1, 0 when mSetupState is HTTPS_SETUP_COMPLETE; always runs CPSi_TcpShutdownRaw
-// and then sets mSetupState to HTTPS_SETUP_START.
+// Sends a status record with the body bytes 1, 0 (digest appended, xored with the key stream) when mSetupState is
+// HTTPS_SETUP_COMPLETE; always runs CPSi_TcpShutdownRaw and then sets mSetupState to HTTPS_SETUP_START.
 void CPSi_SslShutdown(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 alertRecord[0x20];
     if (httpsState->mSetupState == HTTPS_SETUP_COMPLETE) {
-        alertRecord[0] = TLS_RECORD_TYPE_STATUS;
+        alertRecord[0] = HTTPS_RECORD_TYPE_ALERT;
         alertRecord[1] = 3;
         alertRecord[2] = 0;
         alertRecord[3] = 0;

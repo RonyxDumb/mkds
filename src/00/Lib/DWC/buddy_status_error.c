@@ -69,11 +69,11 @@ int DWCi_HandlePersError(int error) {
         return 0;
     }
     switch (error) {
-        case STATS_CONNECT_NO_SOCKET:
+        case STATS_CONNECT_NOT_STARTED:
             errorKind = 6;
             errorCode = -50;
             break;
-        case STATS_CONNECT_NO_DNS:
+        case STATS_CONNECT_HOST_LOOKUP:
             errorKind = 6;
             errorCode = -30;
             break;

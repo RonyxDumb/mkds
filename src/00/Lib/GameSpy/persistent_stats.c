@@ -82,7 +82,7 @@ s32 InitStatsAsync(s32 theGamePort, s32 theInitTimeout) {
         gInitTimeout = theInitTimeout;
     }
     if (gGsiAcResult != 1) {
-        return STATS_CONNECT_NO_SOCKET;
+        return STATS_CONNECT_NOT_STARTED;
     }
     if (gInternalInit == 0) {
         InternalInit();
@@ -101,11 +101,11 @@ s32 InitStatsAsync(s32 theGamePort, s32 theInitTimeout) {
         strcpy(statsHost, gStatsServerHostname);
     }
     if (ResolveStatsHostAddress(statsHost, 0x74e0, statsSockAddr, NULL) == FALSE) {
-        return STATS_CONNECT_NO_DNS;
+        return STATS_CONNECT_HOST_LOOKUP;
     }
     gSock = OpenNetSocket(2, 1, 0);
     if (gSock == -1) {
-        return STATS_CONNECT_NO_SOCKET;
+        return STATS_CONNECT_NOT_STARTED;
     }
     SetSockBlocking(gSock, 0);
     ret = connect(gSock, statsSockAddr, 8);

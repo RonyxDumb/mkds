@@ -46,7 +46,7 @@ void DWC_SetAuthServer(s32 type) {
         case AUTH_SERVER_DEV:
             DWC_Auth_SetCustomNas("https://nas.dev.nintendowifi.net/ac");
             break;
-        case AUTH_SERVER_NO_SUBDOMAIN:
+        case AUTH_SERVER_NO_TEST_OR_DEV_LABEL:
             DWC_Auth_SetCustomNas("https://nas.nintendowifi.net/ac");
             break;
     }

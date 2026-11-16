@@ -129,8 +129,8 @@ typedef struct DWCAuth {
     /* 3e0 */ u8 mStack[0x1000];
 } DWCAuth;
 
-// The pieces of the first post to the server: mEssidLength, mMacAddress, mBssid, mGameCode, mMakerCode, mBirthday and
-// mPassword.
+// The values gathered for the first post to the server: mMacAddress, mBssid, mGameCode, mMakerCode, mBirthday and
+// mPassword, and mEssidLength, the length of the access point name read for the post (not posted itself).
 typedef struct AuthFirstPostValues {
     /* 00 */ u16 mEssidLength;
     /* 02 */ u8 mMacAddress[6];

@@ -27,7 +27,8 @@ enum {
 typedef void (*DWCBuddyFriendCallback)(s32 index, void *arg);
 
 typedef struct WiFiBuddySync {
-    // Values BUDDY_SYNC_STATE_*: set by StartBuddySync (UPDATING), DWCi_EndUpdateServers (FINISHED) and
+    // Values BUDDY_SYNC_STATE_*: set by DWCi_FriendInit and CloseStatsAndResetBuddySync (NONE), StartBuddySync
+    // (UPDATING) and DWCi_EndUpdateServers (FINISHED); only compared elsewhere.
     // CloseStatsAndResetBuddySync (NONE); only compared elsewhere.
     /* 00 */ s32 mState;
     /* 04 */ struct GPConnection *mGpConnection;
@@ -46,7 +47,8 @@ typedef struct WiFiBuddySync {
     // (DWCi_GPProfileSearchCallback).
     /* 1c */ u8 mSyncIndex;
     // 1 when the sync rewrote or merged an entry; given to the result callback, whose receiver
-    // WiFiSessionBuddySyncCallback sets WiFiSession.mBuddiesChanged so the list is saved. Set early in
+    // WiFiSessionBuddySyncCallback sets WiFiSession.mBuddiesChanged from it on result 0, so the list is saved. Set
+    // early in
     // DWCi_GPProfileSearchCallback, so it can be 1 without a change.
     /* 1d */ u8 mBuddiesChanged;
     /* 1e */ u8 mBuddyUpdateState;
@@ -55,7 +57,7 @@ typedef struct WiFiBuddySync {
     // the list part.
     /* 1f */ u8 mCompletedParts;
     // Stats-server requests in flight (++ for each request sent, -- in its reply); an error when it would wrap or fall
-    // below 0, and while it is nonzero when the stats link is gone (DWCi_FriendProcess). Only used when a name was
+    // below 0, and while it is nonzero when PersistThink returns FALSE (DWCi_FriendProcess). Only used when a name was
     // given to StartBuddySync (the one caller passes NULL).
     /* 20 */ u32 mPendingStatsRequestCount;
     /* 24 */ s32 mProfileId;

@@ -64,7 +64,7 @@ void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GPConnection *gpConnection
 }
 
 // In connection states 3 to 6, unless mBuddies is NULL or an error is set, it calls DWCi_GPProcess (gpProcess at most
-// every 300 ms); once mPollCount is above 7 and the list update is not done, it also runs the list update.
+// every 300 ms) while the GP connection exists; with mPollCount above 7 and the list update not done it also runs it.
 void DWCi_FriendProcess(void) {
     if (gWiFiBuddySync == NULL) {
         return;
@@ -125,7 +125,7 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
             if (statsResult == STATS_CONNECT_OK) {
                 break;
             }
-            if (statsResult != STATS_CONNECT_NO_DNS || attemptIndex == 4) {
+            if (statsResult != STATS_CONNECT_HOST_LOOKUP || attemptIndex == 4) {
                 DWCi_HandlePersError(statsResult);
                 return;
             }
@@ -138,9 +138,9 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
     }
 }
 
-// Does nothing when error is 0. Otherwise stores (error, errorCode) with DWCi_SetError, calls mResultCallback with
-// error while mState is 1, and closes the stats link (mState back to 0). Also called from the GP and stats error
-// mappers and the matching code.
+// Does nothing when the sync object is NULL or error is 0. Otherwise stores (error, errorCode) with DWCi_SetError,
+// calls mResultCallback with error while mState is BUDDY_SYNC_STATE_UPDATING, and closes the stats link (mState back to
+// BUDDY_SYNC_STATE_NONE). Also called from the GP and stats error mappers and the matching code.
 void DWCi_StopFriendProcess(s32 error, s32 errorCode) {
     if (gWiFiBuddySync != NULL && error != 0) {
         DWCi_SetError(error, errorCode);

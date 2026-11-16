@@ -93,7 +93,7 @@ void DWCi_PingCallback(GTI2Connection *connection, u32 latency) {
 // One step per DWC_ProcessFriendsMatch call in connection state 6 (returns at once when the layer is NULL): for each
 // participant other than the own one with a send under way, sends the next chunk when the outgoing buffer has room and
 // calls mSendCallback after the last chunk; for each valid participant, when mReceiveTimeoutCallback is set and
-// mReceiveTimeoutTime is not 0 and the time since the last receive exceeds mReceiveTimeoutTime, calls
+// mReceiveTimeoutTime is not 0 and the time since the last receive or the last call exceeds mReceiveTimeoutTime, calls
 // mReceiveTimeoutCallback. Neither member has a writer in src.
 void DWCi_TransportProcess(void) {
     u8 *aids;

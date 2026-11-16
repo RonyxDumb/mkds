@@ -1307,7 +1307,7 @@ void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     length -= (tcpHeader->mDataOffset & DATA_OFFSET_FIELD_MASK) / 4;
     switch (tcpHeader->mFlags & (SEGMENT_FLAG_FIN | SEGMENT_FLAG_SYN | SEGMENT_FLAG_RST | SEGMENT_FLAG_ACK)) {
         case SEGMENT_FLAG_SYN:
-            // a SYN may not carry these bits
+            // a SYN with bit 0x8 or 0x20 set is dropped
             if (tcpHeader->mFlags & 0x28) {
                 return;
             }

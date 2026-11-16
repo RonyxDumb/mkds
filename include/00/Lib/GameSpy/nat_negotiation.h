@@ -11,7 +11,7 @@ typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
-// Port types of an init message (NN_PT_*): NAT_PORT_TYPE_GAME_SOCKET is sent from the game socket to the first matchup
+// Port types of an init message: NAT_PORT_TYPE_GAME_SOCKET is sent from the game socket to the first matchup
 // server, NAT_PORT_TYPE_MATCHUP1 from the negotiation socket to the first, NAT_PORT_TYPE_MATCHUP2 from the negotiation
 // socket to the second; each is answered by its own acknowledgement (mInitAckRecv).
 #define NAT_PORT_TYPE_GAME_SOCKET 0

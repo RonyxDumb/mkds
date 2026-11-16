@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Values of NatNegotiator.mState: sending the init packets until every ack arrives; waiting up to 10 seconds for the
+// Values of NatTraversalEntry.mState: sending the init packets until all acks arrive; waiting up to 10 seconds for the
 // connect packet that gives the address to ping; pinging that address until a ping answers with the got-data flag set;
 // ping answered (the entry is cancelled after a delay); cancelled (removed by the next think). The progress callback is
 // called with WAIT_CONNECT and PING.

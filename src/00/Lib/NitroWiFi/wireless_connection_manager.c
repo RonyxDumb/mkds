@@ -864,7 +864,7 @@ void WcmWmcbCommon(WirelessMessage *callback) {
     }
 }
 
-// Kept as asm: both functions are built on the clz instruction.
+// Both functions are written in asm around the clz instruction.
 // clang-format off
 #pragma thumb off
 asm u32 WcmCountBits(u32 bits) {

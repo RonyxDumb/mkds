@@ -46,7 +46,7 @@ u32 SOCLi_RoundUp4(int size) {
     return size + 3U & 0xfffffffc;
 }
 
-// Every access to SOCLSocket.mStatusFlags goes through a volatile view of the socket.
+// In this function mStatusFlags is only accessed through a volatile view of the socket.
 u32 SOCL_GetStatus(SOCLSocket *socket) {
     u32 status = 0;
     u32 interruptState;

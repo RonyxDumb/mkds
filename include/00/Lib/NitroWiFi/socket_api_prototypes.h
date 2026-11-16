@@ -4,7 +4,7 @@
 #include "00/Lib/NitroWiFi/socket_objects.h"
 
 // One entry of the array SOC_Poll takes: the socket, the event bits asked for and the event bits found (the error,
-// hang-up and invalid-socket bits are always tested).
+// bits 0x20, 0x40 and 0x80 are always tested).
 typedef struct SocketPollEntry {
     /* 00 */ SOCLSocket *mFd;
     /* 04 */ s16 mEvents;

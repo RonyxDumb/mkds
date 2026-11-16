@@ -55,7 +55,6 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
-// Value of the mode member of a WEP key that has no key; the other values are the AP_WEP_MODE_KEY_ lengths.
 #define WCM_WEPMODE_NONE 0
 
 // Bits of WCMWork.mOption and of the option argument of WCM_UpdateOption: a TEST bit in the argument replaces that

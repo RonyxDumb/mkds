@@ -167,7 +167,7 @@ static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayI
         reg_OS_IME = 0;
         OS_DisableInterrupts();
         GX_VBlankIntr(0);
-        DWC_SetAuthServer(AUTH_SERVER_NO_SUBDOMAIN);
+        DWC_SetAuthServer(AUTH_SERVER_NO_TEST_OR_DEV_LABEL);
         languageValue = 1;
         languageIndex = gStartupWork->mLanguageIndex;
         if (languageIndex < 6) {

@@ -110,7 +110,7 @@ void SetupWiFiSessionLogin(void) {
     }
     CopyBuddyFriendDataList(&gWiFiSession->mBuddies[0]);
     DWC_InitInet(&gWiFiSession->mLogin);
-    DWC_SetAuthServer(AUTH_SERVER_NO_SUBDOMAIN);
+    DWC_SetAuthServer(AUTH_SERVER_NO_TEST_OR_DEV_LABEL);
     DWC_ConnectInetAsync();
     buddyIndex = 0;
     if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], WIFI_BUDDY_COUNT) > 0) {

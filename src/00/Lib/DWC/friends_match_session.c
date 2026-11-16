@@ -271,9 +271,9 @@ void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32
     }
 }
 
-// Starts the buddy sync: refused (FALSE) when there is no connection object or an error is pending, in IDLE, GP_SETUP,
-// LOGIN and BUDDY_SYNC; copies the name (at most 0x1f bytes) to mPlayerName, stores the callback pair, sets BUDDY_SYNC
-// and calls StartBuddySync.
+// Starts the buddy sync: refused (FALSE) when there is no connection object or an error is pending, in IDLE,
+// AVAILABLE_CHECK, LOGIN and BUDDY_SYNC; copies the name (at most 0x1f bytes) to mPlayerName, stores the callback pair,
+// sets BUDDY_SYNC and calls StartBuddySync.
 BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s32), void *updateParam,
                             void (*statusCallback)(u32, u8), void *statusParam, void (*deleteCallback)(u32, u32),
                             void *deleteParam) {
@@ -319,7 +319,7 @@ void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallb
 }
 
 // Connection-level start: only in LOGGED_IN and with no error pending; clears the connection lists, stores the callback
-// pair, sets PARTNER_SEARCH and calls DWCi_ConnectToFriendsAsync with the given list, or with all entries of the buddy
+// pair, sets MATCHING and calls DWCi_ConnectToFriendsAsync with the given list, or with all entries of the buddy
 // list in random order when it is NULL (the one caller passes NULL).
 void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32 numEntry, u32 distantFriend,
                                void *matchedCallback, void *matchedParam, MatchEvalFunc *evalCallback, u32 evalParam) {
@@ -570,8 +570,8 @@ u32 DWCi_GetAIDBitmapFromList(const u8 *values, s32 count) {
     return mask;
 }
 
-// Maps a GP result 1 to 4 to (kind, code minus a base chosen by connection state) and reports it: GP_SETUP and LOGIN
-// call DWCi_StopLogin, PARTNER_SEARCH calls DWCi_StopMatching, every nonzero result then goes to
+// Maps a GP result 1 to 4 to (kind, code minus a base chosen by connection state) and reports it: AVAILABLE_CHECK and
+// LOGIN call DWCi_StopLogin, MATCHING calls DWCi_StopMatching, every nonzero result then goes to
 // DWCi_StopFriendProcess; returns the result, 0 passes through.
 int ReportWiFiGpResult(int result) {
     s32 errorKind;

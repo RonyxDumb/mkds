@@ -287,7 +287,7 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
                 case BUDDY_MESSAGE_TYPE_PING:
                     gpiSendBuddyMessage(connection, peerConn->mProfileId, BUDDY_MESSAGE_TYPE_PONG, "1");
                     break;
-                // file transfer messages
+                // transfer messages
                 case 200:
                 case BUDDY_MESSAGE_TYPE_TRANSFER_REPLY:
                 case 202:
