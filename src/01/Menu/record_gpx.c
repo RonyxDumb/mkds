@@ -127,24 +127,24 @@ void InitRecordGpx(void *heap) {
     CreateCupMark(heap);
     recordMainOam = GetRecordMainOam();
     ResetOamLists(recordMainOam, GetRecordSubOam());
-    InitLayoutTable(heap, gRecordGpx->mRecordGpxMBncl, gRecordGpx->mRecordGpxMBnll, &gRecordGpx->mRecordGpxMTable);
-    InitLayoutTable(heap, gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSBnll, &gRecordGpx->mRecordGpxSTable);
+    InitLayoutTable(heap, gRecordGpx->mRecordGpxMCellLayout, gRecordGpx->mRecordGpxMLabelLayout, &gRecordGpx->mRecordGpxMTable);
+    InitLayoutTable(heap, gRecordGpx->mRecordGpxSCellLayout, gRecordGpx->mRecordGpxSLabelLayout, &gRecordGpx->mRecordGpxSTable);
     gRecordGpx->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    InitLabelCanvas(heap, 0, gRecordGpx->mRecordGpxMBnll, 200, 16, 0, gRecordGpx->mRecordGpxMNcer,
-                    gRecordGpx->mRecordGpxMBncl, gRecordGpx->mRecordGpxMTable, 0x8000);
+    InitLabelCanvas(heap, 0, gRecordGpx->mRecordGpxMLabelLayout, 200, 16, 0, gRecordGpx->mRecordGpxMCells,
+                    gRecordGpx->mRecordGpxMCellLayout, gRecordGpx->mRecordGpxMTable, 0x8000);
     remainingSize = GX_GetSizeOfSubOBJ();
     for (index = 0; index < 4; index++) {
-        remainingSize -= InitLabelCanvas(heap, gRecordGpxTimeLabelIndices[index], gRecordGpx->mRecordGpxSBnll,
+        remainingSize -= InitLabelCanvas(heap, gRecordGpxTimeLabelIndices[index], gRecordGpx->mRecordGpxSLabelLayout,
                                          gRecordGpxTimeLabelWidths[index], gRecordGpxTimeLabelHeights[index], index,
-                                         gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl,
+                                         gRecordGpx->mRecordGpxSCells, gRecordGpx->mRecordGpxSCellLayout,
                                          gRecordGpx->mRecordGpxSTable, remainingSize);
         remainingSize -= InitLabelCanvas(
-            heap, gRecordGpxTotalPointsLabelIndices[index], gRecordGpx->mRecordGpxSBnll,
+            heap, gRecordGpxTotalPointsLabelIndices[index], gRecordGpx->mRecordGpxSLabelLayout,
             gRecordGpxTotalPointsLabelWidths[index], gRecordGpxTotalPointsLabelHeights[index], index + 4,
-            gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, remainingSize);
-        remainingSize -= InitLabelCanvas(heap, gRecordGpxGradeLabelIndices[index], gRecordGpx->mRecordGpxSBnll,
+            gRecordGpx->mRecordGpxSCells, gRecordGpx->mRecordGpxSCellLayout, gRecordGpx->mRecordGpxSTable, remainingSize);
+        remainingSize -= InitLabelCanvas(heap, gRecordGpxGradeLabelIndices[index], gRecordGpx->mRecordGpxSLabelLayout,
                                          gRecordGpxGradeLabelWidths[index], gRecordGpxGradeLabelHeights[index],
-                                         index + 12, gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl,
+                                         index + 12, gRecordGpx->mRecordGpxSCells, gRecordGpx->mRecordGpxSCellLayout,
                                          gRecordGpx->mRecordGpxSTable, remainingSize);
     }
     gRecordGpx->mBg3OffsetY = 0;
@@ -194,8 +194,8 @@ void AdvanceRecordGpxCellsSlideIn(void) {
     gRecordGpx->mStateFrames++;
     offsetX = InterpolateS16(1, RECORD_GPX_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
-    mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
-    subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
+    mainLayoutCount = gRecordGpx->mRecordGpxMCellLayout->mCount;
+    subLayoutCount = gRecordGpx->mRecordGpxSCellLayout->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[mainLayoutCount].mOffsetX = offsetX;
@@ -240,7 +240,7 @@ void AdvanceRecordGpxSelect(void) {
         touchActive = FALSE;
     }
     if (touchActive != FALSE) {
-        touchedRect = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+        touchedRect = RectTableFindContaining(gRecordGpx->mRecordGpxSRects, gInputSlots[slotIndex].mPair.mPairX,
                                               gInputSlots[slotIndex].mPair.mPairY);
     }
     touchBegan = FALSE;
@@ -254,7 +254,7 @@ void AdvanceRecordGpxSelect(void) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchBeganRect = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+        touchBeganRect = RectTableFindContaining(gRecordGpx->mRecordGpxSRects, gInputSlots[slotIndex].mPair.mPairX,
                                                  gInputSlots[slotIndex].mPair.mPairY);
     }
     if (touchedRect != 0) {
@@ -326,8 +326,8 @@ void AdvanceRecordGpxPageSlideOut(void) {
     gRecordGpx->mStateFrames++;
     offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
-    mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
-    subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
+    mainLayoutCount = gRecordGpx->mRecordGpxMCellLayout->mCount;
+    subLayoutCount = gRecordGpx->mRecordGpxSCellLayout->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[mainLayoutCount].mOffsetX = offsetX;
@@ -373,8 +373,8 @@ void AdvanceRecordGpxPageSlideIn(void) {
     gRecordGpx->mStateFrames++;
     offsetX = InterpolateS16(1, startOffsetX, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
-    mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
-    subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
+    mainLayoutCount = gRecordGpx->mRecordGpxMCellLayout->mCount;
+    subLayoutCount = gRecordGpx->mRecordGpxSCellLayout->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[mainLayoutCount].mOffsetX = offsetX;
@@ -410,8 +410,8 @@ void AdvanceRecordGpxCellsSlideOut(void) {
     gRecordGpx->mStateFrames++;
     offsetX = InterpolateS16(1, 0, RECORD_GPX_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
-    mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
-    subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
+    mainLayoutCount = gRecordGpx->mRecordGpxMCellLayout->mCount;
+    subLayoutCount = gRecordGpx->mRecordGpxSCellLayout->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = offsetX;
     gRecordGpx->mRecordGpxMTable[mainLayoutCount].mOffsetX = offsetX;
@@ -476,10 +476,10 @@ void AdvanceRecordGpx(void) {
             break;
     }
     recordGpx = gRecordGpx;
-    DrawLayoutTable(recordGpx->mRecordGpxMBncl, recordGpx->mRecordGpxMNcer, recordGpx->mRecordGpxMBnll,
+    DrawLayoutTable(recordGpx->mRecordGpxMCellLayout, recordGpx->mRecordGpxMCells, recordGpx->mRecordGpxMLabelLayout,
                     GetRecordMainOam(), recordGpx->mRecordGpxMTable);
     recordGpx = gRecordGpx;
-    DrawLayoutTable(recordGpx->mRecordGpxSBncl, recordGpx->mRecordGpxSNcer, recordGpx->mRecordGpxSBnll,
+    DrawLayoutTable(recordGpx->mRecordGpxSCellLayout, recordGpx->mRecordGpxSCells, recordGpx->mRecordGpxSLabelLayout,
                     GetRecordSubOam(), recordGpx->mRecordGpxSTable);
 }
 

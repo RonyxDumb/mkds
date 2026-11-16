@@ -42,13 +42,13 @@ enum {
 // The ghost select screen: its state, selected index, scroll offsets, layout tables, OAM lists and result.
 typedef struct SelectGhost {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
-    /* 04 */ LayoutEntryTable *mSelectCupCourseTaMBncl;
-    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaMBnll;
-    /* 0c */ struct NNSG2dCellDataBank *mSelectGhostSONcer;
-    /* 10 */ LayoutEntryTable *mSelectGhostSBncl;
-    /* 14 */ void *mSelectGhostSBnbl;
-    /* 18 */ struct LayoutEntryTable *mSelectGhostSBnll;
-    /* 1c */ Nclr *mSelectGhostSONclr;
+    /* 04 */ LayoutEntryTable *mSelectCupCourseTaMCellLayout;
+    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaMLabelLayout;
+    /* 0c */ struct NNSG2dCellDataBank *mSelectGhostSOCells;
+    /* 10 */ LayoutEntryTable *mSelectGhostSCellLayout;
+    /* 14 */ void *mSelectGhostSRects;
+    /* 18 */ struct LayoutEntryTable *mSelectGhostSLabelLayout;
+    /* 1c */ Nclr *mSelectGhostSOPalette;
     /* 20 */ void *mPlayerCharacterMNcgr;
     /* 24 */ struct NNSG2dCellDataBank *mPlayerCharacterMNcer;
     /* 28 */ Nclr *mPlayerCharacterMONclr;

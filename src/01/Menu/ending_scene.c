@@ -33,7 +33,7 @@ void CreateEndingScene(void *heap) {
     InitEndingSceneDisplay();
     LoadAndQueueEndingSceneData();
     ResetOamLists(gEndingScene->mMainOam, NULL);
-    InitLayoutTable(gEndingScene->mHeap, gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksBnll,
+    InitLayoutTable(gEndingScene->mHeap, gEndingScene->mEndingThanksCellLayout, gEndingScene->mEndingThanksLabelLayout,
                     &gEndingScene->mEndingThanksTable);
     bmgEntry = NULL;
     gEndingScene->mEndingThanksTable->mVisible = 0;
@@ -48,11 +48,11 @@ void CreateEndingScene(void *heap) {
                 bmgEntry = GetBmgEntry(gEndingScene->mCommonMessages, 0x78);
                 break;
         }
-        InitLabelCanvas(gEndingScene->mHeap, 0, gEndingScene->mEndingThanksBnll, canvasSizes[gEndingScene->mKind][0],
-                        canvasSizes[gEndingScene->mKind][1], 0, gEndingScene->mThanksYouMNcer,
-                        gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksTable, 0x8000);
-        PrintLabelLayoutTextNoFixedAdvance(0, 0, gEndingScene->mEndingThanksBnll, bmgEntry,
-                                           gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksTable);
+        InitLabelCanvas(gEndingScene->mHeap, 0, gEndingScene->mEndingThanksLabelLayout, canvasSizes[gEndingScene->mKind][0],
+                        canvasSizes[gEndingScene->mKind][1], 0, gEndingScene->mThanksYouMCells,
+                        gEndingScene->mEndingThanksCellLayout, gEndingScene->mEndingThanksTable, 0x8000);
+        PrintLabelLayoutTextNoFixedAdvance(0, 0, gEndingScene->mEndingThanksLabelLayout, bmgEntry,
+                                           gEndingScene->mEndingThanksCellLayout, gEndingScene->mEndingThanksTable);
     }
 }
 
@@ -74,21 +74,21 @@ void InitEndingSceneDisplay(void) {
 }
 
 void QueueEndingSceneNcgrNscrNclr(int i) {
-    NNS_GfdRegisterNewVramTransferTask(4, 0, gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[i]->mData,
-                                       gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[i]->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[i]->mData,
-                                       gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[i]->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[i]->mData,
-                                       gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, gEndingScene->mLogoAndThanksYouMBChars[i]->mData,
+                                       gEndingScene->mLogoAndThanksYouMBChars[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, gEndingScene->mLogoAndThanksYouMBgScreenMaps[i]->mData,
+                                       gEndingScene->mLogoAndThanksYouMBgScreenMaps[i]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, gEndingScene->mLogoAndThanksYouMBPalettes[i]->mData,
+                                       gEndingScene->mLogoAndThanksYouMBPalettes[i]->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x14, 0,
-                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[i]->mData,
-                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[i]->mDataSize);
+                                       gEndingScene->mAllRightsAndNintendoSBChars[i]->mData,
+                                       gEndingScene->mAllRightsAndNintendoSBChars[i]->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x18, 0,
-                                       gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[i]->mData,
-                                       gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[i]->mDataSize);
+                                       gEndingScene->mAllRightsAndNintendoSBgScreenMaps[i]->mData,
+                                       gEndingScene->mAllRightsAndNintendoSBgScreenMaps[i]->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0,
-                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mData,
-                                       gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mDataSize);
+                                       gEndingScene->mAllRightsAndNintendoSBPalettes[i]->mData,
+                                       gEndingScene->mAllRightsAndNintendoSBPalettes[i]->mDataSize);
 }
 
 void QueueEndingSceneIndex1Data(void) {
@@ -104,53 +104,53 @@ void LoadAndQueueEndingSceneData(void) {
     LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[0],
                  FindSceneFile("logo_end_marioKart_m_bg_02.nscr"));
 #else
-    LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[0],
+    LoadNcgrData(&gEndingScene->mLogoAndThanksYouMBChars[0],
                  FindSceneFile("logo_end_marioKart_m_b_01.ncgr"));
-    LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[0],
+    LoadNscrData(&gEndingScene->mLogoAndThanksYouMBgScreenMaps[0],
                  FindSceneFile("logo_end_marioKart_m_bg_01.nscr"));
 #endif
-    LoadNclrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[0],
+    LoadNclrData(&gEndingScene->mLogoAndThanksYouMBPalettes[0],
                  FindSceneFile("logo_end_marioKart_m_b.nclr"));
     switch (gEndingScene->mKind) {
         case ENDING_KIND_STAFFROLL:
-            LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[1],
+            LoadNcgrData(&gEndingScene->mLogoAndThanksYouMBChars[1],
                          FindSceneFile("thanksYou_m_b_00.ncgr"));
-            LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[1],
+            LoadNscrData(&gEndingScene->mLogoAndThanksYouMBgScreenMaps[1],
                          FindSceneFile("thanksYou_m_bg_00.nscr"));
-            LoadNclrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[1],
+            LoadNclrData(&gEndingScene->mLogoAndThanksYouMBPalettes[1],
                          FindSceneFile("thanksYou_m_b_00.nclr"));
             break;
         case ENDING_KIND_STAFFROLL_TRUE:
-            LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[1],
+            LoadNcgrData(&gEndingScene->mLogoAndThanksYouMBChars[1],
                          FindSceneFile("thanksYou_m_b_01_2.ncgr"));
-            LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[1],
+            LoadNscrData(&gEndingScene->mLogoAndThanksYouMBgScreenMaps[1],
                          FindSceneFile("thanksYou_m_bg_01_2.nscr"));
-            LoadNclrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[1],
+            LoadNclrData(&gEndingScene->mLogoAndThanksYouMBPalettes[1],
                          FindSceneFile("thanksYou_m_b_01.nclr"));
             break;
     }
-    LoadNcgrData(&gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[0],
+    LoadNcgrData(&gEndingScene->mAllRightsAndNintendoSBChars[0],
                  FindSceneFile("end_allRightsReserved_s_b.ncgr"));
-    LoadNscrData(&gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[0],
+    LoadNscrData(&gEndingScene->mAllRightsAndNintendoSBgScreenMaps[0],
                  FindSceneFile("end_allRightsReserved_s_bg.nscr"));
-    LoadNclrData(&gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[0],
+    LoadNclrData(&gEndingScene->mAllRightsAndNintendoSBPalettes[0],
                  FindSceneFile("end_allRightsReserved_s_b.nclr"));
-    LoadNcgrData(&gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[1],
+    LoadNcgrData(&gEndingScene->mAllRightsAndNintendoSBChars[1],
                  FindSceneFile("logo_end_Nintendo_s_b.ncgr"));
-    LoadNscrData(&gEndingScene->mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[1],
+    LoadNscrData(&gEndingScene->mAllRightsAndNintendoSBgScreenMaps[1],
                  FindSceneFile("logo_end_Nintendo_s_bg.nscr"));
-    LoadNclrData(&gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[1],
+    LoadNclrData(&gEndingScene->mAllRightsAndNintendoSBPalettes[1],
                  FindSceneFile("logo_end_Nintendo_s_b.nclr"));
-    LoadNcerData(&gEndingScene->mThanksYouMNcer, FindSceneFile("thanksYou_m.nce.ncer"));
-    LoadNclrData(&gEndingScene->mThanksYouMO00Nclr, FindSceneFile("thanksYou_m_o_00.nclr"));
+    LoadNcerData(&gEndingScene->mThanksYouMCells, FindSceneFile("thanksYou_m.nce.ncer"));
+    LoadNclrData(&gEndingScene->mThanksYouMO00Palette, FindSceneFile("thanksYou_m_o_00.nclr"));
     switch (gEndingScene->mKind) {
         case ENDING_KIND_STAFFROLL:
-            gEndingScene->mEndingThanksBncl = FindSceneFile("ending_thanks_00.bncl");
-            gEndingScene->mEndingThanksBnll = FindSceneFile("ending_thanks_00.bnll");
+            gEndingScene->mEndingThanksCellLayout = FindSceneFile("ending_thanks_00.bncl");
+            gEndingScene->mEndingThanksLabelLayout = FindSceneFile("ending_thanks_00.bnll");
             break;
         case ENDING_KIND_STAFFROLL_TRUE:
-            gEndingScene->mEndingThanksBncl = FindSceneFile("ending_thanks_01.bncl");
-            gEndingScene->mEndingThanksBnll = FindSceneFile("ending_thanks_01.bnll");
+            gEndingScene->mEndingThanksCellLayout = FindSceneFile("ending_thanks_01.bncl");
+            gEndingScene->mEndingThanksLabelLayout = FindSceneFile("ending_thanks_01.bnll");
             break;
     }
     if (gMenuShared->mStaffRollEndedEarly != 0) {
@@ -158,8 +158,8 @@ void LoadAndQueueEndingSceneData(void) {
     } else {
         QueueEndingSceneNcgrNscrNclr(0);
     }
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, gEndingScene->mThanksYouMO00Nclr->mData,
-                                       gEndingScene->mThanksYouMO00Nclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, gEndingScene->mThanksYouMO00Palette->mData,
+                                       gEndingScene->mThanksYouMO00Palette->mDataSize);
 }
 
 void AdvanceEndingSceneWaitFadeIn(void) {
@@ -285,7 +285,7 @@ void AdvanceEndingScene(void) {
             AdvanceEndingSceneHoldThenLeave();
             break;
     }
-    DrawLayoutTable(gEndingScene->mEndingThanksBncl, gEndingScene->mThanksYouMNcer, gEndingScene->mEndingThanksBnll,
+    DrawLayoutTable(gEndingScene->mEndingThanksCellLayout, gEndingScene->mThanksYouMCells, gEndingScene->mEndingThanksLabelLayout,
                     gEndingScene->mMainOam, gEndingScene->mEndingThanksTable);
     HideUnusedOams(gEndingScene->mMainOam, NULL);
 }

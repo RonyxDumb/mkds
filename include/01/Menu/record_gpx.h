@@ -104,25 +104,25 @@ enum {
 
 // The Grand Prix record screen: its state, selected index, BG offsets, heap, layout tables and trophy files.
 typedef struct RecordGpx {
-    /* 00 */ Ncgr *mRecordGpxMNcgr;
-    /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMNcer;
-    /* 08 */ LayoutEntryTable *mRecordGpxMBncl;
+    /* 00 */ Ncgr *mRecordGpxMChars;
+    /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMCells;
+    /* 08 */ LayoutEntryTable *mRecordGpxMCellLayout;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ LayoutEntryTable *mRecordGpxMBnll;
-    /* 14 */ Ncgr *mRecordGpxSNcgr;
-    /* 18 */ struct NNSG2dCellDataBank *mRecordGpxSNcer;
-    /* 1c */ LayoutEntryTable *mRecordGpxSBncl;
-    /* 20 */ struct LayoutEntryTable *mRecordGpxSBnbl;
-    /* 24 */ LayoutEntryTable *mRecordGpxSBnll;
-    /* 28 */ Ncgr *mRecordTrophyONcgr;
-    /* 2c */ struct NNSG2dCellDataBank *mRecordTrophyONcer;
-    /* 30 */ Nclr *mRecordTrophySONclr;
-    /* 34 */ void *mRecordTrophySOBncl;
+    /* 10 */ LayoutEntryTable *mRecordGpxMLabelLayout;
+    /* 14 */ Ncgr *mRecordGpxSChars;
+    /* 18 */ struct NNSG2dCellDataBank *mRecordGpxSCells;
+    /* 1c */ LayoutEntryTable *mRecordGpxSCellLayout;
+    /* 20 */ struct LayoutEntryTable *mRecordGpxSRects;
+    /* 24 */ LayoutEntryTable *mRecordGpxSLabelLayout;
+    /* 28 */ Ncgr *mRecordTrophyOChars;
+    /* 2c */ struct NNSG2dCellDataBank *mRecordTrophyOCells;
+    /* 30 */ Nclr *mRecordTrophySOPalette;
+    /* 34 */ void *mRecordTrophySOCellLayout;
     /* 38 */ void *mPlayerCharacterMNcgr;
     /* 3c */ struct NNSG2dCellDataBank *mPlayerCharacterMNcer;
     /* 40 */ Nclr *mPlayerCharacterMONclr;
     /* 44 */ struct LayoutEntryTable *mPlayerCharacterMBncl;
-    /* 48 */ Nscr *mRecordGpxSNscr;
+    /* 48 */ Nscr *mRecordGpxSScreenMap;
     /* 4c */ u8 *mZeroBuffer;
     /* 50 */ LayoutTableEntry *mRecordGpxMTable;
     /* 54 */ LayoutTableEntry *mRecordGpxSTable;

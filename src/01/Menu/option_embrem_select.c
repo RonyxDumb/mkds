@@ -39,20 +39,20 @@ void InitOptionEmbremSelect(void *heap) {
     LocateAndQueueOptionEmbremSelect();
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         SetCellOamModeXlu(gOptionEmbremSelectSTableIndices[rowIndex][0], 1,
-                          gOptionEmbremSelect->mOptionEmbremSelectSNcer, gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+                          gOptionEmbremSelect->mOptionEmbremSelectSCells, gOptionEmbremSelect->mOptionEmbremSelectSCellLayout);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
-    InitLayoutTable(heap, gOptionEmbremSelect->mOptionEmbremSelectSBncl, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
+    InitLayoutTable(heap, gOptionEmbremSelect->mOptionEmbremSelectSCellLayout, gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout,
                     &gOptionEmbremSelect->mOptionEmbremSelectSTable);
     gOptionEmbremSelect->mOptionMessages = FindSceneFile("option.bmg");
     gOptionEmbremSelect->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    InitLabelCanvas(heap, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, 0xa0, 0xe, 9,
-                    gOptionEmbremSelect->mOptionEmbremSelectSNcer, gOptionEmbremSelect->mOptionEmbremSelectSBncl,
+    InitLabelCanvas(heap, 0, gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout, 0xa0, 0xe, 9,
+                    gOptionEmbremSelect->mOptionEmbremSelectSCells, gOptionEmbremSelect->mOptionEmbremSelectSCellLayout,
                     gOptionEmbremSelect->mOptionEmbremSelectSTable, 0x4000);
     optionEmbremSelect = gOptionEmbremSelect;
     bmgEntry = GetBmgEntry(optionEmbremSelect->mOptionMessages, 8);
-    PrintLabelLayoutTextNoFixedAdvance(1, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, bmgEntry,
-                                       optionEmbremSelect->mOptionEmbremSelectSBncl,
+    PrintLabelLayoutTextNoFixedAdvance(1, 0, gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout, bmgEntry,
+                                       optionEmbremSelect->mOptionEmbremSelectSCellLayout,
                                        optionEmbremSelect->mOptionEmbremSelectSTable);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = OPTION_EMBREM_SELECT_SLIDE_DISTANCE;
@@ -79,19 +79,19 @@ void LocateAndQueueOptionEmbremSelect(void) {
     LocateNcgr(&ncgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
     LocateNscr(&nscr, FindSceneFile("Option_top_menu_m.nscr"));
     LocateNclr(&nclr, FindSceneFile("Option_top_menu_m_b.nclr"));
-    gOptionEmbremSelect->mOptionEmbremSelectSBncl = FindSceneFile("Option_embrem_select_s.bncl");
-    gOptionEmbremSelect->mOptionEmbremSelectSBnbl = FindSceneFile("Option_embrem_select_s.bnbl");
-    gOptionEmbremSelect->mOptionEmbremSelectSBnll = FindSceneFile("Option_embrem_select_s.bnll");
-    LocateNcgr2(&gOptionEmbremSelect->mOptionEmbremSelectSNcgr, FindSceneFile("Option_embrem_select_s.nce.ncgr"));
-    LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSNcer, FindSceneFile("Option_embrem_select_s.nce.ncer"));
-    LocateNclr(&gOptionEmbremSelect->mOptionEmbremSelectSONclr, FindSceneFile("Option_embrem_select_s_o.nclr"));
+    gOptionEmbremSelect->mOptionEmbremSelectSCellLayout = FindSceneFile("Option_embrem_select_s.bncl");
+    gOptionEmbremSelect->mOptionEmbremSelectSRects = FindSceneFile("Option_embrem_select_s.bnbl");
+    gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout = FindSceneFile("Option_embrem_select_s.bnll");
+    LocateNcgr2(&gOptionEmbremSelect->mOptionEmbremSelectSChars, FindSceneFile("Option_embrem_select_s.nce.ncgr"));
+    LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSCells, FindSceneFile("Option_embrem_select_s.nce.ncer"));
+    LocateNclr(&gOptionEmbremSelect->mOptionEmbremSelectSOPalette, FindSceneFile("Option_embrem_select_s_o.nclr"));
     NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, nclr->mData, 0x100);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mData,
-                                       gOptionEmbremSelect->mOptionEmbremSelectSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionEmbremSelect->mOptionEmbremSelectSONclr->mData,
-                                       gOptionEmbremSelect->mOptionEmbremSelectSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionEmbremSelect->mOptionEmbremSelectSChars->mData,
+                                       gOptionEmbremSelect->mOptionEmbremSelectSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionEmbremSelect->mOptionEmbremSelectSOPalette->mData,
+                                       gOptionEmbremSelect->mOptionEmbremSelectSOPalette->mDataSize);
 }
 
 BOOL IsBackupEmblemOff(void) {
@@ -160,7 +160,7 @@ void AdvanceOptionEmbremSelectSelect(void) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchedRectIndex = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl,
+        touchedRectIndex = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSRects,
                                               gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
     }
     pressedKeyBits = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
@@ -334,7 +334,7 @@ void UpdateOptionEmbremSelectCellOffsets(void) {
     s32 subLayoutCount;
     s32 timerCellIndex;
 
-    subLayoutCount = gOptionEmbremSelect->mOptionEmbremSelectSBncl->mCount;
+    subLayoutCount = gOptionEmbremSelect->mOptionEmbremSelectSCellLayout->mCount;
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
             gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][cellIndex]]
@@ -377,26 +377,26 @@ void UpdateOptionEmbremSelectHighlight(void) {
         if (rowIndex == gOptionEmbremSelect->mSelectedRow && gOptionEmbremSelect->mHighlightVisible != FALSE) {
             gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][1]].mVisible = 1;
             if (rowIndex == 1) {
-                SetLabelPaletteIndex(0, 14, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
+                SetLabelPaletteIndex(0, 14, gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout,
                                      gOptionEmbremSelect->mOptionEmbremSelectSTable,
-                                     gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+                                     gOptionEmbremSelect->mOptionEmbremSelectSCellLayout);
             }
             for (cellIndex = 0; cellIndex < gOptionEmbremSelectCellCounts[rowIndex]; cellIndex++) {
                 SetCellPaletteIndex(gOptionEmbremSelectCellIndices[rowIndex][cellIndex], 14,
-                                    gOptionEmbremSelect->mOptionEmbremSelectSNcer,
-                                    gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+                                    gOptionEmbremSelect->mOptionEmbremSelectSCells,
+                                    gOptionEmbremSelect->mOptionEmbremSelectSCellLayout);
             }
         } else {
             gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][1]].mVisible = 0;
             if (rowIndex == 1) {
-                SetLabelPaletteIndex(0, 15, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
+                SetLabelPaletteIndex(0, 15, gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout,
                                      gOptionEmbremSelect->mOptionEmbremSelectSTable,
-                                     gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+                                     gOptionEmbremSelect->mOptionEmbremSelectSCellLayout);
             }
             for (cellIndex = 0; cellIndex < gOptionEmbremSelectCellCounts[rowIndex]; cellIndex++) {
                 SetCellPaletteIndex(gOptionEmbremSelectCellIndices[rowIndex][cellIndex], 15,
-                                    gOptionEmbremSelect->mOptionEmbremSelectSNcer,
-                                    gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+                                    gOptionEmbremSelect->mOptionEmbremSelectSCells,
+                                    gOptionEmbremSelect->mOptionEmbremSelectSCellLayout);
             }
         }
     }
@@ -457,8 +457,8 @@ void AdvanceOptionEmbremSelect(void) {
     UpdateOptionEmbremSelectIndexCells();
     UpdateOptionEmbremSelectHighlight();
     AdvanceOptionEmbremSelectTimers();
-    DrawLayoutTable(gOptionEmbremSelect->mOptionEmbremSelectSBncl, gOptionEmbremSelect->mOptionEmbremSelectSNcer,
-                    gOptionEmbremSelect->mOptionEmbremSelectSBnll, GetOptionSecondBuffer(),
+    DrawLayoutTable(gOptionEmbremSelect->mOptionEmbremSelectSCellLayout, gOptionEmbremSelect->mOptionEmbremSelectSCells,
+                    gOptionEmbremSelect->mOptionEmbremSelectSLabelLayout, GetOptionSecondBuffer(),
                     gOptionEmbremSelect->mOptionEmbremSelectSTable);
 }
 
