@@ -41,15 +41,16 @@ enum {
     WIFI_VS_SETTING_ROW_MATCHING,
 };
 
-// WiFiVSSetting.mSettingIndex runs from 0, the setting that needs buddy records, to LAST and wraps; without buddy
-// records the selector starts at NO_BUDDY_DEFAULT.
+// WiFiVSSetting.mSettingIndex runs from 0, the setting that needs buddy records, to LAST and wraps; when the kept kart
+// type maps to that setting and there are no buddy records, the selector starts at INDEX_REGION.
 #define WIFI_VS_SETTING_INDEX_FRIENDS 0
 #define WIFI_VS_SETTING_INDEX_REGION 2
 #define WIFI_VS_SETTING_INDEX_LAST 3
 
-// Frames the cell rows take to slide in or out (x offset between 0 and OFFSET_HIDDEN), the return button's delay and
-// the frame its slide ends, the press state lasts and where its highlight shows again, the frames the arrow timers
-// count down from, and the frames the disconnect text waits at least.
+// Frames the two cell rows take to slide in or out (x offset between 0 and OFFSET_HIDDEN, negated for the second
+// row), the frames the matching row's y offset waits before it follows the return button's slide table, the frame
+// that follow ends, the press state's length and the frame its highlight shows again, the index timer start, and the
+// calls the disconnect text must pass.
 #define WIFI_VS_SETTING_SLIDE_FRAMES 10
 #define WIFI_VS_SETTING_OFFSET_HIDDEN 0x100
 #define WIFI_VS_SETTING_RETURN_DELAY_FRAMES 3
@@ -103,11 +104,11 @@ enum {
     WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT,
 };
 
-// Frame counts of the matching screen. The slide states last SLIDE_FRAMES, with the table x offset moving between 0
-// and OFFSET_HIDDEN; waiting for a match result gives up after RESULT_WAIT_FRAMES; BLINK_CYCLE_FRAMES is one blink
-// round of the found-opponent cells (shared by the opponents seen), BLEND_CYCLE_FRAMES one round of the palette blend.
-// An opponent's scale-in shows the totals for TOTAL_SCALE_FRAMES frames (the length of the scale percent table) and
-// the emblem for EMBLEM_SCALE_FRAMES, which ends the state.
+// Frame counts of the matching screen. The slide states count to SLIDE_FRAMES (the slide in adds 2 per call) while
+// the table x offset moves between 0 and OFFSET_HIDDEN; a -1 match result is taken only after FAILED_RESULT_MIN_FRAMES;
+// BLINK_CYCLE_FRAMES is where the blink counter wraps (the blink repeats 1, 2 or 4 times per cycle with 1, 2 or 3
+// other players found), BLEND_CYCLE_FRAMES one round of the palette blend. A scale-in scales the totals over
+// TOTAL_SCALE_FRAMES (the length of the scale percent table) and the emblem over EMBLEM_SCALE_FRAMES, which ends it.
 #define WIFI_VS_MATCHING_SLIDE_FRAMES 10
 #define WIFI_VS_MATCHING_OFFSET_HIDDEN 0x100
 #define WIFI_VS_MATCHING_FAILED_RESULT_MIN_FRAMES 0x78
@@ -172,12 +173,6 @@ typedef struct EntryCharacterKartKind {
 #define WIFI_MENU_START_VS_SETTING 1
 #define WIFI_MENU_START_SELECT_CHARACTER 2
 #define WIFI_MENU_START_VS_COURSE_SELECT 3
-// Values of MenuShared.mWLMenuKind: which callbacks the WL menu scene starts with (the member group, or the message
-// that leads on to the race, the result or the menu).
-#define WL_MENU_KIND_MEMBER_GROUP 0
-#define WL_MENU_KIND_TO_RACE 1
-#define WL_MENU_KIND_TO_RESULT 2
-#define WL_MENU_KIND_TO_MENU 3
 
 // Object behind gMenuShared, 0x130 bytes (CreateMenuShared allocates it).
 
@@ -337,7 +332,8 @@ typedef enum WiFiSessionSetup {
 // Calls PickNextToIndex returns "no index" for after it picked one.
 #define WIFI_SESSION_CALLS_AFTER_PICK 2
 // Value of the buddy status bytes the poll counts, and the one it skips.
-// Frames without a callback from a participant before its kart is removed from the session.
+// More step calls than this without a callback from a participant, in the steps after WAIT_BACKUP and before
+// VERIFY_RESULT (the continue-choice step only after the own choice to continue), set its bit in mKartRemoveMask.
 #define WIFI_SESSION_KART_TIMEOUT_FRAMES 300
 // Entries of WiFiSession.mBuddies and mBuddyStatuses.
 #define WIFI_BUDDY_COUNT 0x3c
@@ -459,7 +455,8 @@ typedef struct WiFiSession {
     /* 1e10 */ WiFiSessionMessage mIndexMessages[4];
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
-    /* 1f34 */ BOOL mResetToOff;
+    // TRUE after ResetWiFiSessionToOff, FALSE after ResetWiFiSession; never read.
+    /* 1f34 */ BOOL mUnk_1f34;
     /* 1f38 */ BOOL mRaceSyncEnabled;
     /* 1f3c */ s32 mIrqCallbackCount;
     /* 1f40 */ s32 mDisconnectKind;

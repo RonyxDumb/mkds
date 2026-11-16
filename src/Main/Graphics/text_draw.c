@@ -283,7 +283,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             tagSize = ((TextTag *) readPointer)->mSize;
             variant = ((TextTag *) readPointer)->mVariant;
             kind = ((TextTag *) readPointer)->mKind;
-            if (kind == 0xff && variant == 0) {
+            if (kind == TEXT_TAG_KIND_KEEP && variant == 0) {
                 colorValue = ((TextTag *) readPointer)->mColorValue;
                 if (colorZeroIsTwo != 0) {
                     if (colorValue == 0) {

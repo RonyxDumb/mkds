@@ -639,9 +639,9 @@ void UpdateWiFiVSSettingOffsets(void) {
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[rowIndex][0]].mOffsetX -=
-            LookupFrameOffset(6 - gWiFiVSSetting->mIndexDecrementTimer);
+            LookupFrameOffset(WIFI_VS_SETTING_INDEX_TIMER_FRAMES - gWiFiVSSetting->mIndexDecrementTimer);
         gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[rowIndex][1]].mOffsetX +=
-            LookupFrameOffset(6 - gWiFiVSSetting->mIndexIncrementTimer);
+            LookupFrameOffset(WIFI_VS_SETTING_INDEX_TIMER_FRAMES - gWiFiVSSetting->mIndexIncrementTimer);
     }
 }
 

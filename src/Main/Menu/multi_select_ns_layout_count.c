@@ -418,7 +418,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                         gMultiSelectMember->mSkipChildCountSound = TRUE;
                     }
                     break;
-                case CONNECT_ADVANCE_CONNECT_FAILED:
+                case CONNECT_ADVANCE_NOT_CONNECTED:
                     SetupMultiSelectMemberSubTextButton();
                     break;
             }

@@ -1,4 +1,5 @@
 #include "Main/Scene/run_scenes.h"
+#include "Main/Menu/wl_menu_kind.h"
 #include "Main/System/scene_numbers.h"
 #include "Main/System/heap.h"
 #include "Main/Net/slot_result_sync.h"
@@ -167,7 +168,7 @@ static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayI
         reg_OS_IME = 0;
         OS_DisableInterrupts();
         GX_VBlankIntr(0);
-        DWC_SetAuthServer(2);
+        DWC_SetAuthServer(AUTH_SERVER_NO_SUBDOMAIN);
         languageValue = 1;
         languageIndex = gStartupWork->mLanguageIndex;
         if (languageIndex < 6) {
@@ -273,7 +274,7 @@ void RunScenesForever(void) {
     gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
-        gMenuShared->mWLMenuKind = 0;
+        gMenuShared->mWLMenuKind = WL_MENU_KIND_JOIN_GROUP;
         gRunScenesState->mSceneNumber = SCENE_WL_MENU;
     }
     do {

@@ -18,6 +18,7 @@
 #include "Main/System/time_digits.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudOamBuffer
 #include "Main/Race/race_goal_s_sb.h" // PaletteAndChars
+#include "Main/Graphics/model_effect_kinds.h"
 #include "Main/MapObjects/pendulum.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/view_matrix_setters.h"
@@ -220,8 +221,8 @@ struct ModelEffect;
 // last, then around).
 typedef struct ModelEffects {
     /* 00 */ NNSFndList mActiveList;
-    /* 0c */ NNSFndList mFreeLists[5];
-    /* 48 */ struct ModelEffect **mObjects[5];
+    /* 0c */ NNSFndList mFreeLists[MODEL_EFFECT_KIND_COUNT];
+    /* 48 */ struct ModelEffect **mObjects[MODEL_EFFECT_KIND_COUNT];
     /* 5c */ u16 mNextPolygonId;
     /* 5e */ u8 mUnk_5e[2];
 } ModelEffects;

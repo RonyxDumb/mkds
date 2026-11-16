@@ -70,7 +70,7 @@ void InitWLMenuScene(void *heap) {
         sceneTextInitParams.mUseSelectChoises = 0;
         sceneTextInitParams.mSelectChoisesFont = NULL;
         sceneTextInitParams.mUseSelectReturn = 1;
-        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == 0;
+        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == WL_MENU_KIND_JOIN_GROUP;
         sceneTextInitParams.mBackScreenKind = 0;
         LoadTxtSystemAndSelectChoisesAndSelectReturnData();
         InitSceneText(heap, &sceneTextInitParams);

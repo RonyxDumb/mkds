@@ -66,7 +66,7 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
                     SetMultiSimple(WLMenuIsMultiBootSetupStarted());
                     gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX;
                     break;
-                case CONNECT_ADVANCE_CONNECT_FAILED:
+                case CONNECT_ADVANCE_NOT_CONNECTED:
                     break;
             }
             break;

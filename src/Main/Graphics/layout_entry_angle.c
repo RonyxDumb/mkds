@@ -1,4 +1,5 @@
 #include "Main/Graphics/layout_entry_angle.h"
+#include "03/Graphics/nce_oam.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "arena_cache_init.h"
@@ -128,7 +129,7 @@ u16 GetCellCharIndex(u32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cel
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return cellData->mPOamAttrArray->mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK;
+    return cellData->mPOamAttrArray->mAttr2 & OAM_ATTR2_TILE_MASK;
 }
 
 // Queues every entry's characters and used palette rows; copies the source palette index to the destination entries.
@@ -167,12 +168,12 @@ void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
     }
     for (oamIndex = 0; oamIndex < oamCount; oamIndex++) {
         sourceAttr2 = cellData->mPOamAttrArray[oamIndex].mAttr2;
-        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK) << 5;
+        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & OAM_ATTR2_TILE_MASK) << 5;
         oamEntry = &cellData->mPOamAttrArray[oamIndex];
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & LAYOUT_OAM_SHAPE_MASK) >> 14;
         charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
-        charsSource = chars->mBytes + ((sourceAttr2 & LAYOUT_OAM_CHAR_NAME_MASK) << 5);
+        charsSource = chars->mBytes + ((sourceAttr2 & OAM_ATTR2_TILE_MASK) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
@@ -233,12 +234,12 @@ void QueueCellChars(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, LayoutEnt
     oamIndex = 0;
     oamCount = cellData->mNumOAMAttrs;
     for (; oamIndex < oamCount; oamIndex++) {
-        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK) << 5;
+        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & OAM_ATTR2_TILE_MASK) << 5;
         oamEntry = &cellData->mPOamAttrArray[oamIndex];
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & LAYOUT_OAM_SHAPE_MASK) >> 14;
         charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
-        charsSource = chars->mBytes + ((oamEntry->mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK) << 5);
+        charsSource = chars->mBytes + ((oamEntry->mAttr2 & OAM_ATTR2_TILE_MASK) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
@@ -277,12 +278,12 @@ void QueueCellCharsAndFirstPalette(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
     oamIndex = 0;
     oamCount = cellData->mNumOAMAttrs;
     for (; oamIndex < oamCount; oamIndex++) {
-        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK) << 5;
+        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & OAM_ATTR2_TILE_MASK) << 5;
         oamEntry = &cellData->mPOamAttrArray[oamIndex];
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & LAYOUT_OAM_SHAPE_MASK) >> 14;
         charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
-        charsSource = chars->mBytes + ((oamEntry->mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK) << 5);
+        charsSource = chars->mBytes + ((oamEntry->mAttr2 & OAM_ATTR2_TILE_MASK) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
@@ -392,7 +393,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
             oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~LAYOUT_OAM_PALETTE_MASK) | (value * 0x1000);
         }
         oamBuffer[oamIndex].mAttr01 &= ~0x1000;
-        oamBuffer[oamIndex].mAttr01 &= LAYOUT_OAM_KEEP_NO_AFFINE_FLIP_MASK;
+        oamBuffer[oamIndex].mAttr01 &= OAM_ATTR01_NOT_EFFECT_MASK;
         cellData->mPOamAttrArray[oamIndex].mAttr0 = oamBuffer[oamIndex].mAttr0;
         cellData->mPOamAttrArray[oamIndex].mAttr1 = oamBuffer[oamIndex].mAttr1;
         cellData->mPOamAttrArray[oamIndex].mAttr2 = oamBuffer[oamIndex].mAttr2;

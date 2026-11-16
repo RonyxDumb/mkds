@@ -11,6 +11,7 @@
 #define DISP_CAP_BLEND_FACTOR_RISE_STEP FIXED12_RATIO(1, 10)
 #define DISP_CAP_BLEND_FACTOR_FALL_STEP 0x802
 
+// DispCap.mFlags: which VRAM bank pair the capture uses (flipped by ToggleDispCapBanks); the blend factor falls instead
 // of rising; a fade started by StartDispCapFadeToFaded or StartDispCapFadeToClear runs (cleared once the brightness
 // fades are clear); the fade flag (SetDispCapFadeFlag, not set on a child console; cleared with the run bit; a parent
 // sends it to its children).
@@ -28,7 +29,8 @@ enum {
 // Results of AdvanceConnectByMultiBoot besides 0 (still running): 1 connected, 2 not connected, 3 the connection ended
 // with an error (the callers ignore 3).
 #define CONNECT_ADVANCE_CONNECTED 1
-#define CONNECT_ADVANCE_CONNECT_FAILED 2
+#define CONNECT_ADVANCE_NOT_CONNECTED 2
+#define CONNECT_ADVANCE_ERROR 3
 
 s32 AdvanceConnectByMultiBoot(u16 entryIndex);
 s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot);

@@ -214,7 +214,7 @@ u32 GetPairHasPair(InputSlotPair *inputSlotPair) {
 }
 
 BOOL IsPairRecentlyLost(InputSlotPair *inputSlotPair) {
-    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         return 1;
     }
     return 0;
@@ -400,10 +400,10 @@ void RenderKartEntryName(u32 entryIndex) {
     CopyKartEntryName(entryIndex, name, 0);
     for (offsetX = -1; offsetX < 2; offsetX++) {
         for (index = -1; index < 2; index++) {
-            DrawTextOnCanvas(&textCanvas, offsetX + 0x20, index + 8, 2, 0x412, name);
+            DrawTextOnCanvas(&textCanvas, offsetX + 0x20, index + 8, GLYPH_PIXEL_OUTLINE, 0x412, name);
         }
     }
-    DrawTextOnCanvas(&textCanvas, 0x20, 8, 1, 0x412, name);
+    DrawTextOnCanvas(&textCanvas, 0x20, 8, GLYPH_PIXEL_TEXT, 0x412, name);
     DC_FlushRange(GetMessageScreenCharBuffer(), 0x200);
 }
 

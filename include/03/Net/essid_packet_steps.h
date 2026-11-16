@@ -142,7 +142,7 @@ typedef struct MaskCodeEntry {
 // The two low bits of RawEntry.mFlags that EssidEntry.mMode is made from.
 #define RAW_ENTRY_MODE_MASK 3
 
-// MelcoBlock.mLengthKind takes the WEP_KEY_MODE_ values.
+// MelcoBlock.mLengthKind takes the AP_WEP_MODE_KEY_ values.
 #define MELCO_LENGTH_KIND_WEP_KEY_5_BYTES 1
 #define MELCO_LENGTH_KIND_WEP_KEY_13_BYTES 2
 #define MELCO_LENGTH_KIND_WEP_KEY_16_BYTES 3

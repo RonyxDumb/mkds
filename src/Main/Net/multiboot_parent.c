@@ -1,4 +1,5 @@
 #include "Main/Net/multiboot_parent.h"
+#include "Main/Graphics/disp_cap.h"
 #include "Main/Net/participant_get_connection.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan_slot.h"
@@ -35,7 +36,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
             if (gConnectionWork->mStepWaitFrames > CONNECTION_CONNECT_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
-                return 3;
+                return CONNECT_ADVANCE_ERROR;
             }
             break;
         case CONNECTION_STEP_SEARCHING:
@@ -90,7 +91,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
                     ReadFakeParentBssDesc(connectionWork->mScanEntryIndex);
                 }
             } else {
-                result = 2;
+                result = CONNECT_ADVANCE_NOT_CONNECTED;
             }
             break;
         case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
@@ -125,7 +126,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         case CONNECTION_STEP_STARTING_MP:
             connectionWork->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
-            result = 1;
+            result = CONNECT_ADVANCE_CONNECTED;
             break;
     }
     return result;

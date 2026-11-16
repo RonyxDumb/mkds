@@ -883,7 +883,7 @@ void ResetWiFiSession(void) {
     MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, sizeof(gWiFiSession->mReceiveBuffers));
     MI_CpuFill8(gWiFiSession->mIndexMessages, 0, sizeof(gWiFiSession->mIndexMessages));
     MI_CpuFill8(&gWiFiSession->mLogin, 0, sizeof(gWiFiSession->mLogin));
-    gWiFiSession->mResetToOff = FALSE;
+    gWiFiSession->mUnk_1f34 = FALSE;
     gWiFiSession->mRaceSyncEnabled = FALSE;
     gWiFiSession->mIrqCallbackCount = 0;
     gWiFiSession->mDisconnectKind = WIFI_DISCONNECT_NONE;
@@ -984,7 +984,7 @@ void ResetWiFiSessionToOff(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
-    gWiFiSession->mResetToOff = TRUE;
+    gWiFiSession->mUnk_1f34 = TRUE;
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
@@ -1015,7 +1015,7 @@ void UpdateBuddyStatuses(void) {
                 break;
         }
         buddyIndex++;
-    } while (buddyIndex < 0x3c);
+    } while (buddyIndex < WIFI_BUDDY_COUNT);
     countSession->mStatus4BuddyCount = status4Count;
 }
 

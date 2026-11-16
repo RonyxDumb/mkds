@@ -10,8 +10,8 @@
 #define TEXT_TAG_KIND_NAME 1
 #define TEXT_TAG_KIND_KEEP 0xff
 // TextTag.mVariant of a name tag: the player name, the player name cut to a fixed width, the owner text, the owner text
-// cut to that width; and the variant of the tag that marks where FormatMessageWithText inserts its text. (The cut
-// player-name case runs on into the owner-text case.)
+// cut to that fixed width; and the variant of the tag (in TextTagWithCharCode) that marks where FormatMessageWithText
+// inserts its text. (The cut player-name case runs on into the owner-text case.)
 #define TEXT_TAG_NAME_PLAYER 0
 #define TEXT_TAG_NAME_PLAYER_WITHIN_WIDTH 1
 #define TEXT_TAG_NAME_OWNER_TEXT 10

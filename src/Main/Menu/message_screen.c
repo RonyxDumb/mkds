@@ -96,7 +96,7 @@ s32 UpdateMessageScreen(void) {
                 gMenuShared->mWiFiTopMenuRequested = TRUE;
                 gMessageScreen->mResult = 1;
             } else if (messageScreen->mKind == MESSAGE_KIND_WIFI_OPPONENT_LEFT) {
-                gMenuShared->mWiFiMenuStartKind = 1;
+                gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
                 gMessageScreen->mResult = 1;
                 ClearWiFiDisconnectStatus();
             } else {

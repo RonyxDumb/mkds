@@ -354,7 +354,7 @@ void InitModelEffectObjects(void *heap) {
             modelEffect->mStart = kindRow->mStart;
             modelEffect->mUpdate = kindRow->mUpdate;
             NNS_FndAppendListObject(&gModelEffects->mFreeLists[kindIndex], modelEffect);
-            if (kindIndex == 2) {
+            if (kindIndex == MODEL_EFFECT_KART_WATER_SPLASH) {
                 scale = gRaceSetup->mCourseId == COURSE_ID_OLD_KOOPA_AGB ? 0xb33 : 0x1000;
                 modelEffect->mScale.x = scale;
                 modelEffect->mScale.y = scale;
@@ -541,7 +541,7 @@ void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects) {
 }
 
 void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
-    if (modelEffect->mSinceStartFrames >= MODEL_EFFECT_BOMBCORE_END_FRAME) {
+    if (modelEffect->mSinceStartFrames >= MODEL_EFFECT_BOMBCORE2_END_FRAME) {
         modelEffect->mFinished = 1;
         return;
     }

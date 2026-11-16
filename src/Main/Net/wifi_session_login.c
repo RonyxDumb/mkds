@@ -110,17 +110,17 @@ void SetupWiFiSessionLogin(void) {
     }
     CopyBuddyFriendDataList(&gWiFiSession->mBuddies[0]);
     DWC_InitInet(&gWiFiSession->mLogin);
-    DWC_SetAuthServer(2);
+    DWC_SetAuthServer(AUTH_SERVER_NO_SUBDOMAIN);
     DWC_ConnectInetAsync();
     buddyIndex = 0;
-    if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
+    if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], WIFI_BUDDY_COUNT) > 0) {
         do {
             buddyIndex++;
-        } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c));
+        } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], WIFI_BUDDY_COUNT));
     }
     session = gWiFiSession;
     DWC_InitFriendsMatch(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
-                         &session->mBuddies[0], 0x3c);
+                         &session->mBuddies[0], WIFI_BUDDY_COUNT);
     gWiFiSession->mErrorKind = 0;
     gWiFiSession->mErrorCode = 0;
     gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_INET;
@@ -200,11 +200,11 @@ void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
             gWiFiSession->mBuddiesChanged = TRUE;
         }
         buddyIndex = 0;
-        if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
+        if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], WIFI_BUDDY_COUNT) > 0) {
             do {
                 DWC_ReportFriendData(&gWiFiSession->mUserData, &gWiFiSession->mBuddies[buddyIndex]);
                 buddyIndex++;
-            } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c));
+            } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], WIFI_BUDDY_COUNT));
         }
         gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_DONE;
     } else {

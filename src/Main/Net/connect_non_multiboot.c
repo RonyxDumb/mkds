@@ -1,4 +1,5 @@
 #include "Main/Net/connect_non_multiboot.h"
+#include "Main/Graphics/disp_cap.h"
 #include "bios_calls.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Net/multiboot_connect.h"
@@ -59,7 +60,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
         return 0;
     }
     if (ConnectIsConnectionActiveNotEndingWithError()) {
-        return 3;
+        return CONNECT_ADVANCE_ERROR;
     }
     switch (gConnectionWork->mStep) {
         case CONNECTION_STEP_SEARCHING:
@@ -73,9 +74,9 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
             if (gConnectionWork->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
-                    return 3;
+                    return CONNECT_ADVANCE_ERROR;
                 }
-                status = 2;
+                status = CONNECT_ADVANCE_NOT_CONNECTED;
             } else {
                 StartMP();
             }
@@ -83,7 +84,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
         case CONNECTION_STEP_STARTING_MP:
             gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
-            status = 1;
+            status = CONNECT_ADVANCE_CONNECTED;
             break;
     }
     return status;

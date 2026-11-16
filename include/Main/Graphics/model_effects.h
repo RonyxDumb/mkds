@@ -23,6 +23,7 @@
 // UpdateModelEffectBombcore2 finishes on the second too.
 #define MODEL_EFFECT_BOMBCORE_PARTICLE_FRAME 0x26
 #define MODEL_EFFECT_BOMBCORE_END_FRAME 0x37
+#define MODEL_EFFECT_BOMBCORE2_END_FRAME 0x37
 // ModelEffect.mFinishFrameCount of the Donketu water splash and the Bk wave.
 #define MODEL_EFFECT_DONKETU_SPLASH_FINISH_FRAMES 0x20
 #define MODEL_EFFECT_BK_WAVE_FINISH_FRAMES 0x27
