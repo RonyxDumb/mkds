@@ -78,14 +78,14 @@ typedef void (*WirelessPortCallback)(void *portMessage);
 // Callback of a port send, unprototyped for the same reason.
 typedef void (*WirelessSendCallback)();
 
-// 0x2c bytes from 0x36 of UserGameDetails.
+// The name part of UserGameDetails: mName.
 typedef struct UserGameNameBlock {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u8 mName[0x14];
     /* 16 */ u8 mUnk_16[0x16];
 } UserGameNameBlock;
 
-// 0x62 bytes from 0xe of UserGameInfo.
+// The details of a game in a beacon: child count, language, ghost flag, kart index and mNameInfo.
 typedef struct UserGameDetails {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ union {
@@ -108,7 +108,7 @@ typedef struct UserGameDetails {
     /* 36 */ UserGameNameBlock mNameInfo;
 } UserGameDetails;
 
-// 0x70 bytes at 0x50 of WMBssDesc; the word at 0x38 of ChildList points to one.
+// The game info of a scan beacon: mKind, mMemberCount and mGameInfoPart, or a character, course and time.
 typedef struct UserGameInfo {
     union {
         struct {
@@ -358,7 +358,7 @@ typedef struct WMMpRecvHeader {
     /* 0a */ u8 mData[1];
 } WMMpRecvHeader;
 
-// One station's record in the MP receive buffer; the payload starts at 0x0a.
+// One station's record in the MP receive buffer: length, rate, mAid, response flag, header and mPayload.
 typedef struct WMMpRecvData {
     /* 00 */ u16 mLength;
     /* 02 */ u16 mRateRssi;

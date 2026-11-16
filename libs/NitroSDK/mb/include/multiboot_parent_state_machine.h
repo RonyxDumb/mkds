@@ -67,8 +67,7 @@ typedef enum MBCommResponse {
     MULTIBOOT_RESPONSE_BOOT
 } MBCommResponse;
 
-// Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
-// bytes, so their offsets here include the 0x1788.
+// A worker task that reloads a data range: mTask, the range (mDataRange) and the range table.
 typedef struct DataRangeLoadJob {
     /* 00 */ WorkerTask mTask;
     /* 10 */ MBiCacheInfo *mDataRange;

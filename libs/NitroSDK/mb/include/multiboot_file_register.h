@@ -17,7 +17,7 @@ typedef struct MB_BlockInfo {
     /* 0d */ u8 mUnk_0d[3];
 } MB_BlockInfo;
 
-// 0x14 bytes at 0x1d2c of an entry of MB_CommPWork: three words, then four halfwords.
+// The block table made for a multiboot file: three mRangeOffsets and the four mChunkStarts.
 typedef struct MB_BlockInfoTable {
     /* 00 */ u32 mRangeOffsets[3];
     /* 0c */ u16 mChunkStarts[4];
@@ -31,7 +31,7 @@ typedef struct MbSegmentInfo {
     /* 0c */ u32 mTarget;
 } MbSegmentInfo;
 
-// 0xe4-byte object that MBi_MakeDownloadFileInfo sets up at 0x1788 of an entry of MB_CommPWork.
+// The download file info of a multiboot file: ARM9 and ARM7 entry addresses, three segments and the auth code.
 typedef struct MBDownloadFileInfo {
     /* 00 */ u32 mArm9EntryAddr;
     /* 04 */ u32 mArm7EntryAddr;
@@ -41,8 +41,7 @@ typedef struct MBDownloadFileInfo {
     /* c4 */ u8 mReserved[0x20];
 } MBDownloadFileInfo;
 
-// Object MB_RegisterFile and MBi_MakeDownloadFileInfo read; the MBiCacheList at 0x1e8 and the words at 0x258 go to
-// the entry.
+// The segment info a multiboot file is registered from: entry addresses, RAM ranges, auth code and mCacheList.
 typedef struct SegmentBuffer {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ u32 mMainEntryAddress;

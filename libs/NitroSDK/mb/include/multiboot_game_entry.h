@@ -9,8 +9,7 @@
 #include "file_handle_setup.h"
 #include "multiboot_game_info_beacon.h"
 
-// Entry of the list that mbss walks (the lists are chained through mNext). MB_GetGameInfoRecvList returns one;
-// the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.
+// One multiboot game as received: icon, parent, name, introduction, player counts and flags, mNext and mBssDesc.
 typedef struct GameInfoEntry {
     /* 000 */ u8 mIcon[0x220];
     /* 220 */ u8 mParent[0x16];
@@ -62,8 +61,7 @@ typedef struct GameInfoList {
     /* 12 */ u8 mUnk_12[2];
 } GameInfoList;
 
-// 0x70-byte block that MBi_SendVolatBeacon and MBi_SendFixedBeacon fill and pass to WM_SetGameInfo. The halfword at 0xc
-// and the bytes from 0xe have another layout in MBi_SendFixedBeacon.
+// The beacon block describing the game a multiboot parent offers: ggid, sequence numbers, player flag, members, user data.
 typedef struct GameInfoBlock {
     /* 00 */ u32 mGgid;
     /* 04 */ union {

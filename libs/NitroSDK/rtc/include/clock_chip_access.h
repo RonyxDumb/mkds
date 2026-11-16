@@ -82,7 +82,7 @@ typedef struct RTCAlarmParam {
     /* 0c */ u32 mEnable;
 } RTCAlarmParam;
 
-// The date word the other processor leaves at 0x027ffde8: decimal-nibble coded year, month and day, plain weekday.
+// The clock chip's date: year, month, day and weekday.
 typedef struct RTCRawDate {
     /* 00 */ u32 mYear : 8;
     /* 00 */ u32 mMonth : 5;
@@ -93,7 +93,7 @@ typedef struct RTCRawDate {
     /* 00 */ u32 : 5;
 } RTCRawDate;
 
-// The time word at 0x027ffdec: decimal-nibble coded hour, minute and second.
+// The clock chip's time: hour, afternoon flag, minute and second.
 typedef struct RTCRawTime {
     /* 00 */ u32 mHour : 6;
     /* 00 */ u32 mAfternoon : 1;
@@ -108,7 +108,7 @@ typedef struct RTCRawTime {
 #define CLOCK_ALARM_INTR_MODE_NONE 0
 #define CLOCK_ALARM_INTR_MODE_ALARM1 4
 
-// Status register 2 as the other processor leaves it at 0x027ffdea.
+// The clock chip's status register 2: the interrupt modes.
 typedef struct RTCRawStatus2 {
     /* 00 */ u16 mIntrMode : 4;
     /* 00 */ u16 : 2;
@@ -116,7 +116,7 @@ typedef struct RTCRawStatus2 {
     /* 00 */ u16 : 9;
 } RTCRawStatus2;
 
-// An alarm register as the other processor leaves it at 0x027ffdec; mWe, mHe and mMe enable week, hour and minute.
+// A clock chip alarm register: mWeek, mHour and mMinute with the enable bits mWe, mHe and mMe.
 typedef struct RTCRawAlarm {
     /* 00 */ u32 mWeek : 3;
     /* 00 */ u32 : 4;

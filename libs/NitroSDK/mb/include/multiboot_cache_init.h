@@ -10,7 +10,7 @@ enum {
     MULTIBOOT_CACHE_FIXED
 };
 
-// 0x10-byte entries from 0x30 of MBiCacheList.
+// One cached data range of a multiboot file: its source mSrc, mLen, buffer mPtr and mState.
 typedef struct MBiCacheInfo {
     /* 00 */ u32 mSrc;
     /* 04 */ u32 mLen;

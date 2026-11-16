@@ -17,8 +17,7 @@ typedef struct BootInfo {
     /* 02 */ u8 mParentBssDesc[0x3e];
 } BootInfo;
 
-// The user settings the system leaves in shared memory at 0x027ffc80: the owner data and the touch panel calibration
-// words.
+// The user settings the system keeps in shared memory: colour, birthday, nickname, comment, calibration, MAC address, channel.
 typedef struct NvramUserInfo {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u8 mFavoriteColor;
@@ -51,7 +50,7 @@ typedef struct NvramUserInfo {
 // OSSystemWork.mButtonXY bit that is set while the console is closed; the sleep wait and the pad readers test it.
 #define SYSTEM_BUTTON_XY_CLOSED 0x8000
 
-// The shared memory block at 0x027ffc00 that both processors read and write.
+// The shared system memory block both processors use: cartridge, boot, user, arena and clock info, ROM header, locks and input.
 typedef struct OSSystemWork {
     /* 000 */ u8 mUnk_000[0x30];
     /* 030 */ CTRDGModuleInfo mCartridgeModuleInfo;

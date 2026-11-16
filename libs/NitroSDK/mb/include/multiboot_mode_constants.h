@@ -21,7 +21,7 @@ enum {
 // Bytes of the game info the beacon of a multiboot parent carries.
 #define MULTIBOOT_BEACON_GAME_INFO_LENGTH 0x10
 
-// 0x180-byte entries from 0x600 of MBiParam.
+// One scan result of the multiboot parent list; mMessage holds the received message.
 typedef struct ScanEntry {
     /* 000 */ u8 mUnk_000[0xc0];
     /* 0c0 */ WirelessMessage mMessage;

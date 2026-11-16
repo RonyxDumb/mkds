@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// The registers at 0x04000280-0x040002bf: divider operands, square root operand and the two mode halfwords.
+// The saved coprocessor state: divider operands and mode, square root operand and mode.
 typedef struct CPContext {
     /* 00 */ u64 mDivNumer;
     /* 08 */ u64 mDivDenom;

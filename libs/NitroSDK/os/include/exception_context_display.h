@@ -6,7 +6,7 @@ void OSi_GetAndDisplayContext(u32 exinfo);
 
 #define HW_EXCP_VECTOR_MAIN ((u32 *) 0x027ffd9c)
 
-// Object at a fixed address in OS_InitException, which sets its word at 0xfdc.
+// The end of the data TCM block: mExceptionHandler is the exception function.
 typedef struct DtcmTail {
     /* 000 */ u8 mUnk_000[0xfdc];
     /* fdc */ void (*mExceptionHandler)(void);

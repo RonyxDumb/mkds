@@ -5,8 +5,7 @@
 // Offset in the last block where the 64-bit bit count goes; padding that starts at or past it needs one more block.
 #define DGT_HASH2_LENGTH_OFFSET 0x38
 
-// 0x68 bytes: five words at 0x00, a 64-bit count in the words at 0x14 and 0x18, a byte count at 0x1c and a 0x40-byte
-// buffer at 0x20.
+// The running state of a hash: five mWords, the bit count, the buffered bytes (mBufferLen) and the 64-byte mBlock.
 typedef struct DGTHash2Context {
     /* 00 */ u32 mWords[5];
     /* 14 */ u32 mBitCountLow;

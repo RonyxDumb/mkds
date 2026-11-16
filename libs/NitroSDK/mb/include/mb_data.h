@@ -10,8 +10,7 @@ typedef struct PieceSizes {
     /* 08 */ s32 mBufSize;
 } PieceSizes;
 
-// Object behind gPieceBuffer (also the member of MB_CommPWork at 0x1538): the words from 0x1e0 on are indexed like the
-// 0x20-byte entries before them.
+// The piece buffer of a multiboot request: mDataBuf and the bitmap (mDataBmp) of the pieces received.
 typedef struct MbRequestPieceBuf {
     /* 000 */ u8 mDataBuf[0x1e0];
     /* 1e0 */ u32 mDataBmp[15];

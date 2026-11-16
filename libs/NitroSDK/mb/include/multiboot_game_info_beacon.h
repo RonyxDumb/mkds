@@ -53,7 +53,7 @@ typedef struct MBGameInfoRecvList {
     /* 58f */ u8 mSequenceRepeats;
 } MBGameInfoRecvList;
 
-// Object behind mbrsp: sixteen entries from 0x10 on.
+// The receive status of game info beacons: the scan flags and counters and the 16 mEntries.
 typedef struct MbBeaconRecvStatus {
     /* 00 */ u16 mUsedMask;
     /* 02 */ u16 mUsefulGameInfoFlag;
@@ -69,7 +69,7 @@ typedef struct MbBeaconRecvStatus {
 // Characters in the name of a user.
 #define MB_USER_NAME_LENGTH 10
 
-// Element of the array at 0x10 in MbBeacon.
+// A multiboot user: favourite colour, player number and name (mNameLength, mName).
 typedef struct MBUserInfo {
     /* 00 */ union {
         u8 mColorAndPlayerNo;
