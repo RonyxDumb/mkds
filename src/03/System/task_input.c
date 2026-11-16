@@ -226,12 +226,12 @@ BOOL IsTouchReleasedInRect(const Rect *rect) {
     return 0;
 }
 
-BOOL IsTouchPressedInOriginSizeRect(const OriginSizeRect *input) {
+BOOL IsTouchPressedInOriginSizeRect(const OriginSizeRect *originSizeRect) {
     Rect rect;
-    rect.mX = input->mX;
-    rect.mY = input->mY;
-    rect.mRight = input->mX + input->mWidth;
-    rect.mBottom = input->mY + input->mHeight;
+    rect.mX = originSizeRect->mX;
+    rect.mY = originSizeRect->mY;
+    rect.mRight = originSizeRect->mX + originSizeRect->mWidth;
+    rect.mBottom = originSizeRect->mY + originSizeRect->mHeight;
     return IsTouchPressedInRect(&rect);
 }
 

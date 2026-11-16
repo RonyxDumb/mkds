@@ -21,13 +21,13 @@ void ReleaseExpHeap(void) {
 }
 
 void *AllocExpHeapBlock(u32 size, s32 alignment) {
-    u32 interrupts = OS_DisableIrqMask(1);
+    u32 savedIrqMask = OS_DisableIrqMask(1);
     void *block = NNS_FndAllocFromExpHeapEx(gExpHeap, size, alignment);
 
     if (block == NULL) {
         OS_Terminate();
     }
-    OS_EnableIrqMask(interrupts);
+    OS_EnableIrqMask(savedIrqMask);
     return block;
 }
 
@@ -38,22 +38,22 @@ void *AllocZeroedExpHeapBlock(u32 size, s32 alignment) {
     return block;
 }
 
-void FreeExpHeapBlockAndClearPointer(void *storage) {
-    void **block = storage;
-    u32 interrupts = OS_DisableIrqMask(1);
+void FreeExpHeapBlockAndClearPointer(void *pointerAddress) {
+    void **blockPointer = pointerAddress;
+    u32 savedIrqMask = OS_DisableIrqMask(1);
 
-    if (*block != NULL) {
-        NNS_FndFreeToExpHeap(gExpHeap, *block);
-        OS_EnableIrqMask(interrupts);
-        *block = NULL;
+    if (*blockPointer != NULL) {
+        NNS_FndFreeToExpHeap(gExpHeap, *blockPointer);
+        OS_EnableIrqMask(savedIrqMask);
+        *blockPointer = NULL;
     }
 }
 
 void FreeExpHeapBlock(void *block) {
-    u32 interrupts = OS_DisableIrqMask(1);
+    u32 savedIrqMask = OS_DisableIrqMask(1);
 
     if (block != NULL) {
         NNS_FndFreeToExpHeap(gExpHeap, block);
-        OS_EnableIrqMask(interrupts);
+        OS_EnableIrqMask(savedIrqMask);
     }
 }
