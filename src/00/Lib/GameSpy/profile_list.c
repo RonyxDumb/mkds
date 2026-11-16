@@ -48,7 +48,7 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     u32 *arg;
     s32 profileNumber;
     s32 result;
-    char intValue[0x10];
+    char profileIdText[0x10];
 
     if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
@@ -58,12 +58,12 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    if (GpiGetValue(input, "\\profileid\\", intValue, 0x10) == FALSE) {
+    if (GpiGetValue(input, "\\profileid\\", profileIdText, 0x10) == FALSE) {
         GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    profileNumber = StrtolBase10(intValue);
+    profileNumber = StrtolBase10(profileIdText);
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(8);
@@ -83,10 +83,10 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
 }
 
 GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
-    GPIProfileList *profileStore;
+    GPIProfileList *profileList;
     GpiProfile *profileEntry;
 
-    profileStore = &connection->mGpiConnection->mProfileList;
+    profileList = &connection->mGpiConnection->mProfileList;
     if (id <= 0) {
         AssertionFailed("id > 0", "gpiProfile.c", NULL, 0x2b5);
     }
@@ -105,9 +105,9 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
         newProfile.mAuthSig = NULL;
         newProfile.mPeerSig = NULL;
         newProfile.mRequestCount = 0;
-        HashtableSet(profileStore->mTable, &newProfile);
+        HashtableSet(profileList->mTable, &newProfile);
     }
-    profileStore->mNum = profileStore->mNum + 1;
+    profileList->mNum = profileList->mNum + 1;
     if (GpiFindProfile(connection, id, &profileEntry) != 0) {
         return profileEntry;
     }

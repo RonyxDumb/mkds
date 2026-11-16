@@ -25,43 +25,43 @@ u32 DWC_AddCommonKeyValueString(void *key, void *value, void *string, u32 separa
 }
 
 s32 DWC_GetCommonValueString(const char *key, char *value, const char *string, int separator) {
-    const char *pair;
+    const char *pairSeparator;
     const char *nextSeparator;
     s32 len;
     enum { SEPARATOR_LENGTH = 1 } k;
     if (value == NULL) {
         return -1;
     }
-    pair = strchr(string, separator);
-    if (pair == NULL) {
+    pairSeparator = strchr(string, separator);
+    if (pairSeparator == NULL) {
         return -1;
     }
     k = SEPARATOR_LENGTH;
     while (1) {
-        if (strncmp(pair + 1, key, strlen(key)) == 0 &&
-            (len = strlen(key), len += (u32) pair, separator == *(s8 *) (len + k))) {
+        if (strncmp(pairSeparator + 1, key, strlen(key)) == 0 &&
+            (len = strlen(key), len += (u32) pairSeparator, separator == *(s8 *) (len + k))) {
             break;
         }
-        nextSeparator = strchr(pair + 1, separator);
+        nextSeparator = strchr(pairSeparator + 1, separator);
         if (nextSeparator == NULL) {
             return -1;
         }
-        pair = strchr(nextSeparator + 1, separator);
-        if (pair == NULL) {
+        pairSeparator = strchr(nextSeparator + 1, separator);
+        if (pairSeparator == NULL) {
             return -1;
         }
     }
-    pair = strchr(pair + 1, separator);
-    if (pair == NULL) {
+    pairSeparator = strchr(pairSeparator + 1, separator);
+    if (pairSeparator == NULL) {
         return -1;
     }
-    nextSeparator = strchr(pair + 1, separator);
+    nextSeparator = strchr(pairSeparator + 1, separator);
     if (nextSeparator != NULL) {
-        len = nextSeparator - (pair + 1);
+        len = nextSeparator - (pairSeparator + 1);
     } else {
-        len = strlen(pair + 1);
+        len = strlen(pairSeparator + 1);
     }
-    strncpy(value, pair + 1, len);
+    strncpy(value, pairSeparator + 1, len);
     value[len] = 0;
     return len;
 }
@@ -163,14 +163,14 @@ BOOL DWC_SendUnreliable(u32 aid, void *buffer, s32 size) {
 // Gives peer a the buffer b of capacity c to receive into and sets mReceiveState to 1 with both received counters 0;
 // refuses (FALSE) while a body is being received into the old buffer (state 2).
 BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size) {
-    WiFiPeerMessage *connection = DWCs_GetTransConnection(aid);
+    WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
     if (DWCs_GetRecvState(aid) == 2) {
         return FALSE;
     }
-    connection->mReceiveBuffer = recvBuffer;
-    connection->mReceiveBufferSize = size;
-    connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
-    connection->mReceivedSize = 0;
-    connection->mReceiveSize = 0;
+    peer->mReceiveBuffer = recvBuffer;
+    peer->mReceiveBufferSize = size;
+    peer->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
+    peer->mReceivedSize = 0;
+    peer->mReceiveSize = 0;
     return TRUE;
 }

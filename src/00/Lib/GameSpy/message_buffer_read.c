@@ -26,19 +26,19 @@
 
 u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
     char intText[0x10];
-    u8 *str;
+    u8 *headerEnd;
     s32 bodyLength;
-    s32 len;
+    s32 bodyEndOffset;
     *message = 0;
     if (inputBuffer->mLength < 5) {
         return 0;
     }
-    str = (u8 *) strchr((const char *) inputBuffer->mBuffer, 10);
-    if (str != NULL) {
-        if (strncmp((const char *) (str - 5), "\\msg\\", 5) != 0) {
+    headerEnd = (u8 *) strchr((const char *) inputBuffer->mBuffer, 10);
+    if (headerEnd != NULL) {
+        if (strncmp((const char *) (headerEnd - 5), "\\msg\\", 5) != 0) {
             return 3;
         }
-        *str = 0;
+        *headerEnd = 0;
         if (GpiGetValue((const char *) inputBuffer->mBuffer, "\\m\\", intText, 0x10) == FALSE) {
             return 3;
         }
@@ -47,16 +47,16 @@ u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s
             return 3;
         }
         bodyLength = StrtolBase10(intText);
-        len = bodyLength + 1;
-        if (inputBuffer->mLength > len + (str - inputBuffer->mBuffer)) {
-            if (*(s8 *) (str + len) != 0) {
+        bodyEndOffset = bodyLength + 1;
+        if (inputBuffer->mLength > bodyEndOffset + (headerEnd - inputBuffer->mBuffer)) {
+            if (*(s8 *) (headerEnd + bodyEndOffset) != 0) {
                 return 3;
             }
-            *message = (s32) (str + 1);
+            *message = (s32) (headerEnd + 1);
             *plen = bodyLength;
-            inputBuffer->mPos = len + (str - inputBuffer->mBuffer) + 1;
+            inputBuffer->mPos = bodyEndOffset + (headerEnd - inputBuffer->mBuffer) + 1;
         } else {
-            *str = 10;
+            *headerEnd = 10;
         }
     }
     return 0;

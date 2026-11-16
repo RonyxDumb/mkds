@@ -59,7 +59,7 @@ void *stGt2ConnectionList[32];
 // Sets up the object at each login (the caller zeroes the 0xdb4 bytes first, wifi_session_login.c): stores
 // gWiFiConnection, builds the login, buddy, matching and net-layer objects and copies the game name and key. Undone
 // by DWC_ShutdownFriendsMatch.
-void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumber, const char *gameName,
+void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 productId, const char *gameName,
                           const char *secretKey, s32 sendBufferSize, s32 receiveBufferSize, void *friendList,
                           s32 friendListLength) {
     u32 gameNameLength;
@@ -94,7 +94,7 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mConnectionClosedCallback = NULL;
     gWiFiConnection->mConnectionClosedCallbackArg = NULL;
     DWCi_ClearGT2ConnectionList();
-    InitWiFiLogin(&gWiFiConnection->mLogin, userData, &gWiFiConnection->mGpConnection, titleNumber,
+    InitWiFiLogin(&gWiFiConnection->mLogin, userData, &gWiFiConnection->mGpConnection, productId,
                   ((DWCAccUserData *) userData)->mGamecode, DWCi_LoginCallback, NULL);
     DWCi_FriendInit(&gWiFiConnection->mBuddySync, &gWiFiConnection->mGpConnection, gWiFiConnection->mPlayerName,
                     friendList, friendListLength);

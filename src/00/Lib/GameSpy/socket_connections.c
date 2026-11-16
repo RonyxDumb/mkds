@@ -18,8 +18,8 @@
 #include "00/Lib/GameSpy/byte_buffer.h"
 #include "quick_sort.h"
 
-u32 gti2ConnectionHash(const Gt2ConnectionEntry *object, u32 modulus) {
-    return (object->mValue->mAddress * object->mValue->mPort) % modulus;
+u32 gti2ConnectionHash(const Gt2ConnectionEntry *entry, u32 modulus) {
+    return (entry->mValue->mAddress * entry->mValue->mPort) % modulus;
 }
 
 s32 gti2ConnectionCompare(const Gt2Connection *const *left, const Gt2Connection *const *right) {

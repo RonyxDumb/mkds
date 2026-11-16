@@ -15,7 +15,7 @@ BOOL gti2VerifyChallenge(const u8 *buffer) {
     s32 runningXor;
     s32 index;
     u32 firstByte;
-    u32 previousByte;
+    u32 workValue;
     runningXor = 0;
     index = 1;
     firstByte = buffer[0];
@@ -29,8 +29,8 @@ BOOL gti2VerifyChallenge(const u8 *buffer) {
     masks[5] = index;
     masks[7] = index;
     do {
-        previousByte = buffer[index - 1];
-        if (previousByte < firstByte) {
+        workValue = buffer[index - 1];
+        if (workValue < firstByte) {
             previousMask = masks[1];
         } else {
             previousMask = masks[2];
@@ -40,11 +40,11 @@ BOOL gti2VerifyChallenge(const u8 *buffer) {
         } else {
             firstByteMask = masks[4];
         }
-        runningXor ^= (index ^ previousByte) & masks[5];
-        previousByte = masks[0];
-        previousByte ^= runningXor;
-        previousByte ^= firstByteMask;
-        runningXor = previousByte;
+        runningXor ^= (index ^ workValue) & masks[5];
+        workValue = masks[0];
+        workValue ^= runningXor;
+        workValue ^= firstByteMask;
+        runningXor = workValue;
         runningXor ^= previousMask;
         if ((runningXor != 0 && (buffer[index] & masks[6]) == 0) ||
             (runningXor == 0 && (buffer[index] & masks[7]) == 1)) {
@@ -59,7 +59,7 @@ u8 *gti2GetChallenge(u8 *buffer) {
     s32 masks[9];
     u32 previousByte;
     u32 firstByteMask;
-    u32 firstByteValue;
+    u32 workValue;
     s32 index;
     s32 parityFlag;
     u32 previousMask;
@@ -81,25 +81,25 @@ u8 *gti2GetChallenge(u8 *buffer) {
     masks[7] = index;
     do {
         previousByte = buffer[index - 1];
-        firstByteValue = buffer[0];
-        if (previousByte < firstByteValue) {
+        workValue = buffer[0];
+        if (previousByte < workValue) {
             previousMask = masks[0];
         } else {
             previousMask = masks[1];
         }
-        if (firstByteValue < 0x4f) {
+        if (workValue < 0x4f) {
             firstByteMask = masks[2];
         } else {
             firstByteMask = masks[3];
         }
-        firstByteValue &= masks[5];
+        workValue &= masks[5];
         masks[8] = index;
         masks[8] ^= previousByte;
         masks[8] &= masks[4];
         parityFlag ^= masks[8];
-        firstByteValue ^= parityFlag;
-        firstByteValue ^= firstByteMask;
-        parityFlag = firstByteValue;
+        workValue ^= parityFlag;
+        workValue ^= firstByteMask;
+        parityFlag = workValue;
         parityFlag ^= previousMask;
         current = &buffer[index];
         buffer[index] = (s32) rand() % 0x5d + 0x21;
@@ -113,12 +113,12 @@ u8 *gti2GetChallenge(u8 *buffer) {
 
 u8 *gti2GetResponse(u8 *buffer, const u8 *challenge) {
     s32 valid;
-    s32 secretLen;
+    s32 challengeKeyLen;
     s32 index;
     s32 scaledIndex;
-    s32 prevByte;
+    s32 selectedByte;
     s32 challengeIndex;
-    secretLen = strlen((const char *) gGt2ChallengeKey);
+    challengeKeyLen = strlen((const char *) gGt2ChallengeKey);
     valid = gti2VerifyChallenge(challenge);
     index = 0;
     scaledIndex = 0;
@@ -127,14 +127,14 @@ u8 *gti2GetResponse(u8 *buffer, const u8 *challenge) {
             buffer[index] = (s32) rand() % 0x5d + 0x21;
         } else {
             if (index == 1 || index == 0xe) {
-                prevByte = (s8) challenge[index];
+                selectedByte = (s8) challenge[index];
             } else {
-                prevByte = (s8) challenge[index - 1];
+                selectedByte = (s8) challenge[index - 1];
             }
             challengeIndex =
-                (gGt2ChallengeKey[(index + challenge[index]) % secretLen] + index * challenge[index]) % 0x20;
+                (gGt2ChallengeKey[(index + challenge[index]) % challengeKeyLen] + index * challenge[index]) % 0x20;
             buffer[index] =
-                (s32) Abs(challenge[challengeIndex] ^ gGt2ChallengeKey[(prevByte * scaledIndex) % secretLen]) % 0x5d +
+                (s32) Abs(challenge[challengeIndex] ^ gGt2ChallengeKey[(selectedByte * scaledIndex) % challengeKeyLen]) % 0x5d +
                 0x21;
         }
         scaledIndex += 0x4647;

@@ -359,7 +359,7 @@ u32 SBServerGetPing(SbServer *server) {
     return server->mPing;
 }
 
-SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPort) {
+SbServer *SBAllocServer(SbServerList *serverList, u32 publicIp, u16 publicPort) {
     SbServer *newServer;
     newServer = DWCi_GsMalloc(0x24);
     if (newServer == NULL) {
@@ -376,8 +376,8 @@ SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPor
     newServer->mNext = NULL;
     newServer->mPing = 0;
     newServer->mIcmpIp = 0;
-    newServer->mPublicIp = outerAddress;
-    newServer->mPublicPort = outerPort;
+    newServer->mPublicIp = publicIp;
+    newServer->mPublicPort = publicPort;
     newServer->mPrivateIp = 0;
     newServer->mPrivatePort = 0;
     return newServer;
@@ -387,13 +387,13 @@ void SBServerSetFlags(SbServer *server, s32 flags) {
     server->mFlags = flags;
 }
 
-void SBServerSetPrivateAddr(SbServer *server, u32 innerAddress, u16 innerPort) {
-    server->mPrivateIp = innerAddress;
-    server->mPrivatePort = innerPort;
+void SBServerSetPrivateAddr(SbServer *server, u32 privateIp, u16 privatePort) {
+    server->mPrivateIp = privateIp;
+    server->mPrivatePort = privatePort;
 }
 
-void SBServerSetICMPIP(SbServer *server, u32 targetAddr) {
-    server->mIcmpIp = targetAddr;
+void SBServerSetICMPIP(SbServer *server, u32 icmpIp) {
+    server->mIcmpIp = icmpIp;
 }
 
 void SBServerSetState(SbServer *server, u8 state) {

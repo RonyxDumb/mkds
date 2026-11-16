@@ -177,24 +177,24 @@ u32 CanSendOnSocket(u32 sock) {
 }
 
 SOCHostEnt *getlocalhost(void) {
-    static SOCHostEnt loopbackEntry;
+    static SOCHostEnt localhostEntry;
     static u32 *addrList[6];
     static u32 ips[5];
 
-    loopbackEntry.mName = "localhost";
-    loopbackEntry.mAliases = (u8 *) &aliases;
-    loopbackEntry.mAddrType = SOCKET_FAMILY_IPV4;
-    loopbackEntry.mLength = 0;
-    loopbackEntry.mAddrList = addrList;
+    localhostEntry.mName = "localhost";
+    localhostEntry.mAliases = (u8 *) &aliases;
+    localhostEntry.mAddrType = SOCKET_FAMILY_IPV4;
+    localhostEntry.mLength = 0;
+    localhostEntry.mAddrList = addrList;
     ips[0] = 0;
     SOC_U32to4U8(SOCL_GetHostID(), (u8 *) &ips[0]);
     if (ips[0] == 0) {
         return NULL;
     }
     addrList[0] = &ips[0];
-    loopbackEntry.mLength = SOCKET_ADDRESS_LENGTH_IPV4;
+    localhostEntry.mLength = SOCKET_ADDRESS_LENGTH_IPV4;
     addrList[1] = NULL;
-    return &loopbackEntry;
+    return &localhostEntry;
 }
 
 BOOL IsPrivateIP(u32 *addr) {
@@ -223,8 +223,8 @@ s32 CheckRcode(s32 result, s32 fallback) {
     return result;
 }
 
-s32 OpenNetSocket(s32 domain, s32 type, s32 protocol) {
-    return CheckRcode(SOC_Socket(domain, type, protocol), -1);
+s32 OpenNetSocket(s32 family, s32 type, s32 protocol) {
+    return CheckRcode(SOC_Socket(family, type, protocol), -1);
 }
 
 s32 closesocket(s32 descriptor) {

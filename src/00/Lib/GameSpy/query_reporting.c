@@ -266,9 +266,9 @@ void enum_local_ips(void) {
 }
 
 BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, SOCHostEnt **savehent) {
-    SOCHostEnt *hent;
+    SOCHostEnt *hostEntry;
 
-    hent = NULL;
+    hostEntry = NULL;
     saddr->mFamily = SOCKET_FAMILY_IPV4;
     saddr->mPort = Qr2SwapBytes16(port);
     if (host == NULL) {
@@ -278,15 +278,15 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
     }
     if (saddr->mAddr == -1) {
         if (strcmp(host, "255.255.255.255") != 0) {
-            hent = SOC_GetHostByName(host);
-            if (hent == NULL) {
+            hostEntry = SOC_GetHostByName(host);
+            if (hostEntry == NULL) {
                 return FALSE;
             }
-            saddr->mAddr = **hent->mAddrList;
+            saddr->mAddr = **hostEntry->mAddrList;
         }
     }
     if (savehent != NULL) {
-        *savehent = hent;
+        *savehent = hostEntry;
     }
     return TRUE;
 }
@@ -324,7 +324,7 @@ void gs_encode(const u8 *ins, s32 size, u8 *result) {
     u8 *tripCursor;
     s32 quartetIndex;
     u8 currentByte;
-    u8 previousByte;
+    u8 middleByte;
 
     inputIndex = 0;
     if (size > 0) {
@@ -339,10 +339,10 @@ void gs_encode(const u8 *ins, s32 size, u8 *result) {
             }
             currentByte = tripKwart[0];
             tripKwart[3] = currentByte >> 2;
-            previousByte = tripKwart[1];
-            tripKwart[4] = ((currentByte & 3) << 4) + (previousByte >> 4);
+            middleByte = tripKwart[1];
+            tripKwart[4] = ((currentByte & 3) << 4) + (middleByte >> 4);
             currentByte = tripKwart[2];
-            tripKwart[5] = ((previousByte & 0xf) << 2) + (currentByte >> 6);
+            tripKwart[5] = ((middleByte & 0xf) << 2) + (currentByte >> 6);
             tripKwart[6] = currentByte & 0x3f;
             for (quartetIndex = 0, tripCursor = &tripKwart[3]; quartetIndex <= 3; quartetIndex++) {
                 *result++ = encode_ct(*tripCursor);
@@ -360,7 +360,7 @@ void gs_encrypt(u8 *key, s32 keyLength, u8 *dataBytes, s32 bufferLength) {
     u8 keyPos;
     u8 swapIndex;
     u8 streamX;
-    u8 streamIndex;
+    u8 xorIndex;
     s16 fillIndex;
     s16 scheduleIndex;
     u8 *stateCursor;
@@ -388,8 +388,8 @@ void gs_encrypt(u8 *key, s32 keyLength, u8 *dataBytes, s32 bufferLength) {
             statePtrAtX = state + streamX;
             swapIndex = (*statePtrAtX + swapIndex) % 0x100;
             swap_byte(statePtrAtX, state + swapIndex);
-            streamIndex = (*statePtrAtX + state[swapIndex]) % 0x100;
-            dataBytes[byteIndex] ^= state[streamIndex];
+            xorIndex = (*statePtrAtX + state[swapIndex]) % 0x100;
+            dataBytes[byteIndex] ^= state[xorIndex];
             byteIndex++;
         } while (byteIndex < bufferLength);
     }
@@ -419,30 +419,30 @@ void qr_add_packet_header(u32 buf, u32 ptype, u32 reqkey) {
 }
 
 void compute_challenge_response(QueryRecord *qrec, QueryBuffer *buf, const char *challenge, s32 challengelen) {
-    u8 cipherBytes[0x44];
+    u8 challengeCopy[0x44];
 
     if (challengelen >= 1 && challengelen <= 0x41 && ((s8 *) challenge)[challengelen - 1] == 0) {
-        strcpy((char *) cipherBytes, challenge);
-        gs_encrypt(qrec->mSecretKey, strlen((const char *) qrec->mSecretKey), cipherBytes, challengelen - 1);
-        gs_encode(cipherBytes, challengelen - 1, &buf->mBuffer[buf->mLen]);
+        strcpy((char *) challengeCopy, challenge);
+        gs_encrypt(qrec->mSecretKey, strlen((const char *) qrec->mSecretKey), challengeCopy, challengelen - 1);
+        gs_encode(challengeCopy, challengelen - 1, &buf->mBuffer[buf->mLen]);
         buf->mLen += strlen((const char *) &buf->mBuffer[buf->mLen]) + 1;
     }
 }
 
 void handle_public_address(QueryRecord *qrec, const char *buffer) {
-    u32 outerAddress;
+    u32 publicIp;
     u32 scannedPort;
-    u16 natPort;
+    u16 publicPort;
 
-    sscanf(buffer, "%08X%04X", &outerAddress, &scannedPort);
-    natPort = scannedPort;
-    outerAddress = (outerAddress << 24 & 0xff000000) |
-               ((outerAddress << 8 & 0xff0000) | ((outerAddress >> 24 & 0xff) | (outerAddress >> 8 & 0xff00)));
-    if (outerAddress != 0 && natPort != 0) {
-        if (qrec->mPublicIp != outerAddress || qrec->mPublicPort != natPort) {
-            qrec->mPublicIp = outerAddress;
-            qrec->mPublicPort = natPort;
-            qrec->mPublicAddressCallback(outerAddress, natPort, qrec->mUserData);
+    sscanf(buffer, "%08X%04X", &publicIp, &scannedPort);
+    publicPort = scannedPort;
+    publicIp = (publicIp << 24 & 0xff000000) |
+               ((publicIp << 8 & 0xff0000) | ((publicIp >> 24 & 0xff) | (publicIp >> 8 & 0xff00)));
+    if (publicIp != 0 && publicPort != 0) {
+        if (qrec->mPublicIp != publicIp || qrec->mPublicPort != publicPort) {
+            qrec->mPublicIp = publicIp;
+            qrec->mPublicPort = publicPort;
+            qrec->mPublicAddressCallback(publicIp, publicPort, qrec->mUserData);
         }
     }
 }
@@ -452,7 +452,7 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
     u16 countShort;
     u16 swappedCount;
     s32 countValue;
-    s32 playerIdx;
+    s32 entryIndex;
     s32 bufferLength;
     s32 keyIndex;
     s32 firstKeyIndex;
@@ -513,9 +513,9 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
             return;
         }
     }
-    playerIdx = 0;
+    entryIndex = 0;
     if (countValue > 0) {
-        firstKeyIndex = playerIdx;
+        firstKeyIndex = entryIndex;
         do {
             keyPosition = firstKeyIndex;
             if (keycount > 0) {
@@ -524,9 +524,9 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                     if (keytype == 0) {
                         qrec->mServerKeyCallback(keys[keyPosition], buf, qrec->mUserData);
                     } else if (keytype == 1) {
-                        qrec->mPlayerKeyCallback(keys[keyPosition], playerIdx, buf, qrec->mUserData);
+                        qrec->mPlayerKeyCallback(keys[keyPosition], entryIndex, buf, qrec->mUserData);
                     } else if (keytype == 2) {
-                        qrec->mTeamKeyCallback(keys[keyPosition], playerIdx, buf, qrec->mUserData);
+                        qrec->mTeamKeyCallback(keys[keyPosition], entryIndex, buf, qrec->mUserData);
                     }
                     if (bufferLength == buf->mLen) {
                         qr2_buffer_addA(buf, "");
@@ -534,8 +534,8 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                     keyPosition++;
                 } while (keyPosition < keycount);
             }
-            playerIdx++;
-        } while (playerIdx < countValue);
+            entryIndex++;
+        } while (entryIndex < countValue);
     }
 }
 
@@ -592,19 +592,19 @@ void qr_process_query(QueryRecord *qrec, QueryBuffer *buf, const u8 *qdata, s32 
 void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keytype) {
     char keyNameBuf[0x80];
     MatchingKeyIds keybuffer;
-    s32 teamTotal;
+    s32 entryCount;
     s32 bufferLength;
     s32 keyIndex;
     s32 firstPindex;
-    s32 playerIdx;
+    s32 entryIndex;
     const char *keyName;
     u8 *keyCursor;
 
     keybuffer.mKeyCount = 0;
     if ((u32) (keytype - 1) <= 1) {
-        teamTotal = qrec->mPlayerTeamCountCallback(keytype, qrec->mUserData);
+        entryCount = qrec->mPlayerTeamCountCallback(keytype, qrec->mUserData);
     } else {
-        teamTotal = 1;
+        entryCount = 1;
     }
     qrec->mKeyListCallback(keytype, &keybuffer, qrec->mUserData);
     keyIndex = 0;
@@ -626,24 +626,24 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
                 }
                 buf->mBuffer[buf->mLen - 1] = '\\';
             } else {
-                playerIdx = firstPindex;
-                if (teamTotal > 0) {
+                entryIndex = firstPindex;
+                if (entryCount > 0) {
                     do {
-                        sprintf(keyNameBuf, "%s%d", keyName, playerIdx);
+                        sprintf(keyNameBuf, "%s%d", keyName, entryIndex);
                         qr2_buffer_addA(buf, keyNameBuf);
                         buf->mBuffer[buf->mLen - 1] = '\\';
                         bufferLength = buf->mLen;
                         if (keytype == 1) {
-                            qrec->mPlayerKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
+                            qrec->mPlayerKeyCallback(*keyCursor, entryIndex, buf, qrec->mUserData);
                         } else if (keytype == 2) {
-                            qrec->mTeamKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
+                            qrec->mTeamKeyCallback(*keyCursor, entryIndex, buf, qrec->mUserData);
                         }
                         if (bufferLength == buf->mLen) {
                             qr2_buffer_addA(buf, "");
                         }
                         buf->mBuffer[buf->mLen - 1] = '\\';
-                        playerIdx++;
-                    } while (playerIdx < teamTotal);
+                        entryIndex++;
+                    } while (entryIndex < entryCount);
                 }
             }
             keyCursor++;
@@ -663,15 +663,15 @@ void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf) {
 }
 
 void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
-    NatnegMagic magicRef = gNatnegMagicBytes;
+    NatnegMagic magicCopy = gNatnegMagicBytes;
     s32 index;
     BOOL natNegPacket = TRUE;
-    u32 echoCookie;
+    u32 cookie;
     u8 *cookieSource;
     u8 *cookieBytes;
     if (len >= 10) {
         for (index = 0; index < 6; index++) {
-            if (magicRef.mBytes[index] != buf[index]) {
+            if (magicCopy.mBytes[index] != buf[index]) {
                 natNegPacket = FALSE;
                 break;
             }
@@ -680,7 +680,7 @@ void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
         natNegPacket = FALSE;
     }
     if (natNegPacket != FALSE) {
-        cookieBytes = (u8 *) &echoCookie;
+        cookieBytes = (u8 *) &cookie;
         cookieSource = buf + 6;
         cookieBytes[0] = cookieSource[0];
         cookieBytes[1] = cookieSource[1];
@@ -688,8 +688,8 @@ void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
         cookieBytes[3] = cookieSource[3];
         if (qrec->mNatnegCallback != NULL) {
             qrec->mNatnegCallback(
-                ((echoCookie << 24) & 0xff000000) |
-                    (((echoCookie << 8) & 0xff0000) | (((echoCookie >> 24) & 0xff) | ((echoCookie >> 8) & 0xff00))),
+                ((cookie << 24) & 0xff000000) |
+                    (((cookie << 8) & 0xff0000) | (((cookie >> 24) & 0xff) | ((cookie >> 8) & 0xff00))),
                 qrec->mUserData);
         }
     } else if (qrec->mClientMessageCallback != NULL) {
@@ -700,7 +700,7 @@ void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
 BOOL qr_got_recent_message(QueryRecord *qrec, int msgkey) {
     int index;
     int nextIndex;
-    int *keyField;
+    int *curMessageKeyPtr;
     index = 0;
     do {
         if (msgkey == qrec->mClientMessageKeys[index]) {
@@ -709,15 +709,15 @@ BOOL qr_got_recent_message(QueryRecord *qrec, int msgkey) {
         index = index + 1;
     } while (index < 10);
     nextIndex = (qrec->mCurMessageKey + 1) % (10);
-    keyField = &qrec->mCurMessageKey;
-    *keyField = nextIndex;
-    qrec->mClientMessageKeys[*keyField] = msgkey;
+    curMessageKeyPtr = &qrec->mCurMessageKey;
+    *curMessageKeyPtr = nextIndex;
+    qrec->mClientMessageKeys[*curMessageKeyPtr] = msgkey;
     return 0;
 }
 
 void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
     QueryBuffer buf;
-    s32 queryKind;
+    s32 packetType;
     s32 index;
     s8 *requestKey;
     s8 *pos;
@@ -740,12 +740,12 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                 if (qrec->mListedState > 0) {
                     qrec->mListedState = 0;
                 }
-                queryKind = query[2];
+                packetType = query[2];
                 requestKey = query + 3;
                 pos = query + 7;
                 len = len - 7;
-                qr_add_packet_header((u32) &buf, queryKind, (u32) requestKey);
-                switch (queryKind) {
+                qr_add_packet_header((u32) &buf, packetType, (u32) requestKey);
+                switch (packetType) {
                     case PACKET_QUERY:
                         qr_process_query(qrec, &buf, (u8 *) pos, len);
                         break;

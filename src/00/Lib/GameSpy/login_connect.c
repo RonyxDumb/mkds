@@ -44,7 +44,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
     SOCSockAddrIn address;
     SOCHostEnt *resolvedHost;
     u32 len;
-    s32 openResult;
+    s32 lastError;
 
     gpState = connection->mGpiConnection;
     if (gpState->mFirewall == FALSE) {
@@ -107,8 +107,8 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
     }
     address.mPort = GPI_CONNECTION_MANAGER_PORT_NETWORK_ORDER;
     if (connect(gpState->mConnectSocket, &address, 8) == -1) {
-        openResult = GOAGetLastError(gpState->mConnectSocket);
-        if (openResult != -6 && openResult != -26 && openResult != -76) {
+        lastError = GOAGetLastError(gpState->mConnectSocket);
+        if (lastError != -6 && lastError != -26 && lastError != -76) {
             GpiSetError(connection, 5, "There was an error connecting a socket.");
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
@@ -191,9 +191,9 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
 
 u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     GpiConnection *gpState;
-    s8 *passwordPtr;
+    s8 *hashInput;
     s8 *loginName;
-    GpiProfile *profileRec;
+    GpiProfile *profile;
     char response[0x21];
     char buffer[0x200];
     char loginNameBuf[0x57];
@@ -202,11 +202,11 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     gpState = connection->mGpiConnection;
     randomString(data->mUserChallenge, 0x20);
     if (data->mPartnerChallenge[0] != 0) {
-        passwordPtr = data->mPartnerChallenge;
+        hashInput = data->mPartnerChallenge;
     } else {
-        passwordPtr = gpState->mPassword;
+        hashInput = gpState->mPassword;
     }
-    MD5Digest((const char *) passwordPtr, strlen((const char *) passwordPtr), data->mPasswordHash);
+    MD5Digest((const char *) hashInput, strlen((const char *) hashInput), data->mPasswordHash);
     if (data->mAuthtoken[0] != 0) {
         loginName = data->mAuthtoken;
     } else if (gpState->mUniquenick[0] != 0) {
@@ -219,10 +219,10 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
             data->mUserChallenge, data, data->mPasswordHash);
     MD5Digest(buffer, strlen(buffer), response);
     if (gpState->mInfoCaching != 0) {
-        gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, &profileRec);
-        if (profileRec != NULL) {
-            gpState->mUserId = profileRec->mUserId;
-            gpState->mProfileId = profileRec->mProfileId;
+        gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, &profile);
+        if (profile != NULL) {
+            gpState->mUserId = profile->mUserId;
+            gpState->mProfileId = profile->mProfileId;
         }
     }
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\login\\");
@@ -328,7 +328,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
     char loginNameBuf[0x52];
     GpiCallback callback;
     ConnectReply *arg;
-    void *loginTarget;
+    void *loginName;
     u32 result;
 
     gpState = connection->mGpiConnection;
@@ -433,15 +433,15 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 gpState->mLoginTicket[0] = 0;
             }
             if (data->mAuthtoken[0] != 0) {
-                loginTarget = data->mAuthtoken;
+                loginName = data->mAuthtoken;
             } else if (gpState->mUniquenick[0] != 0) {
-                loginTarget = gpState->mUniquenick;
+                loginName = gpState->mUniquenick;
             } else {
                 sprintf(loginNameBuf, "%s@%s", gpState->mNick, gpState->mEmail);
-                loginTarget = loginNameBuf;
+                loginName = loginNameBuf;
             }
             sprintf(buffer, "%s%s%s%s%s%s", data->mPasswordHash, "                                                ",
-                    loginTarget, data, data->mUserChallenge, data->mPasswordHash);
+                    loginName, data, data->mUserChallenge, data->mPasswordHash);
             MD5Digest(buffer, strlen(buffer), digestHex);
             if (GpiGetValue(input, "\\proof\\", buffer, 0x200) == FALSE) {
                 GpiSetError(connection, 1, "Unexepected data was received from the server.");
@@ -533,7 +533,7 @@ void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
     GpiConnection *gpState;
     GpiOperation *unusedOperation;
     GpiPeer *peerConn;
-    u32 socketGone;
+    u32 connClosed;
 
     gpState = connection->mGpiConnection;
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
@@ -545,7 +545,7 @@ void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
             GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
             GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
         }
-        GpiSendBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &socketGone, 1, (const s8 *) "CM");
+        GpiSendBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &connClosed, 1, (const s8 *) "CM");
         if (gpState->mConnectSocket != -1) {
             shutdown(gpState->mConnectSocket, 2);
             closesocket(gpState->mConnectSocket);

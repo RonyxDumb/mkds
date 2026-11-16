@@ -250,23 +250,23 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
     return 0;
 }
 
-s32 GpGetBuddyCount(GpConnection *object, s32 *output) {
-    GpiConnection *state;
-    if (object == NULL || object->mGpiConnection == NULL) {
+s32 GpGetBuddyCount(GpConnection *connection, s32 *numBuddies) {
+    GpiConnection *gpState;
+    if (connection == NULL || connection->mGpiConnection == NULL) {
         return 2;
     }
-    state = object->mGpiConnection;
-    if (state->mSimulation != 0) {
-        *output = 0;
+    gpState = connection->mGpiConnection;
+    if (gpState->mSimulation != 0) {
+        *numBuddies = 0;
         return 0;
     }
-    *output = state->mBuddyCount;
+    *numBuddies = gpState->mBuddyCount;
     return 0;
 }
 
 u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status) {
     GpiConnection *gpState;
-    GpiProfile *profileRec;
+    GpiProfile *profileEntry;
     GpiBuddyStatus *buddyInfo;
     void *string;
     s32 num;
@@ -286,16 +286,16 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
         GpiSetErrorMessage(connection, "Invalid index.");
         return 2;
     }
-    profileRec = GpiFindProfileByBuddyIndex(connection, index);
-    if (profileRec == NULL) {
+    profileEntry = GpiFindProfileByBuddyIndex(connection, index);
+    if (profileEntry == NULL) {
         GpiSetErrorMessage(connection, "Invalid index.");
         return 2;
     }
-    buddyInfo = profileRec->mBuddyStatus;
+    buddyInfo = profileEntry->mBuddyStatus;
     if (buddyInfo == NULL) {
         AssertionFailed("buddyStatus", "gp.c", NULL, 0x5cf);
     }
-    status->mProfileId = profileRec->mProfileId;
+    status->mProfileId = profileEntry->mProfileId;
     status->mStatus = buddyInfo->mStatus;
     string = buddyInfo->mStatusString;
     if (string != NULL) {
@@ -430,7 +430,7 @@ u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, 
     return 0;
 }
 
-u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message) {
+u32 GpSendMessage(GpConnection *connection, s32 profile, const char *message) {
     GpiConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
@@ -446,7 +446,7 @@ u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message)
         GpiSetErrorMessage(connection, "Invalid message.");
         return 2;
     }
-    return gpiSendBuddyMessage(connection, profileRec, GPI_BM_MESSAGE, message);
+    return gpiSendBuddyMessage(connection, profile, GPI_BM_MESSAGE, message);
 }
 
 static void UnusedLiteralsConnection(GpConnection *connection) {

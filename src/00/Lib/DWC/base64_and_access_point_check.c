@@ -97,7 +97,7 @@ s32 DWC_Auth_Base64Encode(const u8 *src, u32 srcLength, char *dst, u32 dstLength
 s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, char *dst, u32 dstLength) {
     s32 decodedLength;
     s32 decodedBits;
-    u32 charIndex;
+    u32 index;
     s32 packedByte;
     char *dstCursor;
     s8 sextets[4];
@@ -109,8 +109,8 @@ s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, char *dst, u32 dstLength
         return -1;
     }
     decodedBits = 0;
-    for (charIndex = 0; charIndex < srcLength; charIndex++) {
-        if (src[charIndex] != '*') {
+    for (index = 0; index < srcLength; index++) {
+        if (src[index] != '*') {
             decodedBits += 6;
         }
     }
@@ -126,9 +126,9 @@ s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, char *dst, u32 dstLength
         return 0;
     }
     dstCursor = dst;
-    charIndex = 0;
+    index = 0;
     do {
-        sextetIndex = charIndex;
+        sextetIndex = index;
         sextetPointer = sextets;
         for (; sextetIndex < 4; sextetIndex++) {
             character = src[sextetIndex];
@@ -143,12 +143,12 @@ s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, char *dst, u32 dstLength
             } else if (character == '-') {
                 *sextetPointer = 0x3f;
             } else {
-                *sextetPointer = charIndex;
+                *sextetPointer = index;
             }
             sextetPointer++;
         }
         src += 4;
-        packedByte = sextets[charIndex] * 4;
+        packedByte = sextets[index] * 4;
         packedByte |= sextets[1] >> 4;
         dstCursor[0] = packedByte;
         if (dstCursor + 1 - dst >= decodedLength) {

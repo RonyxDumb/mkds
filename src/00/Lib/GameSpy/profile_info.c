@@ -120,20 +120,20 @@ void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg) {
 
 s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input) {
     GpiConnection *gpState;
-    GpiProfile *profileRec;
+    GpiProfile *profileEntry;
     GpiCallback callback;
     char buffer[0x40];
     char nickText[0x1f];
     char uniqueNickText[0x15];
     char mailText[0x33];
-    char givenName[0x1f];
-    char familyName[0x1f];
-    char webPage[0x33];
+    char firstNameText[0x1f];
+    char lastNameText[0x1f];
+    char aimNameText[0x33];
     GetInfoReply *arg;
     GpiPeer *peerConn;
     s32 profileid;
     s32 result;
-    s32 saveFlag;
+    s32 savePeerSig;
 
     gpState = connection->mGpiConnection;
     if (GpiReadError(connection, input, 1) != FALSE) {
@@ -153,17 +153,17 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
     if (profileid <= 0) {
         AssertionFailed("profileid > 0", "gpiInfo.c", NULL, 0x15a);
     }
-    GpiFindProfile(connection, profileid, &profileRec);
+    GpiFindProfile(connection, profileid, &profileEntry);
     {
         GPIInfoCache infoRecord = {0};
-        char aimHandleBuf[0x4c];
+        char homepageText[0x4c];
         infoRecord.mNick = nickText;
         infoRecord.mUniquenick = uniqueNickText;
         infoRecord.mEmail = mailText;
-        infoRecord.mFirstname = givenName;
-        infoRecord.mLastname = familyName;
-        infoRecord.mHomepage = aimHandleBuf;
-        infoRecord.mAimName = webPage;
+        infoRecord.mFirstname = firstNameText;
+        infoRecord.mLastname = lastNameText;
+        infoRecord.mHomepage = homepageText;
+        infoRecord.mAimName = aimNameText;
         if (GpiGetValue(input, "\\nick\\", infoRecord.mNick, 0x1f) == FALSE) {
             infoRecord.mNick[0] = 0;
         }
@@ -284,28 +284,28 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }
-        saveFlag = gpState->mInfoCaching;
+        savePeerSig = gpState->mInfoCaching;
         peerConn = gpState->mPeerList;
         while (peerConn != NULL) {
             if (peerConn->mProfileId == profileid && peerConn->mState == PROFILE_PEER_STATE_WAIT_PROFILE_INFO) {
-                if (profileRec == NULL) {
-                    profileRec = GpiFindOrAddProfile(connection, profileid);
+                if (profileEntry == NULL) {
+                    profileEntry = GpiFindOrAddProfile(connection, profileid);
                 }
                 peerConn->mState = PROFILE_PEER_STATE_START_CONNECT;
-                saveFlag = 1;
+                savePeerSig = 1;
             }
             peerConn = peerConn->mNext;
         }
-        if (profileRec == NULL && gpState->mInfoCaching != 0) {
-            profileRec = GpiFindOrAddProfile(connection, profileid);
+        if (profileEntry == NULL && gpState->mInfoCaching != 0) {
+            profileEntry = GpiFindOrAddProfile(connection, profileid);
         }
-        if (saveFlag != 0) {
-            DWCi_GsFree(profileRec->mPeerSig);
-            profileRec->mPeerSig = NULL;
-            profileRec->mPeerSig = goastrdup(buffer);
+        if (savePeerSig != 0) {
+            DWCi_GsFree(profileEntry->mPeerSig);
+            profileEntry->mPeerSig = NULL;
+            profileEntry->mPeerSig = goastrdup(buffer);
         }
         if (gpState->mInfoCaching != 0) {
-            gpiSetInfoCache(connection, profileRec, &infoRecord);
+            gpiSetInfoCache(connection, profileEntry, &infoRecord);
         }
         callback = operation->mCallback;
         if (callback.mCallback != NULL) {
@@ -789,11 +789,11 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
 }
 
 static void UnusedLiteralsInfo(GpConnection *connection, s32 value) {
-    char intValue[0x10];
+    char intText[0x10];
 
-    sprintf(intValue, "%d", value);
+    sprintf(intText, "%d", value);
     GpiSetErrorMessage(connection, "Invalid info.");
-    gpiSendLocalInfo(connection, "\\birthday\\", intValue);
+    gpiSendLocalInfo(connection, "\\birthday\\", intText);
 }
 
 u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
@@ -812,24 +812,24 @@ u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
 
 u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpiCallbackFn callback, u32 param) {
     GpiProfile *profileEntry;
-    GpiOperation *pendingOp;
+    GpiOperation *newOperation;
     GetInfoReply *arg;
     GpiCallback queuedCallback;
     u32 result;
-    BOOL reuseCached;
+    BOOL tryCache;
     u32 operationId;
     GpiConnection *gpState;
 
     gpState = connection->mGpiConnection;
-    pendingOp = NULL;
-    reuseCached = FALSE;
+    newOperation = NULL;
+    tryCache = FALSE;
     if (checkCache == 1) {
-        reuseCached = TRUE;
+        tryCache = TRUE;
     }
     if (gpState->mInfoCaching == 0) {
-        reuseCached = FALSE;
+        tryCache = FALSE;
     }
-    if (callback != 0 && reuseCached != FALSE && GpiFindProfile(connection, profile, &profileEntry) != 0 &&
+    if (callback != 0 && tryCache != FALSE && GpiFindProfile(connection, profile, &profileEntry) != 0 &&
         profileEntry->mCache != 0) {
         arg = DWCi_GsMalloc(0x204);
         if (arg == NULL) {
@@ -841,22 +841,22 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         arg->mProfile = profile;
         queuedCallback.mCallback = callback;
         queuedCallback.mParam = param;
-        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &pendingOp, 1, callback, param);
+        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &newOperation, 1, callback, param);
         if (result != 0) {
             return result;
         }
-        operationId = pendingOp->mId;
-        result = GpiQueueCallback(connection, queuedCallback, arg, pendingOp, 0);
+        operationId = newOperation->mId;
+        result = GpiQueueCallback(connection, queuedCallback, arg, newOperation, 0);
         if (result != 0) {
             return result;
         }
-        GpiRemoveOperation(connection, pendingOp);
+        GpiRemoveOperation(connection, newOperation);
     } else {
-        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &pendingOp, blocking, callback, param);
+        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &newOperation, blocking, callback, param);
         if (result != 0) {
             return result;
         }
-        operationId = pendingOp->mId;
+        operationId = newOperation->mId;
         result = gpiSendGetInfo(connection, profile, operationId);
         if (result != 0) {
             return result;

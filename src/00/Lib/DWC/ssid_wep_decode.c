@@ -60,10 +60,10 @@ void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
     const u8 *target;
     s32 byteIndex;
     s32 tailIndex;
-    s32 xorIndex;
+    s32 firstXorIndex;
     s32 copyIndex;
     s32 secondXorIndex;
-    s32 nibbleIndex;
+    s32 convIndex;
     s32 mixIndex;
     for (byteIndex = 0; byteIndex < 13; byteIndex++) {
         wepKey[byteIndex] = name[byteIndex] ^ name[byteIndex % 7 + 13];
@@ -71,8 +71,8 @@ void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
     for (tailIndex = 0; tailIndex < 7; tailIndex++) {
         wepKey[tailIndex + 3] ^= name[tailIndex + 13];
     }
-    for (xorIndex = 0; xorIndex < 13; xorIndex++) {
-        wepKey[xorIndex] ^= gUsbWepFirstXorKey[xorIndex];
+    for (firstXorIndex = 0; firstXorIndex < 13; firstXorIndex++) {
+        wepKey[firstXorIndex] ^= gUsbWepFirstXorKey[firstXorIndex];
     }
     MI_CpuCopy8(wepKey, copy, 13);
     copyIndex = 0;
@@ -86,9 +86,9 @@ void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
     for (secondXorIndex = 0; secondXorIndex < 13; secondXorIndex++) {
         wepKey[secondXorIndex] ^= gUsbWepSecondXorKey[secondXorIndex];
     }
-    for (nibbleIndex = 0; nibbleIndex < 13; nibbleIndex++) {
-        u8 keyByte = wepKey[nibbleIndex];
-        wepKey[nibbleIndex] = (gConv4BitTable[(keyByte >> 4) & 15] << 4) | gConv4BitTable[keyByte & 15];
+    for (convIndex = 0; convIndex < 13; convIndex++) {
+        u8 keyByte = wepKey[convIndex];
+        wepKey[convIndex] = (gConv4BitTable[(keyByte >> 4) & 15] << 4) | gConv4BitTable[keyByte & 15];
     }
     for (mixIndex = 0; mixIndex < 3; mixIndex++) {
         wepKey[mixIndex] ^= wepKey[mixIndex + 6];

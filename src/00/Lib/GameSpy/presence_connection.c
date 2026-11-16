@@ -10,7 +10,7 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/login_connect_close.h"
 
-u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
+u32 GpiInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
     GpConnection newConnection;
     u32 result;
     s32 callbackIndex;
@@ -26,8 +26,8 @@ u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
     newConnection.mGpiConnection->mInfoCachingBuddyOnly = FALSE;
     newConnection.mGpiConnection->mSimulation = 0;
     newConnection.mGpiConnection->mFirewall = FALSE;
-    newConnection.mGpiConnection->mProductId = titleNumber;
-    newConnection.mGpiConnection->mNamespaceId = spaceId;
+    newConnection.mGpiConnection->mProductId = productID;
+    newConnection.mGpiConnection->mNamespaceId = namespaceID;
     if (GpiInitProfileList(&newConnection) == FALSE) {
         DWCi_GsFree(newConnection.mGpiConnection);
         newConnection.mGpiConnection = NULL;

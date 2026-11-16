@@ -64,36 +64,36 @@ int ReportBuddySyncGpResult(int result) {
 // returns the result.
 int DWCi_HandlePersError(int error) {
     s32 errorKind;
-    s32 detail;
+    s32 errorCode;
     if (error == 0) {
         return 0;
     }
     switch (error) {
         case GE_NOSOCKET:
             errorKind = 6;
-            detail = -50;
+            errorCode = -50;
             break;
         case GE_NODNS:
             errorKind = 6;
-            detail = -30;
+            errorCode = -30;
             break;
         case GE_NOCONNECT:
             errorKind = 6;
-            detail = -20;
+            errorCode = -20;
             break;
         case GE_DATAERROR:
             errorKind = 6;
-            detail = -40;
+            errorCode = -40;
             break;
         case GE_TIMEDOUT:
             errorKind = 6;
-            detail = -70;
+            errorCode = -70;
             break;
         default:
             errorKind = 11;
-            detail = -9;
+            errorCode = -9;
             break;
     }
-    DWCi_StopFriendProcess(errorKind, detail - 0x11940);
+    DWCi_StopFriendProcess(errorKind, errorCode - 0x11940);
     return error;
 }

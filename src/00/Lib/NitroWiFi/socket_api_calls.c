@@ -84,12 +84,12 @@ s32 SOC_Recv(s32 sockObj, void *buffer, s32 length, s32 flags) {
 
 s32 SOC_RecvFrom(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockFrom) {
     SOCSockAddrIn *addr;
-    u16 netPort;
+    u16 remotePort;
     u32 remoteIp;
-    s32 result = SOCL_ReadFrom(sockObj, buffer, length, &netPort, &remoteIp, flags);
+    s32 result = SOCL_ReadFrom(sockObj, buffer, length, &remotePort, &remoteIp, flags);
     if (result >= 0 && sockFrom != NULL) {
         addr = sockFrom;
-        addr->mPort = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
+        addr->mPort = ((remotePort >> 8) & 0xff) | ((remotePort << 8) & 0xff00);
         addr->mAddr = ((remoteIp << 24) & 0xff000000) |
                       (((remoteIp << 8) & 0xff0000) | (((remoteIp >> 24) & 0xff) | ((remoteIp >> 8) & 0xff00)));
     }
@@ -104,17 +104,17 @@ s32 SOC_Send(s32 sockObj, void *buffer, s32 length, s32 flags) {
 
 s32 SOC_SendTo(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockTo) {
     SOCSockAddrIn *addr = sockTo;
-    u16 netPort;
+    u16 remotePort;
     u32 remoteIp;
     if (addr != NULL) {
-        netPort = ((addr->mPort >> 8) & 0xff) | ((addr->mPort << 8) & 0xff00);
+        remotePort = ((addr->mPort >> 8) & 0xff) | ((addr->mPort << 8) & 0xff00);
         remoteIp = ((addr->mAddr << 24) & 0xff000000) |
                    (((addr->mAddr << 8) & 0xff0000) | (((addr->mAddr >> 24) & 0xff) | ((addr->mAddr >> 8) & 0xff00)));
     } else {
-        netPort = 0;
+        remotePort = 0;
         remoteIp = 0;
     }
-    return SOCL_WriteTo(sockObj, buffer, length, netPort, remoteIp, flags);
+    return SOCL_WriteTo(sockObj, buffer, length, remotePort, remoteIp, flags);
 }
 
 s32 SOC_Shutdown(s32 descriptor) {
@@ -228,7 +228,7 @@ s32 SOC_Listen(s32 descriptor) {
     return SOCL_Listen(descriptor);
 }
 
-s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedFlags) {
+s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedLength) {
     u16 remotePort;
     u32 peerAddr;
     s32 result = SOCL_Accept(socket, &remotePort, &peerAddr);
@@ -379,7 +379,7 @@ s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft) {
 void SOCLi_SocketRegister(void *socket) {
     u32 listAddress = (u32) socket;
     u32 socketAddress;
-    u32 unusedScratch;
+    u32 unusedValue;
     socketAddress = (listAddress) + (0u);
     listAddress = (u32) &SOCLiSocketList;
     SOCLi_SocketRegisterList(listAddress, socketAddress);
@@ -397,7 +397,7 @@ void SOCLi_SocketRegisterList(u32 listAddress, u32 socketAddress) {
 void SOCLi_SocketRegisterTrash(SOCLSocket *socket) {
     u32 listAddress;
     u32 socketAddress;
-    u32 unusedScratch;
+    u32 unusedValue;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketListTrash;
     SOCLi_SocketRegisterList(listAddress, socketAddress);
@@ -406,7 +406,7 @@ void SOCLi_SocketRegisterTrash(SOCLSocket *socket) {
 void SOCLi_SocketUnregister(SOCLSocket *socket) {
     u32 listAddress;
     u32 socketAddress;
-    u32 unusedScratch;
+    u32 unusedValue;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketList;
     SOCLi_SocketUnregisterList((SOCLSocket **) listAddress, (SOCLSocket *) socketAddress);
@@ -434,7 +434,7 @@ SOCLSocket **SOCLi_SocketGetNextPtr(SOCLSocket **head, SOCLSocket *node) {
 void SOCLi_SocketUnregisterTrash(SOCLSocket *socket) {
     u32 listAddress;
     u32 socketAddress;
-    u32 unusedScratch;
+    u32 unusedValue;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketListTrash;
     SOCLi_SocketUnregisterList((SOCLSocket **) listAddress, (SOCLSocket *) socketAddress);

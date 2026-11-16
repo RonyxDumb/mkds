@@ -24,12 +24,12 @@
 #include "00/Lib/GameSpy/profile_walk.h"
 
 void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
-    GpiConnection *iconnection;
+    GpiConnection *gpState;
     GpiCallback errorCallback;
     ErrorData *errorArg;
 
-    iconnection = connection->mGpiConnection;
-    if (iconnection == NULL) {
+    gpState = connection->mGpiConnection;
+    if (gpState == NULL) {
         AssertionFailed("iconnection != NULL", "gpiCallback.c", NULL, 0x23);
     }
     if (result == 0) {
@@ -39,16 +39,16 @@ void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
         AssertionFailed("(fatal == GP_FATAL) || (fatal == GP_NON_FATAL)", "gpiCallback.c", NULL, 0x25);
     }
     if (fatal == 1) {
-        iconnection->mFatal = TRUE;
+        gpState->mFatal = TRUE;
     }
-    errorCallback = iconnection->mCallbacks[0];
+    errorCallback = gpState->mCallbacks[0];
     if (errorCallback.mCallback != NULL) {
         errorArg = DWCi_GsMalloc(0x10);
         if (errorArg != NULL) {
             errorArg->mResult = result;
             errorArg->mFatal = fatal;
-            errorArg->mErrorCode = iconnection->mErrorNumber;
-            errorArg->mErrorString = iconnection;
+            errorArg->mErrorCode = gpState->mErrorNumber;
+            errorArg->mErrorString = gpState;
         }
         GpiQueueCallback(connection, errorCallback, errorArg, NULL, PROFILE_CALLBACK_TYPE_ERROR);
     }
@@ -85,7 +85,7 @@ u32 GpiQueueCallback(GpConnection *connection, GpiCallback callback, void *arg, 
 
 void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
     CallbackArgData *callbackArg;
-    CallbackArgData *listArg;
+    CallbackArgData *nickListArg;
     s32 entryIndex;
 
     if (data->mCallback.mCallback == NULL) {
@@ -101,17 +101,17 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         callbackArg = data->mArg;
         callbackArg->mUnk_08 = NULL;
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS) {
-        listArg = data->mArg;
-        for (entryIndex = 0; entryIndex < listArg->mNickCount; entryIndex++) {
-            DWCi_GsFree(listArg->mNicknames[entryIndex]);
-            listArg->mNicknames[entryIndex] = NULL;
-            DWCi_GsFree(listArg->mUniquenicks[entryIndex]);
-            listArg->mUniquenicks[entryIndex] = NULL;
+        nickListArg = data->mArg;
+        for (entryIndex = 0; entryIndex < nickListArg->mNickCount; entryIndex++) {
+            DWCi_GsFree(nickListArg->mNicknames[entryIndex]);
+            nickListArg->mNicknames[entryIndex] = NULL;
+            DWCi_GsFree(nickListArg->mUniquenicks[entryIndex]);
+            nickListArg->mUniquenicks[entryIndex] = NULL;
         }
-        DWCi_GsFree(listArg->mNicknames);
-        listArg->mNicknames = NULL;
-        DWCi_GsFree(listArg->mUniquenicks);
-        listArg->mUniquenicks = NULL;
+        DWCi_GsFree(nickListArg->mNicknames);
+        nickListArg->mNicknames = NULL;
+        DWCi_GsFree(nickListArg->mUniquenicks);
+        nickListArg->mUniquenicks = NULL;
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST) {
         callbackArg = data->mArg;
         DWCi_GsFree(callbackArg->mMatchList);
@@ -129,13 +129,13 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
             callbackArg->mUnk_08 = NULL;
         }
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS) {
-        CallbackArgData *arrayArg = data->mArg;
-        for (entryIndex = 0; entryIndex < arrayArg->mSuggestedNickCount; entryIndex++) {
-            DWCi_GsFree(arrayArg->mUnk_08[entryIndex]);
-            arrayArg->mUnk_08[entryIndex] = NULL;
+        CallbackArgData *suggestedNicksArg = data->mArg;
+        for (entryIndex = 0; entryIndex < suggestedNicksArg->mSuggestedNickCount; entryIndex++) {
+            DWCi_GsFree(suggestedNicksArg->mUnk_08[entryIndex]);
+            suggestedNicksArg->mUnk_08[entryIndex] = NULL;
         }
-        DWCi_GsFree(arrayArg->mUnk_08);
-        arrayArg->mUnk_08 = NULL;
+        DWCi_GsFree(suggestedNicksArg->mUnk_08);
+        suggestedNicksArg->mUnk_08 = NULL;
     }
     DWCi_GsFree(data->mArg);
     data->mArg = NULL;
@@ -144,19 +144,19 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
 
 u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
     GpiConnection *gpState;
-    GpiQueuedCallback *queueHead;
+    GpiQueuedCallback *listNode;
     GpiQueuedCallback *queueTail;
     GpiQueuedCallback *previousKept;
     GpiQueuedCallback *current;
 
     gpState = connection->mGpiConnection;
     if (operationId != 0) {
-        queueHead = gpState->mCallbackQueueHead;
+        listNode = gpState->mCallbackQueueHead;
         queueTail = gpState->mCallbackQueueTail;
         previousKept = NULL;
         gpState->mCallbackQueueHead = NULL;
         gpState->mCallbackQueueTail = NULL;
-        current = queueHead;
+        current = listNode;
         if (current != NULL) {
             do {
                 GpiQueuedCallback *next = current->mNext;
@@ -164,7 +164,7 @@ u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
                     if (previousKept != NULL) {
                         previousKept->mNext = next;
                     } else {
-                        queueHead = next;
+                        listNode = next;
                     }
                     if (queueTail == current) {
                         queueTail = previousKept;
@@ -177,10 +177,10 @@ u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
             } while (current != NULL);
         }
         if (gpState->mCallbackQueueHead != NULL) {
-            gpState->mCallbackQueueTail->mNext = queueHead;
+            gpState->mCallbackQueueTail->mNext = listNode;
             gpState->mCallbackQueueTail = queueTail;
         } else {
-            gpState->mCallbackQueueHead = queueHead;
+            gpState->mCallbackQueueHead = listNode;
             gpState->mCallbackQueueTail = queueTail;
         }
         return 0;
@@ -190,9 +190,9 @@ u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
         gpState->mCallbackQueueHead = NULL;
         gpState->mCallbackQueueTail = NULL;
         while (current != NULL) {
-            queueHead = current->mNext;
+            listNode = current->mNext;
             GpiCallAndFreeCallback(connection, current);
-            current = queueHead;
+            current = listNode;
         }
         current = gpState->mCallbackQueueHead;
     }

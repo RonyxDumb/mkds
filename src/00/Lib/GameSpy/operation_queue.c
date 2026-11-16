@@ -197,10 +197,10 @@ void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation) {
     }
 }
 
-BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
-    GpiOperation *node = object->mGpiConnection->mOperationList;
+BOOL GpiFindOperation(GpConnection *connection, GpiOperation **output, u32 operationId) {
+    GpiOperation *node = connection->mGpiConnection->mOperationList;
     while (node != NULL) {
-        if (node->mId == key) {
+        if (node->mId == operationId) {
             if (output != NULL) {
                 *output = node;
             }
@@ -214,8 +214,8 @@ BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
     return FALSE;
 }
 
-BOOL gpiOperationsAreBlocking(GpConnection *object) {
-    GpiOperation *node = object->mGpiConnection->mOperationList;
+BOOL gpiOperationsAreBlocking(GpConnection *connection) {
+    GpiOperation *node = connection->mGpiConnection->mOperationList;
     while (node != NULL) {
         if (node->mBlocking != 0 && node->mType != PROFILE_OPERATION_SEARCH) {
             return TRUE;

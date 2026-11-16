@@ -40,7 +40,7 @@ u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile) {
 
 s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
     char buffer[0x1000];
-    char replyValue[0x100];
+    char valueText[0x100];
     char intText[0x10];
     GpiCallback messageCallback;
     GpiCallback inviteCallback;
@@ -188,20 +188,20 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             buddyInfo->mStatus = StrtolBase10(intText);
             DWCi_GsFree(buddyInfo->mStatusString);
             buddyInfo->mStatusString = NULL;
-            if (GpiGetValue(buffer, "|ss|", replyValue, 0x100) == FALSE) {
-                replyValue[0] = 0;
+            if (GpiGetValue(buffer, "|ss|", valueText, 0x100) == FALSE) {
+                valueText[0] = 0;
             }
-            buddyInfo->mStatusString = goastrdup(replyValue);
+            buddyInfo->mStatusString = goastrdup(valueText);
             if (buddyInfo->mStatusString == NULL) {
                 GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             DWCi_GsFree(buddyInfo->mLocationString);
             buddyInfo->mLocationString = NULL;
-            if (GpiGetValue(buffer, "|ls|", replyValue, 0x100) == FALSE) {
-                replyValue[0] = 0;
+            if (GpiGetValue(buffer, "|ls|", valueText, 0x100) == FALSE) {
+                valueText[0] = 0;
             }
-            buddyInfo->mLocationString = goastrdup(replyValue);
+            buddyInfo->mLocationString = goastrdup(valueText);
             if (buddyInfo->mLocationString == NULL) {
                 GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
@@ -256,9 +256,9 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             productNumber = StrtolBase10(str + 3);
             str = strstr(buffer, "|l|");
             if (str != NULL) {
-                GpiCopyString(replyValue, (str + 3), 0x100);
+                GpiCopyString(valueText, (str + 3), 0x100);
             } else {
-                replyValue[0] = 0;
+                valueText[0] = 0;
             }
             inviteCallback = gpState->mCallbacks[4];
             if (inviteCallback.mCallback == NULL) {
@@ -271,7 +271,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             inviteArg->mProfile = profileNumber;
             inviteArg->mProductId = productNumber;
-            strcpy(inviteArg->mLocation, replyValue);
+            strcpy(inviteArg->mLocation, valueText);
             result = GpiQueueCallback(connection, inviteCallback, inviteArg, NULL, PROFILE_CALLBACK_TYPE_PLAIN);
             if (result != 0) {
                 return result;
@@ -368,8 +368,8 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
 }
 
 s32 GpiDecrementBuddyIndexAbove(GpConnection *unused, GpiProfile *profile, void *data) {
-    s32 minimum = (s32) data;
-    if (profile->mBuddyStatus != NULL && profile->mBuddyStatus->mIndex > minimum) {
+    s32 cutoff = (s32) data;
+    if (profile->mBuddyStatus != NULL && profile->mBuddyStatus->mIndex > cutoff) {
         --profile->mBuddyStatus->mIndex;
     }
     return 1;

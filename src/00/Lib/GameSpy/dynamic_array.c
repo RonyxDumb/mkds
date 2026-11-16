@@ -26,7 +26,7 @@ void DarraySetElement(Darray *darray, const void *elem, s32 index) {
     memcpy(DarrayGetElement(darray, index), elem, darray->mElemSize);
 }
 
-void *DarrayCreate(s32 elemSize, s32 initialCount, void (*freeElement)(void *)) {
+void *DarrayCreate(s32 elemSize, s32 initialCapacity, void (*freeElement)(void *)) {
     Darray *array = DWCi_GsMalloc(sizeof(Darray));
     if (array == NULL) {
         AssertionFailed("array", "darray.c", NULL, 0x52);
@@ -34,13 +34,13 @@ void *DarrayCreate(s32 elemSize, s32 initialCount, void (*freeElement)(void *)) 
     if (elemSize == 0) {
         AssertionFailed("elemSize", "darray.c", NULL, 0x53);
     }
-    if (initialCount == 0) {
-        initialCount = 8;
+    if (initialCapacity == 0) {
+        initialCapacity = 8;
     }
     array->mCount = 0;
-    array->mCapacity = initialCount;
+    array->mCapacity = initialCapacity;
     array->mElemSize = elemSize;
-    array->mGrowCount = initialCount;
+    array->mGrowCount = initialCapacity;
     array->mElemCallback = freeElement;
     if (array->mCapacity != 0) {
         array->mList = DWCi_GsMalloc(array->mCapacity * array->mElemSize);
@@ -115,14 +115,14 @@ void DarrayInsert(void *darrayArg, void *element, s32 index) {
 }
 
 void DarrayInsertSorted(Darray *array, void *elem, ElementCompareFunc *comparator) {
-    u8 *foundElement;
+    u8 *insertPosition;
     u32 insertIndex;
     s32 searchFound[2];
     if (comparator == NULL) {
         AssertionFailed("comparator", "darray.c", NULL, 0xb7);
     }
-    foundElement = DarraySearchSorted(elem, array->mList, array->mCount, array->mElemSize, comparator, searchFound);
-    insertIndex = _s32_div_f(foundElement - array->mList, array->mElemSize);
+    insertPosition = DarraySearchSorted(elem, array->mList, array->mCount, array->mElemSize, comparator, searchFound);
+    insertIndex = _s32_div_f(insertPosition - array->mList, array->mElemSize);
     DarrayInsert(array, elem, insertIndex);
 }
 
@@ -162,19 +162,19 @@ void DarraySort(Darray *darray, u32 compareFunc) {
 s32 DarrayFindIndex(Darray *darray, const void *key, ElementCompareFunc *comparator, s32 startIndex, s32 sortedFlag) {
     s32 matchFlag = 1;
     s32 count;
-    u8 *found;
+    u8 *position;
     if (darray == NULL || (count = darray->mCount) == 0) {
         return -1;
     }
     if (sortedFlag != 0) {
-        found = DarraySearchSorted(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
+        position = DarraySearchSorted(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
                                    comparator, &matchFlag);
     } else {
-        found = DarraySearchLinear(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
+        position = DarraySearchLinear(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
                                    comparator);
     }
-    if (found != NULL && matchFlag != 0) {
-        return (found - darray->mList) / darray->mElemSize;
+    if (position != NULL && matchFlag != 0) {
+        return (position - darray->mList) / darray->mElemSize;
     }
     return -1;
 }

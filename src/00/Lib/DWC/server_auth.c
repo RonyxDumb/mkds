@@ -165,7 +165,7 @@ s32 DWCi_Auth_Start(s32 getWiFiInfoFromFlash) {
 void DWCi_Auth_Thread(void *authAddress) {
     s32 retryCount = 0;
     s32 getWiFiInfoFromFlash;
-    BOOL noFlashRead = FALSE;
+    BOOL flashFlagOff = FALSE;
     BOOL unusedFlagFirst = FALSE;
     BOOL unusedFlagSecond = FALSE;
     s32 parseResult;
@@ -206,7 +206,7 @@ void DWCi_Auth_Thread(void *authAddress) {
                         return;
                     }
                     retryCount++;
-                    getWiFiInfoFromFlash = noFlashRead;
+                    getWiFiInfoFromFlash = flashFlagOff;
                     break;
                 default:
                     if (retryCount >= 2) {

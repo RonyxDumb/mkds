@@ -115,7 +115,7 @@ void DWCi_Netcheck_Thread(void) {
     char *bodyText;
     s32 waitLength;
     s32 decodedLength;
-    s32 statusCode;
+    s32 resultCode;
     u32 interruptState;
     Http *http;
     DWCNetcheck *netcheck;
@@ -162,13 +162,13 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        statusCode = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
+        resultCode = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
         if (gLibErrorCode == 0x22) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        if (statusCode != 200) {
-            if (statusCode == 0x12e) {
+        if (resultCode != 200) {
+            if (resultCode == 0x12e) {
                 netcheck = gNetcheck;
                 if (netcheck->mBodyWayport != NULL) {
                     netcheck->mReturnCode = -6;
@@ -285,7 +285,7 @@ void DWCi_Netcheck_Thread(void) {
             }
             DWC_Auth_Destroy();
         }
-        if (statusCode == 200) {
+        if (resultCode == 200) {
             gNetcheck->mReturnCode = 0;
             DWCi_Netcheck_SetError(11);
             break;
@@ -360,13 +360,13 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        statusCode = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
+        resultCode = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
         if (gLibErrorCode == 0x22) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
             break;
         }
-        if (statusCode != 200) {
+        if (resultCode != 200) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
             break;
@@ -376,13 +376,13 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(9);
             break;
         }
-        statusCode = StrtolBase10(retcodeText);
+        resultCode = StrtolBase10(retcodeText);
         if (gLibErrorCode == 0x22) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
             break;
         }
-        if (statusCode >= 100) {
+        if (resultCode >= 100) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(6);
             break;

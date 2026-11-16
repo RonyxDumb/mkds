@@ -119,14 +119,14 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     }
 }
 
-void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse,
+void SBQueryEngineInit(SBQueryEngine *engine, s32 maxUpdates, u32 queryVersion, s32 lanBrowse,
                        SBEngineCallback callback, void *instance) {
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return;
     }
     SocketStartUp();
     engine->mQueryVersion = queryVersion;
-    engine->mMaxUpdates = updateLimit;
+    engine->mMaxUpdates = maxUpdates;
     engine->mNumServerKeys = 0;
     engine->mListCallback = callback;
     engine->mInstance = instance;
@@ -232,7 +232,7 @@ BOOL ParseSingleICMPReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32
     return 1;
 }
 
-void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
+void ProcessIncomingReplies(SBQueryEngine *engine, s32 useIcmpSocket) {
     s32 recvSocket;
     SocketAddress address;
     s32 addressLength;
@@ -240,7 +240,7 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
     SbServer *queryEntry;
     s8 data[0x800];
     addressLength = 8;
-    if (probeSocket != 0) {
+    if (useIcmpSocket != 0) {
         recvSocket = engine->mIcmpSock;
     } else {
         recvSocket = engine->mQuerySock;
@@ -252,13 +252,13 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
         }
         data[length] = 0;
         for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mNext) {
-            if ((probeSocket != 0 && (queryEntry->mFlags & ICMP_IP_FLAG) != 0 &&
+            if ((useIcmpSocket != 0 && (queryEntry->mFlags & ICMP_IP_FLAG) != 0 &&
                  queryEntry->mIcmpIp == address.mAddress) ||
                 (queryEntry->mPublicIp == address.mAddress &&
-                 (queryEntry->mPublicPort == address.mPort || probeSocket != 0)) ||
+                 (queryEntry->mPublicPort == address.mPort || useIcmpSocket != 0)) ||
                 (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & PRIVATE_IP_FLAG) != 0 &&
                  queryEntry->mPrivateIp == address.mAddress && queryEntry->mPrivatePort == address.mPort)) {
-                if (probeSocket != 0) {
+                if (useIcmpSocket != 0) {
                     if (ParseSingleICMPReply(engine, queryEntry, data, length) != 0) {
                         break;
                     }

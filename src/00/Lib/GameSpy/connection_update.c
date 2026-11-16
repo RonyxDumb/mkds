@@ -187,8 +187,8 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
 int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
     GpConnection *connection;
     GpiConnection *gpState;
-    GpiOperation *pendingOp;
-    GpiOperation *doomedOp;
+    GpiOperation *operation;
+    GpiOperation *opToRemove;
     u32 result;
     u32 callbackResult;
     BOOL loop;
@@ -216,8 +216,8 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
             }
         } while (loop != FALSE);
         if (result != 0) {
-            if (GpiFindOperation(connection, &pendingOp, 1) != FALSE) {
-                pendingOp->mResult = GP_REQUEST_CONNECT_FAILED;
+            if (GpiFindOperation(connection, &operation, 1) != FALSE) {
+                operation->mResult = GP_REQUEST_CONNECT_FAILED;
             } else {
                 AssertionFailed("0", "gpi.c", NULL, 0x1db);
             }
@@ -234,18 +234,18 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
     if (result == 0) {
         result = GpiUpdateSearches(connection);
     }
-    pendingOp = gpState->mOperationList;
-    if (pendingOp != NULL) {
+    operation = gpState->mOperationList;
+    if (operation != NULL) {
         do {
-            if (pendingOp->mResult != GP_REQUEST_OK) {
-                GpiQueueOperationCallback(connection, pendingOp);
-                doomedOp = pendingOp;
-                pendingOp = pendingOp->mNext;
-                GpiRemoveOperation(connection, doomedOp);
+            if (operation->mResult != GP_REQUEST_OK) {
+                GpiQueueOperationCallback(connection, operation);
+                opToRemove = operation;
+                operation = operation->mNext;
+                GpiRemoveOperation(connection, opToRemove);
             } else {
-                pendingOp = pendingOp->mNext;
+                operation = operation->mNext;
             }
-        } while (pendingOp != NULL);
+        } while (operation != NULL);
     }
     callbackResult = GpiCallQueuedCallbacks(connection, blockingOperationID);
     if (callbackResult == 0) {

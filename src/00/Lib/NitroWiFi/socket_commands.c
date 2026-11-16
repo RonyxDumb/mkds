@@ -126,19 +126,19 @@ s32 SOCLi_ExecBindCommand(SOCLSocket *socket) {
 
 s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     SOCLSocket *sockObj;
-    SOCLiSocketRecvCommandPipe *inPipe;
+    SOCLiSocketRecvCommandPipe *recvPipe;
     s32 connectResult;
 
     sockObj = packet->mSocket;
     connectResult = 0;
-    inPipe = sockObj->mReceiveBlock;
-    OS_LockMutex(&inPipe->mCommandPipe.mInUse);
+    recvPipe = sockObj->mReceiveBlock;
+    OS_LockMutex(&recvPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mLocalPort, packet->mRemotePort, packet->mRemoteIp);
-    inPipe->mConsumed = 0;
+    recvPipe->mConsumed = 0;
     if (packet->mFlagMode == SOCKET_MODE_STREAM || packet->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         connectResult = CPS_TcpConnect();
     }
-    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
+    OS_UnlockMutex(&recvPipe->mCommandPipe.mInUse);
     if (connectResult != 0) {
         sockObj->mStatusFlags |= SOCL_STATUS_ERROR;
         return -76;
@@ -261,22 +261,22 @@ s32 SOCL_ListenAccept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) 
 
 s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     SOCLSocket *sockObj;
-    SOCLiSocketRecvCommandPipe *inPipe;
+    SOCLiSocketRecvCommandPipe *recvPipe;
     u16 remotePort;
     u32 ownAddr;
     u32 peerAddr;
 
     sockObj = packet->mSocket;
-    inPipe = sockObj->mReceiveBlock;
-    OS_LockMutex(&inPipe->mCommandPipe.mInUse);
+    recvPipe = sockObj->mReceiveBlock;
+    OS_LockMutex(&recvPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mLocalPort, 0, 0);
     CPS_TcpListen();
-    inPipe->mConsumed = 0;
+    recvPipe->mConsumed = 0;
     peerAddr = CPS_SocWho(&remotePort, &ownAddr);
     *packet->mRemotePortOut = remotePort;
     *packet->mRemoteIpOut = peerAddr;
     sockObj->mStatusFlags |= SOCL_STATUS_CONNECTED;
-    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
+    OS_UnlockMutex(&recvPipe->mCommandPipe.mInUse);
     return 0;
 }
 

@@ -376,15 +376,15 @@ BOOL DWC_Http_Add_HeaderItem(Http *http, const char *name, const char *value) {
     char *insertPos;
     s8 savedByte;
     s8 *headerEnd;
-    s32 spaceLeft;
+    s32 length;
     sendBuffer = &http->mSendBuffer;
     itemLength = strlen(value);
     format = "%s: %s\r\n";
     formatLength = strlen(format);
     itemLength += (formatLength - 4 + strlen(name));
-    spaceLeft = sendBuffer->mEnd - sendBuffer->mCursor;
-    if (itemLength + 1 > spaceLeft) {
-        if (GrowHttpBuffer(http, sendBuffer, itemLength - spaceLeft + 1) == 0) {
+    length = sendBuffer->mEnd - sendBuffer->mCursor;
+    if (itemLength + 1 > length) {
+        if (GrowHttpBuffer(http, sendBuffer, itemLength - length + 1) == 0) {
             return TRUE;
         }
     }
@@ -392,8 +392,8 @@ BOOL DWC_Http_Add_HeaderItem(Http *http, const char *name, const char *value) {
     insertPos = (char *) headerEnd + 2;
     savedByte = headerEnd[2];
     memmove(insertPos + itemLength, insertPos, strlen(insertPos) + 1);
-    spaceLeft = OS_SNPrintf(insertPos, itemLength + 1, format, name, value);
-    insertPos[spaceLeft] = savedByte;
+    length = OS_SNPrintf(insertPos, itemLength + 1, format, name, value);
+    insertPos[length] = savedByte;
     sendBuffer->mCursor = sendBuffer->mCursor + itemLength;
     return FALSE;
 }
@@ -547,8 +547,8 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     char *bodyEnd;
     DWCHttpParseResult results;
     s8 *statusText;
-    s8 *fieldPtr;
-    char *textPtr;
+    s8 *v1;
+    char *v2;
     s8 *delimiter;
     results.mEntries = labelValues;
     results.mCapacity = labelValueCount;
@@ -578,45 +578,45 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     if (delimiter == NULL) {
         return FALSE;
     }
-    fieldPtr = delimiter + 2;
-    while (fieldPtr[0] != 0xd && fieldPtr[1] != 0xa) {
-        delimiter = (s8 *) strstr((const char *) fieldPtr, ": ");
+    v1 = delimiter + 2;
+    while (v1[0] != 0xd && v1[1] != 0xa) {
+        delimiter = (s8 *) strstr((const char *) v1, ": ");
         if (delimiter == NULL) {
             break;
         }
         delimiter[0] = delimiter[1] = 0;
-        textPtr = (char *) (delimiter + 2);
-        delimiter = (s8 *) strstr(textPtr, "\r\n");
+        v2 = (char *) (delimiter + 2);
+        delimiter = (s8 *) strstr(v2, "\r\n");
         if (delimiter == NULL) {
             break;
         }
         delimiter[0] = delimiter[1] = 0;
-        if (DWCi_Http_AddResult(&results, fieldPtr, textPtr) != TRUE) {
+        if (DWCi_Http_AddResult(&results, v1, v2) != TRUE) {
             return FALSE;
         }
-        fieldPtr = (s8 *) (textPtr + strlen(textPtr) + 2);
+        v1 = (s8 *) (v2 + strlen(v2) + 2);
     }
-    textPtr = headerEnd + 4;
-    if (textPtr < bodyEnd) {
+    v2 = headerEnd + 4;
+    if (v2 < bodyEnd) {
         do {
-            delimiter = (s8 *) strstr(textPtr, "=");
+            delimiter = (s8 *) strstr(v2, "=");
             if (delimiter == NULL) {
                 break;
             }
             delimiter[0] = 0;
-            fieldPtr = delimiter + 1;
-            delimiter = (s8 *) strstr((const char *) fieldPtr, "&");
+            v1 = delimiter + 1;
+            delimiter = (s8 *) strstr((const char *) v1, "&");
             if (delimiter == NULL) {
-                delimiter = (s8 *) strstr((const char *) fieldPtr, "\r\n");
+                delimiter = (s8 *) strstr((const char *) v1, "\r\n");
             }
             if (delimiter != NULL) {
                 delimiter[0] = 0;
             }
-            if (DWCi_Http_AddResult(&results, textPtr, fieldPtr) != TRUE) {
+            if (DWCi_Http_AddResult(&results, v2, v1) != TRUE) {
                 return FALSE;
             }
-            textPtr = (char *) fieldPtr + strlen((const char *) fieldPtr) + 1;
-        } while (textPtr < bodyEnd);
+            v2 = (char *) v1 + strlen((const char *) v1) + 1;
+        } while (v2 < bodyEnd);
     }
     return TRUE;
 }

@@ -42,15 +42,15 @@ void AvailableSendPacket(void) {
 
 void GSIStartAvailableCheckA(const char *gamename) {
     char hostBuffer[0x40];
-    s8 customHost;
+    s8 customHostFirstChar;
     strcpy(gGsiAcGamename, gamename);
     gGsiAvailableCheck.mSocket = -1;
     SocketStartUp();
-    customHost = gGsiAcHostname[0];
-    if (customHost == 0) {
+    customHostFirstChar = gGsiAcHostname[0];
+    if (customHostFirstChar == 0) {
         sprintf(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
     }
-    if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, MASTER_PORT,
+    if (get_sockaddrin(customHostFirstChar != 0 ? gGsiAcHostname : hostBuffer, MASTER_PORT,
                        &gGsiAvailableCheck.mAddress) != FALSE) {
         gGsiAvailableCheck.mSocket = OpenNetSocket(2, 2, 0);
         if (gGsiAvailableCheck.mSocket != -1) {

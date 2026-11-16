@@ -69,7 +69,7 @@ s32 StrNoCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
     return result;
 }
 
-void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind) {
+void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortKey, u32 compareKind) {
     s32 (*comparator)(SbServer **, SbServer **);
     switch (compareKind) {
         case sbcm_int:
@@ -88,7 +88,7 @@ void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortF
             comparator = StrNoCaseKeyCompare;
             break;
     }
-    serverList->mSortKey = sortField;
+    serverList->mSortKey = sortKey;
     serverList->mSortAscending = ascending;
     gSortServerList = serverList;
     DarraySort(serverList->mServers, (u32) comparator);
@@ -257,7 +257,7 @@ static inline void CopyUnalignedWord(UnalignedWord *destination, UnalignedWord *
     destinationBytes[3] = sourceBytes[3];
 }
 
-void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
+void SbServerListInit(SbServerList *slist, const char *queryForGameName, const char *queryFromGameName, const char *queryFromKey,
                       u32 queryFromVersion, s32 lanBrowse, SbServerListCallback callback, void *instance) {
     if (slist == NULL) {
         AssertionFailed("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
@@ -266,8 +266,8 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
         slist->mState = SERVER_LIST_STATE_NO_SOCKET;
         SBAllocateServerList(slist);
         SBRefStrHash(slist);
-        strcpy(slist->mQueryForGameName, targetName);
-        strcpy(slist->mQueryFromGameName, sourceName);
+        strcpy(slist->mQueryForGameName, queryForGameName);
+        strcpy(slist->mQueryFromGameName, queryFromGameName);
         strcpy(slist->mQueryFromKey, queryFromKey);
         slist->mCallback = callback;
         slist->mMaploopCallback = NULL;
@@ -406,10 +406,10 @@ void SetupListChallenge(SbServerList *serverList) {
     s32 oddModeMask;
     s32 evenModeMask;
     s32 parityTerm;
-    s32 altMode;
+    s32 modeBit;
     s32 index;
     serverList->mChallenge[0] = (s32) rand() % 0x5d + 0x21;
-    altMode = 0;
+    modeBit = 0;
     index = 1;
     earlierLessFalse = 0;
     earlierLessTrue = 1;
@@ -420,15 +420,15 @@ void SetupListChallenge(SbServerList *serverList) {
     oddModeMask = 1;
     evenModeMask = 1;
     for (; index < 8; index++) {
-        altMode =
+        modeBit =
             ((serverList->mChallenge[0] & firstParityMask) ^
-             (altMode ^ (parityTerm = index, parityTerm = (s32) (parityTerm ^ serverList->mChallenge[index - 1]),
+             (modeBit ^ (parityTerm = index, parityTerm = (s32) (parityTerm ^ serverList->mChallenge[index - 1]),
                          parityTerm &= pairParityMask, parityTerm))) ^
             ((serverList->mChallenge[0] < 0x4f) ? firstBelowLimitTrue : firstBelowLimitFalse) ^
             ((serverList->mChallenge[index - 1] < serverList->mChallenge[0]) ? earlierLessTrue : earlierLessFalse);
         serverList->mChallenge[index] = (s32) rand() % 0x5d + 0x21;
-        if ((altMode != 0 && (serverList->mChallenge[index] & oddModeMask) == 0) ||
-            (altMode == 0 && (serverList->mChallenge[index] & evenModeMask) == 1)) {
+        if ((modeBit != 0 && (serverList->mChallenge[index] & oddModeMask) == 0) ||
+            (modeBit == 0 && (serverList->mChallenge[index] & evenModeMask) == 1)) {
             serverList->mChallenge[index] += 1;
         }
     }
@@ -703,7 +703,7 @@ void ParseServerIPPort(SbServerList *serverList, u8 *buffer, s32 length, u8 *ipO
     }
 }
 
-s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, s32 popularOnly) {
+s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, s32 usePopularValues) {
     s32 keyCount;
     s32 startLength;
     s32 flags;
@@ -711,7 +711,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
     u16 shortValue;
     u16 privatePort;
     u32 ipAddress;
-    s32 stringValue;
+    s32 stringIndexOrLength;
     u8 *ruleKey;
     u8 *unusedPointer;
     u8 *valueBytes;
@@ -778,20 +778,20 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
                         length -= 2;
                         break;
                     case SERVER_KEY_STORED_AS_STRING_INDEX:
-                        if (popularOnly != 0) {
-                            stringValue = buffer[0];
+                        if (usePopularValues != 0) {
+                            stringIndexOrLength = buffer[0];
                             buffer += 1;
                             length -= 1;
                         } else {
-                            stringValue = 0xff;
+                            stringIndexOrLength = 0xff;
                         }
-                        if (stringValue == 0xff) {
+                        if (stringIndexOrLength == 0xff) {
                             SbServerSetValue(server, keyInfo->mKeyName, (const char *) buffer);
-                            stringValue = strlen((const char *) buffer) + 1;
-                            buffer += stringValue;
-                            length -= stringValue;
+                            stringIndexOrLength = strlen((const char *) buffer) + 1;
+                            buffer += stringIndexOrLength;
+                            length -= stringIndexOrLength;
                         } else {
-                            SbServerSetValue(server, keyInfo->mKeyName, serverList->mPopularValues[stringValue]);
+                            SbServerSetValue(server, keyInfo->mKeyName, serverList->mPopularValues[stringIndexOrLength]);
                         }
                         break;
                 }
@@ -804,13 +804,13 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
     if (flags != 0) {
         while ((s8) buffer[0] != 0 && length > 0) {
             ruleKey = buffer;
-            stringValue = strlen((const char *) buffer) + 1;
-            buffer += stringValue;
-            length -= stringValue;
+            stringIndexOrLength = strlen((const char *) buffer) + 1;
+            buffer += stringIndexOrLength;
+            length -= stringIndexOrLength;
             SbServerSetValue(server, (const char *) ruleKey, (const char *) buffer);
-            stringValue = strlen((const char *) buffer) + 1;
-            buffer += stringValue;
-            length -= stringValue;
+            stringIndexOrLength = strlen((const char *) buffer) + 1;
+            buffer += stringIndexOrLength;
+            length -= stringIndexOrLength;
         }
         length -= 1;
         SBServerSetState(server, SBServerGetState(server) | STATE_FULLKEYS);
@@ -1058,7 +1058,7 @@ s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length) {
 }
 
 s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
-    s32 isLastPage;
+    s32 isLast;
     s32 resultIndex;
     s32 entryCount;
     s32 nameLength;
@@ -1072,7 +1072,7 @@ s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
     if (length < 2) {
         return 4;
     }
-    isLastPage = buffer[0];
+    isLast = buffer[0];
     entryCount = buffer[1];
     buffer += 2;
     length -= 2;
@@ -1121,19 +1121,19 @@ s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
             resultIndex++;
         } while (resultIndex < entryCount);
     }
-    if (isLastPage != 0) {
+    if (isLast != 0) {
         serverList->mPlayerSearchCallback(serverList, 0, 0, 0, 0, 0, serverList->mInstance);
     }
     return 0;
 }
 
 s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
-    u32 rotationTime;
+    u32 maploopValue;
     u32 ipAddress;
     u16 netPort;
     SbServer *foundServer;
     s32 nameCount;
-    s32 index;
+    s32 callResult;
     s32 mapIndex;
     u8 *mapNames[16];
     u8 *source;
@@ -1152,19 +1152,19 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
     source = buffer + 4;
     destination[0] = source[0];
     destination[1] = source[1];
-    index = SBServerListFindServerByIP(serverList, ipAddress, netPort);
-    if (index == -1) {
+    callResult = SBServerListFindServerByIP(serverList, ipAddress, netPort);
+    if (callResult == -1) {
         return 0;
     }
-    foundServer = SBServerListNth(serverList, index);
-    destination = (u8 *) &rotationTime;
+    foundServer = SBServerListNth(serverList, callResult);
+    destination = (u8 *) &maploopValue;
     source = buffer + 6;
     destination[0] = source[0];
     destination[1] = source[1];
     destination[2] = source[2];
     destination[3] = source[3];
-    rotationTime = (rotationTime << 24 & 0xff000000) |
-                   ((rotationTime << 8 & 0xff0000) | ((rotationTime >> 24 & 0xff) | (rotationTime >> 8 & 0xff00)));
+    maploopValue = (maploopValue << 24 & 0xff000000) |
+                   ((maploopValue << 8 & 0xff0000) | ((maploopValue >> 24 & 0xff) | (maploopValue >> 8 & 0xff00)));
     nameCount = buffer[10];
     buffer += 11;
     length -= 11;
@@ -1172,19 +1172,19 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
         if (length < 1) {
             break;
         }
-        index = NTSLengthSB(buffer, length);
-        if (index == -1) {
+        callResult = NTSLengthSB(buffer, length);
+        if (callResult == -1) {
             return 4;
         }
         mapNames[mapIndex] = buffer;
-        buffer += index;
-        length -= index;
+        buffer += callResult;
+        length -= callResult;
         mapIndex++;
     }
     if (serverList->mMaploopCallback == NULL) {
         return 0;
     }
-    serverList->mMaploopCallback(serverList, foundServer, rotationTime, mapIndex, mapNames, serverList->mInstance);
+    serverList->mMaploopCallback(serverList, foundServer, maploopValue, mapIndex, mapNames, serverList->mInstance);
     return 0;
 }
 

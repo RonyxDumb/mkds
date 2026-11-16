@@ -22,17 +22,17 @@ void GpiCopyString(char *dest, const char *src, s32 len) {
 void gpiDebug(GpConnection *connection, const char *fmt, ...) {}
 
 BOOL GpiReadError(GpConnection *connection, const char *input, s32 callErrorCallback) {
-    GpiConnection *gpState;
+    GpiConnection *gpiConnection;
     BOOL isFatalErr;
     char buffer[0x10];
 
-    gpState = connection->mGpiConnection;
+    gpiConnection = connection->mGpiConnection;
     if (strncmp(input, "\\error\\", 7) == 0) {
         if (GpiGetValue(input, "\\err\\", buffer, 0x10) != FALSE) {
-            gpState->mErrorNumber = StrtolBase10(buffer);
+            gpiConnection->mErrorNumber = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, "\\errmsg\\", gpState->mErrorMessage, 0x100) == FALSE) {
-            gpState->mErrorMessage[0] = 0;
+        if (GpiGetValue(input, "\\errmsg\\", gpiConnection->mErrorMessage, 0x100) == FALSE) {
+            gpiConnection->mErrorMessage[0] = 0;
         }
         if (callErrorCallback != 0) {
             isFatalErr = (strstr(input, "\\fatal\\") != NULL);

@@ -128,7 +128,7 @@ void EngineCallback(void *engine, s32 reason, SbServer *server, void *instance) 
     }
 }
 
-MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName, const char *queryFromKey,
+MatchingServerList *ServerBrowserNewA(const char *queryForGameName, const char *queryFromGameName, const char *queryFromKey,
                                       u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
                                       SBBrowserCallback callback, u32 instance) {
     MatchingServerList *matchingServerList;
@@ -142,7 +142,7 @@ MatchingServerList *ServerBrowserNewA(const char *targetName, const char *source
     matchingServerList->mBrowserCallback = callback;
     matchingServerList->mBrowserInstance = instance;
     matchingServerList->mDontUpdate = 0;
-    SbServerListInit(&matchingServerList->mList, targetName, sourceName, queryFromKey, queryFromVersion, lanBrowse,
+    SbServerListInit(&matchingServerList->mList, queryForGameName, queryFromGameName, queryFromKey, queryFromVersion, lanBrowse,
                      ListCallback, matchingServerList);
     SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse, EngineCallback,
                       matchingServerList);
@@ -241,8 +241,8 @@ s32 ServerBrowserCount(MatchingServerList *matchingServerList) {
     return SBServerListCount(&matchingServerList->mList);
 }
 
-void ServerBrowserSortA(MatchingServerList *matchingServerList, u32 ascending, const char *sortField, u32 compareKind) {
-    SBServerListSort(&matchingServerList->mList, ascending, sortField, compareKind);
+void ServerBrowserSortA(MatchingServerList *matchingServerList, u32 ascending, const char *sortKey, u32 compareKind) {
+    SBServerListSort(&matchingServerList->mList, ascending, sortKey, compareKind);
 }
 
 u32 ServerBrowserGetMyPublicIPAddr(MatchingServerList *matchingServerList) {

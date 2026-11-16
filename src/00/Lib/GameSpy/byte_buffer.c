@@ -6,19 +6,19 @@
 #include "scan_text_random.h"
 #include "narrow_string_functions.h"
 
-u32 InitBuffer(Gt2Buffer *gt2Buffer, int size) {
+u32 InitBuffer(Gt2Buffer *buffer, int size) {
     u8 *data;
     data = DWCi_GsMalloc(size);
-    gt2Buffer->mData = data;
-    if (gt2Buffer->mData == 0) {
+    buffer->mData = data;
+    if (buffer->mData == 0) {
         return 0;
     }
-    gt2Buffer->mSize = size;
+    buffer->mSize = size;
     return 1;
 }
 
-int GetBufferUnusedSize(Gt2Buffer *gt2Buffer) {
-    return gt2Buffer->mSize - gt2Buffer->mLength;
+int GetBufferUnusedSize(Gt2Buffer *buffer) {
+    return buffer->mSize - buffer->mLength;
 }
 
 void AppendBufferByte(Gt2Buffer *buffer, u8 byteValue) {

@@ -41,19 +41,19 @@ void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType) {
     const s8 *inputCursor = input;
     s8 *outputCursor = output;
     s8 *outputStart = outputCursor;
-    const s8 *alphabet;
+    const s8 *encodingChars;
     s32 inputLeft = inlen;
     s8 *padStart;
     s8 value;
     switch (encodingType) {
         case B64_ENCODING_ALTERNATE:
-            alphabet = gAlternateEncoding;
+            encodingChars = gAlternateEncoding;
             break;
         case B64_ENCODING_URL_SAFE:
-            alphabet = gUrlSafeEncodeing;
+            encodingChars = gUrlSafeEncodeing;
             break;
         default:
-            alphabet = gDefaultEncoding;
+            encodingChars = gDefaultEncoding;
             break;
     }
     while (inputLeft > 0) {
@@ -72,7 +72,7 @@ void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType) {
     while (outputCursor > outputStart) {
         outputCursor--;
         if (outputCursor >= padStart) {
-            *outputCursor = alphabet[2];
+            *outputCursor = encodingChars[2];
         } else {
             value = *outputCursor;
             if (value <= 25) {
@@ -82,9 +82,9 @@ void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType) {
             } else if (value <= 61) {
                 *outputCursor = value - 4;
             } else if (value == 62) {
-                *outputCursor = alphabet[0];
+                *outputCursor = encodingChars[0];
             } else if (value == 63) {
-                *outputCursor = alphabet[1];
+                *outputCursor = encodingChars[1];
             }
         }
     }

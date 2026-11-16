@@ -434,13 +434,13 @@ void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOC
 }
 
 void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSockAddrIn *fromAddress) {
-    u32 portKind;
+    u32 portType;
 
     switch (packet->mPacketType) {
         case NAT_PACKET_INIT_ACK:
-            portKind = packet->mPortType;
-            if (portKind <= 2) {
-                negotiator->mInitAckRecv[portKind] = 1;
+            portType = packet->mPortType;
+            if (portType <= 2) {
+                negotiator->mInitAckRecv[portType] = 1;
                 if (negotiator->mState == NAT_NEGOTIATION_SEND_INIT && negotiator->mInitAckRecv[NN_PT_NN1] != 0 &&
                     negotiator->mInitAckRecv[NN_PT_NN2] != 0 &&
                     (negotiator->mGameSock == -1 || negotiator->mInitAckRecv[NN_PT_GP] != 0)) {
@@ -461,13 +461,13 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
 void NNProcessData(u8 *data, s32 length, void *fromAddress) {
     ConnectPacket connectPacket;
     InitPacket initPacket;
-    u32 typeCode;
+    u32 packetType;
     u32 cookie;
     NatTraversalEntry *negotiator;
 
     if (CheckMagic(data) != FALSE) {
-        typeCode = data[7];
-        if (typeCode == NAT_PACKET_CONNECT || typeCode == NAT_PACKET_PING) {
+        packetType = data[7];
+        if (packetType == NAT_PACKET_CONNECT || packetType == NAT_PACKET_PING) {
             if (length >= 0x14) {
                 connectPacket = *(ConnectPacket *) data;
                 cookie = *(u32 *) connectPacket.mCookie;
@@ -475,7 +475,7 @@ void NNProcessData(u8 *data, s32 length, void *fromAddress) {
                     (cookie << 24 & 0xff000000) |
                     ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00))));
                 if (negotiator != NULL) {
-                    if (typeCode == NAT_PACKET_CONNECT) {
+                    if (packetType == NAT_PACKET_CONNECT) {
                         ProcessConnectPacket(negotiator, &connectPacket, fromAddress);
                     } else {
                         ProcessPingPacket(negotiator, &connectPacket, fromAddress);

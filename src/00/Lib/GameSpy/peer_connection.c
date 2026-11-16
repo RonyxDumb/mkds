@@ -33,8 +33,8 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
     BOOL canFreeSig;
     s32 result;
     u32 state;
-    s32 len;
-    u32 socketGone;
+    s32 bytesRead;
+    u32 connClosed;
     GpiProfile *profileEntry;
     char *input;
     char *end;
@@ -88,7 +88,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             }
             break;
         case PROFILE_PEER_STATE_WAIT_AUTH:
-            result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &socketGone,
+            result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &bytesRead, &connClosed,
                                       (const s8 *) "PR");
             if (result != 0) {
                 return result;
@@ -121,8 +121,8 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             break;
     }
     if (peer->mOutputBuffer.mLength > 0) {
-        result = GpiSendBuffer(connection, peer->mSocket, &peer->mOutputBuffer, &socketGone, 1, (const s8 *) "PR");
-        if (socketGone != 0 || result != 0) {
+        result = GpiSendBuffer(connection, peer->mSocket, &peer->mOutputBuffer, &connClosed, 1, (const s8 *) "PR");
+        if (connClosed != 0 || result != 0) {
             peer->mState = PROFILE_PEER_STATE_CLOSED;
         }
     }
@@ -132,7 +132,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
 s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
     GpiConnection *gpState;
     s32 len;
-    u32 socketGone;
+    u32 connClosed;
     s32 result;
     s32 pid;
     char *end;
@@ -147,12 +147,12 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
     if (peer->mState != PROFILE_PEER_STATE_WAIT_AUTH) {
         AssertionFailed("peer->state == GPI_PEER_WAITING", "gpiPeer.c", NULL, 0xc1);
     }
-    result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &socketGone,
+    result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &connClosed,
                               (const s8 *) "PR");
     if (result != 0) {
         return result;
     }
-    if (socketGone != 0) {
+    if (connClosed != 0) {
         peer->mState = PROFILE_PEER_STATE_CLOSED;
         return 0;
     }
@@ -197,7 +197,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
 
 s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
     GPIMessage *message;
-    u32 socketGone;
+    u32 connClosed;
     s32 result;
 
     if (peer->mOutputBuffer.mLength != 0) {
@@ -206,8 +206,8 @@ s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
     if (DarrayGetCount(peer->mQueuedMessages) != 0) {
         do {
             message = DarrayGetElement(peer->mQueuedMessages, 0);
-            result = GpiSendBuffer(connection, peer->mSocket, &message->mBuffer, &socketGone, 0, (const s8 *) "PR");
-            if (socketGone != 0 || result != 0) {
+            result = GpiSendBuffer(connection, peer->mSocket, &message->mBuffer, &connClosed, 0, (const s8 *) "PR");
+            if (connClosed != 0 || result != 0) {
                 peer->mState = PROFILE_PEER_STATE_CLOSED;
                 return 0;
             }
@@ -223,10 +223,10 @@ s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
 s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
     GpiConnection *gpState;
     BuddyMessageData *arg;
-    s32 len;
-    u32 socketGone;
+    s32 bytesRead;
+    u32 connClosed;
     GpiCallback callback;
-    s32 buffer;
+    s32 message;
     s32 type;
     s32 msgBytes;
     s32 result;
@@ -234,8 +234,8 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
     gpState = connection->mGpiConnection;
     if (peerConn->mOutputBuffer.mLength != 0) {
         result =
-            GpiSendBuffer(connection, peerConn->mSocket, &peerConn->mOutputBuffer, &socketGone, 1, (const s8 *) "PR");
-        if (socketGone != 0 || result != 0) {
+            GpiSendBuffer(connection, peerConn->mSocket, &peerConn->mOutputBuffer, &connClosed, 1, (const s8 *) "PR");
+        if (connClosed != 0 || result != 0) {
             peerConn->mState = PROFILE_PEER_STATE_CLOSED;
             return 0;
         }
@@ -249,21 +249,21 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
             return 0;
         }
     }
-    result = GpiReceiveBuffer(connection, peerConn->mSocket, (GpiBuffer *) &peerConn->mInputBuffer, &len, &socketGone,
+    result = GpiReceiveBuffer(connection, peerConn->mSocket, (GpiBuffer *) &peerConn->mInputBuffer, &bytesRead, &connClosed,
                               (const s8 *) "PR");
     if (result != 0) {
         peerConn->mState = PROFILE_PEER_STATE_CLOSED;
         return 0;
     }
-    if (len > 0) {
+    if (bytesRead > 0) {
         peerConn->mTimeout = GetUnixTime(NULL) + 0x12c;
     }
     do {
-        result = gpiReadMessageFromBuffer(connection, (GpiBuffer *) &peerConn->mInputBuffer, &buffer, &type, &msgBytes);
+        result = gpiReadMessageFromBuffer(connection, (GpiBuffer *) &peerConn->mInputBuffer, &message, &type, &msgBytes);
         if (result != 0) {
             return result;
         }
-        if (buffer != 0) {
+        if (message != 0) {
             switch (type) {
                 case GPI_BM_MESSAGE:
                     callback = gpState->mCallbacks[3];
@@ -274,7 +274,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                             return 1;
                         }
                         arg->mProfile = peerConn->mProfileId;
-                        arg->mUnk_08 = goastrdup((const char *) buffer);
+                        arg->mUnk_08 = goastrdup((const char *) message);
                         arg->mDate = GetUnixTime(NULL);
                         result =
                             GpiQueueCallback(connection, callback, arg, NULL, PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT);
@@ -295,13 +295,13 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                 case GPI_BM_FILE_TRANSFER_THROTTLE:
                 case GPI_BM_FILE_TRANSFER_CANCEL:
                 case GPI_BM_FILE_TRANSFER_KEEPALIVE:
-                    gpiHandleTransferMessage(connection, peerConn, type, peerConn->mInputBuffer, buffer, msgBytes);
+                    gpiHandleTransferMessage(connection, peerConn, type, peerConn->mInputBuffer, message, msgBytes);
                     break;
             }
             gpiClipBufferToPosition(connection, (GpiBuffer *) &peerConn->mInputBuffer);
         }
-    } while (buffer != 0);
-    if (socketGone != 0) {
+    } while (message != 0);
+    if (connClosed != 0) {
         peerConn->mState = PROFILE_PEER_STATE_CLOSED;
     }
     return 0;
@@ -425,10 +425,10 @@ s32 GpiUpdatePeers(GpConnection *connection) {
     return 0;
 }
 
-GpiPeer *gpiGetConnectedPeer(GpConnection *object, u32 key) {
-    GpiPeer *node = object->mGpiConnection->mPeerList;
+GpiPeer *gpiGetConnectedPeer(GpConnection *connection, u32 profileid) {
+    GpiPeer *node = connection->mGpiConnection->mPeerList;
     while (node != NULL) {
-        if (node->mProfileId == key && node->mState == PROFILE_PEER_STATE_CONNECTED) {
+        if (node->mProfileId == profileid && node->mState == PROFILE_PEER_STATE_CONNECTED) {
             return node;
         }
         node = node->mNext;
@@ -475,7 +475,7 @@ int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer) {
 s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     SOCSockAddrIn address;
     GpiProfile *profileRec;
-    s32 openResult;
+    s32 connectResult;
     u32 *addressWords;
 
     if (GpiFindProfile(connection, peer->mProfileId, &profileRec) == 0) {
@@ -500,10 +500,10 @@ s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     address.mFamily = SOCKET_FAMILY_IPV4;
     address.mAddr = profileRec->mBuddyStatus->mIp;
     address.mPort = profileRec->mBuddyStatus->mPort;
-    openResult = connect(peer->mSocket, &address, 8);
-    if (openResult == -1) {
-        openResult = GOAGetLastError(peer->mSocket);
-        if (openResult != -6 && openResult != -0x1a && openResult != -0x4c) {
+    connectResult = connect(peer->mSocket, &address, 8);
+    if (connectResult == -1) {
+        connectResult = GOAGetLastError(peer->mSocket);
+        if (connectResult != -6 && connectResult != -0x1a && connectResult != -0x4c) {
             GpiSetError(connection, 5, "There was an error connecting a socket.");
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;

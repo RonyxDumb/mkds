@@ -68,9 +68,9 @@ s32 DWCs_GetRequiredHeaderSize(s32 type) {
 }
 
 // Per login (called by DWC_InitFriendsMatch): stores gWiFiMessageLayer, zeroes the struct and sets mSendChunkSize.
-void DWCi_InitTransport(WiFiMessageLayer *state) {
-    gWiFiMessageLayer = state;
-    MI_CpuFill8(state, 0, sizeof(WiFiMessageLayer));
+void DWCi_InitTransport(WiFiMessageLayer *layer) {
+    gWiFiMessageLayer = layer;
+    MI_CpuFill8(layer, 0, sizeof(WiFiMessageLayer));
     gWiFiMessageLayer->mSendChunkSize = 0x5b9;
 }
 

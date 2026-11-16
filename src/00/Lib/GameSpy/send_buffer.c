@@ -260,7 +260,7 @@ u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer,
     return 0;
 }
 
-u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u32 *bytesSentOut, s32 discardSent,
+u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u32 *connClosed, s32 discardSent,
                   const s8 *label) {
     s32 wasClosed;
     s32 bytesSent;
@@ -314,8 +314,8 @@ u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u
     }
     outputBuffer->mLength = len;
     outputBuffer->mPos = pos;
-    if (bytesSentOut != NULL) {
-        *bytesSentOut = wasClosed;
+    if (connClosed != NULL) {
+        *connClosed = wasClosed;
     }
     return 0;
 }

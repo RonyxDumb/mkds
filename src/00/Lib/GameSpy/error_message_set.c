@@ -1,8 +1,8 @@
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "00/Lib/GameSpy/reply_parse.h"
 
-void GpiSetErrorMessage(void *errorTarget, void *message) {
-    u32 destination = (u32) errorTarget;
+void GpiSetErrorMessage(void *connection, void *message) {
+    u32 destination = (u32) connection;
     void *source = message;
     u32 capacity;
     u32 unusedValue;

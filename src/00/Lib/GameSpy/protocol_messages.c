@@ -35,8 +35,8 @@ u8 gGti2MagicString[2] = {0xfe, 0xfe};
 char gPingTimeId[] = "time";
 
 u32 gti2UShortFromBuffer(const u8 *buffer, s32 offset) {
-    u16 value = (buffer[offset] << 8) & 0xff00;
-    return value | buffer[offset + 1];
+    u16 highByte = (buffer[offset] << 8) & 0xff00;
+    return highByte | buffer[offset + 1];
 }
 
 void gti2UShortToBuffer(u8 *buffer, s32 offset, u16 value) {
@@ -454,7 +454,7 @@ void gti2SetPendingAck(Gt2Connection *connection) {
 
 u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *message, s32 len) {
     u32 serialNumber;
-    s32 bufferFull;
+    s32 bufferOverflow;
     u32 expectedSerialNumber;
     if (len < 7) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
@@ -481,10 +481,10 @@ u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *mes
         gti2SetPendingAck(connection);
         return 1;
     }
-    if (gti2BufferIncomingMessage(connection, type, serialNumber, message + 7, len - 7, &bufferFull) == 0) {
+    if (gti2BufferIncomingMessage(connection, type, serialNumber, message + 7, len - 7, &bufferOverflow) == 0) {
         return 0;
     }
-    if (bufferFull != 0 && gti2ConnectionMemoryError(connection) == 0) {
+    if (bufferOverflow != 0 && gti2ConnectionMemoryError(connection) == 0) {
         return 0;
     }
     return 1;
@@ -609,9 +609,9 @@ u32 gti2HandleUnreliableMessage(Gt2Connection *connection, u32 type, u8 *message
 
 u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 port) {
     Gt2Connection *connection;
-    Gt2Connection *activeConnection;
+    Gt2Connection *senderConnection;
     s32 wasHandled;
-    BOOL hasMagic;
+    BOOL isProtocolMessage;
     s32 value;
     connection = gti2SocketFindConnection(socket, address, port);
     if (socket->mReceiveDumpCallback != NULL) {
@@ -620,9 +620,9 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         }
     }
     if (len > 2 && memcmp(message, gGti2MagicString, 2) == 0) {
-        hasMagic = TRUE;
+        isProtocolMessage = TRUE;
     } else {
-        hasMagic = FALSE;
+        isProtocolMessage = FALSE;
     }
     if (connection == NULL) {
         if (CallUnmatchedDataCallback(socket, address, port, message, len, &wasHandled) == FALSE) {
@@ -631,8 +631,8 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         if (wasHandled != 0) {
             return 1;
         }
-        if (hasMagic == FALSE || message[2] != 1) {
-            if (hasMagic == FALSE || message[2] != 0x68) {
+        if (isProtocolMessage == FALSE || message[2] != 1) {
+            if (isProtocolMessage == FALSE || message[2] != 0x68) {
                 if (gti2SendClosedOnSocket(socket, address, port) == FALSE) {
                     return 0;
                 }
@@ -651,40 +651,40 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
             }
         }
     }
-    activeConnection = connection;
-    if (activeConnection->mState == GT2_CONNECTION_CLOSED) {
-        if (hasMagic == FALSE || message[2] != 0x68) {
-            if (gti2SendClosed(activeConnection) == 0) {
+    senderConnection = connection;
+    if (senderConnection->mState == GT2_CONNECTION_CLOSED) {
+        if (isProtocolMessage == FALSE || message[2] != 0x68) {
+            if (gti2SendClosed(senderConnection) == 0) {
                 return 0;
             }
         }
         return 1;
     }
-    if (hasMagic != FALSE && len >= 4 && memcmp(message + 2, gGti2MagicString, 2) == 0) {
+    if (isProtocolMessage != FALSE && len >= 4 && memcmp(message + 2, gGti2MagicString, 2) == 0) {
         message += 2;
         len -= 2;
-        hasMagic = FALSE;
+        isProtocolMessage = FALSE;
     }
-    if (hasMagic == FALSE) {
-        if (gti2HandleAppUnreliable(activeConnection, message, len) != 0) {
+    if (isProtocolMessage == FALSE) {
+        if (gti2HandleAppUnreliable(senderConnection, message, len) != 0) {
             return 1;
         }
         return 0;
     }
     value = message[2];
     if (value < 0) {
-        if (gti2ConnectionCommunicationError(activeConnection) != 0) {
+        if (gti2ConnectionCommunicationError(senderConnection) != 0) {
             return 1;
         }
         return 0;
     }
     if (value < 8) {
-        if (gti2HandleReliableMessage(activeConnection, value, message, len) != 0) {
+        if (gti2HandleReliableMessage(senderConnection, value, message, len) != 0) {
             return 1;
         }
         return 0;
     }
-    if (gti2HandleUnreliableMessage(activeConnection, value, message, len) != 0) {
+    if (gti2HandleUnreliableMessage(senderConnection, value, message, len) != 0) {
         return 1;
     }
     return 0;
@@ -693,7 +693,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
 u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     Gt2Connection *connection;
     int checkResult;
-    int elapsed;
+    int now;
     connection = gti2SocketFindConnection(socket, address, port);
     if (socket->mReceiveDumpCallback != NULL) {
         checkResult = gti2DumpCallback(socket, connection, address, port, 1, 0, 0, 0);
@@ -706,8 +706,8 @@ u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     }
     if (connection->mState == GT2_CONNECTION_OFFER_SENT) {
         if ((connection->mTimeSinceCreateLimit == 0) ||
-            (elapsed = GetElapsedMilliseconds(),
-             (elapsed - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
+            (now = GetElapsedMilliseconds(),
+             (now - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
             return 1;
         }
         checkResult = gti2ConnectionError(connection, 6, 1);
@@ -813,12 +813,12 @@ u32 gti2EndReliableMessage(Gt2Connection *connection) {
 
 u32 gti2SendAppReliable(Gt2Connection *connection, const u8 *message, int len) {
     int result;
-    int bufferFull[2];
-    result = gti2BeginReliableMessage(connection, 0, len + 7, bufferFull);
+    int bufferOverflow[2];
+    result = gti2BeginReliableMessage(connection, 0, len + 7, bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull[0] != 0) {
+    if (bufferOverflow[0] != 0) {
         return 1;
     }
     AppendBufferBytes(&connection->mSendBuffer, message, len);
@@ -831,12 +831,12 @@ u32 gti2SendAppReliable(Gt2Connection *connection, const u8 *message, int len) {
 
 u32 gti2SendClientChallenge(Gt2Connection *connection, const void *challenge) {
     int result;
-    int bufferFull;
-    result = gti2BeginReliableMessage(connection, 1, 0x27, &bufferFull);
+    int bufferOverflow;
+    result = gti2BeginReliableMessage(connection, 1, 0x27, &bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull != 0) {
+    if (bufferOverflow != 0) {
         return 1;
     }
     AppendBufferBytes(&connection->mSendBuffer, challenge, 0x20);
@@ -849,12 +849,12 @@ u32 gti2SendClientChallenge(Gt2Connection *connection, const void *challenge) {
 
 u32 gti2SendServerChallenge(Gt2Connection *connection, const u8 *response, const u8 *challenge) {
     int result;
-    int bufferFull[2];
-    result = gti2BeginReliableMessage(connection, 2, 0x47, bufferFull);
+    int bufferOverflow[2];
+    result = gti2BeginReliableMessage(connection, 2, 0x47, bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull[0] != 0) {
+    if (bufferOverflow[0] != 0) {
         return 1;
     }
     AppendBufferBytes(&connection->mSendBuffer, response, 0x20);
@@ -869,12 +869,12 @@ u32 gti2SendServerChallenge(Gt2Connection *connection, const u8 *response, const
 
 u32 gti2SendClientResponse(Gt2Connection *connection, const u8 *response, const u8 *message, int len) {
     int result;
-    int bufferFull;
-    result = gti2BeginReliableMessage(connection, 3, len + 0x27, &bufferFull);
+    int bufferOverflow;
+    result = gti2BeginReliableMessage(connection, 3, len + 0x27, &bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull != 0) {
+    if (bufferOverflow != 0) {
         return 1;
     }
     AppendBufferBytes(&connection->mSendBuffer, response, 0x20);
@@ -888,12 +888,12 @@ u32 gti2SendClientResponse(Gt2Connection *connection, const u8 *response, const 
 
 u32 gti2SendAccept(Gt2Connection *connection) {
     int result;
-    int bufferFull[2];
-    result = gti2BeginReliableMessage(connection, 4, 7, bufferFull);
+    int bufferOverflow[2];
+    result = gti2BeginReliableMessage(connection, 4, 7, bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull[0] != 0) {
+    if (bufferOverflow[0] != 0) {
         return 1;
     }
     result = gti2EndReliableMessage(connection);
@@ -905,12 +905,12 @@ u32 gti2SendAccept(Gt2Connection *connection) {
 
 u32 gti2SendReject(Gt2Connection *connection, const void *message, int len) {
     int result;
-    int bufferFull[2];
-    result = gti2BeginReliableMessage(connection, 5, len + 7, bufferFull);
+    int bufferOverflow[2];
+    result = gti2BeginReliableMessage(connection, 5, len + 7, bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull[0] != 0) {
+    if (bufferOverflow[0] != 0) {
         return 1;
     }
     AppendBufferBytes(&connection->mSendBuffer, message, len);
@@ -923,12 +923,12 @@ u32 gti2SendReject(Gt2Connection *connection, const void *message, int len) {
 
 u32 gti2SendClose(Gt2Connection *connection) {
     int result;
-    int bufferFull[2];
-    result = gti2BeginReliableMessage(connection, 6, 7, bufferFull);
+    int bufferOverflow[2];
+    result = gti2BeginReliableMessage(connection, 6, 7, bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull[0] != 0) {
+    if (bufferOverflow[0] != 0) {
         return 1;
     }
     result = gti2EndReliableMessage(connection);
@@ -940,12 +940,12 @@ u32 gti2SendClose(Gt2Connection *connection) {
 
 u32 gti2SendKeepAlive(Gt2Connection *connection) {
     int result;
-    int bufferFull[2];
-    result = gti2BeginReliableMessage(connection, 7, 7, bufferFull);
+    int bufferOverflow[2];
+    result = gti2BeginReliableMessage(connection, 7, 7, bufferOverflow);
     if (result == 0) {
         return 0;
     }
-    if (bufferFull[0] != 0) {
+    if (bufferOverflow[0] != 0) {
         return 1;
     }
     result = gti2EndReliableMessage(connection);

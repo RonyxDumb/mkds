@@ -512,7 +512,7 @@ u8 *arprequest(u32 address) {
     return NULL;
 }
 
-void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
+void reg_arpcache(u8 *mac, u32 address, u32 allowNewEntry) {
     u16 now;
     u16 maxAge;
     u32 victimIndex;
@@ -530,7 +530,7 @@ void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
             return;
         }
     }
-    if (addedEntry != 0) {
+    if (allowNewEntry != 0) {
         maxAge = 0;
         victimIndex = 0;
         for (index = 0, entry = gArpCache; index < 8; index++) {
@@ -1586,11 +1586,11 @@ u32 get_seqno(void) {
 
 void CPS_SocRegister(void *socket) {
     u32 socketAddress = (u32) socket;
-    u32 slotAddress;
-    slotAddress = (u32) &OSi_ThreadInfo;
-    slotAddress = *(const u32 *) ((slotAddress) + 4u);
-    slotAddress = (slotAddress) + 164u;
-    *(u32 *) ((slotAddress) + 0u) = socketAddress;
+    u32 address;
+    address = (u32) &OSi_ThreadInfo;
+    address = *(const u32 *) ((address) + 4u);
+    address = (address) + 164u;
+    *(u32 *) ((address) + 0u) = socketAddress;
 }
 
 void CPS_SocUnRegister(void) {

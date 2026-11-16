@@ -532,7 +532,7 @@ s32 SOCLi_GetWriteBufferFreeSize(SOCLSocket *socket) {
     return freeSize;
 }
 
-s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u32 peerAddr,
+s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u32 remoteIp,
                            s32 isBlocking) {
     SOCLiSocketSendCommandPipe *outPipe = socket->mSendBlock;
     SOCLiCommandWrite *writePacket;
@@ -572,8 +572,8 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
             socket->mCps.mLocalPort = socket->mLocalPort;
         }
         writePacket->mLocalPort = socket->mLocalPort;
-        if (socket->mRemoteIp == 0 || peerAddr != 0) {
-            writePacket->mRemoteIp = peerAddr;
+        if (socket->mRemoteIp == 0 || remoteIp != 0) {
+            writePacket->mRemoteIp = remoteIp;
             writePacket->mRemotePort = remotePort;
         } else {
             writePacket->mRemoteIp = socket->mRemoteIp;
@@ -695,7 +695,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u
     return value;
 }
 
-s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr,
+s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *remoteIp,
                                s32 isBlocking, s32 flags) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
     s32 savedNoConsume;
@@ -711,9 +711,9 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
         inPipe->mNoConsume = 1;
     }
     if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
-        result = SOCLi_ReadUdpBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
+        result = SOCLi_ReadUdpBuffer(socket, buffer, length, remotePort, remoteIp, isBlocking);
     } else {
-        result = SOCLi_ReadBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
+        result = SOCLi_ReadBuffer(socket, buffer, length, remotePort, remoteIp, isBlocking);
         if (result >= 0) {
             SOCLi_ConsumeBuffer(socket);
         }
@@ -802,12 +802,12 @@ u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u
 }
 
 s32 SOCLi_ExecReadCommand(SOCLSocket *socket, u8 *buffer, s32 length, u16 *remotePort, u32 *peerAddr) {
-    SOCLiCommandRead *packetAddr = (SOCLiCommandRead *) SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
-    packetAddr->mBuffer = buffer;
-    packetAddr->mBufferLen = length;
-    packetAddr->mRemotePort = remotePort;
-    packetAddr->mRemoteIp = peerAddr;
-    return SOCLi_ExecCommandPacketInRecvPipe(socket, (SOCLiCommandPacket *) packetAddr);
+    SOCLiCommandRead *readPacket = (SOCLiCommandRead *) SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
+    readPacket->mBuffer = buffer;
+    readPacket->mBufferLen = length;
+    readPacket->mRemotePort = remotePort;
+    readPacket->mRemoteIp = peerAddr;
+    return SOCLi_ExecCommandPacketInRecvPipe(socket, (SOCLiCommandPacket *) readPacket);
 }
 
 s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
