@@ -10,7 +10,7 @@ typedef struct UnsignedHalfwordPair {
     /* 02 */ u16 mSecond;
 } UnsignedHalfwordPair;
 
-// A simple instrument: its wave, original key and envelope, release and pan.
+// A simple instrument: mWave, then the pair mSecondPair and the halfword mLastHalfword, copied unchanged.
 typedef struct InstSimple {
     /* 00 */ UnsignedHalfwordPair mWave;
     /* 04 */ UnsignedHalfwordPair mKeyAndEnvelope;
@@ -28,7 +28,7 @@ enum {
     INSTRUMENT_TYPE_KEY_SPLIT,
 };
 
-// An instrument entry: its type, wave, key and envelope, release and pan.
+// An instrument entry: mType, then mWave, mKeyAndEnvelope and mReleaseAndPan as in InstSimple.
 typedef struct SNDInstData {
     /* 00 */ u8 mType;
     /* 02 */ UnsignedHalfwordPair mWave;
