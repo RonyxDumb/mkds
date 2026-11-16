@@ -27,7 +27,7 @@ enum {
 enum {
     WIFI_TOP_MENU_ITEM_VS,
     WIFI_TOP_MENU_ITEM_AIKOTOBA,
-    WIFI_TOP_MENU_ITEM_WIFI_MENU,
+    WIFI_TOP_MENU_ITEM_DWC_UTILITY,
 };
 
 // Frames the three cell rows take to slide, the slide-in state lasts (the slide then settles with the press animation),

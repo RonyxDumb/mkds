@@ -60,7 +60,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                     arg->mProfile = gpState->mProfileId;
                     gpState->mProfileId = 0;
                 }
-                result = gpiAddCallback(connection, callback, arg, operation, 0);
+                result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -73,7 +73,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 }
                 memset(newProfileArg, 0, 8);
                 newProfileArg->mResult = operation->mResult;
-                result = gpiAddCallback(connection, callback, newProfileArg, operation, 0);
+                result = gpiAddCallback(connection, callback, newProfileArg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -86,7 +86,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 }
                 memset(arg, 0, 0x204);
                 arg->mResult = operation->mResult;
-                result = gpiAddCallback(connection, callback, arg, operation, 0);
+                result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -100,7 +100,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 memset(searchArg, 0, sizeof(*searchArg));
                 searchArg->mResult = operation->mResult;
                 searchArg->mMatches = 0;
-                result = gpiAddCallback(connection, callback, searchArg, operation, 0);
+                result = gpiAddCallback(connection, callback, searchArg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -113,7 +113,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 }
                 memset(uniquenickArg, 0, 4);
                 uniquenickArg->mResult = operation->mResult;
-                result = gpiAddCallback(connection, callback, uniquenickArg, operation, 0);
+                result = gpiAddCallback(connection, callback, uniquenickArg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }

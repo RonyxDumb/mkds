@@ -1005,8 +1005,8 @@ void UpdateParticipantElos(void) {
                 newElos[participant] = 0;
                 continue;
             }
-            if (newElos[participant] > 10000) {
-                newElos[participant] = 10000;
+            if (newElos[participant] > WIFI_ELO_MAX) {
+                newElos[participant] = WIFI_ELO_MAX;
             }
         }
         SetPlayerRecordElo(participant, newElos[participant]);

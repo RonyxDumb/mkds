@@ -76,7 +76,7 @@ u32 GetKartMaskBit(u32 index) {
 
 u32 GetKartMaskBitOfPackedIndex(u8 packedIndex) {
     s8 slotIndex;
-    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+    for (slotIndex = 0; slotIndex < WIFI_SESSION_KART_SLOTS; slotIndex++) {
         if (packedIndex == gWiFiSession->mPackedIndices[slotIndex]) {
             goto found;
         }

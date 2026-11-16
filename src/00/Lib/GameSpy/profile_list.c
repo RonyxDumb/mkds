@@ -74,7 +74,7 @@ s32 gpiProcessNewProfile(GPConnection *connection, GPIOperation *operation, cons
         }
         arg[1] = profileNumber;
         arg[0] = 0;
-        result = gpiAddCallback(connection, callback, arg, operation, 0);
+        result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
         if (result != 0) {
             return result;
         }

@@ -471,7 +471,7 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
                 arg->mProfile = gpState->mProfileId;
                 arg->mResult = PROFILE_REQUEST_OK;
                 CopyStringWithTerminator(arg->mUniquenick, uniqueNickText, 0x15);
-                result = gpiAddCallback(connection, callback, arg, operation, 0);
+                result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }

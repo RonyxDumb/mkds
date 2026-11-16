@@ -24,7 +24,7 @@ void InitWiFiSelectCharacterState(void *heap) {
     gWiFiSelectCharacterState = HeapAlloc(heap, 4);
     gWiFiSelectCharacterState->mHeap = heap;
     InitWiFiSelectCharacterNop();
-    if (GetWiFiPrevState() != 5) {
+    if (GetWiFiPrevState() != WIFI_STATE_SELECT_KART) {
         PackWiFiSessionIndicesWrapper();
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(DWC_GetMyAID()));
         SetSessionKartCount(gWiFiSession->mKartCount);

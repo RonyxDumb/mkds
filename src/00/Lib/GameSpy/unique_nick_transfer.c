@@ -48,7 +48,7 @@ s32 gpiProcessRegisterUniqueNick(GPConnection *connection, GPIOperation *operati
             return PROFILE_RESULT_OUT_OF_MEMORY;
         }
         arg[0] = 0;
-        result = gpiAddCallback(connection, callback, arg, operation, 0);
+        result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
         if (result != 0) {
             return result;
         }

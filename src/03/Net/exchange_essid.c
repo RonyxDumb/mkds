@@ -380,7 +380,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
     }
     switch (message->mNotify) {
         case WIFI_NOTIFY_STARTUP_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
@@ -411,7 +411,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_SCAN_START_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCHING;
                     if (gExchangeEventCallback != NULL) {
@@ -426,7 +426,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_CONNECT_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECTED;
                     if (gExchangeEventCallback != NULL) {
@@ -441,7 +441,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_SCAN_STOP_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
@@ -480,7 +480,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_DISCONNECT_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
@@ -521,7 +521,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_CLEANUP_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     WCM_Finish();
                     gExchangeWcmState = EXCHANGE_WCM_STATE_STOPPED;

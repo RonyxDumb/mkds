@@ -63,7 +63,8 @@ typedef struct Http {
     /* 968 */ OSThread mThread;
     /* a28 */ OSMutex mAbortMutex;
     /* a40 */ BOOL mAbort;
-    /* a44 */ u8 pad_a44[0x101c];
+    /* a44 */ u8 pad_a44[0x1c];
+    /* a60 */ u8 mThreadStack[0x1000];
     /* 1a60 */ u8 mThreadStackBottom[];
 } Http;
 

@@ -1,4 +1,5 @@
 #include "03/Menu/jb4_error.h"
+#include "00/Lib/DWC/server_auth.h"
 #include "03/Menu/jb4_error_setup.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/application.h"
@@ -91,13 +92,13 @@ void PrintJb4Error(void) {
     errorCode = gJb4ErrorCode;
     if (errorCode >= -0x4e83) {
         messageIndex = 0x0;
-    } else if (errorCode >= -0x4e84) {
+    } else if (errorCode >= -AUTH_RETURN_FAILED) {
         messageIndex = 0x15;
-    } else if (errorCode >= -0x4e85) {
+    } else if (errorCode >= -AUTH_RETURN_BAD_RESPONSE) {
         messageIndex = 0x4a;
     } else if (errorCode >= -0x4e8b) {
         messageIndex = 0x15;
-    } else if (errorCode >= -0x4e8c) {
+    } else if (errorCode >= -AUTH_RETURN_WRITE_NEW_ID) {
         messageIndex = 0x49;
     } else if (errorCode >= -0x4e8d) {
         messageIndex = 0x15;

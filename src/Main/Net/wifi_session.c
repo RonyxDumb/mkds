@@ -727,7 +727,7 @@ void RegisterKartKeysAndStart(void) {
             DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
                                       ComputeRegionEloEval, 0);
             break;
-        case WIFI_MATCH_TYPE_FRIENDS:
+        case WIFI_MATCH_TYPE_BUDDIES:
             DWC_ConnectToFriendsAsync(NULL, 0, gWiFiSession->mNumEntry, 1, KartKeysStartCallback, NULL, 0, 0);
             break;
         case WIFI_MATCH_TYPE_ELO:
@@ -891,7 +891,7 @@ void ResetWiFiSession(void) {
     gWiFiSession->mErrorCode = 0;
     gWiFiSession->mUnk_1f4c = 0;
     gWiFiSession->mUnk_1f4d = 0;
-    MI_CpuFill8(gWiFiSession->mPackedIndices, 0, 4);
+    MI_CpuFill8(gWiFiSession->mPackedIndices, 0, WIFI_SESSION_KART_SLOTS);
     gWiFiSession->mKartCount = 0;
     gWiFiSession->mStartKartCount = 0;
     gWiFiSession->mKartCountCopy = 0;
@@ -1008,9 +1008,9 @@ void UpdateBuddyStatuses(void) {
     buddyIndex = 0;
     do {
         switch (countSession->mBuddyStatuses[buddyIndex]) {
-            case WIFI_BUDDY_STATUS_NOT_COUNTED:
+            case FRIEND_STATUS_PLAYING:
                 break;
-            case WIFI_BUDDY_STATUS_COUNTED:
+            case FRIEND_STATUS_MATCH_FRIEND:
                 status4Count++;
                 break;
         }

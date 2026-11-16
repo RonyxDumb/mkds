@@ -29,7 +29,7 @@
 #include "00/Lib/DWC/access_point_power_mode.h"
 
 const DWCACConfig gConnectParamsTemplate = {
-    (void *(*) ()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, 0, 0};
+    (void *(*) ()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, AUTO_CONNECT_TYPE_ANY, 0};
 u8 gConnectSucceeded;
 
 void SetupConnect(void) {
@@ -114,7 +114,7 @@ void StartConnectRequest(void) {
     if (secondaryPairSecond == 2) {
         connectParams.mConnectType = AUTO_CONNECT_TYPE_NWCUSBAP_SSID;
     } else {
-        connectParams.mConnectType = record->mEntryIndex + 1;
+        connectParams.mConnectType = AUTO_CONNECT_TYPE_USER_FIRST + record->mEntryIndex;
     }
     if (DWC_AC_Create(&connectParams) == 0) {
         OS_Terminate();

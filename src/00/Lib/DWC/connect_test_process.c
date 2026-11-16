@@ -17,7 +17,7 @@ u32 ConnectTestProcess(ACWORK *work) {
         }
         DWC_Netcheck_Destroy();
         if (error != 0xb) {
-            work->mFindList[work->mConnectNo].mState = 1;
+            work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_FAILED;
             return AC_PHASE_TEST_RETRY;
         }
         return AC_PHASE_TEST_END;

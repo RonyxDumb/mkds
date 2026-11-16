@@ -274,7 +274,7 @@ typedef enum WiFiSessionMessageKind {
 #define WIFI_MATCH_KEY_ELO 3
 
 // Values of the kart type key (mKeys[WIFI_MATCH_KEY_TYPE].mValue and the first argument of RequestWiFiSessionMatching).
-#define WIFI_MATCH_TYPE_FRIENDS 0
+#define WIFI_MATCH_TYPE_BUDDIES 0
 #define WIFI_MATCH_TYPE_ELO 1
 #define WIFI_MATCH_TYPE_REGION 3
 #define WIFI_MATCH_TYPE_REGION_ELO 4
@@ -337,8 +337,6 @@ typedef enum WiFiSessionSetup {
 #define WIFI_SESSION_KART_TIMEOUT_FRAMES 300
 // Entries of WiFiSession.mBuddies and mBuddyStatuses.
 #define WIFI_BUDDY_COUNT 0x3c
-#define WIFI_BUDDY_STATUS_NOT_COUNTED 2
-#define WIFI_BUDDY_STATUS_COUNTED 4
 
 // Values of WiFiSessionLogin.mStep; FAILED and DONE are the end states. LOGIN_FAILED shuts down first.
 enum {
@@ -365,8 +363,8 @@ typedef struct WiFiSessionMessage {
     /* 09 */ u8 mToIndex;
     /* 0a */ u8 mKartMask;
     /* 0b */ u8 mUnk_0b;
-    /* 0c */ s32 mCharacterIndices[4];
-    /* 1c */ s32 mKartIndices[4];
+    /* 0c */ s32 mCharacterIndices[WIFI_SESSION_KART_SLOTS];
+    /* 1c */ s32 mKartIndices[WIFI_SESSION_KART_SLOTS];
     /* 2c */ s32 mTalliedCourseId;
     /* 30 */ s32 mCharacterIndex;
     /* 34 */ s32 mKartIndex;
@@ -410,10 +408,10 @@ typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;
     /* 0008 */ StateMachine mStateMachine;
-    /* 001c */ u8 mRecvBuffers[4][0x80];
+    /* 001c */ u8 mRecvBuffers[WIFI_SESSION_KART_SLOTS][0x80];
     // One 0x244-byte record per index: a 12-byte message header, then the player's name (0x14 bytes) and emblem
     // (0x200), elo, region and seed. The own element is sent (kind 1), the others are received into.
-    /* 021c */ WiFiPlayerRecord mPlayerRecords[4];
+    /* 021c */ WiFiPlayerRecord mPlayerRecords[WIFI_SESSION_KART_SLOTS];
     /* 0b2c */ u8 mConnection[0xdb4];
     /* 18e0 */ DWCMatchOptMinComplete mMinCompleteOption;
     /* 18e8 */ s32 mStartStatus;
@@ -430,7 +428,7 @@ typedef struct WiFiSession {
     /* 1980 */ s32 mStepFrames;
     // Per kart: zeroed by the callback for that kart, counted up each step for every other kart in mKartMask; above
     // 300 it sets the kart's bit in mKartRemoveMask (while 2 < mStep < 9).
-    /* 1984 */ s32 mSinceCallbackFrames[4];
+    /* 1984 */ s32 mSinceCallbackFrames[WIFI_SESSION_KART_SLOTS];
     /* 1994 */ u8 mUnk_1994[0x5];
     /* 1999 */ u8 mPickStartIndex;
     /* 199a */ u8 mUnk_199a[0x10];
@@ -451,8 +449,8 @@ typedef struct WiFiSession {
     /* 1cfc */ BOOL mBuddiesChanged;
     // 0x44-byte buffers the net layer receives the kind 0..9 messages into (re-posted by the receive callback). The
     // 0x244 profile records (mPlayerRecords) and mRecvBuffers (0x80 bytes) are also posted as receive buffers.
-    /* 1d00 */ WiFiSessionMessage mReceiveBuffers[4];
-    /* 1e10 */ WiFiSessionMessage mIndexMessages[4];
+    /* 1d00 */ WiFiSessionMessage mReceiveBuffers[WIFI_SESSION_KART_SLOTS];
+    /* 1e10 */ WiFiSessionMessage mIndexMessages[WIFI_SESSION_KART_SLOTS];
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
     // TRUE after ResetWiFiSessionToOff, FALSE after ResetWiFiSession; never read.
@@ -465,7 +463,7 @@ typedef struct WiFiSession {
     /* 1f4c */ u8 mUnk_1f4c;
     /* 1f4d */ u8 mUnk_1f4d;
     // Per index: its place among the indices set in mKartMask (-1 if absent); ResetWiFiSession zeroes it to 0.
-    /* 1f4e */ s8 mPackedIndices[4];
+    /* 1f4e */ s8 mPackedIndices[WIFI_SESSION_KART_SLOTS];
     /* 1f52 */ u8 mKartCount;
     /* 1f53 */ u8 mStartKartCount;
     /* 1f54 */ u8 mKartCountCopy;

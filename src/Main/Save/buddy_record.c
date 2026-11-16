@@ -171,7 +171,7 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     MI_CpuFill8(&buddyRecord, 0, sizeof(BuddyRecord));
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
-    if (gWiFiSession->mStateMachine.mState != 0) {
+    if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
         DWC_DeleteBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]);
     } else {
         MI_CpuFill8(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);

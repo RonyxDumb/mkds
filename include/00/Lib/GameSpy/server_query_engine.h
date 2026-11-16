@@ -26,6 +26,7 @@ typedef struct SBServer {
     /* 14 */ u8 mStateFlags;
     /* 15 */ u8 mFlags;
     /* 18 */ struct HashImplementation *mKeyValues;
+    // Tick of the query start while a query is pending, the ping in milliseconds after the reply.
     /* 1c */ u32 mPing;
     /* 20 */ struct SBServer *mNext;
 } SBServer;

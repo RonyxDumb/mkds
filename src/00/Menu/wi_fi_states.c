@@ -144,12 +144,12 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
                     RegisterWiFiVSSettingCallbacks();
                     break;
                 case WIFI_MENU_START_SELECT_CHARACTER:
-                    SetupWiFiSession(1);
+                    SetupWiFiSession(WIFI_SESSION_SETUP_PACK);
                     gWiFiStates->mState = WIFI_STATE_SELECT_CHARACTER;
                     RegisterSelectCharacterCallbacks();
                     break;
                 case WIFI_MENU_START_VS_COURSE_SELECT:
-                    SetupWiFiSession(2);
+                    SetupWiFiSession(WIFI_SESSION_SETUP_COURSE_PICKS);
                     CopyEntriesToRaceSetupCopy();
                     gWiFiStates->mState = WIFI_STATE_VS_COURSE_SELECT;
                     RegisterWiFiVSCourseSelectCallbacks();

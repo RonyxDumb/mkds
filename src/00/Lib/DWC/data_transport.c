@@ -53,7 +53,7 @@ u16 DWCs_DecodeHeader(const void *message) {
     if (memcmp(header.mMagicStrings, gDwcMagicStrings, 2) == 0) {
         return header.mType;
     }
-    return 0;
+    return WIFI_MESSAGE_KIND_NONE;
 }
 
 s32 DWCs_GetRequiredHeaderSize(s32 type) {
@@ -182,7 +182,7 @@ void DWCs_HandleReliableMessage(GTI2Connection *connection, void *message, s32 s
     switch (DWCs_GetRecvState(aid)) {
         case WIFI_PEER_RECEIVE_STATE_INITIAL: {
             u16 headerType = DWCs_DecodeHeader(message);
-            if (headerType >= 2 && headerType <= 4) {
+            if (headerType >= WIFI_MESSAGE_KIND_SYNC_REQUEST && headerType <= WIFI_MESSAGE_KIND_SYNC_GO) {
                 DWCs_RecvDataHeader(aid, message, size);
             }
             break;

@@ -15,7 +15,7 @@ u32 DWCi_AC_CheckFreespot(WMBssDesc *bssDesc) {
     int compare;
     compare = strncmp((const char *) bssDesc->mSsid, gFreespotSsid, 8);
     if (compare == 0) {
-        return 8;
+        return AUTO_CONNECT_AP_TYPE_FREESPOT_SSID;
     }
     return 0;
 }

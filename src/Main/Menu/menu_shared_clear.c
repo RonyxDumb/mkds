@@ -15,7 +15,7 @@ void ClearMenuShared(void) {
     gMenuShared->mUnfilledNotEliminated = 0;
     gMenuShared->mLVselIndex6Requested = 0;
     gMenuShared->mWiFiMenuStartKind = 0;
-    gMenuShared->mWiFiVSSettingKartType = 0;
+    gMenuShared->mWiFiVSSettingKartType = WIFI_MATCH_TYPE_BUDDIES;
     gMenuShared->mWiFiTopMenuRequested = FALSE;
     gMenuShared->mStaffRollEndedEarly = 0;
 }

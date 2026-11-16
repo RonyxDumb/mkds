@@ -89,7 +89,7 @@ u32 DWCi_GetMathRand32(u32 max) {
 }
 
 BOOL DWCi_IsSendableReliable(u32 aid, s32 type) {
-    if ((type == 1 && DWC_IsValidAID(aid) == 0) || DWCi_IsValidAID(aid) == FALSE) {
+    if ((type == WIFI_MESSAGE_KIND_DATA && DWC_IsValidAID(aid) == 0) || DWCi_IsValidAID(aid) == FALSE) {
         return FALSE;
     }
     if (DWCs_GetSendState(aid) == 1) {
@@ -132,7 +132,7 @@ BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
     DWCs_Send(aid, buffer, chunk, 1);
     peer->mSentSize += chunk;
     if (peer->mSentSize == peer->mSendSize) {
-        if (gWiFiMessageLayer->mSendCallback != NULL && type == 1) {
+        if (gWiFiMessageLayer->mSendCallback != NULL && type == WIFI_MESSAGE_KIND_DATA) {
             gWiFiMessageLayer->mSendCallback(peer->mSendSize, aid);
         }
         peer->mSendState = 0;
@@ -165,7 +165,7 @@ BOOL DWC_SendUnreliable(u32 aid, void *buffer, s32 size) {
 // being received into the old buffer (state WIFI_PEER_RECEIVE_STATE_DATA_BODY).
 BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size) {
     WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
-    if (DWCs_GetRecvState(aid) == 2) {
+    if (DWCs_GetRecvState(aid) == WIFI_PEER_RECEIVE_STATE_DATA_BODY) {
         return FALSE;
     }
     peer->mReceiveBuffer = recvBuffer;

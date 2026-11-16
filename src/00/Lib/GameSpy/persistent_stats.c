@@ -537,7 +537,7 @@ void SendPlayerAuthRequest(s8 *data, s32 len, s32 localId, ServerReqAuthCallback
             callback(localId, 0, 0, errorBytes, instance);
         }
     } else {
-        AddRequestCallback(0, localId, 0, 0, 0, callback, instance);
+        AddRequestCallback(SERVER_REQ_TYPE_AUTH, localId, 0, 0, 0, callback, instance);
     }
 }
 
@@ -577,7 +577,7 @@ void SetPersistDataHelper(s32 localId, s32 profileId, s32 type, s32 index, const
             callback(localId, profileId, type, index, 0, 0, instance);
         }
     } else {
-        AddRequestCallback(2, localId, profileId, type, index, callback, instance);
+        AddRequestCallback(SERVER_REQ_TYPE_SAVE, localId, profileId, type, index, callback, instance);
     }
     if (packetData != packetBuf) {
         DWCi_GsFree(packetData);
@@ -630,7 +630,7 @@ void ProcessPlayerAuth(s8 *buf, s32 len) {
     s32 pid = StrtolBase10(value_for_key_safe(buf, "pauthr"));
     s32 lid = StrtolBase10(value_for_key_safe(buf, "lid"));
     const char *errorMessage = value_for_key_safe(buf, "errmsg");
-    s32 requestPos = FindRequest(0, lid, 0);
+    s32 requestPos = FindRequest(SERVER_REQ_TYPE_AUTH, lid, 0);
     if (requestPos != -1) {
         ServerReq *req = ArrayNth(gServerReqs, requestPos);
         req->mProfileId = pid;
@@ -646,7 +646,7 @@ void ProcessGetPid(s8 *buf, s32 len) {
 
     pid = StrtolBase10(value_for_key_safe(buf, "getpidr"));
     lid = StrtolBase10(value_for_key_safe(buf, "lid"));
-    requestPos = FindRequest(3, lid, 0);
+    requestPos = FindRequest(SERVER_REQ_TYPE_PROFILE, lid, 0);
     if (requestPos != -1) {
         req = ArrayNth(gServerReqs, requestPos);
         req->mProfileId = pid;
@@ -668,7 +668,7 @@ void ProcessGetData(s8 *buf, s32 len) {
     lid = StrtolBase10(value_for_key_safe(buf, "lid"));
     pid = StrtolBase10(value_for_key_safe(buf, "pid"));
     modified = StrtolBase10(value_for_key_safe(buf, "mod"));
-    requestPos = FindRequest(1, lid, pid);
+    requestPos = FindRequest(SERVER_REQ_TYPE_DATA, lid, pid);
     if (requestPos != -1) {
         length = StrtolBase10(value_for_key_safe(buf, "length"));
         marker = (u8 *) strstr((const char *) buf, "\\data\\");
@@ -693,7 +693,7 @@ void ProcessSetData(s8 *buf, s32 len) {
     pid = StrtolBase10(value_for_key_safe(buf, "pid"));
     lid = StrtolBase10(value_for_key_safe(buf, "lid"));
     modified = StrtolBase10(value_for_key_safe(buf, "mod"));
-    requestPos = FindRequest(2, lid, pid);
+    requestPos = FindRequest(SERVER_REQ_TYPE_SAVE, lid, pid);
     if (requestPos != -1) {
         CallReqCallback(requestPos, success, modified, NULL, 0);
     }

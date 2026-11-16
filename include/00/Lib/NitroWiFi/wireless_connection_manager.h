@@ -5,11 +5,11 @@
 #include "alarm_timer.h"
 
 // Result of a notification: WcmNotify and WcmNotifyEx take it, WCMNotice.mResult holds it.
-typedef enum WifiReportResult {
+enum {
     WIFI_REPORT_SUCCEEDED = 0,
     WIFI_REPORT_DECLINED = 1,
     WIFI_REPORT_UNRECOVERABLE = 7
-} WifiReportResult;
+};
 
 // Values of WCMWork.mNotifyId: the request whose answer is reported next, set by the Async call that starts it
 // (WCM_StartupAsync, WCM_CleanupAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync,

@@ -74,11 +74,11 @@ u32 DWCi_AC_SearchAP(void) {
     work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     phase = DWCi_AC_GetPhase();
     wcmPhase = WCM_GetPhase();
-    if (phase == AC_PHASE_STARTING_UP && wcmPhase == 3) {
+    if (phase == AC_PHASE_STARTING_UP && wcmPhase == WIFI_LINK_PHASE_READY) {
         phase = SearchStart(work);
     } else if (phase == AC_PHASE_SEARCH_DONE) {
         phase = SearchEndCheck(work, phase);
-    } else if (wcmPhase == 3 || wcmPhase == 6) {
+    } else if (wcmPhase == WIFI_LINK_PHASE_READY || wcmPhase == WIFI_LINK_PHASE_SEARCHING) {
         phase = SearchEndCheck(work, phase);
         if (phase != AC_PHASE_CONNECT_START) {
             if (phase == AC_PHASE_SEARCH_AROUND) {

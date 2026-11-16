@@ -41,8 +41,10 @@
 #include "Main/Net/udp_socket_param.h"
 
 u32 SOCLiResultCodeInConnecting = 0xffffffe6;
-SOCLSocketParam SOCLSocketParamTCP = {0, 1, 0, 0, 0x5ea, 0, 0, 0xbd5, 0, {0x800, 0xc, 8}, {0x800, 0xd, 8}};
-SOCLSocketParam SOCLSocketParamUDPSend = {2, 0, 0, 0, 0x5ea, 0, 0, 0x6eb, 0, {0, 0, 0}, {0x800, 0xd, 8}};
+SOCLSocketParam SOCLSocketParamTCP = {
+    SOCKET_MODE_STREAM, 1, 0, 0, 0x5ea, 0, 0, 0xbd5, 0, {0x800, 0xc, 8}, {0x800, 0xd, 8}};
+SOCLSocketParam SOCLSocketParamUDPSend = {
+    SOCKET_MODE_DATAGRAM_SEND, 0, 0, 0, 0x5ea, 0, 0, 0x6eb, 0, {0, 0, 0}, {0x800, 0xd, 8}};
 SOCLSocket *SOCLiSocketListTrash;
 SocketAllocFn AllocFunc_SOC;
 u32 hostip;

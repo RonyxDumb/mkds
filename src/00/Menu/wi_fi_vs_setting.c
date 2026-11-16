@@ -44,7 +44,8 @@ const u8 gWiFiVSSettingLabelIndices[3] = {0, 2, 3};
 const u8 gWiFiVSSettingOffsetTableIndices[3][9] = {
     {0, 5, 2, 0, 0, 0, 0, 0, 0}, {1, 6, 3, 8, 9, 0xc, 0xd, 0xa, 0xb}, {4, 7, 0, 0, 0, 0, 0, 0, 0}};
 const s32 gWiFiVSSettingOffsetCellCounts[3] = {3, 9, 2};
-const u8 gWiFiVSSettingKartTypes[4] = {0, 1, 3, 4};
+const u8 gWiFiVSSettingKartTypes[4] = {WIFI_MATCH_TYPE_BUDDIES, WIFI_MATCH_TYPE_ELO, WIFI_MATCH_TYPE_REGION,
+                                              WIFI_MATCH_TYPE_REGION_ELO};
 const u8 gWiFiVSSettingIndexByKartType[5] = {0, 1, 0xff, 2, 3};
 const s32 gWiFiVSSettingMessageIndices[3][4] = {{7, 0, 0, 0}, {-1, -1, -1, -1}, {4, 0, 0, 0}};
 WiFiVSSetting *gWiFiVSSetting;

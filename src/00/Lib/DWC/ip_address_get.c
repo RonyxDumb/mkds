@@ -14,7 +14,7 @@ u32 GetIPAddress(ACWORK *work) {
         return AC_PHASE_TEST_CREATE;
     }
     if ((OS_GetTick() - work->mTimeOut) * 64 / 0x1ff6210 >= 10) {
-        work->mFindList[work->mConnectNo].mState = 1;
+        work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_FAILED;
         return AC_PHASE_TEST_RETRY;
     }
     return AC_PHASE_TEST_GET_IP;

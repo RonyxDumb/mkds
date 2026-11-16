@@ -63,7 +63,7 @@ void InitWiFiTopMenu(void *heap) {
             gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_AIKOTOBA;
             break;
         case WIFI_STATE_SCENE_WIFI_MENU:
-            gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
+            gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_DWC_UTILITY;
             break;
     }
     gWiFiTopMenu->mStateFrames = 0;
@@ -211,8 +211,8 @@ next:
                 case WIFI_TOP_MENU_ITEM_AIKOTOBA:
                     gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_AIKOTOBA;
                     break;
-                case WIFI_TOP_MENU_ITEM_WIFI_MENU:
-                    gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
+                case WIFI_TOP_MENU_ITEM_DWC_UTILITY:
+                    gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_DWC_UTILITY;
                     break;
             }
         }
@@ -231,7 +231,7 @@ next:
             case WIFI_TOP_MENU_ITEM_AIKOTOBA:
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_AIKOTOBA;
                 break;
-            case WIFI_TOP_MENU_ITEM_WIFI_MENU:
+            case WIFI_TOP_MENU_ITEM_DWC_UTILITY:
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_WIFI_MENU;
                 break;
         }
@@ -240,12 +240,12 @@ next:
         if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             gWiFiTopMenu->mIndex--;
             if (gWiFiTopMenu->mIndex < 0) {
-                gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
+                gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_DWC_UTILITY;
             }
             StartSoundOncePerFrame(0);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             gWiFiTopMenu->mIndex++;
-            if (gWiFiTopMenu->mIndex > WIFI_TOP_MENU_ITEM_WIFI_MENU) {
+            if (gWiFiTopMenu->mIndex > WIFI_TOP_MENU_ITEM_DWC_UTILITY) {
                 gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_VS;
             }
             StartSoundOncePerFrame(0);
@@ -265,7 +265,7 @@ void AdvanceWiFiTopMenuPressItem(void) {
     }
     if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_PRESS_FRAMES) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_OUT;
-        if (gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_VS || gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_WIFI_MENU) {
+        if (gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_VS || gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_DWC_UTILITY) {
             RequestSelectReturnSlideOut();
         }
         gWiFiTopMenu->mStateFrames = 0;

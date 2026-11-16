@@ -27,19 +27,15 @@ enum {
 // Errors of the reporter: the result of starting it and the errors it reports to its add error callback.
 enum {
     REPORTER_ERROR_NONE,
-    e_qrwsockerror,
-    e_qrbinderror,
-    REPORTER_ERROR_HOST_LOOKUP,
-    e_qrconnerror,
-    REPORTER_ERROR_NO_CHALLENGE,
+    REPORTER_ERROR_HOST_LOOKUP = 3,
+    REPORTER_ERROR_NO_CHALLENGE = 5,
 };
 
 // Errors of starting a NAT negotiation.
 enum {
     NAT_START_ERROR_NONE,
     NAT_START_ERROR_NO_MEMORY,
-    ne_socketerror,
-    NAT_START_ERROR_HOST_LOOKUP,
+    NAT_START_ERROR_HOST_LOOKUP = 3,
 };
 
 // Results of a NAT negotiation.
@@ -86,6 +82,5 @@ enum {
     CLOSE_REASON_LOCAL,
     CLOSE_REASON_REMOTE,
     CLOSE_REASON_COMMUNICATION_ERROR,
-    GT2SocketError,
-    CLOSE_REASON_NO_MEMORY,
+    CLOSE_REASON_NO_MEMORY = 4,
 };

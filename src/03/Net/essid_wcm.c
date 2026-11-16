@@ -36,7 +36,7 @@ void EssidWcmNotifyCallback(s16 *event) {
     }
     switch (event[0]) {
         case WIFI_NOTIFY_STARTUP_REQUEST:
-            if (event[1] == 0) {
+            if (event[1] == WIFI_REPORT_SUCCEEDED) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gEssidEventCallback != NULL) {
@@ -65,7 +65,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             }
             break;
         case WIFI_NOTIFY_SCAN_START_REQUEST:
-            if (event[1] == 0) {
+            if (event[1] == WIFI_REPORT_SUCCEEDED) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_SEARCHING;
                     if (gEssidEventCallback != NULL) {
@@ -80,7 +80,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             }
             break;
         case WIFI_NOTIFY_CONNECT_REQUEST:
-            if (event[1] == 0) {
+            if (event[1] == WIFI_REPORT_SUCCEEDED) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_CONNECTED;
                     if (gEssidEventCallback != NULL) {
@@ -95,7 +95,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             }
             break;
         case WIFI_NOTIFY_SCAN_STOP_REQUEST:
-            if (event[1] == 0) {
+            if (event[1] == WIFI_REPORT_SUCCEEDED) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gEssidEventCallback != NULL) {
@@ -131,7 +131,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             }
             break;
         case WIFI_NOTIFY_DISCONNECT_REQUEST:
-            if (event[1] == 0) {
+            if (event[1] == WIFI_REPORT_SUCCEEDED) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gEssidEventCallback != NULL) {
@@ -169,7 +169,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             }
             break;
         case WIFI_NOTIFY_CLEANUP_REQUEST:
-            if (event[1] == 0) {
+            if (event[1] == WIFI_REPORT_SUCCEEDED) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     WCM_Finish();
                     gEssidWcmState = EXCHANGE_WCM_STATE_STOPPED;

@@ -84,7 +84,7 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
                                    {0x2a, 0x2b}, {0x2c, 0},    {0x2d, 0x2e}, {0x2f, 0x2e}};
     s32 rowIndex = 0;
     s32 rowPageCount;
-    if (errorCode == 0x4e8c) {
+    if (errorCode == AUTH_RETURN_WRITE_NEW_ID) {
         rowIndex = 1;
     } else if (errorCode == 0x4e8e) {
         rowIndex = 2;
@@ -98,7 +98,8 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
         rowIndex = 5;
     } else if (errorCode >= 0xc350 && errorCode <= 0xc3b3) {
         rowIndex = 6;
-    } else if (errorCode == 0x4e85 || (errorCode >= 0x59d8 && errorCode <= 0x5dbf)) {
+    } else if (errorCode == AUTH_RETURN_BAD_RESPONSE ||
+               (errorCode >= AUTH_RETURN_HTTP_STATUS_BASE && errorCode <= 0x5dbf)) {
         rowIndex = 7;
     } else if (errorCode >= 0xc800 && errorCode <= 0xc863) {
         rowIndex = 8;

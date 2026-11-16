@@ -318,7 +318,7 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
             gpiInfoCacheToArg(&infoRecord, arg);
             arg->mResult = PROFILE_REQUEST_OK;
             arg->mProfile = profileid;
-            result = gpiAddCallback(connection, callback, arg, operation, 0);
+            result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
             if (result != 0) {
                 return result;
             }
@@ -847,7 +847,7 @@ u32 gpiGetInfo(GPConnection *connection, u32 profile, s32 checkCache, u32 blocki
             return result;
         }
         operationId = newOperation->mId;
-        result = gpiAddCallback(connection, queuedCallback, arg, newOperation, 0);
+        result = gpiAddCallback(connection, queuedCallback, arg, newOperation, PROFILE_CALLBACK_TYPE_PLAIN);
         if (result != 0) {
             return result;
         }

@@ -795,7 +795,7 @@ void DWCi_GT2ClosedCallback(GTI2Connection *connection, u32 reason) {
             kind = 0;
             break;
         case CLOSE_REASON_COMMUNICATION_ERROR:
-        case GT2SocketError:
+        case 3:
             kind = 6;
             detail = -0x1db0;
             break;

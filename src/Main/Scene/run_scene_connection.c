@@ -158,7 +158,7 @@ static inline s32 RunSceneIsWiFiSessionHeapCreated(void) {
 
 static inline BOOL RunSceneIsWiFiSessionStateZero(void) {
     if (RunSceneIsWiFiSessionHeapCreated()) {
-        if (gWiFiSession->mStateMachine.mState != 0) {
+        if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
             return FALSE;
         }
         return TRUE;

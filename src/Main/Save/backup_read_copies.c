@@ -41,7 +41,7 @@ void RunFileReadThread(void *unused) {
         node = parentView->mPendingHead;
         if (node == NULL) {
             do {
-                if (romArchiveTransfer->mState == 0) {
+                if (romArchiveTransfer->mState == ROM_ARCHIVE_STOPPED) {
                     OS_RestoreInterrupts(waitIrqState);
                     return;
                 }
@@ -50,7 +50,7 @@ void RunFileReadThread(void *unused) {
             } while (node == NULL);
         }
         OS_RestoreInterrupts(waitIrqState);
-        if (node->mState == 1) {
+        if (node->mState == ROM_ARCHIVE_NODE_QUEUED) {
             FS_OpenFileDirect(&node->mFile, archive, node->mFileStart, node->mFileStart + node->mFileLength,
                               node->mBlockId);
             chunkIndex = 0;

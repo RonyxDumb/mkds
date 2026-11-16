@@ -310,8 +310,8 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedS
         MI_CpuCopy8(addFilter, gMatchingFilterText, filterRoom);
         *((u8 *) gMatchingFilterText + filterRoom - 1) = 0;
     }
-    ((void (*)(u32, u32, DWCMatchedSCCallback, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback,
-                                                                             matchedParam);
+    ((void (*)(u32, u32, DWCMatchedSCCallback, u32)) DWCi_SetMatchCommonParam)(WIFI_MATCH_MODE_FILTER_SEARCH, numEntry,
+                                                                             matchedCallback, matchedParam);
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
     gWiFiMatching->mState = WIFI_MATCH_STATE_LIST_FIRST_UPDATE;
@@ -338,8 +338,8 @@ void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen,
                                 u32 evalParam) {
     char numDigits[12];
     u8 keyValueStr[0x24];
-    ((void (*)(u32, u32, DWCMatchedSCCallback, u32)) DWCi_SetMatchCommonParam)(1, numEntry, matchedCallback,
-                                                                             matchedParam);
+    ((void (*)(u32, u32, DWCMatchedSCCallback, u32)) DWCi_SetMatchCommonParam)(WIFI_MATCH_MODE_BUDDY_LIST, numEntry,
+                                                                             matchedCallback, matchedParam);
     gWiFiMatching->mDistantFriend = distantFriend != 0 ? 1 : 0;
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
@@ -1824,7 +1824,7 @@ s32 DWCi_CheckResvCommand(s32 profileId, u32 senderMode, s32 priorFlag) {
                 } else if (priorFlag != 0 ||
                            ((s32) gWiFiMatching->mOwnProfileId < profileId && gWiFiMatching->mPriorProfileId == 0)) {
                     if (DWCi_HandleMatchCommandError(DWCi_CancelReservation(gWiFiMatching->mReplyProfileId)) != 0) {
-                        return 0xff;
+                        return WIFI_MATCH_COMMAND_NONE;
                     }
                     reply = WIFI_MATCH_COMMAND_RESERVE_OK;
                 } else {
@@ -3081,11 +3081,11 @@ u32 DWCi_HandleQR2Error(u32 error) {
         return 0;
     }
     switch (error) {
-        case e_qrwsockerror:
+        case 1:
             errorKind = 6;
             errorCode = -50;
             break;
-        case e_qrbinderror:
+        case 2:
             errorKind = 6;
             errorCode = -60;
             break;
@@ -3093,7 +3093,7 @@ u32 DWCi_HandleQR2Error(u32 error) {
             errorKind = 6;
             errorCode = -30;
             break;
-        case e_qrconnerror:
+        case 4:
             errorKind = 6;
             errorCode = -80;
             break;
@@ -3130,7 +3130,7 @@ s32 DWCi_HandleNNError(s32 error) {
             errorKind = 11;
             errorCode = -1;
             break;
-        case ne_socketerror:
+        case 2:
             errorKind = 6;
             errorCode = -50;
             break;

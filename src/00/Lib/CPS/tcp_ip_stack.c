@@ -2497,7 +2497,7 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
         /* 10 */ u8 mUnk_10[0x30];
     } query;
     u8 *labelWrite;
-    u8 *labelStart;
+    u8 *markPtr;
     u8 character;
     u8 *readPtr;
     s32 result;
@@ -2518,8 +2518,8 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
     query.mUnk_0a = 0;
     query.mUnk_0c = 0;
     query.mUnk_0e = 0;
-    labelStart = query.mUnk_10;
-    labelWrite = labelStart + 1;
+    markPtr = query.mUnk_10;
+    labelWrite = markPtr + 1;
     query.mUnk_00 = 0;
     character = *name++;
     while (character != 0) {
@@ -2531,14 +2531,14 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
             labelWrite++;
             query.mUnk_00++;
         } else {
-            *labelStart = query.mUnk_00;
-            labelStart = labelWrite;
+            *markPtr = query.mUnk_00;
+            markPtr = labelWrite;
             labelWrite++;
             query.mUnk_00 = 0;
         }
         character = *name++;
     }
-    *labelStart = query.mUnk_00;
+    *markPtr = query.mUnk_00;
     labelWrite[0] = 0;
     labelWrite[1] = recordType >> 8;
     labelWrite[2] = recordType;
@@ -2559,7 +2559,7 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
             if (responseCode == RESPONSE_CODE_FAIL) {
                 result = failure;
             } else if (responseCode == 0) {
-                labelStart = readPtr + query.mUnk_00;
+                markPtr = readPtr + query.mUnk_00;
                 questionCount = readPtr[4] << 8 | readPtr[5];
                 readPtr += 12;
                 remaining = questionCount;
@@ -2567,7 +2567,7 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
                     readPtr = dns_skipname(readPtr);
                     readPtr += 4;
                 }
-                while (readPtr < labelStart) {
+                while (readPtr < markPtr) {
                     readPtr = dns_skipname(readPtr);
                     dataLength = readPtr[8] << 8 | readPtr[9];
                     if (recordType == (u16) (readPtr[0] << 8 | readPtr[1])) {
