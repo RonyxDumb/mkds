@@ -105,10 +105,10 @@ u32 StartBlendBrightnessFadeWait(u16 frameCount) {
 }
 
 void AdvanceBlendBrightnessFadeWait(TaskEntry *task, void *arg) {
-    BlendBrightnessFadeSlot *state = arg;
-    state->mFrames++;
-    if (state->mFrames >= state->mFrameCount) {
-        state->mEnabled = 0;
+    BlendBrightnessFadeSlot *slot = arg;
+    slot->mFrames++;
+    if (slot->mFrames >= slot->mFrameCount) {
+        slot->mEnabled = 0;
         RequestTaskRemoval(1, task);
     }
 }

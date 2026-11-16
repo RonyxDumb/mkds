@@ -40,8 +40,8 @@ void *GetMessageEntry(MessageFile *messages, u32 index) {
     return messages->mData + messages->mOffsets[index & 0x0000ffffu];
 }
 
-void *GetMessageEntryAndWriteDigit(MessageFile *table, u32 index, s32 column, s32 value) {
-    u16 *cell = (u16 *) (table->mData + table->mOffsets[index & 0xffff]);
+void *GetMessageEntryAndWriteDigit(MessageFile *messages, u32 index, s32 column, s32 value) {
+    u16 *cell = (u16 *) (messages->mData + messages->mOffsets[index & 0xffff]);
     if (column >= 0) {
         cell[column] = value + 0x30;
     }

@@ -155,13 +155,13 @@ void ReleaseBgTextCanvas(BgTextCanvas *canvas) {
     FreeExpHeapBlockAndClearPointer(&canvas->mChars);
 }
 
-void ReleaseBgTextCanvasOfScreen(u32 index) {
-    ReleaseBgTextCanvas(&gTextCanvases->mBgTextCanvases[index]);
+void ReleaseBgTextCanvasOfScreen(u32 screen) {
+    ReleaseBgTextCanvas(&gTextCanvases->mBgTextCanvases[screen]);
 }
 
 void DrawCanvasText(BgTextCanvas *canvas, u32 xPos, u32 yPos, u32 color, u32 flags, void *text) {
     u32 textFlags = flags;
-    u32 drawResult = NNSi_G2dTextCanvasDrawText(&canvas->mTextCanvas, xPos, yPos, color, textFlags, text);
+    u32 unusedResult = NNSi_G2dTextCanvasDrawText(&canvas->mTextCanvas, xPos, yPos, color, textFlags, text);
 }
 
 void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, int fontIndex) {
@@ -211,10 +211,10 @@ void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRan
 }
 
 void RequestBgTextCanvasUpload(void *canvas) {
-    TextCanvases *state = gTextCanvases;
-    if (canvas == state->mBgTextCanvases) {
-        state->mBgUploadPending[0] = 1;
+    TextCanvases *canvases = gTextCanvases;
+    if (canvas == canvases->mBgTextCanvases) {
+        canvases->mBgUploadPending[0] = 1;
     } else {
-        state->mBgUploadPending[1] = 1;
+        canvases->mBgUploadPending[1] = 1;
     }
 }

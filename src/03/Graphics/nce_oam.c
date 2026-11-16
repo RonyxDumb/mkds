@@ -158,9 +158,9 @@ u8 GetOamRangeEntryCount(OamRange *range) {
     return range->mEntryCount;
 }
 
-static inline void G2_GetOBJPosition(OamEntry *oam, u32 *outX, u32 *outY) {
-    *outX = (oam->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *outY = oam->mAttr01 & OAM_ATTR01_Y_MASK;
+static inline void G2_GetOBJPosition(OamEntry *oam, u32 *x, u32 *y) {
+    *x = (oam->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
+    *y = oam->mAttr01 & OAM_ATTR01_Y_MASK;
 }
 
 void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) {
