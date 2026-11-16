@@ -761,7 +761,7 @@ void AdvanceKartAiContactStages(KartAi *kartAi) {
             isTriggered = FALSE;
         }
         if (isTriggered != FALSE) {
-            kartAi->mContactTimer = KART_AI_CONTACT_FRAMES;
+            kartAi->mContactTimer = KART_AI_CONTACT_TIMER_FRAMES;
             timerActive = TRUE;
         }
     }

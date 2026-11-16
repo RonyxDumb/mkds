@@ -21,7 +21,7 @@ void InitKartTurnEffects(void *heap) {
         turnEffects->mIndex = kartIndex;
         if (kartIndex == gRaceSetup->mEntryIndex || gRaceSetup->mRaceKind == RACE_KIND_AWARD ||
             gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_WITH_SECOND;
+            turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_LEVEL4_WITH_SECOND;
             turnEffects->mLevel4FirstEffectId = KART_LEVEL4_FIRST_EFFECT_ID_WITH_SECOND;
             turnEffects->mLevel4SecondEffectId = KART_LEVEL4_SECOND_EFFECT_ID;
             turnEffects->mStartLevel4Effects = StartKartLevel4EffectsWithSecond;
@@ -33,7 +33,7 @@ void InitKartTurnEffects(void *heap) {
             turnEffects->mHideEffects = HideKartEffectsWithSecond;
             turnEffects->mShowEffects = ShowKartEffectsWithSecond;
         } else {
-            turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_FIRST_ONLY;
+            turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_LEVEL4_FIRST_ONLY;
             turnEffects->mLevel4FirstEffectId = KART_LEVEL4_FIRST_EFFECT_ID_FIRST_ONLY;
             turnEffects->mLevel4SecondEffectId = -1;
             turnEffects->mStartLevel4Effects = StartKartLevel4EffectsFirstOnly;

@@ -17,7 +17,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags);
 // its boost; the second makes the contact turn the heading; the third lets a grazing hit turn it; the fourth counts the
 // contact for the selected kart.
 #define KART_CONTACT_BOUNCE_MIN_SPEED 0x1800
-#define KART_CONTACT_HEADING_KICK_MIN_SPEED 0x2000
+#define KART_CONTACT_HEADING_ANGLE_MIN_SPEED 0x2000
 #define KART_CONTACT_GRAZE_HEADING_MIN_SPEED 0x1800
 #define KART_CONTACT_COUNT_MIN_SPEED 0x3000
 // Value stored in Kart.mRaceStartFrameCount when the race start heading swing begins; nothing reads it (the swing ends

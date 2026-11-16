@@ -202,7 +202,7 @@ void AdvanceKartSpin(Kart *kart) {
         return;
     }
     kart->mDriveFlags |= KART_DRIVE_STATE_END_TIMER | KART_DRIVE_INPUT_LOCKED;
-    kart->mStateEndTimer = KART_SPIN_END_LOCK_FRAMES;
+    kart->mStateEndTimer = KART_SPIN_END_TIMER;
     kart->mState = KART_STATE_NORMAL;
     kart->mEffectFlags &= ~(KART_EFFECT_TUMBLING | KART_EFFECT_Y_SPIN);
     kart->mDriveFlags &= ~KART_DRIVE_HIT_STATE;
@@ -322,7 +322,7 @@ void AdvanceKartLaunchDoubleFlip(Kart *kart) {
     }
     QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
     if (!(kart->mEffectFlags & KART_EFFECT_LAUNCH_ENDING)) {
-        if ((u32) kart->mLaunchFrames > KART_LAUNCH_FLIP_END_MIN_FRAMES &&
+        if ((u32) kart->mLaunchFrames > KART_LAUNCH_FLIP_END_AFTER_FRAMES &&
             (kart->mLaunchStartY >= kart->mPos.y || (kart->mMotionFlags & KART_MOTION_ON_GROUND))) {
             if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 SetCameraHeightHold(0);

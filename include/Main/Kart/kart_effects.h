@@ -151,7 +151,7 @@ extern const KartSurfaceEffectRow gKartSurfaceEffectRows[8];
 
 // The boost camera effect ends when more than this many steps passed after its emission stopped, or at once when the
 // camera kind is not 0.
-#define KART_BOOST_CAMERA_EFFECT_END_STEPS 5
+#define KART_BOOST_CAMERA_EFFECT_STOPPED_STEP_LIMIT 5
 // The trail effects of a kart keep emitting at or above this Kart.mVelocityLength (when no turn effect is active).
 #define KART_EFFECT_TRAIL_MIN_SPEED 0x119a
 // The water trail emits only while Kart.mWaterDepth is at most this.

@@ -168,13 +168,13 @@ extern const s32 gKartModelScaleZBumpTable[15];
 // The size of Kart.mYRotationAnglePerFrame of a spin (negated for the other direction), and the value
 // Kart.mStateEndTimer is set to when the spin ends.
 #define KART_SPIN_ANGLE_PER_FRAME 0x750
-#define KART_SPIN_END_LOCK_FRAMES 10
+#define KART_SPIN_END_TIMER 10
 // Launch double flip: the vertical speed it starts with, the rotation sum below which a landing adds speed, the frame
 // count that must be exceeded before returning to the start height or the ground ends it, the collision step frames it
 // sets and the frames the ending rotation runs.
 #define KART_LAUNCH_FLIP_VERTICAL_SPEED 0x6000
 #define KART_LAUNCH_FLIP_LANDING_ROTATION_LIMIT 0x13000
-#define KART_LAUNCH_FLIP_END_MIN_FRAMES 2
+#define KART_LAUNCH_FLIP_END_AFTER_FRAMES 2
 #define KART_LAUNCH_FLIP_COLLISION_STEP_FRAMES 0x46
 #define KART_LAUNCH_FLIP_ROTATION_END_FRAMES 0x1e
 // Frames Kart.mRotationEndFrames counts after a push flip or push double flip has finished rotating, before the state

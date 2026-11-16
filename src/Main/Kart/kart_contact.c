@@ -552,7 +552,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                     StopDispCapBlend();
                 }
             }
-            if (kart->mVelocityLength > KART_CONTACT_HEADING_KICK_MIN_SPEED &&
+            if (kart->mVelocityLength > KART_CONTACT_HEADING_ANGLE_MIN_SPEED &&
                 baseSpeedLimitHitFactor != TO_FIXED12(1)) {
                 headingAnglePerFrame = FROM_FIXED12(kart->mVelocityLength) * 100;
                 if ((u16) kart->mTurnAngle > 0x7fff) {
@@ -560,7 +560,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                 }
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;
             }
-        } else if (kart->mVelocityLength > KART_CONTACT_HEADING_KICK_MIN_SPEED &&
+        } else if (kart->mVelocityLength > KART_CONTACT_HEADING_ANGLE_MIN_SPEED &&
                    baseSpeedLimitHitFactor != TO_FIXED12(1)) {
             factor = TO_FIXED12(1) - forwardFactor;
             if (kart->mVelocityLength > KART_CONTACT_GRAZE_HEADING_MIN_SPEED && factor > 0x19a) {

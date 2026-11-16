@@ -175,8 +175,8 @@ extern struct KartTurnEffects *gKartTurnEffects;
 // Particle effect ids of the turn effects: the turn start and level 4 ids differ by kart, the entry kart (and the award
 // and time attack karts) getting the variant with a second level 4 object and the other karts the one with the first
 // only; the level 3 ids are the same for every kart.
-#define KART_TURN_START_EFFECT_ID_WITH_SECOND 0x14
-#define KART_TURN_START_EFFECT_ID_FIRST_ONLY 0x15
+#define KART_TURN_START_EFFECT_ID_LEVEL4_WITH_SECOND 0x14
+#define KART_TURN_START_EFFECT_ID_LEVEL4_FIRST_ONLY 0x15
 #define KART_LEVEL4_FIRST_EFFECT_ID_WITH_SECOND 0x11
 #define KART_LEVEL4_SECOND_EFFECT_ID 0x12
 #define KART_LEVEL4_FIRST_EFFECT_ID_FIRST_ONLY 0x13

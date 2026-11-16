@@ -16,4 +16,4 @@ typedef struct ShadowModel {
 void DrawShadowModel(ShadowModel *shadowModel, u32 unusedParam1, u32 unusedParam2);
 
 // ShadowModel.mAlpha that InitShadowModel and InitShadowModelFromResMdl set (0x1f is fully opaque).
-#define KART_SHADOW_ALPHA 0xd
+#define SHADOW_MODEL_ALPHA 0xd

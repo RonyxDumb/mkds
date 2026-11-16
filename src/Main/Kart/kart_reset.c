@@ -212,12 +212,12 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     flags = kart->mEffectFlags;
     finished = FALSE;
     if (flags & KART_EFFECT_WATER_FALL) {
-        if (kart->mRespawnWaitVelocityScale > KART_WATER_FALL_WAIT_MIN_SCALE) {
+        if (kart->mRespawnWaitVelocityScale > KART_WATER_FALL_WAIT_SHRINK_LIMIT) {
             kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
         *outVelocityScale = kart->mRespawnWaitVelocityScale;
     } else if (flags & KART_EFFECT_RESPAWN_WAIT_SET) {
-        if (kart->mRespawnWaitVelocityScale > KART_RESPAWN_WAIT_MIN_SCALE) {
+        if (kart->mRespawnWaitVelocityScale > KART_RESPAWN_WAIT_SHRINK_LIMIT) {
             kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
         *outVelocityScale = kart->mRespawnWaitVelocityScale;
@@ -1358,7 +1358,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         AdvanceKartOrientation(kart, &groundNormal);
     }
 
-    kart->mForwardSpeed = KART_RESPAWN_PLACEMENT_FORWARD_SPEED;
+    kart->mForwardSpeed = KART_ADVANCE_TO_KEYED_PLACEMENT_FORWARD_SPEED;
     speed = kart->mForwardSpeed;
     placementMatrix.mRows[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, speed);
     placementMatrix.mRows[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, speed);

@@ -358,7 +358,7 @@ void CollideKartWithMapObjects(Kart *kart) {
         kart->mPrevTouchingMapObjects[slotIndex] = touchedMapObjects[slotIndex];
         if (kart->mMapObjectSoundPlayed[slotIndex] != 0) {
             kart->mMapObjectSoundFrames[slotIndex]++;
-            if (kart->mMapObjectSoundFrames[slotIndex] > KART_MAP_OBJECT_SOUND_FRAMES) {
+            if (kart->mMapObjectSoundFrames[slotIndex] > KART_MAP_OBJECT_SOUND_MAX_FRAMES) {
                 kart->mMapObjectSoundPlayed[slotIndex] = 0;
                 kart->mMapObjectSoundFrames[slotIndex] = 0;
             }
@@ -1166,35 +1166,35 @@ void EndKartDrift(Kart *kart) {
 
 void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (kart->mTurnDirection > 0) {
-        if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
+        if (kart->mTurnAngle > KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle = kart->mTurnAngle - 200;
-            if (kart->mTurnAngle < KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle < KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = KART_TURN_ANGLE_LIMIT;
             }
-        } else if (kart->mTurnAngle < KART_MAX_TURN_ANGLE) {
+        } else if (kart->mTurnAngle < KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle += 375;
-            if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle > KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = KART_TURN_ANGLE_LIMIT;
             }
         }
     } else {
-        if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
+        if (kart->mTurnAngle < -KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle = kart->mTurnAngle + 200;
-            if (kart->mTurnAngle > -KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle > -KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = -KART_TURN_ANGLE_LIMIT;
             }
-        } else if (kart->mTurnAngle > -KART_MAX_TURN_ANGLE) {
+        } else if (kart->mTurnAngle > -KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle -= 375;
-            if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle < -KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = -KART_TURN_ANGLE_LIMIT;
             }
         }
     }
     if (fromLowSpeedTurn != 0) {
         return;
     }
-    if (kart->mDriftHeadingAnglePerFrame <= KART_DRIFT_HEADING_MIN) {
-        kart->mDriftHeadingAnglePerFrame = KART_DRIFT_HEADING_MIN;
+    if (kart->mDriftHeadingAnglePerFrame <= KART_DRIFT_HEADING_ANGLE_PER_FRAME_MIN) {
+        kart->mDriftHeadingAnglePerFrame = KART_DRIFT_HEADING_ANGLE_PER_FRAME_MIN;
     } else {
         kart->mDriftHeadingAnglePerFrame = MUL_FIXED12_NO_ROUND(kart->mDriftHeadingAnglePerFrame, 0xf33);
     }
@@ -1340,10 +1340,10 @@ recheck:
             value = -value;
         }
         kart->mTurnAngle += (s16) (turn * value);
-        if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
-            kart->mTurnAngle = KART_MAX_TURN_ANGLE;
-        } else if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
-            kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
+        if (kart->mTurnAngle > KART_TURN_ANGLE_LIMIT) {
+            kart->mTurnAngle = KART_TURN_ANGLE_LIMIT;
+        } else if (kart->mTurnAngle < -KART_TURN_ANGLE_LIMIT) {
+            kart->mTurnAngle = -KART_TURN_ANGLE_LIMIT;
         }
         if (!(kart->mMotionFlags & KART_MOTION_DRIFTING)) {
             return;

@@ -973,7 +973,7 @@ extern s32 gSpeedReductionAtFullTurnRatio;
 #define KART_MAP_OBJECT_PUSH_MIN_LENGTH 0x1000
 // Calls of CollideKartWithMapObjects after which a played map object sound slot is cleared and may play again (the slot
 // clears when mMapObjectSoundFrames exceeds this, so on the 11th call).
-#define KART_MAP_OBJECT_SOUND_FRAMES 10
+#define KART_MAP_OBJECT_SOUND_MAX_FRAMES 10
 // A kart-to-kart contact with no star or killer and mKartCollisionDelayTimer at 0 bumps both karts when either
 // Kart.mVelocityLength is above the first limit; mKartCollisionTimer is set on the slower kart to the second value and
 // mKartCollisionDelayTimer on the first kart to the third.
@@ -992,10 +992,10 @@ extern s32 gSpeedReductionAtFullTurnRatio;
 #define KART_KINOKO_BOOST_FRAMES 0x5a
 // The value Kart.mTurnAngle is eased toward (drift) or clamped to (hop steer), in either sign; a drift value above it
 // is stepped down by 200 per step.
-#define KART_MAX_TURN_ANGLE 11000
+#define KART_TURN_ANGLE_LIMIT 11000
 // The floor AdvanceKartDriftTurnAngle keeps mDriftHeadingAnglePerFrame at while it decays it by 0xf33 / 0x1000 each
 // step (not for a low speed turn).
-#define KART_DRIFT_HEADING_MIN 50
+#define KART_DRIFT_HEADING_ANGLE_PER_FRAME_MIN 50
 // The air drift can arm only after the kart was airborne for at least this many frames.
 #define KART_DRIFT_ARM_MIN_AIRBORNE_FRAMES 5
 // Kart.mHopSpeed (ParticipantKartRecordState.mHopSpeed for a peer) and the vertical speed added when a hop starts.
@@ -1022,8 +1022,8 @@ extern s32 gSpeedReductionAtFullTurnRatio;
 #define KART_HARD_LAND_AIRBORNE_FRAMES 0xa
 // Each respawn wait step multiplies Kart.mRespawnWaitVelocityScale by 0xe66/0x1000 only while it is above one of these:
 // after a fall into water, and for the other respawn waits.
-#define KART_WATER_FALL_WAIT_MIN_SCALE 0x19a
-#define KART_RESPAWN_WAIT_MIN_SCALE 0x666
+#define KART_WATER_FALL_WAIT_SHRINK_LIMIT 0x19a
+#define KART_RESPAWN_WAIT_SHRINK_LIMIT 0x666
 // Kart.mSpeedLimit a reset kart starts with.
 #define KART_START_SPEED_LIMIT 0xd000
 // Kart.mVisible with every bit set; DrawKart sets it for a kart it draws and inverts it for a ghost, translucent or
@@ -1041,7 +1041,7 @@ extern s32 gSpeedReductionAtFullTurnRatio;
 #define KART_HEADING_SWING_SETTLE_MAX_PER_FRAME 0xd2
 // Kart.mForwardSpeed and mVerticalSpeed set by PlaceKartAtKeyedPlacement, and the Kart.mForwardSpeed
 // AdvanceKartToKeyedPlacement starts each step with (it caps it when the target is near).
-#define KART_RESPAWN_PLACEMENT_FORWARD_SPEED 0x1e000
+#define KART_ADVANCE_TO_KEYED_PLACEMENT_FORWARD_SPEED 0x1e000
 #define KART_KEYED_PLACEMENT_FORWARD_SPEED 0x5000
 #define KART_KEYED_PLACEMENT_VERTICAL_SPEED 0x3000
 // ComputeKartAirTiltQuaternion returns without tilting below this Kart.mVelocityLength; it also needs the kart's up row

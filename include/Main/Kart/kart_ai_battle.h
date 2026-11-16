@@ -136,7 +136,7 @@ typedef struct KartAi {
 // Frames of the CPU drift before it may roll for the charge; frames its contact timer runs; the speed below which a
 // contact starts it; and the frames the item throw timers run.
 #define KART_AI_DRIFT_CHARGE_ROLL_FRAMES 0x28
-#define KART_AI_CONTACT_FRAMES 10
+#define KART_AI_CONTACT_TIMER_FRAMES 10
 #define KART_AI_CONTACT_MAX_SPEED 0x3000
 #define KART_AI_THROW_TIMER_FRAMES 2
 // Point link values that start a CPU drift, when the kart is not drifting, a random draw passes, the kart is fast
