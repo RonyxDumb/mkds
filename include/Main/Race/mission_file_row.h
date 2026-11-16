@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 
-// 0x2c-byte rows of the table at member 0xf8 of RaceSetupCopy.
+// One row of the mission file: the mission kind, course, engine, characters, karts, message index and run stem.
 typedef struct MissionFileRow {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mMissionTableValue;

@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 
-// The race start countdown: mSequenceFrames counts up from -0x78; StartRaceInput runs at -1, the race starts at 180.
+// The race start countdown: whether it is counting, whether it is done and the frames counted so far.
 typedef struct RaceStartSequence {
     // Counter gate: FALSE at allocation and in ResetRaceStartSequenceFrames; set TRUE by UpdateRaceStartSequence when
     // FinishDataSharingSync()

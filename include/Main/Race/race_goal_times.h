@@ -15,7 +15,7 @@
 #define RACE_GOAL_TIMES_CELL_SET_SECOND 0xd
 #define RACE_GOAL_TIMES_CELL_SET_THIRD 0x1a
 
-// Object behind gRaceGoalTimes.
+// The goal time display: the finish time and the five lap times, with the record flash frame and cell index.
 typedef struct RaceGoalTimes {
     /* 00 */ TimeDigits mFinishTime;
     /* 1c */ TimeDigits mLapTimes[5];

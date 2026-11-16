@@ -103,7 +103,7 @@ typedef enum {
     RACE_NCER_PAIR_COUNT
 } RaceNcerPair;
 
-// 0x88c bytes, allocated by InitRaceNcerNclrNcgrTables; the pointer to it is held in gRaceNcerNclrNcgrTables.
+// The cell entries of each race screen and the palette and chars pairs they use.
 typedef struct RaceNcerNclrNcgrTables {
     /* 000 */ NNSG2dCellDataWithBR *mRaceMNcerEntries[RACE_M_NCER_COUNT];
     /* 0e0 */ NNSG2dCellDataWithBR *mRaceGoalMNcerEntries[RACE_GOAL_M_NCER_COUNT];

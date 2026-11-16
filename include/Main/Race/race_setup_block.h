@@ -343,7 +343,7 @@ typedef struct RaceSetupBlock {
     KartEntry mEntries[8];
 } RaceSetupBlock;
 
-// Object behind gRaceSetup.
+// The setup of a race: course, cup, mode, race kind, engine, CPU difficulty, battle kind and rule kind.
 typedef struct RaceSetup {
     union {
         RaceSetupBlock mCurrent;
@@ -435,7 +435,7 @@ static inline void SetListedCpuEntryIndex(u8 listedCpuSlot, s8 entryIndex) {
     gRaceSetup->mListedCpuEntryIndices[listedCpuSlot] = entryIndex;
 }
 
-// Object behind gTouchMicInput; the members are the ones the code reads.
+// The touch and microphone input: touch samples, the calibrated point, the sampling flags and the microphone buffer.
 typedef struct TouchMicInput {
     /* 00 */ TPData mAutoSamples[5];
     /* 28 */ TPData mCalibratedPoint;

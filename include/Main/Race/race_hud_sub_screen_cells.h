@@ -48,7 +48,7 @@ typedef struct RaceHudOamBits {
 #define RACE_HUD_OAM_PRIORITY_MASK 0xc00
 #define RACE_HUD_OAM_PRIORITY_1 0x400
 
-// Argument of the race HUD draw functions: 0x80 elements of 8 bytes, then a halfword.
+// The OAM buffer the race HUD draw functions fill: the OAM entries or affine matrices and their counts.
 typedef struct RaceHudOamBuffer {
     union {
         /* 000 */ GXOamAttr mOams[RACE_HUD_OAM_COUNT];

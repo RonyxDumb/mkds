@@ -4,7 +4,7 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-// Object behind gResultScene, 0x80c bytes (InitResultsByMode allocates it).
+// The results scene: its main and sub OAM buffers and the mode.
 typedef struct ResultScene {
     /* 000 */ u8 mMainOam[0x404];
     /* 404 */ u8 mSubOam[0x404];

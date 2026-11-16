@@ -50,7 +50,7 @@ struct Nclr;
 struct NNSG2dFont;
 struct KartBalloons;
 
-// Element of 0x14 bytes of the table behind gBoxRotations.
+// The rotation of an item box: its cosine, sine, their squares and their product.
 typedef struct BoxRotation {
     /* 00 */ s32 mCosine;
     /* 04 */ s32 mSine;
@@ -62,7 +62,7 @@ typedef struct BoxRotation {
 #define BOX_ROTATION_COUNT 0x12c
 #define QUESTION_ROTATION_COUNT 0x82
 
-// Element of 8 bytes of the table behind gQuestionRotations.
+// The rotation of the question mark of an item box: its cosine and sine.
 typedef struct QuestionRotation {
     /* 00 */ s32 mCosine;
     /* 04 */ s32 mSine;
@@ -115,7 +115,7 @@ typedef union RaceHudSubScreenBgColorSets {
     RaceHudSubScreenKoopaBgColors mKoopaColors;
 } RaceHudSubScreenBgColorSets;
 
-// Object behind gRaceHudSubScreenBgColors, 0x38 bytes (allocated by InitRaceHudSubScreenBgColors).
+// The background color sets of the race HUD sub screen.
 typedef struct RaceHudSubScreenBgColors {
     /* 00 */ u16 mUnk_00;
     /* 02 */ RaceHudSubScreenBgColorSets mColors;
@@ -179,7 +179,7 @@ typedef struct EmblemChoises {
     /* 68 */ struct Nscr *mChoisesS3Nscr;
 } EmblemChoises;
 
-// 16-byte rows of the table behind gGrpconfTbl (CreateMapObject reads the halfwords).
+// One row of the group config table: a map object kind with its view test and radius, draw distance and shape extents.
 typedef struct GrpconfTblRow {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mViewTestKind;
@@ -196,8 +196,7 @@ struct SPLManager;
 struct KartAi;
 struct KartAiItemUse;
 
-// Object behind gKartPhysicalParamTable (0x14 bytes), made once per race: the per-slot records (mKartParams) and
-// character rows (mCharParams) and the two loaded files. mFirstBaseSpeedLimit is a copy of file word 0x10.
+// The kart physics tables of a race: the kart and character parameters and the two files they come from.
 typedef struct KartPhysicalParamTable {
     /* 00 */ struct KartPhysicalParam *mKartParams;
     /* 04 */ s32 *mCharParams;
@@ -220,7 +219,7 @@ typedef struct ModelEffects {
     /* 5e */ u8 mUnk_5e[2];
 } ModelEffects;
 
-// The strip pool, 0x38 bytes: the active strips, the free strips, the free points and the texture file.
+// The strip pool: the active strips, the free strips, the free points and the texture file.
 typedef struct PosStrips {
     // [0] active strips, [1] free strips, [2] free points.
     /* 00 */ NNSFndList mLists[3];
@@ -242,7 +241,7 @@ typedef struct TimedQuad {
     /* 0c */ u8 mUnk_0c[4];
 } TimedQuad;
 
-// Object behind gStemSets, 0x79c bytes.
+// The stem sets: nine sets (the last a copy of the one shown), the shown index and frames, a matrix and a timed quad.
 typedef struct StemSets {
     // Entries 0 to 7 are the sets; entry 8 is a copy of the one shown.
     /* 000 */ StemSet *mSets[9];
@@ -396,7 +395,7 @@ typedef struct KeyboardKeyRepeat {
     /* 0a */ u16 mRepeatKeys;
 } KeyboardKeyRepeat;
 
-// Object at gKeyboardKeys, 0x54 bytes.
+// The keys of the on-screen keyboard: its buttons, layouts, touched and chosen keys, cursor and key callbacks.
 typedef struct KeyboardKeys {
     /* 00 */ KeyboardRect mButton0Rect;
     /* 08 */ KeyboardRect mButton1Rect;
@@ -419,7 +418,7 @@ typedef struct KeyboardKeys {
 
 extern KeyboardKeys gKeyboardKeys;
 extern KeyboardKeyRepeat gKeyboardKeyRepeat;
-// Object at gKeyboardInput, 0x28 bytes (AdvanceKeyboardInput updates it, ClearKeyboardInput clears it).
+// The keyboard input state: the keys pressed, down and released and the touch position, hold frames and status.
 typedef struct KeyboardInput {
     /* 00 */ s32 mCountedKeyFrames;
     /* 04 */ u16 mKeysPressed;
@@ -510,7 +509,7 @@ enum {
 #define TITLE_STATE_LEAVE 5
 #define TITLE_STATE_REQUEST_NICKNAME_SCENE 6
 
-// 0x8bc bytes.
+// The title scene: its state machine, the selected entry, the title files and the main and sub OAM lists.
 typedef struct TitleScene {
     /* 000 */ s32 mStateFrames;
     // TRUE from every change of state (and creation) until the current state's handler has run; nothing reads it.
@@ -646,7 +645,7 @@ typedef struct RaceRankListItemInUse {
     /* 08 */ s32 mObjectCount;
 } RaceRankListItemInUse;
 
-// Object behind gRaceRankList, 0x15c bytes, allocated by InitRaceRankList.
+// The rank list of the race HUD: per row positions, shown items, ranks and karts by rank, the slide and the matrix.
 typedef struct RaceRankList {
     /* 000 */ RaceRankListPos mRowPositions[8];
     /* 040 */ s32 mShownItems[8];
@@ -663,7 +662,7 @@ typedef struct RaceRankList {
     /* 0fc */ RaceRankListItemInUse mItemsInUse[8];
 } RaceRankList;
 
-// Object behind gRaceHudSubScreenCellGroups, 0x25c bytes, allocated by InitRaceHudSubScreenCellGroups.
+// The cell groups of the race HUD sub screen: a scale and the clear, update and draw functions of each group.
 typedef struct RaceHudSubScreenCellGroups {
     /* 000 */ u16 mMinDrawValue;
     /* 004 */ s32 mScale;
@@ -710,7 +709,7 @@ enum {
 #define RACE_GOAL_S_SLIDE_FRAMES 0x14
 #define RACE_GOAL_S_SLIDE_OFFSET 0x100
 
-// Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.
+// The race results list: the visible rows with their shown numbers and kart indexes, the update function and maps.
 typedef struct RaceGoalS {
     /* 0000 */ s32 mRowVisible[8];
     /* 0020 */ s32 mShownNumbers[8];
@@ -758,8 +757,7 @@ extern MtxFx43 gItemBoxShadowMatrix;
 extern s32 gKouraWBlockTimer;
 extern s32 gThunderBlockTimer;
 
-// Object behind gRaceModeCount, 0xc bytes, allocated by InitRaceModeCount. The word at 0 is also read and written as
-// two halfwords.
+// The mode counter of the race HUD: a number (also read as two halves), the mission run limit and a recording flag.
 typedef struct RaceModeCount {
     /* 00 */ union {
         s32 mNumber;
@@ -780,7 +778,7 @@ typedef struct RaceItemSlotScale {
     /* 10 */ s32 mScaleYTarget;
 } RaceItemSlotScale;
 
-// Object behind gRaceItemSlot, 0x2c bytes, allocated by InitRaceItemSlot.
+// The item slot roulette of the race HUD: its scroll position, running state, the items shown and its scale.
 typedef struct RaceItemSlot {
     /* 00 */ s32 mScrollY;
     /* 04 */ s32 mSlotFrames;
@@ -791,7 +789,7 @@ typedef struct RaceItemSlot {
     /* 18 */ RaceItemSlotScale mScale;
 } RaceItemSlot;
 
-// Object behind gRaceTimeDigits, 0x38 bytes, allocated by InitRaceTimeDigits.
+// The time digits of the race HUD, with the flag and the marks of the last seconds sound.
 typedef struct RaceTimeDigits {
     /* 00 */ TimeDigits mTime;
     /* 1c */ BOOL mUseLastSecondsSound;
@@ -808,7 +806,7 @@ typedef struct RaceTimeDigits {
 #define RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING 2
 #define RACE_TA_SAMPLE_KIND_BOOSTING 3
 
-// 0x18-byte elements of the tables at member 0x10 of RaceTaPositions.
+// One sampled Time Attack position: its position, angle, kind and priority.
 typedef struct RaceTaPositionSample {
     /* 00 */ Vec3 mPos;
     /* 0c */ u16 mAngle;
@@ -817,7 +815,7 @@ typedef struct RaceTaPositionSample {
     /* 14 */ s32 mPriority;
 } RaceTaPositionSample;
 
-// 0x40-byte elements of the table at member 0x790 of RaceTaPositions.
+// The mushroom boost points kept for one Time Attack kart: three positions with their priorities and age samples.
 typedef struct RaceTaKinokoBoostPoints {
     /* 00 */ s32 mPointCount;
     /* 04 */ Vec3 mPositions[3];
@@ -825,7 +823,7 @@ typedef struct RaceTaKinokoBoostPoints {
     /* 34 */ s32 mAgeSamples[3];
 } RaceTaKinokoBoostPoints;
 
-// Object behind gRaceTaPositions, 0x910 bytes, allocated by InitRaceTaPositions.
+// The Time Attack position display: per kart the sampled positions, the mushroom boost points and the rotations.
 typedef struct RaceTaPositions {
     /* 000 */ s32 mVisible;
     /* 004 */ s32 mKartVisible[2];
@@ -835,7 +833,7 @@ typedef struct RaceTaPositions {
     /* 810 */ MtxFx22 mRotations[16];
 } RaceTaPositions;
 
-// Object behind gRaceLinkLevel.
+// The link level of the race HUD: the link and Wi-Fi link level and whether a friend is on.
 typedef struct RaceLinkLevel {
     /* 00 */ s32 mLinkLevel;
     /* 04 */ s32 mWiFiLinkLevel;
@@ -844,7 +842,7 @@ typedef struct RaceLinkLevel {
     /* 10 */ s32 mFriendOn;
 } RaceLinkLevel;
 
-// Object behind gRaceLapNumber.
+// The lap number of the race HUD: the current, previous and last lap index and the blink state.
 typedef struct RaceLapNumber {
     /* 00 */ s32 mLapIndex;
     /* 04 */ s32 mPrevLapIndex;
@@ -853,8 +851,7 @@ typedef struct RaceLapNumber {
     /* 10 */ s32 mBlinkShown;
 } RaceLapNumber;
 
-// Object behind gRaceHudSubScreenSecondHand, 0x44 bytes allocated by CreateRaceHudSubScreenSecondHand: a table of
-// object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
+// The second hand of the race HUD sub screen: the objects it is made of, three angles and its draw and end positions.
 typedef struct RaceHudSubScreenSecondHand {
     /* 00 */ struct Vehicle **mObjects;
     /* 04 */ s32 mCreatedObjectCount;
@@ -889,7 +886,7 @@ extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
 struct ItemObject;
 
-// Object at gKeyboardCanvas, 0x24 bytes.
+// The canvas of the on-screen keyboard: its font, background chars and screen map, size, top bits and glyph color.
 typedef struct KeyboardCanvas {
     /* 00 */ struct NNSG2dFont *mFont;
     /* 04 */ void *mBg2Char;

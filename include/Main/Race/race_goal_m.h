@@ -7,7 +7,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
-// Object behind gRaceStartGp, 0x41c bytes, allocated by InitRaceStartGp.
+// The Grand Prix start screen: its frame counter, palette, chars, cell entries and the main OAM buffer.
 typedef struct RaceStartGp {
     /* 00 */ s32 mUpdateFrames;
     /* 04 */ Nclr *mRaceStartGpMONclr;
@@ -41,7 +41,7 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 // kart did not finish).
 #define MISSION_RECORD_VALUE_NONE 9
 
-// Object behind gRaceGoalM, 0x1c bytes allocated by InitRaceGoalM.
+// The mission goal: its ready flag, update frames, rank, points gained, first place kart and the mission record values.
 typedef struct RaceGoalM {
 // 0 once the followed kart has status 1 or the race is done, until mUpdateFrames passes 0x14 (0x1e or 0x4b by the
 // entry end kind in Mission Run); 1 at init.

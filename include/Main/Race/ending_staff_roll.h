@@ -15,7 +15,7 @@
 #define ENDING_STAFF_ROLL_FRAME_CAP 0x7fffffff
 #define ENDING_STAFF_ROLL_FADE_FRAMES 0x78
 
-// Object behind gEndingStaffRoll.
+// The ending staff roll screen: its frame count, palette, chars and cell data and its OAM buffer.
 typedef struct EndingStaffRollObject {
     /* 000 */ s32 mStaffRollFrames;
     /* 004 */ Nclr *mEndingStaffRollMO00Nclr;

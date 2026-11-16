@@ -40,7 +40,7 @@ typedef enum ResultsGpGrade {
 #define RESULTS_GP_STATE_TEXT_OPEN 1
 #define RESULTS_GP_STATE_LEFT 2
 
-// Object behind gResultsGp, allocated by InitResultsGp.
+// The Grand Prix results screen: its cell file sets, cup, grade and rank, messages, state and secret message mask.
 typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];
     /* 38 */ void *mOamLists[2];

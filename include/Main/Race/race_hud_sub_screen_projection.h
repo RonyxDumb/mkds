@@ -82,7 +82,7 @@ typedef struct CourseMapSettings {
     /* 24 */ s32 mCameraFar;
 } CourseMapSettings;
 
-// 0x48-byte entries of the table at CourseMap.mShapes (GetCourseMapShape returns one).
+// A shape of the course map: its position, scale, three axes and kind, and the point link or camera it refers to.
 typedef struct CourseMapShape {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mScale;
@@ -110,7 +110,7 @@ typedef struct {
     /* 10 */ s16 mValues[4];
 } CourseMapPoint;
 
-// 0x30-byte entries of the table at CourseMap.mFirstBattlePointLink (ResetBattlePointLinkCursorNear searches it).
+// A battle point link: the links to other point links, a point with its radius and values, and the route link mask.
 typedef struct PointLink {
     /* 00 */ struct PointLink *mLinks[3];
     /* 0c */ struct PointLink *mUnk_0c;
@@ -222,7 +222,7 @@ typedef struct {
     /* 04 */ CourseMapGroupEntry *mEntries;
 } CourseMapEntryGroupTableRow;
 
-// 0x28-byte nodes of the table at CourseMap.mRacePointLinks: two lists of node pointers.
+// A race point link: the next and previous point links, and a point with its radius and values.
 typedef struct RacePointLink {
     /* 00 */ struct RacePointLink *mNextLinks[3];
     /* 0c */ struct RacePointLink *mPreviousLinks[3];
@@ -247,7 +247,7 @@ typedef struct CourseMapRaceEndPlacement {
     /* 1a */ s16 mKeepSpeedFlag;
 } CourseMapRaceEndPlacement;
 
-// Object behind gCourseMap.
+// The course map: its rows, groups, settings, start placements, respawns, checkpoints, item points and their routes.
 typedef struct CourseMap {
     /* 00 */ struct CourseMapRow *mRows;
     /* 04 */ u16 mRowCount;

@@ -17,8 +17,7 @@ enum {
     SMAN_STATE_COME_BACK,
 };
 
-// Sman: a map object of kind 0x19d in two parts (top and bottom models); state 1 sends the top up and down while the
-// bottom part's scale drops to 0, and later both parts come back.
+// A Sman map object in two parts (top and bottom models): a hit sends the top up and down, then both parts come back.
 typedef struct Sman {
     /* 00 */ MapObject mMapObject;
     // The angle changes only while this is non-zero (states 0 and 3).
