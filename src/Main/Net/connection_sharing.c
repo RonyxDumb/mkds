@@ -505,7 +505,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mScanMissCount = 1;
     gConnectionWork->mExpectedRecordMask = 0;
     gConnectionWork->mOperationFlags = 0;
-    gConnectionWork->mLanguageIndex = LANGUAGE_UNSUFFIXED;
+    gConnectionWork->mLanguageIndex = LANGUAGE_JAPANESE;
     gConnectionWork->mReceivedNameMask = 0;
     gConnectionWork->mKeepScanning = 0;
     bytes = gConnectionWork->mScanState.mTargetAddress;

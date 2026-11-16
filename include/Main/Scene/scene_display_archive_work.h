@@ -13,7 +13,7 @@
 // values into ENGLISH). gLanguageCodes gives the file name suffix of each: ja, us, fr, ge, it, es; English in the
 // Europe region takes the second us (index 6).
 enum {
-    LANGUAGE_UNSUFFIXED,
+    LANGUAGE_JAPANESE,
     LANGUAGE_ENGLISH,
     LANGUAGE_FRENCH,
     LANGUAGE_GERMAN,
@@ -105,7 +105,7 @@ typedef struct SceneCallbacks {
 
 #define SCENE_RUN_STEP_FADE_OUT 3
 
-#define SCENE_RUN_STEP_CARD_PULLED_OUT 4 // loop that ends the connection and waits for the backup access to finish
+#define SCENE_RUN_STEP_CONNECTION_END 4 // loop that ends the connection and waits for the backup access to finish
 
 #define SCENE_RUN_STEP_RELEASE 5
 
@@ -289,9 +289,9 @@ extern FileReadThread gFileReadThread;
 
 #define BANK_SHARE_INACTIVE 1 // initial value; after WVR_TerminateAsync finished
 
-#define BANK_SHARE_CHANGING 2 // set while an async start or terminate is running
+#define WIRELESS_VRAM_STATE_BUSY 2 // set while an async start or terminate is running
 
-#define BANK_SHARE_INACTIVE_UNUSED 3 // nothing writes it (the SDK hands back only 0 and 1); the bank functions and StopWvrAndWait treat it like STOPPED, ClearLcdcBankAndStartWvrAndWait like STARTED
+#define WIRELESS_VRAM_STATE_UNUSED 3 // nothing writes it (the SDK hands back only 0 and 1); the bank functions and StopWvrAndWait treat it like STOPPED, ClearLcdcBankAndStartWvrAndWait like STARTED
 
 // The state of the wireless driver start and stop (WVR_StartUpAsync, WVR_TerminateAsync) and the callback it calls.
 typedef struct WvrState {

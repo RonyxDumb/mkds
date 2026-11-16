@@ -235,7 +235,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         RunSceneGetHalfwordIndex39OrZero();
         RunSceneFinishDisplayFrame(callbacks);
         disconnectHandled =
-            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
         NNS_GfdDoVramTransfer();
         if (disconnectHandled) {
             sceneNumbers->mNextScene = gSceneRunState->mNextScene;
@@ -258,7 +258,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         exitValue = RunSceneGetHalfwordIndex39OrZero();
         RunSceneFinishDisplayFrame(callbacks);
         disconnectHandled =
-            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
         NNS_GfdDoVramTransfer();
         if (disconnectHandled) {
             sceneNumbers->mNextScene = gSceneRunState->mNextScene;
@@ -298,7 +298,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         UpdateSounds();
         RunSceneGetHalfwordIndex39OrZero();
         RunSceneFinishDisplayFrame(callbacks);
-        RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+        RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
         NNS_GfdDoVramTransfer();
         if (callbacks->mPostUpdate != NULL) {
             callbacks->mPostUpdate(0, gSceneRunState->mSceneFrames);
@@ -313,7 +313,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
 end:
     SetNoKeysAndUpdateInputSlots();
     if (RunSceneIsWiFiSessionStateZero() && (exitValue != 0 || GetNextSceneNumber() == 0)) {
-        gSceneRunState->mRunStep = SCENE_RUN_STEP_CARD_PULLED_OUT;
+        gSceneRunState->mRunStep = SCENE_RUN_STEP_CONNECTION_END;
         gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
         isDone = FALSE;
         SendLedPatternNone();
@@ -327,7 +327,7 @@ end:
                     isDone = TRUE;
                 }
             }
-            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
             NNS_GfdDoVramTransfer();
             UpdateWiFiSession();
             RecordFrameTimes();

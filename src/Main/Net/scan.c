@@ -207,7 +207,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 if (childCount >= 0) {
                     chosenSlot->mChildCount = childCount;
                 }
-                chosenSlot->mLanguageIndex = LANGUAGE_UNSUFFIXED;
+                chosenSlot->mLanguageIndex = LANGUAGE_JAPANESE;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
                 MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, sizeof(chosenSlot->mName));
