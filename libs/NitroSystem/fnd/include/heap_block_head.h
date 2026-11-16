@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// A free region smaller than this cannot hold the header of a block and is dropped.
+// A free region smaller than this cannot hold the header of a block: it is not put in the free list, and RecycleRegion
+// refuses it.
 #define EXP_HEAP_MIN_FREE_BLOCK_SIZE 0x10
 
 // The header before each block of an Exp heap, linking the blocks through mMBHeadPrev and mMBHeadNext.
