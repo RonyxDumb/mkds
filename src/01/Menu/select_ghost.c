@@ -679,18 +679,18 @@ int AdvanceSelectGhost(void) {
             case SELECT_GHOST_RESULT_CHOSEN:
                 if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
                     if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
-                        return 1;
+                        return SELECT_GHOST_RESULT_CHOSEN;
                     }
                 }
                 break;
             case SELECT_GHOST_RESULT_RETURN:
                 if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
-                    return 2;
+                    return SELECT_GHOST_RESULT_RETURN;
                 }
                 break;
         }
     }
-    return 0;
+    return SELECT_GHOST_RESULT_NONE;
 }
 
 void WriteSelectGhostRegisters(void) {

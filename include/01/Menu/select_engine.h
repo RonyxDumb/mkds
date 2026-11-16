@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/race.h" // Camera
+#include "Main/Race/race.h"
 
 void WriteSelectEngineBg0Offset(void);
 int AdvanceSelectEngine(void);

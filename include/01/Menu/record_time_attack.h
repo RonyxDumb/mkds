@@ -67,7 +67,8 @@ typedef struct RecordTAtt {
     /* 2c */ struct NNSG2dCellDataBank *mPlayerCharacterCells;
     /* 30 */ Nclr *mPlayerCharacterPalette;
     /* 34 */ struct LayoutEntryTable *mPlayerCharacterCellLayout;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per entry of mRecordTAttMBncl, then one per entry of mRecordTAttMBnll, built by
+    // InitLayoutTable
     /* 38 */ LayoutTableEntry *mRecordTAttMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 3c */ LayoutTableEntry *mRecordTAttSTable;
@@ -79,11 +80,11 @@ typedef struct RecordTAtt {
     /* 54 */ s32 mNextState;
     /* 58 */ s32 mStateFrames; /* counted only in states 0, 1, 3-8, 11, 12, 13, 17 */
     /* 5c */ s32 mBg0Offset;
-    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // X half of reg_G2_BG1OFS (main BG1), stored negated
     /* 60 */ s32 mBg1OffsetX;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // Y half of reg_G2_BG1OFS (main BG1), stored negated
     /* 64 */ s32 mBg1OffsetY;
-    // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; Y is not written
+    // X half of reg_G2S_DB_BG3OFS (sub BG3), stored negated; the Y half is always written as 0
     /* 68 */ s32 mBg3OffsetX;
     /* 6c */ s32 mIndex;
     /* 70 */ s32 mIndexMoveDirection;

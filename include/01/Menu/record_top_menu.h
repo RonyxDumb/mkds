@@ -46,7 +46,8 @@ typedef struct RecordTopMenu {
     /* 0x0c */ struct NNSG2dCellDataBank *mRecordTopMenuSNcer;
     /* 0x10 */ struct LayoutEntryTable *mRecordTopMenuSBncl;
     /* 0x14 */ struct LayoutEntryTable *mRecordTopMenuSBnbl;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per entry of mRecordTopMenuMBncl, then one per entry of mRecordTopMenuMBnll, built by
+    // InitLayoutTable
     /* 0x18 */ LayoutTableEntry *mRecordTopMenuMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 0x1c */ LayoutTableEntry *mRecordTopMenuSTable;
