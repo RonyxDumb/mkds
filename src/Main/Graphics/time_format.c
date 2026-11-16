@@ -33,10 +33,10 @@ s16 LookupIndexChangeOffset(s32 step, s32 row) {
 
 void FormatNumberByVariant(s32 number, u16 *text, s32 variant) {
     switch (variant) {
-        case 0:
+        case TIME_FORMAT_ASCII:
             FormatAsciiNumber(number, text);
             break;
-        case 1:
+        case TIME_FORMAT_FULL_WIDTH:
             FormatFullWidthNumber(number, text);
             break;
     }
@@ -44,10 +44,10 @@ void FormatNumberByVariant(s32 number, u16 *text, s32 variant) {
 
 void WriteColonByVariant(u16 *text, s32 variant) {
     switch (variant) {
-        case 0:
+        case TIME_FORMAT_ASCII:
             *text = 0x3a;
             break;
-        case 1:
+        case TIME_FORMAT_FULL_WIDTH:
             *text = 0xff1a;
             break;
     }
@@ -55,10 +55,10 @@ void WriteColonByVariant(u16 *text, s32 variant) {
 
 void WriteZeroDigitByVariant(u16 *text, s32 variant) {
     switch (variant) {
-        case 0:
+        case TIME_FORMAT_ASCII:
             *text = 0x30;
             break;
-        case 1:
+        case TIME_FORMAT_FULL_WIDTH:
             *text = 0xff10;
             break;
     }

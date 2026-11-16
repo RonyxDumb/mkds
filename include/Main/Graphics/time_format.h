@@ -19,6 +19,10 @@ void FormatDate(DateBytes *date, u16 *text);
 void FormatTwoDigitNumber(u32 number, u16 *text);
 void FormatTimeFullWidth(void *time, void *text);
 void FormatTimeAscii(void *time, u16 *text);
+// Values of the variant argument: digits and separators written as ASCII or as full-width characters.
+#define TIME_FORMAT_ASCII 0
+#define TIME_FORMAT_FULL_WIDTH 1
+
 void FormatMinuteSecondMillisecondTime(MinuteSecondMillisecondTime *time, u16 *text, s32 variant);
 void WriteZeroDigitByVariant(u16 *text, s32 variant);
 void WriteColonByVariant(u16 *text, s32 variant);
