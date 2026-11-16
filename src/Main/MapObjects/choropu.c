@@ -1,4 +1,5 @@
 #include "Main/MapObjects/choropu.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/System/heap.h"
 #include "Main/Course/course_color_blend.h"
 #include "Main/MapObjects/group_follower_advance.h"

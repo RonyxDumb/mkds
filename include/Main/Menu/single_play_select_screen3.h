@@ -18,6 +18,7 @@ typedef struct ScreenCallbacks {
 // x offset of the mode cells while they are off screen.
 #define SINGLE_PLAY_SELECT_OFFSCREEN_X 0xf0
 
+// Values of MenuScene.mSinglePlaySelectModeIndex: the entries of the single play menu, in the order they are listed.
 #define SINGLE_PLAY_SELECT_GRAND_PRIX 0
 #define SINGLE_PLAY_SELECT_TIME_ATTACK 1
 #define SINGLE_PLAY_SELECT_VS 2

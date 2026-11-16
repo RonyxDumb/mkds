@@ -23,7 +23,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Sound/sound_data_sdat_path.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -168,12 +168,14 @@ void UpdatePukupukuHop(void *stateObject) {
         SoundStartParams soundRequest;
         u32 falloffIndex;
 
-        if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared ==
+            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = PUKUPUKU_HOP_SOUND_ID;
         soundRequest.mPositionSource = &pukupuku->mPushedObject.mMapObject.mPos;

@@ -854,7 +854,7 @@ void SetEffectScaleFromKart(ParticleEmitter *emitter, Kart *kart);
 void StartEffectWithCallback(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
 int TryTurnKartAtLowSpeed(Kart *kart);
 void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn);
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue gSoundRequestQueues[7];

@@ -33,7 +33,7 @@
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/woodbox1_kind_data.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -101,12 +101,14 @@ void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf) {
     obPakkunSf->mFramesSinceInit = obPakkunSf->mFramesSinceInit + 1;
     if ((obPakkunSf->mFramesSinceInit & OB_PAKKUN_SF_SOUND_FRAME_MASK) == 0 &&
         (obPakkunSf->mPushedObject.mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared ==
+            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = OB_PAKKUN_SF_SOUND_ID;
         soundRequest.mPositionSource = &obPakkunSf->mPushedObject.mMapObject.mPos;

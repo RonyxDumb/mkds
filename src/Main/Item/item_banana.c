@@ -43,7 +43,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -125,7 +125,7 @@ s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     kartItems = itemInUse->mKartItems;
     if (kartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
         ThrowBouncingItem(&banana->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&banana->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StartSound(&banana->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
         banana->mThrowForward = 1;
         return banana->mThrowForward;
     }
@@ -187,5 +187,5 @@ void InitItemBananaFromData(ItemBanana *banana) {
     if (banana->mThrowForward == 0) {
         return;
     }
-    StartSound(&banana->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&banana->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
 }

@@ -13,7 +13,7 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -43,8 +43,8 @@ void StartSoundAtPositionIfNear(s32 soundId, Vec3 *position, s32 falloffKind) {
     s32 distanceSquared;
     SoundStartParams request;
     distanceSquared = GetHorizontalCameraDistanceSquared(position);
-    if (distanceSquared >=
-        (falloffKind == 2 ? gSoundFalloffs[2].mFarDistanceSquared : gSoundFalloffs[4].mFarDistanceSquared)) {
+    if (distanceSquared >= (falloffKind == 2 ? gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared
+                                             : gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared)) {
         return;
     }
     request.mSoundId = soundId;

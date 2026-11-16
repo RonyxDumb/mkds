@@ -27,7 +27,7 @@
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -171,12 +171,13 @@ void EnterKuriboSpringBack(void *stateObject) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
     if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (kuribo->mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = KURIBO_SPRING_BACK_SOUND_ID;
         soundRequest.mPositionSource = &kuribo->mMapObject.mPos;

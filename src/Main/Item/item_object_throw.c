@@ -1,4 +1,5 @@
 #include "Main/Item/item_object_throw.h"
+#include "Main/Sound/sound_source_list.h"
 
 #include "Main/Item/item_object_fade_out.h"
 #include "Main/Kart/kart_drift.h"
@@ -145,7 +146,7 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
         Vec3NormalizeAndGetLengthUnchecked(flatDirection, flatDirection);
     }
     Vec3CrossUnrounded(flatDirection, &object->mItemObject.mNormal, &object->mSideDirection);
-    StartSound(&object->mItemObject.mSoundSource, 0xd5, 0x7f, 0);
+    StartSound(&object->mItemObject.mSoundSource, 0xd5, SOUND_VOLUME_MAX, 0);
 }
 
 void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *unused) {
@@ -170,7 +171,7 @@ void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal,
     object->mSurfaceDirection = *direction;
     Vec3CrossUnrounded(direction, &object->mItemObject.mNormal, &object->mSideDirection);
     object->mItemObject.mNormal.y += 1;
-    StartSound(&object->mItemObject.mSoundSource, 0xd5, 0x7f, 0);
+    StartSound(&object->mItemObject.mSoundSource, 0xd5, SOUND_VOLUME_MAX, 0);
 }
 
 void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {

@@ -1,4 +1,5 @@
 #include "Main/Item/item_koura_w.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "model_material_set.h"
 
 #include "Main/System/heap.h"
@@ -44,7 +45,7 @@
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

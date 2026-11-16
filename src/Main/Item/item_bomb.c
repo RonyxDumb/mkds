@@ -42,7 +42,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -118,7 +118,7 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     } else {
         ThrowBouncingItem(&bomb->mBouncingItemObject, inUse, ITEM_BOMB_THROWN_BOUNCES, 1, 0x6000, 0x5000, 0x59a);
     }
-    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
     bomb->mIsThrown = 1;
     return bomb->mIsThrown;
 }
@@ -416,7 +416,7 @@ void InitItemBombFromData(ItemBomb *bomb) {
     if (bomb->mIsThrown == 0) {
         return;
     }
-    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
 }
 
 void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {

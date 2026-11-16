@@ -13,7 +13,7 @@
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_set_load.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
@@ -633,7 +633,7 @@ void StartThunderShrinkSound(void *kartAddress, int secondArgument) {
     Kart *kart = kartAddress;
     u32 counter = gThunderShrinkSoundCounter;
     gThunderShrinkSoundCounter = counter + 1;
-    StartSound(&kart->mSoundSource, counter + 0xea, 0x7f, 0);
+    StartSound(&kart->mSoundSource, counter + 0xea, SOUND_VOLUME_MAX, 0);
 }
 
 void RequestThunderShrinkSound(Kart *kart) {

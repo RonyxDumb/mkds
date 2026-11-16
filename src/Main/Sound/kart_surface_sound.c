@@ -10,14 +10,14 @@
 #include "Main/Sound/seq_queue.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Kart/karts.h"
 #include "sound_archive_load_result.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Race/race_progress_lap.h"
 #include "Main/Item/pooled_item_box_init.h"
@@ -223,7 +223,8 @@ void StartKartSeqArcSoundWithVolume(s32 soundIndex, s32 soundOffset, u32 volume,
     if (sndHandle != NULL) {
         NNS_SndPlayerStopSeq(&sndHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArcEx(&sndHandle, playerNo, -1, playerPrio, 2, sequenceNo);
+    NNS_SndArcPlayerStartSeqArcEx(&sndHandle, playerNo, -1, playerPrio, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER,
+                                  sequenceNo);
     SetSndHandleTrackVolume(&sndHandle, volume);
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
@@ -285,7 +286,7 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
             if (sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(&sndHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArcEx(&sndHandle, 1, -1, 0x7f, 2, sequenceNo);
+            NNS_SndArcPlayerStartSeqArcEx(&sndHandle, 1, -1, 0x7f, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, sequenceNo);
             SetSndHandleTrackVolume(&sndHandle, volume);
             NNS_SndHandleReleaseSeq(&sndHandle);
         } else {
@@ -424,7 +425,7 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
     if (sndHandle != NULL) {
         NNS_SndPlayerStopSeq(&sndHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArcEx(&sndHandle, -1, -1, 0x6e, 2, sequenceNo);
+    NNS_SndArcPlayerStartSeqArcEx(&sndHandle, -1, -1, 0x6e, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, sequenceNo);
     SetSndHandleTrackVolume(&sndHandle, volume);
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
@@ -445,7 +446,7 @@ void StartBattleWinOrLoseSound(s32 soundIndex, s32 isWinner) {
     if (sndHandle != NULL) {
         NNS_SndPlayerStopSeq(&sndHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArcEx(&sndHandle, 7, -1, -1, 2, sequenceNo);
+    NNS_SndArcPlayerStartSeqArcEx(&sndHandle, 7, -1, -1, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, sequenceNo);
     SetSndHandleTrackVolume(&sndHandle, 0x6e);
     NNS_SndHandleReleaseSeq(&sndHandle);
 }

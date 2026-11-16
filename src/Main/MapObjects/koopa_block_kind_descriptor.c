@@ -36,7 +36,7 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -159,5 +159,6 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_ACCELERATE;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
+    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared =
+        gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared;
 }

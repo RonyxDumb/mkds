@@ -4039,7 +4039,7 @@ src/Main/Sound/sound_data_path.c:
     .data       start:0x0216c8b0 end:0x0216c8cc
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_handle_slots.c:
+src/Main/Sound/sound_handle_slots_and_other_kart_falloff.c:
     complete
     .text       start:0x02108e38 end:0x02108e6c
     .bss        start:0x0217c8d8 end:0x0217c8fc
@@ -4125,7 +4125,7 @@ src/Main/Sound/kart_surface_sound.c:
     .bss        start:0x0217cc90 end:0x0217cd10
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_handle_start.c:
+src/Main/Sound/sound_handle_start_and_distance_change.c:
     complete
     .text       start:0x0210b708 end:0x0210b850
 

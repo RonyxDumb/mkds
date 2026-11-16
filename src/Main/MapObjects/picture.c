@@ -8,7 +8,7 @@
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -101,12 +101,14 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                     picture->mNsbcaFrameIndex == 0x1f || picture->mNsbcaFrameIndex == 0x37 ||
                     picture->mNsbcaFrameIndex == 0x51) {
                     if (IsMapObjectOutOfRange(&picture->mMapObject) == FALSE) {
-                        if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                            falloffIndex = 2;
-                        } else if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                        if (picture->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                        } else if (picture->mMapObject.mFarDistanceSquared ==
+                                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                         firstSoundParams.mSoundId = PICTURE_MAIN_FRAMES_SOUND_ID;
                         firstSoundParams.mPositionSource = &picture->mMapObject.mPos;
@@ -118,12 +120,14 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                 } else if (picture->mNsbcaFrameIndex == 8 || picture->mNsbcaFrameIndex == 0x14 ||
                            picture->mNsbcaFrameIndex == 0x2c || picture->mNsbcaFrameIndex == 0x44) {
                     if (IsMapObjectOutOfRange(&picture->mMapObject) == FALSE) {
-                        if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                            falloffIndex = 2;
-                        } else if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                        if (picture->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                        } else if (picture->mMapObject.mFarDistanceSquared ==
+                                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                         secondSoundParams.mSoundId = PICTURE_SIDE_FRAMES_SOUND_ID;
                         secondSoundParams.mPositionSource = &picture->mMapObject.mPos;
@@ -134,12 +138,14 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                     }
                 } else if (picture->mNsbcaFrameIndex == 0x78) {
                     if (IsMapObjectOutOfRange(&picture->mMapObject) == FALSE) {
-                        if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                            falloffIndex = 2;
-                        } else if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                        if (picture->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                        } else if (picture->mMapObject.mFarDistanceSquared ==
+                                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                         thirdSoundParams.mSoundId = PICTURE_LAST_FRAME_SOUND_ID;
                         thirdSoundParams.mPositionSource = &picture->mMapObject.mPos;
@@ -157,12 +163,14 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                 picture->mNsbcaFrameIndex = nextFrameIndex;
                 if (picture->mNsbcaFrameIndex == 0) {
                     if (IsMapObjectOutOfRange(&picture->mMapObject) == FALSE) {
-                        if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                            falloffIndex = 2;
-                        } else if (picture->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                        if (picture->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                        } else if (picture->mMapObject.mFarDistanceSquared ==
+                                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                         fourthSoundParams.mSoundId = PICTURE_SECOND_PICTURE_SOUND_ID;
                         fourthSoundParams.mPositionSource = &picture->mMapObject.mPos;

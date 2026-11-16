@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_drift.h"
+#include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_contact.h"
@@ -43,7 +44,7 @@
 #include "Main/Kart/kart_effects.h"
 #include "Main/Kart/camera.h"
 #include "Main/Graphics/disp_cap.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_bomb.h"
 #include "Main/Graphics/emitters.h"
@@ -544,7 +545,7 @@ void CollideKartWithKarts(Kart *kart) {
                 if (kart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED ||
                     otherKart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED) {
                     if (gSceneSoundState.mRaceFrames > KART_COLLISION_SOUND_MIN_RACE_FRAMES) {
-                        StartSound(&kart->mSoundSource, 0x80, 0x7f, 0);
+                        StartSound(&kart->mSoundSource, 0x80, SOUND_VOLUME_MAX, 0);
                     }
                     if (kart->mVelocityLength > otherKart->mVelocityLength) {
                         otherKart->mKartCollisionTimer = KART_COLLISION_TIMER_FRAMES;
@@ -629,7 +630,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirecti
     canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
         StartKartPushFlip(hitKart, pushDirection, 1);
-        StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&hitKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HIT_SOUND;
         }
@@ -683,7 +684,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
             flipAxis.z = -flipAxis.z;
         }
         StartKartPushDoubleFlip(hitKart, &flipAxis, 1);
-        StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&hitKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HIT_SOUND;
         }
@@ -999,7 +1000,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             return;
         }
         itemObject->mKartSoundMask |= (u8) (1 << kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xe9, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xe9, SOUND_VOLUME_MAX, 0);
         return;
     }
     kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & ITEM_OBJECT_OWNER_NOT_KART) == 0
@@ -1082,10 +1083,10 @@ void StartKartBoost(Kart *kart, KartBoostKind boostKind, s16 boostFrames) {
         if (boostKind != KART_BOOST_RESPAWN) {
             return;
         }
-        StartSound(&kart->mSoundSource, 0xa2, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xa2, SOUND_VOLUME_MAX, 0);
         return;
     }
-    StartSound(&kart->mSoundSource, 0x9f, 0x7f, 0);
+    StartSound(&kart->mSoundSource, 0x9f, SOUND_VOLUME_MAX, 0);
 }
 
 void AdvanceKartBoost(s32 *acceleration, Kart *kart) {

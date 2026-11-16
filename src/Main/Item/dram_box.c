@@ -26,7 +26,7 @@
 #include "Main/Item/item_object.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_object_reset_collide.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -241,7 +241,7 @@ u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     fbox->mPushDirection.z = 0;
     if ((inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&fbox->mBouncingItemObject, inUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
         fbox->mThrownForward = 1;
         return fbox->mThrownForward;
     }

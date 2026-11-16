@@ -137,7 +137,10 @@ BOOL TryUpdateEntryCamera(Camera *camera);
 void DisableEntryCameraUpdate(void);
 void SetEntryCameraUpdateHold(s32 hold);
 // Does nothing when CourseMap.mFirstAngleStartCamera is NULL. Otherwise sets mAngleStartRunning and makes that entry
+// Does nothing when CourseMap.mFirstAngleStartCamera is NULL. Otherwise sets mAngleStartRunning and makes that entry
 // the current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
+// mReversePosCurve in MODE_BATTLE) when the entry has a group, advances the local random once when the entry Kart has
+// ended and sets gCameraEntryChanged.
 // mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
 void StartEntryCameraAngleStart(void);
 // Eases mPosGoalYOffset toward 0 or, while KART_MOTION_ON_GROUND is set in the Kart's mMotionFlags or

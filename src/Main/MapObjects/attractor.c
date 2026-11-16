@@ -1,4 +1,5 @@
 #include "Main/MapObjects/attractor.h"
+#include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "matrix_3x3_basic.h"
 
@@ -348,7 +349,7 @@ void UpdateMapObjectSoundSource(MapObject *object) {
     if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
         sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
         resultIsFalse = (IsMapObjectOutOfRange(object) == FALSE);
-        isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & 1) != 0;
+        isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) != 0;
         if (resultIsFalse != FALSE) {
             if (isSoundSourceEnabled != FALSE) {
                 goto ret;
@@ -371,10 +372,10 @@ void UpdateMapObjectSoundSource(MapObject *object) {
         sound->mSoundSource.mDistanceSquared = distanceSquared;
         if (IsMapObjectOutOfRangeOrMaskedAtDistance(object, distanceSquared) != FALSE) {
             object->mDistanceSquaredAndFlags |= gAttractorDistanceFlag;
-            if ((sound->mSoundSource.mSourceFlags & 1) != 0) {
+            if ((sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) != 0) {
                 SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
             }
-        } else if ((sound->mSoundSource.mSourceFlags & 1) == 0) {
+        } else if ((sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
             SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
         }
     }

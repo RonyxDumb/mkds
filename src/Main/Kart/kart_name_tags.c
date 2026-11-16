@@ -25,7 +25,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -116,7 +116,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             if (distanceSquared > gSoundFalloffs[0].mFarDistanceSquared) {
                 isWithinFalloff = FALSE;
             }
-            if (kart->mSoundSource.mSourceFlags & 1) {
+            if (kart->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
                 isSourceEnabled = TRUE;
             } else {
                 isSourceEnabled = FALSE;

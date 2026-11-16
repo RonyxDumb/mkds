@@ -1,4 +1,5 @@
 #include "Main/Item/item_f_box.h"
+#include "Main/Sound/sound_source_list.h"
 #include "Main/Net/slot_result_pending.h"
 #include "Main/Item/item_data_slots_update.h"
 #include "Main/Item/item_object.h"
@@ -106,7 +107,7 @@ void InitItemFBoxFromData(ItemFBox *fbox) {
     if (fbox->mThrownForward == 0) {
         return;
     }
-    StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
 }
 
 #pragma thumb on

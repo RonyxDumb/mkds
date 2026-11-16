@@ -45,7 +45,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_kinoko.h"
 #include "01/MapObjects/item_bomb_node_placement.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

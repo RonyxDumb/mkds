@@ -26,7 +26,7 @@
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "system_state_globals.h"
 #include "Main/System/input_slots.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

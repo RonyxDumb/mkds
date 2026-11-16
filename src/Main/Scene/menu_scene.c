@@ -32,7 +32,7 @@
 #include "Main/Scene/title_no_input_frame_limit.h"
 #include "Main/Sound/seq_queue.h"
 #include "Main/Race/race_scene_callbacks.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

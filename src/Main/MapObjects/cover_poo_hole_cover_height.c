@@ -13,7 +13,7 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -68,13 +68,14 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                 if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) ==
                         0) {
-                        if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                            falloffIndex = 2;
+                        if (coverPooHole->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
                         } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
-                                   gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                         firstSoundParams.mSoundId = COVER_POO_HOLE_KART_HIT_SOUND_ID;
                         firstSoundParams.mPositionSource = &coverPooHole->mMapObject.mPos;
@@ -161,13 +162,14 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                         coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleSkipSoundFlag;
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) ==
                         0) {
-                        if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                            falloffIndex = 2;
+                        if (coverPooHole->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
                         } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
-                                   gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                         secondSoundParams.mSoundId = COVER_POO_HOLE_TILT_SOUND_ID;
                         secondSoundParams.mPositionSource = &coverPooHole->mMapObject.mPos;
@@ -422,12 +424,13 @@ static inline void StartCoverPooHoleSound(CoverPooHole *coverPooHole, s32 soundI
     if (coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
-    if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        falloffIndex = 2;
-    } else if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        falloffIndex = 3;
+    if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+    } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
+               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
     } else {
-        falloffIndex = 4;
+        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
     }
     startParams.mSoundId = soundId;
     startParams.mPositionSource = &coverPooHole->mMapObject.mPos;

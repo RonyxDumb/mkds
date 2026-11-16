@@ -93,7 +93,7 @@ void AddSeqQueueEntry(u32 pairNo, u32 pairSide);
 
 void SetEmblemSoundValue(unsigned int value);
 
-// Values of gKingTeresaState, named from the king_teresa.c functions that set them.
+// Values of gKingTeresaState.
 enum {
     KING_TERESA_STATE_WAIT_TO_APPROACH,
     KING_TERESA_STATE_APPROACH_KART,

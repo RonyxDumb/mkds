@@ -20,7 +20,7 @@
 #include "Main/MapObjects/map_objects_get.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Sound/kart_surface_sound.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Sound/sound_distance_change_reset.h"
 #include "Main/MapObjects/view_matrix_setters.h"

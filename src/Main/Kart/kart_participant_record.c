@@ -51,10 +51,10 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Sound/sound_falloffs.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -784,7 +784,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
 
     if (itemEffect->mThunderShrinkTimer <= 0) {
         if (itemEffect->mThunderShrinkFrameIndex == 0) {
-            StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xed, SOUND_VOLUME_MAX, 0);
         }
         itemEffect->mThunderShrinkFrameIndex = itemEffect->mThunderShrinkFrameIndex + 1;
         if (itemEffect->mThunderShrinkFrameIndex >= KART_SCALE_RESTORE_STEPS) {
@@ -890,7 +890,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
     effectState = &kart->mItemEffectData;
     if (effectState->mScaleEffectTimer <= 0) {
         if (effectState->mScaleTableIndex == 0) {
-            StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xed, SOUND_VOLUME_MAX, 0);
         }
         effectState->mScaleTableIndex++;
         if (effectState->mScaleTableIndex >= KART_SCALE_RESTORE_STEPS) {
@@ -1021,7 +1021,7 @@ void StartKartStar(Kart *kart) {
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
             ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xf9, SOUND_VOLUME_MAX, 0);
         }
         SetTeresaSoundFlag(0, (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 1 : 0);
     }
@@ -1145,7 +1145,7 @@ void AdvanceKartTeresa(Kart *kart) {
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
             ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xf9, SOUND_VOLUME_MAX, 0);
         }
         SetTeresaSoundFlag(0, (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 1 : 0);
     }
@@ -1188,7 +1188,7 @@ void StartKartKiller(Kart *kart) {
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
             ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xf9, SOUND_VOLUME_MAX, 0);
         }
         SetTeresaSoundFlag(0, (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 1 : 0);
     }
@@ -1281,7 +1281,7 @@ void AdvanceKartKiller(Kart *kart) {
             }
         }
         StopKartKillerEffect(kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xfd, SOUND_VOLUME_MAX, 0);
         return;
     }
     kart->mRadiusFactor += FIXED12_RATIO(2, 100);
@@ -1402,7 +1402,7 @@ void StartKartAheadBoost(Kart *kart) {
     StopKartAheadEffect(kart);
     StopKartSoundWhileRequested(kart);
     if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
-        StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xa4, SOUND_VOLUME_MAX, 0);
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
         kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_AHEAD_BOOST;
@@ -1445,7 +1445,7 @@ BOOL StartKartRemoval(Kart *kart, s32 fromRaceProgress) {
             kart->mSecondCollisionSlot = FreeCollisionSlot(kart->mSecondCollisionSlot);
         }
         if (gRaceSetup->mMode == MODE_BATTLE && fromRaceProgress == 0) {
-            StartSound(&kart->mSoundSource, 0xd3, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xd3, SOUND_VOLUME_MAX, 0);
             if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON && (gRaceSoundKind & 1)) {
                 seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
                 if (gSoundModeHolder.mSeqStartEnabled != 0) {
@@ -1828,7 +1828,7 @@ void SetKartDriftCharge(Kart *kart, s32 charge) {
     }
     turnEffects = GetKartTurnEffects(kart->mIndex);
     StartKartLevel2Effects(turnEffects, (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0 ? 1 : 0);
-    StartSound(&kart->mSoundSource, 0xd2, 0x7f, 0);
+    StartSound(&kart->mSoundSource, 0xd2, SOUND_VOLUME_MAX, 0);
 }
 
 void AdvanceKartDriftCharge(Kart *kart) {
@@ -1863,7 +1863,7 @@ void AdvanceKartDriftCharge(Kart *kart) {
                     turnEffects = GetKartTurnEffects(kart->mIndex);
                     StartKartLevel2Effects(turnEffects,
                                            (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0 ? 1 : 0);
-                    StartSound(&kart->mSoundSource, 0xd2, 0x7f, 0);
+                    StartSound(&kart->mSoundSource, 0xd2, SOUND_VOLUME_MAX, 0);
                 }
             }
         } else if ((u16) (pressedBits & PAD_KEY_RIGHT) != 0) {
@@ -1878,7 +1878,7 @@ void AdvanceKartDriftCharge(Kart *kart) {
                         turnEffects = GetKartTurnEffects(kart->mIndex);
                         StartKartLevel2Effects(turnEffects,
                                                (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0 ? 1 : 0);
-                        StartSound(&kart->mSoundSource, 0xd2, 0x7f, 0);
+                        StartSound(&kart->mSoundSource, 0xd2, SOUND_VOLUME_MAX, 0);
                     }
                 }
             } else {
@@ -2219,9 +2219,9 @@ s32 ApplyKartSurfaceBoost(Kart *kart) {
         StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, KART_SURFACE_BOOST_FRAMES);
         soundIds = gKartSurfaceSoundIds;
         if (kart->mSurfaceVariant > 0 && (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
-            sound = StartSound(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], 0x7f, 0);
+            sound = StartSound(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], SOUND_VOLUME_MAX, 0);
             if (sound != NULL) {
-                sound->mFlags = sound->mFlags | 0x10;
+                sound->mFlags = sound->mFlags | PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }
         }
     } else {
@@ -2234,7 +2234,7 @@ s32 ApplyKartSurfaceBoost(Kart *kart) {
 s32 ApplyKartSurfaceJumpPad(Kart *kart) {
     if (kart->mSurfaceGroup != KART_SURFACE_GROUP_BOOST_A || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         if (gRaceSetup->mCourseId == COURSE_ID_OLD_KOOPA_AGB || gRaceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
-            StartSound(&kart->mSoundSource, 0x15e, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0x15e, SOUND_VOLUME_MAX, 0);
         }
     }
     kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_JUMP_PAD;
@@ -2252,9 +2252,9 @@ s32 ApplyKartSurfaceBoostWithSpeedFloor(Kart *kart) {
         StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, KART_SURFACE_BOOST_FRAMES);
         soundIds = gKartSurfaceSoundIds;
         if (kart->mSurfaceVariant > 0 && (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
-            sound = StartSound(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], 0x7f, 0);
+            sound = StartSound(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], SOUND_VOLUME_MAX, 0);
             if (sound != NULL) {
-                sound->mFlags = sound->mFlags | 0x10;
+                sound->mFlags = sound->mFlags | PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }
         }
     } else {
@@ -2292,9 +2292,9 @@ s32 ApplyKartSurfaceBoostHeld(Kart *kart) {
     if (kart->mSurfaceGroup != KART_SURFACE_GROUP_BOOST_B || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, KART_SURFACE_BOOST_FRAMES);
         if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
-            sound = StartSound(&kart->mSoundSource, 0x1b9, 0x7f, 0);
+            sound = StartSound(&kart->mSoundSource, 0x1b9, SOUND_VOLUME_MAX, 0);
             if (sound != NULL) {
-                sound->mFlags = sound->mFlags | 0x10;
+                sound->mFlags = sound->mFlags | PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }
         }
     } else {
@@ -2905,12 +2905,12 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         } else if (kart->mState == KART_STATE_PUSH_DOUBLE_FLIP) {
             goto skipPushBackStart;
         }
-        StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushDoubleFlip(kart, &state->mPushDirection, 0);
     skipPushBackStart:
         if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_HIT_SOUND) != 0) !=
             ((recordFlags & KART_EVENT_HIT_SOUND) != 0)) {
-            StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         }
     } else if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_FLIP) != 0) !=
                ((recordFlags & KART_EVENT_PUSH_FLIP) != 0)) {
@@ -2925,7 +2925,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     skipFlipBackStart:
         if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_HIT_SOUND) != 0) !=
             ((recordFlags & KART_EVENT_HIT_SOUND) != 0)) {
-            StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         }
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_AHEAD_BOOST) != 0) !=
@@ -2974,7 +2974,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             goto markFirstKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushDoubleFlip(otherKart, &direction, 0);
     markFirstKartPushed:
         flag = 1;
@@ -2995,7 +2995,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             goto markSecondKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushDoubleFlip(otherKart, &direction, 0);
     markSecondKartPushed:
         flag = 1;
@@ -3016,7 +3016,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             goto markThirdKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushDoubleFlip(otherKart, &direction, 0);
     markThirdKartPushed:
         flag = 1;
@@ -3037,7 +3037,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             goto markFourthKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushDoubleFlip(otherKart, &direction, 0);
     markFourthKartPushed:
         flag = 1;
@@ -3064,7 +3064,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushFlip(otherKart, &direction, 0);
     skipFirstKartFlip:
     }
@@ -3087,7 +3087,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushFlip(otherKart, &direction, 0);
     skipSecondKartFlip:
     }
@@ -3110,7 +3110,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushFlip(otherKart, &direction, 0);
     skipThirdKartFlip:
     }
@@ -3133,7 +3133,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         StartKartPushFlip(otherKart, &direction, 0);
     skipFourthKartFlip:
     }

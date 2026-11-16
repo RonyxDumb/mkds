@@ -24,7 +24,8 @@
 #define WAVE_ARC_FOURTH_SWAP_SOURCE 0x13
 #define WAVE_ARC_FOURTH_SWAP_DEST 0x12
 
-// A sound set: a sequence id and two bank ids; LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
+// A sound set: a sequence id and two bank ids; LoadSoundSet, IsSoundSetLoaded and LoadSoundSetIfChanged take one by
+// value.
 typedef struct SoundSet {
     /* 00 */ u32 mSeqId;
     /* 04 */ u32 mFirstBankId;

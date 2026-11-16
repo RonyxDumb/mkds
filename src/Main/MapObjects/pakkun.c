@@ -24,7 +24,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -362,12 +362,14 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex],
                                 pakkun->mHeightAboveFollowerPath + PAKKUN_HEAD_HEIGHT);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-                    if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        falloffIndex = 2;
-                    } else if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        falloffIndex = 3;
+                    if (pakkun->mMapObject.mFarDistanceSquared ==
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                    } else if (pakkun->mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                     } else {
-                        falloffIndex = 4;
+                        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     }
                     soundParams.mSoundId = PAKKUN_SPIT_SOUND_ID;
                     soundParams.mPositionSource = &pakkun->mMapObject.mPos;

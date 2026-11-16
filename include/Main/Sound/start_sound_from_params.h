@@ -6,4 +6,3 @@
 
 void StartSndHandleSound(SoundStartParams *request, NNSSndSeqPlayer **handle);
 void StartSoundFromParams(SoundStartParams *request);
-void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 distanceSquared);

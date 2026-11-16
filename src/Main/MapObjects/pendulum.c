@@ -30,7 +30,7 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -194,12 +194,14 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
         (previousAngle < ANGLE_MINUS_QUARTER_TURN + PENDULUM_SOUND_ANGLE_OFFSET &&
          pendulum->mSwingAngle >= ANGLE_MINUS_QUARTER_TURN + PENDULUM_SOUND_ANGLE_OFFSET)) {
         if ((pendulum->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (pendulum->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (pendulum->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             soundRequest.mSoundId = PENDULUM_SOUND_ID;
             soundRequest.mPositionSource = &pendulum->mMapObject.mPos;

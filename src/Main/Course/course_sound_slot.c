@@ -1,12 +1,12 @@
 #include "Main/Course/course_sound_slot.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_handle_slots.h"
+#include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
 #include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -90,7 +90,7 @@ void ApplyCourseSoundTableEntry(s32 entryIndex) {
     lowBits = tableValue & 0xfff;
     switch (gCourseSoundTableIndex) {
         case COURSE_SOUND_TABLE_PINBALL:
-            if (tableValue == 0x1cc) {
+            if (tableValue == PINBALL_COURSE_SEQ_ARC_INDEX) {
                 handle = GetSndHandles();
                 if (*handle != NULL) {
                     NNS_SndPlayerStopSeq(handle, 0);

@@ -12,7 +12,7 @@
 #include "Main/Kart/kart_reset.h"
 #include "Main/Kart/kart_contact_effect_release.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Kart/kart_effect_param_tables.h"
@@ -50,7 +50,7 @@
 #include "sound_archive_load_result.h"
 #include "sound_player_control.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -161,7 +161,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
             }
         }
         StopKartKillerEffect(kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xfd, SOUND_VOLUME_MAX, 0);
     }
     StopRunningKartItemSlot(&(gKartItems)[kart->mIndex]);
     if (collisionFlags & 0x400) {
@@ -190,7 +190,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         waterSurfacePos.y = kart->mPos.y - GetHeightAboveWaterOrEfct(kart->mPos.y);
         StartKartWaterSplashEffects(&waterSurfacePos, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
         kart->mEffectFlags |= KART_EFFECT_WATER_FALL;
-        StartSound(&kart->mSoundSource, value, 0x7f, 0);
+        StartSound(&kart->mSoundSource, value, SOUND_VOLUME_MAX, 0);
         kart->mGravity = 0;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
@@ -301,7 +301,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
-                    StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
+                    StartSound(&kart->mSoundSource, 0xa1, SOUND_VOLUME_MAX, 0);
                 }
             }
         } else if (kart->mDriveFlags & KART_DRIVE_ACCEL_HELD) {
@@ -349,7 +349,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
-                    StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
+                    StartSound(&kart->mSoundSource, 0xa1, SOUND_VOLUME_MAX, 0);
                 }
             }
         }

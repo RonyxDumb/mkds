@@ -52,7 +52,7 @@
 #include "01/MapObjects/mission_run_motion_setters.h"
 #include "01/MapObjects/mission_run_point_in_range_callback.h"
 #include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "01/MapObjects/donketu_fall.h"
 #include "01/MapObjects/donketu_water_land_state.h"
 #include "Main/System/backup_net_camera_work.h"

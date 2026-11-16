@@ -26,7 +26,7 @@
 #include "touch_panel_sampling.h"
 #include "Main/Race/entry_race_ended.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -162,9 +162,13 @@ void UpdateChoropuSink(void *stateObject) {
         return;
     }
     if ((choropu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        falloffIndex = choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared
-                           ? 2
-                           : (choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared ? 3 : 4);
+        falloffIndex =
+            choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared
+                ? SOUND_FALLOFF_SHORT_RANGE
+                : (choropu->mMapObject.mFarDistanceSquared ==
+                           gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared
+                       ? SOUND_FALLOFF_MEDIUM_RANGE
+                       : SOUND_FALLOFF_LONG_RANGE);
         soundRequest.mSoundId = CHOROPU_SINK_SOUND_ID;
         soundRequest.mPositionSource = &choropu->mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;

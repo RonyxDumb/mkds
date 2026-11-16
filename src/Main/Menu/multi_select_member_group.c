@@ -44,7 +44,7 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

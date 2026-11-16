@@ -40,7 +40,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -294,7 +294,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             } else {
                 object->mFlags |= gMapObjectNoUpdateListFlag;
             }
-            object->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
+            object->mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared;
             if (courseRow != NULL) {
                 if (descriptor->mInitObject != NULL) {
                     descriptor->mInitObject(object, courseRow, gMapObjectKindRows[kindIndex].mInitData);

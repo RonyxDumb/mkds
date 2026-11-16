@@ -17,7 +17,7 @@
 #include "Main/Race/race.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Sound/kart_sound.h"
 #include "Main/Kart/kart_effects.h"

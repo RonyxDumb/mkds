@@ -36,7 +36,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -143,7 +143,7 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mForward = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
     wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
-    wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
+    wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared;
 }
 #pragma thumb off
 

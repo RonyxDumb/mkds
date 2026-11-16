@@ -58,7 +58,7 @@
 #include "Main/Sound/sound_source_init.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -70,7 +70,7 @@
 #include "Main/Race/race.h"
 #include "01/MapObjects/hanachan_move_and_followers.h"
 #include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 
 const u32 gBombKingSkipKindSoundFlag = 0x40000000;

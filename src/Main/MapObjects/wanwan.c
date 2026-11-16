@@ -9,7 +9,7 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "fixed_arctangent.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -132,12 +132,14 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             correction.z = 0;
             if (wanwan->mFollowsPath != 0) {
                 if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
-                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        falloffIndex = 2;
-                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        falloffIndex = 3;
+                    if (wanwan->mMapObject.mFarDistanceSquared ==
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                    } else if (wanwan->mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                     } else {
-                        falloffIndex = 4;
+                        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     }
                     secondSoundParams.mSoundId = WANWAN_PATH_BASE_LAND_SOUND_ID;
                     secondSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
@@ -153,12 +155,14 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             touchesGround = TRUE;
             if (wanwan->mFollowsPath != 0) {
                 if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
-                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        falloffIndex = 2;
-                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        falloffIndex = 3;
+                    if (wanwan->mMapObject.mFarDistanceSquared ==
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                    } else if (wanwan->mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                     } else {
-                        falloffIndex = 4;
+                        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     }
                     thirdSoundParams.mSoundId = WANWAN_PATH_COURSE_LAND_SOUND_ID;
                     thirdSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
@@ -409,12 +413,13 @@ void EnterWanwanLunge(void *stateObject) {
     if (wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
-    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        falloffIndex = 2;
-    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        falloffIndex = 3;
+    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+    } else if (wanwan->mMapObject.mFarDistanceSquared ==
+               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
     } else {
-        falloffIndex = 4;
+        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
     }
     soundRequest.mSoundId = WANWAN_LUNGE_SOUND_ID;
     soundRequest.mPositionSource = &wanwan->mMapObject.mPos;

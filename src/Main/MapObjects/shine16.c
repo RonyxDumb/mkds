@@ -45,7 +45,7 @@
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Menu/keyboard_char_tables.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -254,7 +254,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 shine16->mMapObject.mPosStep.y = 0;
                 shine16->mState = SHINE16_STATE_RESTING;
             }
-            QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
+            QueueShine16Sound(shine16->mMapObject.mSound, SHINE16_SOUND_BASE + SHINE16_SOUND_BOUNCED);
             return;
         case SHINE16_STATE_RESTING:
             shine16->mNsbtpFrameStepProgress += 1;
@@ -529,7 +529,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                             shine16->mMapObject.mPosStep.y = 0;
                             shine16->mState = SHINE16_STATE_RESTING;
                         }
-                        QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
+                        QueueShine16Sound(shine16->mMapObject.mSound, SHINE16_SOUND_BASE + SHINE16_SOUND_BOUNCED);
                     }
                     if (hitFlags & 0x1000000) {
                         shine16->mMapObject.mFlags |= gShine16CollisionFlag;
@@ -622,7 +622,7 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
     shine16->mMapObject.mFlags &= ~1;
     shine16->mMapObject.mFlags &= ~0x20;
     AddShineCount(1);
-    QueueShine16Sound(shine16->mMapObject.mSound, 0x138);
+    QueueShine16Sound(shine16->mMapObject.mSound, SHINE16_SOUND_BASE + SHINE16_SOUND_SPAWNED);
 }
 
 void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {

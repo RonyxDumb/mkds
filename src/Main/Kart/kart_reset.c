@@ -29,7 +29,7 @@
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -66,7 +66,7 @@
 #include "Main/Graphics/stem_sets.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Sound/kart_request_sort.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_surface_sound_starts.h"
 #include "Main/Sound/kart_surface_sound.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Sound/kart_sound.h"
@@ -338,7 +338,7 @@ void StopKartItemsAndEffects(Kart *kart) {
             }
         }
         StopKartKillerEffect(kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xfd, SOUND_VOLUME_MAX, 0);
     }
     if (kart->mEntryFlags & KART_ENTRY_TERESA) {
         kart->mEntryFlags &= ~KART_ENTRY_TERESA;
@@ -347,7 +347,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
             ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xf9, SOUND_VOLUME_MAX, 0);
         }
         SetTeresaSoundFlag(0, (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 1 : 0);
     }
@@ -765,14 +765,14 @@ void InitKartSound(Kart *kart) {
     }
     kart->mKartIndexModThree = kart->mKartModelsEntry->mKartIndex % 3;
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-        if (!(kart->mSoundSource.mSourceFlags & 1)) {
+        if (!(kart->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED)) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
         if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
             ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
         }
     } else {
-        if (kart->mSoundSource.mSourceFlags & 1) {
+        if (kart->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
         ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
@@ -1132,7 +1132,7 @@ void ResetKartMotionState(Kart *kart, s32 flag) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_AIRSHIP:
             StartTimedQuadFromTable(0);
-            playingSound = StartSound(&kart->mSoundSource, 0x15c, 0x7f, 0);
+            playingSound = StartSound(&kart->mSoundSource, 0x15c, SOUND_VOLUME_MAX, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }
@@ -1152,7 +1152,7 @@ void ResetKartMotionState(Kart *kart, s32 flag) {
             NNS_SndArcPlayerStartSeqArc(sndHandleSlot, 0, 0x1d2);
             break;
         case COURSE_ID_PINBALL:
-            playingSound = StartSound(&kart->mSoundSource, 0x15b, 0x7f, 0);
+            playingSound = StartSound(&kart->mSoundSource, 0x15b, SOUND_VOLUME_MAX, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }

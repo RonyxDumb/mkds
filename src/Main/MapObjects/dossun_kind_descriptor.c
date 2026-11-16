@@ -35,7 +35,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -227,9 +227,11 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         if (dossun->mState == DOSSUN_STATE_WAIT_BEFORE_FOLLOW) {
             fromEntry = follower->mFromEntry;
             if (IsMapObjectOutOfRange(&dossun->mMapObject) == FALSE) {
-                if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
+                if (dossun->mMapObject.mFarDistanceSquared ==
+                    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
                     stateValue = 2;
-                } else if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
+                } else if (dossun->mMapObject.mFarDistanceSquared ==
+                           gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
                     stateValue = 3;
                 } else {
                     stateValue = 4;
@@ -397,7 +399,7 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     if (dossun->mIsSlowVariant != 0) {
         CreateMapObjectSoundSourceFalloff3(&dossun->mMapObject);
     } else {
-        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
+        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared;
     }
 }
 #pragma thumb off

@@ -55,7 +55,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/sound_source_init.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 
 MapObjectKindDescriptor gBossDonketuKindDescriptor = {0,
                                                       {0, 0},

@@ -21,7 +21,7 @@
 #include "Main/Sound/seq_row.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -75,7 +75,7 @@ const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
 const Vec3 gPooledMapObjectVec3Zero = {0, 0, 0};
 const u16 gChoisesSValueSeqNos[6] = {0xc, 0xc, 0xc, 0x13, 7, 7};
 s32 gSndHeapSizeKind = 4;
-LoadedSoundBanks gLoadedSoundBanks = {0, {0, 0}, 0xff00};
+LoadedSoundBanks gLoadedSoundBanks = {0, {0, 0}, LOADED_SOUND_BANKS_NONE};
 SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup = {{0x7a, 0x66, 0x67, 0x9d}, 0, 0};
 s32 gSndBankIdsByBit[13] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
 s32 gSndWaveArcIdsByBit[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
@@ -849,7 +849,7 @@ void InitSceneSounds(s32 unused) {
         return;
     }
     if (gMenuShared->mMenuEntryKind == MENU_ENTRY_MISSION_SELECT) {
-        gScenePlayers.mSeqInfo.mSeqStartProgress = SCENE_PLAYERS_SEQ_START_NEVER;
+        gScenePlayers.mSeqInfo.mSeqStartProgress = SCENE_PLAYERS_SEQ_START_UNMATCHED;
     }
 }
 
@@ -1193,9 +1193,8 @@ void SetSceneSoundRank(u8 rankIndex) {
             seqNo = rankIndex == 0 ? 0x1cb : 0x1ca;
             flag = TRUE;
             seqPlayer = gSndHandleSlots[7];
-            slotSeqPlaying = seqPlayer != NULL &&
-                             seqPlayer->mSeqArcIndex == SCENE_RANK_PINBALL_BLOCKING_SEQ_ARC_INDEX &&
-                             seqPlayer->mSeqNo == 0;
+            slotSeqPlaying =
+                seqPlayer != NULL && seqPlayer->mSeqArcIndex == PINBALL_COURSE_SEQ_ARC_INDEX && seqPlayer->mSeqNo == 0;
             if (slotSeqPlaying != 0) {
                 flag = FALSE;
             }

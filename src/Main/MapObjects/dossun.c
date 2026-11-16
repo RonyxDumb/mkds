@@ -34,7 +34,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -155,12 +155,14 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
     kuribo->mFrameIndex++;
     if (kuribo->mFrameIndex == KURIBO_WALK_HALF_FRAMES || kuribo->mFrameIndex == KURIBO_WALK_CYCLE_FRAMES) {
         if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (kuribo->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (kuribo->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             soundRequest.mSoundId = KURIBO_STEP_SOUND_ID;
             soundRequest.mPositionSource = &kuribo->mMapObject.mPos;

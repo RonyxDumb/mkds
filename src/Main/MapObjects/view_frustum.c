@@ -274,18 +274,18 @@ void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 d
     s32 cameraHeightAboveItem;
 
     if (distanceAndFlags & 4) {
-        if (itemObject->mSoundSource.mSourceFlags & 1) {
+        if (itemObject->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
         return;
     }
     cameraHeightAboveItem = gViewFrustum.mCameraPos.y - position->y;
     if (cameraHeightAboveItem > -0x12c000 && cameraHeightAboveItem < gItemSoundCameraHeightLimit) {
-        if (!(itemObject->mSoundSource.mSourceFlags & 1)) {
+        if (!(itemObject->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED)) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
     } else {
-        if (itemObject->mSoundSource.mSourceFlags & 1) {
+        if (itemObject->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
     }

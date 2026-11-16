@@ -24,7 +24,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Item/kart_items_collision_hits.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -229,7 +229,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StartSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
         box->mThrownForward = 1;
         return box->mThrownForward;
     } else {

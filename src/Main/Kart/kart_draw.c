@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_draw.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_in_use.h"

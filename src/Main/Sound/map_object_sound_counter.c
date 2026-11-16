@@ -7,7 +7,7 @@
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Sound/map_start_sound_full_volume.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -41,19 +41,19 @@ void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId) {
 
     distanceOffset = 0;
     switch (soundId - SHINE16_SOUND_BASE) {
-        case SHINE16_SOUND_OTHER_LEADS:
+        case SHINE16_SOUND_OTHER_AT_HIGHEST:
             distanceOffset = 0x640;
             break;
-        case SHINE16_SOUND_OTHER_JUST_BEHIND:
+        case SHINE16_SOUND_OTHER_ONE_BELOW_HIGHEST:
             distanceOffset = 0x1900;
             break;
-        case SHINE16_SOUND_OTHER_FAR_BEHIND:
+        case SHINE16_SOUND_OTHER_MORE_BELOW_HIGHEST:
             distanceOffset = 0x3840;
             break;
         case SHINE16_SOUND_SPAWNED:
             distanceOffset = 0x6400;
             break;
-        case SHINE16_SOUND_LANDED:
+        case SHINE16_SOUND_BOUNCED:
             distanceOffset = 0xe100;
             break;
         case SHINE16_SOUND_OTHER_HIT:

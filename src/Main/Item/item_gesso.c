@@ -18,7 +18,7 @@
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/Item/item_f_box.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"

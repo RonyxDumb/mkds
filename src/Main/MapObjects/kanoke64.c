@@ -28,7 +28,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -78,12 +78,13 @@ static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
     if (kanoke64->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
-    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        falloffIndex = 2;
-    } else if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        falloffIndex = 3;
+    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+    } else if (kanoke64->mMapObject.mFarDistanceSquared ==
+               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
     } else {
-        falloffIndex = 4;
+        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
     }
     soundRequest.mSoundId = soundId;
     soundRequest.mPositionSource = &kanoke64->mMapObject.mPos;

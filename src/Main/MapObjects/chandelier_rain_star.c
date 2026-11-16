@@ -6,7 +6,7 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -64,12 +64,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     if (chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_EARLY_FRAME ||
         chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_LATE_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (chandelier->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (chandelier->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             firstSoundParams.mSoundId = CHANDELIER_FIRST_SOUND_ID;
             firstSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
@@ -80,12 +82,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     } else if (chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_EARLY_FRAME ||
                chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_LATE_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (chandelier->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (chandelier->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             secondSoundParams.mSoundId = CHANDELIER_SECOND_SOUND_ID;
             secondSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
@@ -95,12 +99,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
         }
     } else if (chandelier->mFrameIndex == CHANDELIER_THIRD_SOUND_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (chandelier->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (chandelier->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             thirdSoundParams.mSoundId = CHANDELIER_THIRD_SOUND_ID;
             thirdSoundParams.mPositionSource = &chandelier->mMapObject.mPos;

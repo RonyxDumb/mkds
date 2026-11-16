@@ -19,7 +19,7 @@
 #include "touch_panel_sampling.h"
 #include "Main/System/input_slots.h"
 #include "Main/Sound/sound_request_queue.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -1026,7 +1026,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
                 sndHandleSlot = GetSndHandleSlot(8);
                 slot8Request.mSoundId = mapObject->mSoundId;
                 slot8Request.mPositionSource = NULL;
-                slot8Request.mFalloffIndex = 4;
+                slot8Request.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
                 slot8Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                 StartSndHandleSound(&slot8Request, sndHandleSlot);
                 randomState = &gRaceProgress->mLocalRandom;
@@ -1052,7 +1052,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
             sndHandleSlot = GetSndHandleSlot(9);
             slot9Request.mSoundId = mapObject->mSecondSoundId;
             slot9Request.mPositionSource = NULL;
-            slot9Request.mFalloffIndex = 4;
+            slot9Request.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
             slot9Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
             StartSndHandleSound(&slot9Request, sndHandleSlot);
         }

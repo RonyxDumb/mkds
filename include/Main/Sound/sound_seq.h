@@ -57,8 +57,9 @@ typedef struct LoadedSoundBanks {
 #define SCENE_PLAYERS_PROGRESS_INITIALIZED 1
 #define SCENE_PLAYERS_PROGRESS_SCENE_STARTED 2
 #define SCENE_PLAYERS_PROGRESS_RACE_STARTED 3
-// ScenePlayersSeqInfo.mSeqStartProgress that never starts the sequence.
-#define SCENE_PLAYERS_SEQ_START_NEVER 0xff
+// ScenePlayersSeqInfo.mSeqStartProgress that matches neither the scene start nor the race start, so those starts skip
+// the sequence (most gSoundRowTable rows).
+#define SCENE_PLAYERS_SEQ_START_UNMATCHED 0xff
 
 // Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded.
 // LOADED_SOUND_BANKS_MENU_SET is the mBankMask stored after InitSceneSounds loaded bank 0x2c and seq arc 3 for the menu
@@ -81,11 +82,12 @@ typedef struct LoadedSoundBanks {
 // SceneSoundState.mRankIndex and mRankIndexAtSeq before a place was stored.
 #define SCENE_RANK_INDEX_NONE 0xff
 // Pinball: SetSceneSoundRank starts no rank sequence while slot 7 plays this seq arc entry (seq number 0).
-#define SCENE_RANK_PINBALL_BLOCKING_SEQ_ARC_INDEX 0x1cc
+#define PINBALL_COURSE_SEQ_ARC_INDEX 0x1cc
 
-// Frames after which the scene sound steps run: the course sequence of a scene starts (most courses; the two later
-// ones), the airship one stops and restarts, the logo scene sequence stops, the race sequence starts, and the stored
-// place stops counting. SCENE_RANK_START_DELAY_FRAMES is the race frame from which a better place can start a sequence.
+// Scene frames at which the scene sound steps run: the course sequence of a scene starts (most courses; the two later
+// ones), the airship one stops and restarts, the logo scene sequence stops. Race frames: the race sequence starts at
+// SCENE_RACE_SEQ_START_FRAMES and the stored place stops counting after SCENE_RANK_SEQ_FRAMES; a better place can start
+// a sequence only after more than SCENE_RANK_START_DELAY_FRAMES.
 #define SCENE_COURSE_SEQ_START_FRAMES 0xa
 #define SCENE_COURSE_SEQ_START_LATE_FRAMES 0x28
 #define SCENE_AIRSHIP_SEQ_STOP_FRAMES 0xa0
@@ -99,8 +101,8 @@ typedef struct LoadedSoundBanks {
 #define SOUND_PLAYER_MASK_ALL 0xff
 #define SOUND_PLAYER_MASK_ALL_BUT_HIGHEST 0x7f
 
-// Rows of the mission table (GetMissionTableRow) whose sequence and bank LoadMissionRunMSselSoundData picks, named by
-// the mission whose bank (SOUND_BANK_MISSION_*) the row loads.
+// Rows of the mission table (GetMissionTableRow), named by the mission shown for the row on the mission select;
+// LoadMissionRunMSselSoundData picks the sequence and bank of the row.
 #define MISSION_TABLE_ROW_DONKETU 1
 #define MISSION_TABLE_ROW_IWANTE 2
 #define MISSION_TABLE_ROW_KURIKING 3
@@ -110,7 +112,7 @@ typedef struct LoadedSoundBanks {
 // The last of the seven rows of the mission select; its bank is 0x17.
 #define MISSION_TABLE_ROW_HANACHAN 7
 
-// The sequence info of the scene players: how far the sequence has started and its id.
+// The sequence info of the scene players: the scene progress at which the sequence starts, and its id.
 typedef struct ScenePlayersSeqInfo {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mSeqStartProgress;

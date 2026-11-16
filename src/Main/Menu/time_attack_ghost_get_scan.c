@@ -50,7 +50,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"

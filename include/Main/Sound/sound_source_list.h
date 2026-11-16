@@ -22,11 +22,11 @@
 // Bits of PlayingSound.mFlags. PLAYING_SOUND_FLAG_START_PENDING: set when the sound is started, cleared once
 // SetPlayingSoundsParams has started its sequence. PLAYING_SOUND_FLAG_WHILE_REQUESTED: started by
 // StartSoundWhileRequestedEx. PLAYING_SOUND_FLAG_REQUESTED_AGAIN: set by each request of such a sound, cleared by
-// ExpireWhileRequestedSounds. PLAYING_SOUND_FLAG_UPDATE_IN_TURNS: keeps the source on the in-turns update list.
-// PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH: SetKartThunderShrinkSoundTrackParams does not raise its pitch.
-// PLAYING_SOUND_FLAG_KART_COLLISION and PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT: both set by StartKartCollisionSound,
-// and only both together start the sound as the kart variant sequence. PLAYING_SOUND_FLAG_KART_SOUND_RECORD: started
-// from a KartSound record (StartKartSound, StartKartLowRatioSound).
+// ExpireWhileRequestedSounds. PLAYING_SOUND_FLAG_UPDATE_IN_TURNS: keeps the source on the in-turns update list; no code
+// in this build sets it. PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH: SetKartThunderShrinkSoundTrackParams does not raise its
+// pitch. PLAYING_SOUND_FLAG_KART_COLLISION and PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT: both set by
+// StartKartCollisionSound, and only both together start the sound as the kart variant sequence.
+// PLAYING_SOUND_FLAG_KART_SOUND_RECORD: started from a KartSound record (StartKartSound, StartKartLowRatioSound).
 #define PLAYING_SOUND_FLAG_UPDATE_IN_TURNS 1
 #define PLAYING_SOUND_FLAG_START_PENDING 2
 #define PLAYING_SOUND_FLAG_WHILE_REQUESTED 4
@@ -42,7 +42,8 @@
 // Largest volume of a sound (PlayingSound.mVolume, SoundParams.mVolume).
 #define SOUND_VOLUME_MAX 0x7f
 
-// A sound source: the object a sound is started on, with its playing sounds and owner position; karts embed it.
+// A sound source: the object a sound is started on, with its playing sounds and owner position; karts, item objects and
+// map object sounds embed it.
 typedef struct SoundSource {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;

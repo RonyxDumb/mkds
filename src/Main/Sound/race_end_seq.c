@@ -1,6 +1,6 @@
 #include "Main/Sound/race_end_seq.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
-#include "Main/Sound/sound_handle_slots.h"
+#include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
 #include "Main/Sound/scene_players_release.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
@@ -42,7 +42,7 @@ void UpdateRaceEndSeq(void) {
         return;
     }
     resultKind = GetRaceEndResultKind();
-    callLimit = (resultKind == RACE_END_RESULT_LOST) ? RACE_END_NEXT_SEQ_CALLS_LOST : RACE_END_NEXT_SEQ_CALLS;
+    callLimit = (resultKind == RACE_END_RESULT_LOST) ? RACE_END_NEXT_SEQ_CALLS_LOST : RACE_END_NEXT_SEQ_CALLS_NOT_LOST;
     callCount = gRaceEndSeqCallCount + 1;
     gRaceEndSeqCallCount = callCount;
     if (callCount <= callLimit) {

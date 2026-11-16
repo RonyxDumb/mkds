@@ -1,8 +1,9 @@
 #include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/sound_seq.h"
 
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_and_ortho_quad_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
@@ -34,7 +35,7 @@ const u16 gSurfaceSoundColumnIndices[24][8] = {{0, 3, 4, 1, 0xa, 9, 0xc, 0xe},
                                                {0, 5, 1, 2, 4, 0xe, 0xa, 8},
                                                {0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14},
                                                {0, 0, 0, 0, 0, 0, 0, 0}};
-const LoadedSoundBanks gLoadedSoundBanksAfterRelease = {0, {0, 0}, 0xff00};
+const LoadedSoundBanks gLoadedSoundBanksAfterRelease = {0, {0, 0}, LOADED_SOUND_BANKS_NONE};
 const u8 gOnMemorySdat[6909] __attribute__((aligned(32))) = {
     0x53, 0x44, 0x41, 0x54, 0xff, 0xfe, 0,    1,    0,    0x1b, 0,    0,    0x40, 0,    4,    0,    0x40, 0,    0,
     0,    0x24, 2,    0,    0,    0x64, 2,    0,    0,    0x8c, 0,    0,    0,    0xf0, 2,    0,    0,    0x3c, 0,
@@ -400,8 +401,8 @@ const u8 gOnMemorySdat[6909] __attribute__((aligned(32))) = {
     0xb9, 0xcb, 0x9e, 0x8a, 0x28, 0x42, 0x25, 0x53, 0x43, 0x23, 0x82, 0x99, 0xaa, 0xba, 0xcb, 0xbc, 0xcb, 0xbb, 0xbc,
     0x99, 0x89, 0x31, 0x67, 0x81, 0x88, 8,    8,    0x81, 0x21, 0x33, 0x32, 0x11, 0x80, 0xa9, 0xfb, 0x9a, 0x9a, 0x98,
     0x88, 0x88, 0x88, 0x28, 0,    0x88, 0,    0,    0,    0,    0,    0};
-const LoadedSoundBanks gLoadedSoundBanksAfterHeapCreate = {0, {0, 0}, 0xff00};
-const LoadedSoundBanks gLoadedSoundBanksAfterOnMemoryInit = {0, {0, 0}, 0xff00};
+const LoadedSoundBanks gLoadedSoundBanksAfterHeapCreate = {0, {0, 0}, LOADED_SOUND_BANKS_NONE};
+const LoadedSoundBanks gLoadedSoundBanksAfterOnMemoryInit = {0, {0, 0}, LOADED_SOUND_BANKS_NONE};
 u8 gSurfaceSoundIdShortRowTable[28] = {0x81, 0, 0x82, 0, 0x83, 0, 0x84, 0, 0x85, 0, 0x86, 0, 0x87, 0,
                                        0x88, 0, 0x89, 0, 0x8a, 0, 0x8b, 0, 0x8c, 0, 0x8d, 0, 0,    0};
 u8 gSurfaceSoundIdRowTable[152] = {
