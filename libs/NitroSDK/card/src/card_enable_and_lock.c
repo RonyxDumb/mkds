@@ -37,7 +37,7 @@ int CARDi_WaitAsync(void) {
         OS_SleepThread(&common->mBusyQ);
     }
     OS_RestoreInterrupts(enabled);
-    return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
+    return common->mCmd->mResult == ACCESS_RESULT_OK;
 }
 
 // Returns 1 when no transfer is running.

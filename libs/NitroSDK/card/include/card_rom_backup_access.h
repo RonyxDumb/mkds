@@ -67,13 +67,19 @@ typedef struct CARDRomHeader {
 
 #define HW_CARD_ROM_HEADER ((CARDRomHeader *) 0x027ffa80)
 
-// Values of CARDiCommandArg.mResult: the request is repeated while it is ROM_ACCESS_AGAIN; 3 is stored for an
-// unsupported backup type, 7 when the request flag 0x40 was set.
+// Values of CARDiCommandArg.mResult, which CARD_GetResultCode returns. CARDi_Request repeats a request while the result
+// is ACCESS_RESULT_AGAIN and its retry count is not used up; CARDi_IdentifyBackupCore stores UNSUPPORTED_TYPE for a
+// backup type it does not accept; CARDi_RequestStreamCommandCore stores ACCESS_RESULT_STOPPED when
+// ACCESS_FLAG_STOP_REQUESTED is set.
 typedef enum RomAccessResult {
-    ROM_ACCESS_SUCCEEDED = 0,
-    ROM_ACCESS_UNSUPPORTED_TYPE = 3,
-    ROM_ACCESS_AGAIN = 4,
-    ROM_ACCESS_CALLED_OFF = 7
+    ACCESS_RESULT_OK = 0,
+    ACCESS_RESULT_1,
+    ACCESS_RESULT_2,
+    ROM_ACCESS_UNSUPPORTED_TYPE,
+    ACCESS_RESULT_AGAIN,
+    ACCESS_RESULT_5,
+    ACCESS_RESULT_6,
+    ACCESS_RESULT_STOPPED
 } RomAccessResult;
 
 // Sizes of the backup devices CARDi_IdentifyBackupCore accepts (the size is 1 << ((type >> 8) & 0xff)).
@@ -142,9 +148,9 @@ enum {
         ACCESS_FLAG_BUSY | ACCESS_FLAG_TASK_PENDING | ACCESS_FLAG_STOP_REQUESTED,
 };
 
-// The ROM is read in pages of CARD_ROM_PAGE_SIZE bytes; a DMA channel is used only for numbers 0 to
+// The ROM is read in pages of ROM_READ_PAGE_SIZE bytes; a DMA channel is used only for numbers 0 to
 // ROM_CARD_LAST_DMA_CHANNEL.
-#define CARD_ROM_PAGE_SIZE 0x200
+#define ROM_READ_PAGE_SIZE 0x200
 #define ROM_CARD_LAST_DMA_CHANNEL 3
 
 // The common state of the card access: the command block, lock, transfer arguments, callback, worker thread, flags and

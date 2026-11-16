@@ -73,8 +73,8 @@ int CARDi_Request(CARDiCommon *common, int reqType, int retryCount) {
         }
         OS_RestoreInterrupts(enabled);
         result = common->mCmd->mResult;
-    } while (result == ROM_ACCESS_AGAIN && --retryCount > 0);
-    return result == ROM_ACCESS_SUCCEEDED;
+    } while (result == ACCESS_RESULT_AGAIN && --retryCount > 0);
+    return result == ACCESS_RESULT_OK;
 }
 
 // Copies from CARDRomStat.mCacheBuf to the destination when the buffered page is the one at CARDiCommon.mSrc. Returns 1
@@ -86,10 +86,10 @@ int CARDi_ReadFromCache(CARDRomStat *romStat) {
     u32 offset;
 
     common = &gAccessState;
-    curPage = common->mSrc & -0x200;
+    curPage = common->mSrc & -ROM_READ_PAGE_SIZE;
     if (curPage == romStat->mCachePage) {
         offset = common->mSrc - curPage;
-        len = 0x200 - offset;
+        len = ROM_READ_PAGE_SIZE - offset;
         if (len > common->mLen) {
             len = common->mLen;
         }
@@ -121,7 +121,7 @@ void CARDi_SetCardDma(void) {
     CARDiCommon *common;
 
     common = (CARDiCommon *) (u32) &gAccessState;
-    MIi_CardDmaCopy32(common->mDma, (void *) &reg_MI_MCD1, (void *) common->mDst, 0x200);
+    MIi_CardDmaCopy32(common->mDma, (void *) &reg_MI_MCD1, (void *) common->mDst, ROM_READ_PAGE_SIZE);
     CARDi_SetRomOp((common->mSrc >> 8) | 0xb7000000, common->mSrc << 24);
     reg_MI_MCCNT1 = gRomReadState.mCtrl;
 }
@@ -134,14 +134,14 @@ void CARDi_OnReadCard(void) {
     u32 enabled;
 
     MI_StopDma(gAccessState.mDma);
-    gAccessState.mSrc += 0x200;
-    gAccessState.mDst += 0x200;
-    gAccessState.mLen -= 0x200;
+    gAccessState.mSrc += ROM_READ_PAGE_SIZE;
+    gAccessState.mDst += ROM_READ_PAGE_SIZE;
+    gAccessState.mLen -= ROM_READ_PAGE_SIZE;
     if (gAccessState.mLen == 0) {
         OS_DisableIrqMask(0x80000);
         OS_ResetRequestIrqMask(0x80000);
         common = (CARDiCommon *) (u32) &gAccessState;
-        common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
+        common->mCmd->mResult = ACCESS_RESULT_OK;
         callback = common->mCallback;
         callbackArg = common->mCallbackArg;
         enabled = OS_DisableInterrupts();
@@ -203,7 +203,7 @@ int CARDi_TryReadCardDma(CARDRomStat *romStat) {
         }
     }
     if (dmaUsable != 0) {
-        if (((common->mSrc | len) & 0x1ff) == 0) {
+        if (((common->mSrc | len) & (ROM_READ_PAGE_SIZE - 1)) == 0) {
             dmaAligned = 1;
         }
     }
@@ -246,9 +246,9 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
     common = &gAccessState;
     cacheBuf = romStat->mCacheBuf;
     for (;;) {
-        page = common->mSrc & -0x200;
+        page = common->mSrc & -ROM_READ_PAGE_SIZE;
         if (page != common->mSrc || (((u32) (dst = (u32 *) common->mDst)) & 3) != 0 ||
-            common->mLen < CARD_ROM_PAGE_SIZE) {
+            common->mLen < ROM_READ_PAGE_SIZE) {
             dst = cacheBuf;
             romStat->mCachePage = page;
         }
@@ -266,9 +266,9 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
             }
         } while (ctrl & 0x80000000);
         if ((u32) dst == common->mDst) {
-            gAccessState.mSrc += 0x200;
-            gAccessState.mDst += 0x200;
-            gAccessState.mLen -= 0x200;
+            gAccessState.mSrc += ROM_READ_PAGE_SIZE;
+            gAccessState.mDst += ROM_READ_PAGE_SIZE;
+            gAccessState.mLen -= ROM_READ_PAGE_SIZE;
             if (gAccessState.mLen == 0) {
                 return;
             }
@@ -292,7 +292,7 @@ void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
         romStat->mReadFunc(romStat);
     }
     common = (CARDiCommon *) (u32) &gAccessState;
-    common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
+    common->mCmd->mResult = ACCESS_RESULT_OK;
     callback = common->mCallback;
     callbackArg = common->mCallbackArg;
     savedInterrupts = OS_DisableInterrupts();
@@ -398,7 +398,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
         common->mCmd->mLen = len;
         if (common->mFlag & ACCESS_FLAG_STOP_REQUESTED) {
             common->mFlag &= ~ACCESS_FLAG_STOP_REQUESTED;
-            common->mCmd->mResult = ROM_ACCESS_CALLED_OFF;
+            common->mCmd->mResult = ACCESS_RESULT_STOPPED;
             break;
         }
         if (reqMode == 0) {
@@ -469,7 +469,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback,
     }
     gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
     CARDi_RequestStreamCommandCore(common);
-    return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
+    return common->mCmd->mResult == ACCESS_RESULT_OK;
 }
 
 // Sets the backup type, then reads one byte of the backup to identify it. Returns 1 when CARDiCommandArg.mResult is 0.
@@ -512,7 +512,7 @@ int CARD_IdentifyBackup(s32 type) {
     if (callback != 0) {
         callback(callbackArg);
     }
-    return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
+    return common->mCmd->mResult == ACCESS_RESULT_OK;
 }
 
 // Waits for the running transfer to end.
@@ -525,8 +525,8 @@ int CARD_TryWaitBackupAsync(void) {
     return CARDi_TryWaitAsync();
 }
 
-// An unsupported type clears mType and mTotalSize and stores BACKUP_RESULT_NOT_SUPPORTED (renamed per the duplicate
-// ruling) in CARDiCommandArg.mResult; type 0 only clears the description and stores nothing.
+// An unsupported type clears mType and mTotalSize and stores ROM_ACCESS_UNSUPPORTED_TYPE in
+// CARDiCommandArg.mResult; type 0 only clears the description and stores nothing.
 void CARDi_IdentifyBackupCore(s32 type) {
     CARDiCommandArg *commandArg;
     u32 size;
@@ -629,7 +629,7 @@ void CARDi_LockResource(u32 owner, u32 target) {
         common->mLockTarget = target;
     }
     common->mLockRef++;
-    common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
+    common->mCmd->mResult = ACCESS_RESULT_OK;
     OS_RestoreInterrupts(savedInterrupts);
 }
 
@@ -654,7 +654,7 @@ void CARDi_UnlockResource(u32 owner, u32 target) {
             OS_WakeupThread(&common->mLockQueue);
         }
     }
-    common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
+    common->mCmd->mResult = ACCESS_RESULT_OK;
     OS_RestoreInterrupts(savedInterrupts);
 }
 

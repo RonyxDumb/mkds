@@ -23,18 +23,18 @@ void FinishBackupWrite(void *arg) {
     result = BACKUP_ERROR_NONE;
     gBackupAccess->mCommandRunning = 0;
     switch (resultCode) {
-        case BACKUP_RESULT_OK:
+        case ACCESS_RESULT_OK:
             result = BACKUP_ERROR_NONE;
             break;
-        case BACKUP_RESULT_FAILED:
-        case BACKUP_RESULT_TIMED_OUT:
-        case BACKUP_RESULT_NO_REPLY:
+        case ACCESS_RESULT_1:
+        case ACCESS_RESULT_AGAIN:
+        case ACCESS_RESULT_6:
             result = BACKUP_ERROR_UNAVAILABLE;
             break;
-        case BACKUP_RESULT_BAD_ARGUMENT:
-        case BACKUP_RESULT_NOT_SUPPORTED:
-        case BACKUP_RESULT_ERROR:
-        case BACKUP_RESULT_CANCELED:
+        case ACCESS_RESULT_2:
+        case ROM_ACCESS_UNSUPPORTED_TYPE:
+        case ACCESS_RESULT_5:
+        case ACCESS_RESULT_STOPPED:
         default:
             result = BACKUP_ERROR_ACCESS_FAILED;
             break;
