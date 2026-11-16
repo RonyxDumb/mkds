@@ -273,7 +273,7 @@ void TurnToPointMoveSideways(MissionRunMapObject *mapObject, s32 anglePerCallTar
 }
 
 void SpinAngleStopMoveAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
-    mapObject->mAngleState = MAP_OBJECT_ANGLE_SPIN;
+    mapObject->mAngleState = MAP_OBJECT_ANGLE_SPIN_ADD;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
     mapObject->mAngleOffset = 0;
@@ -348,7 +348,7 @@ void SetVelocity(MissionRunMapObject *mapObject, Vec3 *velocity) {
 
 void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 scaleXZ) {
     if (offsetY == 0) {
-        mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO;
     } else {
         mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_OBJECT;
     }
@@ -365,7 +365,7 @@ void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 s
 void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
                                     u32 scalePerCall) {
     if (offsetY == 0) {
-        mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO;
     } else {
         mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_OBJECT;
     }
@@ -419,7 +419,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
                              u32 unusedScaleY, u32 scaleZ) {
     int *shadowTargetPtr;
     int *shadowOffsetTargetXPtr;
-    mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_OFFSETS;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -447,7 +447,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
 
 void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                    u32 offsetPerCall, u32 scaleX, u32 unusedScaleY, u32 scaleZ, u32 scalePerCall) {
-    mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_OFFSETS;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -1339,7 +1339,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
                                                              mapObject->mAngle);
             }
             break;
-        case MAP_OBJECT_ANGLE_SPIN:
+        case MAP_OBJECT_ANGLE_SPIN_ADD:
             if (mapObject->mAnglePerCallIncrement > 0) {
                 mapObject->mAnglePerCall = StepIntTowardTarget(
                     mapObject->mAnglePerCallTarget, mapObject->mAnglePerCallIncrement, mapObject->mAnglePerCall);
@@ -1489,7 +1489,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             &probePosition, NULL, 0, 0x14000,
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4 : (u16) 1, -2, &pushOut,
             &groundNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
-        if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS ||
+        if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL ||
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY) {
             mapObject->mMapObject.mPos.y += pushOut.y;
         } else {
@@ -1498,7 +1498,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             mapObject->mMapObject.mPos.z += pushOut.z;
         }
     }
-    if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS &&
+    if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL &&
         (mapObject->mCollisionBits & COURSE_HIT_WALL)) {
         if (LENGTH_SQUARED(wallNormal) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&wallNormal, &pushDirection);
@@ -1654,7 +1654,7 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
         if (alpha >= 0x1f) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
-        } else if (mapObject->mShadowMode <= MAP_OBJECT_SHADOW_COURSE) {
+        } else if (mapObject->mShadowMode <= MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
         } else {

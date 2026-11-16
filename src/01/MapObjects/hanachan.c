@@ -317,12 +317,12 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
             AdvanceHanachanCounterForAll(mapObject);
         }
         if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE &&
-            mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, HANACHAN_STATE_KART_IN_RANGE) != 0) {
+            mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, HANACHAN_STATE_KART_RANGE_ANIMATION) != 0) {
             if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAngleOffset,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeRadius,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeHalfAngle)) {
                 mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
-                mapObject->mStateNumber = HANACHAN_STATE_KART_IN_RANGE;
+                mapObject->mStateNumber = HANACHAN_STATE_KART_RANGE_ANIMATION;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mFirstKartRangeFrameStep,
                                               StartHanachanMoveAnimation);
@@ -332,7 +332,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
                                                 mapObject->mPrm->mHanachan.mSecondKartRangeRadius,
                                                 mapObject->mPrm->mHanachan.mSecondKartRangeHalfAngle)) {
                 mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
-                mapObject->mStateNumber = HANACHAN_STATE_KART_IN_RANGE;
+                mapObject->mStateNumber = HANACHAN_STATE_KART_RANGE_ANIMATION;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mSecondKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mSecondKartRangeFrameStep,
                                               StartHanachanMoveAnimation);
@@ -734,7 +734,7 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
             StartSoundFullVolumeWrapper(kart, 0x252);
         }
     } else {
-        mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_FLIP_DOUBLE;
+        mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_PUSH_DOUBLE_FLIP;
         StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
                                     0x1000);
         mapObject->mMapObject.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;

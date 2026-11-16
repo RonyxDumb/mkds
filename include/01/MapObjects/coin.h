@@ -6,7 +6,7 @@
 #include "Main/MapObjects/segment_group_collision.h"
 
 enum {
-    COIN_STATE_RESTING,
+    COIN_STATE_PLACED,
     COIN_STATE_RISE_OVER_KART,
     COIN_STATE_BOUNCE,
     COIN_STATE_DROP,
@@ -21,13 +21,13 @@ enum {
 // mScaleFactor: scale a coin starts with, its full scale and the per-frame growth between them.
 #define COIN_SCALE_START 0x99a
 #define COIN_SCALE_FULL TO_FIXED12(1)
-#define COIN_SCALE_GROW_STEP 0x29
+#define COIN_SCALE_GROW_PER_FRAME 0x29
 
 // Frames (mTimer) a coin rises before it is parked; the effect that follows the kart is attached at the timer value
-// COIN_RISE_KART_EFFECT_TIMER, and the coin's own effect stops after COIN_RISE_EFFECT_FRAMES.
-#define COIN_RISE_FRAMES 0x1e
+// COIN_RISE_KART_EFFECT_TIMER, and the coin's own effect stops after COIN_RISE_EFFECT_TIMER_START.
+#define COIN_RISE_TIMER_START 0x1e
 #define COIN_RISE_KART_EFFECT_TIMER 3
-#define COIN_RISE_EFFECT_FRAMES 0xd
+#define COIN_RISE_EFFECT_TIMER_START 0xd
 
 // mNsbtpFrameCounter steps that make mNsbtpFrameIndex advance by one.
 #define COIN_NSBTP_FRAME_STEPS 5

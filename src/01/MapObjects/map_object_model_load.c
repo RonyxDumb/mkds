@@ -30,8 +30,8 @@ void *CreateMapObjectKindDataWithSoundIds(void *collideKartCallback, void *colli
                                                           sphereHitCallback, posStepMode, collidable);
     kindData->mSoundId = soundId;
     kindData->mCollideItemObjectSoundId = collideItemObjectSoundId;
-    kindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_MAX;
-    kindData->mHeightRangeMin = MAP_OBJECT_HEIGHT_RANGE_MIN;
+    kindData->mHeightRangeMax = MISSION_RUN_HEIGHT_RANGE_MAX;
+    kindData->mHeightRangeMin = MISSION_RUN_HEIGHT_RANGE_MIN;
     return kindData;
 }
 

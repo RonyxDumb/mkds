@@ -21,7 +21,7 @@ enum {
 
 // MissionRunMapObject.mStateNumber while UpdateHanachanMoveState slows Hanachan for a kart inside one of its kart
 // ranges.
-#define HANACHAN_STATE_KART_IN_RANGE 3
+#define HANACHAN_STATE_KART_RANGE_ANIMATION 3
 
 MapObjectList *CreateHanachanFollowerUpdateList(void);
 MapObjectList *CreateHanachanFollowerDrawList(void);

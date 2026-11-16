@@ -6,10 +6,10 @@
 
 typedef struct Camera Camera;
 
-// A periodic effect starts again after PERIODIC_EFFECT_DELAY_MIN frames plus a random number of frames below
-// PERIODIC_EFFECT_DELAY_SPREAD; the first start only waits the random part.
-#define PERIODIC_EFFECT_DELAY_MIN 0x46
-#define PERIODIC_EFFECT_DELAY_SPREAD 0x46
+// A periodic effect starts again after PERIODIC_EFFECT_DELAY_BASE frames plus a random number of frames below
+// PERIODIC_EFFECT_DELAY_RANDOM_LIMIT; the first start only waits the random part.
+#define PERIODIC_EFFECT_DELAY_BASE 0x46
+#define PERIODIC_EFFECT_DELAY_RANDOM_LIMIT 0x46
 
 // How far ahead of the camera, along its forward direction, the camera effect is placed (88.0).
 #define CAMERA_EFFECT_AHEAD_DISTANCE TO_FIXED12(88)

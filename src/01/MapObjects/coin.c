@@ -102,7 +102,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
 }
 
 void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
-    coin->mTimer = COIN_RISE_FRAMES;
+    coin->mTimer = COIN_RISE_TIMER_START;
     coin->mMapObject.mPos.x = kart->mPos.x;
     coin->mMapObject.mPos.y = kart->mPos.y + 0xc000;
     coin->mMapObject.mPos.z = kart->mPos.z;
@@ -112,7 +112,7 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
     coin->mModelAlpha = MAP_OBJECT_ALPHA_MAX;
     coin->mMapObject.mFlags = coin->mMapObject.mFlags | gCoinHiddenFlag;
     coin->mEffect = StartEffect(0x3f5, &coin->mMapObject.mPos);
-    coin->mEffectTimer = COIN_RISE_EFFECT_FRAMES;
+    coin->mEffectTimer = COIN_RISE_EFFECT_TIMER_START;
 }
 
 void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd) {
@@ -194,7 +194,7 @@ void StartCoinBossTransfer(void) {
         coin->mState = COIN_STATE_TRANSFER_RISE;
         coin->mScaleFactor = COIN_SCALE_START;
         coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
-        coin->mTimer = COIN_RISE_FRAMES;
+        coin->mTimer = COIN_RISE_TIMER_START;
         targetObject = NULL;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             kartCount = 0;
@@ -314,7 +314,7 @@ void StartCoinsFadeOut(void) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            if (coin->mState == COIN_STATE_RESTING && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
+            if (coin->mState == COIN_STATE_PLACED && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 coin->mMapObject.mPosStep.y = 0x5000;
                 coin->mModelAlpha = COIN_LAUNCH_FADE_START_ALPHA;
                 coin->mState = COIN_STATE_LAUNCH_FADE;
@@ -493,13 +493,13 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                         coin->mMapObject.mPosStep.x = 0;
                         coin->mMapObject.mPosStep.y = 0;
                         coin->mMapObject.mPosStep.z = 0;
-                        coin->mState = COIN_STATE_RESTING;
+                        coin->mState = COIN_STATE_PLACED;
                     }
                     StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
             }
             break;
-        case COIN_STATE_RESTING: {
+        case COIN_STATE_PLACED: {
             u16 radius;
             s32 kartIndex;
             BOOL found;
@@ -595,7 +595,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             coin->mModelAlpha = newAlpha;
             if (coin->mScaleFactor < COIN_SCALE_FULL) {
-                coin->mScaleFactor += COIN_SCALE_GROW_STEP;
+                coin->mScaleFactor += COIN_SCALE_GROW_PER_FRAME;
                 if (coin->mScaleFactor > COIN_SCALE_FULL) {
                     coin->mScaleFactor = COIN_SCALE_FULL;
                 }
@@ -639,7 +639,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                         coin->mMapObject.mPosStep.x = 0;
                         coin->mMapObject.mPosStep.y = 0;
                         coin->mMapObject.mPosStep.z = 0;
-                        coin->mState = COIN_STATE_RESTING;
+                        coin->mState = COIN_STATE_PLACED;
                     }
                     StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
@@ -689,7 +689,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             coin->mModelAlpha = newAlpha;
             if (coin->mScaleFactor < COIN_SCALE_FULL) {
-                coin->mScaleFactor += COIN_SCALE_GROW_STEP;
+                coin->mScaleFactor += COIN_SCALE_GROW_PER_FRAME;
                 if (coin->mScaleFactor > COIN_SCALE_FULL) {
                     coin->mScaleFactor = COIN_SCALE_FULL;
                 }
@@ -703,7 +703,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             break;
         case COIN_STATE_TRANSFER_FLY:
             if (coin->mScaleFactor < COIN_SCALE_FULL) {
-                coin->mScaleFactor += COIN_SCALE_GROW_STEP;
+                coin->mScaleFactor += COIN_SCALE_GROW_PER_FRAME;
                 if (coin->mScaleFactor > COIN_SCALE_FULL) {
                     coin->mScaleFactor = COIN_SCALE_FULL;
                 }

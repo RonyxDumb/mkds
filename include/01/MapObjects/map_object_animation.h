@@ -13,7 +13,7 @@ typedef struct Vec3s16 Vec3s16;
 // animation first.
 enum {
     MISSION_GATE_STATE_WAIT_COUNT,
-    MISSION_GATE_STATE_DONE,
+    MISSION_GATE_STATE_IDLE,
     MISSION_GATE_STATE_PLAY_ANIMATION,
 };
 

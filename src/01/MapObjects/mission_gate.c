@@ -124,7 +124,7 @@ void InitMissionGateObjects(MapObjectList *missionGateList) {
                 missionGateObject->mState = MISSION_GATE_STATE_WAIT_COUNT;
             } else {
                 missionGateObject->mMapObject.mFlags &= ~1;
-                missionGateObject->mState = MISSION_GATE_STATE_DONE;
+                missionGateObject->mState = MISSION_GATE_STATE_IDLE;
             }
         }
     }
@@ -138,7 +138,7 @@ void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
             count = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
             if (count >= missionGateObject->mMapObject.mCourseMapRow->mSettings[0] - 1) {
                 missionGateObject->mMapObject.mFlags &= ~1;
-                missionGateObject->mState = MISSION_GATE_STATE_DONE;
+                missionGateObject->mState = MISSION_GATE_STATE_IDLE;
             }
             break;
         case MISSION_GATE_STATE_PLAY_ANIMATION:
@@ -146,7 +146,7 @@ void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
             missionGateObject->mNsbmaFrameIndex++;
             if (missionGateObject->mNsbmaFrameIndex >= count - 1) {
                 missionGateObject->mNsbmaFrameIndex = GetMapObjectModelNsbmaFrameCount(gMissionGate) - 1;
-                missionGateObject->mState = MISSION_GATE_STATE_DONE;
+                missionGateObject->mState = MISSION_GATE_STATE_IDLE;
             }
             break;
     }
