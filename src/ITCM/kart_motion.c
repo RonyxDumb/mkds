@@ -539,8 +539,7 @@ void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied) {
     kart->mHeadingAngle += (u16) kart->mTurnHeadingAnglePerFrame;
 }
 
-// Writes base + (mRadius + extra) * up to the out vector, where up is row 1 of the matrix at 0x120 (the vector
-// GetKartUp returns), and nothing else.
+// Writes base + (mRadius + extra) * mRotationRow1 to result; mRotationRow1 is the Kart's up direction.
 void ComputeKartPointAlongUp(Vec3 *result, const Vec3 *base, s32 extra, Kart *kart) {
     VEC_MultAdd(kart->mRadius + extra, &kart->mRotationRow1, base, result);
 }
@@ -558,8 +557,8 @@ void SetKartPrevCollisionCenter(Kart *kart) {
     VEC_MultAdd(kart->mRadius + 0x400, &kart->mDrawBaseRow1, &kart->mDrawMatrixPos, &kart->mPrevCollisionCenter);
 }
 
-// Called once per step of the driving states (AdvanceKartMotion, AdvancePeerKartMotion); also writes mUnk_dc in five
-// branches.
+// Called once per step by AdvanceKartMotion and AdvancePeerKartMotion (not while the kart is removed or scaling in);
+// also writes mSpeedLimitFactor in five branches.
 void UpdateKartSpeedLimitGoal(Kart *kart) {
     s32 *goalPointer;
     u32 flags;
@@ -595,8 +594,8 @@ void UpdateKartSpeedLimitGoal(Kart *kart) {
     }
 }
 
-// Called right after UpdateKartSpeedLimitGoal: the limit falls by 0xf37/0x1000 per step down to the goal and rises to
-// it at once.
+// Called after UpdateKartSpeedLimitGoal each step: the limit falls by 0xf37/0x1000 per step down to the goal and rises
+// to it at once.
 void UpdateKartSpeedLimit(Kart *kart) {
     if (kart->mSpeedLimit > kart->mSpeedLimitGoal) {
         kart->mSpeedLimit = MUL_FIXED12_NO_ROUND(kart->mSpeedLimit, 0xf37);

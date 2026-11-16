@@ -1377,7 +1377,7 @@ void UpdateInputSlots(void) {
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = padKeys;
-                            if (flags & 4) {
+                            if (flags & INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED) {
                                 slotKeys = padKeys & 0xffcf;
                                 if (padKeys & PAD_KEY_DIRECTION_LEFT) {
                                     slotKeys |= PAD_KEY_DIRECTION_RIGHT;
