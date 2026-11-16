@@ -6,7 +6,7 @@
 // Callback of a card or backup transfer; it is called with the argument stored beside it.
 typedef void (*CARDCallback)(void *arg);
 typedef struct CARDRomStat CARDRomStat;
-typedef void (*CARDRomReadFunc)(CARDRomStat *romStat);
+typedef void (*RomPageReadFunc)(CARDRomStat *romStat);
 
 // An offset and a length: the type of fsi_ovt9, fsi_ovt7 and the tables in the ROM header.
 typedef struct CARDRomRegion {
@@ -178,7 +178,7 @@ typedef struct CARDiCommon {
 
 // The ROM read state: the page reader, the control word, the page held in the cache buffer and the cache buffer.
 typedef struct CARDRomStat {
-    /* 00 */ CARDRomReadFunc mReadFunc;
+    /* 00 */ RomPageReadFunc mReadFunc;
     /* 04 */ u32 mCtrl;
     /* 08 */ u32 mCachePage;
     /* 0c */ u8 mDummy[0x14];
@@ -200,7 +200,7 @@ int CARD_IdentifyBackup(s32 type);
 int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode);
 void CARDi_RequestStreamCommandCore(CARDiCommon *common);
-CARDRomReadFunc CARDi_GetRomAccessor(void);
+RomPageReadFunc CARDi_GetRomAccessor(void);
 int CARD_WaitRomAsync(void);
 void CARD_Init(void);
 void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync);

@@ -370,7 +370,7 @@ int CARD_WaitRomAsync(void) {
 }
 
 // Returns the CPU page reader.
-CARDRomReadFunc CARDi_GetRomAccessor(void) {
+RomPageReadFunc CARDi_GetRomAccessor(void) {
     return CARDi_ReadCard;
 }
 
