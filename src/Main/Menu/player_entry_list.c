@@ -286,7 +286,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
                           "select_menu_etc_title_m.nce.ncer", NULL, "select_menu_etc_title_m.bncl", NULL, NULL,
                           FindFileInLoadedArchives);
     }
-    gPlayerEntryList->mSetupRequested = TRUE;
+    gPlayerEntryList->mSetupPending = TRUE;
     FrmHeapShrinkInParent(gPlayerEntryList->mHeap);
 }
 
@@ -304,7 +304,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     u8 screenMapFileSet[0x24];
     entryList->mMode = mode;
     gPlayerEntryList->mScreenKind = screenKind;
-    if (gPlayerEntryList->mSetupRequested != FALSE) {
+    if (gPlayerEntryList->mSetupPending != FALSE) {
         gPlayerEntryList->mTimer = PLAYER_ENTRY_LIST_TIMER_FRAMES;
         SetupInterpolation(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
         switch (gPlayerEntryList->mMode) {
@@ -443,7 +443,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     onesCell = GetTimerOnesCellIndex();
     fileSet->mCellTable[onesCell].mVisible = gPlayerEntryList->mTimerEnabled;
     fileSet->mCellTable[GetTimerTensCellIndex()].mVisible = fileSet->mCellTable[onesCell].mVisible;
-    gPlayerEntryList->mSetupRequested = FALSE;
+    gPlayerEntryList->mSetupPending = FALSE;
 }
 
 void AdvancePlayerEntryList(void) {
@@ -835,6 +835,6 @@ void SetPlayerEntryListShowAllEntries(s32 showAll) {
 
 #pragma thumb on
 void RequestPlayerEntryListSetup(void) {
-    gPlayerEntryList->mSetupRequested = TRUE;
+    gPlayerEntryList->mSetupPending = TRUE;
 }
 #pragma thumb off

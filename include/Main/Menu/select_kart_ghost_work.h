@@ -259,7 +259,7 @@ typedef struct PlayerEntryList {
     /* 1ac */ s32 mEmptySlotSoundPlayed[4];
     /* 1bc */ s32 mCharacterShown[8];
     /* 1dc */ s32 mKartShown[8];
-    /* 1fc */ BOOL mSetupRequested;
+    /* 1fc */ BOOL mSetupPending;
     /* 200 */ s32 mTimerEnabled;
     /* 204 */ s32 mUseTeams;
     /* 208 */ s32 mShowAllEntries;
