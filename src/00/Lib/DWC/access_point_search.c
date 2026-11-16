@@ -182,7 +182,7 @@ u32 SearchDifferChannel(ACWORK *work) {
         work->mSearchListNo++;
         if (work->mSearchListNum <= work->mSearchListNo) {
             work->mSearchListNo = 0;
-            return NextSearchCheck(work, 4);
+            return NextSearchCheck(work, AC_PHASE_SEARCH_DIFFER_CHANNEL);
         }
         work->mTimeOut = OS_GetTick();
         ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
@@ -203,7 +203,7 @@ u32 SearchStealth(ACWORK *work) {
         }
         if (work->mSearchChannel < 0) {
             work->mCount = 0;
-            return NextSearchCheck(work, 5);
+            return NextSearchCheck(work, AC_PHASE_SEARCH_STEALTH);
         }
         work->mTimeOut = OS_GetTick();
         ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);

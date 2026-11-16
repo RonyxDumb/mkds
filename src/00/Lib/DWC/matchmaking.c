@@ -88,7 +88,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
     if (keyString == NULL || valueSrc == NULL) {
         return 0;
     }
-    if (keyId >= 100) {
+    if (keyId >= SERVER_KEY_GAME_FIRST) {
         index = keyId - SERVER_KEY_GAME_FIRST;
         if (gMatchingKeys[index].mKeyId != 0) {
             return keyId;
@@ -121,7 +121,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
     if (keyString == NULL || valueSrc == NULL) {
         return 0;
     }
-    if (keyId >= 100) {
+    if (keyId >= SERVER_KEY_GAME_FIRST) {
         index = keyId - SERVER_KEY_GAME_FIRST;
         if (gMatchingKeys[index].mKeyId != 0) {
             return keyId;

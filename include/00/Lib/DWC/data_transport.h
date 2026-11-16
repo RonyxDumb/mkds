@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/Lib/DWC/match_work.h"
 
 typedef struct WiFiPeerMessage WiFiPeerMessage;
 typedef struct GTI2Connection GTI2Connection;
@@ -58,7 +59,7 @@ typedef struct WiFiPeerMessage {
 // many as the socket has room for when it is sent and the rest one chunk per frame while there is room, and the
 // callbacks report sends, receives, receive timeouts and latency.
 typedef struct WiFiMessageLayer {
-    /* 000 */ WiFiPeerMessage mPeers[32];
+    /* 000 */ WiFiPeerMessage mPeers[WIFI_MATCH_MAX_PARTICIPANTS];
     // Called with (size, aid) once a message was handed to the socket: when the last chunk of a reliable message went
     // out (data kind in DWCi_SendReliable, any kind in DWCi_TransportProcess) and for each unreliable send.
     /* 600 */ void (*mSendCallback)(s32 size, u32 aid);
