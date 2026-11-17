@@ -641,7 +641,7 @@ static inline RaceProgressKart *GetRaceProgressKart(u16 kartIndex) {
     return &gRaceProgress->mKarts[kartIndex];
 }
 
-static inline s8 GetKartAtRank(u8 rank) {
+static inline s8 GetRaceProgressKartIndexAtRank(u8 rank) {
     return gRaceProgress->mKartAtRank[rank - 1];
 }
 extern ItemInfo *gItemInfos;

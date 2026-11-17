@@ -179,7 +179,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
                 if (rankAhead < 1) {
                     rankAhead = gRaceSetup->mKartCount;
                 }
-                targetKartIndex = GetKartAtRank(rankAhead);
+                targetKartIndex = GetRaceProgressKartIndexAtRank(rankAhead);
             }
             InitLinkFollowingItemFromInUse(&kouraR->mLinkFollowingItemObject, itemInUse, 0x2d, 0x5b, 1, 0, 1, 0x5000,
                                            targetKartIndex, 0);
@@ -305,7 +305,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
         if (targetRank < 1) {
             targetRank = gRaceSetup->mKartCount;
         }
-        targetKartIndex = GetKartAtRank(targetRank);
+        targetKartIndex = GetRaceProgressKartIndexAtRank(targetRank);
     }
     AdvanceLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0xd000, 0x29, targetKartIndex, 0);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &

@@ -247,7 +247,7 @@ s32 AdvanceKartRank(Kart *kart) {
             SetSceneSoundRank((newRank - 1));
         }
         if (newRank < kart->mRank && newRank < gRaceSetup->mKartCount) {
-            behindKartIndex = GetKartAtRank(newRank + 1);
+            behindKartIndex = GetRaceProgressKartIndexAtRank(newRank + 1);
             if (behindKartIndex >= 0) {
                 behindKart = GetKart((u16) behindKartIndex);
                 if (!(behindKart->mEntryFlags & (KART_ENTRY_GHOST | KART_ENTRY_TERESA | KART_ENTRY_PARKED))) {

@@ -164,7 +164,7 @@ void ReleaseHeldItem(HeldItem *heldItem, s32 keepReservedCount) {
     }
 }
 
-static inline u32 TakeHeldItemObjects_inline(RandomState64 *generator, u32 range) {
+static inline u32 HeldItemNextRandomBelow(RandomState64 *generator, u32 range) {
     RANDOM_ADVANCE(generator);
     if (range == 0) {
         return RANDOM_HIGH32(generator);
@@ -201,7 +201,7 @@ void TakeHeldItemObjects(HeldItem *heldItem) {
     } else {
         generator = &gRaceProgress->mRandom;
     }
-    angle = (u16) TakeHeldItemObjects_inline(generator, ANGLE_FULL_TURN);
+    angle = (u16) HeldItemNextRandomBelow(generator, ANGLE_FULL_TURN);
     poolIndex = gItemInfos[itemInfoIndex].mObjectKind;
     if (gItemKinds[poolIndex].mStartsFalling != 0) {
         radius = 0x2000;
@@ -218,8 +218,8 @@ void TakeHeldItemObjects(HeldItem *heldItem) {
         do {
             rowX = row->mOffsets[objectIndex].mX;
             rowY = row->mOffsets[objectIndex].mY;
-            rowXJittered = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
-            rowYJittered = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
+            rowXJittered = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) HeldItemNextRandomBelow(generator, 0x333));
+            rowYJittered = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) HeldItemNextRandomBelow(generator, 0x333));
             directionAmount = MUL_FIXED12_NO_ROUND(rowXJittered, radiusTimesAnglePairSecond) -
                               MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairFirst);
             object = heldItem->mObjects[objectIndex];
@@ -682,7 +682,7 @@ void InitItemPointLinkDirections(void) {
 
 #pragma thumb off
 
-static inline u32 ThrowBouncingItem_inline(RandomState64 *generator, u32 range) {
+static inline u32 BouncingItemNextRandomBelow(RandomState64 *generator, u32 range) {
     RANDOM_ADVANCE(generator);
     return RANDOM_BELOW_U64(generator, range);
 }
@@ -715,8 +715,8 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
         }
     }
     if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_OFFSET_KART_SPEED) {
-        direction.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
-        direction.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
+        direction.z += BouncingItemNextRandomBelow(&gRaceProgress->mRandom, 0xf6) - 0x7b;
+        direction.x += BouncingItemNextRandomBelow(&gRaceProgress->mRandom, 0xf6) - 0x7b;
     }
     direction.x = MUL_FIXED12_NO_ROUND(direction.x, value);
     direction.y = MUL_FIXED12_NO_ROUND(direction.y, value);

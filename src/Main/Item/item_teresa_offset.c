@@ -198,7 +198,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
         do {
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
-                kartIndex = GetKartAtRank(rankAhead);
+                kartIndex = GetRaceProgressKartIndexAtRank(rankAhead);
                 if (IsItemTeresaCandidateKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
@@ -209,7 +209,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             }
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
-                kartIndex = GetKartAtRank(rankBehind);
+                kartIndex = GetRaceProgressKartIndexAtRank(rankBehind);
                 if (IsItemTeresaCandidateKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
@@ -226,7 +226,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
         do {
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
-                kartIndex = GetKartAtRank(rankBehind);
+                kartIndex = GetRaceProgressKartIndexAtRank(rankBehind);
                 if (IsItemTeresaCandidateKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
                     0) {
                     weightSum = weightSum + *weightCursor;
@@ -238,7 +238,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             }
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
-                kartIndex = GetKartAtRank(rankAhead);
+                kartIndex = GetRaceProgressKartIndexAtRank(rankAhead);
                 if (IsItemTeresaCandidateKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
                     0) {
                     weightSum = weightSum + *weightCursor;

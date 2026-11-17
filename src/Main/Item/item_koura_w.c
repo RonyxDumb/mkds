@@ -419,12 +419,12 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
     if (item->mRankTargetSkipped == 0) {
         if (gRaceProgress->mRaceDone != 0) {
             item->mRank = 1;
-            item->mRankKartIndex = GetKartAtRank(item->mRank);
+            item->mRankKartIndex = GetRaceProgressKartIndexAtRank(item->mRank);
         } else {
-            item->mRankKartIndex = GetKartAtRank(item->mRank);
+            item->mRankKartIndex = GetRaceProgressKartIndexAtRank(item->mRank);
             while (IsKartEnded(item->mRankKartIndex) != 0 && (u32) item->mRank < gRaceSetup->mKartCount) {
                 (item->mRank)++;
-                item->mRankKartIndex = GetKartAtRank(item->mRank);
+                item->mRankKartIndex = GetRaceProgressKartIndexAtRank(item->mRank);
             }
         }
         if (item->mRankKartIndex ==
@@ -444,7 +444,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
         u32 kartCount;
         kartCount = (u8) gRaceSetup->mKartCount;
         for (rank = 1; rank <= kartCount; rank++) {
-            item->mRankKartIndex = GetKartAtRank(rank);
+            item->mRankKartIndex = GetRaceProgressKartIndexAtRank(rank);
             if (IsKartRemoved(GetKart(item->mRankKartIndex)) == 0) {
                 break;
             }

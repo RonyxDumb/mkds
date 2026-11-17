@@ -414,10 +414,10 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     if (value <= 1) {
         return;
     }
-    aheadKartIndex = GetKartAtRank(value - 1);
+    aheadKartIndex = GetRaceProgressKartIndexAtRank(value - 1);
     foundAhead = FALSE;
     if (aheadKartIndex >= 0) {
-        aheadKartIndex = GetKartAtRank(value - 1);
+        aheadKartIndex = GetRaceProgressKartIndexAtRank(value - 1);
         if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) aheadKartIndex) != 0) {
             kartAi->mTargetKart = GetKart(aheadKartIndex);
             foundAhead = TRUE;
@@ -430,11 +430,11 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     if (value >= gRaceSetup->mKartCount) {
         return;
     }
-    behindKartIndex = GetKartAtRank(value + 1);
+    behindKartIndex = GetRaceProgressKartIndexAtRank(value + 1);
     if (behindKartIndex < 0) {
         return;
     }
-    behindKartIndex = GetKartAtRank(value + 1);
+    behindKartIndex = GetRaceProgressKartIndexAtRank(value + 1);
     if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) behindKartIndex) != 0) {
         kartAi->mTargetKart = GetKart(behindKartIndex);
     }

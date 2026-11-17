@@ -736,7 +736,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
         rank = 1;
         ownerRank = GetKartRank(ownerIndex);
         do {
-            kartIndex = GetKartAtRank(rank);
+            kartIndex = GetRaceProgressKartIndexAtRank(rank);
             kart = GetKart(kartIndex);
             if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0 &&
                 (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0 &&
