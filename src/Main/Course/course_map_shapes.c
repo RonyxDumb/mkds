@@ -912,8 +912,8 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     outRotation->z = placement->mRotation.z;
 }
 
-// Position and rotation of the start spot of kart c by mode: a staggered grid by rank in a race, by key
-// (kart + mStartPlacementOffset) % 8 in battle.
+// Start position and rotation of a kart: the first spot in staff roll and time attack, the spot of the kart's index in
+// mission run, key (start rank - 1 + mStartPlacementOffset) % 8 in battle, otherwise a staggered grid by start rank.
 void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex) {
     u16 lastKartIndex = gRaceSetup->mKartCount - 1;
     s32 rankIndex = (u16) (GetKartStartRank(kartIndex) - 1);
@@ -1197,8 +1197,8 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
     return cameraIndex;
 }
 
-// Mode 2: returns mNextRespawnSlot and advances it modulo mRespawnCount (the argument is ignored); otherwise returns
-// mCheckpoints[a].mRespawnSlot, a = the kart's current entry.
+// In battle returns mNextRespawnSlot and advances it modulo mRespawnCount (checkpointIndex is ignored); otherwise
+// returns mCheckpoints[checkpointIndex].mRespawnSlot.
 u16 GetCourseMapRespawnSlot(u32 checkpointIndex) {
     u16 respawnSlot;
     CourseMap *courseMap;
