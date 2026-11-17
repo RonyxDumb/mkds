@@ -144,7 +144,7 @@ void InitGhostScene(void *heap) {
     arg.mUseSelectReturn = 1;
     arg.mUseBackScreen = 1;
     arg.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &arg);
     SetTxtSystemMode(1);
     InitLinkLevelIcons(heap, gGhostScene);

@@ -82,7 +82,7 @@ void InitLogoScene(void *heap) {
     arg.mUseBackScreen = FALSE;
     arg.mBackScreenKind = 0;
     arg.mUseCanvas2 = 1;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &arg);
 }
 

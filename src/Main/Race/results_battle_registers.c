@@ -746,7 +746,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     sceneTextInitParams.mUseSelectReturn = 0;
     sceneTextInitParams.mUseBackScreen = 0;
     sceneTextInitParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextInitParams);
     InitFrmVramManagers();
     gResultsBattle->mCommonMessages = FindFileInLoadedArchives("common.bmg");

@@ -239,7 +239,7 @@ void InitKeyboard(void *heap, s32 mode) {
     } else {
         config.mBackScreenKind = 0;
     }
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &config);
     InitKeyboardDisplay();
     LoadKeyboardFiles();

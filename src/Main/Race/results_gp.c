@@ -115,7 +115,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mUseSelectReturn = 0;
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &config);
     LoadAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, &mainScreenMapFileSet, "results_gp_m_b.NCGR", "results_gp_m_b.NCLR",
                                  "results_gp_m1.NSCR", 1, FindSceneFile);

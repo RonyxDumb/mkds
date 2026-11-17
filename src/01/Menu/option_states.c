@@ -83,7 +83,7 @@ void InitOptionStates(void *heap, s16 previousScene) {
     sceneTextParams.mUseSelectReturn = TRUE;
     sceneTextParams.mUseBackScreen = TRUE;
     sceneTextParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextParams);
     gOptionStates->mStateHeap = CreateExpHeapFromMaxFree(gOptionStates->mHeap);
     LoadOptionData();

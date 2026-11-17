@@ -72,7 +72,7 @@ void InitWLMenuScene(void *heap) {
         sceneTextInitParams.mUseSelectReturn = 1;
         sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == WL_MENU_KIND_MEMBER_GROUP;
         sceneTextInitParams.mBackScreenKind = 0;
-        LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+        LoadTxtSystemAndSelectFiles();
         InitSceneText(heap, &sceneTextInitParams);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);

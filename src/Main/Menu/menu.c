@@ -403,7 +403,7 @@ void InitMenu(void) {
     config.mUseSelectReturn = 1;
     config.mUseBackScreen = 1;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(MenuGetCurrentHeap(), &config);
     if (MenuGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
         ClearSelectReturnDisplayBitOn();

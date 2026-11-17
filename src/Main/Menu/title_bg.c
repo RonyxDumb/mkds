@@ -216,7 +216,7 @@ void CreateTitleScene(void) {
     config.mUseSelectReturn = 0;
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(TitleGetCurrentHeap(), &config);
     gTitleScene->mCharacterKartPicks = CreateCharacterKartPicks(TitleGetCurrentHeap());
     SetConnectionKind(CONNECTION_KIND_NONE);

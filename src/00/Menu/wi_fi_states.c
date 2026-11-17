@@ -101,7 +101,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
     sceneTextInitParams.mUseSelectReturn = TRUE;
     sceneTextInitParams.mUseBackScreen = TRUE;
     sceneTextInitParams.mBackScreenKind = 1;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextInitParams);
     LoadWiFiMenuSceneData();
     InitPlayerEntryList(heap, GetWiFiMenuMainOamList());

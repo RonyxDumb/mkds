@@ -791,7 +791,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     sceneTextInitParams.mUseSelectReturn = TRUE;
     sceneTextInitParams.mUseBackScreen = TRUE;
     sceneTextInitParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextInitParams);
     CreateRecordList(gRecordScene->mHeap);
     BuildRecordList();

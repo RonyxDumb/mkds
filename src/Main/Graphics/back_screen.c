@@ -40,7 +40,7 @@ char gBackScreenMNclr00Name[] = "back_screen_m_b_00.nclr";
 char gBackScreenSNscrBg00Name[] = "back_screen_s_bg_00.nscr";
 char gBackScreenMNclr01Name[] = "back_screen_m_b_01.nclr";
 
-void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
+void LoadTxtSystemAndSelectFiles(void) {
     LoadedPartPointer loadedPartPointer;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
