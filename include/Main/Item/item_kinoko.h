@@ -17,7 +17,7 @@ typedef struct ItemKinoko ItemKinoko;
 
 // ItemKouraR.mStateMachine states, in the order of gItemKouraRStateTable.
 typedef enum ItemKouraRState {
-    ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED = 0, // moves straight; set when the object has ITEM_OBJECT_FLAG_WIFI_RACE
+    ITEM_KOURA_R_STATE_STRAIGHT_WIFI_RACE = 0, // moves straight; set when the object has ITEM_OBJECT_FLAG_WIFI_RACE
     ITEM_KOURA_R_STATE_STRAIGHT = 1, // moves straight; set after a bounce off a wall
     ITEM_KOURA_R_STATE_SEEK_AFTER_THROW = 2, // moves straight until a kart is in reach
     ITEM_KOURA_R_STATE_FOLLOW_LINK = 3, // follows the link of the item list toward the kart ahead

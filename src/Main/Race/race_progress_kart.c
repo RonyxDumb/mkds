@@ -145,7 +145,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     kart->mInOrderCheckpointNumber = -1;
     flag = FALSE;
     switch (kart->mStatus) {
-        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             flag = TRUE;
@@ -424,7 +424,7 @@ void UpdateRaceProgressKarts(void) {
         progressKart = &gRaceProgress->mKarts[kartOrRankIndex];
         flag = FALSE;
         switch (progressKart->mStatus) {
-            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 flag = TRUE;

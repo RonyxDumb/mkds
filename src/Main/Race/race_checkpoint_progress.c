@@ -58,7 +58,7 @@ void UpdateRaceClock(void) {
             if (ownKartIndex >= 0) {
                 flag = FALSE;
                 switch (gRaceProgress->mKarts[(u8) ownKartIndex].mStatus) {
-                    case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                    case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                     case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                     case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                         flag = TRUE;

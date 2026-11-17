@@ -49,7 +49,7 @@ BOOL IsEntryRaceEnded(void) {
         case MODE_MISSION_RUN:
             ended = FALSE;
             switch (GetRaceProgressKart(entryIndex)->mStatus) {
-                case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                     ended = TRUE;
@@ -69,7 +69,7 @@ BOOL IsEntryRaceEnded(void) {
         default:
             ended = FALSE;
             switch (GetRaceProgressKart(entryIndex)->mStatus) {
-                case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                     ended = TRUE;

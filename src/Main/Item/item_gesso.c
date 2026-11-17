@@ -134,8 +134,8 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
             gesso->mScaleYAndApproachRate.z = 0x28f;
         }
     } else if (stepIndex == ITEM_GESSO_STEP_WIDE_SCALE) {
-        gesso->mTargetScaleX = ITEM_GESSO_SPREAD_SCALE_X;
-        gesso->mTargetScaleY = ITEM_GESSO_SPREAD_SCALE_Y;
+        gesso->mTargetScaleX = ITEM_GESSO_LARGE_SCALE_X;
+        gesso->mTargetScaleY = ITEM_GESSO_LARGE_SCALE_Y;
         gesso->mScaleYAndApproachRate.z = 0x800;
     } else {
         gesso->mTargetScaleX = ITEM_GESSO_HALF_SCALE;

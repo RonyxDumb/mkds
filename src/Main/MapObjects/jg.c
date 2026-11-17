@@ -254,7 +254,7 @@ void UpdateJg(void) {
         return;
     }
     if (gRaceSetup->mMode != MODE_MISSION_RUN &&
-        gRaceProgress->mKarts[gJgKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
+        gRaceProgress->mKarts[gJgKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM &&
         (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         Vec3 targetOffset;
         gJgMain.mFrameIndex = JG_GOAL_FRAME_INDEX;

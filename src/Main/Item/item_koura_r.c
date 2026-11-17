@@ -196,7 +196,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     }
     ResetItemKouraRKartItems(kouraR);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
-        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT_WIFI_RACE;
         kouraR->mStateMachine.mNextStateRequested = 1;
     }
     return kouraR->mThrowForward;

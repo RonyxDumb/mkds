@@ -78,7 +78,7 @@ void FinishRaceProgress(void) {
                 if (kartIndex < raceSetup->mKartCount) {
                     raceProgress = gRaceProgress;
                     do {
-                        if (raceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+                        if (raceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
                             if (usesTeams != FALSE) {
                                 if (winningTeamIndex == -1) {
                                     raceSetup = gRaceSetup;
@@ -92,7 +92,7 @@ void FinishRaceProgress(void) {
             }
             for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
                 gRaceProgress->mKarts[kartIndex].mFlags |= RACE_PROGRESS_KART_FLAG_BATTLE_END;
-                if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+                if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
                     if (usesTeams != FALSE) {
                         isWinner =
                             winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
@@ -131,7 +131,7 @@ void UpdateBattleKartStatuses(void) {
             RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
             if (kart->mStatus == RACE_PROGRESS_KART_STATUS_RACING) {
                 if (IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
-                    kart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_REACHED;
+                    kart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM;
                 } else {
                     kart->mStatus = RACE_PROGRESS_KART_STATUS_BATTLE_LOSER;
                 }
@@ -145,7 +145,7 @@ void UpdateBattleKartStatuses(void) {
             RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
             if (kart->mStatus == RACE_PROGRESS_KART_STATUS_RACING) {
                 if (IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
-                    kart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_REACHED;
+                    kart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM;
                 } else {
                     kart->mStatus = RACE_PROGRESS_KART_STATUS_BATTLE_LOSER;
                 }
@@ -217,7 +217,7 @@ void AdvanceMissionRunEnd(void) {
     kart = &gRaceProgress->mKarts[kartIndex];
     hasEnded = FALSE;
     switch (kart->mStatus) {
-        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             hasEnded = TRUE;
@@ -361,7 +361,7 @@ void UpdateRaceProgress(void) {
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
         BOOL raceEnded = FALSE;
         switch (gRaceProgress->mKarts[0].mStatus) {
-            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 raceEnded = TRUE;

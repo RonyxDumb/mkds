@@ -240,7 +240,7 @@ typedef struct ItemObject {
 // Values of RaceProgressKart.mStatus. Racing, goal reached (battle: still alive at the end), battle loser, ended
 // without the goal (time up, or the race is over), removed.
 #define RACE_PROGRESS_KART_STATUS_RACING 0
-#define RACE_PROGRESS_KART_STATUS_GOAL_REACHED 1
+#define RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM 1
 #define RACE_PROGRESS_KART_STATUS_BATTLE_LOSER 2
 #define RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL 3
 #define RACE_PROGRESS_KART_STATUS_REMOVED 4

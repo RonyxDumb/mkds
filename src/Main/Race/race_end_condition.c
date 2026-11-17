@@ -40,7 +40,7 @@ s32 IsRaceEndConditionMet(void) {
                     value = gRaceProgress->mKarts[kartIndex].mStatus;
                     flag = FALSE;
                     switch (value) {
-                        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                        case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                             flag = TRUE;
@@ -87,7 +87,7 @@ s32 IsRaceEndConditionMet(void) {
                     value = GetRaceProgressKart(ownKartIndex)->mStatus;
                     flag = FALSE;
                     switch (value) {
-                        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                        case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                             flag = TRUE;
@@ -104,7 +104,7 @@ s32 IsRaceEndConditionMet(void) {
         case MODE_TIME_ATTACK:
             endConditionMet = FALSE;
             switch (gRaceProgress->mKarts[0].mStatus) {
-                case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                     endConditionMet = TRUE;
@@ -157,7 +157,7 @@ void FinishRemainingRaceProgressKarts(void) {
         status = gRaceProgress->mKarts[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
-            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 ended = TRUE;
@@ -200,7 +200,7 @@ void FinishRemainingWiFiRaceKarts(void) {
         status = gRaceProgress->mKarts[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
-            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 ended = TRUE;
@@ -243,7 +243,7 @@ void FinishRemainingMissionRunKarts(void) {
         status = gRaceProgress->mKarts[kartIndex].mStatus;
         ended = FALSE;
         switch (status) {
-            case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+            case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 ended = TRUE;
@@ -301,7 +301,7 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     inputSlotIndex =
         gRaceSetup->mCurrentEntries[(u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28].mPlayer.mIndex;
     if (finished != 0) {
-        raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_REACHED;
+        raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM;
     } else {
         raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL;
     }
@@ -351,7 +351,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     status = raceProgressKart->mStatus;
     ended = FALSE;
     switch (status) {
-        case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+        case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
             ended = TRUE;

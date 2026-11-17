@@ -11,8 +11,8 @@
 #define ITEM_GESSO_TALL_SCALE_Y 0x1266
 #define ITEM_GESSO_SQUAT_SCALE_X 0x1333
 #define ITEM_GESSO_SQUAT_SCALE_Y 0xc29
-#define ITEM_GESSO_SPREAD_SCALE_X 0x199a
-#define ITEM_GESSO_SPREAD_SCALE_Y 0x119a
+#define ITEM_GESSO_LARGE_SCALE_X 0x199a
+#define ITEM_GESSO_LARGE_SCALE_Y 0x119a
 #define ITEM_GESSO_HALF_SCALE 0x800
 
 // Steps of the gItemGessoSteps table, by what the code does at them: the table has ITEM_GESSO_STEP_COUNT rows. Step 2

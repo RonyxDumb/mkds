@@ -191,7 +191,7 @@ void UpdateRaceEnd(void) {
         gRaceEnd->mResultsSet = TRUE;
     }
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mKarts[followedKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM &&
         gRaceProgress->mRaceDone == 0) {
         return;
     }
@@ -209,7 +209,7 @@ void UpdateRaceEnd(void) {
                 case MODE_WIFI:
                     if (raceSetup->mRuleKind != RULE_KIND_WIN_COUNT) {
                         if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus ==
-                            RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+                            RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
                             SetStemSet(STEM_SET_GOAL);
                         }
                     }

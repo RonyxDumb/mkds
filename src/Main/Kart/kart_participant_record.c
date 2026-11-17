@@ -2389,7 +2389,7 @@ void StartKartRaceEnd(Kart *kart) {
                 value = kart->mEntryFlags;
                 if ((value & (KART_ENTRY_CPU | KART_ENTRY_GHOST)) == 0 && (value & KART_ENTRY_ENDED) == 0) {
                     gInputSlots[kart->mEntryIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
-                    if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+                    if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
                         CallKartAiSetup(kart->mAi, kart->mIndex);
                         kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_CPU;
                         if ((kart->mEntryFlags & KART_ENTRY_CPU) != 0) {
@@ -2410,7 +2410,7 @@ void StartKartRaceEnd(Kart *kart) {
                     }
                 }
             } else if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT &&
-                       gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+                       gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
                 kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_DID_NOT_FINISH;
             } else if (raceSetup->mMode == MODE_MISSION_RUN) {
                 kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_DID_NOT_FINISH;
@@ -2449,7 +2449,7 @@ void StartKartRaceEnd(Kart *kart) {
         raceSetup = gRaceSetup;
         if (raceSetup->mMode != MODE_GRAND_PRIX && raceSetup->mMode != MODE_TIME_ATTACK &&
             ((raceSetup->mRuleKind == RULE_KIND_WIN_COUNT &&
-              gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) ||
+              gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) ||
              ((index = raceSetup->mKartCount) > 1 && (value = GetKartRank(kart->mIndex), value == index)))) {
             DisableEntryCameraUpdate();
         } else {
@@ -2457,7 +2457,7 @@ void StartKartRaceEnd(Kart *kart) {
             SwitchCourseCameraEffectsToCurrentCamera();
         }
     } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
-        if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+        if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
             framesSinceEntryEnd = 0;
             if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0 &&
                 framesSinceEntryEnd > 0xb4) {
