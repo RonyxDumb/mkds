@@ -88,8 +88,8 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     if (itemObject->mFramesSinceCourseHit <= ITEM_OBJECT_RECENT_HIT_FRAMES) {
         itemObject->mFramesSinceCourseHit += 1;
     }
-    if (itemObject->mFramesSinceReset <= ITEM_OBJECT_RECENT_HIT_FRAMES) {
-        itemObject->mFramesSinceReset += 1;
+    if (itemObject->mFramesSinceCourseHitAttribute <= ITEM_OBJECT_RECENT_HIT_FRAMES) {
+        itemObject->mFramesSinceCourseHitAttribute += 1;
     }
     if (!(itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING)) {
         itemObject->mCollisionBits = 0;
@@ -149,7 +149,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     if (collisionBits & COURSE_HIT_GROUND) {
         itemObject->mFramesSinceCourseHit = 0;
         if (collisionBits & 0x1000000) {
-            itemObject->mFramesSinceReset = 0;
+            itemObject->mFramesSinceCourseHitAttribute = 0;
         }
         if (collisionBits & 0x80400) {
             if (collisionBits & 0x400) {
@@ -189,7 +189,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
             BlendDirectionTowardUp(&itemObject->mNormal, 0xcd);
         }
     }
-    if (itemObject->mFramesSinceReset < ITEM_OBJECT_RECENT_HIT_FRAMES) {
+    if (itemObject->mFramesSinceCourseHitAttribute < ITEM_OBJECT_RECENT_HIT_FRAMES) {
         itemObject->mFlags |= ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE;
     } else {
         itemObject->mFlags &= ~ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE;

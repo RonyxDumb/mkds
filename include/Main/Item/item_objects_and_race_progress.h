@@ -70,8 +70,8 @@ extern SegmentProgress gJgSegmentProgress;
 // kind's radii.
 #define ITEM_OBJECT_INITIAL_RADIUS 0x7b
 
-// Frames after a course hit (ItemObject.mFramesSinceCourseHit, mFramesSinceReset) that count as recent (a counter below
-// this is recent); mFramesSinceCourseHit starts at this value, mFramesSinceReset at this value unless ResetItemObject's
+// Frames after a course hit (ItemObject.mFramesSinceCourseHit, mFramesSinceCourseHitAttribute) that count as recent (a counter below
+// this is recent); mFramesSinceCourseHit starts at this value, mFramesSinceCourseHitAttribute at this value unless ResetItemObject's
 // flag is set (then 0), and the counters stop one past it.
 #define ITEM_OBJECT_RECENT_HIT_FRAMES 5
 
@@ -86,7 +86,7 @@ extern SegmentProgress gJgSegmentProgress;
 // mScaleTargetOrSpeed to 0).
 #define ITEM_OBJECT_SCALE_SWING_STOP_LIMIT 0x29
 
-// ItemObject.mPendingUpdateCount bit set when the object has frames to catch up.
+// ItemObject.mUpdatesRemaining bit set when the object has frames to catch up.
 #define ITEM_OBJECT_PENDING_UPDATE_CATCH_UP 0x8000
 
 // Age (5 seconds) above which a resting object that advances with AdvanceRestingItemObject counts as old and may be
@@ -135,7 +135,7 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OBJECT_FLAG_OUT_OF_VIEW 0x10000
 // No ground hit in the last 5 frames (ItemObject.mFramesSinceCourseHit).
 #define ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT 0x20000
-// Set while ItemObject.mFramesSinceReset is below 5; a held object takes it from the kart course hit attribute bit.
+// Set while ItemObject.mFramesSinceCourseHitAttribute is below 5; a held object takes it from the kart course hit attribute bit.
 #define ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE 0x40000
 // Fade-out is running; the bomb and Koura W also set it when they explode or burst.
 #define ITEM_OBJECT_FLAG_FADING_OUT 0x80000
@@ -207,7 +207,7 @@ typedef struct ItemObject {
     // Bit flags used by item code in 22 units; UpdateItemObject clears the low 12 bits on each call.
     /* 74 */ u32 mFlags;
     /* 78 */ u16 mOwnerKartIndexAndFlags;
-    /* 7a */ u16 mPendingUpdateCount;
+    /* 7a */ u16 mUpdatesRemaining;
     /* 7c */ CourseColorBlend mColorBlend;
     /* 090 */ u16 *mKartLightColor;
     /* 094 */ MtxFx43 mTransformMtx;
@@ -225,7 +225,7 @@ typedef struct ItemObject {
     /* 104 */ struct CollisionHitLink *mCollisionHitLink;
     /* 108 */ Vec3 mCoursePointOrParams;
     /* 114 */ s16 mFramesSinceCourseHit;
-    /* 116 */ s16 mFramesSinceReset;
+    /* 116 */ s16 mFramesSinceCourseHitAttribute;
     /* 118 */ s16 mCourseReleaseTimer;
     /* 11a */ s16 mHitLinkTimer;
     // Frames since the object was taken by a kart or started, counted per UpdateItemObject call (several per frame in
@@ -345,9 +345,9 @@ typedef struct RaceProgressScoreTerms {
 typedef struct RankTimeGpEntry {
     /* 00 */ u8 mCourseId;
     /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mRankTimeEngine0;
-    /* 04 */ u16 mRankTimeEngine1;
-    /* 06 */ u16 mRankTimeEngine2;
+    /* 02 */ u16 mRankTimeSlow;
+    /* 04 */ u16 mRankTimeMedium;
+    /* 06 */ u16 mRankTimeFast;
 } RankTimeGpEntry;
 
 // The Grand Prix rank time file: the score weights ComputeGrandPrixScoreTerms reads, then mEntryCount entries.
@@ -461,7 +461,7 @@ typedef struct ItemKind {
     // Called with the object at the end of ReleaseItemObject.
     /* 3c */ void (*mRelease)(void *);
     /* 40 */ s32 mKeepsAdvanceAtEnd;
-    /* 44 */ s32 mKeepsAdvanceWhenResting;
+    /* 44 */ s32 mKeepsAdvanceWhenRestingOrFalling;
     // Copies the object's fields into the byte buffer (third argument non-zero) or back from it (zero); after a write
     // it also stamps the frame count and hands the buffer on (AddItemDataSizedByKind); with no object and no buffer it
     // returns the byte count.

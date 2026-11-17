@@ -85,7 +85,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     reset = gItemKinds[kind].mReset;
     item->mKind = kind;
     item->mFlags = 0;
-    item->mPendingUpdateCount = 0;
+    item->mUpdatesRemaining = 0;
     item->mScale.x = 0;
     item->mScale.y = 0;
     item->mScale.z = 0;
@@ -150,7 +150,7 @@ void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, const Vec3 *no
         InitCourseColorBlend(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
-    item->mFramesSinceReset = flag != 0 ? 0 : ITEM_OBJECT_RECENT_HIT_FRAMES;
+    item->mFramesSinceCourseHitAttribute = flag != 0 ? 0 : ITEM_OBJECT_RECENT_HIT_FRAMES;
 }
 
 s32 DoesItemObjectHurtKart(ItemObject *item) {
@@ -440,7 +440,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mCoursePointOrParams.y = 0;
     item->mCoursePointOrParams.z = 0;
     item->mFramesSinceCourseHit = ITEM_OBJECT_RECENT_HIT_FRAMES;
-    item->mFramesSinceReset = 0;
+    item->mFramesSinceCourseHitAttribute = 0;
     item->mCourseReleaseTimer = 0;
     item->mHitLinkTimer = 0;
     item->mAgeFrames = 1;

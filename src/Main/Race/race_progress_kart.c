@@ -474,13 +474,13 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
         if (entry->mCourseId == gRaceSetup->mCourseId) {
             switch (gRaceSetup->mEngineIndex) {
                 case ENGINE_CLASS_SLOW:
-                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeEngine0;
+                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeSlow;
                     return;
                 case ENGINE_CLASS_MEDIUM:
-                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeEngine1;
+                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeMedium;
                     return;
                 case ENGINE_CLASS_FAST:
-                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeEngine2;
+                    gRaceProgress->mHeader.mRankTime = entry->mRankTimeFast;
                     break;
             }
             return;

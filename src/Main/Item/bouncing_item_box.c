@@ -334,12 +334,12 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         reg_G3_TEXCOORD = 0;
         reg_G3_VTX_16 = quad->mCorners[0].mWord;
         reg_G3_VTX_16 = 0;
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16;
+        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexCoordHighSize << 8) >> 16) << 16;
         reg_G3_VTX_XY = quad->mCorners[1].mWord;
         reg_G3_TEXCOORD =
-            (u16) ((s32) (model->mTexSizeT << 8) >> 16) | ((u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16);
+            (u16) ((s32) (model->mTexCoordLowSize << 8) >> 16) | ((u16) ((s32) (model->mTexCoordHighSize << 8) >> 16) << 16);
         reg_G3_VTX_XY = quad->mCorners[2].mWord;
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeT << 8) >> 16);
+        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexCoordLowSize << 8) >> 16);
         reg_G3_VTX_XY = quad->mCorners[3].mWord;
         reg_G3_END_VTXS = 0;
         quadIndex++;
@@ -689,8 +689,8 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
     quadModel->mDifAmb = model->mDiffAmb;
     quadModel->mSpeEmi = model->mSpecEmi;
     teximageParam = quadModel->mTeximageParam;
-    quadModel->mTexSizeT = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
-    quadModel->mTexSizeS = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
+    quadModel->mTexCoordLowSize = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
+    quadModel->mTexCoordHighSize = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
 }
 #pragma thumb off
 

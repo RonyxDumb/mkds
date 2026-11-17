@@ -632,7 +632,7 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     }
     item->mFlags |= ITEM_OBJECT_FLAG_RESTING;
     kind = item->mKind;
-    if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
+    if (gItemKinds[kind].mKeepsAdvanceWhenRestingOrFalling == 0) {
         if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceRestingItemObject;
         }
@@ -775,7 +775,7 @@ void StartFallingItemObject(ItemObject *item) {
     item->mFlags &= ~ITEM_OBJECT_FLAG_RESTING;
     item->mFlags |= ITEM_OBJECT_FLAG_LAUNCHED;
     kind = *(vs32 *) &item->mKind;
-    if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
+    if (gItemKinds[kind].mKeepsAdvanceWhenRestingOrFalling == 0) {
         if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceFallingItemObject;
         }

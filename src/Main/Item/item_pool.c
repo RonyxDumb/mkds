@@ -294,8 +294,8 @@ found:
         }
     }
     if (frameDifference > 0) {
-        object->mPendingUpdateCount = frameDifference;
-        object->mPendingUpdateCount |= gItemObjectPendingUpdateBit;
+        object->mUpdatesRemaining = frameDifference;
+        object->mUpdatesRemaining |= gItemObjectPendingUpdateBit;
     }
 }
 
@@ -525,18 +525,18 @@ void UpdateItemPool(ItemPool *pool) {
     }
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         object = objects[objectIndex];
-        pendingUpdateCount = (u16) (object->mPendingUpdateCount & ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP);
+        pendingUpdateCount = (u16) (object->mUpdatesRemaining & ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP);
         if (pendingUpdateCount <= 0) {
             if (UpdateItemObject(pool, object, 0) != 0) {
                 activeCount = pool->mActiveCount;
                 objectIndex--;
             }
         } else {
-            hasPendingCatchUp = object->mPendingUpdateCount & ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
+            hasPendingCatchUp = object->mUpdatesRemaining & ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
             updateCount = 1;
             if (hasPendingCatchUp != 0) {
                 min = 0x5f592e1;
-                object->mPendingUpdateCount &= ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
+                object->mUpdatesRemaining &= ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
                 updateCount += pendingUpdateCount;
             } else {
                 updateCount++;
@@ -546,9 +546,9 @@ void UpdateItemPool(ItemPool *pool) {
             }
             FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000,
                                         COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
-            object->mPendingUpdateCount++;
+            object->mUpdatesRemaining++;
             do {
-                object->mPendingUpdateCount--;
+                object->mUpdatesRemaining--;
                 if (UpdateItemObject(pool, object, 1) != 0) {
                     activeCount = pool->mActiveCount;
                     objectIndex--;
