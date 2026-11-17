@@ -203,7 +203,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
     s32 courseHitAttributeBit;
     s32 outOfView;
     s32 reverseIndex;
-    enum { INDEX_FIRST } idx;
+    enum { INDEX_FIRST } kind;
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
@@ -235,8 +235,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         object = objects[reverseIndex];
         if (object->mCollisionSlotIndex == -1) {
             if (IsItemObjectScaleAtSetupSize(object) != FALSE) {
-                idx = object->mKind;
-                if (gItemKinds[idx].mSetupRadius != 0) {
+                kind = object->mKind;
+                if (gItemKinds[kind].mSetupRadius != 0) {
                     CreateItemObjectCollisionSlot(object);
                 }
             }

@@ -90,11 +90,11 @@ void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
 }
 
 void ResetItemGesso(ItemGesso *gesso) {
-    s32 quadIndex;
+    s32 kartIndex;
 
     gesso->mKart = NULL;
-    for (quadIndex = 0; quadIndex < 8; quadIndex++) {
-        gesso->mOrthoQuadCounts[quadIndex] = 0;
+    for (kartIndex = 0; kartIndex < 8; kartIndex++) {
+        gesso->mOrthoQuadCounts[kartIndex] = 0;
     }
     gesso->mStepIndex = -1;
     gesso->mItemObject.mAlpha = ITEM_OBJECT_ALPHA_OPAQUE;

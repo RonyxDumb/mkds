@@ -290,7 +290,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     u16 ownerKartIndex;
     u16 targetKartIndex;
-    u16 rankAhead;
+    u16 targetRank;
 
     ownerKartIndex =
         !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
@@ -301,11 +301,11 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
         targetKartIndex = ITEM_NO_KART_INDEX;
     } else {
-        rankAhead = GetKartRank(ownerKartIndex) - 1;
-        if (rankAhead < 1) {
-            rankAhead = gRaceSetup->mKartCount;
+        targetRank = GetKartRank(ownerKartIndex) - 1;
+        if (targetRank < 1) {
+            targetRank = gRaceSetup->mKartCount;
         }
-        targetKartIndex = GetKartAtRank(rankAhead);
+        targetKartIndex = GetKartAtRank(targetRank);
     }
     AdvanceLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0xd000, 0x29, targetKartIndex, 0);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &

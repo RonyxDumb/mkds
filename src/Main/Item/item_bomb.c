@@ -127,12 +127,12 @@ void ItemBombBounceNop(void *stateObject) {}
 
 void UpdateItemBombBounce(void *stateObject) {
     ItemBomb *bomb = stateObject;
-    u32 collisionHitLink;
+    u32 hitObjects;
 
     if (bomb->mIsThrown != 0) {
-        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x385, 0xff8, 0x733, &collisionHitLink);
+        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x385, 0xff8, 0x733, &hitObjects);
     } else {
-        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &collisionHitLink);
+        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &hitObjects);
     }
     if (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_BOUNCED_OFF_GROUND) {
         StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe5);
@@ -148,7 +148,7 @@ void UpdateItemBombBounce(void *stateObject) {
         bomb->mBouncingItemObject.mItemObject.mVelocity.y *= 2;
     }
     StopSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&bomb->mBouncingItemObject.mItemObject, &collisionHitLink);
+    StartRestingItemObject(&bomb->mBouncingItemObject.mItemObject, &hitObjects);
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         bomb->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
@@ -176,7 +176,7 @@ void UpdateItemBombRest(void *stateObject) {
 
 void EnterItemBombGrow(void *stateObject) {
     ItemBomb *bomb = stateObject;
-    NNSSndSeqPlayer **seqPlayerPointer;
+    NNSSndSeqPlayer **soundHandle;
     ModelEffect *modelEffect;
 
     bomb->mBouncingItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_FIXED_SCALE;
@@ -196,15 +196,15 @@ void EnterItemBombGrow(void *stateObject) {
     }
     StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe4);
     if (gRaceSoundKind & 1) {
-        seqPlayerPointer = TakeSoundHandleEntry(GetSoundHandlePool(0));
+        soundHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
         if (gSoundModeHolder.mSeqStartEnabled != 0) {
-            if (seqPlayerPointer[0] != NULL) {
-                NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
+            if (soundHandle[0] != NULL) {
+                NNS_SndPlayerStopSeq(soundHandle, 0);
             }
-            if (seqPlayerPointer[0] != NULL) {
-                NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
+            if (soundHandle[0] != NULL) {
+                NNS_SndPlayerStopSeq(soundHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(seqPlayerPointer, 0, 0xe0);
+            NNS_SndArcPlayerStartSeqArc(soundHandle, 0, 0xe0);
         }
     }
     StartCameraWobbleAtDistance(bomb->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);

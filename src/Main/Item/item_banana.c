@@ -137,13 +137,13 @@ s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
 // Calls AdvanceBouncingItem with one of two pairs of numbers, and when the 0x74 bits allow it
 // doubles the 0x60 word and runs StopSound and StartRestingItemObject.
 void AdvanceItemBanana(ItemBanana *banana) {
-    u32 collisionHitLink;
+    u32 hitObjects;
     u32 flags;
 
     if (banana->mThrowForward != 0) {
-        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x1ec, 0xfec, 0, &collisionHitLink);
+        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x1ec, 0xfec, 0, &hitObjects);
     } else {
-        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x2e1, 0xf85, 0, &collisionHitLink);
+        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x2e1, 0xf85, 0, &hitObjects);
     }
     flags = banana->mBouncingItemObject.mItemObject.mFlags;
     if ((flags & ITEM_OBJECT_FLAG_LANDED) == 0) {
@@ -156,7 +156,7 @@ void AdvanceItemBanana(ItemBanana *banana) {
         banana->mBouncingItemObject.mItemObject.mVelocity.y = banana->mBouncingItemObject.mItemObject.mVelocity.y * 2;
     }
     StopSound(&banana->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&banana->mBouncingItemObject.mItemObject, &collisionHitLink);
+    StartRestingItemObject(&banana->mBouncingItemObject.mItemObject, &hitObjects);
 }
 
 // Hands the 0x130 word and the 0x60 word to StoreItemDataFlagBit/LoadItemDataFlagBit around the

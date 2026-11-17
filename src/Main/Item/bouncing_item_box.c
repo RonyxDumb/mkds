@@ -131,8 +131,8 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     s32 cornerIndex;
     s32 fallSpeed;
     NNSSndSeqPlayer **sndHandle;
-    s16 coordX;
-    s16 coordY;
+    s16 x;
+    s16 y;
     s32 fallDistance;
 
     velocities = quad->mCornerVelocities;
@@ -162,16 +162,16 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
             quad->mCorners[cornerIndex].mHalf.mY += velocities[cornerIndex][1];
             velocities[cornerIndex][0] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][0], 0x10cd);
             velocities[cornerIndex][1] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][1], 0x10cd);
-            coordX = quad->mCorners[cornerIndex].mHalf.mX;
-            if (coordX > ORTHO_QUAD_COORD_LIMIT) {
+            x = quad->mCorners[cornerIndex].mHalf.mX;
+            if (x > ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mX = ORTHO_QUAD_COORD_LIMIT;
-            } else if (coordX < -ORTHO_QUAD_COORD_LIMIT) {
+            } else if (x < -ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mX = -ORTHO_QUAD_COORD_LIMIT;
             }
-            coordY = quad->mCorners[cornerIndex].mHalf.mY;
-            if (coordY > ORTHO_QUAD_COORD_LIMIT) {
+            y = quad->mCorners[cornerIndex].mHalf.mY;
+            if (y > ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mY = ORTHO_QUAD_COORD_LIMIT;
-            } else if (coordY < -ORTHO_QUAD_COORD_LIMIT) {
+            } else if (y < -ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mY = -ORTHO_QUAD_COORD_LIMIT;
             }
         }
@@ -179,15 +179,15 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
         cornerIndex = 0;
         if (cornerIndex < 4) {
             do {
-                coordX = velocities[cornerIndex][0];
-                coordY = velocities[cornerIndex][1];
-                if (coordY < 0) {
-                    fallSpeed = coordY * coordY > coordX * coordX ? 7 : 5;
+                x = velocities[cornerIndex][0];
+                y = velocities[cornerIndex][1];
+                if (y < 0) {
+                    fallSpeed = y * y > x * x ? 7 : 5;
                     if (cornerIndex == quad->mPickedCornerIndex) {
                         fallSpeed += (fallSpeed << 1) + ((fallSpeed * framesFromMoveStart) >> 9);
                     }
                 } else {
-                    fallSpeed = coordY * coordY > coordX * coordX ? 2 : 3;
+                    fallSpeed = y * y > x * x ? 2 : 3;
                 }
                 fallDistance = fallSpeed;
                 fallDistance += (fallSpeed * framesFromMoveStart) >> 8;
@@ -437,7 +437,7 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
 // Local entry only: places up to count quads at random cells; the cream effect does not restart while quads show.
 void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     HalfwordPair startPair;
-    s32 cellIndex;
+    s32 i;
     s32 placedCount;
     s32 cellBit;
     s32 column;
@@ -459,11 +459,11 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     gOrthoQuadUseCreamEffect = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
     gOrthoQuadUseCreamEffect = useCreamEffect;
-    for (cellIndex = 0; cellIndex < 8; cellIndex++) {
-        gOrthoQuadCells[cellIndex] = 0;
+    for (i = 0; i < 8; i++) {
+        gOrthoQuadCells[i] = 0;
     }
     cellBit = 1;
-    for (cellIndex = 0, placedCount = 0; cellIndex < 0x10 && placedCount < count; cellIndex++) {
+    for (i = 0, placedCount = 0; i < 0x10 && placedCount < count; i++) {
         if (gOrthoQuadUseCreamEffect != 0) {
             RANDOM_ADVANCE(random);
             startPair.mHalf.mX = (s16) RANDOM_BELOW_U64(random, 0x1000) * 2;
@@ -553,7 +553,7 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
     s32 cornerY;
     s32 pushY;
     s32 pushX;
-    s32 otherCornerIndex;
+    s32 pushedCornerIndex;
     s16(*velocities)[2] = quad->mCornerVelocities;
 
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
@@ -589,13 +589,13 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
                 pushY = -0x171;
             }
         }
-        for (otherCornerIndex = 0; otherCornerIndex < 4; otherCornerIndex++) {
-            if (cornerIndex == otherCornerIndex) {
-                velocities[otherCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
-                velocities[otherCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
+        for (pushedCornerIndex = 0; pushedCornerIndex < 4; pushedCornerIndex++) {
+            if (cornerIndex == pushedCornerIndex) {
+                velocities[pushedCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
+                velocities[pushedCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
             } else {
-                velocities[otherCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
-                velocities[otherCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
+                velocities[pushedCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
+                velocities[pushedCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
             }
         }
     }
