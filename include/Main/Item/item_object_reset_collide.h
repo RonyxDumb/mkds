@@ -12,8 +12,8 @@ void StartItemObjectReleaseIfOldResting(ItemObject *item);
 void StartItemObjectReleaseOnTimeout(ItemObject *item);
 void ResetItemObject(ItemObject *item, s32 kind);
 void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *pos);
-// Releases what the object holds: the collision body, the model entry when flag 0x400000 is set, then calls the
-// kind's release hook. Only ReleaseItemPoolObject calls it.
+// Releases what the object holds: its collision slot, its sound source when ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE is set,
+// then calls the kind's release hook. Only ReleaseItemPoolObject calls it.
 void ReleaseItemObject(ItemObject *item);
 void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, const Vec3 *normal, CourseColorBlend *colorBlend,
                             s32 flag);

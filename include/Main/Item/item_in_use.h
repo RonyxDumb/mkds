@@ -41,7 +41,7 @@ typedef struct KartTireTranslations {
 #define KART_MODEL_COLOR_BLEND_CHANNEL_MASK 0x1f
 #define KART_MODEL_COLOR_BLEND_GREEN_SHIFT 5
 #define KART_MODEL_COLOR_BLEND_BLUE_SHIFT 10
-// mBlendProgress runs 0 to this (1.0 in 20.12 fixed point).
+// mBlendProgress runs 0 to this (0x1000 = 1.0).
 #define KART_MODEL_COLOR_BLEND_PROGRESS_END 0x1000
 
 // The colour fade of a kart model: diffuse, emission and ambient colours, each with a start and the difference to the
@@ -109,8 +109,8 @@ typedef struct KartModelsEntry {
     /* 0b0 */ s32 mRegion;
 } KartModelsEntry;
 
-// Slots of each row of ItemInUse.mHopHeightHistory (a ring; the mask picks the slot) and how many slots back the
-// second row reads.
+// Slots of each row of ItemInUse.mHopHeightHistory (a ring; the mask picks the slot) and how many slots back each row
+// is read.
 #define ITEM_IN_USE_HOP_HISTORY_SIZE 0x10
 #define ITEM_IN_USE_HOP_HISTORY_MASK 0xf
 #define ITEM_IN_USE_HOP_HISTORY_DELAY 6
@@ -129,7 +129,8 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_CIRCLE_SPEED_STEP 0x46
 // Age (frames) of the first object of an item in use after which its scale grows.
 #define ITEM_IN_USE_OBJECT_GROW_AGE 0xc
-// Start value and per-frame decrease of ItemInUse.mKartMovementWeights.
+// Start value of ItemInUse.mKartMovementWeights and the amount it drops each time the trail position is pulled back to
+// the largest gap.
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_START 0xee1
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_DECREASE 0x3d
 // The two values of ItemInUse.mObjectHeight (the first for object kind 8).

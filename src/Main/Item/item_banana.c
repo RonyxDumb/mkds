@@ -113,9 +113,8 @@ const ItemKind gItemKindBanana = {0x134,
                                   1,
                                   0};
 
-// Runs StartItemObjectSoundSource, ors gItemBananaUntilCourseHitBit into the 0x78 halfword, then makes one of two
-// ThrowBouncingItem calls depending on the 0x1ec halfword of the 0x0c pointer, and returns the
-// 0x130 word it stores.
+// Starts the banana's sound source, then throws it forward (with its sound) or dropped backward according to
+// KART_ITEMS_THROW_FORWARD, and returns the mThrowForward value it stores.
 s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     KartItems *kartItems;
     s32 unused;
@@ -134,8 +133,9 @@ s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     return banana->mThrowForward;
 }
 
-// Calls AdvanceBouncingItem with one of two pairs of numbers, and when the 0x74 bits allow it
-// doubles the 0x60 word and runs StopSound and StartRestingItemObject.
+// Advances the bounce with forward or backward constants (by mThrowForward); once the banana has landed and is neither
+// fading out nor being released, it doubles the vertical velocity of a forward throw, stops the sound and rests the
+// banana.
 void AdvanceItemBanana(ItemBanana *banana) {
     u32 hitObjects;
     u32 flags;
@@ -159,8 +159,9 @@ void AdvanceItemBanana(ItemBanana *banana) {
     StartRestingItemObject(&banana->mBouncingItemObject.mItemObject, &hitObjects);
 }
 
-// Hands the 0x130 word and the 0x60 word to StoreItemDataFlagBit/LoadItemDataFlagBit around the
-// CopyItemObjectData call, and returns AddItemDataSizedByKind's value when b and c are both set.
+// Around CopyItemObjectData, stores mThrowForward into mVelocity.y with StoreItemDataFlagBit when toBuffer is given and
+// restores it with LoadItemDataFlagBit when toBuffer is NULL; with banana and toBuffer both set it returns
+// AddItemDataSizedByKind of the object's kind, else the CopyItemObjectData result.
 void *CopyItemBananaData(void *buffer, ItemBanana *banana, void *toBuffer) {
     void *result;
 
@@ -177,7 +178,8 @@ void *CopyItemBananaData(void *buffer, ItemBanana *banana, void *toBuffer) {
     return result;
 }
 
-// Runs SetupItemObjectFromData and StartItemObjectBouncing, then StartSound when the two 0x74/0x130 tests pass.
+// Sets the banana up from its data and starts it bouncing; when the object has ITEM_OBJECT_FLAG_FROM_DATA and
+// mThrowForward is set it also starts the sound.
 void InitItemBananaFromData(ItemBanana *banana) {
     SetupItemObjectFromData(&banana->mBouncingItemObject.mItemObject);
     StartItemObjectBouncing(&banana->mBouncingItemObject, 0);

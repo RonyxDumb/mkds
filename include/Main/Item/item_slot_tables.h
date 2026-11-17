@@ -31,21 +31,25 @@ typedef struct KartItems KartItems;
 u8 *ComputeItemSlotTableDataEnd(u8 *data);
 u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data);
 void SetActiveItem(KartItems *kartItems, unsigned int itemIndex);
-// HUD tick: picks the item shown now (random entry of the spin or possible-items list other than the last, or the
-// result while stopping); called only on spin tick frames
+// HUD tick: picks the item shown now (a random entry of the spin list, or of the possible-items list when the spin list
+// is empty, moving to the next entry when it draws the one already shown; the result during the final scroll). The HUD
+// calls it on the frames where the shown item changes (RACE_ITEM_SLOT_CHANGE_FRAME_CASES) while a roulette runs.
 void PickItemSlotShownItem(KartItems *slot);
 void StopItemSlot(KartItems *slot);
-// After the roulette ran to its end: gives the pool objects back, resets the state, mActiveItem and results; the caller
-// gives the item
+// After the roulette ran to its end: releases the reservation of the result's objects in their pool
+// (ItemPool.mReservedCount), resets the state, mSlotFrames, the shown and result items, mActiveItem and mResultPending;
+// the caller gives the item.
 void FinishItemSlot(KartItems *slot);
 BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems);
 void StartItemSlotResultPending(KartItems *slot);
 // Returns without starting when the roulette runs or mActiveItem is set
 void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin);
 void InitItemSlot(KartItems *slot, KartItems *kartItems);
-// Weighted roll of one item from a row (the kart's rank, or a forced row); sums the weights of the allowed items, draws
-// with the race random, then replaces an item whose pool is full by item 2 (4 in mode 5) and frees pool objects until
-// the item fits; writes the spin list when asked; also called by a course object
+// Weighted roll of one item from a row (the kart's rank, or a forced row): sums the weights of the allowed items, draws
+// with the race random, and when ReplaceUnavailableItem replaces a nothing-rolled or unavailable item by
+// ITEM_INFO_BANANA (ITEM_INFO_KINOKO in a Wi-Fi race) it frees pool objects until that item fits. With isEntryKart and
+// a forced row it writes the spin list; with isEntryKart and no forced row it clears it. Also called by a course object
+// (the wooden box).
 s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGhostOrPeer, s32 isEntryKart,
              s32 itemCount);
 

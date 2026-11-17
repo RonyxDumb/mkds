@@ -29,7 +29,7 @@ typedef struct BouncingItemBox {
 
 extern const u16 gBouncingItemBoxUntilCourseHitBit;
 extern const ItemInfo gItemInfoKiller;
-// Default record: its only function pointer is the shared ComputeViewTest hook.
+// Record with no callbacks except the shared ComputeViewTest view test.
 extern const ItemKind gItemKindKiller;
 
 void CreatePooledMapObjects(void);

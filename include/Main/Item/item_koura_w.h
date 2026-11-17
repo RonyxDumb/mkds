@@ -32,8 +32,8 @@ enum {
     ITEM_KOURA_W_STATE_COUNT,
 };
 
-// Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
-// QuaternionFromYAxisToVec3 write.
+// Stack object of InitItemKouraWFromData: the direction Vec3NormalizeAndGetLengthUnchecked writes and the quaternion
+// QuaternionFromYAxisToVec3 writes.
 typedef struct DirectionQuaternion {
     /* 00 */ Vec3 mDirection;
     /* 0c */ Quaternion mQuaternion;
@@ -119,15 +119,15 @@ s32 GrowItemObjectScale(ItemObject *item, s32 limit, s32 step);
 s32 GetItemDataSize(s32 itemKind, s32 messageKind);
 void InitItems(void);
 void StartCourseMapItemObjects(void);
-// Takes an object of the given kind from its pool, reserves, starts and places it; returns 0 when the pool is full
-// (mLimit - mReservedCount <= 0).
+// Takes an object of the given kind from its pool, reserves, starts and places it, marks it ownerless when the kart
+// index is ITEM_NO_KART_INDEX; returns 0 when the pool is full (mLimit - mReservedCount <= 0).
 void *StartItemObjectOrZero(s32 kind, u16 kartIndex, void *pos, void *normal);
 struct ItemObject *GetCollidedItemObject(u32 index);
 s32 CollideKartWithItemObjects(Kart *kart);
 void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin);
 void DrawItems(void *unused);
-// Per-frame item step: mode-5 sync, the object pools whose mActiveCount is not 0, every kart's record, the item timers,
-// two map-object steps
+// Per-frame item step: in MODE_WIFI the queued item data, the pools whose mActiveCount is not 0, every kart's
+// KartItems, the item block timers, the ortho quads and the bouncing item box timers.
 void UpdateItems(void);
 void ReleaseItemsAtFinish(void);
 BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex);

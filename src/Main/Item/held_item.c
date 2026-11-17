@@ -29,8 +29,9 @@ const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}},
                                           {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};
 s32 gItemPointLinksByIndex[4];
 
-// Runs the countdown that starts the held objects, then counts the use timer down and, when it ends, takes one object
-// off the held item.
+// Runs the countdown that starts the held objects. Then, only for an item with a use timer that is running and once the
+// start countdown has finished, counts the timer down and, when it reaches 0, takes one object off the held item (and
+// its pool reservation).
 void UpdateHeldItem(HeldItem *heldItem) {
     s32 objectIndex;
     u32 objectKind;
@@ -650,7 +651,8 @@ u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut) {
 
 #pragma thumb on
 
-// Sets each link's direction to its first next link; also fills gItemPointLinksByIndex.
+// Stores each link's direction toward its first next link (normalised when the offset is long enough), and records the
+// links whose mRadius is at least ITEM_POINT_LINK_INDEXED_RADIUS in gItemPointLinksByIndex by mLinkIndex.
 void InitItemPointLinkDirections(void) {
     ItemPointLink *link;
     Vec3 direction;

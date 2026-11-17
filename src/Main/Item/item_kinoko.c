@@ -81,7 +81,8 @@ const ItemInfo gItemInfoKinokoThree = {1, 1, 3, 3, 0, 0, StartItemKinokoBoost};
 
 #pragma thumb on
 
-// Fills a table of eighteen 0x1c-byte objects allocated here.
+// Allocates gItemInfos, copies the eighteen gItemInfo records into it and sets mEnabled for the battle, Wi-Fi and
+// demo-race cases.
 void CreateItemInfos(void) {
     ItemInfo *infos;
     s32 infoIndex;

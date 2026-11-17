@@ -350,7 +350,8 @@ void DrawOrthoQuads(void) {
     DrawOrthoQuadsWithModel(gOrthoQuadUseCreamEffect != 0 ? &gOrthoQuadCreamEffect : &gOrthoQuadGesoSumi);
 }
 
-// Marks the cells in rows row - 2 to row + 2 next to column; returns the bits that were already marked.
+// Marks a block of cells around column in gOrthoQuadCells: five cells wide in rows row - 1 to row + 1, three cells wide
+// in rows row - 2 and row + 2 (rows 0 to 7 only); returns the bits that were already marked.
 u8 MarkOrthoQuadCellsAndGetOverlap(s32 column, s32 row) {
     u8 overlapAbove;
     s32 fiveCellMask;

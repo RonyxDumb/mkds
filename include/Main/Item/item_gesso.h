@@ -5,8 +5,9 @@
 #include "Main/MapObjects/pendulum.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 
-// Target scales (1.12 fixed point) of an ItemGesso step: taller than wide when the target velocity Y is above 0, wider
-// than tall otherwise, a larger spread and a half size at two steps near the end.
+// Target scales (0x1000 = 1.0) of an ItemGesso step: taller than wide when the target velocity Y is above 0, wider than
+// tall otherwise except the plain-scale step, a larger scale at the step ITEM_GESSO_STEP_WIDE_SCALE and half size at
+// ITEM_GESSO_STEP_HALF_SCALE.
 #define ITEM_GESSO_TALL_SCALE_X 0xe66
 #define ITEM_GESSO_TALL_SCALE_Y 0x1266
 #define ITEM_GESSO_SQUAT_SCALE_X 0x1333

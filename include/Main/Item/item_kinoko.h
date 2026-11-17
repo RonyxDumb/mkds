@@ -20,9 +20,13 @@ typedef enum ItemKouraRState {
     ITEM_KOURA_R_STATE_STRAIGHT_WIFI_RACE = 0, // moves straight; set when the object has ITEM_OBJECT_FLAG_WIFI_RACE
     ITEM_KOURA_R_STATE_STRAIGHT = 1, // moves straight; set after a bounce off a wall
     ITEM_KOURA_R_STATE_SEEK_AFTER_THROW = 2, // moves straight until a kart is in reach
-    ITEM_KOURA_R_STATE_FOLLOW_LINK = 3, // follows the link of the item list toward the kart ahead
-    ITEM_KOURA_R_STATE_HOMING = 4, // steers toward its kart
-    ITEM_KOURA_R_STATE_CLOSE_IN = 5, // steers fast toward the kart and fades out on reaching it
+    // follows the item point links toward the kart one rank ahead of its owner (the last-ranked kart when the owner is
+    // first)
+    ITEM_KOURA_R_STATE_FOLLOW_LINK = 3,
+    ITEM_KOURA_R_STATE_HOMING = 4, // steers toward the targeted kart
+    // steers fast toward the kart; fades out within one and a half radii of it, when the kart is not normal, or after
+    // ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES frames
+    ITEM_KOURA_R_STATE_CLOSE_IN = 5,
     ITEM_KOURA_R_STATE_GLIDE_TO_KART_VELOCITY = 6, // moves with the velocity added toward the kart
 } ItemKouraRState;
 

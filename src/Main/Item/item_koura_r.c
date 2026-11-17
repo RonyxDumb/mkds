@@ -357,8 +357,9 @@ void EnterItemKouraRSteerToKart(void *stateObject) {
         (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
 }
 
-// Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
-// one of the four SteerItemKouraRToKart calls, and stores the 0x24c/0x24e halfwords it picks.
+// Homing state: if the kart is removed, parked, a Teresa or dropping to respawn, glide toward the kart's velocity;
+// otherwise steer toward the kart, and when the steer call returns non-zero go to the seek-after-throw state. Requests
+// the shell sound unless a fade-out has started.
 void UpdateItemKouraRSteerToKart(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
@@ -408,8 +409,9 @@ void UpdateItemKouraRSteerToKart(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Checks IsKartNotNormal of the Kart, then the 0x240 counter and the sum of the two
-// squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
+// Close-in state: fades the shell out as a hit if IsKartNotNormal, else steers at the kart; requests the shell sound
+// unless a fade-out has started; the shell fades out as a hit when it is within the hit radius of the kart in x and z,
+// or once mStateFrames passes ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES.
 void UpdateItemKouraRCloseIn(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
@@ -444,7 +446,7 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
     FadeOutItemObjectHitByKart(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0, 8);
 }
 
-// Runs AdvanceItemObjectMotion and hands StartItemKouraRSound to AddSoundRequest when the 0x74 bit 0 is clear.
+// Advances the shell's motion; unless a fade-out has started, requests the shell sound.
 void UpdateItemKouraRGlide(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0xc000);
@@ -457,8 +459,9 @@ void UpdateItemKouraRGlide(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Runs StartKartSeqArcSoundOffset8 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
-// third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
+// Plays the sound at the kart held in mKartItems when hitType is 1 or 2 and the other object is owned by that kart; an
+// object not in use must also be active, flagged ITEM_OWNER_KART_TARGETED_BY_KOURA_R and younger than
+// ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES.
 void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam) {
     ItemKouraR *kouraR;
     ItemObject *other;
@@ -498,8 +501,9 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
     StartKartSeqArcSoundOffset8(kart, kart->mSoundIndex);
 }
 
-// Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
-// CopyItemObjectData, CopyItemPointLinkIndex, StoreItemDataFlagBit, LoadItemDataFlagBit and AddItemDataSizedByKind.
+// Copies the shell's item data to or from the buffer: the object data and previous link index, plus two flag bits
+// carried in velocity.y (mReverse) and pos.y (mThrowForward); when writing it also adds the item data record for the
+// kind and returns its buffer.
 void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     s32 dot;
     void *result;
@@ -526,8 +530,9 @@ void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     return result;
 }
 
-// Stores SetItemKouraSoundTrackParams in the 0x30 word, moves the seven words of gItemKouraRStateTable to 0x23c,
-// then picks one of three calls from the 0x254/0x21c words.
+// Sets the shell up from received item data: resets the sound change, sets the sound track function, starts the state
+// machine with gItemKouraRStateTable, then picks the follow-link, seek-after-throw or straight state from mThrowForward
+// and the previous link.
 void InitItemKouraRFromData(ItemKouraR *kouraR) {
     u16 ownerKartIndex;
     u32 rank;

@@ -11,8 +11,9 @@ s32 GetTeresaOffsetYDivisor(void);
 typedef struct NsbmdModel NsbmdModel;
 typedef struct ItemTeresa ItemTeresa;
 
-// Values of ItemTeresa.mItemObjectKind besides a real ItemObjectKind: nothing carried (no model drawn), and an item
-// taken that was none or that nobody held.
+// Values of ItemTeresa.mItemObjectKind besides a real ItemObjectKind: EMPTY, nothing carried yet (no item model is
+// drawn; it is set again once the item is given back), and TOOK_NOTHING, nothing was taken (no kart was picked in time,
+// or the picked kart held nothing the Boo may take).
 #define ITEM_TERESA_KIND_EMPTY ITEM_OBJECT_KIND_COUNT
 #define ITEM_TERESA_KIND_TOOK_NOTHING ITEM_OBJECT_KIND_NONE
 // Value of ItemTeresa.mTakenItemInfoIndex and mGivenItemInfoIndex while no item has arrived; the count is
@@ -43,7 +44,8 @@ typedef struct ItemTeresa ItemTeresa;
 #define ITEM_TERESA_TAKE_RISE_ACCELERATION 0x133
 
 // Values of the ItemTeresa state machine states, which gItemTeresaStateTable follows, and so of
-// ItemTeresa.mReportedState. FINISHED is the value after the last state; NONE means nothing reported yet.
+// ItemTeresa.mReportedState. FINISHED is the value after the last state; NONE means no report is waiting (set at reset
+// and again after a report is used).
 enum {
     ITEM_TERESA_STATE_FADE_OUT_AT_OWNER,
     ITEM_TERESA_STATE_WAIT_PICKED_KART,

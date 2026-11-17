@@ -10,7 +10,8 @@
 // start) the quad picks a new mPickedCornerIndex.
 #define ORTHO_QUAD_CORNER_PICK_MASK 0xf
 
-// The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.
+// The register words and texture sizes DrawOrthoQuadsWithModel uses; SetupOrthoQuadModel fills them from one model,
+// except mPolygonAttr, a fixed value.
 typedef struct {
     /* 00 */ void *mModel;
     /* 04 */ u32 mPolygonAttr;
@@ -26,8 +27,9 @@ typedef struct {
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "matrix44_concat.h"
 
-// The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
-// GesoSumi: the screen overlay the Gesso item starts for a hit kart.
+// gOrthoQuadUseCreamEffect picks which of gOrthoQuadCreamEffect and gOrthoQuadGesoSumi is drawn. GesoSumi: the quads
+// the Gesso item starts, only for the local entry. (put it above the two externs,
+// include/Main/Item/bouncing_item_box.h:60)
 
 void SetupItemGessoKarts(ItemGesso *gesso);
 void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model);

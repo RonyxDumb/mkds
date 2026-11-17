@@ -8,5 +8,5 @@ void StartItemKinokoPBoost(ItemInUse *inUse, HeldItem *heldItem);
 
 extern const Vec3 gKouraWGrowStartScale;
 extern const ItemInfo gItemInfoKinokoP;
-// Default record: its only function pointer is the shared ComputeViewTest hook.
+// Its only function pointer is the shared ComputeViewTest hook.
 extern const ItemKind gItemKindKinokoP;

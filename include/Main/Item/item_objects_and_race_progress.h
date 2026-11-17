@@ -23,7 +23,8 @@
 // Item point links with at least this radius (1000.0) are entered in gItemPointLinksByIndex.
 #define ITEM_POINT_LINK_INDEXED_RADIUS 0x3e8000
 
-// Frames (60 seconds) that ItemObject.mHitLinkTimer counts from when the hit link has an object.
+// Frames (60 seconds) that ItemObject.mHitLinkTimer counts from when the hit link has an object and
+// IsHitLinkOutsideGearRadiusOrFlagged is not 0.
 #define ITEM_OBJECT_HIT_LINK_TIMER_FRAMES 0xe10
 // One item point: the links that follow it and come before it, and a pointer to its position.
 typedef struct ItemPointLink {
@@ -53,7 +54,8 @@ typedef struct ItemPointLinkRef {
 // Number of positions in SegmentPoints (a ring).
 #define SEGMENT_POINT_COUNT 4
 
-// Four positions and pointers to them.
+// A ring of four positions (mPoints, written at mWriteIndex), pointers to them in order, and the SegmentProgress built
+// on those four.
 typedef struct {
     /* 00 */ SegmentProgress mSegmentProgress;
     /* 60 */ s32 mWriteIndex;
@@ -63,7 +65,8 @@ typedef struct {
 
 extern SegmentProgress gJgSegmentProgress;
 
-// ItemObject.mAlpha of a fully opaque item (the polygon alpha has five bits).
+// Full value of ItemObject.mAlpha and ItemTeresa.mItemModelAlpha (a fully opaque item); the polygon alpha field is five
+// bits wide (POLYGON_ATTR_ALPHA_MASK).
 #define ITEM_OBJECT_ALPHA_OPAQUE 0x1f
 
 // ItemObject.mRadius and mCourseRadius that ResetItemObject gives every object until a scale update sets them from the
@@ -192,7 +195,6 @@ extern SegmentProgress gJgSegmentProgress;
 
 // The part every item object shares; the per-kind objects embed it as their first member.
 typedef struct ItemObject {
-    // Sound source of the item object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
     // Kind number of the object's pool; ResetItemObject writes it each time the object is set up or handed out.
     /* 44 */ s32 mKind;
@@ -204,7 +206,7 @@ typedef struct ItemObject {
     /* 050 */ Vec3 mPos;
     /* 5c */ Vec3 mVelocity;
     /* 68 */ Vec3 mScale;
-    // Bit flags used by item code in 22 units; UpdateItemObject clears the low 12 bits on each call.
+    // Bit flags (ITEM_OBJECT_FLAG_*); UpdateItemObject clears the low 12 bits at its start.
     /* 74 */ u32 mFlags;
     /* 78 */ u16 mOwnerKartIndexAndFlags;
     /* 7a */ u16 mUpdatesRemaining;
@@ -228,8 +230,8 @@ typedef struct ItemObject {
     /* 116 */ s16 mFramesSinceCourseHitAttribute;
     /* 118 */ s16 mCourseReleaseTimer;
     /* 11a */ s16 mHitLinkTimer;
-    // Frames since the object was taken by a kart or started, counted per UpdateItemObject call (several per frame in
-    // mode 5); held objects count too.
+    // Frames since the object was taken by a kart or started (1 when it was set up from data), counted per
+    // UpdateItemObject call (several per frame in mode 5); held objects count too.
     /* 11c */ s32 mAgeFrames;
     /* 120 */ void (*mAdvance)(struct ItemObject *);
     /* 124 */ void (*mBounce)(struct ItemObject *, Vec3 *, Vec3 *);
@@ -237,8 +239,8 @@ typedef struct ItemObject {
     /* 129 */ u8 mUnk_129[3];
 } ItemObject;
 
-// Values of RaceProgressKart.mStatus. Racing, goal reached (battle: still alive at the end), battle loser, ended
-// without the goal (time up, or the race is over), removed.
+// Values of RaceProgressKart.mStatus. Racing, goal reached (battle: on the winning side at the end), battle loser,
+// ended without the goal (any end kind other than the goal, or the race ended before the kart finished), removed.
 #define RACE_PROGRESS_KART_STATUS_RACING 0
 #define RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM 1
 #define RACE_PROGRESS_KART_STATUS_BATTLE_LOSER 2
@@ -269,17 +271,18 @@ typedef struct RaceProgressKart {
     // Counted for the leader at each ranking step (kart 0 in a one-kart race); read by ComputeGrandPrixScoreTerms.
     /* 28 */ s32 mFirstPlaceFrames;
     /* 2c */ s32 mFinishTimeMs;
-    // 0x1 local entry, 0x2 ended by the mode 2 end, 0x4 facing against the checkpoint, 0x8 finish just happened, 0x10
-    // local entry ended by the goal and the post-goal wait runs, 0x20 same for a failure kind, 0x40 finish pending.
+    // Bits of mFlags, see RACE_PROGRESS_KART_FLAG_*: 0x1 local entry, 0x2 set when the battle statuses are decided, 0x4
+    // facing against the checkpoint direction (never while on a boost surface), 0x8 finish just happened, 0x10 local
+    // entry ended by the goal and the post-goal wait runs, 0x20 same for a failure kind, 0x40 finish pending.
     /* 30 */ u16 mFlags;
     /* 32 */ u16 mCheckpoint;
-    // Number of the last numbered checkpoint the kart has passed in sequence in this lap: set to the entered number
-    // while that is at most one more than the value (so it also falls back when the kart drives back), -1 when the lap
-    // count advances, the last number at set-up and when the kart crosses the line backwards; the lap completes when it
-    // is the last number and the kart reaches checkpoint 0.
+    // Number of the last numbered checkpoint the kart has passed in sequence in this lap: set to the number of the
+    // checkpoint it moves on from while that is at most one more than the value (so it also falls back when the kart
+    // drives back), -1 when the lap count advances, the last number at set-up and when the kart crosses the line
+    // backwards; the lap completes when it is the last number and the kart reaches checkpoint 0.
     /* 34 */ s16 mInOrderCheckpointNumber;
-    // Number of the last numbered checkpoint the kart entered (not required to be in sequence), -1 when the lap count
-    // advances, the last number at set-up. Written only.
+    // Number of the last numbered checkpoint the kart moved on from (not required to be in sequence), -1 when the lap
+    // count advances, the last number at set-up and when the kart crosses the line backwards. Written only.
     /* 36 */ s16 mCheckpointNumber;
     /* 38 */ u16 mRoute;
     /* 3a */ u16 mHighestLap;
@@ -294,9 +297,10 @@ typedef struct RaceProgressKart {
     // Set by FinishRaceProgressKart for the local entry in modes 0 and 4; 0 otherwise.
     /* 3e */ s16 mScore;
     // Position between the kart's checkpoint and the next one as of the last update, fixed point about 0 to 0x1000 (the
-    // tests accept -2 to 0x1002); it is used again as the position when the checkpoint search found no new one.
+    // tests accept -2 to 0x1002); the old value is used again when the found position is past the next numbered
+    // checkpoint in sequence, unless the kart is at checkpoint 0 and past the last numbered one.
     /* 40 */ s32 mCheckpointProgress;
-    // ((mLap - 1) << 12 + mLapProgress) scaled by 1/laps, fixed point; the rank sort uses it after mLap.
+    // (((mLap - 1) << 12) + mLapProgress) scaled by 1/laps, fixed point; the rank sort uses it after mLap.
     /* 44 */ s32 mRaceProgress;
     // Position within the lap, fixed point, scaled by 1/(gCourseMap.mLapProgressBaseMax + 1).
     /* 48 */ s32 mLapProgress;
@@ -308,8 +312,9 @@ typedef struct RaceProgressKart {
 // The race clock, the rank time and the finished and removed counts at the start of RaceProgress.
 typedef struct RaceProgressHeader {
     /* 00 */ s32 mElapsedFrames;
-    // Gate of the clock; cleared by FinishRaceProgressKartWithEndKind (finish request for ANY entry: mission goal,
-    // forced finish, kind 6), not by the normal goal crossing; set only by StartRaceClock.
+    // Gate of the clock: UpdateRaceClock counts the frames only while it is set. Cleared by
+    // FinishRaceProgressKartWithEndKind for any kart that has not already ended or started its end wait (not only the
+    // local entry), whatever the end kind; the normal goal crossing does not clear it; set only by StartRaceClock.
     /* 04 */ s32 mClockEnabled;
     /* 08 */ union {
         struct {
@@ -319,7 +324,9 @@ typedef struct RaceProgressHeader {
         };
         MinuteSecondMillisecondTime mClockTime;
     };
-    // Frames from the file, 0 = course absent. Compared with mElapsedFrames.
+    // Frames from the rank time file for the course and the engine class, 0 when the course is not in it (or the engine
+    // class is not slow/medium/fast). The score reads (mRankTime - mElapsedFrames) / mRankTime and mFirstPlaceFrames /
+    // mRankTime.
     /* 0c */ u16 mRankTime;
     // Calls of FinishRaceProgressKart; set to the kart count when the race is over.
     /* 0e */ u16 mFinishedCount;
@@ -328,7 +335,8 @@ typedef struct RaceProgressHeader {
     /* 12 */ u8 mUnk_12[0x2];
 } RaceProgressHeader;
 
-// Nine words.
+// The nine score terms of the local entry (time remaining, first place, race start boost, mini turbo, item hit,
+// surface, course contact, map object hit, respawn).
 typedef struct RaceProgressScoreTerms {
     /* 00 */ s32 mTimeRemainingScore;
     /* 04 */ s32 mFirstPlaceScore;
@@ -377,19 +385,20 @@ typedef struct RaceProgress {
     /* 000 */ RaceProgressHeader mHeader;
     /* 014 */ RaceProgressKart mKarts[8];
     /* 474 */ s8 mKartAtRank[8];
-    // Synced random generator; also stepped at each clock update while the clock gate is on, for the jitter that
-    // GetRaceClockTime shows.
+    // Random generator seeded with the value that is also stored in mSeed; also stepped at each clock update while the
+    // clock gate is on, for the random fraction of a frame that the shown clock time adds.
     /* 47c */ RandomState64 mRandom;
-    // Written once, never read; mNextHeader.mSeed holds the same value.
+    // Written once, never read; RaceSetup.mNextHeader.mSeed holds the same value.
     /* 494 */ s32 mSeed;
-    // Random generator seeded from three OS_GetTick calls, not from mSeed. Local means this console, not the local
-    // player (mFlags bit 1 is the local entry). Mode 1 uses it where the other modes use mRandom.
+    // Random generator seeded from three OS_GetTick calls, not from the seed that is stored in mSeed. The Local in the
+    // name has nothing to do with RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY. In mode 1 TakeHeldItemObjects draws the start
+    // angle from it where the other modes use mRandom.
     /* 498 */ RandomState64 mLocalRandom;
     // Random generator seeded with the constant 0xa094a2f; the map objects draw from it in mode 5 (from mRandom
     // otherwise).
     /* 4b0 */ RandomState64 mFixedSeedRandom;
     /* 4c8 */ RankTimeGp *mRankTimeGpFile;
-    // Set once per race in every mode; read by HUD and net code.
+    // Set once per race in every mode; read by the HUD, the goal and record screens, the menu and the item code.
     /* 4cc */ s32 mRaceDone;
     /* 4d0 */ s32 mCameraChainEnded;
     // Entry i is the fraction of the lap at numbered checkpoint i, fixed point; compared with a kart's mLapProgress.
@@ -402,22 +411,26 @@ typedef struct RaceProgress {
     // Reciprocal of one more than gCourseMap's mLapProgressBaseMax, as a fixed-point factor: multiplied with a position
     // in the route to get RaceProgressKart.mLapProgress and mCheckpointLapProgress.
     /* 4e4 */ s32 mLapProgressScale;
-    // Reciprocal of the lap count as a fixed-point factor: multiplied with (mLap - 1, mLapProgress) to get
-    // RaceProgressKart.mRaceProgress.
+    // Reciprocal of the lap count as a fixed-point factor: multiplied with ((mLap - 1) as fixed point plus
+    // mLapProgress) to get RaceProgressKart.mRaceProgress.
     /* 4e8 */ s32 mRaceProgressScale;
     // Read only by ComputeRaceTime: when set, the clock counts down from mTimeLimitFrameCount. Set at init in mode 4
-    // (unless mUnk_2f is 6) and in mode 2 when mUnk_18 is 1.
+    // unless the mission kind is MISSION_KIND_LAPS_FIRST_PLACE, and in mode 2 when the battle kind is
+    // BATTLE_KIND_SHINE.
     /* 4ec */ BOOL mTimeCountsDown;
     /* 4f0 */ s32 mEntryRaceEnded;
-    // In frames; 0 = none, clock cap 0x57e40. Compared with the frame clock; mode 2 value is mSettings.mUnk_02 * 0x3c.
+    // In frames; 0 = none, clock cap 0x57e40. Compared with the frame clock. Set at init to
+    // RaceSetup.mMissionTimeLimitFrameCount in mode 4 and to the course setting mLapCountOrBattleSeconds * 0x3c in the
+    // Shine battle; the Shine battle also reloads it from AdvanceShineBattleTimeLimit() * 0x3c.
     /* 4f4 */ u32 mTimeLimitFrameCount;
     /* 4f8 */ u8 mStartPlacementOffset;
     /* 4f9 */ u8 mUnk_4f9;
     // Mode 4 only: counted while the local entry ended with flag 0x10, zeroed by FinishRaceProgressKartWithEndKind. No
     // init write (zero from the allocation).
     /* 4fa */ u16 mFramesSinceFinish;
-    // Calls of the end step, counted while IsEntryKartNormalOrNotMissionRun returns non-zero, since the selected entry
-    // ended without the goal; the step waits for 0x3c and then takes the entry out.
+    // Calls of AdvanceMissionRunEnd, counted while IsEntryKartNormalOrNotMissionRun returns non-zero, since the local
+    // entry ended without the goal; once it passes RACE_FAILURE_WAIT_FRAMES (0x3c) the step finishes the kart at the
+    // mission end and starts the race end sequence. No init write.
     /* 4fc */ u16 mFramesSinceFailure;
     /* 4fe */ u16 mUnk_4fe;
     /* 500 */ RaceProgressScoreTerms mScoreTerms;
@@ -429,8 +442,8 @@ typedef struct ItemKind {
     // Most objects of the kind that may be in use, copied to the pool; CreateItemKinds changes it in modes 2, 4 and 5.
     /* 04 */ s32 mLimit;
     /* 08 */ s32 mMissionRunLimit;
-    // Number of objects the kind's pool preallocates: mLimit - 1 plus the largest object count of an enabled ItemInfo,
-    // plus 3 in mode 5, or 0x10 for kind 2 in the other modes.
+    // Number of objects the kind's pool preallocates: mLimit - 1 plus the largest object count (at least 1) of an
+    // enabled ItemInfo, plus 3 in mode 5, or 0x10 for kind 2 in the other modes.
     /* 0c */ s32 mObjectCount;
     /* 10 */ s32 mObjectBudget;
     /* 14 */ void (*mSetup)(void);
@@ -438,33 +451,36 @@ typedef struct ItemKind {
     /* 18 */ void (*mReset)(void *);
     // Called with the object when StartItemObject moves it into the started part of its pool.
     /* 1c */ void (*mStart)(void *);
-    // Called by AdvanceItemInUseOneWithOrientation with the item-in-use record and its first object, which is not
-    // started yet.
+    // Called by AdvanceItemInUseOneWithOrientation with the item-in-use record and its first object, after that
+    // function has advanced the record (the object may already be started by then).
     /* 20 */ void (*mAdvanceInUse)(void *, void *);
     // Called with the item-in-use record and the object by StartLastItemInUseObjectAndInit after it takes the object
     // out of the record and starts it.
     /* 24 */ s32 (*mInit)(void *, void *);
-    // Copied into the object's per-call callback (ItemObject.mUnk_120) when the object is started, unless flags
-    // 0x180000 are set.
+    // Copied into the object's per-call callback (ItemObject.mAdvance) when the object is started, unless
+    // ITEM_OBJECT_FLAGS_ENDING is set.
     /* 28 */ void (*mAdvance)(struct ItemObject *);
     // Draw callback of the objects of the kind's pool.
     /* 2c */ void (*mDraw)(void *, void *, void *);
     // View test, the same function type the map objects use: position, radius, draw distance, far distance squared,
     // alpha.
     /* 30 */ s32 (*mViewTest)(Vec3 *, s32, s32, s32, u16);
-    // Called with the object by StartItemObjectFadeOut when its second argument is 0; returns 0 to end the call with 2,
-    // 1 to end it with 0, anything else lets it continue.
+    // Called with the object by StartItemObjectFadeOut when its second argument is 0, unless the object is already
+    // fading out or a Wi-Fi race defers the fade-out; returns 0 to end the call with 2, 1 to end it with 0, anything
+    // else lets it continue.
     /* 34 */ s32 (*mFadeOutCallback)(void *item);
     // Called with the object after StartItemObject and LaunchItemObjectFromPos have set it up from a kart; the entries
-    // that exist set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
+    // that exist (bomb, F box, bouncing item box) set ItemObject.mAdvance to the kind's mAdvance unless
+    // ITEM_OBJECT_FLAGS_ENDING is set.
     /* 38 */ void (*mAfterLaunchCallback)(void *);
     // Called with the object at the end of ReleaseItemObject.
     /* 3c */ void (*mRelease)(void *);
     /* 40 */ s32 mKeepsAdvanceAtEnd;
     /* 44 */ s32 mKeepsAdvanceWhenRestingOrFalling;
-    // Copies the object's fields into the byte buffer (third argument non-zero) or back from it (zero); after a write
-    // it also stamps the frame count and hands the buffer on (AddItemDataSizedByKind); with no object and no buffer it
-    // returns the byte count.
+    // Copies the object's fields into the shared item data buffer (third argument non-zero; the first argument is
+    // replaced by that buffer) or back from the buffer given as the first argument (zero); after a write it also stamps
+    // the frame count and hands the buffer on (AddItemDataSizedByKind); with no object and no buffer it returns the
+    // byte count.
     /* 48 */ void *(*mCopyData)(void *, void *, s32);
     // Byte count that mCopyData copies after the first byte of its record.
     /* 4c */ s32 mDataSize;
@@ -495,13 +511,14 @@ typedef struct ItemKind {
     /* a4 */ s32 mFarDistanceSquared;
 } ItemKind;
 
-// Two words of a row of gItemSpreadRows.
+// One object's x and y offset in a row of gItemSpreadRows.
 typedef struct {
     /* 00 */ s32 mX;
     /* 04 */ s32 mY;
 } ItemSpreadOffset;
 
-// Row of gItemSpreadRows.
+// Offsets of the held objects when a held item's objects are taken: row count - 1 of gItemSpreadRows holds count
+// offsets.
 typedef struct {
     /* 00 */ ItemSpreadOffset mOffsets[3];
 } ItemSpreadRow;
@@ -520,7 +537,9 @@ struct HeldItem;
 
 // One of the 18 items: its object kind and count, use kind and the hook called when its use starts.
 typedef struct ItemInfo {
-    // Gate of the roll and of the hand-over of the rolled item; set per mode by CreateItemInfos
+    // Whether the item can be rolled (PickItem) and handed over (UpdateKartItems), whether the F box and the bouncing
+    // item box set up their objects, and the object count of its kind; set by CreateItemInfos from the mode and from
+    // the demo race.
     /* 00 */ BOOL mEnabled;
     /* 04 */ s32 mEnabledInWiFi;
     /* 08 */ s32 mObjectKind;
@@ -612,9 +631,9 @@ typedef enum {
 #define ITEM_BATTLE_BOUNCING_ITEM_BOX_LIMIT 8
 #define ITEM_WIFI_KINOKO_LIMIT 0x20
 
-// The item a kart holds: its item index, how many are left and the objects it holds.
-// HeldItem.mObjectStartFramesLeft starts at HELD_ITEM_OBJECT_START_FRAMES and counts down; one held object leaves
-// on each launch frame.
+// Launch countdown of a held item: HeldItem.mObjectStartFramesLeft is set to HELD_ITEM_OBJECT_START_FRAMES by
+// StartHeldItemObjects and counts down; StartNextHeldItemObject launches one held object on each launch frame while
+// objects remain.
 #define HELD_ITEM_OBJECT_START_FRAMES 10
 #define HELD_ITEM_FIRST_LAUNCH_FRAME 7
 #define HELD_ITEM_SECOND_LAUNCH_FRAME 5
