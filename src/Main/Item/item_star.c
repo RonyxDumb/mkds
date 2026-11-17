@@ -65,7 +65,7 @@
 #include "ITCM/collision_slots.h"
 #include "Main/Item/item_star.h"
 
-const ItemInfo gItemInfoStar = {1, 1, 4, 1, 0, 0, StartItemStar};
+const ItemInfo gItemInfoStar = {1, 1, ITEM_OBJECT_KIND_STAR, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemStar};
 
 const ItemKind gItemKindStar = {
     0x12c, 3, 8, -1, -1, {0}, NULL, NULL, NULL, NULL, NULL, NULL, ComputeViewTest, NULL, NULL, NULL,
@@ -78,5 +78,5 @@ void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
-    AddItemDataFrameOnly(4);
+    AddItemDataFrameOnly(ITEM_OBJECT_KIND_STAR);
 }

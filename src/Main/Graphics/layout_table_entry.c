@@ -91,8 +91,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
             position[0] = TO_FIXED12(entry->mPositionX);
             position[1] = TO_FIXED12(entry->mPositionY);
         } else {
-            position[0] = (entry->mPositionX + (width >> 1) * (1 - axisRecords[0].mAlign)) << 12;
-            position[1] = (entry->mPositionY + (height >> 1) * (1 - axisRecords[1].mAlign)) << 12;
+            position[0] = (entry->mPositionX + (width >> 1) * (LAYOUT_ALIGN_CENTER - axisRecords[0].mAlign)) << 12;
+            position[1] = (entry->mPositionY + (height >> 1) * (LAYOUT_ALIGN_CENTER - axisRecords[1].mAlign)) << 12;
         }
     }
     position[0] += TO_FIXED12(entry->mOffsetX);

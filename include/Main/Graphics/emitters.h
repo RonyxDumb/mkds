@@ -21,9 +21,9 @@ typedef struct AwardFirstEffectIds {
 
 // AwardSecondEffectIds.mEffectIds: the 24 effect ids CreateAwardEmitters starts second (after the rename of the row
 // above).
-typedef struct AwardEmitterEffectIds {
-    s16 mUnk_00[24];
-} AwardEmitterEffectIds;
+typedef struct AwardSecondEffectIds {
+    s16 mEffectIds[24];
+} AwardSecondEffectIds;
 
 // Type of gGetSPLManagerFunction: returns the SPLManager for effectId and writes the effect id inside that manager to
 // *outIndex.

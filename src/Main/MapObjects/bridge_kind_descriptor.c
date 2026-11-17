@@ -1,6 +1,7 @@
 #include "Main/MapObjects/bridge_kind_descriptor.h"
 #include "Main/MapObjects/rotary.h"
 #include "Main/MapObjects/bridge.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/MapObjects/jg.h"
@@ -60,7 +61,8 @@ void CreateBridge(void) {
 
     file = FindCourseMapObjFile("bridge.nsbmd");
     CreateNsbmd(&gBridge, file, NULL);
-    CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile("bridge.nsbca"));
+    CreateModelAnimation(MODEL_ANIMATION_KIND_JOINT, gBridge, &gBridgeNsbca, file,
+                         FindCourseMapObjFile("bridge.nsbca"));
     gBridgeDrawList->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
     SetNsbmdPolygonIdLightEmiAll(gBridge, 0x3f, 2, 0x294a);
     SetMapObjectsModel(&gBridgeDrawList->mMapObjectList, gBridge);

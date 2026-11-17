@@ -82,6 +82,7 @@
 #include "Main/Race/kart.h"
 #include "Main/Kart/kart_start_placement.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
 #include "Main/Kart/kart_call.h"
 #include "Main/Course/course_map_shapes.h"
 #include "Main/Item/item_koura_w.h"
@@ -1180,7 +1181,7 @@ void StartKartKiller(Kart *kart) {
     if (effectState->mKillerEndRank <= 0) {
         effectState->mKillerEndRank = 1;
     }
-    kart->mKartModelsEntry->mKillerItemAnimation.mFrameIndex = 0;
+    kart->mKartModelsEntry->mKillerItemAnimation.mFrameIndexFixed = 0;
     if (kart->mEntryFlags & KART_ENTRY_TERESA) {
         kart->mEntryFlags &= ~KART_ENTRY_TERESA;
         kart->mEntryFlags &= ~(KART_ENTRY_TRANSLUCENT | KART_ENTRY_NOT_DRAWN);
@@ -1587,7 +1588,8 @@ void SetKartCharacterAnimation(Kart *kart, s32 animationIndex, s32 useBlend) {
         changeAnimation = TRUE;
         if (animationState->mNextAnimationPending != 0) {
             if (currentAnimation != 0) {
-                SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) currentAnimation, 1);
+                SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) currentAnimation,
+                                               MODEL_ANIMATION_LOOP_MODE_WRAP);
             }
             animationState->mNextAnimationPending = 0;
         }

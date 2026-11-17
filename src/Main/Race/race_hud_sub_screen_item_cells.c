@@ -40,7 +40,11 @@
 #include "fixed_vector_math.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 
-s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};
+s32 gRaceHudSubScreenItemPoolIndices[10] = {
+    ITEM_OBJECT_KIND_KOURA_G, ITEM_OBJECT_KIND_KOURA_R, ITEM_OBJECT_KIND_BANANA,
+    ITEM_OBJECT_KIND_KINOKO,  ITEM_OBJECT_KIND_STAR,    ITEM_OBJECT_KIND_KOURA_W,
+    ITEM_OBJECT_KIND_BOMB,    ITEM_OBJECT_KIND_F_BOX,   ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX,
+    ITEM_OBJECT_KIND_TERESA};
 struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;

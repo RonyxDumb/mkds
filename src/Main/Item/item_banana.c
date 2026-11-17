@@ -68,7 +68,7 @@
 
 const Vec3 gItemKinokoVec3UnitY = {0, 0x1000, 0};
 
-const ItemInfo gItemInfoBanana = {1, 1, 2, 1, 0, 1, NULL};
+const ItemInfo gItemInfoBanana = {1, 1, ITEM_OBJECT_KIND_BANANA, 1, 0, ITEM_USE_KIND_ONE, NULL};
 
 const ItemKind gItemKindBanana = {0x134,
                                   0xc,

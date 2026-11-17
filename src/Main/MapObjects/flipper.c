@@ -172,11 +172,11 @@ void DrawFlipper(void *mapObjectList, Flipper *flipper) {
     NNS_G3dGeBufferOP_N(0x1b, &flipper->mMapObject.mScale, 3);
     SetMapObjectModelMirror(gFlipper, flipper->mMirror, 0);
     animation = gFlipper->mAnimations[1];
-    animation->mHead.mFrameIndex = TO_FIXED12(flipper->mNsbtpFrameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(flipper->mNsbtpFrameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
     animation = gFlipper->mAnimations[3];
-    animation->mHead.mFrameIndex = TO_FIXED12(flipper->mNsbtaFrameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(flipper->mNsbtaFrameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
     DrawMapObjectModel(mapObjectList, gFlipper, flipper);
 }
 

@@ -1083,7 +1083,6 @@ typedef struct OverlayLoader {
 #define ITEM_DATA_HEADER_MESSAGE_KIND_MASK 0xe0
 #define ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT 5
 
-#define SLOT_RESULT_SYNC_NO_ITEM 0x13
 // Values of SlotResultSyncState.mState; SlotResultSyncHalfword.mState only holds IDLE or SENDING.
 #define SLOT_RESULT_SYNC_STATE_IDLE 0
 #define SLOT_RESULT_SYNC_STATE_SENDING 2

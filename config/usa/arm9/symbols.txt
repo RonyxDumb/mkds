@@ -9778,7 +9778,7 @@ gStemBaseScale kind:data(byte[12]) addr:0x0216608c
 @3720 kind:data(byte[22]) addr:0x021660e0 local
 gAwardFirstEffectIds kind:data(byte[4]) addr:0x021660f8
 gStadiumEmitterDirectionOrigin kind:data(byte[12]) addr:0x021660fc
-gAwardEmitterEffectIds kind:data(byte[48]) addr:0x02166108
+gAwardSecondEffectIds kind:data(byte[48]) addr:0x02166108
 gRaceEffectSpaName kind:data(byte[15]) addr:0x02166138
 gRaceEffectFogOffSpaName kind:data(byte[29]) addr:0x02166148
 gMissionEffectSpaName kind:data(byte[35]) addr:0x02166168

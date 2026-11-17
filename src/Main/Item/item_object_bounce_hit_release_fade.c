@@ -82,7 +82,7 @@ u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
     ItemObject *item = itemParam;
     ItemObject *other = otherParam;
 
-    return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
+    return (gItemHitTypes + item->mKind * ITEM_OBJECT_KIND_COUNT)[other->mKind];
 }
 
 void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {

@@ -77,9 +77,6 @@ void UpdateItemTeresaWaitDelay(void *stateObject);
 void EnterItemTeresaWaitDelay(void *stateObject);
 void UpdateItemTeresaTakeItem(void *stateObject);
 
-// ItemTeresa.mPickedKartIndex while no kart is picked (one past the last kart index).
-#define ITEM_TERESA_NO_KART ITEM_NO_KART_INDEX
-
 // Object of item kind 11, element of gItemPools[11].
 typedef struct ItemTeresa {
     /* 000 */ ItemObject mItemObject;

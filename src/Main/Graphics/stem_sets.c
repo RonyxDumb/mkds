@@ -105,7 +105,7 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
         nsbcaModel = &stemSet->mNsbmds[nsbcaIndex];
         animation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
         snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
-        InitModelAnimation(0, animation, nsbcaModel, 1, heap, NULL);
+        InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, animation, nsbcaModel, 1, heap, NULL);
         InitModelAnimationEntries(animation, FindSceneFile(fileName), heap);
         SetModelAnimation(animation, 0);
     }
@@ -113,13 +113,14 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
         nsbmaModel = &stemSet->mNsbmds[nsbmaIndex];
         nsbmaAnimation = &stemSet->mNsbcaNsbmaNsbtp[1][nsbmaIndex];
         snprintf(fileName, 0x80, "%s.nsbma", stemSetParams->mStems[nsbmaIndex]);
-        InitModelAnimation(4, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
+        InitModelAnimation(MODEL_ANIMATION_KIND_MAT_C, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
         InitModelAnimationEntries(nsbmaAnimation, FindSceneFile(fileName), heap);
         SetModelAnimation(nsbmaAnimation, 0);
     }
     if (useOneNsbtpAnimation != FALSE) {
         animation = stemSet->mNsbcaNsbmaNsbtp[2];
-        InitModelAnimation(2, animation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
+        InitModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, animation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap,
+                           lastNsbmdFile);
         for (nsbtpIndex = 0; nsbtpIndex < stemSetParams->mNsbtpCount; nsbtpIndex++) {
             snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
             InitModelAnimationEntry(animation, nsbtpIndex,
@@ -207,13 +208,13 @@ void StartStemSet(s32 setIndex) {
             SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
             animations = stemSet->mNsbcaNsbmaNsbtp[0];
             if (animations != NULL) {
-                animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
-                animations[nsbmdIndex].mHead.mLoopCount = loopCount;
+                animations[nsbmdIndex].mFrameLoop.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
+                animations[nsbmdIndex].mFrameLoop.mLoopCount = loopCount;
             }
             animations = stemSet->mNsbcaNsbmaNsbtp[1];
             if (animations != NULL) {
-                animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
-                animations[nsbmdIndex].mHead.mLoopCount = loopCount;
+                animations[nsbmdIndex].mFrameLoop.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
+                animations[nsbmdIndex].mFrameLoop.mLoopCount = loopCount;
             }
         }
     }

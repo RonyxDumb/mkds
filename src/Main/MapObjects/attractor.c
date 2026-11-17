@@ -10,6 +10,7 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "fixed_vector_math.h"
 #include "Main/System/heap_call.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
@@ -31,6 +32,7 @@
 #include "Main/System/state_machine_init.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
 #include "Main/MapObjects/pendulum.h"
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/update_list_slot.h"
@@ -253,17 +255,17 @@ void CreateJg(void) {
         }
         if (sourceRow->mNsbcaName != NULL) {
             kindRow->mNsbcaAnimation = HeapAlloc(heap, sizeof(ModelAnimation));
-            InitModelAnimationWithEntries(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
+            InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_JOINT, kindRow->mModel, kindRow->mNsbcaAnimation, file,
                                           FindSceneFile(sourceRow->mNsbcaName));
-            SetModelAnimationEntryLoopMode(kindRow->mNsbcaAnimation, 0, 1);
+            SetModelAnimationEntryLoopMode(kindRow->mNsbcaAnimation, 0, MODEL_ANIMATION_LOOP_MODE_WRAP);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
         if (sourceRow->mNsbmaName != NULL) {
             kindRow->mNsbmaAnimation = HeapAlloc(heap, sizeof(ModelAnimation));
-            InitModelAnimationWithEntries(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
+            InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_MAT_C, kindRow->mModel, kindRow->mNsbmaAnimation, file,
                                           FindSceneFile(sourceRow->mNsbmaName));
-            SetModelAnimationEntryLoopMode(kindRow->mNsbmaAnimation, 0, 1);
+            SetModelAnimationEntryLoopMode(kindRow->mNsbmaAnimation, 0, MODEL_ANIMATION_LOOP_MODE_WRAP);
         } else {
             kindRow->mNsbmaAnimation = NULL;
         }

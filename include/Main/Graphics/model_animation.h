@@ -20,7 +20,7 @@ typedef struct ModelAnimationFrameLoop {
     /* 02 */ u16 mDone;
     /* 04 */ s32 mFrameCountFixed;
     /* 08 */ s32 mFrameIndexFixedPerCall;
-    /* 0c */ s32 mFrameIndex;
+    /* 0c */ s32 mFrameIndexFixed;
     /* 10 */ u16 mLoopsDone;
     /* 12 */ u16 mLoopCount;
 } ModelAnimationFrameLoop;
@@ -31,7 +31,7 @@ typedef struct ModelAnimationFrameLoop {
 
 // The animations of a model: the list of them, the current one and the blend from the previous one.
 typedef struct ModelAnimation {
-    /* 00 */ ModelAnimationFrameLoop mHead;
+    /* 00 */ ModelAnimationFrameLoop mFrameLoop;
     /* 14 */ Nsbmd *mRenderObj;
     /* 18 */ u16 mAnmObjCount;
     /* 1a */ u16 mCurrentIndex;

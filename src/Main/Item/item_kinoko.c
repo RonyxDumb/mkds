@@ -76,8 +76,9 @@
 ItemInfo *gItemInfos;
 Vec3 *gItemPushVector;
 
-const ItemInfo gItemInfoBananaThree = {1, 0, 2, 3, 0, 3, NULL};
-const ItemInfo gItemInfoKinokoThree = {1, 1, 3, 3, 0, 0, StartItemKinokoBoost};
+const ItemInfo gItemInfoBananaThree = {1, 0, ITEM_OBJECT_KIND_BANANA, 3, 0, ITEM_USE_KIND_TRAIL, NULL};
+const ItemInfo gItemInfoKinokoThree = {
+    1, 1, ITEM_OBJECT_KIND_KINOKO, 3, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemKinokoBoost};
 
 #pragma thumb on
 
@@ -89,27 +90,27 @@ void CreateItemInfos(void) {
 
     infos = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_INFO_COUNT * sizeof(*infos));
     gItemInfos = infos;
-    infos[0] = gItemInfoKouraG;
-    infos[1] = gItemInfoKouraR;
-    infos[2] = gItemInfoBanana;
-    infos[3] = gItemInfoFBox;
-    infos[4] = gItemInfoKinoko;
-    infos[5] = gItemInfoKinokoThree;
-    infos[6] = gItemInfoBomb;
-    infos[7] = gItemInfoKouraW;
-    infos[8] = gItemInfoThunder;
-    infos[9] = gItemInfoKouraGThree;
-    infos[10] = gItemInfoBananaThree;
-    infos[11] = gItemInfoKouraRThree;
-    infos[12] = gItemInfoStar;
-    infos[13] = gItemInfoKinokoP;
-    infos[14] = gItemInfoKiller;
-    infos[15] = gItemInfoGesso;
-    infos[16] = gItemInfoTeresa;
-    infos[17] = gItemInfoBouncingItemBox;
+    infos[ITEM_INFO_KOURA_G] = gItemInfoKouraG;
+    infos[ITEM_INFO_KOURA_R] = gItemInfoKouraR;
+    infos[ITEM_INFO_BANANA] = gItemInfoBanana;
+    infos[ITEM_INFO_F_BOX] = gItemInfoFBox;
+    infos[ITEM_INFO_KINOKO] = gItemInfoKinoko;
+    infos[ITEM_INFO_KINOKO_THREE] = gItemInfoKinokoThree;
+    infos[ITEM_INFO_BOMB] = gItemInfoBomb;
+    infos[ITEM_INFO_KOURA_W] = gItemInfoKouraW;
+    infos[ITEM_INFO_THUNDER] = gItemInfoThunder;
+    infos[ITEM_INFO_KOURA_G_THREE] = gItemInfoKouraGThree;
+    infos[ITEM_INFO_BANANA_THREE] = gItemInfoBananaThree;
+    infos[ITEM_INFO_KOURA_R_THREE] = gItemInfoKouraRThree;
+    infos[ITEM_INFO_STAR] = gItemInfoStar;
+    infos[ITEM_INFO_KINOKO_P] = gItemInfoKinokoP;
+    infos[ITEM_INFO_KILLER] = gItemInfoKiller;
+    infos[ITEM_INFO_GESSO] = gItemInfoGesso;
+    infos[ITEM_INFO_TERESA] = gItemInfoTeresa;
+    infos[ITEM_INFO_BOUNCING_ITEM_BOX] = gItemInfoBouncingItemBox;
     switch (gRaceSetup->mMode) {
         case MODE_BATTLE:
-            infos[17].mEnabled = TRUE;
+            infos[ITEM_INFO_BOUNCING_ITEM_BOX].mEnabled = TRUE;
             break;
         case MODE_WIFI:
             for (infoIndex = 0; infoIndex < ITEM_INFO_COUNT; infoIndex++) {

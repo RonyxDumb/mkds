@@ -53,13 +53,14 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 // mIsActiveItem.
 #define KART_ITEMS_DOWN 0x20
 // Other bits of KartItems.mFlags; the gKartItems...Bit words set most of them. KEY_PRESSED is set with KEY_DOWN on the
-// frame the item key goes down, KEY_RELEASED on the frame it comes up. IN_USE_ADVANCED is set every frame by
-// AdvanceItemInUseOne while a single item is held in use; AddKartItemUseFlags clears it and adds END_USE.
+// frame the item key goes down, KEY_RELEASED on the frame it comes up.
 #define KART_ITEMS_SLOT 1
 #define KART_ITEMS_HELD 2
 #define KART_ITEMS_IN_USE 4
 #define KART_ITEMS_START_USE 0x40
 #define KART_ITEMS_END_USE 0x80
+// Set by AdvanceItemInUseOne on every call; AddKartItemUseFlags clears it and, when the mode is MODE_WIFI or the item
+// key is not down and TryAddKartItemFlags succeeds, adds KART_ITEMS_END_USE.
 #define KART_ITEMS_IN_USE_ADVANCED 0x100
 #define KART_ITEMS_START_ALLOWED 0x200
 #define KART_ITEMS_KEY_DOWN 0x1000

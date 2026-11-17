@@ -1,4 +1,5 @@
 #include "Main/MapObjects/choropu.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/System/heap.h"
 #include "Main/Course/course_color_blend.h"
@@ -242,8 +243,8 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
     vehicle->mMapObject.mMatrix.mRows[3].z = vehicle->mMapObject.mPos.z >> 4;
     animation = vehicle->mModelAnimation;
     if (animation != NULL) {
-        animation->mHead.mFrameIndex = TO_FIXED12(vehicle->mAnimationFrame);
-        animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+        animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(vehicle->mAnimationFrame);
+        animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
     }
     SendLight01Color(&vehicle->mCourseColorBlend.mColor);
     DrawNsbmdWithMatrixAndMaxAlpha(vehicle->mModel, &vehicle->mMapObject.mMatrix, &vehicle->mMapObject.mScale,
@@ -536,8 +537,10 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     CreateShadowModel(&gCarAShadow, FindCourseMapObjFile("car_a_shadow.nsbmd"), 7);
     CreateShadowModel(&gTruckAShadow, FindCourseMapObjFile("truck_a_shadow.nsbmd"), 7);
     CreateShadowModel(&gBusAShadow, FindCourseMapObjFile("bus_a_shadow.nsbmd"), 7);
-    CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile("car_a.nsbtp"));
-    CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile("truck_a.nsbtp"));
+    CreateModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, gCarA, &gCarANsbtp, carFile,
+                         FindCourseMapObjFile("car_a.nsbtp"));
+    CreateModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, gTruckA, &gTruckANsbtp, truckFile,
+                         FindCourseMapObjFile("truck_a.nsbtp"));
     SetNsbmdPolygonIdLightEmiAll(gCarA, 0x3f, 2, 0x294a);
     for (carMaterialIndex = 0, carModel = gCarA->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {

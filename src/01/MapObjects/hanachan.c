@@ -243,8 +243,8 @@ void StartHanachanFollowerMoveState(MissionRunMapObject *mapObject) {
         frameIndexValue = TO_FIXED12(frameOffset) - 0.5f;
     }
     modelAnimation = mapObject->mNsbmd->mAnimations[0];
-    modelAnimation->mHead.mFrameIndex = frameIndexValue;
-    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
+    modelAnimation->mFrameLoop.mFrameIndexFixed = frameIndexValue;
+    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mFrameLoop.mFrameIndexFixed;
 }
 
 void StartHanachanAnimationScaled(MissionRunMapObject *mapObject, int speedPercent) {

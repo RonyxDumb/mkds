@@ -1,5 +1,6 @@
 #include "Main/Graphics/model_effects.h"
 #include "Main/System/heap.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Graphics/effects.h"
 #include "model_set_resource_lookup.h"
 #include "Main/MapObjects/map_object_list.h"
@@ -400,7 +401,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         animation = modelEffect->mAnimations[0];
         if (animation != NULL) {
             if (nsbcaFile != NULL) {
-                InitModelAnimation(0, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
                 InitModelAnimationEntries(animation, nsbcaFile, heap);
             } else {
                 animation->mAnmObjCount = 0;
@@ -418,7 +419,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         animation = modelEffect->mAnimations[1];
         if (animation != NULL) {
             if (nsbmaFile != NULL) {
-                InitModelAnimation(4, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimation(MODEL_ANIMATION_KIND_MAT_C, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
                 InitModelAnimationEntries(animation, nsbmaFile, heap);
             } else {
                 animation->mAnmObjCount = 0;
@@ -429,7 +430,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
             if (nsbtaFile == NULL) {
                 animation->mAnmObjCount = 0;
             } else {
-                InitModelAnimation(1, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimation(MODEL_ANIMATION_KIND_TEX_SRT, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
                 InitModelAnimationEntries(animation, nsbtaFile, heap);
             }
         }

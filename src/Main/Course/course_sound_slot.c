@@ -135,7 +135,7 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
     NNSSndSeqPlayer **handle;
     u32 volumeHandle;
     u8 trackVolume;
-    u32 ok;
+    u32 hasVolume;
 
     if (slotIndex == 0) {
         handle = GetSndHandleSlot(0xa);
@@ -145,12 +145,12 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
     volumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
     if (volumeHandle == 0) {
         trackVolume = 0;
-        ok = 0;
+        hasVolume = 0;
     } else {
         trackVolume = gCourseSoundSlots[slotIndex].mVolumes[volumeHandle - 1];
-        ok = 1;
+        hasVolume = 1;
     }
-    if (ok != 0) {
+    if (hasVolume != 0) {
         if ((gRaceSoundKind & 1) != 0) {
             if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*handle != NULL) {
@@ -166,14 +166,14 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
             SetSndHandleTrackVolume(handle, trackVolume);
         }
     }
-    return ok;
+    return hasVolume;
 }
 
 BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     NNSSndSeqPlayer **handle;
     u32 volumeHandle;
     u8 trackVolume;
-    u32 ok;
+    u32 hasVolume;
 
     if (slotIndex == 0) {
         handle = GetSndHandleSlot(0xa);
@@ -183,12 +183,12 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     volumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
     if (volumeHandle == 0) {
         trackVolume = 0;
-        ok = 0;
+        hasVolume = 0;
     } else {
         trackVolume = gCourseSoundSlots[slotIndex].mVolumes[volumeHandle - 1];
-        ok = 1;
+        hasVolume = 1;
     }
-    if (ok != 0) {
+    if (hasVolume != 0) {
         if (*handle == NULL) {
             if ((gRaceSoundKind & 1) != 0) {
                 if (gSoundModeHolder.mSeqStartEnabled != 0) {
@@ -208,7 +208,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     } else {
         NNS_SndPlayerStopSeq(handle, 0xa);
     }
-    return ok;
+    return hasVolume;
 }
 
 void InitCourseSoundSlot(CourseSoundSlot *slot, u32 volumeHandle, u32 firstTableIndex) {

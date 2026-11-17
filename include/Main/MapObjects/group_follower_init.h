@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 typedef struct GroupFollower GroupFollower;
 typedef struct CourseMapRow CourseMapRow;
@@ -66,7 +67,7 @@ extern const u8 gItemObjectResponsesHundreds0Item10[20];
 extern const u8 gKartFirstResponsesHundreds5Effect3[16];
 extern const u8 gItemObjectFirstResponsesHundreds0Item5[20];
 extern const u8 gKartResponsesHundreds4Effect2[40];
-extern const u8 *gItemObjectResponsesByKind[6][14];
+extern const u8 *gItemObjectResponsesByKind[6][ITEM_OBJECT_KIND_COUNT];
 extern const u8 gItemObjectFirstResponsesHundreds0Item6[20];
 extern const u8 gItemObjectResponsesHundreds5Item12[16];
 extern const u8 gKartResponsesHundreds1Effect0[16];
@@ -188,7 +189,7 @@ extern const u8 gItemObjectFirstResponsesHundreds5Item13[16];
 extern const u8 gItemObjectFirstResponsesHundreds0Item4[20];
 extern const u8 gItemObjectResponsesHundreds2Item10[12];
 extern const u8 gKartFirstResponsesHundreds3Effect3[48];
-extern const u8 *gItemObjectFirstResponsesByKind[6][14];
+extern const u8 *gItemObjectFirstResponsesByKind[6][ITEM_OBJECT_KIND_COUNT];
 extern const u8 gItemObjectFirstResponsesHundreds2Item9[12];
 extern const u8 gItemObjectFirstResponsesHundreds4Item6[40];
 extern const u8 gKartFirstResponsesHundreds4Effect0[40];

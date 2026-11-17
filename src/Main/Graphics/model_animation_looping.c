@@ -9,7 +9,7 @@ void ResetModelAnimationLooping(ModelAnimationFrameLoop *animation, u32 frameCou
     animation->mDone = 0;
     animation->mFrameIndexFixedPerCall = FIXED12_UNIT;
     animation->mFrameCountFixed = frameCountFixed;
-    animation->mFrameIndex = 0;
+    animation->mFrameIndexFixed = 0;
     animation->mLoopsDone = 0;
     animation->mLoopCount = 0;
 }

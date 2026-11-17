@@ -469,7 +469,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
         }
-        if ((alpha = object->mAlpha) != 0x1f) {
+        if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
             model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
             model->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
         }
@@ -501,7 +501,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             matrix = SetViewAxis2MatrixPos(object->mPosPointer);
         }
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
-        if ((alpha = object->mAlpha) != 0x1f) {
+        if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
             model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
             model->mPolygonAttributes |= POLYGON_ATTR_ALPHA_MASK;
         }
@@ -532,7 +532,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     s16 alpha;
     void *matrix;
 
-    if ((alpha = object->mAlpha) != 0x1f) {
+    if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
         model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
         model->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
     }
@@ -561,7 +561,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         matrix = SetViewAxis2MatrixPos(object->mPosPointer);
     }
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
-    if ((alpha = object->mAlpha) != 0x1f) {
+    if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
         model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
         model->mPolygonAttributes |= POLYGON_ATTR_ALPHA_MASK;
     }

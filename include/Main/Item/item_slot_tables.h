@@ -2,11 +2,12 @@
 
 #include "types.h"
 #include "Main/Item/item_object_fade_out.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 // A weight table parsed from Item/ItemSlotList.dat: rows of one weight per item.
 typedef struct ItemSlotTable {
     /* 00 */ s32 mRowCount;
-    /* 04 */ u16 (*mRows)[0x12];
+    /* 04 */ u16 (*mRows)[ITEM_INFO_COUNT];
 } ItemSlotTable;
 
 
@@ -60,9 +61,9 @@ void FinishItemSlotAndStopSound(KartItems *slot);
 void StartKouraWBlockTimer(s32 isRaceStart);
 void StartThunderBlockTimer(s32 isRaceStart);
 
-extern s32 gItemSlotPossibleItems[18];
-extern s32 gItemSlotSpinItems[18];
-extern u16 gItemWeightSums[18];
+extern s32 gItemSlotPossibleItems[ITEM_INFO_COUNT];
+extern s32 gItemSlotSpinItems[ITEM_INFO_COUNT];
+extern u16 gItemWeightSums[ITEM_INFO_COUNT];
 extern ItemSlotTable gItemSlotForcedTable;
 extern ItemSlotTable gItemSlotHumanGhostPeerTable;
 extern ItemSlotTable gItemSlotCpuTable;

@@ -55,7 +55,9 @@ typedef struct ItemGesso {
     /* 178 */ s32 mTargetScaleY;
     /* 17c */ s32 mUnk_17c;
     /* 180 */ s32 mScaleX;
-    /* 184 */ Vec3 mScaleYAndApproachRate;
+    /* 184 */ s32 mScaleY;
+    /* 188 */ s32 mUnk_188;
+    /* 18c */ s32 mScaleApproachRate;
     /* 190 */ u8 mUnk_190[0x4];
     /* 194 */ s32 mFadesOut;
     /* 198 */ BOOL mVisible;

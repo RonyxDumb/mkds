@@ -183,7 +183,8 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
             SetNsbmdCullModeAll(&gTrophy->mModel, 2);
         }
         heap = GetHeap(GetCurrentHeapCall());
-        InitModelAnimation(2, &gTrophy->mModelAnimation, &gTrophy->mModel, 1, heap, modelFile);
+        InitModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, &gTrophy->mModelAnimation, &gTrophy->mModel, 1, heap,
+                           modelFile);
         InitModelAnimationEntries(&gTrophy->mModelAnimation, animationFile, GetHeap(GetCurrentHeapCall()));
         SetModelAnimation(&gTrophy->mModelAnimation, 0);
         storedRankIndex = gTrophy->mRankIndex;
@@ -193,8 +194,8 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
             frameIndex = TO_FIXED12(storedRankIndex) - 0.5f;
         }
         modelAnimation = &gTrophy->mModelAnimation;
-        modelAnimation->mHead.mFrameIndex = frameIndex;
-        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
+        modelAnimation->mFrameLoop.mFrameIndexFixed = frameIndex;
+        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mFrameLoop.mFrameIndexFixed;
         InitEffects(GetHeap(GetCurrentHeapCall()));
         if (rankIndex == 0) {
             Vec3 effectPos0 = {0, 0, 0};

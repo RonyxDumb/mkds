@@ -323,8 +323,8 @@ s32 CreateRaceHudSubScreenBombKouraWCells(void) {
     s32 itemCount;
 
     itemCount = 0;
-    itemCount += gItemKinds[5].mObjectCount;
-    itemCount += gItemKinds[9].mObjectCount;
+    itemCount += gItemKinds[ITEM_OBJECT_KIND_KOURA_W].mObjectCount;
+    itemCount += gItemKinds[ITEM_OBJECT_KIND_BOMB].mObjectCount;
     return CreateRaceHudSubScreenCellsWithCount(&gRaceHudSubScreenBombKouraWCells, itemCount);
 }
 

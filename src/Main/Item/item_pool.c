@@ -38,21 +38,21 @@
 #include "Main/Item/held_item.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gItemInUseThrowForwardBit = 0x10;
-const u16 gItemInUseDownBit = 0x20;
+const u16 gItemInUseThrowForwardBit = KART_ITEMS_THROW_FORWARD;
+const u16 gItemInUseDownBit = KART_ITEMS_DOWN;
 const u32 gItemCollisionBitOrder[13] = {0x80, 0x40000, 0x1000, 0x80000, 0x20000, 1,     0x100000,
                                         2,    0x40,    4,      8,       0x20,    0x2000};
 const u16 gKartItemsKeyReleasedBit = KART_ITEMS_KEY_RELEASED;
 const u16 gKartItemsKeyDownBit = KART_ITEMS_KEY_DOWN;
-const u16 gKartItemsDownBit = 0x20;
+const u16 gKartItemsDownBit = KART_ITEMS_DOWN;
 const Vec3 gKartItemsVec3UnitY = {0, 0x1000, 0};
 const u16 gKartItemsSlotBit = KART_ITEMS_SLOT;
 const u16 gKartItemsHeldBit = KART_ITEMS_HELD;
 const u16 gKartItemsInUseBit = KART_ITEMS_IN_USE;
 const u16 gKartItemsStartAllowedBit = KART_ITEMS_START_ALLOWED;
 const u16 gKartItemsStartUseBit = KART_ITEMS_START_USE;
-const u16 gKartItemsThrowForwardBit = 0x10;
-const u16 gItemInUseAdvancedBit = 0x100;
+const u16 gKartItemsThrowForwardBit = KART_ITEMS_THROW_FORWARD;
+const u16 gItemInUseAdvancedBit = KART_ITEMS_IN_USE_ADVANCED;
 const u16 gKartItemsEndUseBit = KART_ITEMS_END_USE;
 const u16 gItemObjectKouraRTargetedBit = ITEM_OWNER_KART_TARGETED_BY_KOURA_R;
 ItemKind *gItemKinds;

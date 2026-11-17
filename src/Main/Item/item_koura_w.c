@@ -92,7 +92,14 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 const u16 gItemObjectNoOwnerBit = ITEM_OWNER_NO_OWNER;
-const ItemInfo gItemInfoKouraW = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
+const ItemInfo gItemInfoKouraW = {
+    1,
+    1,
+    ITEM_OBJECT_KIND_KOURA_W,
+    1,
+    0,
+    ITEM_USE_KIND_ONE,
+    (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
 const ItemKind gItemKindKouraW = {0x31c,
                                   1,
                                   1,
@@ -942,7 +949,7 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[3].z = position->z >> 4;
         matrix = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx;
     }
-    DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, 0x1f);
+    DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, ITEM_OBJECT_ALPHA_OPAQUE);
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAlpha == MAP_OBJECT_ALPHA_MAX) {
         return;
     }
@@ -1012,7 +1019,7 @@ void SetupItemKouraWKind(void) {
     gKouraWBurstInverseLimit = FX_Div(0x1000, gKouraWGrowScaleLimit);
     gKouraWGrowScaleStep = 0x299a;
     scaleLimit = gKouraWGrowScaleLimit;
-    radiusRatio = gItemKinds[5].mRadius;
+    radiusRatio = gItemKinds[ITEM_OBJECT_KIND_KOURA_W].mRadius;
     maxRadius = MUL_FIXED12_NO_ROUND(scaleLimit, radiusRatio);
     gKouraWGrowMaxRadiusSquared = maxRadius;
     maxRadius >>= 12;
@@ -1069,7 +1076,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         }
     }
 done:
-    *itemInfoIndexPointer = gRaceSetup->mMode == MODE_WIFI ? 4 : 2;
+    *itemInfoIndexPointer = gRaceSetup->mMode == MODE_WIFI ? ITEM_INFO_KINOKO : ITEM_INFO_BANANA;
     return TRUE;
 }
 

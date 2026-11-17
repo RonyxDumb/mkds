@@ -131,7 +131,7 @@ void AdvanceRecordVSSlideInSub(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
+    offset = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -326,10 +326,10 @@ void AdvanceRecordVSPageSlideOut(void) {
     AdvanceRecordVSOffsetTimers();
     switch (gRecordVS->mPageDecrement) {
         case RECORD_VS_PAGE_INCREMENT:
-            endOffset = -256;
+            endOffset = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
         case RECORD_VS_PAGE_DECREMENT:
-            endOffset = 0x100;
+            endOffset = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -384,10 +384,10 @@ void AdvanceRecordVSPageSlideIn(void) {
     AdvanceRecordVSOffsetTimers();
     switch (gRecordVS->mPageDecrement) {
         case RECORD_VS_PAGE_INCREMENT:
-            startOffset = 0x100;
+            startOffset = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
         case RECORD_VS_PAGE_DECREMENT:
-            startOffset = -256;
+            startOffset = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -434,7 +434,7 @@ void AdvanceRecordVSSubSlideOut(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
+    offset = InterpolateS16(1, 0, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -520,7 +520,7 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
+    offset = InterpolateS16(1, 0, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -550,7 +550,7 @@ void AdvanceRecordVSSubSlideInFromErase(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
+    offset = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;

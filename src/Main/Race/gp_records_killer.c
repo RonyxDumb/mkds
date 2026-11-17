@@ -60,7 +60,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
 
-const KartAiItemUseEntry gBattleEasyHeldItemEntries[18] = {{ThrowItemRandomAfterHeld, 1, 0x20, 0x1b},
+const KartAiItemUseEntry gBattleEasyHeldItemEntries[ITEM_INFO_COUNT] = {{ThrowItemRandomAfterHeld, 1, 0x20, 0x1b},
                                                            {ThrowItemRandomAfterHeld, 1, 0x20, 0x1b},
                                                            {ThrowItemRandomMoreForwardAfterHeld, 2, 0x20, 0x1b},
                                                            {ThrowItemRandomAfterHeld, 2, 0x20, 0x1b},
@@ -78,7 +78,7 @@ const KartAiItemUseEntry gBattleEasyHeldItemEntries[18] = {{ThrowItemRandomAfter
                                                            {EasyUseItemAfterHeld, 0, 0xa, 0xa},
                                                            {EasyUseItemAfterHeld, 0, 0xa, 0xa},
                                                            {EasyUseItemAfterHeld, 2, 0xa, 0xa}};
-const KartAiItemUseEntry gBattleEasyItemInUseEntries[14] = {
+const KartAiItemUseEntry gBattleEasyItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {
     {ThrowItemByCircleKind, 1, 0x20, 0x1b},
     {UseItemByCircleKind, 1, 0x20, 0x1b},
     {ThrowItemByTrailKind, 2, 0x20, 0x1b},
@@ -93,7 +93,7 @@ const KartAiItemUseEntry gBattleEasyItemInUseEntries[14] = {
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa}};
-const KartAiItemUseEntry gBattleHardItemInUseEntries[14] = {
+const KartAiItemUseEntry gBattleHardItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {
     {ThrowItemByCircleKind, 1, 5, 3},
     {UseItemByCircleKind, 1, 5, 3},
     {ThrowItemByTrailKind, 2, 1, 0},
@@ -108,7 +108,7 @@ const KartAiItemUseEntry gBattleHardItemInUseEntries[14] = {
     {BattleItemInUseNop, 0, 1, 3},
     {BattleItemInUseNop, 0, 1, 3},
     {BattleItemInUseNop, 0, 3, 0xa}};
-const KartAiItemUseEntry gBattleNormalHeldItemEntries[18] = {
+const KartAiItemUseEntry gBattleNormalHeldItemEntries[ITEM_INFO_COUNT] = {
     {ThrowItemRandomAfterHeldOrAtNearTarget, 1, 0x20, 0x1b},
     {ThrowItemRandomAfterHeldOrAtNearTarget, 1, 0x20, 0x1b},
     {ThrowItemRandomAfterHeldOrBehindNearTarget, 2, 0x20, 0x1b},
@@ -127,7 +127,7 @@ const KartAiItemUseEntry gBattleNormalHeldItemEntries[18] = {
     {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa},
     {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa},
     {UseItemAfterHeldOrOnTarget, 2, 0xa, 0xa}};
-const KartAiItemUseEntry gBattleNormalItemInUseEntries[14] = {
+const KartAiItemUseEntry gBattleNormalItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {
     {ThrowItemByCircleKind, 1, 0x20, 0x1b},
     {UseItemByCircleKind, 1, 0x20, 0x1b},
     {ThrowItemByTrailKind, 2, 0x20, 0x1b},
@@ -142,7 +142,7 @@ const KartAiItemUseEntry gBattleNormalItemInUseEntries[14] = {
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa}};
-const KartAiItemUseEntry gBattleHardHeldItemEntries[18] = {{HardSetItemBitsEveryCall, 1, 1, 0},
+const KartAiItemUseEntry gBattleHardHeldItemEntries[ITEM_INFO_COUNT] = {{HardSetItemBitsEveryCall, 1, 1, 0},
                                                            {HardSetItemBitsEveryCall, 1, 1, 0},
                                                            {SetItemBitsEveryCall, 2, 1, 0},
                                                            {ThrowItemRandomAfterHeldOrAtNearTarget, 2, 1, 0},

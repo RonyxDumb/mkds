@@ -131,7 +131,7 @@ void AdvanceStadiumEmitters(void) {
 }
 
 void CreateAwardEmitters(void) {
-    AwardEmitterEffectIds secondEffectIds = gAwardEmitterEffectIds;
+    AwardSecondEffectIds secondEffectIds = gAwardSecondEffectIds;
     AwardFirstEffectIds firstEffectIds = gAwardFirstEffectIds;
     s32 baseX = gAwardEmitterPosition.x;
     s32 baseY = gAwardEmitterPosition.y;
@@ -162,7 +162,7 @@ void CreateAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         ParticleEmitter *emitter;
-        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mEffectIds[emitterIndex]);
         position.x = baseX >> 4;
         position.y = emitY;
         position.z = emitZ;

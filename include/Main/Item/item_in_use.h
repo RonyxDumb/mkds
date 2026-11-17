@@ -100,6 +100,8 @@ typedef struct KartModelsEntry {
     /* 054 */ KartTireTranslations *mTireTranslations;
     /* 058 */ s32 mKartModelHidden;
     /* 05c */ s32 mCharacterHidden;
+    // TRUE for a kart behind the camera, past the first distance limit, and always for the entry kart; hides the tire
+    // material of the body model
     /* 060 */ BOOL mFarFromCamera;
     /* 064 */ BOOL mStarModelsSet;
     /* 068 */ u16 mVariant;

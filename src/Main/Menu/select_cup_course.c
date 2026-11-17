@@ -262,7 +262,8 @@ void AdvanceSelectCupCourseSlideOut(void) {
     } else {
         movesTaOrVsCells = TRUE;
     }
-    InterpolateS16(1, 0, 0x100, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
+    InterpolateS16(1, 0, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, gSelectCupCourse->mStateFrames,
+                   SELECT_CUP_COURSE_SLIDE_STEPS);
     offsetY = InterpolateS16(1, 0, -0xc0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
     if (movesTaOrVsCells != FALSE) {
         cellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;

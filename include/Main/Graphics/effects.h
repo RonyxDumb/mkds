@@ -31,7 +31,7 @@ extern GetSPLManagerFunc *gGetSPLManagerFunction;
 
 extern Vec3 gStadiumEmitterDirectionOrigin;
 extern AwardFirstEffectIds gAwardFirstEffectIds;
-extern AwardEmitterEffectIds gAwardEmitterEffectIds;
+extern AwardSecondEffectIds gAwardSecondEffectIds;
 
 extern Vec3 gAwardEmitterPosition;
 

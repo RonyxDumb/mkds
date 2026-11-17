@@ -9,6 +9,7 @@
 #include "Main/Net/participant_mask.h"
 #include "overlay_id_symbols.h"
 #include "Main/System/backup_net_camera_work.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "overlay_section_symbols.h"
 #include "02/overlay_heap_buffers.h"
 #include "file_archive_access.h"
@@ -43,7 +44,7 @@ void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex) {
     syncState->mState = SLOT_RESULT_SYNC_STATE_SENDING;
     syncState->mItemInfoIndex = itemInfoIndex;
     syncState->mEndSyncFrame = syncFrames + SLOT_RESULT_SYNC_SEND_FRAMES;
-    syncState->mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
+    syncState->mPendingItemInfoIndex = ITEM_INFO_NONE;
 }
 
 // Steps the slot result sync of each participant once per call.
@@ -109,7 +110,7 @@ s32 GetParticipantSlotResult(s32 participantIndex) {
     s32 itemInfoIndex;
     BOOL isSyncing;
 
-    itemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
+    itemInfoIndex = ITEM_INFO_NONE;
     isSyncing = FALSE;
     if ((u16) (gWiFiRaceSync->mEntries[participantIndex].mState + 0xffff) <= 1) {
         isSyncing = TRUE;

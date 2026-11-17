@@ -966,7 +966,8 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
         animationIndex = 0;
         hasFirstAnimation = FALSE;
         kartModelsEntry->mCharacterAnimation = HeapAlloc(heap, sizeof(*kartModelsEntry->mCharacterAnimation));
-        InitModelAnimation(0, kartModelsEntry->mCharacterAnimation, kartModelsEntry->mModels[0], 4, heap, NULL);
+        InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, kartModelsEntry->mCharacterAnimation,
+                           kartModelsEntry->mModels[0], 4, heap, NULL);
         do {
             animationFile = GetKartModelFile(BuildCharacterNsbcaPath(characterIndex, animationIndex));
             if (animationFile != NULL) {
@@ -990,7 +991,8 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
         }
     }
     kartModelsEntry->mFaceAnimation = HeapAlloc(heap, sizeof(*kartModelsEntry->mFaceAnimation));
-    InitModelAnimation(2, kartModelsEntry->mFaceAnimation, kartModelsEntry->mModels[0], 1, heap, NULL);
+    InitModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, kartModelsEntry->mFaceAnimation, kartModelsEntry->mModels[0], 1,
+                       heap, NULL);
     InitModelAnimationEntries(kartModelsEntry->mFaceAnimation, gKartModels->mPFaceanimNsbtpFile, heap);
     SetModelAnimation(kartModelsEntry->mFaceAnimation, 0);
 }
@@ -1163,7 +1165,8 @@ void CreateKillerItem(void *heap) {
                                KART_MODEL_COLORS_COURSE);
     SetNsbmdPolygonIdAll(&gKartModels->mKillerItem, 3);
     nsbcaFile = GetKartModelFile("character/common/KillerItem.nsbca");
-    InitModelAnimation(0, &gKartModels->mKillerItemNsbca, &gKartModels->mKillerItem, 1, heap, nsbmdFile);
+    InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, &gKartModels->mKillerItemNsbca, &gKartModels->mKillerItem, 1, heap,
+                       nsbmdFile);
     InitModelAnimationEntries(&gKartModels->mKillerItemNsbca, nsbcaFile, heap);
     SetModelAnimation(&gKartModels->mKillerItemNsbca, 0);
     InitShadowModel(&gKartModels->mKillerItemS, shadowNsbmdFile, 3);
@@ -1195,7 +1198,7 @@ void CreateKartModelMenuCharacter(void *heap, Nsbmd *nsbmd, void *animation, NNS
     mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
     SetNsbmdPolygonIdAll(nsbmd, 3);
     SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_MENU);
-    InitModelAnimation(0, animation, nsbmd, 1, heap, NULL);
+    InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, animation, nsbmd, 1, heap, NULL);
     jointAnimation = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(animationFile), 0);
     loopFlag = GetCharacterAnimationLoopFlag(2);
     InitModelAnimationEntry(animation, 0, jointAnimation, loopFlag, heap);
@@ -1580,7 +1583,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             NNS_G3dDraw(&slot->mKartNsbmd->mRenderObj);
         }
         if (slot->mTireNsbmd != NULL) {
-            for (tireIndex = 0; tireIndex < 4; tireIndex++) {
+            for (tireIndex = 0; tireIndex < KART_TIRE_COUNT; tireIndex++) {
                 if (tireIndex < 2) {
                     scaleValue = slot->mKartOffsetData->mFirstTiresScale;
                     tireScale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleValue);
@@ -1990,8 +1993,9 @@ void AdvanceKartModelMenuLoad(void) {
                 shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
                 if (loadSlot->mCharacterIndex == shownSlot->mCharacterIndex) {
                     animation = loadSlot->mCharacterAnimation;
-                    animation->mHead.mFrameIndex = shownSlot->mCharacterAnimation->mHead.mFrameIndex;
-                    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+                    animation->mFrameLoop.mFrameIndexFixed =
+                        shownSlot->mCharacterAnimation->mFrameLoop.mFrameIndexFixed;
+                    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
                 }
             }
             gKartModelMenu->mShownSlotIndex = gKartModelMenu->mLoadSlotIndex;

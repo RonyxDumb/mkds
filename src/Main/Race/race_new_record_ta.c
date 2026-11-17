@@ -1,5 +1,6 @@
 #include "Main/Race/race_new_record_ta.h"
 #include "Main/System/heap.h"
+#include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Save/mission_record.h"
 #include "Main/Race/race_hud_kart_removed.h"
 #include "Main/Race/race_item_slot.h"
@@ -65,7 +66,7 @@ void InitRaceNewRecordTa(void) {
     }
     gRaceNewRecordTa->mSaving = 0;
     gRaceNewRecordTa->mRunning = 0;
-    gRaceNewRecordTa->mOffsetX = -0x100;
+    gRaceNewRecordTa->mOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gRaceNewRecordTa->mCycleFrames = 0;
 }
 
@@ -506,7 +507,7 @@ void SlideInRaceNewRecordTa(void) {
     frame = gRaceNewRecordTa->mUpdateFrames;
     gRaceNewRecordTa->mUpdateFrames = frame + 1;
     if (frame < 0x14) {
-        gRaceNewRecordTa->mOffsetX = InterpolateS16(1, -0x100, 0, frame, 0x14);
+        gRaceNewRecordTa->mOffsetX = InterpolateS16(1, -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, frame, 0x14);
     } else {
         gRaceNewRecordTa->mOffsetX = 0;
         gRaceNewRecordTa->mUpdate = HoldRaceNewRecordTa;

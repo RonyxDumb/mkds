@@ -78,7 +78,7 @@ StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRStraight},
                                            {NULL, UpdateItemKouraRCloseIn},
                                            {NULL, UpdateItemKouraRGlide}};
 
-const ItemInfo gItemInfoKouraR = {1, 1, 1, 1, 0, 1, NULL};
+const ItemInfo gItemInfoKouraR = {1, 1, ITEM_OBJECT_KIND_KOURA_R, 1, 0, ITEM_USE_KIND_ONE, NULL};
 
 const ItemKind gItemKindKouraR = {0x274,
                                   8,

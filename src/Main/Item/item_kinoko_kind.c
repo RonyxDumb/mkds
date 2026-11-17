@@ -68,7 +68,7 @@
 
 const u16 gItemKinokoNoOwnerBit = ITEM_OWNER_NO_OWNER;
 
-const ItemInfo gItemInfoKinoko = {1, 1, 3, 1, 0, 0, StartItemKinokoBoost};
+const ItemInfo gItemInfoKinoko = {1, 1, ITEM_OBJECT_KIND_KINOKO, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemKinokoBoost};
 
 const ItemKind gItemKindKinoko = {0x138,
                                   8,
@@ -122,7 +122,7 @@ void StartItemKinokoBoost(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
-    AddItemDataFrameOnly(3);
+    AddItemDataFrameOnly(ITEM_OBJECT_KIND_KINOKO);
 }
 
 void ResetItemKinoko(ItemKinoko *kinoko) {

@@ -6,6 +6,8 @@
 #include "Main/MapObjects/item_box.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
 #include "matrix_3x3_basic.h"
@@ -56,9 +58,9 @@ void CreateMkdEfBubble(void) {
     CreateNsbmd(&gMkdEfBubble, nsbmd, NULL);
     SetNsbmdPolygonIdLightEmiAll(gMkdEfBubble, 0x3f, 2, 0x294a);
     gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gMkdEfBubbleNsbta));
-    InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
+    InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_TEX_SRT, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
                                   FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
-    SetModelAnimationEntryLoopMode(gMkdEfBubbleNsbta, 0, 1);
+    SetModelAnimationEntryLoopMode(gMkdEfBubbleNsbta, 0, MODEL_ANIMATION_LOOP_MODE_WRAP);
 }
 
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {

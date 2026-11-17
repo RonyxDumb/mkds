@@ -87,7 +87,7 @@ void InitBouncingItemBoxMapObjects(void) {
     ItemPool *pool;
     MapObject *mapObject;
     if (gItemInfos[ITEM_INFO_BOUNCING_ITEM_BOX].mEnabled != FALSE) {
-        pool = &gItemPools[8];
+        pool = &gItemPools[ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX];
         objectCursor = pool->mObjects;
         objectCount = pool->mObjectCount;
         index = 0;
@@ -388,8 +388,8 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     OrthoQuad *quad;
     s16(*velocities)[2];
     s32 cornerIndex;
-    s16 cosResult;
     s16 sinResult;
+    s16 cosResult;
     s32 value;
     s16 velocityX;
     s16 velocityY;
@@ -400,8 +400,8 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     velocities = quad->mCornerVelocities;
     RANDOM_ADVANCE(random);
     value = (s32) (u16) RANDOM_BELOW_U64(random, 0x10000);
-    cosResult = SIN_OF_ANGLE(value);
-    sinResult = COS_OF_ANGLE(value);
+    sinResult = SIN_OF_ANGLE(value);
+    cosResult = COS_OF_ANGLE(value);
     if (overlap != 0) {
         RANDOM_ADVANCE(random);
         value = (s16) RANDOM_BELOW_U64(random, 0xcd) + 0x800;
@@ -425,8 +425,8 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
         velocityY = velocities[cornerIndex][1];
         velocityX = velocities[cornerIndex][0];
-        velocities[cornerIndex][0] = (sinResult * velocityX - cosResult * velocityY) >> 12;
-        velocities[cornerIndex][1] = (cosResult * velocityX + sinResult * velocityY) >> 12;
+        velocities[cornerIndex][0] = (cosResult * velocityX - sinResult * velocityY) >> 12;
+        velocities[cornerIndex][1] = (sinResult * velocityX + cosResult * velocityY) >> 12;
         *GetOrthoQuadCorner(quad, cornerIndex) = startPair;
     }
     quad->mStartPair = startPair;

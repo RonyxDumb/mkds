@@ -289,7 +289,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
             AdvanceKartCharacterAnimation(kart);
             characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
             characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame =
-                characterAnimation->mHead.mFrameIndex;
+                characterAnimation->mFrameLoop.mFrameIndexFixed;
         }
     }
     ResetParticipantKartRecordPos(kart);

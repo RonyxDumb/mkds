@@ -43,7 +43,13 @@
 const u8 gItemTeresaBattleKartOrder[16] = {4, 3, 1, 6, 7, 5, 0, 2, 4, 3, 1, 6, 7, 5, 0, 2};
 const u16 gItemTeresaPickWeights[8] = {0x64, 0x4b, 0x32, 0x1e, 0x14, 0xa, 5, 0};
 const ItemInfo gItemInfoTeresa = {
-    1, 1, 0xb, 1, 0, 1, (void (*)(struct ItemInUse *, struct HeldItem *)) TeresaMarkItemInUseAsActiveItem};
+    1,
+    1,
+    ITEM_OBJECT_KIND_TERESA,
+    1,
+    0,
+    ITEM_USE_KIND_ONE,
+    (void (*)(struct ItemInUse *, struct HeldItem *)) TeresaMarkItemInUseAsActiveItem};
 const Vec3 gItemTeresaItemOffsets[4] = {
     {0x29, 0x47b, 0x29}, {-1556, 0x19a, 0x29}, {0x148, 0x75c, 0x29}, {-737, -819, 0x29}};
 const Vec3 gItemTeresaPathPoints[ITEM_TERESA_PATH_POINT_COUNT] = {
@@ -112,7 +118,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
     teresa->mFollowsPath = 0;
     teresa->mItemObjectKind = ITEM_TERESA_KIND_EMPTY;
     InitStateMachine(&teresa->mStateMachine, stateTable, 7, teresa);
-    teresa->mPickedKartIndex = ITEM_TERESA_NO_KART;
+    teresa->mPickedKartIndex = ITEM_NO_KART_INDEX;
     teresa->mFollowEnded = 0;
     FreeItemObjectCollisionSlot(&teresa->mItemObject);
     teresa->mActsLocally = 0;
@@ -329,7 +335,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     kart = inUse->mKart;
     StartKartTeresa(kart);
     StartEntryKartSound(kart, 0xf6);
-    SetActiveItem(inUse->mKartItems, 0x10);
+    SetActiveItem(inUse->mKartItems, ITEM_INFO_TERESA);
     InitCourseColorBlend(&teresa->mItemObject.mColorBlend, 1);
     if (inUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         teresa->mPicksAheadFirst = FALSE;
@@ -650,7 +656,7 @@ void EnterItemTeresaFadeInAtPicked(void *stateObject) {
                 ownerKartIndex = ITEM_NO_KART_INDEX;
             }
             pickFunction(teresa, GetCurrentEntry(ownerKartIndex)->mPlayer.mTeamIndex);
-            if (teresa->mPickedKartIndex == ITEM_TERESA_NO_KART) {
+            if (teresa->mPickedKartIndex == ITEM_NO_KART_INDEX) {
                 pickFunction(teresa, -1);
             }
         } else {
@@ -661,7 +667,7 @@ void EnterItemTeresaFadeInAtPicked(void *stateObject) {
         teresa->mItemObject.mPos = teresa->mItemObject.mDrawPos;
         teresa->mItemObject.mPosPointer = &teresa->mItemObject.mPos;
     }
-    if (teresa->mPickedKartIndex < ITEM_TERESA_NO_KART) {
+    if (teresa->mPickedKartIndex < ITEM_NO_KART_INDEX) {
         teresa->mKart = GetKart(teresa->mPickedKartIndex);
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
@@ -726,7 +732,7 @@ void UpdateItemTeresaFadeInAtPicked(void *stateObject) {
     u32 framesLeft;
     BOOL receivedItem;
 
-    if (teresa->mPickedKartIndex == ITEM_TERESA_NO_KART) {
+    if (teresa->mPickedKartIndex == ITEM_NO_KART_INDEX) {
         if (teresa->mStateMachine.mStateFrames > ITEM_TERESA_NO_PICK_LIMIT_FRAMES) {
             teresa->mItemObjectKind = ITEM_TERESA_KIND_TOOK_NOTHING;
             teresa->mStateMachine.mNextState = (teresa->mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)
@@ -1130,7 +1136,7 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
     } else {
         ownerKartIndex = ITEM_NO_KART_INDEX;
     }
-    SetActiveItem(GetKartItems(ownerKartIndex), 0x10);
+    SetActiveItem(GetKartItems(ownerKartIndex), ITEM_INFO_TERESA);
 }
 
 // Selectors: 0 picked kart, 1 reported state, 2 item taken, 3 item given (item index << 2 | count).
@@ -1193,8 +1199,8 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
                 itemModelAlpha = teresa->mItemObject.mAlpha;
             }
         }
-        if (itemModelAlpha > 0x1f) {
-            itemModelAlpha = 0x1f;
+        if (itemModelAlpha > ITEM_OBJECT_ALPHA_OPAQUE) {
+            itemModelAlpha = ITEM_OBJECT_ALPHA_OPAQUE;
         }
         if (itemModelAlpha < 1) {
             itemModelAlpha = 1;
@@ -1216,7 +1222,7 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
         }
         secondCommandParam = 1;
         NNS_G3dGeBufferOP_N(0x12, &secondCommandParam, 1);
-        if (itemModelAlpha != 0x1f) {
+        if (itemModelAlpha != ITEM_OBJECT_ALPHA_OPAQUE) {
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | POLYGON_ATTR_ALPHA_MASK;
         }

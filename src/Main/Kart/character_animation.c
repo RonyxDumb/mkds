@@ -3,6 +3,7 @@
 #include "model_draw_state.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
 #include "Main/Graphics/model_animation.h"
 #include "Main/Kart/kart_model_path.h"
 #include "ITCM/model_draw_and_irq_handler.h"
@@ -35,7 +36,7 @@
 #include "Main/Menu/menu_screens_work.h"
 
 const s32 gCharacterFaceFrames[2] = {0, 0x1000};
-const KartAiItemUseEntry gRaceItemInUseEntries[14] = {{UseItemAfterInUseByCircleKind, 1, 0x5, 0x10},
+const KartAiItemUseEntry gRaceItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {{UseItemAfterInUseByCircleKind, 1, 0x5, 0x10},
                                                       {UseItemAfterInUseByCircleKind, 1, 0x8, 0x5},
                                                       {UseItemAfterInUseByTrailKind, 2, 0x1, 0x14},
                                                       {RaceItemInUseNop, 0, 0x3, 0xa},
@@ -49,7 +50,7 @@ const KartAiItemUseEntry gRaceItemInUseEntries[14] = {{UseItemAfterInUseByCircle
                                                       {RaceItemInUseNop, 2, 0x3, 0xa},
                                                       {RaceItemInUseNop, 2, 0x3, 0xa},
                                                       {RaceItemInUseNop, 2, 0x3, 0xa}};
-const KartAiItemUseEntry gRaceNormalHeldItemEntries[18] = {{UseItemByRankOrEveryCall, 1, 0x0, 0x34},
+const KartAiItemUseEntry gRaceNormalHeldItemEntries[ITEM_INFO_COUNT] = {{UseItemByRankOrEveryCall, 1, 0x0, 0x34},
                                                            {UseItemByRankAfterHeld, 1, 0x0, 0x34},
                                                            {UseItemByRankOrEveryCall, 2, 0x0, 0x34},
                                                            {UseItemByRankAfterHeld, 2, 0x0, 0x34},
@@ -67,7 +68,7 @@ const KartAiItemUseEntry gRaceNormalHeldItemEntries[18] = {{UseItemByRankOrEvery
                                                            {UseItemAfterHeld, 0, 0x0, 0xa},
                                                            {UseItemAfterHeld, 0, 0x0, 0xa},
                                                            {UseItemAfterHeld, 0, 0x0, 0xa}};
-const KartAiItemUseEntry gRaceHardHeldItemEntries[18] = {{UseItemByTargetOrRankOrEveryCall, 1, 0x0, 0x34},
+const KartAiItemUseEntry gRaceHardHeldItemEntries[ITEM_INFO_COUNT] = {{UseItemByTargetOrRankOrEveryCall, 1, 0x0, 0x34},
                                                          {UseItemByTargetOrRankAfterHeld, 1, 0x0, 0x34},
                                                          {UseItemByTargetOrRankOrEveryCall, 2, 0x0, 0x34},
                                                          {UseItemByTargetOrRankAfterHeld, 2, 0x0, 0x34},
@@ -85,7 +86,7 @@ const KartAiItemUseEntry gRaceHardHeldItemEntries[18] = {{UseItemByTargetOrRankO
                                                          {UseItemAfterHeld, 0, 0x0, 0xa},
                                                          {UseItemAfterHeld, 0, 0x0, 0xa},
                                                          {UseItemAfterHeld, 0, 0x0, 0xa}};
-const KartAiItemUseEntry gRaceEasyHeldItemEntries[18] = {{UseItemByRankAfterHeld, 1, 0xf, 0x34},
+const KartAiItemUseEntry gRaceEasyHeldItemEntries[ITEM_INFO_COUNT] = {{UseItemByRankAfterHeld, 1, 0xf, 0x34},
                                                          {UseItemByRankAfterHeld, 1, 0xf, 0x34},
                                                          {UseItemByRankAfterHeld, 2, 0xf, 0x34},
                                                          {UseItemByRankAfterHeld, 2, 0xf, 0x34},
@@ -183,17 +184,19 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
         if (animationState->mNextAnimationPending == FALSE) {
             return;
         }
-        if (characterAnimation->mHead.mDone != 1) {
+        if (characterAnimation->mFrameLoop.mDone != 1) {
             return;
         }
-        SetModelAnimationEntryLoopMode(characterAnimation, characterAnimation->mCurrentIndex, 1);
+        SetModelAnimationEntryLoopMode(characterAnimation, characterAnimation->mCurrentIndex,
+                                       MODEL_ANIMATION_LOOP_MODE_WRAP);
         StartModelAnimationBlend(modelsEntry->mCharacterAnimation, animationState->mNextAnimationIndex);
         faceAnimation = modelsEntry->mFaceAnimation;
-        faceAnimation->mHead.mFrameIndex = gCharacterFaceFrames[0];
-        faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mHead.mFrameIndex;
+        faceAnimation->mFrameLoop.mFrameIndexFixed = gCharacterFaceFrames[0];
+        faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mFrameLoop.mFrameIndexFixed;
         animationState->mNextAnimationPending = FALSE;
     } else {
-        characterAnimation->mHead.mFrameIndex = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
+        characterAnimation->mFrameLoop.mFrameIndexFixed =
+            animationState->mTurnFrameOffset + animationState->mMiddleFrame;
         AdvanceModelAnimationBlend(characterAnimation);
     }
 }
@@ -201,8 +204,8 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
 void SetCharacterFaceFrameIndex(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex) {
     ModelAnimation *faceAnimation = kartModelsEntry->mFaceAnimation;
 
-    faceAnimation->mHead.mFrameIndex = gCharacterFaceFrames[faceFrameIndex];
-    faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mHead.mFrameIndex;
+    faceAnimation->mFrameLoop.mFrameIndexFixed = gCharacterFaceFrames[faceFrameIndex];
+    faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mFrameLoop.mFrameIndexFixed;
 }
 
 void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend) {
@@ -276,7 +279,8 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     if (finishResult == FINISH_RESULT_WON) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
         animationState = &modelsEntry->mAnimationState;
-        SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
+        SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) finishResult,
+                                       MODEL_ANIMATION_LOOP_MODE_WRAP);
         SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         if (isRuleKindWinner != 0) {
             kart->mEntryFlags |= KART_ENTRY_RESULT_WON;
@@ -424,12 +428,13 @@ void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAni
 
     characterAnimation = modelsEntry->mCharacterAnimation;
     if (animationState->mNextAnimationPending != FALSE && characterAnimation->mCurrentIndex != 0) {
-        SetModelAnimationEntryLoopMode(characterAnimation, characterAnimation->mCurrentIndex, 1);
+        SetModelAnimationEntryLoopMode(characterAnimation, characterAnimation->mCurrentIndex,
+                                       MODEL_ANIMATION_LOOP_MODE_WRAP);
     }
     animationState->mNextAnimationPending = TRUE;
     animationState->mNextAnimationIndex = nextAnimationIndex;
     StartModelAnimationBlend(kart->mKartModelsEntry->mCharacterAnimation, animationIndex);
-    SetModelAnimationEntryLoopMode(characterAnimation, (u16) animationIndex, 0);
+    SetModelAnimationEntryLoopMode(characterAnimation, (u16) animationIndex, MODEL_ANIMATION_LOOP_MODE_CLAMP);
 }
 
 void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 polygonId) {

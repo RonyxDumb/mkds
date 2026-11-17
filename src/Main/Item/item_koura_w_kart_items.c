@@ -10,7 +10,7 @@
 #include "Main/Item/item_bomb.h"
 #include "ITCM/collision_slots.h"
 
-const ItemInfo gItemInfoBomb = {1, 1, 9, 1, 0, 1, NULL};
+const ItemInfo gItemInfoBomb = {1, 1, ITEM_OBJECT_KIND_BOMB, 1, 0, ITEM_USE_KIND_ONE, NULL};
 const ItemKind gItemKindBomb = {0x1a4,
                                 1,
                                 0x18,

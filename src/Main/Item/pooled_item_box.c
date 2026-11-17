@@ -52,7 +52,7 @@ struct CourseMapRow gPooledMapObjectRow;
 
 const u16 gBouncingItemBoxUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 
-const ItemInfo gItemInfoKiller = {1, 1, 0xd, 1, 0, 0, StartItemKiller};
+const ItemInfo gItemInfoKiller = {1, 1, ITEM_OBJECT_KIND_KILLER, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemKiller};
 
 const ItemKind gItemKindKiller = {
     0x12c, 1, 1,    -1,  -1,   {0}, NULL, NULL,     NULL, NULL,   NULL, NULL, ComputeViewTest, NULL,   NULL,  NULL,
@@ -96,7 +96,7 @@ void CreatePooledMapObjects(void) {
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
     StartKartKiller(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
-    SetActiveItem(itemInUse->mKartItems, 0xe);
+    SetActiveItem(itemInUse->mKartItems, ITEM_INFO_KILLER);
 }
 
 void ResetKartActiveItemAfterKiller(s32 kartIndex) {

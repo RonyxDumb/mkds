@@ -7,6 +7,7 @@
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Kart/kart_ai_item_use.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectList, MapObjectKindData
 
 // Values of Sman.mState: at rest, the top part goes up and down (when mCourseMapRow->mSettings[0] is above 0 the object
@@ -78,12 +79,12 @@ void DrawSmanTop(void *mapObjectList, Sman *sman);
 void SetupDrawSmanTop(void *mapObjectList);
 void CreateSmanTop(void *mapObjectList);
 
-extern const KartAiItemUseEntry gBattleNormalHeldItemEntries[18];
-extern const KartAiItemUseEntry gBattleEasyHeldItemEntries[18];
-extern const KartAiItemUseEntry gBattleNormalItemInUseEntries[14];
-extern const KartAiItemUseEntry gBattleHardItemInUseEntries[14];
-extern const KartAiItemUseEntry gBattleHardHeldItemEntries[18];
-extern const KartAiItemUseEntry gBattleEasyItemInUseEntries[14];
+extern const KartAiItemUseEntry gBattleNormalHeldItemEntries[ITEM_INFO_COUNT];
+extern const KartAiItemUseEntry gBattleEasyHeldItemEntries[ITEM_INFO_COUNT];
+extern const KartAiItemUseEntry gBattleNormalItemInUseEntries[ITEM_OBJECT_KIND_COUNT];
+extern const KartAiItemUseEntry gBattleHardItemInUseEntries[ITEM_OBJECT_KIND_COUNT];
+extern const KartAiItemUseEntry gBattleHardHeldItemEntries[ITEM_INFO_COUNT];
+extern const KartAiItemUseEntry gBattleEasyItemInUseEntries[ITEM_OBJECT_KIND_COUNT];
 extern s32 *gStaffGhostTime;
 
 extern const KartAiItemUseEntry *gBattleHeldItemEntries;

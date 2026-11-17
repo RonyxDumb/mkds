@@ -673,7 +673,8 @@ void SetupItemBombKind(void) {
     gItemBombGrowScaleLimit = 0x18006;
     gItemBombGrowInverseLimit = FX_Div(0x1000, 0x18006);
     gItemBombGrowScaleStep = 0x2148;
-    gItemBombGrowMaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombGrowScaleLimit, gItemKinds[9].mRadius);
+    gItemBombGrowMaxRadiusSquared =
+        MUL_FIXED12_NO_ROUND(gItemBombGrowScaleLimit, gItemKinds[ITEM_OBJECT_KIND_BOMB].mRadius);
     gItemBombGrowMaxRadiusSquared >>= 12;
     gItemBombGrowMaxRadiusSquared *= gItemBombGrowMaxRadiusSquared;
     engineIndex = gRaceSetup->mEngineIndex;

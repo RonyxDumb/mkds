@@ -363,7 +363,8 @@ void AdvanceSelectCupCourseSlideIn(void) {
 
     gSelectCupCourse->mStateFrames++;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
+        InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gSelectCupCourse->mStateFrames,
+                       SELECT_CUP_COURSE_SLIDE_STEPS);
         offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;

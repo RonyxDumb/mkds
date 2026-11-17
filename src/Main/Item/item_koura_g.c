@@ -66,8 +66,8 @@
 #include "ITCM/collision_slots.h"
 #include "Main/Item/item_koura_g.h"
 
-const ItemInfo gItemInfoKouraG = {1, 1, 0, 1, 0, 1, NULL};
-const ItemInfo gItemInfoKouraRThree = {1, 0, 1, 3, 0, 4, NULL};
+const ItemInfo gItemInfoKouraG = {1, 1, ITEM_OBJECT_KIND_KOURA_G, 1, 0, ITEM_USE_KIND_ONE, NULL};
+const ItemInfo gItemInfoKouraRThree = {1, 0, ITEM_OBJECT_KIND_KOURA_R, 3, 0, ITEM_USE_KIND_CIRCLE, NULL};
 
 const ItemKind gItemKindKouraG = {0x188,
                                   8,

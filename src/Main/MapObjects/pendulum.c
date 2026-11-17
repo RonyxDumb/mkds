@@ -9,6 +9,7 @@
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/model_animation_entries.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/shadow_model_create.h"
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "fixed_vector_math.h"
@@ -109,8 +110,8 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
             frameWork.mTexImageParam &= mask;
             frameWork.mDataIndex = 0;
             do {
-                animation->mHead.mFrameIndex = TO_FIXED12(frame);
-                animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+                animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(frame);
+                animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
                 NNSi_G3dAnmCalcNsBtp(&frameWork.mResult, animation->mAnmObjs[0], frameWork.mDataIndex);
                 record->mTexImageParams[frame] = frameWork.mResult.mPrmTexImage & 0x3ff0ffff;
                 record->mTexImageParams[frame] |= frameWork.mTexImageParam;
@@ -132,7 +133,8 @@ void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 un
     InitNsbmd(record->mNsbmd, nsbmdFile);
     if (nsbtpFile != NULL) {
         record->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*record->mNsbtpAnimation));
-        InitModelAnimationWithEntries(2, record->mNsbmd, record->mNsbtpAnimation, nsbmdFile, nsbtpFile);
+        InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_TEX_PAT, record->mNsbmd, record->mNsbtpAnimation, nsbmdFile,
+                                      nsbtpFile);
     } else {
         record->mNsbtpAnimation = NULL;
     }

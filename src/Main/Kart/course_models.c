@@ -22,6 +22,7 @@
 #include "model_material_set.h"
 #include "animation_lookup.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
 #include "Main/Graphics/model_animation.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "matrix_4x3_basic.h"
@@ -56,7 +57,7 @@ static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation 
     } else {
         InitModelAnimation(animationKind, animation, nsbmd, 1, heap, modelFile);
         InitModelAnimationEntries(animation, animationFile, heap);
-        SetModelAnimationEntryLoopMode(animation, 0, 1);
+        SetModelAnimationEntryLoopMode(animation, 0, MODEL_ANIMATION_LOOP_MODE_WRAP);
         SetModelAnimation(animation, 0);
     }
 }
@@ -134,11 +135,11 @@ void InitCourseModels(void *heap) {
     gCourseModels.mNsbmd = HeapAlloc(heap, sizeof(*gCourseModels.mNsbmd));
     resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
     animationFile = FindCourseFile(gCourseModelNsbtpName);
-    InitModelAnimationFromFile(2, &gCourseModels.mNsbtpAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                               &gCourseModels.mNsbtpAnimation.mAnmObjCount);
+    InitModelAnimationFromFile(MODEL_ANIMATION_KIND_TEX_PAT, &gCourseModels.mNsbtpAnimation, gCourseModels.mNsbmd, heap,
+                               nsbmdFile, animationFile, &gCourseModels.mNsbtpAnimation.mAnmObjCount);
     animationFile = FindCourseFile(gCourseModelNsbtaName);
-    InitModelAnimationFromFile(1, &gCourseModels.mNsbtaAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                               &gCourseModels.mNsbtaAnimation.mAnmObjCount);
+    InitModelAnimationFromFile(MODEL_ANIMATION_KIND_TEX_SRT, &gCourseModels.mNsbtaAnimation, gCourseModels.mNsbmd, heap,
+                               nsbmdFile, animationFile, &gCourseModels.mNsbtaAnimation.mAnmObjCount);
     SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
     NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
     switch (gRaceSetup->mCourseId) {
@@ -171,8 +172,9 @@ void InitCourseModels(void *heap) {
         InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
         SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
         animationFile = FindCourseFile(gCourseModelVNsbtaName);
-        InitModelAnimationFromFile(1, &gCourseModels.mVNsbtaAnimation, gCourseModels.mVNsbmd, heap, nsbmdFile,
-                                   animationFile, &gCourseModels.mVNsbtaAnimation.mAnmObjCount);
+        InitModelAnimationFromFile(MODEL_ANIMATION_KIND_TEX_SRT, &gCourseModels.mVNsbtaAnimation,
+                                   gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
+                                   &gCourseModels.mVNsbtaAnimation.mAnmObjCount);
     }
     shdwOffMaterialIndices[0] =
         NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOffMaterialName);
@@ -306,7 +308,7 @@ void SetCourseModelsFogEnableFlags(u32 flag) {
 
 s32 GetCourseModelNsbtpFrame(void) {
     if (gCourseModels.mNsbtpAnimation.mAnmObjCount != 0) {
-        return FROM_FIXED12(gCourseModels.mNsbtpAnimation.mHead.mFrameIndex);
+        return FROM_FIXED12(gCourseModels.mNsbtpAnimation.mFrameLoop.mFrameIndexFixed);
     }
     return -1;
 }

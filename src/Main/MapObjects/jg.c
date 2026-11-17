@@ -750,13 +750,13 @@ void EnterJgReverse(void *stateObject) {
     if (gJgKind != JG_KIND_NONE) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
-            animation->mHead.mFrameIndex = 0;
-            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+            animation->mFrameLoop.mFrameIndexFixed = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
         }
         animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
-            animation->mHead.mFrameIndex = 0;
-            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+            animation->mFrameLoop.mFrameIndexFixed = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
         }
     }
     gJgPointPointers[0] = &gJgPoints[7];
@@ -810,7 +810,7 @@ void UpdateJgReverse(void *stateObject) {
     enum { FRAME_START } frameFixed;
 
     animation = gJgKindRows[gJgKind].mNsbmaAnimation;
-    frameFixed = animation->mHead.mFrameIndex;
+    frameFixed = animation->mFrameLoop.mFrameIndexFixed;
     angle = gJgStateCounter;
     frame = ((u32) frameFixed << 4) >> 16;
     if (angle > 0 && angle < 0x10000) {
@@ -920,13 +920,13 @@ void EnterJgFollowKart(void *stateObject) {
     if (gJgKind != JG_KIND_NONE) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
-            animation->mHead.mFrameIndex = 0;
-            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+            animation->mFrameLoop.mFrameIndexFixed = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
         }
         animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
-            animation->mHead.mFrameIndex = 0;
-            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+            animation->mFrameLoop.mFrameIndexFixed = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
         }
     }
     gJgMain.mFrameIndex = 1;
@@ -1040,13 +1040,13 @@ void EnterJgArrive(void *stateObject) {
     if (gJgKind != JG_KIND_NONE) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
-            animation->mHead.mFrameIndex = 0;
-            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+            animation->mFrameLoop.mFrameIndexFixed = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
         }
         animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
-            animation->mHead.mFrameIndex = 0;
-            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+            animation->mFrameLoop.mFrameIndexFixed = 0;
+            animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
         }
     }
     MTX_MultVec43(&gJgTargetPos, &gJgPreviousInverseMatrix, &gJgArriveLocalTargetPos);

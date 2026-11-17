@@ -80,12 +80,12 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
 #pragma thumb off
 
 MapObjectKindData *CreateMissionRunBoxKindData(void) {
-    MapObjectKindData *kindData;
+    MapObjectKindData *result;
 
-    kindData = GetHeap(GetCurrentHeapCall());
-    kindData = HeapAlloc(kindData, sizeof(MapObjectKindData));
-    *kindData = gMissionRunBoxKindData;
-    return kindData;
+    result = GetHeap(GetCurrentHeapCall());
+    result = HeapAlloc(result, sizeof(MapObjectKindData));
+    *result = gMissionRunBoxKindData;
+    return result;
 }
 
 BOOL IsMissionRunBoxKind(u32 kind) {

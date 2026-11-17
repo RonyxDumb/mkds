@@ -66,7 +66,7 @@
 #include "ITCM/collision_slots.h"
 #include "Main/Item/item_thunder.h"
 
-const ItemInfo gItemInfoThunder = {1, 1, 6, 1, 0, 0, StartItemThunder};
+const ItemInfo gItemInfoThunder = {1, 1, ITEM_OBJECT_KIND_THUNDER, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemThunder};
 
 const ItemKind gItemKindThunder = {
     0x12c, 1, 1, -1, -1, {0}, NULL, NULL, NULL, NULL, NULL, NULL, ComputeViewTest, NULL, NULL, NULL,
@@ -95,5 +95,5 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
-    AddItemDataFrameOnly(6);
+    AddItemDataFrameOnly(ITEM_OBJECT_KIND_THUNDER);
 }

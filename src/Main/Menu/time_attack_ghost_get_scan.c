@@ -781,7 +781,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(cellFileSet, "TimeAttack_ghost_get_m.nce.ncgr", "TimeAttack_ghost_get_m.nce.ncer",
                       "TimeAttack_ghost_get_m_o.NCLR", "TimeAttack_ghost_get_m.bncl", "TimeAttack_ghost_get_m.bnll",
                       NULL, FindSceneFile);
-    screen = FALSE;
+    screen = SCREEN_SIDE_MAIN;
     SetupCellFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostGetScan->mHeap, cellFileSet);
     index = 0;
     if (index < cellFileSet->mLabelLayout->mCount) {
