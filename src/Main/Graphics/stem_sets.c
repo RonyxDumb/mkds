@@ -67,7 +67,7 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     u16 nsbmdIndex;
     Nsbmd *nsbmd;
     Nsbmd *nsbcaModel;
-    ModelAnimation *nsbcaAnimation;
+    ModelAnimation *animation;
     u16 nsbcaIndex;
     Nsbmd *nsbmaModel;
     ModelAnimation *nsbmaAnimation;
@@ -103,11 +103,11 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     }
     for (nsbcaIndex = 0; nsbcaIndex < stemSetParams->mNsbcaCount; nsbcaIndex++) {
         nsbcaModel = &stemSet->mNsbmds[nsbcaIndex];
-        nsbcaAnimation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
+        animation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
         snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
-        InitModelAnimation(0, nsbcaAnimation, nsbcaModel, 1, heap, NULL);
-        InitModelAnimationEntries(nsbcaAnimation, FindSceneFile(fileName), heap);
-        SetModelAnimation(nsbcaAnimation, 0);
+        InitModelAnimation(0, animation, nsbcaModel, 1, heap, NULL);
+        InitModelAnimationEntries(animation, FindSceneFile(fileName), heap);
+        SetModelAnimation(animation, 0);
     }
     for (nsbmaIndex = 0; nsbmaIndex < stemSetParams->mNsbmaCount; nsbmaIndex++) {
         nsbmaModel = &stemSet->mNsbmds[nsbmaIndex];
@@ -118,15 +118,15 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
         SetModelAnimation(nsbmaAnimation, 0);
     }
     if (useOneNsbtpAnimation != FALSE) {
-        nsbcaAnimation = stemSet->mNsbcaNsbmaNsbtp[2];
-        InitModelAnimation(2, nsbcaAnimation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
+        animation = stemSet->mNsbcaNsbmaNsbtp[2];
+        InitModelAnimation(2, animation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
         for (nsbtpIndex = 0; nsbtpIndex < stemSetParams->mNsbtpCount; nsbtpIndex++) {
             snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
-            InitModelAnimationEntry(nsbcaAnimation, nsbtpIndex,
+            InitModelAnimationEntry(animation, nsbtpIndex,
                                     NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(FindSceneFile(fileName)), 0), 0,
                                     heap);
         }
-        SetModelAnimation(nsbcaAnimation, 0);
+        SetModelAnimation(animation, 0);
     }
 }
 

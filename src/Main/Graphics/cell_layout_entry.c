@@ -44,8 +44,8 @@ void SetLayoutEntryPositionFromLabel(u32 entryId, LayoutTableEntry *output, Layo
     output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
-void RectTableSetEntryXY(int id, int entryX, int entryY, LayoutEntryTable *graphics) {
-    short *entry = (s16 *) RectTableGetEntry(graphics, id);
+void RectTableSetEntryXY(int id, int entryX, int entryY, LayoutEntryTable *table) {
+    short *entry = (s16 *) RectTableGetEntry(table, id);
     entry[0] = (entry[0] & 0xfffff000U) | (entryX & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (entryY & 0xfff);
 }

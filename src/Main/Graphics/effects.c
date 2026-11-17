@@ -197,8 +197,8 @@ void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot) {
 }
 
 void StopEffectAndClearPointer(void **emitterSlot) {
-    ParticleEmitter *effect = *emitterSlot;
-    effect->mFlags.mEnding = 1;
+    ParticleEmitter *emitter = *emitterSlot;
+    emitter->mFlags.mEnding = 1;
     *emitterSlot = NULL;
 }
 
