@@ -28,7 +28,7 @@
 #define MODEL_EFFECT_DONKETU_SPLASH_FINISH_FRAMES 0x20
 #define MODEL_EFFECT_BK_WAVE_FINISH_FRAMES 0x27
 
-// A pooled effect object: a model, up to three animation objects, a position and a Start and an Update function.
+// A pooled effect object: a model, up to three animations, a position and a Start and an Update function.
 typedef struct ModelEffect {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ Nsbmd mNsbmd;
@@ -38,7 +38,7 @@ typedef struct ModelEffect {
     /* 84 */ void (*mUpdate)(struct ModelEffect *);
     /* 88 */ s32 mFinished;
     /* 8c */ u32 mKind;
-    // [0] .nsbca, [1] .nsbma, [2] .nsbta animation object; NULL when the kind has no such file.
+    // [0] .nsbca, [1] .nsbma, [2] .nsbta animation; NULL when the kind row's mUseNsbca, mUseNsbma or mUseNsbta is 0.
     /* 90 */ ModelAnimation *mAnimations[3];
     // Scale on x, y and z (three equal values, 0x1000 = 1.0), passed to the draw call.
     /* 9c */ Vec3 mScale;

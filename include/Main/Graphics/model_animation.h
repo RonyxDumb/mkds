@@ -14,8 +14,7 @@ typedef enum {
     MODEL_ANIMATION_KIND_MAT_C
 } ModelAnimationKind;
 
-// One model's animations: a table of animation objects and one loop flag per entry; one entry plays at a time.
-// A change of entry can fade from the old one (StartModelAnimationBlend).
+// Playback state of one animation: loop mode, done flag, frame count, step and index, and the loop counters.
 typedef struct ModelAnimationFrameLoop {
     /* 00 */ u16 mLoopMode;
     /* 02 */ u16 mDone;

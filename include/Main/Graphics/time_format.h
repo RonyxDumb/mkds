@@ -4,7 +4,7 @@
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "touch_panel_sampling.h"
 
-// First argument of FormatDate.
+// A date as year, month and day bytes (mYear, mMonth, mDay).
 typedef struct DateBytes {
     /* 00 */ u8 mYear;
     /* 01 */ u8 mMonth;

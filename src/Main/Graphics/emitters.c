@@ -186,8 +186,8 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
     gKartPhysicalParamTable->mFirstBaseSpeedLimit = gKartPhysicalParamTable->mKartParamFile->mBaseSpeedLimit;
 }
 
-// Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
-// IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
+// Copies the kart row and the character row of the two files to the slot; both rows are 0 when IsRaceAwardOrStaffRoll()
+// != 0, and in MODE_BATTLE the kart row is the character row + 0x25.
 void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow) {
     KartPhysicalParam *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
     s32 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;

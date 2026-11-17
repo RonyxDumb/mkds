@@ -42,7 +42,8 @@ typedef struct LabelCanvas {
     /* 44 */ NNSG2dCellDataWithBR *mCellData;
 } LabelCanvas;
 
-// mOffsetX that moves an entry one screen width (256 pixels) to the right.
+// The slide distance: the mOffsetX (or slide offset) an entry, or the whole layout, starts or ends at while it slides
+// in or out; negated for the other direction.
 #define LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH 0x100
 
 // One entry of a layout table: its offset, position, matrices and label canvas.

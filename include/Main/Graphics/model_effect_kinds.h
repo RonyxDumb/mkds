@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "Main/Kart/kart_effect_param_tables.h" // BattleKartAiParams
+#include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"
@@ -11,7 +11,7 @@
 #include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // ResFileEntry
-#include "Main/Sound/sound_distance_squared_change.h" // SoundStartParams
+#include "Main/Sound/sound_distance_squared_change.h"
 
 struct ModelEffect;
 
@@ -25,7 +25,8 @@ enum {
     MODEL_EFFECT_KIND_COUNT
 };
 
-// Object counts of the first two rows of gModelEffectKinds (Bombcore, Bombcore2) per race mode.
+// Object counts of the Bombcore and Bombcore2 rows of gModelEffectKinds: the default, the WiFi mode (both rows), and
+// Mission Run (Bombcore row only).
 #define BOMBCORE_OBJECT_COUNT 3
 #define BOMBCORE2_OBJECT_COUNT 1
 #define BOMBCORE_OBJECT_COUNT_WIFI 6
@@ -36,7 +37,7 @@ enum {
 #define DONKETU_WATER_SPLASH_OBJECT_COUNT 2
 #define BK_WAVE_OBJECT_COUNT 1
 
-// One row of gModelEffectKinds: object count, which animation objects to make, start and update functions, size.
+// One row of gModelEffectKinds: object count, which animations to make, start and update functions, size.
 typedef struct ModelEffectKind {
     /* 00 */ u16 mObjectCount;
     /* 04 */ BOOL mUseNsbca;
@@ -48,7 +49,7 @@ typedef struct ModelEffectKind {
     /* 1c */ ResFileEntry mResFileEntry;
 } ModelEffectKind;
 
-// Object at gPosStripTexture.
+// Texture settings DrawPosStripQuad draws with: the image parameter, the palette base and the two texture coordinates.
 typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;
     /* 04 */ u8 mUnk_04[0x14];

@@ -43,8 +43,8 @@ void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable 
     InitLayoutTableEntries(*tableOut, count);
 }
 
-// Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
-// drawing when the entry is disabled or lies off the 256 x 192 screen.
+// Draws the entry index: first the label entry attached to it (mLabelIndex), then itself; appends the cell OAMs to
+// oamList, and returns without drawing when mVisible is 0 or the entry lies off the 256 x 192 screen.
 u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
                     RaceHudOamBuffer *oamList, LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;

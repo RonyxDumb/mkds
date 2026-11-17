@@ -36,7 +36,7 @@ typedef struct Nclr {
     };
 } Nclr;
 
-// One stack word whose address the functions above store different pointer types through.
+// A local the Load...Data functions write each loaded pointer into, as an Ncgr, Nscr, Nclr or cell bank pointer.
 typedef union LoadedPartPointer {
     Ncgr *mNcgr;
     Nscr *mNscr;

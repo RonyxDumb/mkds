@@ -5,8 +5,8 @@
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/System/backup_net_camera_work.h"
 
-// DispCap.mBlendFactor: full blend, and the change per frame while it grows (the weight of the captured frame
-// rises) or falls.
+// DispCap.mBlendFactor: its full value (1.0 in 12-bit fixed point), and how much each AdvanceDispCapBlend call (with no
+// menu open) raises it, or lowers it while DISP_CAP_FLAG_BLEND_FALLING is set.
 #define DISP_CAP_BLEND_FACTOR_FULL TO_FIXED12(1)
 #define DISP_CAP_BLEND_FACTOR_RISE_STEP FIXED12_RATIO(1, 10)
 #define DISP_CAP_BLEND_FACTOR_FALL_STEP 0x802

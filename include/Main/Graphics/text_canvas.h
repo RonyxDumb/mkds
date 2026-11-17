@@ -1,7 +1,8 @@
 #pragma once
 #include "types.h"
 
-// Four words set up by TestSceneInitTextCanvas.
+// The character canvas, font, character spacing and line spacing that InitTextCanvas stores and DrawTextOnCanvas draws
+// with.
 typedef struct TextCanvas {
     /* 00 */ void *mCharCanvas;
     /* 04 */ void *mFont;

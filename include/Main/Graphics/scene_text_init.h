@@ -5,7 +5,8 @@
 
 void ReleaseSceneText(void);
 
-// Argument block of InitSceneText (ten words read from it).
+// What InitSceneText sets up: a use flag for the text system, select choises, select return and back screen, with the
+// font, canvas flags and back screen kind they need.
 typedef struct SceneTextInitParams {
     /* 00 */ BOOL mUseTxtSystem;
     /* 04 */ void *mTxtSystemFont;

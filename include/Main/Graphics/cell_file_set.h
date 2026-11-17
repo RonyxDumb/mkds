@@ -4,7 +4,8 @@
 
 typedef struct CellFileSet CellFileSet;
 
-// 12-byte entries of the tables at gResultsGpSubLabelCanvasEntries and gSelectKartSLabelCanvasEntries.
+// Row of a label canvas table: mLabelIndex, mWidth, mHeight and mEntryIndex for SetupLabelCanvas, and mMessageIndex
+// (only gSelectKartSLabelCanvasEntries uses it; SetupLabelCanvas also reads shorter rows that stop after mEntryIndex).
 typedef struct LabelCanvasEntry {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;
@@ -19,7 +20,8 @@ typedef enum ScreenSide {
     SCREEN_SIDE_SUB = 1,
 } ScreenSide;
 
-// Result of GetKartSoundTableRow; FALLBACK is for a kart index that no list names.
+// Result of GetKartSoundTableRow: the row of gKartSoundRowSoundIds; NONE is for a kart index no list names (it is not a
+// row of the table).
 typedef enum KartSoundTableRow {
     KART_SOUND_TABLE_ROW_FIRST = 0,
     KART_SOUND_TABLE_ROW_SECOND = 1,

@@ -402,7 +402,8 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     return canvas->mTextCanvas.mCharBytes;
 }
 
-// Clears the character canvas of entry b, draws the string d into it and queues its upload.
+// Clears the character canvas of the label labelIndex, draws text into it with the label's alignment and queues its
+// upload to the engine queueSelector picks.
 void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
                           LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance) {
     s32 canvasWidth;
@@ -473,7 +474,7 @@ void PrintLabelLayoutTextFixedDigits(s32 queueSelector, u32 labelIndex, LayoutEn
     PrintLabelLayoutText(queueSelector, labelIndex, labelLayout, text, cellLayout, table, 1, fixedAdvance);
 }
 
-// Clears the character canvas of entry b and queues its upload.
+// Clears the character canvas of the label labelIndex and queues its upload to the engine queueSelector picks.
 void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout,
                                   LayoutEntryTable *cellLayout, LayoutTableEntry *table) {
     LabelCanvas *canvas;

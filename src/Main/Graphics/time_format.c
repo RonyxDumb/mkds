@@ -121,7 +121,8 @@ void FormatTwoDigitNumber(u32 number, u16 *text) {
     }
 }
 
-// Writes the year, month and day as text in the order the region selects.
+// Writes the year (20 plus two digits), month and day as text; the region selects the order, and German selects "."
+// instead of "/".
 void FormatDate(DateBytes *date, u16 *text) {
     switch (gStartupWork->mRegion) {
         case REGION_JAPAN:

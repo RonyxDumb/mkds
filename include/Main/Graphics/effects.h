@@ -16,7 +16,7 @@ ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, const Vec3 *position);
 void StopEffectAndClearPointer(void **emitterSlot);
 void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot);
 void DeleteEffect(ParticleEmitter *emitter);
-// Starts effect a at the position b and returns the effect object (NULL when none is made).
+// Creates the emitter for effectId at position and returns it (NULL when none is made).
 void *StartEffect(u32 effectId, const Vec3 *position);
 void DrawEffects(MtxFx43 *viewMatrix);
 void UpdateEffects(void);
