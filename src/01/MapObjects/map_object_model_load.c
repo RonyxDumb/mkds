@@ -137,7 +137,7 @@ u32 IsMapObjectModelNsbcaPlaying(MapObjectModel *mapObjectModel) {
 
 void StartMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop) {
     StartModelAnimationBlend(mapObjectModel->mAnimations[0], entryIndex);
-    mapObjectModel->mAnimations[0]->mHead.mFrameStep = frameStep;
+    mapObjectModel->mAnimations[0]->mHead.mFrameIndexFixedPerCall = frameStep;
     SetModelAnimationEntryLoopMode(mapObjectModel->mAnimations[0], ((u16) entryIndex),
                                    (clampLoop != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
 }
@@ -148,7 +148,7 @@ void AdvanceMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel) {
 
 void StartMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop) {
     StartModelAnimationBlend(mapObjectModel->mAnimations[3], entryIndex);
-    mapObjectModel->mAnimations[1]->mHead.mFrameStep = frameStep;
+    mapObjectModel->mAnimations[1]->mHead.mFrameIndexFixedPerCall = frameStep;
     SetModelAnimationEntryLoopMode(mapObjectModel->mAnimations[3], ((u16) entryIndex),
                                    (clampLoop != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
 }

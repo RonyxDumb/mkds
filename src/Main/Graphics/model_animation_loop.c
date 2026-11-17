@@ -39,7 +39,7 @@ const u32 gKartNameTagMaskedTexture[128] = {
 void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP;
     modelAnimation->mDone = 0;
-    modelAnimation->mFrameStep = FIXED12_UNIT;
+    modelAnimation->mFrameIndexFixedPerCall = FIXED12_UNIT;
     modelAnimation->mFrameCountFixed = frameCountFixed;
     modelAnimation->mFrameIndex = 0;
     modelAnimation->mLoopsDone = 0;
@@ -60,7 +60,7 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
         case MODEL_ANIMATION_LOOP_MODE_CLAMP:
             if (modelAnimation->mFrameIndex >= modelAnimation->mFrameCountFixed - 0x1000) {
                 modelAnimation->mFrameIndex = modelAnimation->mFrameCountFixed - 0x1000;
-                modelAnimation->mFrameStep = 0;
+                modelAnimation->mFrameIndexFixedPerCall = 0;
                 modelAnimation->mDone = 1;
             }
             break;
@@ -78,7 +78,7 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
             }
             if (modelAnimation->mLoopsDone >= modelAnimation->mLoopCount) {
                 modelAnimation->mFrameIndex = modelAnimation->mFrameCountFixed - 0x1000;
-                modelAnimation->mFrameStep = 0;
+                modelAnimation->mFrameIndexFixedPerCall = 0;
                 modelAnimation->mDone = 1;
             }
             break;
@@ -87,7 +87,7 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
 
 void AdvanceModelAnimationFrame(ModelAnimationFrameLoop *modelAnimation) {
     modelAnimation->mDone = 0;
-    modelAnimation->mFrameIndex = modelAnimation->mFrameIndex + modelAnimation->mFrameStep;
+    modelAnimation->mFrameIndex = modelAnimation->mFrameIndex + modelAnimation->mFrameIndexFixedPerCall;
     ApplyModelAnimationLoopMode(modelAnimation);
 }
 

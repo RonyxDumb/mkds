@@ -20,7 +20,7 @@ typedef struct ModelAnimationFrameLoop {
     /* 00 */ u16 mLoopMode;
     /* 02 */ u16 mDone;
     /* 04 */ s32 mFrameCountFixed;
-    /* 08 */ s32 mFrameStep;
+    /* 08 */ s32 mFrameIndexFixedPerCall;
     /* 0c */ s32 mFrameIndex;
     /* 10 */ u16 mLoopsDone;
     /* 12 */ u16 mLoopCount;
