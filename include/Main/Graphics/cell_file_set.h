@@ -24,7 +24,7 @@ typedef enum KartSoundTableRow {
     KART_SOUND_TABLE_ROW_FIRST = 0,
     KART_SOUND_TABLE_ROW_SECOND = 1,
     KART_SOUND_TABLE_ROW_THIRD = 2,
-    KART_SOUND_TABLE_ROW_FALLBACK = 3,
+    KART_SOUND_TABLE_ROW_NONE = 3,
 } KartSoundTableRow;
 
 u32 GetKartSoundTableRow(u32 kartIndex);

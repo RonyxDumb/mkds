@@ -185,7 +185,7 @@ void LoadAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *
 #pragma thumb off
 
 u32 GetKartSoundTableRow(u32 kartIndex) {
-    u32 result = KART_SOUND_TABLE_ROW_FALLBACK;
+    u32 result = KART_SOUND_TABLE_ROW_NONE;
     switch (kartIndex) {
         case 0:
         case 3:
