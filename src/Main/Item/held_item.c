@@ -23,7 +23,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gItemObjectPendingUpdateBit = ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
+const u16 gItemObjectPendingUpdateCatchUpBit = ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
 const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}},
                                           {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}},
                                           {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};

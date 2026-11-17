@@ -38,7 +38,7 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 
-const u16 gMissionRunBoxMapObjectFlag = 1;
+const u16 gMissionRunBoxInactiveFlag = 1;
 const u16 gItemObjectExcludedUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 const MapObjectKindDescriptor gMissionRunBoxKindDescriptor = {
     0,    {0, 0}, 0x144, InitMissionRunBoxMapObject, CreateMissionRunBoxKindData, NULL, NULL,
@@ -123,7 +123,7 @@ void InitMissionRunBoxMapObject(MissionRunBox *object) {
     object->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
     object->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     object->mCollisionMapObject.mSkipsFlaggedQueries = 1;
-    object->mCollisionMapObject.mMapObject.mFlags |= gMissionRunBoxMapObjectFlag;
+    object->mCollisionMapObject.mMapObject.mFlags |= gMissionRunBoxInactiveFlag;
 }
 
 #pragma thumb off

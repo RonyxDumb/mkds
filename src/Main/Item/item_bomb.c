@@ -67,12 +67,12 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 const Vec3 gItemBombGrowStartScale = {0x1000, 0x1000, 0x1000};
-const u16 gItemBombDisabledFlag = 1;
+const u16 gItemBombInactiveFlag = 1;
 StateCallbacks gItemBombStateTable[4] = {{ItemBombBounceNop, UpdateItemBombBounce},
                                          {ItemBombRestNop, UpdateItemBombRest},
                                          {EnterItemBombGrow, UpdateItemBombGrow},
                                          {NULL, NULL}};
-const u16 gItemBombSkipListCallbackFlag = 8;
+const u16 gItemBombNoItemCallbackFlag = 8;
 const u16 gItemBombNoUpdateListFlag = 4;
 const u32 gItemObjectDistanceSquaredMask = 0x3fffffe0;
 const u16 gItemBombSkipViewTestFlag = 2;
@@ -336,7 +336,7 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
         pooledMapObject->mMapObject.mAlpha = bomb->mTimer;
     }
     if (bomb->mTimer < ITEM_BOMB_MAP_OBJECT_DISABLE_FRAMES) {
-        pooledMapObject->mMapObject.mFlags |= gItemBombDisabledFlag;
+        pooledMapObject->mMapObject.mFlags |= gItemBombInactiveFlag;
     }
     if (bomb->mTimer == 0) {
         mapObjectToPark = bomb->mPooledMapObject;
@@ -650,9 +650,9 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
         return NULL;
     }
     UnparkMapObject(&pooledMapObject->mMapObject);
-    pooledMapObject->mMapObject.mFlags |= gItemBombDisabledFlag;
+    pooledMapObject->mMapObject.mFlags |= gItemBombInactiveFlag;
     pooledMapObject->mMapObject.mFlags |= gItemBombSkipViewTestFlag;
-    pooledMapObject->mMapObject.mFlags |= gItemBombSkipListCallbackFlag;
+    pooledMapObject->mMapObject.mFlags |= gItemBombNoItemCallbackFlag;
     pooledMapObject->mMapObject.mFlags |= gItemBombNoUpdateListFlag;
     bomb->mPooledMapObject = pooledMapObject;
     bomb->mMapObjectOffsetY = offsetY;

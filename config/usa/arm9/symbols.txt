@@ -8547,7 +8547,7 @@ gKartItemsKeyReleasedBit kind:data(byte[2]) addr:0x021595d0
 gKartItemsStartAllowedBit kind:data(byte[2]) addr:0x021595d4
 gKartItemsVec3UnitY kind:data(byte[12]) addr:0x021595d8
 gItemCollisionBitOrder kind:data(byte[52]) addr:0x021595e4
-gItemObjectPendingUpdateBit kind:data(byte[2]) addr:0x02159618
+gItemObjectPendingUpdateCatchUpBit kind:data(byte[2]) addr:0x02159618
 gItemSpreadRows kind:data(byte[72]) addr:0x0215961c
 gItemInfoKinokoThree kind:data(byte[28]) addr:0x02159664
 gItemInfoBananaThree kind:data(byte[28]) addr:0x02159680
@@ -8585,9 +8585,9 @@ gItemInfoKinokoP kind:data(byte[28]) addr:0x02159d90
 gItemKindKinokoP kind:data(byte[168]) addr:0x02159dac
 gItemInfoBomb kind:data(byte[28]) addr:0x02159e54
 gItemKindBomb kind:data(byte[168]) addr:0x02159e70
-gItemBombDisabledFlag kind:data(byte[2]) addr:0x02159f18
+gItemBombInactiveFlag kind:data(byte[2]) addr:0x02159f18
 gItemBombSkipViewTestFlag kind:data(byte[2]) addr:0x02159f1c
-gItemBombSkipListCallbackFlag kind:data(byte[2]) addr:0x02159f20
+gItemBombNoItemCallbackFlag kind:data(byte[2]) addr:0x02159f20
 gItemBombNoUpdateListFlag kind:data(byte[2]) addr:0x02159f24
 gItemBombNoOwnerBit kind:data(byte[2]) addr:0x02159f28
 gItemObjectDistanceSquaredMask kind:data(byte[4]) addr:0x02159f2c
@@ -8598,7 +8598,7 @@ gItemInfoKouraGThree kind:data(byte[28]) addr:0x02159f4c
 gItemInfoFBox kind:data(byte[28]) addr:0x02159f68
 gItemKindFBox kind:data(byte[168]) addr:0x02159f84
 gItemObjectExcludedUntilCourseHitBit kind:data(byte[2]) addr:0x0215a02c
-gMissionRunBoxMapObjectFlag kind:data(byte[2]) addr:0x0215a030
+gMissionRunBoxInactiveFlag kind:data(byte[2]) addr:0x0215a030
 gMissionRunBoxKindDescriptor kind:data(byte[52]) addr:0x0215a034
 gMissionRunBoxKindData kind:data(byte[64]) addr:0x0215a068
 gDramAngleChoiceRows kind:data(byte[36]) addr:0x0215a0a8

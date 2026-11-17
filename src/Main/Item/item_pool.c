@@ -295,7 +295,7 @@ found:
     }
     if (frameDifference > 0) {
         object->mUpdatesRemaining = frameDifference;
-        object->mUpdatesRemaining |= gItemObjectPendingUpdateBit;
+        object->mUpdatesRemaining |= gItemObjectPendingUpdateCatchUpBit;
     }
 }
 
