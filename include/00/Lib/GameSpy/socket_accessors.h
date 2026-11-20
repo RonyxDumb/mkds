@@ -3,12 +3,12 @@
 #include "types.h"
 #include "00/Lib/GameSpy/connection_events.h"
 
-typedef struct Gt2Connection Gt2Connection;
-typedef struct Gt2Socket Gt2Socket;
+typedef struct GTI2Connection GTI2Connection;
+typedef struct GTI2Socket GTI2Socket;
 
-u8 *gt2GetConnectionData(Gt2Connection *object);
-void gt2SetConnectionData(Gt2Connection *connection, void *data);
-void SetUnmatchedDataCallback(Gt2Socket *socket, Gt2UnmatchedDataCallback callback);
-u32 GetSocketDescriptor(Gt2Socket *socket);
-int gt2GetOutgoingBufferFreeSpace(Gt2Connection *connection);
-u16 GetSocketPort(Gt2Socket *socket);
+u8 *gt2GetConnectionData(GTI2Connection *object);
+void gt2SetConnectionData(GTI2Connection *connection, void *data);
+void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, UnmatchedDataCallback callback);
+u32 gt2GetSocketSOCKET(GTI2Socket *socket);
+int gt2GetOutgoingBufferFreeSpace(GTI2Connection *connection);
+u16 gt2GetLocalPort(GTI2Socket *socket);

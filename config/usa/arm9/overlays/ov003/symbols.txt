@@ -40,7 +40,7 @@ SendFinishPacket kind:function(thumb,size=0x70) addr:0x021b83e8
 SendWantedMaskPacket kind:function(thumb,size=0xf4) addr:0x021b8458
 SendItemChainPacket kind:function(thumb,size=0x158) addr:0x021b854c
 ReportStateAndSendPacketForMode kind:function(thumb,size=0x62) addr:0x021b86a4
-IsKeyStreamFlagSet kind:function(thumb,size=0x10) addr:0x021b8708
+IsKeyStreamAcceptedBitSet kind:function(thumb,size=0x10) addr:0x021b8708
 FindItemAndParseSubItems kind:function(thumb,size=0x124) addr:0x021b8718
 CopyFirstItemValueIfSlotBytes kind:function(thumb,size=0x44) addr:0x021b883c
 ParseSingleValueItems kind:function(thumb,size=0xce) addr:0x021b8880
@@ -135,8 +135,8 @@ ReadExchangePacketAndCheckSum kind:function(thumb,size=0x70) addr:0x021bdc1c
 SendBytesToAllOnesAddressWrapper kind:function(thumb,size=0xc) addr:0x021bdc8c
 SendBytesToAllOnesAddress kind:function(thumb,size=0x44) addr:0x021bdc98
 SendBytesToAddress kind:function(thumb,size=0x1e) addr:0x021bdcdc
-SearchEntriesAndStoreEntryWithEncryptionRemoved kind:function(thumb,size=0x2ec) addr:0x021bdcfc
-FindEntryWithEncryptionRemoved kind:function(thumb,size=0x1d4) addr:0x021bdfe8
+SearchEntriesAndStoreEntryWithBit4NewlyCleared kind:function(thumb,size=0x2ec) addr:0x021bdcfc
+FindEntryWithBit4NewlyCleared kind:function(thumb,size=0x1d4) addr:0x021bdfe8
 DisconnectExchangeAndStopSockets kind:function(thumb,size=0x68) addr:0x021be1bc
 ConnectExchangeAndStartSockets kind:function(thumb,size=0x154) addr:0x021be224
 ReleaseExchangeWiFi kind:function(thumb,size=0x60) addr:0x021be378
@@ -1256,7 +1256,7 @@ gThreadStackSize kind:data(byte[4]) addr:0x021d6874
 gTimeoutAtMs kind:data(byte[4]) addr:0x021d6878
 gStartEntryCount kind:data(byte[4]) addr:0x021d687c
 gSixAsterisksString kind:data(byte[7]) addr:0x021d6880
-gFirstReplyIndexBytes kind:data(byte[7]) addr:0x021d6888
+gFirstReplyItem3Bytes kind:data(byte[7]) addr:0x021d6888
 @2317 kind:data(byte[12]) addr:0x021d6890 local
 gHashPadding kind:data(byte[64]) addr:0x021d689c
 gExchangeSocketConfig kind:data(byte[88]) addr:0x021d68dc
@@ -1339,16 +1339,16 @@ gYbBgOptionNclName kind:data(byte[22]) addr:0x021d70b8
 gYbBgOption1NclName kind:data(byte[23]) addr:0x021d70d0
 @1462 kind:data(byte[22]) addr:0x021d70e8 local
 @1463 kind:data(byte[22]) addr:0x021d7100 local
-gYb5MultiNscName3 kind:data(byte[19]) addr:0x021d7118
-gYb5MultiNscName4 kind:data(byte[19]) addr:0x021d712c
-gYb5MultiNscName5 kind:data(byte[19]) addr:0x021d7140
-gYb5MultiNscName6 kind:data(byte[19]) addr:0x021d7154
+gLinkMessageNextYb5MultiNscName kind:data(byte[19]) addr:0x021d7118
+gOptMenuMessageYb5MultiNscName kind:data(byte[19]) addr:0x021d712c
+gTimedMessageYb5MultiNscName kind:data(byte[19]) addr:0x021d7140
+gChildWaitMessageYb5MultiNscName kind:data(byte[19]) addr:0x021d7154
 gJb5MoveNscName kind:data(byte[18]) addr:0x021d7168
-gYb5MultiNscName7 kind:data(byte[19]) addr:0x021d717c
+gChildWaitYb5MultiNscName kind:data(byte[19]) addr:0x021d717c
 @2003 kind:data(byte[21]) addr:0x021d7190 local
 @2004 kind:data(byte[21]) addr:0x021d71a8 local
 @2005 kind:data(byte[20]) addr:0x021d71c0 local
-gXb4MultiNscName2 kind:data(byte[19]) addr:0x021d71d4
+gValueRecordsNextXb4MultiNscName kind:data(byte[19]) addr:0x021d71d4
 gApListPaletteRow kind:data(byte[1]) addr:0x021d71e8
 @1367 kind:data(byte[22]) addr:0x021d71ec local
 @1365 kind:data(byte[25]) addr:0x021d7204 local
@@ -1469,7 +1469,7 @@ gDwcUtilityBinName kind:data(byte[21]) addr:0x021d7ba0
 gTextCanvasNftrNames kind:data(byte[8]) addr:0x021d7bcc
 @892 kind:data(byte[16]) addr:0x021d7bd4 local
 @893 kind:data(byte[16]) addr:0x021d7be4 local
-gKeyStreamAccepted kind:bss(size=0x4) addr:0x021d7c00
+gUseKeyStream kind:bss(size=0x4) addr:0x021d7c00
 gScannedEssidList kind:bss(size=0x4) addr:0x021d7c04
 gRandomSeeded kind:bss(size=0x4) addr:0x021d7c08
 gRequestedEssidList kind:bss(size=0x4) addr:0x021d7c0c

@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-// Values of the sex members; the profile text carries the sex as the characters 0 and 1 (male and female);
-// anything else reads as PROFILE_SEX_CODE_DEFAULT.
+// Values of the sex members; the profile text carries the sex as the character 0 or 1 (male or female); a missing value
+// or any other reads as PROFILE_SEX_CODE_DEFAULT.
 enum {
     PROFILE_SEX_CODE_MALE = 0x500,
     PROFILE_SEX_CODE_FEMALE = 0x501,
@@ -81,7 +81,7 @@ typedef struct GetInfoReply {
 #include "00/Lib/GameSpy/send_buffer.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
-u32 GpiWriteUpdateBuffers(GpConnection *connection, GpiBuffer *buffer);
-s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input);
+u32 gpiAddLocalInfo(GPConnection *connection, GPIBuffer *buffer);
+s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const char *input);
 void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg);
-u32 GpiUnpackDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 *year);
+u32 gpiIntToDate(GPConnection *connection, s32 date, u32 *day, u32 *month, u32 *year);

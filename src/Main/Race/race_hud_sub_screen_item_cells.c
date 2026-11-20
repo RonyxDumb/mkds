@@ -40,7 +40,11 @@
 #include "fixed_vector_math.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 
-s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};
+s32 gRaceHudSubScreenItemPoolIndices[10] = {
+    ITEM_OBJECT_KIND_KOURA_G, ITEM_OBJECT_KIND_KOURA_R, ITEM_OBJECT_KIND_BANANA,
+    ITEM_OBJECT_KIND_KINOKO,  ITEM_OBJECT_KIND_STAR,    ITEM_OBJECT_KIND_KOURA_W,
+    ITEM_OBJECT_KIND_BOMB,    ITEM_OBJECT_KIND_F_BOX,   ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX,
+    ITEM_OBJECT_KIND_TERESA};
 struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
@@ -68,11 +72,11 @@ void UpdateRaceHudSubScreenCrabCells(void) {
         MapObject *object;
 
         object = gRaceHudSubScreenCrabCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             if (ComputeRaceHudSubScreenPosition(&object->mPos, &gRaceHudSubScreenCrabCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1)) {
                 gRaceHudSubScreenCrabCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8a);
-                gRaceHudSubScreenCrabCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+                gRaceHudSubScreenCrabCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_2;
                 cellCount++;
             }
         }
@@ -86,11 +90,11 @@ void DrawRaceHudSubScreenCrabCells(RaceHudOamBuffer *oamBuffer) {
 
 s32 CreateRaceHudSubScreenItemCells(void) {
     s32 objectCount;
-    s32 kindIndex;
+    s32 tableIndex;
 
     objectCount = 0;
-    for (kindIndex = 0; kindIndex < 10; kindIndex++) {
-        objectCount += gItemKinds[gRaceHudSubScreenItemPoolIndices[kindIndex]].mObjectCount;
+    for (tableIndex = 0; tableIndex < 10; tableIndex++) {
+        objectCount += gItemKinds[gRaceHudSubScreenItemPoolIndices[tableIndex]].mObjectCount;
     }
     return CreateRaceHudSubScreenCellsWithCount(&gRaceHudSubScreenItemCells, objectCount);
 }
@@ -127,7 +131,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
         }
         for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
             object = objects[objectIndex];
-            if ((object->mFlags & ITEM_OBJECT_FLAG_ENDED) != 0) {
+            if ((object->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) != 0) {
                 position = NULL;
             } else {
                 position = &object->mPos;
@@ -143,8 +147,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                             if (gRaceHudSubScreenItemCells->mCells[cellCount].mDrawPos.mSecond > 0) {
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
-                                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE
-                                                                        : RACE_HUD_PRIORITY_BACK;
+                                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mXlu = 0;
                                 cellCount++;
                             }
@@ -158,7 +161,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                         if (IsFarBelowWaterEfct(position->y) == 0) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
-                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mXlu =
                                 (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                             cellCount++;
@@ -172,7 +175,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                         if (IsFarBelowWaterEfct(position->y) == 0) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
-                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mXlu =
                                 (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                             cellCount++;
@@ -224,7 +227,7 @@ void UpdateRaceHudSubScreenKarts(void) {
     s32 atSetupSize;
     ItemObject *object;
     Vec3 *position;
-    u32 objectScale;
+    u32 raceHudSubScreenScale;
     ItemInUse *itemInUse;
     s32 screenX;
     s32 screenY;
@@ -285,15 +288,15 @@ void UpdateRaceHudSubScreenKarts(void) {
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] = 0;
                     }
                     gRaceHudSubScreenKarts->mPriority[kartIndex] =
-                        IsPositionOutsideBox(&kartPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        IsPositionOutsideBox(&kartPosition) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                     itemInUse = &gKartItems[kartIndex].mItemInUse;
                     objects = itemInUse->mObjects;
                     objectCount = itemInUse->mObjectCount;
                     cellCount = gRaceHudSubScreenKarts->mCells->mCellCount;
-                    objectScale = GetRaceHudSubScreenScale();
+                    raceHudSubScreenScale = GetRaceHudSubScreenScale();
                     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
                         object = objects[objectIndex];
-                        if ((object->mFlags & ITEM_OBJECT_FLAG_ENDED) != 0) {
+                        if ((object->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) != 0) {
                             position = NULL;
                         } else {
                             position = &object->mPos;
@@ -304,7 +307,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                             cellPosition = linePoint;
                             if (ComputeRaceHudSubScreenPosition(
                                     &cellPosition, &gRaceHudSubScreenKarts->mCells->mCells[cellCount].mDrawPos,
-                                    objectScale, 0, 1) != FALSE) {
+                                    raceHudSubScreenScale, 0, 1) != FALSE) {
                                 switch (object->mKind) {
                                     case ITEM_OBJECT_KIND_KOURA_G:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
@@ -340,8 +343,8 @@ void UpdateRaceHudSubScreenKarts(void) {
                                         break;
                                 }
                                 gRaceHudSubScreenKarts->mCells->mCells[cellCount].mPriority =
-                                    IsPositionOutsideBox(&cellPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE
-                                                                             : RACE_HUD_PRIORITY_BACK;
+                                    IsPositionOutsideBox(&cellPosition) != 0 ? RACE_HUD_PRIORITY_2
+                                                                             : RACE_HUD_PRIORITY_3;
                                 gRaceHudSubScreenKarts->mCells->mCells[cellCount].mXlu =
                                     (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                                 cellCount++;
@@ -390,8 +393,8 @@ static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, NNSG
     position[0] = TO_FIXED12(screenX);
     position[1] = TO_FIXED12(screenY);
     oam = &oamBuffer->mOamBits[oamIndex];
-    oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, matrixIndex, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                  matrix, position, matrixIndex, 1);
     for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
         if (xlu != -1) {
             oam->mObjMode = xlu;
@@ -412,7 +415,7 @@ static inline void AddRaceHudSubScreenCellOamsNoMatrix(RaceHudOamBuffer *oamBuff
     position[1] = TO_FIXED12(screenY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, position, 0, 1);
 }
 
 static inline void AddRaceHudSubScreenKartStarCells(RaceHudOamBuffer *oamBuffer, s32 kartIndex, s32 frame) {
@@ -438,14 +441,14 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
     s32 translucent;
     NNSG2dCellDataWithBR *cell;
     MtxFx22 rotationMatrix;
-    MtxFx22 rotationMatrix2;
+    MtxFx22 priorityPassRotationMatrix;
     s32 drawOrderIndex;
     s32 priority;
-    s32 translucent2;
-    u16 firstPassRotationSlot;
+    s32 priorityPassTranslucent;
+    u16 kartIconsMatrixIndex;
     u16 angle;
     s32 minDrawValue;
-    u16 priorityPassRotationSlot;
+    u16 mapMatrixIndex;
     s32 screenX;
     s32 screenY;
 
@@ -458,7 +461,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                     if (gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] == 0) {
                         if (gRaceHudSubScreenKarts->mScale[kartIndex].y != 0x1000 ||
                             gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
-                            firstPassRotationSlot = AllocOamMatrixIndex(oamBuffer);
+                            kartIconsMatrixIndex = AllocOamMatrixIndex(oamBuffer);
                             Matrix2x2RotationReciprocalScale(&rotationMatrix,
                                                              gRaceHudSubScreenKarts->mScale[kartIndex].y,
                                                              gRaceHudSubScreenKarts->mAngle[kartIndex]);
@@ -470,11 +473,11 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                             AddRaceHudSubScreenCellOams(oamBuffer, cell, &rotationMatrix,
                                                         gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst,
                                                         gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond,
-                                                        firstPassRotationSlot, translucent != 0 ? 1 : -1, -1);
-                            oamBuffer->mMatrices[firstPassRotationSlot].mPA = rotationMatrix.mElements[0] >> 4;
-                            oamBuffer->mMatrices[firstPassRotationSlot].mPB = rotationMatrix.mElements[1] >> 4;
-                            oamBuffer->mMatrices[firstPassRotationSlot].mPC = rotationMatrix.mElements[2] >> 4;
-                            oamBuffer->mMatrices[firstPassRotationSlot].mPD = rotationMatrix.mElements[3] >> 4;
+                                                        kartIconsMatrixIndex, translucent != 0 ? 1 : -1, -1);
+                            oamBuffer->mMatrices[kartIconsMatrixIndex].mPA = rotationMatrix.mElements[0] >> 4;
+                            oamBuffer->mMatrices[kartIconsMatrixIndex].mPB = rotationMatrix.mElements[1] >> 4;
+                            oamBuffer->mMatrices[kartIconsMatrixIndex].mPC = rotationMatrix.mElements[2] >> 4;
+                            oamBuffer->mMatrices[kartIconsMatrixIndex].mPD = rotationMatrix.mElements[3] >> 4;
                         } else {
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
@@ -505,29 +508,29 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                     if (gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] == 0) {
                         screenX = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst;
                         screenY = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond;
-                        translucent2 = gRaceHudSubScreenKarts->mXlu[kartIndex];
+                        priorityPassTranslucent = gRaceHudSubScreenKarts->mXlu[kartIndex];
                         if (gRaceHudSubScreenKarts->mScale[kartIndex].y != 0x1000 ||
                             gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
-                            priorityPassRotationSlot = AllocOamMatrixIndex(oamBuffer);
+                            mapMatrixIndex = AllocOamMatrixIndex(oamBuffer);
                             if (gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
                                 angle =
                                     gRaceHudSubScreenKarts->mAngle[kartIndex] + GetSubScreenAngleAndClearScrollTimer();
                             } else {
                                 angle = 0;
                             }
-                            Matrix2x2RotationReciprocalScale(&rotationMatrix2,
+                            Matrix2x2RotationReciprocalScale(&priorityPassRotationMatrix,
                                                              gRaceHudSubScreenKarts->mScale[kartIndex].y, angle);
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
                             } else {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
-                            AddRaceHudSubScreenCellOams(oamBuffer, cell, &rotationMatrix2, screenX, screenY,
-                                                        priorityPassRotationSlot, translucent2 != 0 ? 1 : -1, priority);
-                            oamBuffer->mMatrices[priorityPassRotationSlot].mPA = rotationMatrix2.mElements[0] >> 4;
-                            oamBuffer->mMatrices[priorityPassRotationSlot].mPB = rotationMatrix2.mElements[1] >> 4;
-                            oamBuffer->mMatrices[priorityPassRotationSlot].mPC = rotationMatrix2.mElements[2] >> 4;
-                            oamBuffer->mMatrices[priorityPassRotationSlot].mPD = rotationMatrix2.mElements[3] >> 4;
+                            AddRaceHudSubScreenCellOams(oamBuffer, cell, &priorityPassRotationMatrix, screenX, screenY,
+                                                        mapMatrixIndex, priorityPassTranslucent != 0 ? 1 : -1, priority);
+                            oamBuffer->mMatrices[mapMatrixIndex].mPA = priorityPassRotationMatrix.mElements[0] >> 4;
+                            oamBuffer->mMatrices[mapMatrixIndex].mPB = priorityPassRotationMatrix.mElements[1] >> 4;
+                            oamBuffer->mMatrices[mapMatrixIndex].mPC = priorityPassRotationMatrix.mElements[2] >> 4;
+                            oamBuffer->mMatrices[mapMatrixIndex].mPD = priorityPassRotationMatrix.mElements[3] >> 4;
                         } else {
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
@@ -535,7 +538,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
                             AddRaceHudSubScreenCellOams(oamBuffer, cell, NULL, screenX, screenY, 0,
-                                                        translucent2 != 0 ? 1 : -1, priority);
+                                                        priorityPassTranslucent != 0 ? 1 : -1, priority);
                         }
                     }
                     if (gRaceHudSubScreenKarts->mStarFrames[kartIndex] != 0) {
@@ -590,7 +593,7 @@ void UpdateRaceHudSubScreenSecondHand(void) {
         deltaX = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[2].x, extentZ);
         deltaZ = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[2].z, extentZ);
         if (gRaceSetup->mMirrorMode != 0) {
-            gRaceHudSubScreenSecondHand->mAngles[objectIndex] = FX_Atan2Idx(-deltaZ, deltaX) + 0x8000;
+            gRaceHudSubScreenSecondHand->mAngles[objectIndex] = FX_Atan2Idx(-deltaZ, deltaX) + ANGLE_HALF_TURN;
         } else {
             gRaceHudSubScreenSecondHand->mAngles[objectIndex] = FX_Atan2Idx(deltaZ, deltaX);
         }
@@ -662,9 +665,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             cell = GetRaceSNcerEntry(156);
             endPosition0[0] = TO_FIXED12(screenX0);
             endPosition0[1] = TO_FIXED12(screenY0);
-            oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                      &rotationMatrix, endPosition0, rotationSlot0, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                          RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                          &rotationMatrix, endPosition0, rotationSlot0, 1);
         }
         trailDeltaX0 = gRaceHudSubScreenSecondHand->mDrawPositions[0].mFirst -
                        gRaceHudSubScreenSecondHand->mEndPositions[0].mFirst;
@@ -677,9 +680,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
                 cell = GetRaceSNcerEntry(155);
                 middlePosition0[0] = TO_FIXED12(screenX0);
                 middlePosition0[1] = TO_FIXED12(screenY0);
-                oamBuffer->mOamCount +=
-                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                          &rotationMatrix, middlePosition0, rotationSlot0, 1);
+                oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                              RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                              &rotationMatrix, middlePosition0, rotationSlot0, 1);
             }
             trailSumX0 += trailDeltaX0;
             trailSumY0 += trailDeltaY0;
@@ -690,9 +693,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             cell = GetRaceSNcerEntry(154);
             drawPosition0[0] = TO_FIXED12(screenX0);
             drawPosition0[1] = TO_FIXED12(screenY0);
-            oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                      &rotationMatrix, drawPosition0, rotationSlot0, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                          RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                          &rotationMatrix, drawPosition0, rotationSlot0, 1);
         }
         oamBuffer->mMatrices[rotationSlot0].mPA = rotationMatrix.mElements[0] >> 4;
         oamBuffer->mMatrices[rotationSlot0].mPB = rotationMatrix.mElements[1] >> 4;
@@ -713,9 +716,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             cell = GetRaceSNcerEntry(156);
             endPosition2[0] = TO_FIXED12(screenX2);
             endPosition2[1] = TO_FIXED12(screenY2);
-            oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                      &rotationMatrix, endPosition2, rotationSlot2, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                          RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                          &rotationMatrix, endPosition2, rotationSlot2, 1);
         }
         trailDeltaX2 = gRaceHudSubScreenSecondHand->mDrawPositions[2].mFirst -
                        gRaceHudSubScreenSecondHand->mEndPositions[2].mFirst;
@@ -728,9 +731,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
                 cell = GetRaceSNcerEntry(155);
                 middlePosition2[0] = TO_FIXED12(screenX2);
                 middlePosition2[1] = TO_FIXED12(screenY2);
-                oamBuffer->mOamCount +=
-                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                          &rotationMatrix, middlePosition2, rotationSlot2, 1);
+                oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                              RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                              &rotationMatrix, middlePosition2, rotationSlot2, 1);
             }
             trailSumX2 += trailDeltaX2;
             trailSumY2 += trailDeltaY2;
@@ -741,9 +744,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             cell = GetRaceSNcerEntry(154);
             drawPosition2[0] = TO_FIXED12(screenX2);
             drawPosition2[1] = TO_FIXED12(screenY2);
-            oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                      &rotationMatrix, drawPosition2, rotationSlot2, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                          RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                          &rotationMatrix, drawPosition2, rotationSlot2, 1);
         }
         oamBuffer->mMatrices[rotationSlot2].mPA = rotationMatrix.mElements[0] >> 4;
         oamBuffer->mMatrices[rotationSlot2].mPB = rotationMatrix.mElements[1] >> 4;
@@ -764,8 +767,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         endPosition1[0] = TO_FIXED12(screenX1);
         endPosition1[1] = TO_FIXED12(screenY1);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                  &rotationMatrix, endPosition1, rotationSlot1, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
+                                  cell, &rotationMatrix, endPosition1, rotationSlot1, 1);
     }
     trailDeltaX1 =
         gRaceHudSubScreenSecondHand->mDrawPositions[1].mFirst - gRaceHudSubScreenSecondHand->mEndPositions[1].mFirst;
@@ -778,9 +781,9 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             cell = GetRaceSNcerEntry(158);
             middlePosition1[0] = TO_FIXED12(screenX1);
             middlePosition1[1] = TO_FIXED12(screenY1);
-            oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                      &rotationMatrix, middlePosition1, rotationSlot1, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
+                                                          RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
+                                                          &rotationMatrix, middlePosition1, rotationSlot1, 1);
         }
         trailSumX1 += trailDeltaX1;
         trailSumY1 += trailDeltaY1;
@@ -792,8 +795,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         drawPosition1[0] = TO_FIXED12(screenX1);
         drawPosition1[1] = TO_FIXED12(screenY1);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
-                                  &rotationMatrix, drawPosition1, rotationSlot1, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
+                                  cell, &rotationMatrix, drawPosition1, rotationSlot1, 1);
     }
     oamBuffer->mMatrices[rotationSlot1].mPA = rotationMatrix.mElements[0] >> 4;
     oamBuffer->mMatrices[rotationSlot1].mPB = rotationMatrix.mElements[1] >> 4;
@@ -851,7 +854,7 @@ void UpdateRaceHudSubScreenCarCells(void) {
                     break;
             }
             gRaceHudSubScreenCarCells->mCells[cellCount].mPriority =
-                IsPositionOutsideBox((Vec3 *) &position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                IsPositionOutsideBox((Vec3 *) &position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
             gRaceHudSubScreenCarCells->mCells[cellCount].mAngle = angle;
             cellCount++;
         }
@@ -883,7 +886,7 @@ void UpdateRaceHudSubScreenKoopaBlockCells(void) {
                                             &gRaceHudSubScreenKoopaBlockCells->mCells[cellCount].mDrawPos, scale, 1,
                                             0) != FALSE) {
             gRaceHudSubScreenKoopaBlockCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x25);
-            gRaceHudSubScreenKoopaBlockCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+            gRaceHudSubScreenKoopaBlockCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_2;
             cellCount++;
         }
     }
@@ -923,16 +926,16 @@ void UpdateRaceHudSubScreenChoropuCells(void) {
                     gRaceHudSubScreenChoropuCells->mCells[cellCount].mCell =
                         GetRaceSNcerEntry(isPositiveHeight != 0 ? 0xa7 : 0xa8);
                     gRaceHudSubScreenChoropuCells->mCells[cellCount].mPriority =
-                        isPositiveHeight != 0 ? RACE_HUD_PRIORITY_FRONT : RACE_HUD_PRIORITY_MIDDLE;
+                        isPositiveHeight != 0 ? RACE_HUD_PRIORITY_1 : RACE_HUD_PRIORITY_2;
                     gRaceHudSubScreenChoropuCells->mCells[cellCount + 1].mDrawPos =
                         gRaceHudSubScreenChoropuCells->mCells[cellCount].mDrawPos;
                     gRaceHudSubScreenChoropuCells->mCells[cellCount + 1].mCell = GetRaceSNcerEntry(0xa9);
-                    gRaceHudSubScreenChoropuCells->mCells[cellCount + 1].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+                    gRaceHudSubScreenChoropuCells->mCells[cellCount + 1].mPriority = RACE_HUD_PRIORITY_2;
                     cellCount += 2;
                     gRaceHudSubScreenChoropuCells->mCells[cellCount - 2].mDrawPos.mSecond -= height >> 14;
                 } else {
                     gRaceHudSubScreenChoropuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa9);
-                    gRaceHudSubScreenChoropuCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+                    gRaceHudSubScreenChoropuCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_2;
                     cellCount++;
                 }
             }
@@ -964,12 +967,12 @@ void UpdateRaceHudSubScreenPukupukuCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenPukupukuCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenPukupukuCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenPukupukuCells->mObjects[objectIndex];
-            if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
                 if (ComputeRaceHudSubScreenPosition(&object->mPos,
                                                     &gRaceHudSubScreenPukupukuCells->mCells[cellCount].mDrawPos, scale,
                                                     0, 0) != FALSE) {
                     gRaceHudSubScreenPukupukuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x89);
-                    gRaceHudSubScreenPukupukuCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+                    gRaceHudSubScreenPukupukuCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_2;
                     cellCount++;
                 }
             }
@@ -1002,7 +1005,7 @@ void UpdateRaceHudSubScreenMoveTreeCells(void) {
                                             &gRaceHudSubScreenMoveTreeCells->mCells[cellCount].mDrawPos, scale, 1,
                                             1) != FALSE) {
             gRaceHudSubScreenMoveTreeCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8b);
-            gRaceHudSubScreenMoveTreeCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+            gRaceHudSubScreenMoveTreeCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_2;
             cellCount++;
         }
     }
@@ -1032,11 +1035,11 @@ void UpdateRaceHudSubScreenSmanCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenSmanCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenSmanCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenSmanCells->mObjects[objectIndex];
-            if ((object->mFlags & 1) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 if (ComputeRaceHudSubScreenPosition(
                         &object->mPos, &gRaceHudSubScreenSmanCells->mCells[cellCount].mDrawPos, scale, 0, 0) != FALSE) {
                     gRaceHudSubScreenSmanCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x98);
-                    gRaceHudSubScreenSmanCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+                    gRaceHudSubScreenSmanCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_2;
                     cellCount++;
                 }
             }
@@ -1072,11 +1075,11 @@ void UpdateRaceHudSubScreenDossunCells(void) {
             if (ComputeRaceHudSubScreenPosition(
                     &object->mPos, &gRaceHudSubScreenDossunCells->mCells[cellCount].mDrawPos, scale, 0, 0) != FALSE) {
                 gRaceHudSubScreenDossunCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xaf);
-                gRaceHudSubScreenDossunCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_FRONT;
+                gRaceHudSubScreenDossunCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_1;
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mDrawPos =
                     GetRaceHudSubScreenDossunCell(cellCount)->mDrawPos;
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mCell = GetRaceSNcerEntry(0xb0);
-                gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mPriority = RACE_HUD_PRIORITY_MIDDLE;
+                gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mPriority = RACE_HUD_PRIORITY_2;
                 cellCount += 2;
                 offset = GetDossunMapDotOffset((Dossun *) object) * 16 >> 12;
                 gRaceHudSubScreenDossunCells->mCells[cellCount - 2].mDrawPos.mSecond -= offset;
@@ -1120,7 +1123,7 @@ void UpdateRaceHudSubScreenWanwanCells(void) {
                                             &gRaceHudSubScreenWanwanCells->mCells[cellCount].mDrawPos, scale, 1,
                                             0) != FALSE) {
             gRaceHudSubScreenWanwanCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xac);
-            gRaceHudSubScreenWanwanCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_FRONT;
+            gRaceHudSubScreenWanwanCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_1;
             cellCount++;
         }
     }
@@ -1151,14 +1154,14 @@ void UpdateRaceHudSubScreenEarthenPipeCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenEarthenPipeCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenEarthenPipeCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenEarthenPipeCells->mObjects[objectIndex];
-            if ((object->mFlags & 1) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenEarthenPipeCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 0) != FALSE) {
                     gRaceHudSubScreenEarthenPipeCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8c);
                     gRaceHudSubScreenEarthenPipeCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                     cellCount++;
                 }
             }
@@ -1172,7 +1175,7 @@ void DrawRaceHudSubScreenEarthenPipeCells(RaceHudOamBuffer *oamBuffer) {
 }
 
 s32 CreateRaceHudSubScreenItemBoxCells(void) {
-    u16 kinds[2] = {MAP_OBJECT_KIND_ITEM_BOX, 0xc9};
+    u16 kinds[2] = {MAP_OBJECT_KIND_ITEM_BOX, MAP_OBJECT_KIND_GROUP_ITEM_BOX};
     u16 kindIndex;
     u16 kind;
     s32 created;

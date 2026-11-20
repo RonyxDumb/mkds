@@ -28,7 +28,7 @@ typedef struct Chandelier {
     /* a8 */ s32 mState;
 } Chandelier;
 
-// A rain star map object: its animation frame, timer and state.
+// A rain star map object: its animation frame; the object turns by 0x111 each update.
 typedef struct RainStar {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mFrameIndex;
@@ -41,13 +41,14 @@ typedef struct RainStar {
 MapObjectList *CreateRainStarUpdateList(void);
 MapObjectList *CreateRainStarDrawList(void);
 void UpdateRainStar(void *mapObjectList,
-                    RainStar *rainStar); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                    RainStar *rainStar); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawRainStar(void *mapObjectList, RainStar *rainStar);
 void CreateRainStar(void *mapObjectList);
 MapObjectList *CreateChandelierUpdateList(void);
 MapObjectList *CreateChandelierDrawList(void);
-void UpdateChandelier(void *mapObjectList,
-                      Chandelier *chandelier); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateChandelier(
+    void *mapObjectList,
+    Chandelier *chandelier); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitChandelierObjects(MapObjectList *objectList);
 
 extern struct MapObjectModel *gRainStar;

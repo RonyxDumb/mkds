@@ -21,9 +21,10 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/System/scene_numbers.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -45,7 +46,7 @@ BOOL IsInputOpenDuringRace(void) {
 }
 
 void SetReadRaceKeys(u32 enable) {
-    if (GetCurrentSceneNumber() == 2 && enable != 0) {
+    if (GetCurrentSceneNumber() == SCENE_RACE && enable != 0) {
         gInputState->mFlags |= INPUT_STATE_READ_RACE_KEYS;
     } else {
         gInputState->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;
@@ -120,7 +121,7 @@ void ResetInputSlotsFromRaceSetup(void) {
         playerKind = raceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
         isNonCpu = FALSE;
         inputSlotIndex = raceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-        if ((u32) playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if ((u32) playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isNonCpu = TRUE;
         }
         if (isNonCpu != FALSE) {
@@ -132,14 +133,14 @@ void ResetInputSlotsFromRaceSetup(void) {
                 } else {
                     gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PAD_RECORDED;
                 }
-            } else if (playerKind == 2) {
+            } else if (playerKind == PLAYER_KIND_GHOST) {
                 gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
             } else if (raceSetup->mMode == MODE_WIFI) {
                 gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_WIFI_REQUESTED_BITS;
             } else {
                 gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
             }
-        } else if (playerKind == 1) {
+        } else if (playerKind == PLAYER_KIND_CPU) {
             gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
         }
     }

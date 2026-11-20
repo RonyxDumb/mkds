@@ -13,7 +13,7 @@ typedef struct Bg2ScrBuffer {
 void AdvanceBgPaletteCopy(TaskEntry *entry, void *arg);
 void RequestBgPaletteCopy(const void *palette);
 void AdvanceBgPaletteRowCopy(TaskEntry *entry, void *arg);
-// A pending palette copy: the source and the destination.
+// A pending palette copy: the source and, for a row copy, the destination.
 typedef struct BgPaletteCopyRequest {
     /* 0 */ const void *mSource;
     /* 4 */ void *mDestination;

@@ -7,7 +7,7 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/Menu/second_menu_scene.h"
 
-#define PUKUPUKU_HEIGHT_RANGE_MAX 0x2bc000
+#define ROTARY_GEAR_TEST_CYLINDER_HEIGHT_RANGE_MAX 0x2bc000
 
 typedef struct Rotary Rotary;
 

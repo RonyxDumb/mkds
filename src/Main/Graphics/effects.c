@@ -16,7 +16,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_setup_block.h"
@@ -28,9 +28,9 @@
 
 AwardFirstEffectIds gAwardFirstEffectIds = {{0x87, 0x82}};
 Vec3 gStadiumEmitterDirectionOrigin = {-348160, 0x67000, 0x2e000};
-AwardEmitterEffectIds gAwardEmitterEffectIds = {{0x83, 0x84, 0x85, 0x86, 0x81, 0x88, 0x89, 0x8a,
-                                                 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92,
-                                                 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a}};
+AwardSecondEffectIds gAwardSecondEffectIds = {{0x83, 0x84, 0x85, 0x86, 0x81, 0x88, 0x89, 0x8a,
+                                               0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92,
+                                               0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a}};
 void *gSPLManagerHeap;
 void (*gAdvanceEmittersFunction)(void);
 struct SPLManager *gMissionRunSPLManager;
@@ -59,7 +59,7 @@ void InitEffects(void *defaultHeap) {
     Vec3 *emitterDirection;
 
     gGetSPLManagerFunction = GetRaceEffectSPLManager;
-    if (GetCurrentSceneNumber() == 2) {
+    if (GetCurrentSceneNumber() == SCENE_RACE) {
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
             gGetSPLManagerFunction = GetSPLManagerForEffectId;
@@ -73,13 +73,13 @@ void InitEffects(void *defaultHeap) {
     }
     gSPLManagerHeap = effectHeap;
     gRaceEffectSPLManager =
-        SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
+        SPLManager_Create(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
     raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
     SPLManager_LoadResources(gRaceEffectSPLManager, raceEffectFile);
     SPLManager_UploadTextures(gRaceEffectSPLManager);
     SPLManager_UploadPalettes(gRaceEffectSPLManager);
     ResizeMainEffectArchiveBlock(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
-    gRaceEffectFogOffSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
+    gRaceEffectFogOffSPLManager = SPLManager_Create(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
     raceEffectFogOffFile = FindMainRaceOrMainEffectFile(gRaceEffectFogOffSpaName);
     SPLManager_LoadResources(gRaceEffectFogOffSPLManager, raceEffectFogOffFile);
     SPLManager_UploadTextures(gRaceEffectFogOffSPLManager);
@@ -87,12 +87,12 @@ void InitEffects(void *defaultHeap) {
     gMissionRunSPLManager = NULL;
     gAdvanceEmittersFunction = NULL;
     gStadiumEmitters = NULL;
-    if (GetCurrentSceneNumber() != 2) {
+    if (GetCurrentSceneNumber() != SCENE_RACE) {
         return;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         missionEffectFile = NULL;
-        gMissionRunSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
+        gMissionRunSPLManager = SPLManager_Create(HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
         LoadFileIntoHeap(gMissionEffectSpaName, effectHeap, &missionEffectFile);
         SPLManager_LoadResources(gMissionRunSPLManager, missionEffectFile);
         SPLManager_UploadTextures(gMissionRunSPLManager);
@@ -177,7 +177,7 @@ void StartEffectWithCallback(u32 effectId, const Vec3 *position, void *callbackP
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    SPLManager_CreateEmitterWithCallbackEx(splManager, resourceId, &emitterPosition, (s32) callbackParam,
+    SPLManager_CreateEmitterWithCallback(splManager, resourceId, &emitterPosition, (s32) callbackParam,
                                            (void (*)(ParticleEmitter *, s32)) initCallback);
 }
 
@@ -197,8 +197,8 @@ void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot) {
 }
 
 void StopEffectAndClearPointer(void **emitterSlot) {
-    ParticleEmitter *effect = *emitterSlot;
-    effect->mFlags.mEnding = 1;
+    ParticleEmitter *emitter = *emitterSlot;
+    emitter->mFlags.mEnding = 1;
     *emitterSlot = NULL;
 }
 

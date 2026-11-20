@@ -14,9 +14,10 @@
 
 #define MKD_EF_BUBBLE_LEAP_SOUND_ID 0x18c
 
-// KoopaBlock.mCollisionMapObject.mMapObject.mStateMachine states, in the order of gKoopaBlockStateTable. The block
-// follows its path: ACCELERATE speeds up along the first part, CRUISE keeps the path speed, DECELERATE slows down
-// along the last part.
+// KoopaBlock.mCollisionMapObject.mMapObject.mStateMachine states, in the order of gKoopaBlockStateTable. ACCELERATE
+// speeds up over the first sixteenth of a segment, CRUISE keeps mFollowSpeed, DECELERATE slows down over the last
+// sixteenth of the segment before a stop (the to entry's mValue is not 0, or an open path ends) and the next segment
+// starts at ACCELERATE.
 enum {
     KOOPA_BLOCK_STATE_ACCELERATE,
     KOOPA_BLOCK_STATE_CRUISE,
@@ -24,7 +25,7 @@ enum {
 };
 
 // MkdEfBubbleObject.mMapObject.mStateMachine states, in the order of gMkdEfBubbleStateTable. LEAP throws the bubble up
-// from mBottomY until it falls back; WAIT keeps it hidden for mDelayFrameCount frames.
+// from mBottomY until it falls below mBottomY again; WAIT keeps it hidden until mStateFrames reaches mDelayFrameCount.
 enum {
     MKD_EF_BUBBLE_STATE_LEAP,
     MKD_EF_BUBBLE_STATE_WAIT,
@@ -42,8 +43,8 @@ MapObjectList *CreateMkdEfBubbleUpdateList(void);
 /* writes the polygon alpha cap (mAlphaCap of its mShadowMatrix), read only by draw routines */
 void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s32 alpha);
 void AdvanceMkdEfBubbleAnimation(void);
-void UpdateMkdEfBubble(void *unused,
-                       MkdEfBubbleObject *bubble); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateMkdEfBubble(
+    void *unused, MkdEfBubbleObject *bubble); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void EnterMkdEfBubbleLeap(void *stateObject);
 void UpdateMkdEfBubbleLeap(void *stateObject);
 

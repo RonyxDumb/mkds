@@ -16,4 +16,4 @@ void AddOtherKartCountToSecondTotal(void);
 void StartReadGhostFileRecords(void *records);
 void ReadGhostFileRecords(void);
 
-extern u32 gSecondTotalLimitBase;
+extern u32 gGhostFileRecordsResultTotalMax;

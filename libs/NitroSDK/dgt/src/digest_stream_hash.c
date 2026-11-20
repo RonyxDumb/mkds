@@ -32,7 +32,7 @@ void DGT_Hash1SetSource(DGTHash1Context *ctx, const void *input, u32 length) {
     int blocks;
     const u8 *src;
 
-    used = (u32) ctx->mLength & DGT_HASH1_BLOCK_MASK;
+    used = (u32) ctx->mLength & HASH_BLOCK_OFFSET_MASK;
     ctx->mLength += length;
     room = 0x40 - used;
     if (room > length) {
@@ -52,14 +52,14 @@ void DGT_Hash1SetSource(DGTHash1Context *ctx, const void *input, u32 length) {
         src += 0x40;
         ProcessBlock(ctx);
     }
-    if ((length & DGT_HASH1_BLOCK_MASK) == 0) {
+    if ((length & HASH_BLOCK_OFFSET_MASK) == 0) {
         return;
     }
-    MI_CpuCopy8(src, ctx->mBuffer8, length & DGT_HASH1_BLOCK_MASK);
+    MI_CpuCopy8(src, ctx->mBuffer8, length & HASH_BLOCK_OFFSET_MASK);
 }
 
-// Appends the 0x80 pad, zeros and the bit count, runs the last block, copies the 16 state bytes to digest and clears
-// ctx.
+// Appends the 0x80 pad, zeros and the bit count (an extra block is hashed first if fewer than 8 bytes remain after the
+// pad), copies the 16 state bytes to digest and clears ctx.
 void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     u32 bitsLow;
     u32 bitsHigh;
@@ -71,7 +71,7 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     bitsLow = bits;
     bitsHigh = bits >> 32;
     DGT_Hash1SetSource(ctx, &gHash1Padding, 1);
-    used = ctx->mLength & DGT_HASH1_BLOCK_MASK;
+    used = ctx->mLength & HASH_BLOCK_OFFSET_MASK;
     room = 0x40 - used;
     if (room < 8) {
         MI_CpuFill8(ctx->mBuffer8 + used, 0, room);
@@ -89,11 +89,12 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     MI_CpuFill8(ctx, 0, sizeof(*ctx));
 }
 
-// One MD5 block: four rounds of 16 steps over the 16 words of ctx.mBuffer8, added into ctx.mState.
+// One MD5 block: four rounds of 16 steps over the 16 words that start at ctx.mBuffer8 (the last two are mBitCountLow
+// and mBitCountHigh), added into ctx.mState.
 void ProcessBlock(DGTHash1Context *ctx) {
     const u32 *word;
     const u32 *order;
-    s32 roundIndex;
+    s32 stepGroup;
     u32 hashA;
     u32 hashB;
     u32 hashC;
@@ -108,7 +109,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
     hashC = ctx->mState[2];
     hashD = ctx->mState[3];
     constant = gHash1RoundConstants;
-    for (roundIndex = 0, word = block; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0, word = block; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += *word++ + (hashA + ((hashB & hashC) | (~hashB & hashD)));
         hashA = hashB + ((sum << 7) | (sum >> 25));
@@ -122,7 +123,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += *word++ + (hashB + ((hashC & hashD) | (~hashC & hashA)));
         hashB = hashC + ((sum << 22) | (sum >> 10));
     }
-    for (roundIndex = 0, order = gHash1WordOrder; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0, order = gHash1WordOrder; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + ((hashB & hashD) | (hashC & ~hashD)));
         hashA = hashB + ((sum << 5) | (sum >> 27));
@@ -136,7 +137,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += block[*order++] + (hashB + ((hashC & hashA) | (hashD & ~hashA)));
         hashB = hashC + ((sum << 20) | (sum >> 12));
     }
-    for (roundIndex = 0; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + (hashB ^ hashC ^ hashD));
         hashA = hashB + ((sum << 4) | (sum >> 28));
@@ -150,7 +151,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += block[*order++] + (hashB + (hashC ^ hashD ^ hashA));
         hashB = hashC + ((sum << 23) | (sum >> 9));
     }
-    for (roundIndex = 0; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + (hashC ^ (hashB | ~hashD)));
         hashA = hashB + ((sum << 6) | (sum >> 26));

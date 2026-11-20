@@ -8,12 +8,12 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
 
-const u8 gPushedObjectTumbleFlag[2] = {1, 0};
+const u8 gPushedObjectInactiveFlag[2] = {1, 0};
 
 void EnterPushedObjectTumble(void *stateObject) {
     MapObject *object = stateObject;
     u16 newSlot;
-    object->mFlags = object->mFlags | (*(u16 *) &gPushedObjectTumbleFlag);
+    object->mFlags = object->mFlags | (*(u16 *) &gPushedObjectInactiveFlag);
     newSlot = FreeCollisionSlot(object->mCollisionSlotIndex);
     object->mCollisionSlotIndex = newSlot;
 }

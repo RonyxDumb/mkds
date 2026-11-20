@@ -19,8 +19,8 @@ BOOL GetGhostRecordTime(GhostRecordHead *ghostRecord, TimeRecord *timeRecord);
 BOOL IsGhostRecordFilled(GhostRecordHead *ghostRecord);
 u16 GetSplMaxPolyId(void);
 s32 GetMapObjectFirstPolygonId(void);
-// Returns TRUE and writes the number of update frames since SetRaceUpdateFramesAtEntryEnd to a, or returns FALSE when
-// that has not run yet.
+// Returns TRUE and writes Race.mUpdateFrames minus Race.mUpdateFramesAtEntryEnd to *framesOut, or returns FALSE while
+// mUpdateFramesAtEntryEnd is 0 (SetRaceUpdateFramesAtEntryEnd has not run).
 s32 TryGetRaceUpdateFramesSinceEntryEnd(u32 *framesOut);
 // Stores the current mUpdateFrames in Race.mUpdateFramesAtEntryEnd; called when the end handler of the kart of the
 // selected entry first runs.
@@ -35,22 +35,21 @@ void ClearFadeFogHoldFrames(void);
 void StartFadeFog(void);
 void BuildFadeFog(s32 fadeLevel, s32 flag);
 void InitRaceFog(void);
-// Returns Race.mUpdateFramesMod2; changes nothing.
 unsigned int GetRaceUpdateFramesMod2(void);
-// Returns Race.mUpdateFramesMod8; changes nothing.
 unsigned int GetRaceUpdateFramesMod8(void);
-// Returns Race.mUpdateFramesModKartCount; changes nothing.
 unsigned int GetRaceUpdateFramesModKartCount(void);
 unsigned int GetRaceUpdateFrames(void);
 // Sets Race.mStarted to 1 and starts the race clock (StartRaceClock); called once per race by UpdateRaceStartSequence
 // when its mSequenceFrames is 180.
 void StartRace(void);
-// Returns Race.mStarted (1 once the race has started); changes nothing.
+// Returns Race.mStarted: 1 once StartRace has run, and from the first frame in an award or staff roll race; changes
+// nothing.
 unsigned int IsRaceStarted(void);
 void RaceSceneAdvanceNop(void);
 void ReleaseRace(void);
 void DrawRaceWorld(void);
-// Sets the direction of light 0 that DrawRaceWorld gives to the 3D engine (Race.mLightVectorX, Y and Z) from a.
+// Sets the direction of light 0 that DrawRaceWorld gives to the 3D engine (Race.mLightVectorX, Y and Z) from
+// *lightVector.
 void SetRaceLightVector(const Vec3 *lightVector);
 void DrawRace(void);
 void UpdateRace(void);
@@ -69,5 +68,5 @@ extern Vec3 gRaceLightVector;
 extern const u16 gToonTableFirstColors[8];
 extern const u16 gToonTableSecondColors[8];
 
-// A WiFi race counts up to this many frames of Race.mUpdateFrames before the limit is reached.
+// In a WiFi race Race.mUpdateFrames stops at this value until Race.mUpdateFramesUnlimited is set.
 #define RACE_WIFI_UPDATE_FRAMES_LIMIT 128

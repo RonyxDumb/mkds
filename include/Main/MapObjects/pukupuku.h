@@ -29,7 +29,9 @@ void CreatePukupuku(void);
 typedef struct Pukupuku Pukupuku;
 
 // Pukupuku.mPushedObject.mMapObject.mStateMachine states, in the order of gPukupukuStateTable. HOP bounces around the
-// start; PUSHED follows a hit; WAIT_RESPAWN waits 300 frames; RESPAWN returns to the start and goes on with HOP.
+// start; PUSHED follows a kart or item hit and then goes to WAIT_RESPAWN when mSettings[0] is 0, else the object is
+// parked; WAIT_RESPAWN lasts until mStateFrames is above PUKUPUKU_WAIT_FRAMES; RESPAWN puts it over the start and rises
+// until it is above the start height, then HOP.
 enum {
     PUKUPUKU_STATE_HOP,
     PUKUPUKU_STATE_PUSHED,
@@ -59,7 +61,7 @@ void EnterPukupukuHop(void *stateObject);
 
 void UpdatePukupuku(u32 unused, Pukupuku *pukupuku);
 
-// The shadow request of a Pukupuku: a scale and a position.
+// What DrawPukupukuShadow passes to DrawObjShadowAfterMaterial: the shadow scale and position.
 typedef struct PukupukuShadowParams {
     /* 00 */ s32 mScale;
     /* 04 */ Vec3 mPos;
@@ -78,8 +80,8 @@ MapObjectList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
 void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha);
 
-extern const u16 gPukupukuWaitRespawnFlag;
-extern const u16 gPukupukuWaitRespawnSecondFlag;
+extern const u16 gPukupukuSkipViewTestFlag;
+extern const u16 gPukupukuSkipItemCallbackFlag;
 extern const struct MapObjectList gPukupukuUpdateListData;
 extern const MapObjectDrawList gPukupukuShadowDrawListData;
 extern const MapObjectDrawList gPukupukuDrawListData;

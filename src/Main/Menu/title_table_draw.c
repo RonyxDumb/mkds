@@ -83,10 +83,6 @@ void SetupTitleTable(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupAndDrawTitleTable(void) {
     TitleScene *titleScene;
     SetupTitleTable();
@@ -95,9 +91,6 @@ void SetupAndDrawTitleTable(void) {
                     titleScene->mTitleTable);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 TitleSlideInReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }

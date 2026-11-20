@@ -13,7 +13,7 @@ enum {
     EDIT_RESULT_INVALID,
 };
 
-// The text entry keyboard state: its canvas, cursor object, entered text, character count and result.
+// The text entry screen: its canvas, cursor object, entered text, character count and result.
 typedef struct Edit {
     /* 00 */ BgTextCanvas *mBgTextCanvas;
     /* 04 */ OamEntry *mOamEntry;

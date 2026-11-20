@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/Lib/CPS/socket_status_resolve.h"
+#include "00/Lib/CPS/tcp_ip_stack.h"
 
 typedef struct CPSArpCache {
     /* 00 */ u32 mIp;
@@ -15,8 +16,8 @@ typedef struct CPSFragTable {
     /* 06 */ u16 mId;
     /* 08 */ u16 mLast;
     /* 0a */ u16 mSize;
-    /* 0c */ u16 mFrom[8];
-    /* 1c */ u16 mTo[8];
+    /* 0c */ u16 mFrom[FRAG_MAX_COUNT];
+    /* 1c */ u16 mTo[FRAG_MAX_COUNT];
     /* 2c */ u32 mWhen;
     /* 30 */ u8 *mOfs0;
     /* 34 */ u8 *mBuf;

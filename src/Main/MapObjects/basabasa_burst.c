@@ -43,16 +43,16 @@ static inline u32 BasabasaBurstMapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
+    RANDOM_ADVANCE(mapObjectRandom);
+    return RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 static inline u16 BasabasaBurstMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
+    RANDOM_ADVANCE(mapObjectRandom);
+    return (u32) RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 void InitBasabasaBurstObjects(MapObjectList *mapObjectList) {
@@ -139,19 +139,19 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
 
     switch (burstObject->mState) {
         case 0:
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 burstObject->mState = 1;
                 return;
             }
             if (burstObject->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (burstObject->mTimer-- <= 0) {
-                    burstObject->mTimer = BASABASA_BURST_TIMER_FRAMES;
+                    burstObject->mTimer = BASABASA_BURST_TIMER_CYCLES;
                     burstObject->mState = 1;
                 }
                 return;
             }
             if (BasabasaBurstIsKartNearInAngle(burstObject, burstObject->mMapObject.mAngle) != FALSE) {
-                burstObject->mTimer = BASABASA_BURST_TIMER_FRAMES;
+                burstObject->mTimer = BASABASA_BURST_TIMER_CYCLES;
                 burstObject->mState = 1;
             }
             return;
@@ -160,7 +160,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
         default:
             return;
     }
-    if (burstObject->mCycleFrames == BASABASA_BURST_CYCLE_FRAMES) {
+    if (burstObject->mCycleFrames == BASABASA_BURST_START_CYCLE_FRAME) {
         for (spawnIndex = 0; spawnIndex < 2; spawnIndex++) {
             BasabasaBurstSetRandomPos(&basabasaPos, burstObject->mMapObject.mPos.x,
                                       burstObject->mMapObject.mPos.y + 0x23000, burstObject->mMapObject.mPos.z);

@@ -2,7 +2,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/results_gp.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Sound/scene_sound_set.h"
+#include "Main/Sound/startup_sound_set_player_back_lights_and_random.h"
 #include "Main/Race/cup_records.h"
 #include "Main/System/low_byte.h"
 #include "Main/Save/buddy_record_time.h"
@@ -14,7 +14,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/System/backup_net_camera_work.h"
@@ -76,11 +76,11 @@ static inline u32 BuildCourseListNextRandomBelowU16(RandomState64 *randomState64
     if (limit == 0) {
         result = 0;
     } else {
-        randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+        RANDOM_ADVANCE(randomState64);
         if (limit == 0) {
-            result = randomState64->mValue >> 32;
+            result = RANDOM_HIGH32(randomState64);
         } else {
-            result = ((randomState64->mValue >> 32) * limit) >> 32;
+            result = RANDOM_BELOW(randomState64, limit);
         }
     }
     return (u16) result;
@@ -152,23 +152,23 @@ u32 NextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
     if (limit == 0) {
         result = 0;
     } else {
-        randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+        RANDOM_ADVANCE(randomState64);
         if (limit == 0) {
-            result = randomState64->mValue >> 32;
+            result = RANDOM_HIGH32(randomState64);
         } else {
-            result = ((randomState64->mValue >> 32) * limit) >> 32;
+            result = RANDOM_BELOW(randomState64, limit);
         }
     }
     return (u16) result;
 }
 
 void BuildCourseList(s32 isVersus) {
-    s32 flag;
-    u32 cupCount;
-    const u32 *cupTable;
+    s32 multibootSetupOrEntryIndex;
+    u32 cupCountOrLastCourseIndex;
+    const u32 *cupOrCourseIdTable;
     u32 listIndex;
     u32 courseCount;
-    flag = 0;
+    multibootSetupOrEntryIndex = 0;
     ResetCupRecords();
     gRaceSetup->mCourseListIndex = 0;
     gRaceSetup->mNextHeader.mCourseNumber = 1;
@@ -185,7 +185,7 @@ void BuildCourseList(s32 isVersus) {
     switch (gStartupWork->mConnectionKind) {
         case CONNECTION_KIND_MEMBER_SELECT:
         case CONNECTION_KIND_WL_MENU:
-            flag = (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
+            multibootSetupOrEntryIndex = (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
             break;
     }
     switch (gRaceSetup->mNextHeader.mCourseListMode) {
@@ -196,28 +196,28 @@ void BuildCourseList(s32 isVersus) {
                 u32 entryCount;
                 s32 currentCourseId;
                 s32 enabledCount;
-                cupCount = flag != 0 ? 2 : 8;
-                cupTable = flag != 0 ? gCupIndicesTwoCups : gCupIndicesEightCups;
+                cupCountOrLastCourseIndex = multibootSetupOrEntryIndex != 0 ? 2 : 8;
+                cupOrCourseIdTable = multibootSetupOrEntryIndex != 0 ? gCupIndicesTwoCups : gCupIndicesEightCups;
                 currentCourseId = gRaceSetup->mNextHeader.mCourseId;
-                entryCount = cupCount * 4;
-                for (flag = 0; flag < entryCount; flag++) {
-                    cupSlot = flag / 4;
-                    courseSlot = flag % 4;
-                    if (currentCourseId == gCupCourseIdTable[cupTable[cupSlot]][courseSlot]) {
+                entryCount = cupCountOrLastCourseIndex * COURSES_PER_CUP;
+                for (multibootSetupOrEntryIndex = 0; multibootSetupOrEntryIndex < entryCount; multibootSetupOrEntryIndex++) {
+                    cupSlot = multibootSetupOrEntryIndex / COURSES_PER_CUP;
+                    courseSlot = multibootSetupOrEntryIndex % COURSES_PER_CUP;
+                    if (currentCourseId == gCupCourseIdTable[cupOrCourseIdTable[cupSlot]][courseSlot]) {
                         break;
                     }
                 }
                 enabledCount = 0;
-                for (flag = 0; flag < entryCount; flag++) {
-                    if (IsCupEnabled(cupTable[cupSlot]) != FALSE) {
-                        gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupTable[cupSlot]][courseSlot];
+                for (multibootSetupOrEntryIndex = 0; multibootSetupOrEntryIndex < entryCount; multibootSetupOrEntryIndex++) {
+                    if (IsCupEnabled(cupOrCourseIdTable[cupSlot]) != FALSE) {
+                        gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupOrCourseIdTable[cupSlot]][courseSlot];
                         enabledCount = (u8) (enabledCount + 1);
                     }
                     courseSlot = courseSlot + 1;
                     if (courseSlot >= 4) {
                         courseSlot = 0;
                         cupSlot = cupSlot + 1;
-                        if (cupSlot >= cupCount) {
+                        if (cupSlot >= cupCountOrLastCourseIndex) {
                             cupSlot = 0;
                         }
                     }
@@ -226,18 +226,18 @@ void BuildCourseList(s32 isVersus) {
             } else {
                 s32 currentCourseId;
                 u32 startIndex;
-                courseCount = flag != 0 ? 3 : 6;
+                courseCount = multibootSetupOrEntryIndex != 0 ? 3 : 6;
                 startIndex = 0;
-                cupTable = flag != 0 ? gThreeCourseIds : gSixCourseIds;
+                cupOrCourseIdTable = multibootSetupOrEntryIndex != 0 ? gThreeCourseIds : gSixCourseIds;
                 currentCourseId = gRaceSetup->mNextHeader.mCourseId;
                 for (listIndex = 0; listIndex < courseCount; listIndex++) {
                     startIndex = listIndex;
-                    if (currentCourseId == cupTable[listIndex]) {
+                    if (currentCourseId == cupOrCourseIdTable[listIndex]) {
                         break;
                     }
                 }
                 for (listIndex = 0; listIndex < courseCount; listIndex++) {
-                    gRaceSetup->mCourseList[listIndex] = cupTable[startIndex];
+                    gRaceSetup->mCourseList[listIndex] = cupOrCourseIdTable[startIndex];
                     startIndex++;
                     if (startIndex >= courseCount) {
                         startIndex = 0;
@@ -259,15 +259,15 @@ void BuildCourseList(s32 isVersus) {
                 s32 swapCount;
                 s32 passIndex;
                 random = GetRandomState();
-                cupCount = flag != 0 ? 2 : 8;
-                cupTable = flag != 0 ? gCupIndicesTwoCups : gCupIndicesEightCups;
-                entryCount = cupCount * 4;
+                cupCountOrLastCourseIndex = multibootSetupOrEntryIndex != 0 ? 2 : 8;
+                cupOrCourseIdTable = multibootSetupOrEntryIndex != 0 ? gCupIndicesTwoCups : gCupIndicesEightCups;
+                entryCount = cupCountOrLastCourseIndex * COURSES_PER_CUP;
                 enabledCount = 0;
                 for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-                    cupSlot = entryIndex / 4;
-                    courseSlot = entryIndex % 4;
-                    if (IsCupEnabled(cupTable[cupSlot]) != FALSE) {
-                        gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupTable[cupSlot]][courseSlot];
+                    cupSlot = entryIndex / COURSES_PER_CUP;
+                    courseSlot = entryIndex % COURSES_PER_CUP;
+                    if (IsCupEnabled(cupOrCourseIdTable[cupSlot]) != FALSE) {
+                        gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupOrCourseIdTable[cupSlot]][courseSlot];
                         enabledCount = (u8) (enabledCount + 1);
                     }
                 }
@@ -286,18 +286,18 @@ void BuildCourseList(s32 isVersus) {
                 s32 courseIndex;
                 RandomState64 *random;
                 random = GetRandomState();
-                courseCount = flag != 0 ? 3 : 6;
-                cupTable = flag != 0 ? gThreeCourseIds : gSixCourseIds;
+                courseCount = multibootSetupOrEntryIndex != 0 ? 3 : 6;
+                cupOrCourseIdTable = multibootSetupOrEntryIndex != 0 ? gThreeCourseIds : gSixCourseIds;
                 for (courseIndex = 0; courseIndex < courseCount; courseIndex++) {
-                    gRaceSetup->mCourseList[courseIndex] = cupTable[courseIndex];
+                    gRaceSetup->mCourseList[courseIndex] = cupOrCourseIdTable[courseIndex];
                 }
                 courseIndex = 0;
                 if (courseIndex < courseCount) {
-                    cupCount = (u16) (courseCount - 1);
+                    cupCountOrLastCourseIndex = (u16) (courseCount - 1);
                     for (; courseIndex < courseCount; courseIndex++) {
                         u8 swapIndex;
                         u8 swapTemp;
-                        swapIndex = BuildCourseListNextRandomBelowU16(random, cupCount);
+                        swapIndex = BuildCourseListNextRandomBelowU16(random, cupCountOrLastCourseIndex);
                         swapTemp = gRaceSetup->mCourseList[courseIndex];
                         if (swapIndex >= courseIndex) {
                             swapIndex = swapIndex + 1;
@@ -380,7 +380,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
         GetKartCourseFinishTime(&finishTime, gRaceSetup->mEntryIndex, index);
         gMenuShared->mCourseTimes[index] = finishTime;
     }
-    if ((u32) GetKartCupRank(gRaceSetup->mEntryIndex) > 3) {
+    if ((u32) GetKartCupRank(gRaceSetup->mEntryIndex) > CUP_RANK_TROPHY_COUNT) {
         return FALSE;
     }
     gRaceSetup->mNextHeader.mCourseId = COURSE_ID_AWARD;
@@ -426,13 +426,13 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
             }
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            if ((gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1) == 6 &&
+            if ((gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1) == MISSION_TABLE_ROW_KING_ICE_DONKETU &&
                 (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
                 if (index == 0) {
-                    characterIndex = 7;
+                    characterIndex = CHARACTER_LUIGI;
                     kartIndex = 0x15;
                 } else if (index == 7) {
-                    characterIndex = 0;
+                    characterIndex = CHARACTER_MARIO;
                     kartIndex = characterIndex;
                 } else {
                     characterIndex = index;
@@ -443,7 +443,7 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
                 kartIndex = index * 3;
             }
         } else if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
-            if (GetStaffRollKindAfterGp() != 2) {
+            if (GetStaffRollKindAfterGp() != STAFF_ROLL_AFTER_GP_TRUE) {
                 characterIndex = index;
                 kartIndex = index * 3;
             } else {
@@ -468,7 +468,7 @@ s32 AdvanceToNextCourse(void) {
     if (gRaceSetup->mListedCpuCount > 1) {
         for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex++) {
             oldSlot = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot;
-            newSlot = 3;
+            newSlot = KART_ENTRY_LISTED_CPU_SLOT_NONE;
             if (oldSlot != 0) {
                 if (oldSlot == 1) {
                     newSlot = 0;
@@ -543,7 +543,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_SLOW;
     gRaceSetup->mNextHeader.mCpuDifficulty = 0;
-    gRaceSetup->mNextHeader.mBattleKind = 0;
+    gRaceSetup->mNextHeader.mBattleKind = BATTLE_KIND_BALLOON;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
@@ -585,7 +585,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mListedCpuEntryIndices[index] = -1;
     }
     gRaceSetup->mCourseCount = 0;
-    for (index = 0; index < 0x21; index++) {
+    for (index = 0; index < RACE_SETUP_COURSE_LIST_LENGTH; index++) {
         gRaceSetup->mCourseList[index] = 0;
     }
     gRaceSetup->mCourseListIndex = 0;
@@ -613,7 +613,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     u8 *regionSlot;
     u8 *lowestRecordValueSlot;
     DWCAccFriendData **friendDataSlot;
-    BOOL emblemFlag;
+    BOOL emblemFilledAndOn;
     BOOL hasEmblem;
     BOOL connectionActive;
     s8 participantOfKart;
@@ -626,11 +626,11 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     regionSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mRegion;
     lowestRecordValueSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mLowestGrandPrixRecordValue;
     friendDataSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData;
-    emblemFlag = FALSE;
+    emblemFilledAndOn = FALSE;
     if (backupBuffers->mEmblemRecord->mFilled != 0) {
-        emblemFlag = backupBuffers->mFirstBlock->mEmblemOff == 0;
+        emblemFilledAndOn = backupBuffers->mFirstBlock->mEmblemOff == 0;
     }
-    if (emblemFlag != FALSE) {
+    if (emblemFilledAndOn != FALSE) {
         hasEmblem = TRUE;
     } else {
         hasEmblem = FALSE;
@@ -735,7 +735,7 @@ void RefreshListedCpuEntryIndices(void) {
 }
 
 BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
-    u8 lapIndex;
+    u8 lapNumber;
     BOOL result;
     GhostRecord *ghostRecord;
 
@@ -751,9 +751,9 @@ BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
                     sizeof(KeyRecordingBuffer));
         result = TRUE;
-        GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
-        for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
-            GetGhostLapTimeByIndex(0, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
+        GetGhostFinishTimeByIndex(GHOST_RECORD_INDEX_COURSE, &gRaceSetup->mGhostTime);
+        for (lapNumber = 1; lapNumber <= 5; lapNumber++) {
+            GetGhostLapTimeByIndex(GHOST_RECORD_INDEX_COURSE, lapNumber, &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
         }
     }
     return result;
@@ -762,7 +762,7 @@ BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
 BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
     SlotGhostRecord *ghostRecord;
     s32 filled;
-    u8 lapIndex;
+    u8 lapNumber;
 
     if (gRaceSetup->mNextHeader.mRaceKind == RACE_KIND_REPLAY) {
         return 1;
@@ -775,9 +775,10 @@ BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_FIRST_SLOT;
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
                     sizeof(KeyRecordingBuffer));
-        GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
-        for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
-            GetGhostLapTimeByIndex(1, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
+        GetGhostFinishTimeByIndex(GHOST_RECORD_INDEX_FIRST_SLOT, &gRaceSetup->mGhostTime);
+        for (lapNumber = 1; lapNumber <= 5; lapNumber++) {
+            GetGhostLapTimeByIndex(GHOST_RECORD_INDEX_FIRST_SLOT, lapNumber,
+                                   &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
         }
     } else {
         SetNextRaceEntry(entryIndex, 0, 0, PLAYER_KIND_NONE, -1, 3);
@@ -787,7 +788,7 @@ BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
 
 BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
     SlotGhostRecord *ghostRecord;
-    u8 lapIndex;
+    u8 lapNumber;
 
     if (gRaceSetup->mNextHeader.mRaceKind == RACE_KIND_REPLAY) {
         return TRUE;
@@ -800,8 +801,8 @@ BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
                     sizeof(KeyRecordingBuffer));
         GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
-        for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
-            GetGhostLapTime(&ghostRecord->mHead, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
+        for (lapNumber = 1; lapNumber <= 5; lapNumber++) {
+            GetGhostLapTime(&ghostRecord->mHead, lapNumber, &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
         }
         return TRUE;
     }
@@ -951,8 +952,8 @@ void SetNextRaceByMode(void) {
                 gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
             } else {
                 for (tableIndex = 0; tableIndex < 32; tableIndex++) {
-                    cupIndex = (s32) tableIndex / 4;
-                    courseIndexInCup = (s32) tableIndex % 4;
+                    cupIndex = (s32) tableIndex / COURSES_PER_CUP;
+                    courseIndexInCup = (s32) tableIndex % COURSES_PER_CUP;
                     cupCourseId = gCupCourseIdTable[cupIndex][courseIndexInCup];
                     if (gRaceSetup->mNextHeader.mCourseId == cupCourseId) {
                         break;
@@ -1101,7 +1102,7 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
-    gRaceSetup->mNextHeader.mBattleKind = 0;
+    gRaceSetup->mNextHeader.mBattleKind = BATTLE_KIND_BALLOON;
     gRaceSetup->mCourseCount = 0;
     gRaceSetup->mNextHeader.mEngineIndex = missionFileRow->mEngineIndex;
     SetNextRaceEntry(0, missionFileRow->mCharacterIndex0, missionFileRow->mKartIndex0, PLAYER_KIND_HUMAN, -1, 3);
@@ -1157,8 +1158,8 @@ void ReadCourseAndSlotGhostRecords(u32 courseId, u8 slotIndex) {
     }
 }
 
-// Reads the course ghost record, then loads its ghost file; a failed load leaves a NULL record that is then
-// zero-filled.
+// Reads the course ghost record, then loads its ghost file when the course has a ghost path; with no path or a failed
+// load the record stays NULL and is then zero-filled.
 void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     SlotGhostRecord *ghostRecord;
     char path[0x80];
@@ -1351,7 +1352,8 @@ void UpdateInputSlots(void) {
         micValue = slotKeys;
         isBlocked = (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
         skipUpdate = FALSE;
-        canReadKeys = (GetCurrentSceneNumber() != 2 || (gInputState->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
+        canReadKeys =
+            (GetCurrentSceneNumber() != SCENE_RACE || (gInputState->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
         inputSlot = &gInputSlots[slotIndex];
         flags = gInputState->mFlags;
         if (!(flags & INPUT_STATE_NO_KEYS)) {
@@ -1375,13 +1377,13 @@ void UpdateInputSlots(void) {
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = padKeys;
-                            if (flags & 4) {
+                            if (flags & INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED) {
                                 slotKeys = padKeys & 0xffcf;
-                                if (padKeys & PAD_KEY_LEFT) {
-                                    slotKeys |= PAD_KEY_RIGHT;
+                                if (padKeys & PAD_KEY_DIRECTION_LEFT) {
+                                    slotKeys |= PAD_KEY_DIRECTION_RIGHT;
                                 }
-                                if (padKeys & PAD_KEY_RIGHT) {
-                                    slotKeys |= PAD_KEY_LEFT;
+                                if (padKeys & PAD_KEY_DIRECTION_RIGHT) {
+                                    slotKeys |= PAD_KEY_DIRECTION_LEFT;
                                 }
                             }
                             AppendKeysToKeyRecording(&inputSlot->mKeyRecording, slotKeys);
@@ -1414,11 +1416,11 @@ void UpdateInputSlots(void) {
                             slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
                             if (gInputState->mFlags & INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED) {
                                 keys = slotKeys & 0xffcf;
-                                if (slotKeys & PAD_KEY_LEFT) {
-                                    keys |= PAD_KEY_RIGHT;
+                                if (slotKeys & PAD_KEY_DIRECTION_LEFT) {
+                                    keys |= PAD_KEY_DIRECTION_RIGHT;
                                 }
-                                if (slotKeys & PAD_KEY_RIGHT) {
-                                    keys |= PAD_KEY_LEFT;
+                                if (slotKeys & PAD_KEY_DIRECTION_RIGHT) {
+                                    keys |= PAD_KEY_DIRECTION_LEFT;
                                 }
                                 slotKeys = keys;
                             }

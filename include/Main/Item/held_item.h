@@ -25,6 +25,6 @@ u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut);
 
 s32 SetItemPointLinkRefFromIndex(u32 index, ItemPointLinkRef *ref);
 
-extern const u16 gItemObjectPendingUpdateBit;
+extern const u16 gItemObjectPendingUpdateCatchUpBit;
 extern const ItemSpreadRow gItemSpreadRows[3];
 extern s32 gItemPointLinksByIndex[4];

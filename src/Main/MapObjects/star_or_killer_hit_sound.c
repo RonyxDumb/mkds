@@ -1,4 +1,5 @@
 #include "Main/MapObjects/star_or_killer_hit_sound.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
@@ -9,14 +10,14 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Kart/kart_reset.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 
 u32 StartSoundIfKartStarOrKiller(MapObject *mapObject, Kart *kart) {
     if (kart->mItemEffect != KART_ITEM_EFFECT_STAR && kart->mItemEffect != KART_ITEM_EFFECT_KILLER) {
         return 0;
     }
     if (mapObject->mSound != NULL) {
-        StartSound(&mapObject->mSound->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&mapObject->mSound->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
     } else {
         StartSoundFullVolume(&kart->mSoundSource, 0xe8);
     }

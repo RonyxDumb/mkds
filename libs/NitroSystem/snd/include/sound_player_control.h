@@ -3,7 +3,8 @@
 #include "types.h"
 #include "sound_fader.h" // NNSSndFader
 
-// Values of mSeqType: no sequence yet, or one from the sequence archive.
+// Values of mSeqType: no sequence yet (0), a plain sequence number (1, still written as the literal 1) or one from the
+// sequence archive (2).
 #define SOUND_SEQ_TYPE_NONE 0
 #define SOUND_SEQ_TYPE_ARCHIVE 2
 

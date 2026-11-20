@@ -21,16 +21,20 @@
 #define CHOISES_S_PICK_QUIT 9
 #define CHOISES_S_PICK_STAFF_CREDITS 10
 
-// Frames the pick stays before it is latched, frames the close stays, frames the cycle of the list marks lasts and the
-// frames of it the mark is lit, and frames before the race picks by itself in the Wi-Fi mode.
+// Limits of the call counters of UpdateChoisesS and of the emblem choice list: mPickFrames past CHOISES_S_PICK_FRAMES
+// latches the pick, and a pick started on the selected value writes the selected value tiles again from
+// CHOISES_S_PICK_START_FRAMES on; mCloseFrames past CHOISES_S_CLOSE_FRAMES requests the close; mCycleFrames wraps at
+// CHOISES_S_CYCLE_FRAMES and the selected value tiles are written while it is below CHOISES_S_CYCLE_LIT_FRAMES;
+// mAutoPickFrames (counted in the Wi-Fi mode once the race is done) past CHOISES_S_AUTO_PICK_FRAMES sets mPickedValue.
 #define CHOISES_S_PICK_FRAMES 0xf
 #define CHOISES_S_PICK_START_FRAMES 5
 #define CHOISES_S_CLOSE_FRAMES 4
 #define CHOISES_S_CYCLE_FRAMES 0x32
 #define CHOISES_S_CYCLE_LIT_FRAMES 0x1e
 #define CHOISES_S_AUTO_PICK_FRAMES 0x384
-// mOpenDuringRaceState once the list was open for a frame.
-#define CHOISES_S_OPEN_DURING_RACE_SETTLED 2
+// mOpenDuringRaceState from the second call of UpdateChoisesS in a row with GetChoisesSOpenDuringRace set; it is 0
+// while that is clear.
+#define CHOISES_S_OPEN_DURING_RACE_STATE_AFTER_FIRST_FRAME 2
 // Screen x range of the value rects.
 #define CHOISES_S_RECT_MIN_X 8
 #define CHOISES_S_RECT_MAX_X 0xf8
@@ -41,7 +45,8 @@ typedef struct ChoisesSList {
     /* 18 */ s32 mValueCount;
 } ChoisesSList;
 
-// The choice list shown during a race: its open and pick state, selected value, lists, font, canvases and screen files.
+// The choice list of a race, opened during the race or after it: its open, pick and cycle state, selected and picked
+// value, lists, font, canvases and screen files.
 typedef struct ChoisesS {
     // Non-zero from opening the list screen in the race until it is closed there; other race code stops meanwhile.
     /* 000 */ s32 mOpenDuringRace;

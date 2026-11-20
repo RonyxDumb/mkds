@@ -14,24 +14,24 @@ typedef enum {
     MODEL_ANIMATION_KIND_MAT_C
 } ModelAnimationKind;
 
-// One model's animations: a table of animation objects and one loop flag per entry; one entry plays at a time.
-// A change of entry can fade from the old one (StartModelAnimationBlend).
+// Playback state of one animation: loop mode, done flag, frame count, step and index, and the loop counters.
 typedef struct ModelAnimationFrameLoop {
     /* 00 */ u16 mLoopMode;
     /* 02 */ u16 mDone;
     /* 04 */ s32 mFrameCountFixed;
-    /* 08 */ s32 mFrameStep;
-    /* 0c */ s32 mFrameIndex;
+    /* 08 */ s32 mFrameIndexFixedPerCall;
+    /* 0c */ s32 mFrameIndexFixed;
     /* 10 */ u16 mLoopsDone;
     /* 12 */ u16 mLoopCount;
 } ModelAnimationFrameLoop;
 
-// ModelAnimation.mBlendRatioStep set by the animation reset: about a tenth of the whole blend ratio per frame.
+// ModelAnimation.mBlendRatioStep set by InitModelAnimation: about a tenth of the full blend ratio (TO_FIXED12(1)) per
+// advance call.
 #define MODEL_ANIMATION_BLEND_RATIO_STEP 0x19a
 
-// The animations of a model: the list of them, the current one and the blend into the previous one.
+// The animations of a model: the list of them, the current one and the blend from the previous one.
 typedef struct ModelAnimation {
-    /* 00 */ ModelAnimationFrameLoop mHead;
+    /* 00 */ ModelAnimationFrameLoop mFrameLoop;
     /* 14 */ Nsbmd *mRenderObj;
     /* 18 */ u16 mAnmObjCount;
     /* 1a */ u16 mCurrentIndex;

@@ -69,7 +69,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
             if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
                 if (value < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
                     item->mNearKartFrames = item->mNearKartFrames + 1;
-                    if (item->mNearKartFrames > ITEM_KOURA_R_NEAR_KART_LIMIT_FRAMES) {
+                    if (item->mNearKartFrames > ITEM_KOURA_R_NEAR_KART_LIMIT_CHECKS) {
                         FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
                         return FALSE;
                     }
@@ -98,7 +98,8 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
     VEC_Add(&item->mTowardKartVelocity, pos, pos);
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                 &offset, &firstNormal, &secondNormal,
                                 &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits, NULL,
@@ -135,7 +136,8 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
                 return FALSE;
             }
         }
-        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits &
+            COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
             return FALSE;
         }
@@ -164,7 +166,7 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
                      ~ITEM_OWNER_FLAGS_MASK)
             : ITEM_NO_KART_INDEX;
     kartRank = GetKartRank(kartIndex);
-    if (ownerIndex < 8 && checkRank != 0) {
+    if (ownerIndex < ITEM_NO_KART_INDEX && checkRank != 0) {
         ownerRank = GetKartRank(ownerIndex);
         if (ownerRank <= kartRank) {
             if (ownerRank != 1) {

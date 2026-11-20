@@ -111,7 +111,4 @@ void OS_InitException(void) {
     OSi_UserExceptionHandler = 0;
 }
 
-
-// clang-format on
-
 // clang-format on

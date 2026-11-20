@@ -103,7 +103,7 @@ void InitSubScreenGraphicsMode5(void) {
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 3;
     reg_G2S_DB_BG3CNT &= ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) |
-                        0x8810 | ((IsCourseWithSubBg3AreaOverflow() != 0) << 13);
+                        0x8810 | ((IsCourseWithSubBg3CntBit13() != 0) << 13);
 }
 
 void InitSubScreenGraphicsMode0(void) {
@@ -127,19 +127,19 @@ void InitSubScreenGraphicsMode0(void) {
 
 void UploadRaceHud(void) {
     s32 kartIndex;
-    u32 kind;
+    u32 raceKindOrMode;
     s32 value;
     s32 scrollOffset;
 
-    kind = gRaceSetup->mRaceKind;
-    if (kind == RACE_KIND_START_GP) {
+    raceKindOrMode = gRaceSetup->mRaceKind;
+    if (raceKindOrMode == RACE_KIND_START_GP) {
         UploadRaceStartGpOam();
         return;
     }
-    if (kind == RACE_KIND_AWARD) {
+    if (raceKindOrMode == RACE_KIND_AWARD) {
         return;
     }
-    if (kind == RACE_KIND_STAFF_ROLL) {
+    if (raceKindOrMode == RACE_KIND_STAFF_ROLL) {
         *(vu16 *) HW_BG_PLTT = 0;
         UploadEndingStaffRollOam();
         SetStaffRollScrollAndDrainQueue();
@@ -176,10 +176,10 @@ void UploadRaceHud(void) {
             }
         }
     }
-    kind = gRaceSetup->mMode;
-    if (kind == MODE_GRAND_PRIX && gRaceHud->mGoalMEnabled != 0) {
+    raceKindOrMode = gRaceSetup->mMode;
+    if (raceKindOrMode == MODE_GRAND_PRIX && gRaceHud->mGoalMEnabled != 0) {
         reg_G2_BG3OFS = 0x01ff0000 & (InterpolateS16(1, -64, 0, GetRaceGoalMUpdateFrames(), 20) << 16);
-    } else if (kind == MODE_MISSION_RUN && gRaceHud->mGoalMEnabled != 0) {
+    } else if (raceKindOrMode == MODE_MISSION_RUN && gRaceHud->mGoalMEnabled != 0) {
         GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
         GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
     }
@@ -271,7 +271,7 @@ void UploadRaceHud(void) {
                     break;
             }
             value = GetRaceGoalSOffsetX();
-            if (value < 0x100) {
+            if (value < RACE_GOAL_S_SLIDE_OFFSET) {
                 scrollOffset = -value & 0x1ff;
                 reg_G2S_DB_BG2OFS = scrollOffset;
                 reg_G2S_DB_BG3OFS = scrollOffset;
@@ -288,22 +288,22 @@ void UploadRaceHud(void) {
                     break;
             }
             value = GetRaceGoalSOffsetX();
-            if (gRaceHud->mSubScreenGoalTeamsLoadPending != FALSE) {
+            if (gRaceHud->mSubScreenGoalTeamsUploadRequested != FALSE) {
                 GXS_LoadBG1Scr(GetRaceGoalSNscr(3)->mData, 0, GetRaceGoalSNscr(3)->mDataSize);
                 GXS_LoadBG2Scr(GetRaceGoalSNscr(4)->mData, 0, GetRaceGoalSNscr(4)->mDataSize);
                 GXS_LoadBG3Scr(GetRaceGoalSNscr(5)->mData, 0, GetRaceGoalSNscr(5)->mDataSize);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNclr->mData, 0, 0x20);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNclr->mData + 0xc0, 0x180, 0x80);
                 GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mData, 0, 0x4000);
-                gRaceHud->mSubScreenGoalTeamsLoadPending = FALSE;
+                gRaceHud->mSubScreenGoalTeamsUploadRequested = FALSE;
             }
-            if (value < 0x100) {
+            if (value < RACE_GOAL_S_SLIDE_OFFSET) {
                 reg_G2S_DB_BG2OFS = value & 0x1ff;
                 reg_G2S_DB_BG3OFS = -value & 0x1ff;
             }
             break;
         case RACE_HUD_SUB_SCREEN_NEW_RECORD:
-            if (gRaceHud->mSubScreenNewRecordLoadPending != FALSE) {
+            if (gRaceHud->mSubScreenNewRecordUploadRequested != FALSE) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1200;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG1OFS = 0;
@@ -317,7 +317,7 @@ void UploadRaceHud(void) {
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNclr->mData, 0, 0xa0);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNclr->mData + 0xb0, 0x160, 0xa0);
                 GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNcgr->mData, 0, 0x4000);
-                gRaceHud->mSubScreenNewRecordLoadPending = FALSE;
+                gRaceHud->mSubScreenNewRecordUploadRequested = FALSE;
             }
             break;
     }
@@ -350,7 +350,6 @@ void InitRaceHud(void) {
     s32 index;
     u32 raceKind;
     u16 *choisesSBPalette;
-    u32 colorIndex;
     u16 paletteColor;
 
     raceKind = gRaceSetup->mRaceKind;
@@ -395,7 +394,7 @@ void InitRaceHud(void) {
     }
     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
     gRaceHud->mSubScreenEnabled = FALSE;
-    gRaceHud->mSubScreenGoalTeamsLoadPending = FALSE;
+    gRaceHud->mSubScreenGoalTeamsUploadRequested = FALSE;
     gRaceHud->mRaceGoalSShown = FALSE;
     gRaceHud->mGoalMStarted = FALSE;
     gRaceHud->mGoalMUploadPending = FALSE;
@@ -637,7 +636,7 @@ void InitMap2D(void) {
     if (IsCourseWithMap2DLocal3()) {
         GXS_LoadBG3Scr(nscrs[3]->mData, 0, nscrs[3]->mDataSize);
     }
-    GX_SetBankForSubBGExtPltt(0x80);
+    GX_SetBankForSubBGExtPltt(VRAM_BANK_H);
     GXS_BeginLoadBGExtPltt();
     GXS_LoadBGExtPltt(nclrs[2]->mData, 0x4000, 0x200);
     GXS_LoadBGExtPltt(nclrs[2]->mData, 0x6000, 0x200);
@@ -697,7 +696,7 @@ void SetupRaceHudScreens(void) {
     GXS_LoadBG3Scr(GetRaceGoalSNscr(2)->mData, 0, GetRaceGoalSNscr(2)->mDataSize);
     GXS_LoadBGPltt(gRaceHudSubScreenPalettes + 0x100, 0, 0x200);
     CopyRaceHudSubScreenBgColors();
-    GX_SetBankForSubBGExtPltt(0x80);
+    GX_SetBankForSubBGExtPltt(VRAM_BANK_H);
     GXS_BeginLoadBGExtPltt();
     GXS_LoadBGExtPltt(gRaceHudSubScreenPalettes + 0x100, 0x4000, 0x200);
     GXS_LoadBGExtPltt(gRaceHudSubScreenPalettes + 0x100, 0x6000, 0x200);
@@ -758,20 +757,20 @@ void ReleaseRaceHud(void) {
 }
 
 void UpdateRaceHud(void) {
-    u32 kind;
+    u32 raceKindOrMode;
 
     if (gRaceHud != NULL) {
         gRaceHud->mStepHasRun = 1;
     }
-    kind = gRaceSetup->mRaceKind;
-    if (kind == RACE_KIND_START_GP) {
+    raceKindOrMode = gRaceSetup->mRaceKind;
+    if (raceKindOrMode == RACE_KIND_START_GP) {
         UpdateRaceStartGp();
         return;
     }
-    if (kind == RACE_KIND_AWARD) {
+    if (raceKindOrMode == RACE_KIND_AWARD) {
         return;
     }
-    if (kind == RACE_KIND_STAFF_ROLL) {
+    if (raceKindOrMode == RACE_KIND_STAFF_ROLL) {
         UpdateEndingStaffRoll();
         AdvanceStaffRollText();
         return;
@@ -791,9 +790,9 @@ void UpdateRaceHud(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         UpdateRaceStartBattleNop();
     }
-    kind = gRaceSetup->mMode;
-    if ((kind == MODE_BATTLE ? gRaceProgress->mRaceDone
-         : kind == MODE_MISSION_RUN
+    raceKindOrMode = gRaceSetup->mMode;
+    if ((raceKindOrMode == MODE_BATTLE ? gRaceProgress->mRaceDone
+         : raceKindOrMode == MODE_MISSION_RUN
              ? IsFramesSinceFinishPastWait()
              : (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0)) == 0) {
         UpdateRaceItemSlot();
@@ -837,11 +836,11 @@ void UpdateRaceHudSubScreen(void) {
     BOOL switchPressed;
     BOOL switchAllowed;
     BOOL raceKindAllowsSwitch;
-    BOOL condition;
+    BOOL noPairBriefWhileClosed;
     s32 value;
 
     UpdateRaceLinkLevel();
-    if (gRaceSetup->mRaceKind - 3 <= 3) {
+    if (gRaceSetup->mRaceKind - RACE_KIND_START_GP <= 3) {
         return;
     }
     if (gRaceHud->mEnabled == FALSE) {
@@ -858,12 +857,12 @@ void UpdateRaceHudSubScreen(void) {
                         gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
-                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK;
                     }
                 } else if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -880,15 +879,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -918,7 +917,7 @@ void UpdateRaceHudSubScreen(void) {
                 if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -935,15 +934,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -994,7 +993,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -1011,15 +1010,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -1054,7 +1053,7 @@ void UpdateRaceHudSubScreen(void) {
                     if (gRaceHud->mGoalMStarted == FALSE) {
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
-                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI;
                     }
                 } else {
                     gRaceHud->mSubScreenEnabled = FALSE;
@@ -1065,7 +1064,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI;
                 } else {
                     subScreenEnabled = FALSE;
                     switchAllowed = FALSE;
@@ -1081,15 +1080,16 @@ void UpdateRaceHudSubScreen(void) {
                     if (switchAllowed != FALSE) {
                         switchPressed = TRUE;
                         if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                             if (IsChoisesSOpen() == 0) {
-                                if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                    condition = TRUE;
+                                if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount ==
+                                    INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+                                    noPairBriefWhileClosed = TRUE;
                                 }
                             } else {
-                                condition = FALSE;
+                                noPairBriefWhileClosed = FALSE;
                             }
-                            if (condition == FALSE) {
+                            if (noPairBriefWhileClosed == FALSE) {
                                 switchPressed = FALSE;
                             }
                         }
@@ -1128,15 +1128,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -1171,7 +1171,7 @@ void UpdateRaceHudSubScreen(void) {
                     } else {
                         value = RACE_END_KIND_NOT_ENDED;
                     }
-                    if (value == 0) {
+                    if (value == RACE_END_KIND_GOAL) {
                         gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MISSION_RUN;
                     }
                 }
@@ -1181,7 +1181,7 @@ void UpdateRaceHudSubScreen(void) {
                 } else {
                     value = RACE_END_KIND_NOT_ENDED;
                 }
-                if (value != 0) {
+                if (value != RACE_END_KIND_GOAL) {
                     gRaceHud->mGoalMEnabled = 1;
                 }
             }
@@ -1288,7 +1288,7 @@ void DrawRaceHud(void) {
     }
     DC_FlushRange(&gRaceHud->mMainOam, 0x400);
     MI_DmaFill32(3, &gRaceHud->mMainOam.mOams[gRaceHud->mMainOam.mOamCount], 0xc0,
-                 (0x80 - gRaceHud->mMainOam.mOamCount) << 3);
+                 (RACE_HUD_OAM_COUNT - gRaceHud->mMainOam.mOamCount) << 3);
     gRaceHud->mSubOam.mOamCount = 0;
     gRaceHud->mSubOam.mMatrixCount = 0;
     subScreenState = gRaceHud->mSubScreenState;
@@ -1298,7 +1298,7 @@ void DrawRaceHud(void) {
     DrawRaceRankList(&gRaceHud->mSubOam);
     DC_FlushRange(&gRaceHud->mSubOam, 0x400);
     MI_DmaFill32(3, &gRaceHud->mSubOam.mOams[gRaceHud->mSubOam.mOamCount], 0xc0,
-                 (0x80 - gRaceHud->mSubOam.mOamCount) << 3);
+                 (RACE_HUD_OAM_COUNT - gRaceHud->mSubOam.mOamCount) << 3);
     switch (gRaceHud->mSubScreenState) {
         case RACE_HUD_SUB_SCREEN_KART_ICONS:
             DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);

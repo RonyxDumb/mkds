@@ -16,7 +16,7 @@ void RequestKartLevel4EffectsRestart(KartTurnEffects *kartTurnEffects);
 typedef struct Vec3s16 Vec3s16;
 typedef struct Kart Kart;
 
-// The per-Kart effect groups that play while a turn is held: start, level 2, 3 and 4, their ids and functions.
+// The per-Kart effect groups of a drift: turn start, level 2, 3 and 4, their ids and functions.
 typedef struct KartTurnEffects {
     // The two effect objects of the turn start group, one per side, started by StartKartTurnStartEffects and moved by
     // AdvanceKartTurnStartEffects (the level 2 advance also switches their emission); NULL when the group is not
@@ -172,17 +172,18 @@ extern const Vec3 gKartTurnEffectsStartPosition;
 // Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
 extern struct KartTurnEffects *gKartTurnEffects;
 
-// Particle effect ids of the turn effects: the entry kart (and the award and time attack karts) get the variant with a
-// second level 4 object, the other karts the one with the first only.
-#define KART_TURN_START_EFFECT_ID_WITH_SECOND 0x14
-#define KART_TURN_START_EFFECT_ID_FIRST_ONLY 0x15
+// Particle effect ids of the turn effects: the turn start and level 4 ids differ by kart, the entry kart (and the award
+// and time attack karts) getting the variant with a second level 4 object and the other karts the one with the first
+// only; the level 3 ids are the same for every kart.
+#define KART_TURN_START_EFFECT_ID_LEVEL4_WITH_SECOND 0x14
+#define KART_TURN_START_EFFECT_ID_LEVEL4_FIRST_ONLY 0x15
 #define KART_LEVEL4_FIRST_EFFECT_ID_WITH_SECOND 0x11
 #define KART_LEVEL4_SECOND_EFFECT_ID 0x12
 #define KART_LEVEL4_FIRST_EFFECT_ID_FIRST_ONLY 0x13
 #define KART_LEVEL3_FIRST_EFFECT_ID 0x16
 #define KART_LEVEL3_SECOND_EFFECT_ID 0x17
-// Frames after which a requested stop or restart resets the level 4 group, the level 3 group releases, and the level 2
-// group releases.
+// Calls of the advance functions after which a requested stop or a drifting restart resets the level 4 group, and after
+// which the level 3 group and the level 2 group release.
 #define KART_LEVEL4_RESET_FRAMES 10
 #define KART_LEVEL3_RELEASE_FRAMES 10
 #define KART_LEVEL2_RELEASE_FRAMES 8

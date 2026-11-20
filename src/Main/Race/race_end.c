@@ -19,6 +19,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race_end_work.h"
 #include "Main/Menu/menu_screens_work.h"
+#include "Main/Sound/sound_mode.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -28,7 +29,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/low_byte.h"
@@ -190,7 +191,7 @@ void UpdateRaceEnd(void) {
         gRaceEnd->mResultsSet = TRUE;
     }
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mKarts[followedKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM &&
         gRaceProgress->mRaceDone == 0) {
         return;
     }
@@ -208,13 +209,13 @@ void UpdateRaceEnd(void) {
                 case MODE_WIFI:
                     if (raceSetup->mRuleKind != RULE_KIND_WIN_COUNT) {
                         if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus ==
-                            RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
+                            RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM) {
                             SetStemSet(STEM_SET_GOAL);
                         }
                     }
                     break;
             }
-            if ((gSoundModeHolder.mMode - 2) <= 1 && gRaceSetup->mMode != MODE_BATTLE) {
+            if ((gSoundModeHolder.mMode - SCENE_SOUND_MODE_PLAYING) <= SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY - SCENE_SOUND_MODE_PLAYING && gRaceSetup->mMode != MODE_BATTLE) {
                 raceSetup = gRaceSetup;
                 playsRaceEndSound = TRUE;
                 if (raceSetup->mRaceKind == RACE_KIND_DEMO) {
@@ -224,9 +225,10 @@ void UpdateRaceEnd(void) {
                         case MISSION_KIND_LAPS:
                         case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                         case MISSION_KIND_LAPS_FIRST_PLACE:
-                        case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
+                        case MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS:
                             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
-                                                                           : RACE_END_KIND_NOT_ENDED) != 0) {
+                                                                           : RACE_END_KIND_NOT_ENDED) !=
+                                RACE_END_KIND_GOAL) {
                                 playsRaceEndSound = FALSE;
                             }
                             break;
@@ -263,7 +265,7 @@ void UpdateRaceEnd(void) {
                     break;
                 case MODE_MISSION_RUN:
                     if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
-                                                                   : RACE_END_KIND_NOT_ENDED) != 0) {
+                                                                   : RACE_END_KIND_NOT_ENDED) != RACE_END_KIND_GOAL) {
                         SetStemSet(STEM_SET_FAILED);
                     }
                     break;
@@ -286,7 +288,7 @@ void UpdateRaceEnd(void) {
     switch (raceSetup->mMode) {
         case MODE_MISSION_RUN:
             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED) ==
-                0) {
+                RACE_END_KIND_GOAL) {
                 SetStemSet(STEM_SET_COMPLETE);
             }
             break;

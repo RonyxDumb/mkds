@@ -10,7 +10,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "registers.h"
 
@@ -39,9 +39,9 @@ const u32 gKartNameTagMaskedTexture[128] = {
 void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP;
     modelAnimation->mDone = 0;
-    modelAnimation->mFrameStep = FIXED12_UNIT;
+    modelAnimation->mFrameIndexFixedPerCall = FIXED12_UNIT;
     modelAnimation->mFrameCountFixed = frameCountFixed;
-    modelAnimation->mFrameIndex = 0;
+    modelAnimation->mFrameIndexFixed = 0;
     modelAnimation->mLoopsDone = 0;
     modelAnimation->mLoopCount = 0;
 }
@@ -50,17 +50,17 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
     s32 frameIndex;
     switch (modelAnimation->mLoopMode) {
         case MODEL_ANIMATION_LOOP_MODE_WRAP:
-            if (modelAnimation->mFrameIndex >= modelAnimation->mFrameCountFixed) {
-                modelAnimation->mFrameIndex = modelAnimation->mFrameIndex - modelAnimation->mFrameCountFixed;
-            } else if (modelAnimation->mFrameIndex <= 0) {
-                frameIndex = modelAnimation->mFrameIndex;
-                modelAnimation->mFrameIndex = modelAnimation->mFrameCountFixed - 0x1000 + frameIndex;
+            if (modelAnimation->mFrameIndexFixed >= modelAnimation->mFrameCountFixed) {
+                modelAnimation->mFrameIndexFixed = modelAnimation->mFrameIndexFixed - modelAnimation->mFrameCountFixed;
+            } else if (modelAnimation->mFrameIndexFixed <= 0) {
+                frameIndex = modelAnimation->mFrameIndexFixed;
+                modelAnimation->mFrameIndexFixed = modelAnimation->mFrameCountFixed - 0x1000 + frameIndex;
             }
             break;
         case MODEL_ANIMATION_LOOP_MODE_CLAMP:
-            if (modelAnimation->mFrameIndex >= modelAnimation->mFrameCountFixed - 0x1000) {
-                modelAnimation->mFrameIndex = modelAnimation->mFrameCountFixed - 0x1000;
-                modelAnimation->mFrameStep = 0;
+            if (modelAnimation->mFrameIndexFixed >= modelAnimation->mFrameCountFixed - 0x1000) {
+                modelAnimation->mFrameIndexFixed = modelAnimation->mFrameCountFixed - 0x1000;
+                modelAnimation->mFrameIndexFixedPerCall = 0;
                 modelAnimation->mDone = 1;
             }
             break;
@@ -68,17 +68,17 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
             if (modelAnimation->mLoopsDone >= modelAnimation->mLoopCount) {
                 return;
             }
-            if (modelAnimation->mFrameIndex >= modelAnimation->mFrameCountFixed) {
-                modelAnimation->mFrameIndex = modelAnimation->mFrameIndex - modelAnimation->mFrameCountFixed;
+            if (modelAnimation->mFrameIndexFixed >= modelAnimation->mFrameCountFixed) {
+                modelAnimation->mFrameIndexFixed = modelAnimation->mFrameIndexFixed - modelAnimation->mFrameCountFixed;
                 modelAnimation->mLoopsDone++;
-            } else if (modelAnimation->mFrameIndex <= 0) {
-                frameIndex = modelAnimation->mFrameIndex;
-                modelAnimation->mFrameIndex = modelAnimation->mFrameCountFixed - 0x1000 + frameIndex;
+            } else if (modelAnimation->mFrameIndexFixed <= 0) {
+                frameIndex = modelAnimation->mFrameIndexFixed;
+                modelAnimation->mFrameIndexFixed = modelAnimation->mFrameCountFixed - 0x1000 + frameIndex;
                 modelAnimation->mLoopsDone++;
             }
             if (modelAnimation->mLoopsDone >= modelAnimation->mLoopCount) {
-                modelAnimation->mFrameIndex = modelAnimation->mFrameCountFixed - 0x1000;
-                modelAnimation->mFrameStep = 0;
+                modelAnimation->mFrameIndexFixed = modelAnimation->mFrameCountFixed - 0x1000;
+                modelAnimation->mFrameIndexFixedPerCall = 0;
                 modelAnimation->mDone = 1;
             }
             break;
@@ -87,7 +87,7 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
 
 void AdvanceModelAnimationFrame(ModelAnimationFrameLoop *modelAnimation) {
     modelAnimation->mDone = 0;
-    modelAnimation->mFrameIndex = modelAnimation->mFrameIndex + modelAnimation->mFrameStep;
+    modelAnimation->mFrameIndexFixed = modelAnimation->mFrameIndexFixed + modelAnimation->mFrameIndexFixedPerCall;
     ApplyModelAnimationLoopMode(modelAnimation);
 }
 

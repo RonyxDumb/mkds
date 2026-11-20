@@ -193,7 +193,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     if (chosenSlot == NULL) {
         return;
     }
-    if ((scanBuffer->mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
+    if ((scanBuffer->mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_MULTIBOOT) != 0) {
         if (connection->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
             if (userGameInfo->mKind == USER_GAME_INFO_KIND_NAME_INFO) {
@@ -207,7 +207,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 if (childCount >= 0) {
                     chosenSlot->mChildCount = childCount;
                 }
-                chosenSlot->mLanguageIndex = LANGUAGE_UNSUFFIXED;
+                chosenSlot->mLanguageIndex = LANGUAGE_JAPANESE;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
                 MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, sizeof(chosenSlot->mName));
@@ -224,7 +224,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 connection->mRememberedScanKeyHeld = SCAN_REMEMBERED_KEY_HELD;
             }
         }
-    } else if (scanBuffer->mGameInfo.mUserGameInfoLength == SCAN_USER_GAME_INFO_BYTES) {
+    } else if (scanBuffer->mGameInfo.mUserGameInfoLength == USER_GAME_INFO_BYTES) {
         FillScanSlot(chosenSlot, scanBuffer, key, gameInfo, slotIndex);
     }
     scanState = &gConnectionWork->mScanState;
@@ -244,7 +244,7 @@ void StartScanCallback(WirelessMessage *event) {
     s32 countedIndex;
     ScanSlot *countedSlot;
     ScanStateView *scanState;
-    u16 value;
+    u16 hostAid;
     BOOL accepted;
     ScanSlot *slot;
 
@@ -258,27 +258,27 @@ void StartScanCallback(WirelessMessage *event) {
                 MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, sizeof(WMBssDesc));
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == CONNECTION_STATE_ENDED) {
-                    value = event->mAid;
-                    if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
+                    hostAid = event->mAid;
+                    if (IsScanGameInfoMatch(&scanBuffer) != 0) {
                         gConnectionWork->mMatchingHostFound = 1;
-                        gConnectionWork->mMatchingHostAid = value;
+                        gConnectionWork->mMatchingHostAid = hostAid;
                         gConnectionWork->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mGameInfoLength >= SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID &&
                                scanBuffer.mGameInfo.mGgid == CONNECTION_GAME_GROUP_ID &&
-                               (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) != 0) {
-                        if ((scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
+                               (scanBuffer.mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_ENTRY) != 0) {
+                        if ((scanBuffer.mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_MULTIBOOT) != 0) {
                             gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_MULTIBOOT;
                         } else {
                             gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_NON_MULTIBOOT;
                         }
-                        gConnectionWork->mOtherHostAid = value;
+                        gConnectionWork->mOtherHostAid = hostAid;
                         gConnectionWork->mUnk_1ede = 0;
                     }
                 } else {
                     accepted = TRUE;
                     if (scanBuffer.mGameInfoLength < SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID ||
                         scanBuffer.mGameInfo.mGgid != CONNECTION_GAME_GROUP_ID ||
-                        (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) == 0) {
+                        (scanBuffer.mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_ENTRY) == 0) {
                         accepted = FALSE;
                     } else if (gConnectionWork->mScanFilterCallback != 0) {
                         if (gConnectionWork->mScanFilterCallback(&scanBuffer) == 0) {
@@ -301,13 +301,13 @@ void StartScanCallback(WirelessMessage *event) {
                             }
                         }
                     } else if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                        gConnectionWork->mScanMissCount += 1;
+                        gConnectionWork->mUnk_0439 += 1;
                     }
                 }
                 break;
             case WIRELESS_STATE_SEARCH_EMPTY:
                 if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                    gConnectionWork->mScanMissCount += 1;
+                    gConnectionWork->mUnk_0439 += 1;
                 }
                 break;
         }
@@ -369,7 +369,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
         *gConnectionWork->mParentBssDesc = *parentBssDesc;
     }
     if (customUserData == NULL) {
-        userData[0x14] = 0;
+        userData[PLAYER_NAME_BYTES] = 0;
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             userData[0x14] = userData[0x14] | 1;
         }
@@ -426,7 +426,7 @@ void StartConnectCallback(WirelessMessage *event) {
                         switch (gConnectionWork->mState) {
                             case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
                             case CONNECTION_STATE_MULTIBOOT_SCAN_READY:
-                            case CONNECTION_STATE_SETUP_SPARE:
+                            case CONNECTION_STATE_UNUSED:
                             case CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE:
                             case CONNECTION_STATE_CONNECTED:
                                 StopConnection();
@@ -434,7 +434,7 @@ void StartConnectCallback(WirelessMessage *event) {
                             case CONNECTION_STATE_ENTRY_EXCHANGE:
                                 shouldReset = TRUE;
                                 break;
-                            case CONNECTION_STATE_GATHERING:
+                            case CONNECTION_STATE_SETUP:
                             case CONNECTION_STATE_MP_ENDING:
                                 break;
                             default:
@@ -474,7 +474,7 @@ void StartConnectCallback(WirelessMessage *event) {
 }
 
 void StartMP(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_MP;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mStartMPReceiveBuffer,
                      gConnectionWork->mStartMPReceiveBufferSize, gConnectionWork->mStartMPSendBuffer,
@@ -514,7 +514,7 @@ void StartMPCallback(WirelessMessage *event) {
 void SetMPFrequency(u32 mpFreq) {
     s32 result;
 
-    gConnectionWork->mStep = CONNECTION_STEP_SETTING_EXCHANGE_RATE;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_MP_FREQUENCY;
     gConnectionWork->mRequestPending = 1;
     result = WM_SetMPFrequency(SetMPFrequencyCallback, mpFreq);
     if (result == 0) {
@@ -542,7 +542,7 @@ void SetEntry(s32 enabled) {
     if ((gConnectionWork->mParentParameter->mEntryFlag != 0) == enabled) {
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_REGISTERING_ENTRY;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_ENTRY;
     gConnectionWork->mRequestPending = 1;
     result = WM_SetEntry(SetEntryCallback, enabled);
     if (result == 2) {
@@ -582,7 +582,7 @@ void SetGameInfo(void) {
     if (ScanGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_PUBLISHING_GAME_INFO;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_GAME_INFO;
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mChildren;
     children->mGameInfo->mGameInfoPart.mChildCount = children->mChildCount;
@@ -590,7 +590,7 @@ void SetGameInfo(void) {
     if (gConnectionWork->mState != CONNECTION_STATE_SYNCED && gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
         isSyncedOrSyncedRace = FALSE;
     }
-    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, SCAN_USER_GAME_INFO_BYTES, CONNECTION_GAME_GROUP_ID,
+    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, USER_GAME_INFO_BYTES, CONNECTION_GAME_GROUP_ID,
                        gConnectionWork->mParentParameter->mTgid, isSyncedOrSyncedRace == FALSE) != 2) {
         gConnectionWork->mRequestPending = 0;
     }

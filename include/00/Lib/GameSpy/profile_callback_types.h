@@ -2,29 +2,29 @@
 
 #include "types.h"
 
-// Result of a GP request, stored in the mResult of the operation and of every response argument.
-// 4 is stored when the connection failed while a blocking request waited for it.
-typedef enum GpRequestResult {
-    GP_REQUEST_OK = 0,
-    GP_REQUEST_CONNECT_FAILED = 4
-} GpRequestResult;
+// Result of a profile request: 0 is OK, any other value is a failure. 4 is stored when the connection could
+// not be opened; the other nonzero PROFILE_RESULT values of a failed step are stored as they are.
+typedef enum ProfileRequestResult {
+    PROFILE_REQUEST_OK = 0,
+    PROFILE_REQUEST_FAILED = 4
+} ProfileRequestResult;
 
-// A growable byte buffer: its data, capacity, length and read position.
-typedef struct GpiBuffer {
+// A growable byte buffer: its data, capacity, length and the position up to which it was read or sent.
+typedef struct GPIBuffer {
     /* 00 */ u8 *mBuffer;
     /* 04 */ s32 mCapacity;
     /* 08 */ s32 mLength;
     /* 0c */ s32 mPos;
-} GpiBuffer;
+} GPIBuffer;
 
-// Callback and its argument, as stored in the object at 0x1a4 and passed by value to GpiQueueCallback.
-typedef void (*GpiCallbackFn)(void *connection, void *arg, u32 param);
+// A callback function pointer as the library calls it: the connection, the argument and the stored parameter.
+typedef void (*GPCallback)(void *connection, void *arg, u32 param);
 
 // A callback function and the parameter it is called with.
-typedef struct GpiCallback {
-    /* 00 */ GpiCallbackFn mCallback;
+typedef struct GPICallback {
+    /* 00 */ GPCallback mCallback;
     /* 04 */ u32 mParam;
-} GpiCallback;
+} GPICallback;
 
 // The data a queued callback hands to its function: lists of nicks, matches or a transfer message.
 typedef struct CallbackArgData {
@@ -39,8 +39,8 @@ typedef struct CallbackArgData {
     /* 40 */ void **mUniquenicks;
 } CallbackArgData;
 
-// Values of GpiQueuedCallback.mType; the ones that free members say which CallbackArgData members
-// GpiCallAndFreeCallback frees after the call. The errors are delivered with every callback queue run. STATUS and
+// Values of QueuedCallback.mType; the ones that free members say which CallbackArgData members
+// gpiCallCallback frees after the call. The errors are delivered with every callback queue run. STATUS and
 // REQUEST are queued with the status and buddy request callbacks; FREE_TRANSFER_MESSAGE frees the transfer message
 // and is not queued anywhere.
 enum {
@@ -56,16 +56,17 @@ enum {
     PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS,
 };
 
-// One callback waiting in the queue: the function, its argument data, its kind and the next entry.
-typedef struct GpiQueuedCallback {
-    /* 00 */ GpiCallback mCallback;
+// One callback waiting in the queue: the function, its argument data, its kind, the operation it belongs to
+// (mOperationId) and the next entry.
+typedef struct QueuedCallback {
+    /* 00 */ GPICallback mCallback;
     /* 08 */ struct CallbackArgData *mArg;
     /* 0c */ s32 mType;
     /* 10 */ u32 mOperationId;
-    /* 14 */ struct GpiQueuedCallback *mNext;
-} GpiQueuedCallback;
+    /* 14 */ struct QueuedCallback *mNext;
+} QueuedCallback;
 
-// Object GpiQueueErrorCallback allocates and hands to GpiQueueCallback.
+// The argument of the error callback: result, error code, error string and fatal flag.
 typedef struct ErrorData {
     /* 00 */ s32 mResult;
     /* 04 */ u32 mErrorCode;

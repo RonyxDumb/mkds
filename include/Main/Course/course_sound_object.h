@@ -15,7 +15,8 @@
 #define COURSE_SOUND_ID_MARIO_FIRST_PART 0x1a0
 #define COURSE_SOUND_ID_MARIO_SECOND_PART 0x19f
 
-// One sound part of a course sound object: its start parameters, source position and camera range state.
+// One sound part of a course sound object: its start parameters, source position, handle slot, whether the camera is on
+// the other side, and the in-range update count.
 typedef struct CourseSoundObjectPart {
     /* 00 */ SoundStartParams mStartParams;
     /* 10 */ Vec3 mSourcePos;

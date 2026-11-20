@@ -29,7 +29,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "fixed_vector_math.h"
 #include "ITCM/kart_ground_contact.h"
@@ -177,7 +177,7 @@ void InitKartResources(Kart *kart) {
     }
     if (kart->mSecondCollisionSlot == -1) {
         kart->mSecondCollisionSlot = CreateCollisionSlot(
-            &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+            &kart->mSecondCollisionCenter, SHIFT_LEFT_FROM_FIXED12(kart->mPhysicalParam->mRadius, 15), 0x800, kart);
     }
     kart->mMotionFlags |= KART_MOTION_ON_GROUND;
     kart->mCollisionStepFrames = KART_COLLISION_STEP_FRAMES_FULL;

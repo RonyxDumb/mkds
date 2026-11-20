@@ -3,7 +3,8 @@
 #include "types.h"
 #include "03/System/tasks.h"
 
-// Stack object of CreateEditKeyboard.
+// The text rectangle, the entry count it returns and the one-character text that CreateEditAddrKeyboard builds for each
+// key of each key row.
 typedef struct EditAddrKeyboardTextArgs {
     /* 00 */ u16 mTextRect[4];
     /* 08 */ u32 mEntryCount;

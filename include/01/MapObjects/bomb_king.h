@@ -9,7 +9,7 @@ typedef struct ParticleEmitter ParticleEmitter;
 typedef struct ItemObject ItemObject;
 
 #include "01/MapObjects/kuriking_state_shared.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
 MapObjectList *CreateBombKingUpdateList(void);
 MapObjectList *CreateBombKingDrawList(void);

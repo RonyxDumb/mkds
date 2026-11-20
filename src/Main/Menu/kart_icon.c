@@ -13,7 +13,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "vram_transfer_queue.h"
 #include "Main/Menu/select_cup_name_files.h"
 #include "Main/System/result_archive_path.h"
@@ -88,10 +88,6 @@ void LoadCommonKartIconData(void) {
     } while (paletteCount < 3);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void CreateKartIcon(void *heap) {
     int nclrIndex;
 
@@ -103,10 +99,6 @@ void CreateKartIcon(void *heap) {
     }
     gKartIcon->mBncl = FindSceneFile(gKartIconBnclName);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void CreateCommonKartIcon(void *heap) {
     s32 nclrIndex;
@@ -120,15 +112,9 @@ void CreateCommonKartIcon(void *heap) {
     gKartIcon->mBncl = FindSceneFile(gCommonKartIconBnclName);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearKartIconPointer(void) {
     gKartIcon = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueKartIcon(s32 iconIndex, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl,
                    u32 destinationBnclIndex, u16 paletteIndex, s32 queueSelector) {

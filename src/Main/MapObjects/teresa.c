@@ -33,7 +33,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -88,7 +88,7 @@ void DrawTeresa(void *mapObjectList, Teresa *teresa) {
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&teresa->mMapObject.mPos), 0xc);
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         gxScale[0] = 0x2000;
         gxScale[1] = 0x2000;
         gxScale[2] = 0x2000;
@@ -166,10 +166,10 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
 
     switch (teresa->mState) {
         case 1:
-            timer = teresa->mFadeInDelayFrames;
-            teresa->mFadeInDelayFrames = timer - 1;
+            timer = teresa->mFadeInTimer;
+            teresa->mFadeInTimer = timer - 1;
             if (timer <= 0) {
-                teresa->mFadeInDelayFrames = 0;
+                teresa->mFadeInTimer = 0;
                 AdvanceTeresaAlpha(teresa);
                 if (teresa->mAlphaFixed12 >= TERESA_ALPHA_FIXED12_MIN) {
                     teresa->mState = 0;
@@ -177,10 +177,10 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
             }
             break;
         case 0:
-            timer = teresa->mFadeOutDelayFrames;
-            teresa->mFadeOutDelayFrames = timer - 1;
+            timer = teresa->mFadeOutTimer;
+            teresa->mFadeOutTimer = timer - 1;
             if (timer <= 0) {
-                teresa->mFadeOutDelayFrames = 0;
+                teresa->mFadeOutTimer = 0;
                 teresa->mAlphaFixed12 = teresa->mAlphaFixed12 - 0x1000;
                 if (teresa->mAlphaFixed12 > 0) {
                     teresa->mModelAlpha = FROM_FIXED12(teresa->mAlphaFixed12);
@@ -194,7 +194,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
             }
             break;
     }
-    if (teresa->mFadeOutDelayFrames <= 0) {
+    if (teresa->mFadeOutTimer <= 0) {
         return;
     }
     teresa->mAngleWobble.mAngle = teresa->mAngleWobble.mAngle + teresa->mAngleWobble.mAnglePerFrame;
@@ -213,7 +213,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
     AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mAnglePerFrameDelta);
     yWobbleValue = teresa->mYWobble.mValue;
     radius = teresa->mRadius;
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         teresa->mMapObject.mPos.x = teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(radius, FX_CosIdx(angleWobbleValue));
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mMapObject.mPos.z = teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(radius, FX_SinIdx(angleWobbleValue));
@@ -247,17 +247,17 @@ void ClearTeresaTimers(void) {
     for (objectIndex = 0;
          objectIndex < mapObjectList->mMapObjectCount && (teresa = mapObjectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
-        teresa->mFadeInDelayFrames = 0;
-        teresa->mFadeOutDelayFrames = 0;
+        teresa->mFadeInTimer = 0;
+        teresa->mFadeOutTimer = 0;
     }
 }
 
 static inline u32 TeresaNextRandomBelow(RandomState64 *randomState64, u32 limit) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE(randomState64);
     if (limit == 0) {
-        return randomState64->mValue >> 32;
+        return RANDOM_HIGH32(randomState64);
     }
-    return ((randomState64->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState64, limit);
 }
 
 static inline void SetTeresaWobble(TeresaWobble *teresaWobble, u16 angle, s32 mid, s32 amplitude, s32 amplitudePerFrame,
@@ -288,7 +288,7 @@ void StartTeresa(Vec3 *startPos) {
     }
     teresa->mModelAlpha = 0;
     teresa->mStartPos = *startPos;
-    if (GetCurrentCameraKind() == 0) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHASE) {
         chaseCamera = GetChaseCamera();
         angleSpeedRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x30);
         amplitudeRandom = (u16) (TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0) >> 20);
@@ -316,13 +316,13 @@ void StartTeresa(Vec3 *startPos) {
     teresa->mAlphaFixed12PerFrame = alphaFixed12PerFrame;
     teresa->mAlphaFixed12Min = TERESA_ALPHA_FIXED12_MIN;
     teresa->mAlphaFixed12Max = alphaFixed12Max;
-    if (GetCurrentCameraKind() == 2) {
-        teresa->mFadeInDelayFrames = 0;
-        teresa->mFadeOutDelayFrames = TERESA_NEVER_FRAMES;
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
+        teresa->mFadeInTimer = 0;
+        teresa->mFadeOutTimer = TERESA_FADE_OUT_TIMER_MAX;
         teresa->mState = 0;
     } else {
-        teresa->mFadeInDelayFrames = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);
-        teresa->mFadeOutDelayFrames = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
+        teresa->mFadeInTimer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);
+        teresa->mFadeOutTimer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
         teresa->mState = 1;
     }
     gUnparkedTeresaCount++;

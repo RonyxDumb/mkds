@@ -1,12 +1,15 @@
 #include "Main/Graphics/message_index.h"
+#include "Main/Kart/karts.h"
 #include "Main/Menu/menu_label_cell_rows.h"
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Race/race_setup.h"
 #include "Main/Save/buddy_record_time.h"
 
-const s32 gCharacterKartIndexTableBattle[13] = {0, 3, 6, 9, 0xc, 0xf, 0x12, 0x15, 0x18, 0x1b, 0x1e, 0x21, 0x24};
-const s32 gCharacterKartIndexTable[13] = {2, 5, 7, 0xb, 0xe, 0x10, 0x13, 0x16, 0x1a, 0x1d, 0x1f, 0x22, 0x24};
+const s32 gCharacterKartIndexTableBattle[13] = {0,    3,    6,    9,    0xc,  0xf,  0x12,
+                                                0x15, 0x18, 0x1b, 0x1e, 0x21, KART_INDEX_HEYHO};
+const s32 gCharacterKartIndexTable[13] = {2,    5,    7,    0xb,  0xe,  0x10, 0x13,
+                                          0x16, 0x1a, 0x1d, 0x1f, 0x22, KART_INDEX_HEYHO};
 const u32 gCharacterSeqPairNoTable[13] = {4, 0, 1, 2, 5, 6, 7, 3, 0xa, 8, 9, 0xb, 0xc};
 const u32 gKartMessageIndexTable[36] = {6,    7,    8,    0x15, 0x16, 0x17, 0x12, 0x13, 0x14, 0x1b, 0x1c, 0x1d,
                                         0xc,  0xd,  0xe,  0x18, 0x19, 0x1a, 0xf,  0x10, 0x11, 9,    0xa,  0xb,
@@ -23,9 +26,7 @@ const s32 gCourseMessageIndexTable[48] = {-1,   0x4c, -1,   -1,   -1,   -1,   -1
 u32 GetCharacterSeqPairNo(u32 characterIndex) {
     return gCharacterSeqPairNoTable[characterIndex];
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 GetCharacterKartIndexByMode(s32 characterIndex) {
     s32 kartIndex = -1;
     switch (GetRaceSetupCopy()->mMode) {
@@ -45,7 +46,7 @@ s32 GetCharacterKartIndexByMode(s32 characterIndex) {
 s32 FindKartTableIndex(u32 kartIndex) {
     s32 tableIndex = 0;
     s32 foundIndex = -1;
-    if (kartIndex != 0x24) {
+    if (kartIndex != KART_INDEX_HEYHO) {
         for (; tableIndex < 0x24; tableIndex++) {
             if (kartIndex == gKartIndexTable[tableIndex]) {
                 foundIndex = tableIndex;
@@ -55,15 +56,10 @@ s32 FindKartTableIndex(u32 kartIndex) {
     }
     return foundIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKartIndexAtTableIndex(u32 tableIndex) {
     return gKartIndexTable[tableIndex];
 }
-#pragma thumb off
-
-#pragma thumb on
 
 int CountKartsWithinAppearLimit(KartAppear *appear, u32 characterIndex) {
     int count;
@@ -83,9 +79,6 @@ int CountKartsWithinAppearLimit(KartAppear *appear, u32 characterIndex) {
     return count;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 s32 GetKartPositionWithinAppearLimit(KartAppear *appear, u32 characterIndex, s32 kartIndex) {
     s32 position = 1;
     s32 tableIndex;
@@ -108,21 +101,14 @@ s32 GetKartPositionWithinAppearLimit(KartAppear *appear, u32 characterIndex, s32
     } while (tableIndex != startIndex);
     return position;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKartMessageIndex(u32 kartIndex) {
     return gKartMessageIndexTable[kartIndex];
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetCourseMessageIndex(u32 courseId) {
     return gCourseMessageIndexTable[courseId];
 }
-#pragma thumb off
-
-#pragma thumb on
 
 int GetGhostCourseMessageIndex(int courseId) {
     int messageIndex;

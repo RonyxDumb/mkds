@@ -18,40 +18,40 @@
 #include "00/Lib/GameSpy/byte_buffer.h"
 #include "quick_sort.h"
 
-u32 gti2ConnectionHash(const Gt2ConnectionEntry *object, u32 modulus) {
-    return (object->mValue->mAddress * object->mValue->mPort) % modulus;
+u32 gti2ConnectionHash(const Gt2ConnectionEntry *entry, u32 modulus) {
+    return (entry->mValue->mAddress * entry->mValue->mPort) % modulus;
 }
 
-s32 gti2ConnectionCompare(const Gt2Connection *const *left, const Gt2Connection *const *right) {
-    const Gt2Connection *leftConnection = *left;
-    const Gt2Connection *rightConnection = *right;
+s32 gti2ConnectionCompare(const GTI2Connection *const *left, const GTI2Connection *const *right) {
+    const GTI2Connection *leftConnection = *left;
+    const GTI2Connection *rightConnection = *right;
     if (leftConnection->mAddress != rightConnection->mAddress) {
         return leftConnection->mAddress - rightConnection->mAddress;
     }
     return (s16) (leftConnection->mPort - rightConnection->mPort);
 }
 
-void gti2ConnectionFree(Gt2Connection **element) {
+void gti2ConnectionFree(GTI2Connection **element) {
     gti2ConnectionCleanup(*element);
 }
 
-Gt2Connection *gti2SocketFindConnection(Gt2Socket *socket, u32 address, u32 port) {
-    Gt2Connection key;
-    Gt2Connection *keyPointer;
+GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, u32 address, u32 port) {
+    GTI2Connection key;
+    GTI2Connection *keyPointer;
     void *found;
     key.mAddress = address;
     key.mPort = port;
     keyPointer = &key;
-    found = HashtableFind(socket->mConnections, &keyPointer);
+    found = TableLookup(socket->mConnections, &keyPointer);
     if (found != NULL) {
-        return *(Gt2Connection **) found;
+        return *(GTI2Connection **) found;
     }
     return NULL;
 }
 
-u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
-                     void (*errorCallback)(Gt2Socket *)) {
-    Gt2Socket *newSocket;
+u32 gti2CreateSocket(GTI2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
+                     void (*errorCallback)(GTI2Socket *)) {
+    GTI2Socket *newSocket;
     u16 netPort;
     SOCSockAddrIn socketAddress;
     u32 address;
@@ -77,21 +77,21 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     newSocket->mSendBufferSize = outgoingBufferSize;
     newSocket->mSocketErrorCallback = errorCallback;
     newSocket->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & gti2ConnectionHash,
-                                              (ElementCompareFunc *) &gti2ConnectionCompare, NULL);
+                                              (ArrayCompareFn *) &gti2ConnectionCompare, NULL);
     if (newSocket->mConnections == NULL) {
         DWCi_GsFree(newSocket);
         return 1;
     }
-    newSocket->mConnectionsToFree = DarrayCreate(4, 4, (void (*)(void *)) & gti2ConnectionFree);
+    newSocket->mConnectionsToFree = ArrayNew(4, 4, (void (*)(void *)) & gti2ConnectionFree);
     if (newSocket->mConnectionsToFree == NULL) {
-        HashtableDelete(newSocket->mConnections);
+        TableFree(newSocket->mConnections);
         DWCi_GsFree(newSocket);
         return 1;
     }
     newSocket->mDescriptor = OpenNetSocket(2, 2, 0);
     if (newSocket->mDescriptor == -1) {
-        HashtableDelete(newSocket->mConnections);
-        DarrayDelete(newSocket->mConnectionsToFree);
+        TableFree(newSocket->mConnections);
+        ArrayFree(newSocket->mConnectionsToFree);
         DWCi_GsFree(newSocket);
         return 3;
     }
@@ -103,8 +103,8 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     socketAddress.mPort = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
     if (bind(newSocket->mDescriptor, &socketAddress, 8) == -1) {
         closesocket(newSocket->mDescriptor);
-        HashtableDelete(newSocket->mConnections);
-        DarrayDelete(newSocket->mConnectionsToFree);
+        TableFree(newSocket->mConnections);
+        ArrayFree(newSocket->mConnectionsToFree);
         DWCi_GsFree(newSocket);
         return 3;
     }
@@ -116,33 +116,33 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     return 0;
 }
 
-void DeleteSocket(Gt2Socket *gt2Socket) {
+void DeleteSocket(GTI2Socket *gt2Socket) {
     if (gt2Socket->mRunningCallbackCount != 0) {
         gt2Socket->mDeletePending = TRUE;
         return;
     }
     closesocket(gt2Socket->mDescriptor);
-    HashtableDelete(gt2Socket->mConnections);
-    DarrayDelete(gt2Socket->mConnectionsToFree);
+    TableFree(gt2Socket->mConnections);
+    ArrayFree(gt2Socket->mConnectionsToFree);
     DWCi_GsFree(gt2Socket);
     SocketShutDown();
 }
 
-void SetIncomingConnectionCallback(Gt2Socket *gt2Socket, void *callback) {
+void SetIncomingConnectionCallback(GTI2Socket *gt2Socket, void *callback) {
     gt2Socket->mIncomingConnectionCallback = callback;
 }
 
-Gt2Connection *gti2CreateConnectionObject(void) {
+GTI2Connection *gti2CreateConnectionObject(void) {
     u32 connectionObject;
     u32 allocFunction;
     connectionObject = 160u;
     allocFunction = (u32) &DWCi_GsMalloc;
     connectionObject = (u32) DWCi_GsMalloc(connectionObject);
-    return (Gt2Connection *) connectionObject;
+    return (GTI2Connection *) connectionObject;
 }
 
-u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 address, u32 port) {
-    Gt2Connection *newConnection = NULL;
+u32 gti2NewSocketConnection(GTI2Socket *socket, GTI2Connection **connectionOut, u32 address, u32 port) {
+    GTI2Connection *newConnection = NULL;
     if (gti2SocketFindConnection(socket, address, port) != NULL) {
         return 5;
     }
@@ -152,21 +152,21 @@ u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u3
         newConnection->mAddress = address;
         newConnection->mPort = port;
         newConnection->mSocket = socket;
-        newConnection->mCreateTime = GetElapsedMilliseconds();
+        newConnection->mCreateTime = current_time();
         newConnection->mLastSendTime = newConnection->mCreateTime;
         newConnection->mSerialNumber = 0;
         newConnection->mExpectedSerialNumber = 0;
-        if (InitBuffer(&newConnection->mIncomingBuffer, socket->mIncomingBufferSize) != 0 &&
-            InitBuffer(&newConnection->mSendBuffer, socket->mSendBufferSize) != 0) {
-            newConnection->mIncomingBufferMessages = DarrayCreate(0x10, 0x40, NULL);
+        if (gti2AllocateBuffer(&newConnection->mIncomingBuffer, socket->mIncomingBufferSize) != 0 &&
+            gti2AllocateBuffer(&newConnection->mSendBuffer, socket->mSendBufferSize) != 0) {
+            newConnection->mIncomingBufferMessages = ArrayNew(0x10, 0x40, NULL);
             if (newConnection->mIncomingBufferMessages != NULL) {
-                newConnection->mOutgoingBufferMessages = DarrayCreate(0x10, 0x40, NULL);
+                newConnection->mOutgoingBufferMessages = ArrayNew(0x10, 0x40, NULL);
                 if (newConnection->mOutgoingBufferMessages != NULL) {
-                    newConnection->mSendFilters = DarrayCreate(4, 2, NULL);
+                    newConnection->mSendFilters = ArrayNew(4, 2, NULL);
                     if (newConnection->mSendFilters != NULL) {
-                        newConnection->mReceiveFilters = DarrayCreate(4, 2, NULL);
+                        newConnection->mReceiveFilters = ArrayNew(4, 2, NULL);
                         if (newConnection->mReceiveFilters != NULL) {
-                            HashtableSet(socket->mConnections, &newConnection);
+                            TableEnter(socket->mConnections, &newConnection);
                             *connectionOut = gti2SocketFindConnection(socket, address, port);
                             if (*connectionOut != NULL) {
                                 return 0;
@@ -181,42 +181,42 @@ u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u3
         DWCi_GsFree(newConnection->mIncomingBuffer.mData);
         DWCi_GsFree(newConnection->mSendBuffer.mData);
         if (newConnection->mIncomingBufferMessages != NULL) {
-            DarrayDelete(newConnection->mIncomingBufferMessages);
+            ArrayFree(newConnection->mIncomingBufferMessages);
         }
         if (newConnection->mOutgoingBufferMessages != NULL) {
-            DarrayDelete(newConnection->mOutgoingBufferMessages);
+            ArrayFree(newConnection->mOutgoingBufferMessages);
         }
         if (newConnection->mSendFilters != NULL) {
-            DarrayDelete(newConnection->mSendFilters);
+            ArrayFree(newConnection->mSendFilters);
         }
         if (newConnection->mReceiveFilters != NULL) {
-            DarrayDelete(newConnection->mReceiveFilters);
+            ArrayFree(newConnection->mReceiveFilters);
         }
         DWCi_GsFree(newConnection);
     }
     return 1;
 }
 
-void gti2FreeSocketConnection(Gt2Connection *connection) {
+void gti2FreeSocketConnection(GTI2Connection *connection) {
     s32 closedCount;
     s32 index;
     if (connection->mFreeAtAcceptReject == FALSE && connection->mCallbackLevel == 0) {
-        if (connection->mState == GT2_CONNECTION_CLOSED) {
-            closedCount = DarrayGetCount(connection->mSocket->mConnectionsToFree);
+        if (connection->mState == SOCKET_CONNECTION_CLOSED) {
+            closedCount = ArrayLength(connection->mSocket->mConnectionsToFree);
             for (index = 0; index < closedCount; index++) {
                 if (connection ==
-                    *(Gt2Connection **) DarrayGetElement(connection->mSocket->mConnectionsToFree, index)) {
-                    DarrayRemove(connection->mSocket->mConnectionsToFree, index);
+                    *(GTI2Connection **) ArrayNth(connection->mSocket->mConnectionsToFree, index)) {
+                    ArrayDeleteAt(connection->mSocket->mConnectionsToFree, index);
                     return;
                 }
             }
         } else {
-            HashtableRemove(connection->mSocket->mConnections, &connection);
+            TableRemove(connection->mSocket->mConnections, &connection);
         }
     }
 }
 
-u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 length) {
+u32 gti2SocketSend(GTI2Socket *socket, u32 address, int port, u32 message, u32 length) {
     s32 lastError;
     gti2MessageCheck((const char **) &message, (s32 *) &length);
     if (CanSendOnSocket(socket->mDescriptor) == 0) {
@@ -240,7 +240,7 @@ u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 le
                 gti2SocketError(socket);
                 return 0;
             }
-        } else if (socket->mSentCallback != NULL) {
+        } else if (socket->mSendDumpCallback != NULL) {
             if (gti2DumpCallback(socket, gti2SocketFindConnection(socket, address, port), address, port, 0, message,
                                  length, 1) == 0) {
                 return 0;
@@ -250,38 +250,38 @@ u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 le
     return 1;
 }
 
-u32 gti2SocketConnectionsThinkMap(Gt2Connection **element, u32 *clientData) {
-    Gt2Connection *connection = *element;
+u32 gti2SocketConnectionsThinkMap(GTI2Connection **element, u32 *clientData) {
+    GTI2Connection *connection = *element;
     u32 now = *clientData;
-    if (connection->mState != GT2_CONNECTION_CLOSED && gti2ConnectionThink(connection, now) == 0) {
+    if (connection->mState != SOCKET_CONNECTION_CLOSED && gti2ConnectionThink(connection, now) == 0) {
         return 0;
     }
-    if (connection->mState == GT2_CONNECTION_CLOSED && connection->mFreeAtAcceptReject == FALSE &&
+    if (connection->mState == SOCKET_CONNECTION_CLOSED && connection->mFreeAtAcceptReject == FALSE &&
         connection->mCallbackLevel == 0) {
         gti2FreeSocketConnection(connection);
     }
     return 1;
 }
 
-u32 gti2SocketConnectionsThink(Gt2Socket *socket) {
+u32 gti2SocketConnectionsThink(GTI2Socket *socket) {
     void *stoppedElement;
     u32 currentTime[2];
-    currentTime[0] = GetElapsedMilliseconds();
-    stoppedElement = HashtableFindByFn(socket->mConnections, (s32) &gti2SocketConnectionsThinkMap, currentTime);
+    currentTime[0] = current_time();
+    stoppedElement = TableMapSafe2(socket->mConnections, (s32) &gti2SocketConnectionsThinkMap, currentTime);
     if (stoppedElement == NULL) {
         return 1;
     }
     return 0;
 }
 
-void gti2FreeClosedConnections(Gt2Socket *socket) {
+void gti2FreeClosedConnections(GTI2Socket *socket) {
     s32 index;
-    for (index = DarrayGetCount(socket->mConnectionsToFree) - 1; index >= 0; index--) {
-        gti2FreeSocketConnection(*(Gt2Connection **) DarrayGetElement(socket->mConnectionsToFree, index));
+    for (index = ArrayLength(socket->mConnectionsToFree) - 1; index >= 0; index--) {
+        gti2FreeSocketConnection(*(GTI2Connection **) ArrayNth(socket->mConnectionsToFree, index));
     }
 }
 
-void gti2SocketError(Gt2Socket *socket) {
+void gti2SocketError(GTI2Socket *socket) {
     if (socket->mError == FALSE) {
         socket->mError = TRUE;
         gt2CloseAllConnectionsHard(socket);

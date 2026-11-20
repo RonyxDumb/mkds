@@ -9,10 +9,8 @@ typedef struct TextCanvas TextCanvas;
 #define GLYPH_PIXEL_CLEAR 0
 #define GLYPH_PIXEL_TEXT 1
 #define GLYPH_PIXEL_OUTLINE 2
-// Highest value InputSlotPair.mNoPairCount counts to (touch and mic pairs stop counting once past it).
-#define INPUT_PAIR_NO_PAIR_COUNT_LIMIT 5
-// Frames after a pair is lost during which IsPairRecentlyLost still answers yes.
-#define INPUT_PAIR_RECENTLY_LOST_FRAMES 5
+// mNoPairCount counts up while it is at most this value (so it stops one higher); only touch sampling counts it.
+#define INPUT_PAIR_NO_PAIR_COUNT_STOPS_ABOVE 5
 
 typedef void PixelSetFunc(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);
 
@@ -53,7 +51,12 @@ u16 GetRepeatBits(u32 slotIndex, u32 mask);
 u16 GetInputSlotRepeatBits(InputSlot *inputSlot, u32 mask);
 u16 GetNewBits(u32 slotIndex, u32 mask);
 u16 GetInputSlotNewBits(InputSlot *inputSlot, u32 mask);
+// Frames of the press animation that GetSelectedPressOffset runs.
+#define SELECTED_PRESS_FRAMES 10
 s16 GetSelectedPressOffset(s32 frame);
+// Values of the mode argument of InterpolateS16: straight line or cosine ease.
+#define INTERPOLATE_LINEAR 0
+#define INTERPOLATE_COSINE 1
 s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
 s32 InterpolateGetFixed12Whole(s32 value);
 s32 InterpolateMulFixed12NoRound(s32 value, s32 factor);

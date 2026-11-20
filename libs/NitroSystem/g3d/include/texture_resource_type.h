@@ -27,7 +27,7 @@ typedef struct NNSG3dResTex4x4Info {
 } NNSG3dResTex4x4Info;
 
 // Bit of NNSG3dResTex4x4Info.mFlag: the palette is the four-color kind; it is passed on when the palette is allocated.
-#define G3D_TEX_4X4_FLAG_PLTT_4COLOR 0x8000
+#define TEX4X4_PALETTE_FOUR_COLOR 0x8000
 
 typedef struct NNSG3dResPlttInfo {
     /* 00 */ NNSG3dPlttKey mVramKey;
@@ -48,7 +48,6 @@ typedef struct NNSG3dResDictPlttData {
     /* 02 */ u16 mFlag;
 } NNSG3dResDictPlttData;
 
-// Flag of a texture palette entry: the palette is the small kind (the is4pltt argument of the palette allocator).
 #define TEXTURE_PALETTE_FEW_COLORS 0x8000
 
 struct NNSG3dResTex {

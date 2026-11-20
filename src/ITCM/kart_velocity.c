@@ -14,8 +14,8 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Kart/kart_effect_param_tables.h"
@@ -86,7 +86,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         AdvanceKartStarEffects(kart->mIndex);
         if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
             kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
-            SetKartCharacterAnimation(kart, 2, 1);
+            SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         }
         itemEffectState->mStarFrames++;
         if (itemEffectState->mStarFrames > KART_STAR_MAX_FRAMES) {

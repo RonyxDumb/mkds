@@ -18,13 +18,13 @@ u32 DWCi_GetFriendBuddyStatus(void *friendData, GpBuddyStatus *status) {
         return 0;
     }
     profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
-    if (profileId > 0 && GpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex) != 0) {
+    if (profileId > 0 && gpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex) != 0) {
         return 0;
     }
     if (profileId <= 0 || buddyIndex == -1) {
         return 0;
     }
-    if (GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, status) != 0) {
+    if (gpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, status) != 0) {
         return 0;
     }
     return 1;
@@ -39,19 +39,19 @@ int ReportBuddySyncGpResult(int result) {
         return 0;
     }
     switch (result) {
-        case GP_MEMORY_ERROR:
+        case PROFILE_RESULT_OUT_OF_MEMORY:
             errorKind = 11;
             errorCode = -1;
             break;
-        case GP_PARAMETER_ERROR:
+        case PROFILE_RESULT_BAD_PARAMETER:
             errorKind = 11;
             errorCode = -2;
             break;
-        case GP_NETWORK_ERROR:
+        case PROFILE_RESULT_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case GP_SERVER_ERROR:
+        case PROFILE_RESULT_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -60,40 +60,40 @@ int ReportBuddySyncGpResult(int result) {
     return result;
 }
 
-// Maps a GstatsConnect result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls DWCi_StopFriendProcess;
-// returns the result.
+// Maps an InitStatsConnection result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls
+// DWCi_StopFriendProcess; returns the result, 0 passes through.
 int DWCi_HandlePersError(int error) {
     s32 errorKind;
-    s32 detail;
-    if (error == 0) {
+    s32 errorCode;
+    if (error == STATS_CONNECT_OK) {
         return 0;
     }
     switch (error) {
-        case GE_NOSOCKET:
+        case STATS_CONNECT_NOT_STARTED:
             errorKind = 6;
-            detail = -50;
+            errorCode = -50;
             break;
-        case GE_NODNS:
+        case STATS_CONNECT_HOST_LOOKUP:
             errorKind = 6;
-            detail = -30;
+            errorCode = -30;
             break;
-        case GE_NOCONNECT:
+        case STATS_CONNECT_CONNECT_FAILED:
             errorKind = 6;
-            detail = -20;
+            errorCode = -20;
             break;
-        case GE_DATAERROR:
+        case STATS_CONNECT_DATA_ERROR:
             errorKind = 6;
-            detail = -40;
+            errorCode = -40;
             break;
-        case GE_TIMEDOUT:
+        case STATS_CONNECT_TIMED_OUT:
             errorKind = 6;
-            detail = -70;
+            errorCode = -70;
             break;
         default:
             errorKind = 11;
-            detail = -9;
+            errorCode = -9;
             break;
     }
-    DWCi_StopFriendProcess(errorKind, detail - 0x11940);
+    DWCi_StopFriendProcess(errorKind, errorCode - 0x11940);
     return error;
 }

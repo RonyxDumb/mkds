@@ -118,17 +118,17 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
 
     finished = FALSE;
     if (!MPStatesIsConnectionActive()) {
-        return 1;
+        return MP_STATE_ADVANCE_FINISHED;
     }
     ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == CONNECTION_MODE_CHILD
                    ? gConnectionWork->mOwnIndex
                    : 0;
-    if (ownIndex == 0xffff && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
+    if (ownIndex == CONNECTION_OWN_INDEX_NONE && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             SetRequestErrorCode(CONNECTION_ERROR_DISCONNECTED);
-            return 3;
+            return MP_STATE_ADVANCE_DISCONNECTED;
         }
-        return 2;
+        return MP_STATE_ADVANCE_OWN_INDEX_LOST;
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!MPStatesIsConnectionActiveNotEndingWithError()) {
@@ -158,11 +158,11 @@ void UpdateMPFillOwnRecord(void *stateObject) {
         return;
     }
     switch (gConnectionWork->mStep) {
-        case CONNECTION_STEP_STARTING_EXCHANGE:
-        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
+        case CONNECTION_STEP_STARTING_MP:
+        case CONNECTION_STEP_SETTING_GAME_INFO:
             SetEntry(0);
             return;
-        case CONNECTION_STEP_REGISTERING_ENTRY:
+        case CONNECTION_STEP_SETTING_ENTRY:
             MPStatesRequestMPState(MP_STATE_START_EXCHANGE);
             break;
     }

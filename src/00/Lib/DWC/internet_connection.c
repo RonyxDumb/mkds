@@ -29,7 +29,7 @@ void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslT
         inetCntl->mState = INET_STATUS_INITIALIZED;
         inetCntl->mOnline = 0;
         gInetControl = inetCntl;
-        DWC_SetAuthServer(0);
+        DWC_SetAuthServer(AUTH_SERVER_TEST);
         gSslLowThreadPriority = sslThreadPriority;
     }
 }
@@ -40,13 +40,13 @@ void DWC_InitInet(void *inetCntl) {
 
 void DWC_SetAuthServer(s32 type) {
     switch (type) {
-        case DWC_CONNECTINET_AUTH_TEST:
+        case AUTH_SERVER_TEST:
             DWC_Auth_SetCustomNas("https://nas.test.nintendowifi.net/ac");
             break;
-        case DWC_CONNECTINET_AUTH_DEVELOP:
+        case AUTH_SERVER_DEV:
             DWC_Auth_SetCustomNas("https://nas.dev.nintendowifi.net/ac");
             break;
-        case DWC_CONNECTINET_AUTH_RELEASE:
+        case AUTH_SERVER_NO_TEST_OR_DEV_LABEL:
             DWC_Auth_SetCustomNas("https://nas.nintendowifi.net/ac");
             break;
     }

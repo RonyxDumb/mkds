@@ -20,17 +20,17 @@ typedef struct HashContext {
     /* 18 */ u8 mBuffer[0x40];
 } HashContext;
 
-// Value of the third item of the first reply packet.
-typedef struct ExchangeIndexBytes {
+// Value of item 3 of the first reply packet: seven bytes.
+typedef struct ExchangeItem3Bytes {
     /* 0 */ u8 mBytes[7];
-} ExchangeIndexBytes;
+} ExchangeItem3Bytes;
 
 // The eight bytes the peer sends for the second key.
 typedef struct SecondKeyPart {
     /* 0 */ u8 mBytes[8];
 } SecondKeyPart;
 
-// The five, thirteen and sixteen byte WEP keys of an exchanged entry.
+// A five byte WEP key.
 typedef struct WepKey5 {
     /* 0 */ u8 mBytes[5];
 } WepKey5;
@@ -51,7 +51,8 @@ typedef struct WepKey16 {
 #include "thread_scheduler.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 
-// UDP port the exchange packets are sent to and received on.
+// UDP port field value the exchange packets are sent to and received on, in the byte order SOC_Bind and SOC_SendTo
+// swap.
 #define EXCHANGE_SOCKET_PORT 0x1e6
 
 // Values of gExchangeState, the steps of RunExchange.
@@ -61,18 +62,15 @@ typedef struct WepKey16 {
 #define EXCHANGE_STEP_WAIT_FIRST_PACKET 4
 #define EXCHANGE_STEP_SEND_FIRST_REPLY 5
 #define EXCHANGE_STEP_WAIT_SECOND_KEY 6
-#define EXCHANGE_STEP_SEND_KEY_HASH 7
+#define EXCHANGE_STEP_SEND_HASHED_KEY_PART 7
 #define EXCHANGE_STEP_WAIT_RESULT 8
-#define EXCHANGE_STEP_SEND_RESULT_ACK 9
-#define EXCHANGE_STEP_WAIT_ACK_RESEND 10
+#define EXCHANGE_STEP_SEND_RESULT_REPLY 9
+#define EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY 10
 
-// Bit of RawEntry.mFlags that is set for an entry with encryption.
-#define RAW_ENTRY_FLAG_ENCRYPTED 0x10
+// First byte of a one-character SSID that is never matched (a zero byte is skipped too).
+#define EXCHANGE_SSID_SPACE_CHAR 0x20
 
-// First byte of a one-character SSID that stands for no name.
-#define EXCHANGE_SSID_BLANK_CHAR 0x20
-
-// Eight bytes passed by address.
+// A socket address: its length, family, port and address.
 typedef struct SocketAddress {
     /* 0 */ u8 mLength;
     /* 1 */ u8 mFamily;
@@ -80,16 +78,16 @@ typedef struct SocketAddress {
     /* 4 */ u32 mAddress;
 } SocketAddress;
 
-// A short record of one found access point: SSID and its length, address and whether it is encrypted.
+// A short record of one found access point: SSID and its length, address and whether bit 4 of its flags is set.
 typedef struct EntrySummary {
     /* 00 */ u32 mSsidLength;
     /* 04 */ char mSsid[0x20];
     /* 24 */ u8 mUnk_24[4];
     /* 28 */ MacAddress mAddress;
-    /* 2e */ u16 mEncrypted;
+    /* 2e */ u16 mBit4Set;
 } EntrySummary;
 
-// A list of entry summaries: the count and the summaries.
+// A list of short records of found access points: the count and the records.
 typedef struct EntrySummaryList {
     /* 0 */ u32 mCount;
     /* 4 */ EntrySummary mEntries[1];
@@ -141,8 +139,8 @@ u8 *ReadExchangePacketAndCheckSum(const u8 *packet, u32 *kind, s32 *length);
 s32 SendBytesToAllOnesAddressWrapper(s32 descriptor, const void *unused, const void *data, u32 size);
 s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size);
 s32 SendBytesToAddress(s32 descriptor, const SocketAddress *address, const u8 *unused, const void *data, u32 size);
-s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void);
-s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex);
+s32 SearchEntriesAndStoreEntryWithBit4NewlyCleared(void);
+s32 FindEntryWithBit4NewlyCleared(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex);
 void DisconnectExchangeAndStopSockets(void);
 s32 ConnectExchangeAndStartSockets(void);
 u32 ReleaseExchangeWiFi(void);
@@ -173,7 +171,7 @@ extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
 extern s32 gStartEntryCount;
 extern char gSixAsterisksString[7];
-extern ExchangeIndexBytes gFirstReplyIndexBytes;
+extern ExchangeItem3Bytes gFirstReplyItem3Bytes;
 extern u8 gHashPadding[64];
 extern u8 gPacketBuffer[0x800];
 extern u8 gBodyBuffer[0x800];

@@ -15,14 +15,16 @@ enum {
     FORMAT_WIDE_ARG_WIDE
 };
 
-// FormatWideSpec.mSignKind: no sign flag, the + flag (always a sign), the space flag (a space for positive values).
+// FormatWideSpec.mSignKind: no sign flag, the + flag (a + for a value that is not negative), the space flag (a space
+// for it; ignored when + is given). o, u, x and X drop it.
 enum {
     FORMAT_WIDE_SIGN_NONE,
     FORMAT_WIDE_SIGN_PLUS,
     FORMAT_WIDE_SIGN_SPACE,
 };
 
-// Most characters a field width, precision or converted number may have.
+// Most characters a field width may have; an integer conversion returns 0 when its precision plus digits would go
+// beyond it.
 #define FORMAT_WIDE_MAX_LENGTH 0x1fd
 
 // FormatWideSpec.mPadKind: how the converted text is padded to mMinLength.
@@ -39,7 +41,8 @@ enum {
 #define FORMAT_WIDE_FLOAT_DEFAULT_PRECISION 6
 #define FORMAT_WIDE_POINTER_DIGITS 8
 
-// A parsed wide format conversion: padding, sign and dot flags, argument kind, spec character, width and precision.
+// A parsed wide format conversion: mPadKind, mSignKind, mHasDot and mHash flags, the mArgKind length modifier,
+// mSpecChar, mMinLength and mPrecision.
 typedef struct FormatWideSpec {
     /* 00 */ u8 mPadKind;
     /* 01 */ u8 mSignKind;

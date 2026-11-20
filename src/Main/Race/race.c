@@ -72,7 +72,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
@@ -91,7 +91,7 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Net/wifi_session.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
@@ -138,8 +138,8 @@ u32 IsRaceAwardOrStaffRoll(void) {
     return (gRace->mIsAwardOrStaffRoll);
 }
 
-// Builds the race world and gRace. Not part of it: the screen and 3D engine set-up (Init3dEngine, called before), the
-// net and the HUD, which are in the scene slot InitRaceScene.
+// Builds the race world and gRace: karts, course, cameras, items, effects, the WiFi race sync, toon table and fog. The
+// screen and 3D engine set-up (Init3dEngine) and the HUD are in InitRaceScene, which calls this.
 void InitRace(void) {
     void *heap;
     u16 texBankMask;
@@ -216,7 +216,7 @@ void InitRace(void) {
     InitKartEffectTables(heap);
     InitModelEffects(heap);
     InitPosStrips(heap);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     *HW_BG_PLTT = 0xff00;
     reg_G3X_DISP3DCNT =
         reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_THS_MASK);
@@ -256,7 +256,7 @@ void InitRaceFields(void) {
     gRace->mLightVectorX = lightVector.x;
     gRace->mLightVectorY = lightVector.y;
     gRace->mLightVectorZ = lightVector.z;
-    gRace->mUseChainCameras = (gRaceSetup->mRaceKind - 3) <= 2 ? 1 : 0;
+    gRace->mUseChainCameras = (gRaceSetup->mRaceKind - RACE_KIND_START_GP) <= 2 ? 1 : 0;
     gRace->mUseFirstChainCamera = gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE ? 1 : 0;
     gRace->mIsAwardOrStaffRoll =
         (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) != 0 ? 1 : 0;
@@ -286,7 +286,7 @@ void Init3dEngine(void) {
     NNS_G3dGlbLightVector(1, 0x93d, 0x93d, 0x93d);
     NNS_G3dGlbLightVector(2, 0, -0x1000, 0);
     NNS_G3dGlbLightVector(3, 0, 0xfff, 0);
-    NNS_G3dGlbLightColor(0, 0x7fff);
+    NNS_G3dGlbLightColor(0, COLOR15_WHITE);
     NNS_G3dGlbLightColor(1, 0x6318);
     NNS_G3dGlbLightColor(2, 31);
     NNS_G3dGlbLightColor(3, 0x3ff);
@@ -298,8 +298,9 @@ void Init3dEngine(void) {
 }
 
 // Advances the race one frame. Skipped while IsDataSharingIncomplete or IsInputOpenDuringRace refuse (the draw is not),
-// and in kind 6 for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the
-// scene slot UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
+// and in RACE_KIND_STAFF_ROLL for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race
+// state are in the scene slot UpdateRaceScene, which calls this; its fade-out loop also runs it with sceneNumbers ==
+// NULL.
 void UpdateRace(void) {
     void *viewMatrix;
 
@@ -410,8 +411,9 @@ void UpdateRace(void) {
     }
 }
 
-// Draws the 3D scene and writes the fog registers when the fade state changes; advances no game value. Has its own gate
-// in the scene slot; the HUD draw is in the scene slot too.
+// Draws the 3D scene: sets the fog every frame while the fade fog steps, or once when mFadeFog changed, then draws the
+// world, effects, strips, stem sets, name tags (not with chain cameras) and ortho quads, and counts mDrawFrames.
+// UpdateRaceScene gates it and draws the HUD.
 void DrawRace(void) {
     if (gFadeFogStepping != 0) {
         G3X_SetFog(1, 0, gCourseFogSlope, gFadeFogOffset);
@@ -461,7 +463,7 @@ void DrawRaceWorld(void) {
     ApplyCameraLookAt(gCurrentCamera);
     currentCamera = gCurrentCamera;
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
-    NNS_G3dGlbLightColor(0, 0x7fff);
+    NNS_G3dGlbLightColor(0, COLOR15_WHITE);
     cameraUp.x = currentCamera->mViewMatrix.mRows[0].y;
     cameraUp.y = currentCamera->mViewMatrix.mRows[1].y;
     cameraUp.z = currentCamera->mViewMatrix.mRows[2].y;
@@ -474,7 +476,7 @@ void DrawRaceWorld(void) {
         Vec3NormalizeAndGetLengthUnchecked(&lightVector, &lightVector);
     }
     NNS_G3dGlbLightVector(1, (s16) lightVector.x, (s16) lightVector.y, (s16) lightVector.z);
-    NNS_G3dGlbLightColor(1, 0x7fff);
+    NNS_G3dGlbLightColor(1, COLOR15_WHITE);
     NNS_G3dGlbFlushP();
     NNS_G3dGeBufferOP_N(23, gCurrentViewMatrix, 12);
     commandValue = 30;
@@ -500,7 +502,7 @@ void ReleaseRace(void) {
     BOOL heapCreated;
 
     ClearMapObjectListSlots();
-    ReleaseKartsAndClear();
+    ReleaseKartsAndClearPointer();
     ReleaseAllResFiles();
     StopRaceInput();
     heapCreated = FALSE;
@@ -541,8 +543,8 @@ u32 GetRaceUpdateFramesMod2(void) {
     return (gRace->mUpdateFramesMod2);
 }
 
-// Also writes the fog color register directly, sets the fog offset and table through G3X_SetFog and
-// G3X_SetFogTable, and resets the fade state.
+// Builds the course fog table by mFogTableMode and, when the course has fog, writes the fog color register directly and
+// sets the fog through G3X_SetFog and G3X_SetFogTable (else G3X_SetFog turns fog off); it also resets the fade state.
 void InitRaceFog(void) {
     u32 fogCurve[32];
     u16 index;
@@ -686,7 +688,7 @@ u32 GetCurrentCameraKind(void) {
     return (gCurrentCamera->mKind);
 }
 
-// The camera used this frame: gCurrentCamera.
+// The camera UpdateRace last chose: the chain, entry or chase camera (the chase camera until the first update).
 Camera *GetCurrentCamera(void) {
     return gCurrentCamera;
 }

@@ -3,13 +3,13 @@
 #include "Main/MapObjects/earthen_pipe_create.h"
 #include "Main/MapObjects/item_box.h"
 
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/System/heap_call.h"
 #include "Main/Scene/run_scenes.h"
@@ -28,6 +28,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Item/pooled_item_box.h"
+#include "Main/System/scene_numbers.h"
 
 const MapObjectKindDescriptor gPooledItemBoxKindDescriptor = {0,
                                                               {0, 0},
@@ -43,7 +44,7 @@ const MapObjectKindData gPooledItemBoxKindData = {0, 0, 0, 0xf000, 0, 0, 0, 0, 2
 BOOL IsRaceSceneNormalOrReplay(void) {
     u32 result = 0;
     u32 isNormalOrReplay;
-    if (GetCurrentSceneNumber() == 2) {
+    if (GetCurrentSceneNumber() == SCENE_RACE) {
         s32 raceKind = gRaceSetup->mRaceKind;
         isNormalOrReplay = 1;
         if (raceKind != RACE_KIND_NORMAL && raceKind != RACE_KIND_REPLAY) {
@@ -90,8 +91,8 @@ MapObject *AllocPooledMapObject(void) {
 void ResetPooledMapObject(ItemBox *pooledObject) {
     UnparkMapObject(&pooledObject->mMapObject);
     pooledObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
-    pooledObject->mMapObject.mFlags &= ~2;
-    pooledObject->mMapObject.mFlags &= ~8;
+    pooledObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    pooledObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     pooledObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pooledObject->mMapObject.mScale.x = 0;
     pooledObject->mMapObject.mScale.y = 0;

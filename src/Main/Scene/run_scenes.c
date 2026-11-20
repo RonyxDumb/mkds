@@ -1,4 +1,5 @@
 #include "Main/Scene/run_scenes.h"
+#include "Main/Menu/wl_menu_kind.h"
 #include "Main/System/scene_numbers.h"
 #include "Main/System/heap.h"
 #include "Main/Net/slot_result_sync.h"
@@ -11,7 +12,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/System/heap_call.h"
 #include "Main/Course/course_map_shapes.h"
@@ -24,7 +25,7 @@
 #include "Main/System/startup.h"
 #include "Main/System/thread_function_queue.h"
 #include "Main/Net/multiboot_parent_finish.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "03/System/application.h"
 #include "00/Lib/DWC/internet_connection.h"
 #include "01/Menu/record_time_attack.h"
@@ -51,6 +52,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 
 const u8 gDWCUtilityLanguageTable[6] = {0, 1, 2, 3, 4, 5};
+// Scene functions in scene-number order.
 const u32 gSceneFuncs[16] = {
     (u32) RunTitleScene,
     (u32) RunMenuScene,
@@ -73,25 +75,23 @@ s16 gSceneNumbers[3] = {-1, -1, -1};
 RunScenesState *gRunScenesState;
 ShapeMapObjectCountList *gShapeMapObjectCountList;
 
-// Scene functions in scene-number order.
-
 void ClearShapeMapObjectCountListPointer(void) {
     gShapeMapObjectCountList = NULL;
 }
 
 s32 UpdateShapeMapObjectCounts(void) {
     BOOL result = FALSE;
-    u16 shapeIndex = 0;
+    u16 entryIndex = 0;
     ShapeMapObjectCount *entry;
     CourseMapShape *courseMapShape;
     s32 mapObjectCount;
     u16 mapObjectIndex;
     u8 insideCount;
-    for (shapeIndex = 0; shapeIndex < gShapeMapObjectCountList->mEntryCount; shapeIndex++) {
-        entry = &gShapeMapObjectCountList->mEntries[shapeIndex];
+    for (entryIndex = 0; entryIndex < gShapeMapObjectCountList->mEntryCount; entryIndex++) {
+        entry = &gShapeMapObjectCountList->mEntries[entryIndex];
         courseMapShape = GetCourseMapShape(entry->mShapeIndex);
         mapObjectCount =
-            FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindValue);
+            FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindParam);
         insideCount = 0;
         for (mapObjectIndex = 0; mapObjectIndex < mapObjectCount; mapObjectIndex++) {
             if (IsPosInCourseMapShape(&GetFoundMapObject(mapObjectIndex)->mPos, courseMapShape) != 0) {
@@ -167,7 +167,7 @@ static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayI
         reg_OS_IME = 0;
         OS_DisableInterrupts();
         GX_VBlankIntr(0);
-        DWC_SetAuthServer(2);
+        DWC_SetAuthServer(AUTH_SERVER_NO_TEST_OR_DEV_LABEL);
         languageValue = 1;
         languageIndex = gStartupWork->mLanguageIndex;
         if (languageIndex < 6) {
@@ -203,8 +203,8 @@ void RunDWCUtility(void) {
     utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, HEAP_ALIGN_CACHE_LINE);
     LoadOverlayAndRunDWCUtility(utilityWork, SDK_OVERLAY_OV003_ID);
     HeapDestroy(expHeapFromMaxFree);
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
+    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, BRIGHTNESS_LEVEL_FADED);
+    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, BRIGHTNESS_LEVEL_FADED);
     WaitIrqAndTurnOnDisplays();
     SetCurrentSndArc();
     heap = HeapAlloc(heap, GetSndHeapsBufferSize(1));
@@ -233,7 +233,7 @@ s32 RunScenes(s16 *sceneNumber) {
         if (gSceneNumbers[2] != -1) {
             *sceneNumber = gSceneNumbers[2];
         } else {
-            *sceneNumber = 9;
+            *sceneNumber = SCENE_LOGO;
         }
         switch (gStartupWork->mConnectionKind) {
             case CONNECTION_KIND_NONE:
@@ -273,7 +273,7 @@ void RunScenesForever(void) {
     gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
-        gMenuShared->mWLMenuKind = 0;
+        gMenuShared->mWLMenuKind = WL_MENU_KIND_MEMBER_GROUP;
         gRunScenesState->mSceneNumber = SCENE_WL_MENU;
     }
     do {

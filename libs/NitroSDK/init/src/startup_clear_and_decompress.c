@@ -179,5 +179,3 @@ finish:
 }
 
 // clang-format on
-
-// clang-format on

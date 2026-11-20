@@ -26,13 +26,13 @@
 #include "touch_panel_sampling.h"
 #include "Main/Race/entry_race_ended.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/bridge.h"
 
@@ -162,9 +162,13 @@ void UpdateChoropuSink(void *stateObject) {
         return;
     }
     if ((choropu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        falloffIndex = choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared
-                           ? 2
-                           : (choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared ? 3 : 4);
+        falloffIndex =
+            choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared
+                ? SOUND_FALLOFF_SHORT_RANGE
+                : (choropu->mMapObject.mFarDistanceSquared ==
+                           gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared
+                       ? SOUND_FALLOFF_MEDIUM_RANGE
+                       : SOUND_FALLOFF_LONG_RANGE);
         soundRequest.mSoundId = CHOROPU_SINK_SOUND_ID;
         soundRequest.mPositionSource = &choropu->mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
@@ -179,7 +183,7 @@ void EnterChoropuLeap(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0x4800;
-    choropu->mMapObject.mFlags &= ~0x1;
+    choropu->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     if ((choropu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) != 0) {
         if (GetEntryRaceEnded() == 0) {
             return;
@@ -254,8 +258,8 @@ void UpdateChoropuFallSpin(void *stateObject) {
     }
 }
 
-// Case 1 starts the launched spin with an upward speed; case 2 starts the fall spin unless the kart is a ghost or
-// already there.
+// Case 1 starts the launched spin with an upward speed; case 2 starts the fall spin unless the kart is a ghost or the
+// Choropu is already in it.
 u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     Vec3 offsetFromKart;
 

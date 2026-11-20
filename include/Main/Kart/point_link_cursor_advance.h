@@ -15,7 +15,8 @@ typedef struct PointLinkCursor {
     /* 1e */ u8 mBranchChoiceCount;
 } PointLinkCursor;
 
-// A cursor that moves a killer along a point link path: the angle to the next link, its kart and the end count.
+// A point link cursor of a killer kart: mKillerKartIndex, the angle to the next link, and mEndCount with its
+// mEndCountHoldTimer.
 typedef struct KartKillerCursor {
     /* 00 */ PointLinkCursor mPointLinkCursor;
     /* 20 */ s32 mAngleToLinkDegrees;

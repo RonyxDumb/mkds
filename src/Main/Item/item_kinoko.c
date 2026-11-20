@@ -1,5 +1,5 @@
 #include "Main/Item/item_kinoko.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_f_box.h"
@@ -27,28 +27,28 @@
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_koura_r_kart_items.h"
 #include "Main/Item/item_object_bouncing.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Item/item_link_following.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -57,7 +57,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
@@ -76,39 +76,41 @@
 ItemInfo *gItemInfos;
 Vec3 *gItemPushVector;
 
-const ItemInfo gItemInfoBananaThree = {1, 0, 2, 3, 0, 3, NULL};
-const ItemInfo gItemInfoKinokoThree = {1, 1, 3, 3, 0, 0, StartItemKinokoBoost};
+const ItemInfo gItemInfoBananaThree = {1, 0, ITEM_OBJECT_KIND_BANANA, 3, 0, ITEM_USE_KIND_TRAIL, NULL};
+const ItemInfo gItemInfoKinokoThree = {
+    1, 1, ITEM_OBJECT_KIND_KINOKO, 3, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemKinokoBoost};
 
 #pragma thumb on
 
-// Fills a table of eighteen 0x1c-byte objects allocated here.
+// Allocates gItemInfos, copies the eighteen gItemInfo records into it and sets mEnabled for the battle, Wi-Fi and
+// demo-race cases.
 void CreateItemInfos(void) {
     ItemInfo *infos;
     s32 infoIndex;
 
     infos = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_INFO_COUNT * sizeof(*infos));
     gItemInfos = infos;
-    infos[0] = gItemInfoKouraG;
-    infos[1] = gItemInfoKouraR;
-    infos[2] = gItemInfoBanana;
-    infos[3] = gItemInfoFBox;
-    infos[4] = gItemInfoKinoko;
-    infos[5] = gItemInfoKinokoThree;
-    infos[6] = gItemInfoBomb;
-    infos[7] = gItemInfoKouraW;
-    infos[8] = gItemInfoThunder;
-    infos[9] = gItemInfoKouraGThree;
-    infos[10] = gItemInfoBananaThree;
-    infos[11] = gItemInfoKouraRThree;
-    infos[12] = gItemInfoStar;
-    infos[13] = gItemInfoKinokoP;
-    infos[14] = gItemInfoKiller;
-    infos[15] = gItemInfoGesso;
-    infos[16] = gItemInfoTeresa;
-    infos[17] = gItemInfoBouncingItemBox;
+    infos[ITEM_INFO_KOURA_G] = gItemInfoKouraG;
+    infos[ITEM_INFO_KOURA_R] = gItemInfoKouraR;
+    infos[ITEM_INFO_BANANA] = gItemInfoBanana;
+    infos[ITEM_INFO_F_BOX] = gItemInfoFBox;
+    infos[ITEM_INFO_KINOKO] = gItemInfoKinoko;
+    infos[ITEM_INFO_KINOKO_THREE] = gItemInfoKinokoThree;
+    infos[ITEM_INFO_BOMB] = gItemInfoBomb;
+    infos[ITEM_INFO_KOURA_W] = gItemInfoKouraW;
+    infos[ITEM_INFO_THUNDER] = gItemInfoThunder;
+    infos[ITEM_INFO_KOURA_G_THREE] = gItemInfoKouraGThree;
+    infos[ITEM_INFO_BANANA_THREE] = gItemInfoBananaThree;
+    infos[ITEM_INFO_KOURA_R_THREE] = gItemInfoKouraRThree;
+    infos[ITEM_INFO_STAR] = gItemInfoStar;
+    infos[ITEM_INFO_KINOKO_P] = gItemInfoKinokoP;
+    infos[ITEM_INFO_KILLER] = gItemInfoKiller;
+    infos[ITEM_INFO_GESSO] = gItemInfoGesso;
+    infos[ITEM_INFO_TERESA] = gItemInfoTeresa;
+    infos[ITEM_INFO_BOUNCING_ITEM_BOX] = gItemInfoBouncingItemBox;
     switch (gRaceSetup->mMode) {
         case MODE_BATTLE:
-            infos[17].mEnabled = TRUE;
+            infos[ITEM_INFO_BOUNCING_ITEM_BOX].mEnabled = TRUE;
             break;
         case MODE_WIFI:
             for (infoIndex = 0; infoIndex < ITEM_INFO_COUNT; infoIndex++) {

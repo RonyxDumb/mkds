@@ -6,7 +6,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/MapObjects/teresa_spawner.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
@@ -35,7 +35,8 @@ void FillShuffledIndices(void) {
 
     remainingCount = 8;
     if (gMenuShared->mIndicesShuffled == 0) {
-        if (ShuffledIndicesGetConnectionKind() == 1 || ShuffledIndicesGetConnectionKind() == 2) {
+        if (ShuffledIndicesGetConnectionKind() == CONNECTION_KIND_MEMBER_SELECT ||
+            ShuffledIndicesGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
             random = ShuffledIndicesGetConnectionWorkRandomState();
             for (index = 0; index < 8; index++) {
                 remaining[index] = index;

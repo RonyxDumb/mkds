@@ -23,13 +23,13 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Sound/sound_data_sdat_path.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/shadow_position_raised.h"
@@ -39,6 +39,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/MapObjects/pukupuku_kind_descriptor.h"
 
 MapObjectKindData *CreatePukupukuKindData(void) {
     MapObjectKindData *kindData;
@@ -139,11 +140,11 @@ void EnterPukupukuHop(void *stateObject) {
 }
 
 static inline u32 PukupukuNextRandomBelow(RandomState64 *random, u32 range) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (range == 0) {
-        return random->mValue >> 32;
+        return RANDOM_HIGH32(random);
     } else {
-        return ((random->mValue >> 32) * range) >> 32;
+        return RANDOM_BELOW(random, range);
     }
 }
 
@@ -168,12 +169,14 @@ void UpdatePukupukuHop(void *stateObject) {
         SoundStartParams soundRequest;
         u32 falloffIndex;
 
-        if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared ==
+            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (pukupuku->mPushedObject.mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = PUKUPUKU_HOP_SOUND_ID;
         soundRequest.mPositionSource = &pukupuku->mPushedObject.mMapObject.mPos;
@@ -188,7 +191,7 @@ void UpdatePukupukuHop(void *stateObject) {
 
         pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x3199;
         random = GetMapObjectRandom();
-        pukupuku->mJumpsUntilHighJump = (u16) PukupukuNextRandomBelow(random, 3) + 4;
+        pukupuku->mJumpsUntilHighJump = (u16) PukupukuNextRandomBelow(random, 3) + PUKUPUKU_JUMPS_UNTIL_HIGH_JUMP;
     } else {
         RandomState64 *random;
 
@@ -244,8 +247,8 @@ void UpdatePukupukuPushed(void *stateObject) {
 
 void EnterPukupukuWaitRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
-    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuWaitRespawnFlag;
-    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuWaitRespawnSecondFlag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuSkipViewTestFlag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuSkipItemCallbackFlag;
 }
 
 void UpdatePukupukuWaitRespawn(void *stateObject) {
@@ -311,8 +314,8 @@ void CreatePukupuku(void) {
 
 #pragma thumb off
 
-const u16 gPukupukuWaitRespawnFlag = 2;
-const u16 gPukupukuWaitRespawnSecondFlag = 8;
+const u16 gPukupukuSkipViewTestFlag = 2;
+const u16 gPukupukuSkipItemCallbackFlag = 8;
 const struct MapObjectList gPukupukuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePukupuku,
                                                       NULL, 0, NULL,   0,    NULL};
 const MapObjectDrawList gPukupukuShadowDrawListData = {{NULL,

@@ -12,7 +12,7 @@ typedef struct MenuPairObjectPosition {
 
 typedef struct OamRange OamRange;
 
-// The five menu objects that slide out together, the task that moves them and whether they are sliding.
+// The five menu objects of a menu pair, the task that slides them in and out, and whether they are sliding out.
 typedef struct MenuPairObjects {
     /* 00 */ OamRange *mObjects[5];
     /* 14 */ TaskEntry *mTask;

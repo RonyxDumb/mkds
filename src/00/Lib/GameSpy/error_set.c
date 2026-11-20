@@ -2,9 +2,9 @@
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/reply_parse.h"
 
-void GpiSetError(GpConnection *connection, u32 errorNumber, const char *errorMessage) {
-    GpiConnection *gpState;
+void gpiSetError(GPConnection *connection, u32 errorNumber, const char *errorMessage) {
+    GPIConnection *gpState;
     gpState = connection->mGpiConnection;
-    GpiCopyString(gpState->mErrorMessage, errorMessage, 0x100);
+    CopyStringWithTerminator(gpState->mErrorMessage, errorMessage, 0x100);
     gpState->mErrorNumber = errorNumber;
 }

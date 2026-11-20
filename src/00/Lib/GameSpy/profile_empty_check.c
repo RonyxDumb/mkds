@@ -1,6 +1,6 @@
 #include "00/Lib/GameSpy/profile_empty_check.h"
 
-u32 GpiIsProfileEmpty(GpiProfile *profile) {
+u32 gpiCanFreeProfile(GPIProfile *profile) {
     if (profile != NULL && profile->mCache == 0 && profile->mBuddyStatus == NULL && profile->mPeerSig == NULL &&
         profile->mAuthSig == NULL) {
         return 1;

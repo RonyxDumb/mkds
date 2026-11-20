@@ -16,5 +16,5 @@ void StartOptMenuMessageFadeIn(void);
 void LoadOptMenuMessageFileAndSetBgCnt(void);
 void SetupOptMenuMessage(void);
 
-extern u8 gYb5MultiNscName4[19];
+extern u8 gOptMenuMessageYb5MultiNscName[19];
 extern u8 gOptMenuMessageShowNext;

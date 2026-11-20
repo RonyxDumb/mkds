@@ -68,26 +68,26 @@ s32 SOCLi_StartupSOCL(void) {
 }
 
 void SOCLi_StartupCPS(void) {
-    CPSConfig *cfgBlock = &SOCLiCPSConfig;
+    CPSConfig *stackConfig = &SOCLiCPSConfig;
     SOCLConfig *config = SOCLiConfigPtr;
     s32 value;
     s32 rwin;
 
-    MI_CpuFill8(cfgBlock, 0, sizeof(CPSConfig));
-    cfgBlock->mAlloc = config->mAlloc;
-    cfgBlock->mFree = config->mFree;
-    cfgBlock->mLinkIsOn = SOCL_LinkIsOn;
-    cfgBlock->mRandomSeed = 0;
-    cfgBlock->mYieldWait = SOCLiYieldWait;
+    MI_CpuFill8(stackConfig, 0, sizeof(CPSConfig));
+    stackConfig->mAlloc = config->mAlloc;
+    stackConfig->mFree = config->mFree;
+    stackConfig->mLinkIsOn = SOCL_LinkIsOn;
+    stackConfig->mRandomSeed = 0;
+    stackConfig->mYieldWait = SOCLiYieldWait;
     if (config->mLanBufLen != 0) {
-        cfgBlock->mLanBufLen = config->mLanBufLen;
+        stackConfig->mLanBufLen = config->mLanBufLen;
     } else {
-        cfgBlock->mLanBufLen = 0x4000;
+        stackConfig->mLanBufLen = 0x4000;
     }
     if (config->mLanBuf != NULL) {
-        cfgBlock->mLanBuf = config->mLanBuf;
+        stackConfig->mLanBuf = config->mLanBuf;
     } else {
-        cfgBlock->mLanBuf = SOCLiConfigPtr->mAlloc(cfgBlock->mLanBufLen);
+        stackConfig->mLanBuf = SOCLiConfigPtr->mAlloc(stackConfig->mLanBufLen);
     }
     value = config->mMtu;
     if (value == 0) {
@@ -97,19 +97,19 @@ void SOCLi_StartupCPS(void) {
     if (rwin == 0) {
         rwin = 0x10c0;
     }
-    cfgBlock->mMyMss = value - 0x28;
+    stackConfig->mMyMss = value - 0x28;
     SOCLSocketParamTCP.mRcvbufSize = rwin;
     SOCLSocketParamTCP.mRcvbufConsumeMin = rwin / 2;
     CPSMyIp = 0;
     if (config->mUseDhcp != 0) {
         SOCLiDhcpState = 1;
-        cfgBlock->mMode = 0;
-        cfgBlock->mDhcpCallback = SOCLi_DhcpTimeout;
-        cfgBlock->mRequestedIp = SOCLiRequestedIP;
+        stackConfig->mMode = 0;
+        stackConfig->mDhcpCallback = SOCLi_DhcpTimeout;
+        stackConfig->mRequestedIp = SOCLiRequestedIP;
     } else {
         SOCLiDhcpState = 0;
-        cfgBlock->mMode = 1;
-        cfgBlock->mDhcpCallback = SOCLi_SetMyIP;
+        stackConfig->mMode = 1;
+        stackConfig->mDhcpCallback = SOCLi_SetMyIP;
     }
     value = config->mCpsThreadPriority;
     if (value == 0) {
@@ -118,7 +118,7 @@ void SOCLi_StartupCPS(void) {
     CPS_SetThreadPriority(value);
     WCM_SetRecvDCFCallback(CPSi_RecvCallbackFunc);
     CPS_SetScavengerCallback(SOCLi_TrashSocket);
-    CPS_Startup(cfgBlock);
+    CPS_Startup(stackConfig);
 }
 
 void SOCLi_SetMyIP(void) {

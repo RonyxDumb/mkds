@@ -6,7 +6,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "wireless_driver_startup.h"
 #include "reset_interrupts_halt.h"
 #include "vram_bank_display_setup.h"
@@ -17,26 +17,28 @@
 UnreadHalfwordGroups gUnreadHalfwordGroups;
 
 static inline u32 IsWvrStateBusy(void) {
-    return gWvrState.mState == BANK_SHARE_CHANGING;
+    return gWvrState.mState == WIRELESS_VRAM_STATE_BUSY;
 }
 
 void InitWvrState(void) {
-    gWvrState.mState = BANK_SHARE_INACTIVE;
+    gWvrState.mState = WIRELESS_VRAM_STATE_STOPPED;
     gWvrState.mCallback = NULL;
 }
 
 void ClearLcdcBanksByState(void) {
     switch (gWvrState.mState) {
-        case BANK_SHARE_ACTIVE:
-            GX_SetBankForLCDC(0x1f7);
+        case WIRELESS_VRAM_STATE_STARTED:
+            GX_SetBankForLCDC(VRAM_BANK_A | VRAM_BANK_B | VRAM_BANK_C | VRAM_BANK_E | VRAM_BANK_F | VRAM_BANK_G |
+                              VRAM_BANK_H | VRAM_BANK_I);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0x60000);
             MemFillWordsByBlock_inline((void *) 0x6880000, 0x24000);
             break;
-        case BANK_SHARE_CHANGING:
+        case WIRELESS_VRAM_STATE_BUSY:
             break;
-        case BANK_SHARE_INACTIVE:
-        case BANK_SHARE_INACTIVE_UNUSED:
-            GX_SetBankForLCDC(0x1ff);
+        case WIRELESS_VRAM_STATE_STOPPED:
+        case WIRELESS_VRAM_STATE_UNUSED:
+            GX_SetBankForLCDC(VRAM_BANK_A | VRAM_BANK_B | VRAM_BANK_C | VRAM_BANK_D | VRAM_BANK_E | VRAM_BANK_F |
+                              VRAM_BANK_G | VRAM_BANK_H | VRAM_BANK_I);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0xa4000);
             break;
     }
@@ -45,11 +47,11 @@ void ClearLcdcBanksByState(void) {
 
 void SetBankForARM7ByState(u32 bank) {
     switch (gWvrState.mState) {
-        case BANK_SHARE_ACTIVE:
-        case BANK_SHARE_CHANGING:
+        case WIRELESS_VRAM_STATE_STARTED:
+        case WIRELESS_VRAM_STATE_BUSY:
             break;
-        case BANK_SHARE_INACTIVE:
-        case BANK_SHARE_INACTIVE_UNUSED:
+        case WIRELESS_VRAM_STATE_STOPPED:
+        case WIRELESS_VRAM_STATE_UNUSED:
             GX_SetBankForARM7(bank);
             break;
     }
@@ -69,11 +71,11 @@ void DisableAllBanks(void) {
     GX_DisableBankForSubOBJExtPltt();
     GX_DisableBankForLCDC();
     switch (gWvrState.mState) {
-        case BANK_SHARE_ACTIVE:
-        case BANK_SHARE_CHANGING:
+        case WIRELESS_VRAM_STATE_STARTED:
+        case WIRELESS_VRAM_STATE_BUSY:
             break;
-        case BANK_SHARE_INACTIVE:
-        case BANK_SHARE_INACTIVE_UNUSED:
+        case WIRELESS_VRAM_STATE_STOPPED:
+        case WIRELESS_VRAM_STATE_UNUSED:
             GX_DisableBankForARM7();
             break;
     }
@@ -89,22 +91,22 @@ void WvrCallback(u32 state, s32 errorCode) {
         return;
     }
     switch (state) {
-        case BANK_SHARE_ACTIVE:
-            gWvrState.mCallback(0);
+        case WIRELESS_VRAM_STATE_STARTED:
+            gWvrState.mCallback(WIRELESS_VRAM_STATE_STARTED);
             break;
-        case BANK_SHARE_INACTIVE:
-            gWvrState.mCallback(1);
+        case WIRELESS_VRAM_STATE_STOPPED:
+            gWvrState.mCallback(WIRELESS_VRAM_STATE_STOPPED);
             break;
     }
 }
 
 void ClearLcdcBankAndStartWvrAndWait(void) {
-    if (gWvrState.mState != BANK_SHARE_ACTIVE && gWvrState.mState != BANK_SHARE_INACTIVE_UNUSED) {
-        gWvrState.mState = BANK_SHARE_CHANGING;
-        GX_SetBankForLCDC(8);
+    if (gWvrState.mState != WIRELESS_VRAM_STATE_STARTED && gWvrState.mState != WIRELESS_VRAM_STATE_UNUSED) {
+        gWvrState.mState = WIRELESS_VRAM_STATE_BUSY;
+        GX_SetBankForLCDC(VRAM_BANK_D);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
-        if (WVR_StartUpAsync(8, WvrCallback, 0) != 1) {
+        if (WVR_StartUpAsync(VRAM_BANK_D, WvrCallback, WIRELESS_VRAM_STATE_STARTED) != 1) {
             OS_Terminate();
         }
     }
@@ -113,9 +115,9 @@ void ClearLcdcBankAndStartWvrAndWait(void) {
 }
 
 void StopWvrAndWait(void) {
-    if (gWvrState.mState != BANK_SHARE_INACTIVE && gWvrState.mState != BANK_SHARE_INACTIVE_UNUSED) {
-        gWvrState.mState = BANK_SHARE_CHANGING;
-        if (WVR_TerminateAsync(WvrCallback, 1) != 1) {
+    if (gWvrState.mState != WIRELESS_VRAM_STATE_STOPPED && gWvrState.mState != WIRELESS_VRAM_STATE_UNUSED) {
+        gWvrState.mState = WIRELESS_VRAM_STATE_BUSY;
+        if (WVR_TerminateAsync(WvrCallback, WIRELESS_VRAM_STATE_STOPPED) != 1) {
             OS_Terminate();
         }
     }

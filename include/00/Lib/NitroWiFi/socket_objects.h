@@ -4,14 +4,13 @@
 #include "thread_scheduler.h"
 
 // Bits of SOCLSocket.mStatusFlags.
-#define SOCL_STATUS_CREATE 0x0001
-#define SOCL_STATUS_CONNECTING 0x0002
-#define SOCL_STATUS_CONNECTED 0x0004
-#define SOCL_STATUS_CLOSING 0x0008
-#define SOCL_STATUS_WAIT_CLOSE 0x0010
-#define SOCL_STATUS_WAIT_RELEASE 0x0020
-#define SOCL_STATUS_ERROR 0x0040
-#define SOCL_STATUS_RESET 0x0080
+#define SOCKET_STATUS_CREATED 0x0001
+#define SOCKET_STATUS_CONNECTING 0x0002
+#define SOCKET_STATUS_CONNECTED 0x0004
+#define SOCKET_STATUS_CLOSING 0x0008
+#define SOCKET_STATUS_CLOSE_REQUESTED 0x0010
+#define SOCKET_STATUS_TRASHED 0x0020
+#define SOCKET_STATUS_CONNECT_FAILED 0x0040
 
 typedef struct OSThreadQueue OSThreadQueue;
 typedef struct OSMutex OSMutex;
@@ -20,14 +19,15 @@ typedef struct OSMessageQueue OSMessageQueue;
 struct SOCLSocket;
 struct SOCLiSocketUdpData;
 
-// Four bytes read by SOCLi_GetSizeCommandPipe: a size, a count and a byte.
+// Settings of a command pipe: stack size, thread priority and the message queue length.
 typedef struct SOCLSocketCommandPipeParam {
     /* 00 */ u16 mStackSize;
     /* 02 */ u8 mPriority;
     /* 03 */ u8 mQueueMax;
 } SOCLSocketCommandPipeParam;
 
-// Start address and size of a part of an SOCLSocket or of its blocks, set by SOCLi_InitSocketBuffer.
+// Start address and size of one buffer: the four buffers of a CPSSoc and the write buffer area of the send pipe, set by
+// SOCLi_InitSocketBuffer.
 typedef struct SizedBuffer {
     /* 00 */ s32 mSize;
     /* 04 */ u8 *mStart;
@@ -69,12 +69,12 @@ enum {
 typedef struct CPSSoc {
     /* 00 */ struct OSThread *mThread;
     /* 04 */ u32 mBlockType;
-    // TCP_SOCKET_STATE_*
+    // SOCKET_STATE_*
     /* 08 */ u8 mState;
     /* 09 */ u8 mUseHttps;
     /* 0a */ u16 mLocalPort;
     /* 0c */ HttpsState *mHttpsState;
-    /* 10 */ u32 mStateStartTime;
+    /* 10 */ u32 mHandshakeStartTime;
     /* 14 */ u32 mLocalIpReal;
     /* 18 */ u16 mRemotePort;
     /* 1a */ u16 mRemotePortBound;
@@ -85,12 +85,12 @@ typedef struct CPSSoc {
     /* 2c */ u16 mRemoteWin;
     /* 2e */ u16 mRemoteMss;
     /* 30 */ u32 mRemoteAckNo;
-    /* 34 */ u32 mAckRcvd;
-    /* 38 */ ConnectionReceiveFn mReceiveCallback;
+    /* 34 */ u32 mAckrcvd;
+    /* 38 */ ConnectionReceiveFn mUdpreadCallback;
     /* 3c */ SizedBuffer mReceiveBuffer;
     /* 44 */ u32 mReceiveBufferLength;
     /* 48 */ SizedBuffer mSendBuffer;
-    /* 50 */ SizedBuffer mLineBuffer;
+    /* 50 */ SizedBuffer mLinbuf;
     /* 58 */ SizedBuffer mOutBuffer;
     /* 60 */ u32 mOutBufferLength;
 } CPSSoc;
@@ -128,13 +128,13 @@ typedef struct SOCLiSocketSendCommandPipe {
 
 // Values of SOCLSocket.mFlagMode, also held by SOCLSocketParam and SOCLiCommandPacket: a stream socket, a datagram
 // socket that receives (bound, with the datagram callback), one that only sends, one that is only registered, and a
-// stream socket whose reads go through the read command.
+// stream socket whose reads go through the read command. The parameter tables only set the first three.
 enum {
     SOCKET_MODE_STREAM = 0,
     SOCKET_MODE_DATAGRAM_RECEIVE = 1,
     SOCKET_MODE_DATAGRAM_SEND = 2,
     SOCKET_MODE_REGISTER_ONLY = 3,
-    SOCKET_MODE_STREAM_DIRECT_READ = 4,
+    SOCKET_MODE_STREAM_READ_COMMAND = 4,
 };
 
 typedef struct SOCLSocket {
@@ -149,8 +149,8 @@ typedef struct SOCLSocket {
     /* 76 */ u16 mRemotePort;
     /* 78 */ u32 mRemoteIp;
     /* 7c */ struct SOCLSocket *mNext;
-    // First byte behind the socket header, where SOCLi_InitSocket lays out the blocks: the receive block when a receive
-    // buffer is asked for, otherwise the send block.
+    // First byte behind the socket header, where SOCLi_InitSocket lays out the receive pipe when a receive buffer is
+    // asked for, otherwise the send pipe.
     /* 80 */ SOCLiSocketRecvCommandPipe mBlockArea;
 } SOCLSocket;
 

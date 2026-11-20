@@ -42,7 +42,8 @@ typedef struct LabelCanvas {
     /* 44 */ NNSG2dCellDataWithBR *mCellData;
 } LabelCanvas;
 
-// mOffsetX that moves an entry one screen width (256 pixels) to the right.
+// The slide distance: the mOffsetX (or slide offset) an entry, or the whole layout, starts or ends at while it slides
+// in or out; negated for the other direction.
 #define LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH 0x100
 
 // One entry of a layout table: its offset, position, matrices and label canvas.
@@ -61,17 +62,14 @@ typedef struct LayoutTableEntry {
     /* 3c */ LabelCanvas *mLabelCanvas;
 } LayoutTableEntry;
 
-// Bit fields of the OAM words the label canvas code reads and rewrites: object mode and shape in the first halfword,
-// priority, palette and first char in the third; the mode bits of attr0 select translucent drawing.
+// Bit fields of the OAM words the layout cell and label code reads and rewrites: object mode and shape in the first
+// halfword, priority, palette and first char in the third; the mode bits of attr0 select translucent drawing.
 #define LAYOUT_OAM_MODE_MASK 0xc00
 #define LAYOUT_OAM_MODE_TRANSLUCENT 0x400
 #define LAYOUT_OAM_SHAPE_MASK 0xc000
 #define LAYOUT_OAM_PRIORITY_MASK 0xc00
 #define LAYOUT_OAM_PALETTE_MASK 0xf000
 #define LAYOUT_OAM_CHAR_NAME_MASK 0x3ff
-// Mask over attr0 and attr1 together (attr1 in the high half) that drops the affine and double-size bits and the flip
-// and matrix bits.
-#define LAYOUT_OAM_KEEP_NO_AFFINE_FLIP_MASK 0xc1fffcff
 
 // 8-byte elements InitLabelCanvas fills and copies into NNSG2dCellOAMAttrData elements.
 typedef struct OamAttrEntry {

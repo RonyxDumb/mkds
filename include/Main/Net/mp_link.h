@@ -4,7 +4,8 @@
 #include "multiboot_game_info_beacon.h"
 #include "Main/System/backup_net_camera_work.h"
 
-// What the scan callback gets for a found game: the entry index, the entry and the scan buffer.
+// What the scan callback gets for an entry event: the entry index, and the entry and the scan buffer (both NULL when an
+// entry timed out).
 typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
     /* 04 */ MBGameInfoRecvList *mEntry;
@@ -20,7 +21,9 @@ typedef struct ScanErrorArgs {
 
 #include "wireless_link_control.h"
 
-// ScanConnectWork.mState; the child steps through the parent's messages.
+// Values of ScanConnectWork.mState and of the first argument of its state callback: the link to the parent (IDLE to
+// LINK_LOST), the request and the parent's messages that move it on (SEND_REQUEST to SEND_DONE and REQUEST_FAILED), the
+// reset, the error and the end.
 typedef enum ScanConnectState {
     SCAN_CONNECT_STATE_IDLE = 0,
     SCAN_CONNECT_STATE_CONNECTING = 1,
@@ -30,7 +33,8 @@ typedef enum ScanConnectState {
     SCAN_CONNECT_STATE_SEND_REQUEST = 5,
     SCAN_CONNECT_STATE_REQUEST_REJECTED = 6,
     SCAN_CONNECT_STATE_ACCEPTED = 7,
-    SCAN_CONNECT_STATE_WAIT_START = 8, // the START message moves ACCEPTED on to SEND_START in the same call
+    // PARENT_MESSAGE_BEGIN_SEND moves ACCEPTED through WAIT_START to SEND_START in the same call
+    SCAN_CONNECT_STATE_WAIT_START = 8,
     SCAN_CONNECT_STATE_SEND_START = 9,
     SCAN_CONNECT_STATE_SEND_DONE = 10,
     SCAN_CONNECT_STATE_RESET_DONE = 11,
@@ -46,16 +50,16 @@ typedef enum ScanConnectError {
     SCAN_CONNECT_ERROR_WM_REJECTED = 9,
 } ScanConnectError;
 
-// Port of the MP link, and the result QueueMPDataIfReady returns when no data was queued.
+// Port of the MP link, and the result QueueMPDataIfReady returns when IsMPReadyToQueueData says the link is not ready.
 #define MP_LINK_PORT 1
 #define MP_LINK_QUEUE_NOT_READY 1
 
 // Size of the object behind gScanConnectWork.
 #define SCAN_CONNECT_WORK_SIZE 0x5f20
 
-// Scan timing and channels: the most time in milliseconds spent on a channel (a locked bssid waits longer) and the
-// channel range PickScanChannel walks.
-#define SCAN_CHANNEL_TIME_ANY 10
+// Scan timing and channels: the maximum channel time of a scan (a locked bssid waits longer) and the channel range
+// PickScanChannel walks.
+#define SCAN_CHANNEL_TIME_UNLOCKED 10
 #define SCAN_CHANNEL_TIME_LOCKED 0xdc
 #define SCAN_CHANNEL_FIRST 1
 #define SCAN_CHANNEL_LAST 0x10
@@ -72,15 +76,15 @@ typedef enum MPLinkEvent {
     MP_LINK_EVENT_SEND_FAILED = 18,
     MP_LINK_EVENT_MP_STARTED = 20,
     MP_LINK_EVENT_SEND_READY = 25,
-    MP_LINK_EVENT_SEND_BUSY = 0x29,
+    MP_LINK_EVENT_SEND_NO_ANSWER = 0x29,
     MP_LINK_EVENT_CALL_FAILED = 0xff, // a WM call failed
     MP_LINK_EVENT_REPLY_FAILED = 0x100, // a WM reply failed
 } MPLinkEvent;
 
 // First argument of ScanConnectWork.mScanCallback.
 typedef enum ScanEvent {
-    SCAN_EVENT_ENTRY_NEW = 0,
-    SCAN_EVENT_ENTRY_UPDATED = 1,
+    SCAN_EVENT_ENTRY_COMPLETE = 0,
+    SCAN_EVENT_ENTRY_TIMED_OUT = 1,
     SCAN_EVENT_ERROR = 2,
     SCAN_EVENT_END = 3,
 } ScanEvent;
@@ -92,10 +96,12 @@ typedef enum ScanError {
     SCAN_ERROR_NO_CHANNEL = 30,
 } ScanError;
 
-// Called with the event kind and what goes with it: the wireless message, or a command and result code pair.
+// Called with the event kind and what goes with it: the wireless message, a command and result code pair, or 0 when
+// nothing goes with it.
 typedef void (*MPLinkEventCallback)(s32 eventKind, void *info);
 
-// The multiplayer link: its callback, send and receive buffers with their sizes, and the started and queued flags.
+// The multiplayer link: its callback, send and receive buffers with their sizes, the parent and child max sizes, and
+// the mMPStarted, mResetting and mDataQueued flags.
 typedef struct MPLink {
     /* 00 */ MPLinkEventCallback mCallback;
     /* 04 */ void *mSendBuffer;
@@ -105,7 +111,7 @@ typedef struct MPLink {
     /* 12 */ u16 mReceiveBufferSize;
     /* 14 */ u16 mParentMaxSize;
     /* 16 */ u16 mChildMaxSize;
-    /* 18 */ u16 mParentPayloadSize;
+    /* 18 */ u16 mUnk_18;
     /* 1a */ u16 mMPStarted;
     /* 1c */ u16 mResetting;
     /* 1e */ u16 mUnk_1e;
@@ -115,7 +121,8 @@ typedef struct MPLink {
 typedef void (*ScanEventCallback)(u32 event, void *args);
 typedef void (*ScanConnectStateFunc)(u32 state, void *info);
 
-// The scan and connect work: buffers, scan parameters, the MPLink, callbacks and the scan and end requests.
+// The scan and connect work: buffers, mScanParams, the mMPLink, the scan and state callbacks, the repeat and end
+// request flags and mState.
 typedef struct ScanConnectWork {
     /* 0000 */ u8 mUnk_0000[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
@@ -139,7 +146,8 @@ typedef struct ScanConnectWork {
     /* 5f0e */ u16 mState;
 } ScanConnectWork;
 
-// Two halfwords that are passed on to the function at mUnk_00 of an MPLink.
+// A command and result code pair that MPLink.mCallback gets with MP_LINK_EVENT_CALL_FAILED and
+// MP_LINK_EVENT_REPLY_FAILED.
 typedef struct CommandResult {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
@@ -150,8 +158,8 @@ void ScanConnectEndScan(void);
 void RequestEndScan(void);
 u32 PickScanChannel(void);
 // First argument of EntryCallback, as the multiboot game info receiver (MB_RecvGameInfoBeacon,
-// MB_CountGameInfoLifetime) calls it: the entry got all its game info fragments, it lost them, it timed out, or no
-// entry slot was free.
+// MB_CountGameInfoLifetime) calls it: a complete entry got all its game info fragments, a complete entry lost them, a
+// complete entry timed out, or no entry slot was free.
 enum {
     BEACON_ENTRY_EVENT_COMPLETE = 1,
     BEACON_ENTRY_EVENT_INCOMPLETE = 2,

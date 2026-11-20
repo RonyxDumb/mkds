@@ -12,7 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Graphics/text_canvas.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/back_screen_keyboard_tables.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Net/wifi_session.h"
@@ -87,8 +87,8 @@ s32 UpdateMessageScreen(void) {
     if (gMessageScreen->mOpen == FALSE) {
         return -1;
     }
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
+    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, BRIGHTNESS_LEVEL_CLEAR);
+    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, BRIGHTNESS_LEVEL_CLEAR);
     if ((u16) (gKeysInputSlot.mPressedBits & PAD_KEY_A) != 0) {
         messageScreen = gMessageScreen;
         if (messageScreen->mInputEnabled != 0) {
@@ -96,7 +96,7 @@ s32 UpdateMessageScreen(void) {
                 gMenuShared->mWiFiTopMenuRequested = TRUE;
                 gMessageScreen->mResult = 1;
             } else if (messageScreen->mKind == MESSAGE_KIND_WIFI_OPPONENT_LEFT) {
-                gMenuShared->mWiFiMenuStartKind = 1;
+                gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
                 gMessageScreen->mResult = 1;
                 ClearWiFiDisconnectStatus();
             } else {
@@ -106,23 +106,15 @@ s32 UpdateMessageScreen(void) {
     }
     return gMessageScreen->mResult;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearMessageScreenChars(void) {
     MI_CpuFill8(gMessageScreen->mCharBuffer, 0u, 0x1400u);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void *GetMessageScreenCharBuffer(void) {
     return gMessageScreen->mCharBuffer;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearMessageScreenMap(void) {
     volatile u16 zero;
     zero = 0;
@@ -213,7 +205,7 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
             FormatMessageScreenErrorCode();
         }
         PrintMessageScreenText();
-        if (GetCurrentSceneNumber() == 2) {
+        if (GetCurrentSceneNumber() == SCENE_RACE) {
             if (GetRaceHudStepHasRun() == 0) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x200;
                 reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK;
@@ -250,7 +242,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
         gLinkLevelIcons->mIconEnabled[index] = 0;
     }
     switch (GetCurrentSceneNumber()) {
-        case SCENE_MENU_1:
+        case SCENE_MENU:
             if ((u32) (gStartupWork->mConnectionKind - CONNECTION_KIND_MEMBER_SELECT) <=
                 CONNECTION_KIND_WL_MENU - CONNECTION_KIND_MEMBER_SELECT) {
                 gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIRELESS] = 1;
@@ -291,15 +283,11 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
         oam->mCharAndPaletteBits = (0x400 - (index + 1) * 4) | 0xd000;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearLinkLevelIconsPointer(void) {
     gLinkLevelIcons = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetupLinkLevelIcons(void) {
     s32 iconIndex;
     Ncgr *chars;
@@ -385,7 +373,7 @@ void AdvanceLinkLevelIcons(void) {
     s32 iconIndex;
     u32 iconKind;
     gLinkLevelIcons->mCycleFrames++;
-    if (gLinkLevelIcons->mCycleFrames > LINK_LEVEL_ICON_CYCLE_FRAMES) {
+    if (gLinkLevelIcons->mCycleFrames > LINK_LEVEL_ICON_CYCLE_LAST_FRAME) {
         gLinkLevelIcons->mCycleFrames = 0;
     }
     UpdateLinkLevelIconTiles();
@@ -398,9 +386,7 @@ void AdvanceLinkLevelIcons(void) {
         }
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetLinkLevelIconEnabled(u32 index, u32 enabled) {
     gLinkLevelIcons->mIconEnabled[index] = enabled;
 }

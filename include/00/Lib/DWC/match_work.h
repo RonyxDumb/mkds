@@ -3,11 +3,14 @@
 #include "types.h"
 #include "00/Lib/DWC/match_send.h"
 
+// Number of participants a match holds (the size of the per-participant tables).
+#define WIFI_MATCH_MAX_PARTICIPANTS 32
+
 // Values of WiFiMatching.mState: IDLE means no search; the search states look through the server list (LIST_SEARCH) or
 // send a reservation and wait for the reply (RESERVING); the negotiate and connect states take a reserved peer through
-// address negotiation and the connection (the client is the side that searched); the sync states line the
-// participants up before the result is reported, the cancel states do the same to back out, and MIN_COMPLETE_POLL asks
-// every participant whether the minimum entry timeout has passed.
+// address negotiation and the connection; the sync states line the participants up before the result is reported, the
+// cancel states do the same to back out, and MIN_COMPLETE_POLL asks every participant whether the minimum entry timeout
+// has passed.
 enum {
     WIFI_MATCH_STATE_IDLE = 0,
     WIFI_MATCH_STATE_CONNECTED = 1,
@@ -31,19 +34,19 @@ enum {
     WIFI_MATCH_STATE_MIN_COMPLETE_POLL = 19,
 };
 
-// The matching state embedded in WiFiConnection at 0x33c (0x464 bytes), reached through gWiFiMatching; not
-// WiFiVSMatching, the VS screen.
-typedef struct Gt2Socket Gt2Socket;
+typedef struct GTI2Socket GTI2Socket;
 typedef s32 MatchEvalFunc();
-typedef void (*DWCMatchedCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
+typedef void (*DWCMatchedSCCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
 
+// The matching object, embedded in WiFiConnection as mMatching and reached through gWiFiMatching; not WiFiVSMatching,
+// the VS screen.
 typedef struct WiFiMatching {
-    /* 000 */ struct GpConnection *mGpConnection;
+    /* 000 */ struct GPConnection *mGpConnection;
     // Address of WiFiConnection.mSocket, so a socket made or cleared later is seen; every use except the NULL tests
     // dereferences it.
-    /* 004 */ Gt2Socket **mConnectionSocket;
-    // Address of the Gt2ConnectionCallbacks record in WiFiConnection, given to the connect calls.
-    /* 008 */ struct Gt2ConnectionCallbacks *mConnectionCallbacks;
+    /* 004 */ GTI2Socket **mConnectionSocket;
+    // Address of the GT2ConnectionCallbacks record in WiFiConnection, given to gt2Connect and gt2Accept.
+    /* 008 */ struct GT2ConnectionCallbacks *mConnectionCallbacks;
     /* 00c */ u8 mConnectRetryCount;
     // Position of the last participant: the lists hold mLastParticipantPos + 1 entries and 0 means nobody else.
     /* 00d */ u8 mLastParticipantPos;
@@ -53,7 +56,8 @@ typedef struct WiFiMatching {
     /* 00f */ u8 mUnk_0f;
     /* 010 */ struct QueryRecord *mQr2;
     /* 014 */ u8 mNNCompletedCount;
-    // 0 filter search, 1 buddy list (set by DWCi_SetMatchCommonParam); the code also tests 2 and 3, which nothing sets.
+    // WIFI_MATCH_MODE_*; set by DWCi_SetMatchCommonParam and reset to FILTER_SEARCH by DWCi_ResetMatchParam; nothing
+    // sets SERVER or SERVER_CLIENT.
     /* 015 */ volatile u8 mMode;
     /* 016 */ u8 mNumEntry;
     /* 017 */ u8 mMresvPresent;
@@ -63,14 +67,14 @@ typedef struct WiFiMatching {
     /* 01c */ u32 mOwnAddress;
     /* 020 */ u32 mMresvProfileId;
     // Address each participant's commands are sent to; mParticipantCommandPorts holds the matching ports.
-    /* 024 */ u32 mParticipantCommandAddresses[32];
-    /* 0a4 */ u16 mParticipantCommandPorts[32];
+    /* 024 */ u32 mParticipantCommandAddresses[WIFI_MATCH_MAX_PARTICIPANTS];
+    /* 0a4 */ u16 mParticipantCommandPorts[WIFI_MATCH_MAX_PARTICIPANTS];
     /* 0e4 */ struct MatchingServerList *mServerList;
     /* 0e8 */ u32 mServerUpdateWaitKind;
     /* 0ec */ u64 mServerUpdateWaitStartTick;
     // GP profile id of each participant by position; the connection finds its own position by comparing
     // WiFiConnection.mProfileId.
-    /* 0f4 */ u32 mParticipantProfileIds[32];
+    /* 0f4 */ u32 mParticipantProfileIds[WIFI_MATCH_MAX_PARTICIPANTS];
     /* 174 */ u8 mNatnegCounts[2];
     /* 176 */ u16 mCookieRandom;
     /* 178 */ u32 mLastNatnegCookie;
@@ -106,11 +110,11 @@ typedef struct WiFiMatching {
     /* 1f0 */ u32 mPriorProfileId;
     /* 1f4 */ u32 mEventProfileId;
     // Address each participant is connected to; mParticipantConnectPorts holds the matching ports.
-    /* 1f8 */ u32 mParticipantConnectAddresses[32];
-    /* 278 */ u16 mParticipantConnectPorts[32];
-    // u8[32] parallel to mParticipantProfileIds: the session index of each participant; the connection takes mOwnIndex
-    // from it at its own position.
-    /* 2b8 */ u8 mParticipantIndices[32];
+    /* 1f8 */ u32 mParticipantConnectAddresses[WIFI_MATCH_MAX_PARTICIPANTS];
+    /* 278 */ u16 mParticipantConnectPorts[WIFI_MATCH_MAX_PARTICIPANTS];
+    // Parallel to mParticipantProfileIds: the AID of each participant (DWC_GetAIDList returns this array); the
+    // connection takes mOwnIndex (DWC_GetMyAID) from it at its own position.
+    /* 2b8 */ u8 mParticipantIndices[WIFI_MATCH_MAX_PARTICIPANTS];
     // One bit per participant index, rebuilt from mParticipantIndices; a bit is cleared when its participant leaves.
     /* 2d8 */ u32 mParticipantMask;
     // The game name buffer WiFiConnection.mGameName points to, given to the server list.
@@ -132,7 +136,7 @@ typedef struct WiFiMatching {
     /* 444 */ u64 mLastCommandTime;
     // Set by DWCi_SetMatchCommonParam; called with (error kind or 0, 0 or 1, ..., mResultCallbackArg), among others by
     // DWCi_StopMatching.
-    /* 44c */ DWCMatchedCallback mResultCallback;
+    /* 44c */ DWCMatchedSCCallback mResultCallback;
     /* 450 */ u32 mResultCallbackArg;
     /* 454 */ void (*mNewParticipantCallback)(u32 friendIndex, u32 callbackArg);
     /* 458 */ u32 mNewParticipantCallbackArg;
@@ -149,26 +153,27 @@ enum {
     WIFI_MATCH_MODE_SERVER_CLIENT = 3,
 };
 
-// Retry counts and timeouts (milliseconds) of the matching: a command is sent again after DWC_MATCH_CMD_RTT_TIMEOUT
-// and given up after DWC_MATCH_CMD_RETRY_MAX tries; a friend reservation is kept for DWC_MATCH_RESV_KEEP_TIME_FRIEND.
-#define DWC_MAX_CONNECTIONS 32
-#define DWC_MATCH_CMD_RETRY_MAX 5
-#define DWC_MATCH_CMD_RTT_TIMEOUT 6000
-#define DWC_MATCH_CMD_RESV_TIMEOUT_MSEC 6000
-#define DWC_MATCH_SB_UPDATE_TIMEOUT 13000
-#define DWC_MATCH_RESV_KEEP_TIME_FRIEND (DWC_MATCH_CMD_RTT_TIMEOUT + DWC_MATCH_SB_UPDATE_TIMEOUT)
-#define DWC_WAIT_GT2_CONNECT_TIMEOUT 25000
-#define DWC_MATCH_LINK_CLS_TIMEOUT 30000
-#define DWC_WAIT_NN_RETRY_TIMEOUT 10000
-#define DWC_MATCH_NN_FAILURE_MAX 5
-#define DWC_RESV_COMMAND_RETRY_MAX 16
+// Timeouts (milliseconds) and retry limits of the matching. A CONNECT_INFO command with
+// no answer is sent again after WIFI_MATCH_COMMAND_WAIT_MSEC; the resend, reserve retry and connect retry counters
+// give up once they pass WIFI_MATCH_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
+// WIFI_MATCH_COMMAND_WAIT_MSEC in a filter search and after WIFI_MATCH_RESERVE_OK_KEEP_MSEC in every mode.
+#define WIFI_MATCH_RETRY_MAX 5
+#define WIFI_MATCH_COMMAND_WAIT_MSEC 6000
+#define WIFI_MATCH_RESV_TIMEOUT_MSEC 6000
+#define WIFI_MATCH_RESERVE_OK_KEEP_MSEC 19000
+#define WIFI_MATCH_INCOMING_WAIT_MSEC 25000
+#define WIFI_MATCH_PARTICIPANT_INFO_WAIT_MSEC 30000
+#define WIFI_MATCH_NN_FAILED_WAIT_MSEC 10000
+#define WIFI_MATCH_NATNEG_FAILURE_LIMIT 5
+#define WIFI_MATCH_PRIOR_RESV_DELAY_MAX 16
 #define WIFI_MATCH_RESUME_WAIT_MSEC 3000
-#define WIFI_MATCH_RESV_TIMEOUT_WRAPPED_MSEC 3000
+#define MATCH_RESEND_INTERVAL_MS 3000
 
 // Values of WiFiMatching.mLastCommand and the command number of the matching messages DWCi_SendMatchCommand sends and
-// DWCi_ProcessRecvMatchCommand handles. RESERVE asks a host for a place (RESERVE_PRIORITY when a prior host is set);
-// the host answers with RESERVE_OK, RESERVE_DENIED or RESERVE_WAIT. CONNECT_INFO carries the address for the
-// connection, PARTICIPANT_INFO and PARTICIPANT_ACK pass on the participant list entries. NONE is no command.
+// DWCi_ProcessRecvMatchCommand handles. RESERVE asks a host for a place (RESERVE_PRIORITY when mPriorProfileId is set);
+// the host answers with RESERVE_OK, RESERVE_DENIED or RESERVE_WAIT, or with no command (NONE). CONNECT_INFO carries the
+// address and port for the connection, PARTICIPANT_INFO passes on a participant list entry and PARTICIPANT_ACK
+// acknowledges it.
 enum {
     WIFI_MATCH_COMMAND_RESERVE = 1,
     WIFI_MATCH_COMMAND_RESERVE_OK = 2,
@@ -193,20 +198,21 @@ enum {
 };
 
 // Values of WiFiMatching.mCloseKind, set while the matching closes connections itself: the close callback is ignored
-// (1), or ignored and DWCi_ProcessMatchSCClosing also skips its cancel (2); 3 marks the close after a failure.
+// (1), or ignored and DWCi_ProcessMatchSCClosing also skips its cancel (2); 3 marks closing every remaining connection
+// after one connection closed.
 enum {
     WIFI_MATCH_CLOSE_NONE = 0,
     WIFI_MATCH_CLOSE_IGNORE_CALLBACK = 1,
     WIFI_MATCH_CLOSE_IGNORE_CALLBACK_AND_SC_CANCEL = 2,
-    WIFI_MATCH_CLOSE_AFTER_FAILURE = 3,
+    WIFI_MATCH_CLOSE_ALL_AFTER_CLOSE = 3,
 };
 
-// Values of WiFiMatching.mServerUpdateWaitKind: no update waits, or one waits 1000 ms or 3000 ms before the server
-// list update is requested.
+// Values of WiFiMatching.mServerUpdateWaitKind: no wait, 1 waits 1000 ms and 2 waits 3000 ms before DWCi_SBUpdateAsync
+// is called, except in state LIST_SEARCH where either waits mLastParticipantPos * 3000 + 3000 ms.
 enum {
     WIFI_MATCH_UPDATE_WAIT_NONE = 0,
-    WIFI_MATCH_UPDATE_WAIT_SHORT = 1,
-    WIFI_MATCH_UPDATE_WAIT_LONG = 2,
+    WIFI_MATCH_UPDATE_WAIT_1000_MS = 1,
+    WIFI_MATCH_UPDATE_WAIT_3000_MS = 2,
 };
 
 void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData);

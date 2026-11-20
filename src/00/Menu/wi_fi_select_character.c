@@ -12,7 +12,7 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-WiFiStateCallbacks gSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState,
+WiFiStateCallbacks gWiFiSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState,
                                                 AdvanceWiFiSelectCharacterState, WriteSelectCharacterRegistersWrapper};
 WiFiSelectHeapHolder *gWiFiSelectCharacterState;
 
@@ -24,7 +24,7 @@ void InitWiFiSelectCharacterState(void *heap) {
     gWiFiSelectCharacterState = HeapAlloc(heap, 4);
     gWiFiSelectCharacterState->mHeap = heap;
     InitWiFiSelectCharacterNop();
-    if (GetWiFiPrevState() != 5) {
+    if (GetWiFiPrevState() != WIFI_STATE_SELECT_KART) {
         PackWiFiSessionIndicesWrapper();
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(DWC_GetMyAID()));
         SetSessionKartCount(gWiFiSession->mKartCount);
@@ -32,7 +32,7 @@ void InitWiFiSelectCharacterState(void *heap) {
     firstOamList = GetWiFiMenuMainOamList();
     secondOamList = GetWiFiMenuSubOamList();
     InitSelectCharacter(heap, 2, firstOamList, secondOamList);
-    SetLinkLevelIconEnabled(1, 1);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 1);
     gMenuShared->mOtherKartCountAdded = FALSE;
     for (index = 0; index < 4; index++) {
         gMenuShared->mUnk_5c[index] = 0;
@@ -50,7 +50,7 @@ void AdvanceWiFiSelectCharacterState(void) {
     s32 selectResult;
 
     selectResult = AdvanceSelectCharacter();
-    if (selectResult == 1 || selectResult == 3) {
+    if (selectResult == 1 || selectResult == SELECT_CHARACTER_RESULT_TIME_UP) {
         if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(WIFI_STATE_CONNECTION_LOST);
             return;
@@ -58,18 +58,18 @@ void AdvanceWiFiSelectCharacterState(void) {
         if (selectResult == 1) {
             RequestWiFiState(WIFI_STATE_SELECT_KART);
         }
-        if (selectResult == 3) {
+        if (selectResult == SELECT_CHARACTER_RESULT_TIME_UP) {
             RequestWiFiState(WIFI_STATE_VS_COURSE_SELECT);
         }
     }
 }
 
 void WriteSelectCharacterRegistersWrapper(void) {
-    u32 unusedScratch;
+    u32 unusedValue;
     WriteSelectCharacterRegisters();
 }
 
 void RegisterSelectCharacterCallbacks(void) {
-    WiFiStateCallbacks callbacks = gSelectCharacterCallbacks;
+    WiFiStateCallbacks callbacks = gWiFiSelectCharacterCallbacks;
     SetWiFiStateCallbacks(&callbacks);
 }

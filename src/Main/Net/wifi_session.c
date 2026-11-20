@@ -18,7 +18,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "00/Lib/DWC/matchmaking.h"
 #include "Main/Race/race_setup.h"
 #include "print_memory_multibyte_write.h"
@@ -44,7 +44,7 @@ StateCallbacks gWiFiSessionStateTable[7] = {
     {0, 0},
     {EnterWiFiSessionLogin, UpdateWiFiSessionLoginState},
     {0, 0},
-    {EnterWiFiSessionSearch, UpdateWiFiSessionSearch},
+    {EnterWiFiSessionMatching, UpdateWiFiSessionMatching},
     {EnterWiFiSessionExchangeNop, UpdateWiFiSessionExchange},
     {EnterWiFiSessionRace, UpdateWiFiSessionRace},
     {0, UpdateWiFiSessionUnusedNop},
@@ -56,8 +56,8 @@ void PackWiFiSessionIndicesWrapper(void) {
     PackWiFiSessionIndices();
 }
 
-// Gives each index in mKartMask the next running number in mPackedIndices (others -1) and tells CopyKartCupRecords the
-// old and new number.
+// Of the first mStartKartCount indices, gives each one in mKartMask the next running number in mPackedIndices (the
+// others -1) and tells CopyKartCupRecords the old and new number.
 void PackWiFiSessionIndices(void) {
     u8 kartIndex;
     s8 nextNumber = 0;
@@ -86,14 +86,14 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
     if (frames > limit) {
         gWiFiSession->mStepFrames = 0;
         step = gWiFiSession->mStep;
-        if (step == WIFI_SESSION_STEP_EXCHANGE_RECORDS || step == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
+        if (step == WIFI_SESSION_STEP_EXCHANGE_RECORDS || step == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT ||
             step == WIFI_SESSION_STEP_WAIT_BACKUP) {
             gWiFiSession->mEarlyStepTimedOut = TRUE;
             DWC_RegisterMatchingStatus();
             DWC_CloseAllConnectionsHard();
             gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
         } else {
-            if (step == WIFI_SESSION_STEP_VERIFY_RESULT || step == WIFI_SESSION_STEP_READY) {
+            if (step == WIFI_SESSION_STEP_VERIFY_RESULT || step == WIFI_SESSION_STEP_VERIFY_DONE) {
                 return TRUE;
             }
             gWiFiSession->mConnectionLost = TRUE;
@@ -120,8 +120,9 @@ static inline BOOL IsWiFiSessionMessageMatching(const WiFiSessionMessage *messag
     return FALSE;
 }
 
-// Receive callback of the net layer: validates the header, checks the kind against the step, copies the message into
-// the own array and sets mReceivedMask.
+// Receive callback of the net layer: ignores senders outside mKartMask from the pick exchange on, resets
+// mSinceCallbackFrames, validates the header and the kind for the step, then per kind sets mSendRecordMask or copies
+// mReceiveBuffers[fromIndex] to mIndexMessages[fromIndex] and sets mReceivedMask.
 void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
     WiFiSessionMessage *message;
     u8 ownIndex;
@@ -146,7 +147,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             DWC_SetRecvBuffer(fromIndex, &gWiFiSession->mReceiveBuffers[fromIndex], sizeof(WiFiSessionMessage));
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
@@ -173,7 +174,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
                 gWiFiSession->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
@@ -314,7 +315,7 @@ BOOL IsWiFiSessionStep10Reached(void) {
     WiFiSession *session = gWiFiSession;
     s32 step = session->mStep;
 
-    if (step < WIFI_SESSION_STEP_READY) {
+    if (step < WIFI_SESSION_STEP_VERIFY_DONE) {
         if (session->mConnectionLost != TRUE || step != WIFI_SESSION_STEP_ENDED) {
             result = FALSE;
         }
@@ -329,7 +330,7 @@ s32 GetWiFiSessionContinueResult(void) {
     step = gWiFiSession->mStep;
     if (step >= WIFI_SESSION_STEP_EXCHANGE_PICKS) {
         if (gWiFiSession->mKartCount > 1) {
-            return WIFI_CONTINUE_RESULT_KARTS_LEFT;
+            return WIFI_CONTINUE_RESULT_KARTS_REMAINING;
         }
         return WIFI_CONTINUE_RESULT_ENDED;
     }
@@ -344,8 +345,8 @@ s32 GetWiFiSessionContinueResult(void) {
     return WIFI_CONTINUE_RESULT_NOT_SETTLED;
 }
 
-// Counts the course picks of the indices in mKartMask and stores the most picked in the race setup's mCourseId; ties
-// are settled with the object's own LCG (mRandom).
+// Counts the course picks (mPickedCourseId) of the first mStartKartCount indices in mKartMask and stores the most
+// picked in the race setup copy's mCourseId; ties are settled with the session's own random state (mRandom).
 void TallyPickedCourse(void) {
     u8 participantIndex;
     u8 highestCount = 0;
@@ -376,11 +377,11 @@ void TallyPickedCourse(void) {
     if (tiedCount == 0) {
         tieIndex = 0;
     } else {
-        randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+        RANDOM_ADVANCE(randomState);
         if (tiedCount == 0) {
-            tieIndex = randomState->mValue >> 32;
+            tieIndex = RANDOM_HIGH32(randomState);
         } else {
-            tieIndex = ((randomState->mValue >> 32) * (u32) tiedCount) >> 32;
+            tieIndex = RANDOM_BELOW(randomState, (u32) tiedCount);
         }
     }
     talliedCourseId = tiedCourses[(u16) tieIndex];
@@ -443,7 +444,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
     switch (kind) {
         case WIFI_SESSION_MESSAGE_RECORD_REQUEST:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
-                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 return TRUE;
             }
             break;
@@ -454,7 +455,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
-                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 return TRUE;
             }
             break;
@@ -471,7 +472,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
+            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT ||
                 (u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_CONFIRM_CONTINUE) <=
                     WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS - WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
                 return TRUE;
@@ -671,7 +672,7 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
 
 s32 CheckWiFiMatchingResult(void) {
     if ((gWiFiSession->mEarlyStepTimedOut != 0 && DWC_GetNumConnectionHost() <= 1) ||
-        gWiFiSession->mErrorKind == WIFI_ERROR_KIND_UNRECOVERABLE) {
+        gWiFiSession->mErrorKind == WIFI_ERROR_KIND_TOO_FEW_BUDDIES) {
         return -1;
     }
     return IsWiFiStep5ReachedNoDisconnect() != FALSE;
@@ -726,7 +727,7 @@ void RegisterKartKeysAndStart(void) {
             DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
                                       ComputeRegionEloEval, 0);
             break;
-        case WIFI_MATCH_TYPE_FRIENDS:
+        case WIFI_MATCH_TYPE_BUDDIES:
             DWC_ConnectToFriendsAsync(NULL, 0, gWiFiSession->mNumEntry, 1, KartKeysStartCallback, NULL, 0, 0);
             break;
         case WIFI_MATCH_TYPE_ELO:
@@ -882,7 +883,7 @@ void ResetWiFiSession(void) {
     MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, sizeof(gWiFiSession->mReceiveBuffers));
     MI_CpuFill8(gWiFiSession->mIndexMessages, 0, sizeof(gWiFiSession->mIndexMessages));
     MI_CpuFill8(&gWiFiSession->mLogin, 0, sizeof(gWiFiSession->mLogin));
-    gWiFiSession->mResetToOff = FALSE;
+    gWiFiSession->mUnk_1f34 = FALSE;
     gWiFiSession->mRaceSyncEnabled = FALSE;
     gWiFiSession->mIrqCallbackCount = 0;
     gWiFiSession->mDisconnectKind = WIFI_DISCONNECT_NONE;
@@ -890,7 +891,7 @@ void ResetWiFiSession(void) {
     gWiFiSession->mErrorCode = 0;
     gWiFiSession->mUnk_1f4c = 0;
     gWiFiSession->mUnk_1f4d = 0;
-    MI_CpuFill8(gWiFiSession->mPackedIndices, 0, 4);
+    MI_CpuFill8(gWiFiSession->mPackedIndices, 0, WIFI_SESSION_KART_SLOTS);
     gWiFiSession->mKartCount = 0;
     gWiFiSession->mStartKartCount = 0;
     gWiFiSession->mKartCountCopy = 0;
@@ -908,8 +909,8 @@ u32 CheckWiFiSessionDisconnect(void) {
     session = gWiFiSession;
     if (session->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
         errorKind = session->mErrorKind;
-        if (errorKind == WIFI_ERROR_KIND_LINK_DROPPED || errorKind == WIFI_ERROR_KIND_MATCHING_CLOSED ||
-            errorKind == WIFI_ERROR_KIND_HTTP_CLOSED || errorKind == 0xb) {
+        if (errorKind == WIFI_ERROR_KIND_NETWORK || errorKind == WIFI_ERROR_KIND_UNAVAILABLE ||
+            errorKind == WIFI_ERROR_KIND_TEMPORARILY_UNAVAILABLE || errorKind == 0xb) {
             return WIFI_DISCONNECT_ERROR;
         }
         if (session->mDisconnectKind == WIFI_DISCONNECT_OPPONENT_LEFT) {
@@ -963,7 +964,8 @@ void CreateWiFiSessionHeap(void *heap) {
     DWC_SetMemFunc(WiFiSessionHeapAlloc, WiFiSessionHeapFree);
 }
 
-// Destroys the heap and frees its buffer (mHeap is left set), clears mHeapCreated and requests state 0.
+// If mHeap is set, destroys the heap and frees its buffer (mHeap stays set); always clears mHeapCreated and requests
+// WIFI_SESSION_STATE_OFF.
 void DeleteWiFiSessionHeap(void) {
     StateMachine *stateMachine;
 
@@ -982,7 +984,7 @@ void ResetWiFiSessionToOff(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
-    gWiFiSession->mResetToOff = TRUE;
+    gWiFiSession->mUnk_1f34 = TRUE;
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
@@ -1006,14 +1008,14 @@ void UpdateBuddyStatuses(void) {
     buddyIndex = 0;
     do {
         switch (countSession->mBuddyStatuses[buddyIndex]) {
-            case WIFI_BUDDY_STATUS_NOT_COUNTED:
+            case FRIEND_STATUS_PLAYING:
                 break;
-            case WIFI_BUDDY_STATUS_COUNTED:
+            case FRIEND_STATUS_MATCH_FRIEND:
                 status4Count++;
                 break;
         }
         buddyIndex++;
-    } while (buddyIndex < 0x3c);
+    } while (buddyIndex < WIFI_BUDDY_COUNT);
     countSession->mStatus4BuddyCount = status4Count;
 }
 
@@ -1039,7 +1041,7 @@ s32 SendWiFiPacketToParticipant(u32 participantIndex, void *packet, s32 size, u3
     return DWC_SendUnreliable(participantIndex, packet, size);
 }
 
-// Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.
+// Returns the PlayerRecord inside the index's WiFiPlayerRecord, or NULL if the index is not in mKartMask.
 PlayerRecord *GetWiFiSessionPlayerRecordData(u32 index) {
     WiFiSession *session = gWiFiSession;
 

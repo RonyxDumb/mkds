@@ -242,16 +242,16 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
             break;
         case 'o':
             base = 8;
-            signKind = 0;
+            signKind = FORMAT_WIDE_SIGN_NONE;
             break;
         case 'u':
             base = 10;
-            signKind = 0;
+            signKind = FORMAT_WIDE_SIGN_NONE;
             break;
         case 'x':
         case 'X':
             base = 16;
-            signKind = 0;
+            signKind = FORMAT_WIDE_SIGN_NONE;
             break;
     }
     do {
@@ -275,7 +275,7 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
     }
     if (spec.mPadKind == FORMAT_WIDE_PAD_ZEROS) {
         precision = width;
-        if (count != 0 || signKind != 0) {
+        if (count != 0 || signKind != FORMAT_WIDE_SIGN_NONE) {
             precision--;
         }
         if (base == 16 && alt != 0) {
@@ -344,16 +344,16 @@ u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
             break;
         case 'o':
             base = 8;
-            signKind = 0;
+            signKind = FORMAT_WIDE_SIGN_NONE;
             break;
         case 'u':
             base = 10;
-            signKind = 0;
+            signKind = FORMAT_WIDE_SIGN_NONE;
             break;
         case 'x':
         case 'X':
             base = 16;
-            signKind = 0;
+            signKind = FORMAT_WIDE_SIGN_NONE;
             break;
     }
     do {
@@ -377,7 +377,7 @@ u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
     }
     if (spec.mPadKind == FORMAT_WIDE_PAD_ZEROS) {
         precision = width;
-        if (count != 0 || signKind != 0) {
+        if (count != 0 || signKind != FORMAT_WIDE_SIGN_NONE) {
             precision--;
         }
         if (base == 16 && alt != 0) {

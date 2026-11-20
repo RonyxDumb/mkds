@@ -36,13 +36,13 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/collision_hit_link.h"
 #include "Main/MapObjects/group_item_box.h"
@@ -154,10 +154,11 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
     koopaBlock->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags |= gKoopaBlockFlag;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;
+    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     koopaBlock->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_ACCELERATE;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
+    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared =
+        gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared;
 }

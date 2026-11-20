@@ -8,12 +8,8 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 
-#define ITEM_BOX_SHADOW_MODE_REFRESH_FAILED 2
-
 #define ITEM_BOX_BOX_ALPHA 0x1a
 #define ITEM_BOX_QUESTION_ALPHA 0x14
-#define ITEM_BOX_BOX_ROTATION_STEPS 0x12c
-#define ITEM_BOX_QUESTION_ROTATION_STEPS 0x82
 
 typedef struct ItemBox ItemBox;
 

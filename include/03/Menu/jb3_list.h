@@ -8,17 +8,17 @@
 
 typedef struct Rect Rect;
 
-// Ids of what can be hit or selected in the list (gJb3ListSelectedId, Jb3List.mChosenId). The IP and DNS rows each
-// have two ids; the first one is the choice that clears the addresses.
+// Ids of what can be hit or selected in the list (gJb3ListSelectedId, Jb3List.mChosenId, mReturnId). The IP and DNS
+// rows each have two ids; the first one stores 1 in mIpNone or mDnsNone, the second stores 0.
 #define JB3_ID_SSID 0
-#define JB3_ID_KEY 1
-#define JB3_ID_IP_AUTO 2
-#define JB3_ID_IP_MANUAL 3
+#define JB3_ID_WEP_KEY 1
+#define JB3_ID_IP_NONE 2
+#define JB3_ID_IP_NOT_NONE 3
 #define JB3_ID_IP_ADDRESS 4
 #define JB3_ID_NETMASK 5
 #define JB3_ID_GATEWAY 6
-#define JB3_ID_DNS_AUTO 7
-#define JB3_ID_DNS_MANUAL 8
+#define JB3_ID_DNS_NONE 7
+#define JB3_ID_DNS_NOT_NONE 8
 #define JB3_ID_DNS_FIRST 9
 #define JB3_ID_DNS_SECOND 10
 #define JB3_ID_CONNECT 11
@@ -37,11 +37,11 @@ typedef struct Rect Rect;
 #define JB3_ENTRY_DNS_FIRST 7
 #define JB3_ENTRY_DNS_SECOND 8
 
-// Frames a dragged scroll bar waits between redraws, and frames a hit IP or DNS choice stays highlighted.
+// Frames a dragged scroll bar waits between redraws, and frames a touched IP or DNS choice stays pressed.
 #define JB3_LIST_SCROLL_TIMER_FRAMES 4
 #define JB3_LIST_ID_PRESSED_FRAMES 0x14
 
-// Table of bytes PlaceJb3ListSelectionPair reads.
+// The selection rect index (mRectIndices) for each selected id of the Jb3 list.
 typedef struct Jb3ListSelectionRectIndices {
     /* 00 */ u8 mRectIndices[0xe];
 } Jb3ListSelectionRectIndices;

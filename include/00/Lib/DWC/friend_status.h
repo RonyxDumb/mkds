@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-// Status of a friend as the matching code reports it through the status of the profile connection.
+// Values of GpBuddyStatus.mStatus: what a player's profile status says; set with DWCi_SetGPStatus and read from friends
+// by DWC_GetFriendStatusSC.
 enum {
-    DWC_STATUS_OFFLINE,
-    DWC_STATUS_ONLINE,
-    DWC_STATUS_PLAYING,
-    DWC_STATUS_MATCH_ANYBODY,
-    DWC_STATUS_MATCH_FRIEND,
-    DWC_STATUS_MATCH_SC_CL,
-    DWC_STATUS_MATCH_SC_SV,
+    FRIEND_STATUS_OFFLINE,
+    FRIEND_STATUS_ONLINE,
+    FRIEND_STATUS_PLAYING,
+    FRIEND_STATUS_MATCH_ANYBODY,
+    FRIEND_STATUS_MATCH_FRIEND,
+    FRIEND_STATUS_MATCH_SERVER = 6,
 };
 
 void DWC_DeleteBuddyFriendData(void *friendData);

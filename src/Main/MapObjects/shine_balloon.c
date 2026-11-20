@@ -101,10 +101,10 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
                 return;
             }
             shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
-            shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED;
+            shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_APPEAR_PULSE_SCALE_SPEED;
             shineBalloonObject->mState = SHINE_BALLOON_STATE_APPEAR;
-            shineBalloonObject->mMapObject.mFlags &= ~2;
-            shineBalloonObject->mMapObject.mFlags &= ~8;
+            shineBalloonObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            shineBalloonObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             shineBalloonObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             break;
         case SHINE_BALLOON_STATE_APPEAR:
@@ -115,8 +115,8 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
             shineBalloonObject->mPulseScale += shineBalloonObject->mPulseScaleSpeed;
             shineBalloonObject->mPulseScaleSpeed -= 4;
             if (shineBalloonObject->mPulseScaleSpeed < 0) {
-                if (shineBalloonObject->mPulseScale <= SHINE_BALLOON_PULSE_SCALE_MIN) {
-                    shineBalloonObject->mPulseScale = SHINE_BALLOON_PULSE_SCALE_MIN;
+                if (shineBalloonObject->mPulseScale <= SHINE_BALLOON_SHOWN_PULSE_SCALE) {
+                    shineBalloonObject->mPulseScale = SHINE_BALLOON_SHOWN_PULSE_SCALE;
                     shineBalloonObject->mState = SHINE_BALLOON_STATE_SHOWN;
                 }
             }
@@ -125,7 +125,7 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
         case SHINE_BALLOON_STATE_SHOWN:
             if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
                 shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
-                shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED;
+                shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_DISAPPEAR_PULSE_SCALE_SPEED;
                 shineBalloonObject->mState = SHINE_BALLOON_STATE_DISAPPEAR;
             }
             shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;

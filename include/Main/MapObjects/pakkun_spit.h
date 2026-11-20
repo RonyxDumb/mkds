@@ -6,7 +6,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 
-// The spit of a Pakkun plant: a follower, its height motion, state and particle emitter.
+// The spit of a Pakkun: a follower, its height motion, state and particle emitter.
 typedef struct PakkunSpit {
     /* 00 */ MapObject mMapObject;
     /* a0 */ GroupFollower mFollower;
@@ -20,7 +20,7 @@ typedef struct PakkunSpit {
 
 #define PAKKUN_SPIT_HEIGHT_SPEED 0x5800
 
-#define PAKKUN_SPIT_OBJECT_SOUND_ID 0x1af
+#define PAKKUN_SPIT_BOUNCE_SOUND_ID 0x1af
 
 MapObjectKindData *CreatePakkunSpitKindData(void);
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit);

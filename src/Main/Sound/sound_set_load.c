@@ -11,17 +11,17 @@
 #include "sound_bank_wave_archive.h"
 #include "sound_archive_load.h"
 #include "sound_archive_load_result.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Sound/sound_system.h"
-#include "Main/Sound/sound_archive_setup.h"
+#include "Main/Sound/sound_archive_setup_and_file_id_clear.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -32,7 +32,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
 const SoundSet gEmptySoundSet = {SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE};
-u8 gSoundSetSdatPath[28] = "/data/Sound/sound_data.sdat";
+u8 gLoadSoundDataSdatPath[28] = "/data/Sound/sound_data.sdat";
 const SoundSet gResetEmptySoundSet = {SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE};
 const SoundSet gReleaseEmptySoundSet = {SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE};
 NNSSndHeap *gCurrentSndHeap;
@@ -43,8 +43,8 @@ void ReleaseLoadedSoundSet(void) {
     ReleaseSoundSet(GetLoadedSoundSet());
 }
 
-// Loads wave archives 0 and 0x50 (taken from archives 0x61 and 0x62 when moveWaveArcs is set), assigns bank 0's wave
-// archives to it, then loads group groupId.
+// Loads wave archives 0 and 0x50 (from archives 0x61 and 0x62 when moveWaveArcs is set), assigns the wave archives that
+// bank 0 names to its slots, then loads group groupId.
 u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     NNSSndArcBankInfo *bankInfo;
     NNSSndArcWaveArcInfo *waveArcInfo;
@@ -60,21 +60,21 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
         if (NNS_SndArcLoadWaveArc(0x61, gCurrentSndHeap) == 0) {
             loaded = 0;
         } else {
-            NNSSndArcWaveArcInfo *waveArcInfo;
+            NNSSndArcWaveArcInfo *sourceWaveArc;
             NNSSndArcWaveArcInfo *destWaveArc;
             u32 sourceFileId;
-            u32 fileId;
+            u32 destFileId;
 
-            waveArcInfo = NNS_SndArcGetWaveArcInfo(0x61);
+            sourceWaveArc = NNS_SndArcGetWaveArcInfo(0x61);
             destWaveArc = NNS_SndArcGetWaveArcInfo(0);
-            fileId = (destWaveArc)->mFileId;
-            sourceFileId = waveArcInfo->mFileId;
-            NNS_SndArcSetFileAddress(fileId, NNS_SndArcGetFileAddress(sourceFileId));
+            destFileId = (destWaveArc)->mFileId;
+            sourceFileId = sourceWaveArc->mFileId;
+            NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
             NNS_SndArcSetFileAddress(sourceFileId, NULL);
             loaded = 1;
             listCount = gSndDataFileIdList.mCount;
             gSndDataFileIdList.mCount = listCount + 1;
-            gSndDataFileIdList.mFileIds[listCount] = fileId;
+            gSndDataFileIdList.mFileIds[listCount] = destFileId;
         }
         if (loaded == 0) {
             return 0;
@@ -82,21 +82,21 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
         if (NNS_SndArcLoadWaveArc(0x62, gCurrentSndHeap) == 0) {
             loaded = 0;
         } else {
-            NNSSndArcWaveArcInfo *waveArcInfo;
+            NNSSndArcWaveArcInfo *sourceWaveArc;
             NNSSndArcWaveArcInfo *destWaveArc;
             u32 sourceFileId;
-            u32 fileId;
+            u32 destFileId;
 
-            waveArcInfo = NNS_SndArcGetWaveArcInfo(0x62);
+            sourceWaveArc = NNS_SndArcGetWaveArcInfo(0x62);
             destWaveArc = NNS_SndArcGetWaveArcInfo(0x50);
-            fileId = (destWaveArc)->mFileId;
-            sourceFileId = waveArcInfo->mFileId;
-            NNS_SndArcSetFileAddress(fileId, NNS_SndArcGetFileAddress(sourceFileId));
+            destFileId = (destWaveArc)->mFileId;
+            sourceFileId = sourceWaveArc->mFileId;
+            NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
             NNS_SndArcSetFileAddress(sourceFileId, NULL);
             loaded = 1;
             listCount = gSndDataFileIdList.mCount;
             gSndDataFileIdList.mCount = listCount + 1;
-            gSndDataFileIdList.mFileIds[listCount] = fileId;
+            gSndDataFileIdList.mFileIds[listCount] = destFileId;
         }
         if (loaded == 0) {
             return 0;
@@ -164,8 +164,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     list->mCount = 0;
     if (loadExtras != 0) {
         switch (soundSet.mSeqId) {
-            case SOUND_SET_FIRST_SEQ_SWAP:
-                if (NNS_SndArcLoadWaveArc(WAVE_ARC_FIRST_SWAP_SOURCE, gCurrentSndHeap) == 0) {
+            case SOUND_SET_FIRST_MOVE_SEQ_ID:
+                if (NNS_SndArcLoadWaveArc(WAVE_ARC_FIRST_MOVE_SOURCE, gCurrentSndHeap) == 0) {
                     loaded = 0;
                 } else {
                     NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -173,8 +173,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                     u32 sourceFileId;
                     u32 destFileId;
 
-                    sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FIRST_SWAP_SOURCE);
-                    destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FIRST_SWAP_DEST);
+                    sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FIRST_MOVE_SOURCE);
+                    destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FIRST_MOVE_DEST);
                     destFileId = destWaveArc->mFileId;
                     sourceFileId = sourceWaveArc->mFileId;
                     NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
@@ -188,8 +188,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                     return 0;
                 }
                 break;
-            case SOUND_SET_SECOND_SEQ_SWAP:
-                if (NNS_SndArcLoadWaveArc(WAVE_ARC_SECOND_SWAP_SOURCE, gCurrentSndHeap) == 0) {
+            case SOUND_SET_SECOND_MOVE_SEQ_ID:
+                if (NNS_SndArcLoadWaveArc(WAVE_ARC_SECOND_MOVE_SOURCE, gCurrentSndHeap) == 0) {
                     loaded = 0;
                 } else {
                     NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -197,8 +197,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                     u32 sourceFileId;
                     u32 destFileId;
 
-                    sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_SECOND_SWAP_SOURCE);
-                    destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_SECOND_SWAP_DEST);
+                    sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_SECOND_MOVE_SOURCE);
+                    destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_SECOND_MOVE_DEST);
                     destFileId = destWaveArc->mFileId;
                     sourceFileId = sourceWaveArc->mFileId;
                     NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
@@ -212,8 +212,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                     return 0;
                 }
                 break;
-            case SOUND_SET_THIRD_SEQ_SWAP:
-                if (NNS_SndArcLoadWaveArc(WAVE_ARC_THIRD_SWAP_SOURCE, gCurrentSndHeap) == 0) {
+            case SOUND_SET_THIRD_MOVE_SEQ_ID:
+                if (NNS_SndArcLoadWaveArc(WAVE_ARC_THIRD_MOVE_SOURCE, gCurrentSndHeap) == 0) {
                     loaded = 0;
                 } else {
                     NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -221,8 +221,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                     u32 sourceFileId;
                     u32 destFileId;
 
-                    sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_THIRD_SWAP_SOURCE);
-                    destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_THIRD_SWAP_DEST);
+                    sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_THIRD_MOVE_SOURCE);
+                    destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_THIRD_MOVE_DEST);
                     destFileId = destWaveArc->mFileId;
                     sourceFileId = sourceWaveArc->mFileId;
                     NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
@@ -237,8 +237,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                 }
                 break;
         }
-        if (soundSet.mFirstBankId == SOUND_SET_FOURTH_BANK_SWAP) {
-            if (NNS_SndArcLoadWaveArc(WAVE_ARC_FOURTH_SWAP_SOURCE, gCurrentSndHeap) == 0) {
+        if (soundSet.mFirstBankId == SOUND_SET_FOURTH_MOVE_BANK_ID) {
+            if (NNS_SndArcLoadWaveArc(WAVE_ARC_FOURTH_MOVE_SOURCE, gCurrentSndHeap) == 0) {
                 loaded = 0;
             } else {
                 NNSSndArcWaveArcInfo *sourceWaveArc;
@@ -246,8 +246,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                 u32 sourceFileId;
                 u32 destFileId;
 
-                sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FOURTH_SWAP_SOURCE);
-                destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FOURTH_SWAP_DEST);
+                sourceWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FOURTH_MOVE_SOURCE);
+                destWaveArc = NNS_SndArcGetWaveArcInfo(WAVE_ARC_FOURTH_MOVE_DEST);
                 destFileId = destWaveArc->mFileId;
                 sourceFileId = sourceWaveArc->mFileId;
                 NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
@@ -305,7 +305,7 @@ u32 LoadSndDataFromFile(void) {
     u32 listCount;
 
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    loadResult = SetupSndArcFromFile(&gFileSndArc, gSoundSetSdatPath, gCurrentSndHeap, 0);
+    loadResult = SetupSndArcFromFile(&gFileSndArc, gLoadSoundDataSdatPath, gCurrentSndHeap, 0);
     SetFileSndArcOpen(1);
     if (loadResult == 0) {
         return 0;

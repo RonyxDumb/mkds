@@ -82,16 +82,18 @@ extern MtxFx44 gKartNameTagProjection;
 
 extern const u16 gKartNameTagColorQuadPalette[4];
 
-extern u16 gKartNameTagLineVertices[12];
+extern u16 gKartNameTagSlantedQuadVertices[12];
 extern TexPlttEntry gKartNameTagColorQuadTexPltt;
 extern TexPlttEntry gKartNameTagEmblemTexPltt;
 extern TexPlttEntry gKartNameTagEntryNameTexPltt;
 extern TexPlttEntry gKartNameTagMaskedTexPltt;
 
-// Values of KartNameTag.mFadeState: no fade, fading in near the camera, fading out.
+// Values of KartNameTag.mFadeDirection: none yet, fade in (the tag is within the fade-in distance, or the camera kind
+// is 3), fade out (it is not).
 #define KART_NAME_TAG_FADE_NONE 0
 #define KART_NAME_TAG_FADE_IN 1
 #define KART_NAME_TAG_FADE_OUT 2
-// A name tag fades in when the squared distance to the camera is below this; the highest fade level it reaches.
+// A name tag fades in when the squared distance to the camera is below this, or the camera kind is 3 (and it is in
+// front of the camera); the highest fade level it reaches.
 #define KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED 0x9c400
 #define KART_NAME_TAG_FADE_LEVEL_MAX 0x1e

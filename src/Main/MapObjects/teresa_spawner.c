@@ -33,11 +33,11 @@ void InitTeresaSpawner(TeresaSpawner *mapObject) {
 }
 
 static inline u16 TeresaSpawnerNextRandomBelow(RandomState64 *randomState64, u32 limit) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE(randomState64);
     if (limit == 0) {
-        return randomState64->mValue >> 32;
+        return RANDOM_HIGH32(randomState64);
     }
-    return ((randomState64->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState64, limit);
 }
 
 static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
@@ -46,19 +46,19 @@ static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
     u32 limitU16;
     if (limit == 0x10000) {
         randomState64 = &gRaceProgress->mLocalRandom;
-        randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-        return (randomState64->mValue >> 32) * 0x10000 >> 32;
+        RANDOM_ADVANCE(randomState64);
+        return RANDOM_BELOW(randomState64, 0x10000);
     }
     randomState64 = &gRaceProgress->mLocalRandom;
     limitU16 = (u16) limit;
     if (limitU16 == 0) {
         value = 0;
     } else {
-        randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+        RANDOM_ADVANCE(randomState64);
         if (limitU16 == 0) {
-            value = randomState64->mValue >> 32;
+            value = RANDOM_HIGH32(randomState64);
         } else {
-            value = ((randomState64->mValue >> 32) * limitU16) >> 32;
+            value = RANDOM_BELOW(randomState64, limitU16);
         }
     }
     return value;
@@ -108,7 +108,7 @@ void InitTeresaSpawnerObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (spawner = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        spawner->mNearCheckTimer = TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, 0xf);
+        spawner->mNearCheckTimer = TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, TERESA_NEAR_CHECK_FRAMES);
     }
 }
 
@@ -117,8 +117,8 @@ RandomState64 *GetRaceLocalRandom(void) {
 }
 
 u16 NextRandomU16(RandomState64 *randomState64) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    return ((randomState64->mValue >> 32) * 0x10000) >> 32;
+    RANDOM_ADVANCE(randomState64);
+    return RANDOM_BELOW(randomState64, 0x10000);
 }
 
 s16 TeresaSpawnerFX_SinIdx(s32 angle) {
@@ -170,7 +170,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     switch (spawner->mState) {
         case TERESA_SPAWNER_STATE_FIRST_SPAWN:
             randomRange = FALSE;
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 for (spawnIndex = 0; spawnIndex < spawner->mMapObject.mCourseMapRow->mSettings[1]; spawnIndex++) {
                     if (spawner->mMapObject.mCourseMapRow->mSettings[0] > 0) {
                         maxDistance = 0.5f + TO_FIXED12(spawner->mMapObject.mCourseMapRow->mSettings[0]);
@@ -190,13 +190,13 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
             }
             spawner->mState = TERESA_SPAWNER_STATE_WAIT_KART_NEAR;
         case TERESA_SPAWNER_STATE_WAIT_KART_NEAR:
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 break;
             }
             if (spawner->mEntryKartNear == FALSE) {
                 break;
             }
-            if (GetCurrentCameraKind() != 0) {
+            if (GetCurrentCameraKind() != CAMERA_KIND_CHASE) {
                 StartTeresasAtRandomPositions(spawner, 0x1e, 0x14, 0x1f4, 4);
             } else {
                 StartTeresasAtRandomPositions(spawner, 6, 4, 0xa, 0x14);
@@ -210,7 +210,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
                 break;
             }
             if (spawner->mEntryKartNear != FALSE) {
-                if (GetCurrentCameraKind() != 0) {
+                if (GetCurrentCameraKind() != CAMERA_KIND_CHASE) {
                     StartTeresasAtRandomPositions(spawner, 0x1e, 1, 0x1f4, 4);
                 } else {
                     StartTeresasAtRandomPositions(spawner, 6, 1, 0xa, 0x14);
@@ -231,7 +231,7 @@ MapObjectKindData *CreateTeresaSpawnerKindData(void) {
 
     mode = gRaceSetup->mMode;
     if (mode == MODE_VS || mode == MODE_WIFI) {
-        if (GetCurrentCameraKind() == 0) {
+        if (GetCurrentCameraKind() == CAMERA_KIND_CHASE) {
             return 0;
         }
     }

@@ -120,7 +120,7 @@ void UsbScanCallback(WirelessMessage *message) {
     }
     switch (message->mReplyState) {
         case WIRELESS_STATE_HOST_SIGHTED:
-            if (scan->mReported != 0) {
+            if (scan->mScanTimeUp != 0) {
                 CheckUsbScanEntries((WMStartScanExCallback *) message);
             } else {
                 StoreUsbScanEntries((WMStartScanExCallback *) message);
@@ -223,7 +223,7 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
                         usbScan->mResultCallback(USB_SCAN_RESULT_FLAGGED);
                         return;
                     }
-                    usbScan->mPendingResult = 1;
+                    usbScan->mPendingResult = USB_SCAN_RESULT_FLAGGED;
                     return;
                 }
                 slotBssid += 7;

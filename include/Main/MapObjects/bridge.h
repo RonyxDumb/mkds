@@ -9,7 +9,8 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/pendulum.h"
 
-// A bridge map object that InitBridge fills: collision data, swing amplitude and angles, pause counts, animation frame.
+// A swinging bridge map object: its collision data, swing amplitude and angles, pause frame counts and timer, and
+// animation frame index.
 typedef struct Bridge {
     /* 000 */ CollisionMapObject mCollisionMapObject;
     /* 144 */ u16 mSwingAmplitude;

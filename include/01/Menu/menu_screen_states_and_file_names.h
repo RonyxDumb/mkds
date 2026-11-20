@@ -36,21 +36,25 @@ enum {
 #define OPTION_HENSYU_MENU_SLIDE_FRAMES 10
 #define OPTION_HENSYU_MENU_SLIDE_DISTANCE 250
 
-// Frames the chosen row is shown before the slide out; the highlight comes back at the fifth.
+// Frames the chosen row is held before the slide out; a row chosen while already selected has its highlight hidden
+// until the fifth frame.
 #define OPTION_HENSYU_MENU_PRESS_FRAMES 10
 #define OPTION_HENSYU_MENU_HIGHLIGHT_FRAME 5
 
-// The Hensyu (edit) option menu: its state, selected index, heap and layout tables.
+// The option menu with two rows, one leading to the keyboard scene and one to the emblem screens: its state, selected
+// index, heap and layout tables.
 typedef struct OptionHensyuMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* Init leaves it unset when the previous option state is not 0, 3, 5 or 6 (0, 5 -> 0, 3, 6 -> 1) */
+    /* Init sets it from the previous option state (TOP_MENU or SCENE_KEYBOARD -> 0, EMBREM_SELECT or SCENE_EMBLEM ->
+       1) and leaves it unset for any other. */
     /* 08 */ s32 mIndex;
     /* counted only in states 1, 4, 5; zeroed when 1 and 4 hand over; state 5 keeps counting while it requests the
        next option state */
     /* 0c */ s32 mStateFrames;
-    /* option state passed to RequestOptionState (0, 3, 5 or 6); no initial store, set by the input handler (state
-       3); also tested inside the screen */
+    /* option state chosen by the input handler (state 3): the top menu or emblem select state is passed to
+       RequestOptionState, the keyboard and emblem choices request the next scene instead; no initial store; also tested
+       inside the screen */
     /* 10 */ s32 mNextOptionState;
     /* 14 */ BOOL mHighlightVisible;
     /* 18 */ void *mHeap;
@@ -63,7 +67,8 @@ typedef struct OptionHensyuMenu {
     /* 30 */ void *mOptionHensyuMenuSBnbl;
 } OptionHensyuMenu;
 
-// Allocated by InitOptionStates and held in gOptionStates.
+// The option scene's state machine: its heap, state heap, state, next state, previous state, next scene, callbacks and
+// display settings.
 typedef struct OptionStates {
     /* 00 */ void *mHeap;
     /* 04 */ void *mStateHeap;
@@ -103,7 +108,8 @@ typedef struct MissionRunData {
     /* 48 */ struct MissionRunMapObject *mMapObjects[8];
 } MissionRunData;
 
-// Bytes of one 8 by 8 tile of cells; CreateEmblemGrid allocates the cell buffers one tile longer than the grid.
+// Bytes of one 8 by 8 tile of cells; CreateEmblemGrid allocates mBuffers[1] and mBuffers[2] one tile longer than the
+// grid, and GetEmblemGridCharSize reports that length.
 #define EMBLEM_GRID_TILE_BYTES 0x40
 
 // A square grid of mSide by mSide cells.
@@ -127,16 +133,17 @@ typedef enum SelectBattleStageVariant {
 
 // Values of SelectBattleStage.mState and mNextState.
 enum {
-    SELECT_BATTLE_STAGE_STATE_SLIDE_IN,
+    SELECT_BATTLE_STAGE_STATE_SLIDE_IN_AND_SETTLE,
     SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN,
     SELECT_BATTLE_STAGE_STATE_INPUT,
     SELECT_BATTLE_STAGE_STATE_PRESS_STAGE,
-    SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES,
+    SELECT_BATTLE_STAGE_STATE_RETURN_PRESS,
     SELECT_BATTLE_STAGE_STATE_CHOISES,
     SELECT_BATTLE_STAGE_STATE_SLIDE_OUT,
 };
 
-// Allocated by InitSelectBattleStage and held in gSelectBattleStage.
+// The select battle stage screen: its state, selected index, slide offsets, result, layout tables, loaded files, oam
+// lists and messages.
 typedef struct SelectBattleStage {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
@@ -150,18 +157,18 @@ typedef struct SelectBattleStage {
     /* 0024 */ s32 mResult;
     /* 0028 */ s32 mPendingResult;
     /* 002c */ BOOL mWaitForReturnHidden;
-    /* 0030 */ u16 mSelectBattleStageMNscrCopy[64][32];
+    /* 0030 */ u16 mSelectBattleStageMScreenMapCopy[64][32];
     /* 1030 */ void *mHeap;
     /* 1034 */ LayoutTableEntry *mSelectBattleStageTables[2];
-    /* 103c */ struct NNSG2dCellDataBank *mSelectBattleStageMNcer;
-    /* 1040 */ struct NNSG2dCellDataBank *mSelectBattleStageSNcer;
-    /* 1044 */ Ncgr *mSelectBattleStageMNcgr;
-    /* 1048 */ Ncgr *mSelectBattleStageSNcgr;
-    /* 104c */ u8 pad_104c[8];
-    /* 1054 */ LayoutEntryTable *mSelectBattleStageBncls[2];
-    /* 105c */ void *mSelectBattleStageBnbls[2];
-    /* 1064 */ void *mSelectBattleStageBnlls[2];
-    /* 106c */ Nscr *mSelectBattleStageMNscrs[3];
+    /* 103c */ struct NNSG2dCellDataBank *mSelectBattleStageMCells;
+    /* 1040 */ struct NNSG2dCellDataBank *mSelectBattleStageSCells;
+    /* 1044 */ Ncgr *mSelectBattleStageMChars;
+    /* 1048 */ Ncgr *mSelectBattleStageSChars;
+    /* 104c */ u8 mUnk_104c[8];
+    /* 1054 */ LayoutEntryTable *mSelectBattleStageCellLayouts[2];
+    /* 105c */ void *mSelectBattleStageRects[2];
+    /* 1064 */ void *mSelectBattleStageLabelLayouts[2];
+    /* 106c */ Nscr *mSelectBattleStageMScreenMaps[3];
     /* 1078 */ void *mMainOamList;
     /* 107c */ void *mSubOamList;
     /* 1080 */ struct Bmg *mMenuMessages;
@@ -177,7 +184,7 @@ enum {
     TEST_SCENE_STATE_COUNT = 4,
 };
 
-// Object that InitTestSceneObject allocates and gTestScene points to.
+// The test scene: its state, fonts, char canvases, text canvases, chars and screen map.
 typedef struct TestScene {
     /* 0000 */ s32 mUnk_0000;
     /* 0004 */ s32 mState;
@@ -227,11 +234,13 @@ enum {
 #define OPTION_EMBREM_SELECT_SLIDE_FRAMES 10
 #define OPTION_EMBREM_SELECT_SLIDE_DISTANCE 250
 
-// Frames the chosen row is shown before the slide out; the highlight comes back at the fifth.
+// Frames the chosen row is held before the slide out; a row chosen while already selected has its highlight hidden
+// until the fifth frame.
 #define OPTION_EMBREM_SELECT_PRESS_FRAMES 10
 #define OPTION_EMBREM_SELECT_HIGHLIGHT_FRAME 5
 
-// Frames the cells of a row shift after its choice changed (OptionEmbremSelect.mOffsetTimers count them down).
+// Frames the cells listed in gOptionEmbremSelectTimerCellIndices shift after the emblem off choice is stepped left or
+// right (OptionEmbremSelect.mOffsetTimers count them down while row 1 is selected).
 #define OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES 6
 
 // The emblem option screen: its state, selected row, the emblem off choice, slide offsets, heap and layout tables.
@@ -250,12 +259,12 @@ typedef struct OptionEmbremSelect {
     /* 28 */ s32 mOffsetTimers[2];
     /* 30 */ void *mHeap;
     /* 34 */ LayoutTableEntry *mOptionEmbremSelectSTable;
-    /* 38 */ struct NNSG2dCellDataBank *mOptionEmbremSelectSNcer;
-    /* 3c */ Ncgr *mOptionEmbremSelectSNcgr;
-    /* 40 */ Nclr *mOptionEmbremSelectSONclr;
-    /* 44 */ LayoutEntryTable *mOptionEmbremSelectSBncl;
-    /* 48 */ void *mOptionEmbremSelectSBnbl;
-    /* 4c */ struct LayoutEntryTable *mOptionEmbremSelectSBnll;
+    /* 38 */ struct NNSG2dCellDataBank *mOptionEmbremSelectSCells;
+    /* 3c */ Ncgr *mOptionEmbremSelectSChars;
+    /* 40 */ Nclr *mOptionEmbremSelectSOPalette;
+    /* 44 */ LayoutEntryTable *mOptionEmbremSelectSCellLayout;
+    /* 48 */ void *mOptionEmbremSelectSRects;
+    /* 4c */ struct LayoutEntryTable *mOptionEmbremSelectSLabelLayout;
     /* 50 */ struct Bmg *mOptionMessages;
     /* 54 */ void *mCommonMessages;
 } OptionEmbremSelect;
@@ -274,11 +283,11 @@ extern const char *gMissionRunLVselSNcerName;
 extern const char *gMissionRunLVselSONclrName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
-// Values of TimeAttackTopMenu.mIndex: the rows, top to bottom.
+// Values of TimeAttackTopMenu.mIndex: the three rows, in the order the Up and Down buttons step through them.
 enum {
-    TIME_ATTACK_TOP_ROW_TIME_TRIALS,
+    TIME_ATTACK_TOP_ROW_SELECT_CHARACTER,
     TIME_ATTACK_TOP_ROW_SEND_GHOST,
-    TIME_ATTACK_TOP_ROW_RECEIVE_GHOST,
+    TIME_ATTACK_TOP_ROW_GET_GHOST,
     TIME_ATTACK_TOP_ROW_COUNT,
 };
 
@@ -286,9 +295,9 @@ enum {
 // was chosen, or the return button.
 enum {
     TIME_ATTACK_TOP_RESULT_NONE,
-    TIME_ATTACK_TOP_RESULT_TIME_TRIALS,
+    TIME_ATTACK_TOP_RESULT_SELECT_CHARACTER,
     TIME_ATTACK_TOP_RESULT_SEND_GHOST,
-    TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST,
+    TIME_ATTACK_TOP_RESULT_GET_GHOST,
     TIME_ATTACK_TOP_RESULT_RETURN,
 };
 
@@ -302,13 +311,14 @@ enum {
     TIME_ATTACK_TOP_STATE_SLIDE_OUT,
 };
 
-// Frames of the slide in and the slide out; the rows travel TIME_ATTACK_TOP_SLIDE_DISTANCE sideways, the BG0 layer
-// TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE.
+// Frames of the slide in and the slide out; the rows travel TIME_ATTACK_TOP_SLIDE_DISTANCE sideways (mOffsetX), and
+// mBg0Offset runs between 0 and -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE.
 #define TIME_ATTACK_TOP_SLIDE_FRAMES 10
 #define TIME_ATTACK_TOP_SLIDE_DISTANCE 224
 #define TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE 192
 
-// Frames of the press animation of a row (GetSelectedPressOffset); its highlight is shown at the fifth.
+// Frames of the GetSelectedPressOffset animation, run by the settle state for every row and by the press state for the
+// chosen row; the press state shows its highlight again when mStateFrames is 5.
 #define TIME_ATTACK_TOP_PRESS_FRAMES 10
 #define TIME_ATTACK_TOP_HIGHLIGHT_FRAME 5
 

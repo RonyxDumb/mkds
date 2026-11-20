@@ -46,8 +46,8 @@ void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32
     if (pos == 0) {
         return;
     }
-    alignRight = flags & 0x800;
-    alignCenter = flags & 0x400;
+    alignRight = flags & TEXT_CANVAS_FLAG_RIGHT;
+    alignCenter = flags & TEXT_CANVAS_FLAG_CENTER;
     halfWidth = (areaWidth + 1) / 2;
     do {
         lineX = drawX;
@@ -84,10 +84,10 @@ void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 
                                     u32 flags, u16 *txt) {
     s32 textHeight;
 
-    if (flags & 0x100) {
+    if (flags & TEXT_CANVAS_FLAG_BOTTOM) {
         textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
         drawY += areaHeight - textHeight;
-    } else if (flags & 0x80) {
+    } else if (flags & TEXT_CANVAS_FLAG_MIDDLE) {
         textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
         drawY += (areaHeight + 1) / 2 - (textHeight + 1) / 2;
     }
@@ -99,7 +99,7 @@ void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 
 asm u32 GetCharIndex1D(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, u32 objHeight) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
     sub sp, sp, #0x4
-    ldr r11, =objs
+    ldr r11, =gObjSizes
     mov r9, #0x0
     mov r10, #0x3
     mvn r7, #0x0

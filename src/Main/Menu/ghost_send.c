@@ -34,7 +34,7 @@
 #include "Main/Net/led_pattern.h"
 #include "Main/Net/connection_sharing.h"
 #include "Main/Net/connect_non_multiboot.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"
@@ -52,12 +52,12 @@
 #include "Main/Menu/title_scene.h"
 #include "Main/Graphics/minute_second_millisecond_text.h"
 #include "Main/Graphics/message_index.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/System/interpolation.h"
 #include "Main/Menu/select_character.h"
 #include "Main/Net/scan_ghost_info.h"
@@ -122,10 +122,6 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostSendEndConnectionText(void) {
     void *text;
     void *buttonText;
@@ -134,10 +130,6 @@ void SetupGhostSendEndConnectionText(void) {
     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_TEXT_END_CONNECTION;
     SetupTxtSystemSubTextButton(text, buttonText);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void PrintGhostSendCounts(void) {
     u16 text[6];
@@ -193,19 +185,11 @@ void PrintSelectedGhostSendRecord(void) {
                          GetListedGhostCourseId(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex), &recordTime);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetupGhostSendMainText(void) {
     void *text;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0);
     SetupTxtSystemMainTextShort(text, 0, 0, 0, 0, 0, 0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
     u16 name[11];
@@ -225,7 +209,7 @@ void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
 void StartReadSelectedGhost(void) {
     StartReadListedGhost(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex);
     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 9));
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectReturnSlideOut();
 }
 
@@ -340,7 +324,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     FrmHeapShrinkInParent(gTimeAttackGhostSend->mHeap);
 }
 
-s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
+s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
     u16 slotIndex;
     s32 isTouched;
     s32 returnRequested;
@@ -356,7 +340,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
     isTouched = returnTouched;
     returnRequested = isTouched;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         returnRequested = 1;
     }
     if (returnRequested == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -370,8 +354,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NO_GHOST_TEXT:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                if (advanceArg != NULL) {
-                    advanceArg->mNextScene = SCENE_MENU_1;
+                if (sceneNumbers != NULL) {
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -420,8 +404,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                     keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
                         gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                        if (advanceArg != NULL) {
-                            advanceArg->mNextScene = SCENE_MENU_1;
+                        if (sceneNumbers != NULL) {
+                            sceneNumbers->mNextScene = SCENE_MENU;
                         }
                         gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
                         RequestSelectReturnPressWithSound(0);
@@ -499,8 +483,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                if (advanceArg != NULL) {
-                    advanceArg->mNextScene = SCENE_MENU_1;
+                if (sceneNumbers != NULL) {
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -522,8 +506,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NAME_TEXT_LEAVE:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                if (advanceArg != NULL) {
-                    advanceArg->mNextScene = SCENE_MENU_1;
+                if (sceneNumbers != NULL) {
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -538,18 +522,10 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
     return -1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseTimeAttackGhostSend(void) {
     HeapDestroy(gTimeAttackGhostSend->mHeap);
     gTimeAttackGhostSend = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteTimeAttackGhostSendRegisters(void) {
     s16 interpolatedValue = GetInterpolatedValue(&gTimeAttackGhostSend->mInterpolation);

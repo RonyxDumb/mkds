@@ -141,7 +141,7 @@ void DeleteOamRange(OamRange *range) {
     s32 entryIndex;
 
     for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++, entries++) {
-        entries->mAttr01 = (entries->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+        entries->mAttr01 = (entries->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
     }
     RemoveNodeFromList(range);
     if (range >= &gOamRanges[1].mRanges[0]) {
@@ -158,9 +158,9 @@ u8 GetOamRangeEntryCount(OamRange *range) {
     return range->mEntryCount;
 }
 
-static inline void G2_GetOBJPosition(OamEntry *oam, u32 *outX, u32 *outY) {
-    *outX = (oam->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *outY = oam->mAttr01 & OAM_ATTR01_Y_MASK;
+static inline void G2_GetOBJPosition(OamEntry *oam, u32 *x, u32 *y) {
+    *x = (oam->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = oam->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) {
@@ -168,21 +168,23 @@ void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) 
     s32 entryIndex;
 
     if (index >= 0) {
-        if (effect != OAM_ATTR01_EFFECT_AFFINE && effect != OAM_ATTR01_EFFECT_DOUBLE_AFFINE) {
+        if (effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX && effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX_BOTH_BITS) {
             u32 word = entries[index].mAttr01;
 
-            entries[index].mAttr01 = (word & 0xc1fffcff) | effect;
+            entries[index].mAttr01 = (word & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect;
         } else {
             u32 word = entries[index].mAttr01;
 
-            entries[index].mAttr01 = (affineIndex << 25) | ((word & 0xc1fffcff) | effect);
+            entries[index].mAttr01 =
+                (affineIndex << 25) | ((word & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect);
         }
     } else {
         for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
-            if (effect != OAM_ATTR01_EFFECT_AFFINE && effect != OAM_ATTR01_EFFECT_DOUBLE_AFFINE) {
-                entries->mAttr01 = (entries->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | effect;
+            if (effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX && effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX_BOTH_BITS) {
+                entries->mAttr01 = (entries->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect;
             } else {
-                entries->mAttr01 = (affineIndex << 25) | ((entries->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | effect);
+                entries->mAttr01 = (affineIndex << 25)
+                    | ((entries->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect);
             }
             entries++;
         }
@@ -202,8 +204,8 @@ void SetOamRangeMode(OamRange *range, s32 index, u32 mode, u32 colorParam) {
         entries[index].mAttr2 = (attr2 & 0xffff0fff) | (colorParam << 12);
     } else {
         for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
-            entries->mAttr01 = (entries->mAttr01 & OAM_ATTR01_NOT_MODE_MASK) | (mode << 10);
-            entries->mAttr2 = (entries->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (colorParam << 12);
+            entries->mAttr01 = (entries->mAttr01 & OAM_ENTRY_NOT_MODE_MASK) | (mode << 10);
+            entries->mAttr2 = (entries->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (colorParam << 12);
             entries++;
         }
     }
@@ -225,14 +227,14 @@ void SetOamRangePosition(OamRange *range, s32 index, u32 xPos, u32 yPos) {
         entries[index].mAttr01 = ((xPos & 0x1ff) << 16) | ((word & 0xfe00ff00) | (yPos & 0xff));
     } else {
         G2_GetOBJPosition(entries, (u32 *) &firstX, (u32 *) &firstY);
-        entries->mAttr01 = ((xPos & 0x1ff) << 16) | ((entries->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
+        entries->mAttr01 = ((xPos & 0x1ff) << 16) | ((entries->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
         deltaX = xPos - firstX;
         deltaY = yPos - firstY;
         for (entryIndex = 1; entryIndex < range->mEntryCount; entryIndex++) {
             G2_GetOBJPosition(&entries[entryIndex], (u32 *) &entryX, (u32 *) &entryY);
             entries[entryIndex].mAttr01 =
                 (((entryX + deltaX) & 0x1ff) << 16) |
-                ((entries[entryIndex].mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | ((entryY + deltaY) & 0xff));
+                ((entries[entryIndex].mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | ((entryY + deltaY) & 0xff));
         }
     }
 }
@@ -247,7 +249,7 @@ void SetOamRangePriority(OamRange *range, s32 index, u32 priority) {
         entries[index].mAttr2 = (word & 0xfffff3ff) | (priority << 10);
     } else {
         for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
-            entries->mAttr2 = (entries->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | (priority << 10);
+            entries->mAttr2 = (entries->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | (priority << 10);
             entries++;
         }
     }
@@ -257,6 +259,6 @@ void GetOamRangeEntryPosition(OamRange *range, int index, s32 *xPos, s32 *yPos) 
     OamEntry *entries;
 
     entries = range->mEntries;
-    *xPos = (entries[index].mAttr01 & OAM_ATTR01_X_MASK) >> 0x10;
-    *yPos = entries[index].mAttr01 & OAM_ATTR01_Y_MASK;
+    *xPos = (entries[index].mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 0x10;
+    *yPos = entries[index].mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }

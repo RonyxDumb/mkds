@@ -85,15 +85,15 @@ s32 InitEssidWiFi(void *(*alloc)(u32), void (*release)(void *)) {
     BOOL running = TRUE;
     void *msg;
     void *buffer;
-    u32 enabled;
+    u32 savedInterrupts;
     OS_InitMessageQueue(&gMessageQueue, gMessageQueueSlots, 4);
     if (alloc == NULL || release == NULL) {
         return -1;
     }
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     gEssidAllocFunction = alloc;
     gEssidFreeFunction = release;
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     buffer = gEssidAllocFunction(0x5890);
     gEssidWorkBuffer = buffer;
     if (buffer == NULL) {
@@ -130,7 +130,7 @@ s32 ReleaseEssidWiFi(void) {
     s32 result;
     BOOL running;
     void *msg;
-    u32 enabled;
+    u32 savedInterrupts;
     running = TRUE;
     result = -1;
     if (gEssidFreeFunction == NULL) {
@@ -161,37 +161,37 @@ s32 ReleaseEssidWiFi(void) {
                 break;
         }
     } while (running != FALSE);
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     gEssidAllocFunction = NULL;
     gEssidFreeFunction = NULL;
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return result;
 }
 
 s32 DisconnectEssidAndWait(void) {
-    BOOL done;
+    BOOL running;
     s32 result = -1;
     void *msg;
     if (DisconnectEssid() != FALSE) {
-        done = FALSE;
+        running = FALSE;
         do {
             OS_ReceiveMessage(&gMessageQueue, &msg, 1);
-            /* waits for one entry */
+            /* receives one message; result is 0 only if it is the disconnected event */
             if ((u32) msg == EXCHANGE_EVENT_DISCONNECTED) {
                 result = 0;
-                done = FALSE;
+                running = FALSE;
             }
-        } while (done != FALSE);
+        } while (running != FALSE);
     }
     return result;
 }
 
 s32 ScanEssidEntries(EssidEntryList **out) {
-    BOOL found = FALSE;
+    BOOL endRequested = FALSE;
     s32 result = -1;
     BOOL running = TRUE;
     s32 count = 0;
-    s32 waits = 0;
+    s32 foundEventCount = 0;
     RawEntry *scan;
     RawEntry *buffer;
     EssidEntryList *list;
@@ -213,26 +213,26 @@ s32 ScanEssidEntries(EssidEntryList **out) {
             OS_ReceiveMessage(&gMessageQueue, &msg, 1);
             switch ((u32) msg) {
                 case EXCHANGE_EVENT_SEARCH_TIMEOUT:
-                    if (found == FALSE) {
-                        if (waits != 0) {
+                    if (endRequested == FALSE) {
+                        if (foundEventCount != 0) {
                             count = CopyEssidScanRecords(scan, 0x40);
                         }
                         if (EndEssidSearch() == FALSE) {
                             goto cleanup;
                         }
-                        found = TRUE;
+                        endRequested = TRUE;
                     }
                     break;
                 case EXCHANGE_EVENT_SEARCH_FOUND:
-                    if (found == FALSE) {
-                        if (waits < 8) {
-                            waits++;
+                    if (endRequested == FALSE) {
+                        if (foundEventCount < 8) {
+                            foundEventCount++;
                         } else {
                             count = CopyEssidScanRecords(scan, 0x40);
                             if (EndEssidSearch() == FALSE) {
                                 goto cleanup;
                             }
-                            found = TRUE;
+                            endRequested = TRUE;
                         }
                     }
                     break;
@@ -280,11 +280,11 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     BOOL running = TRUE;
     s32 result;
     s32 retries;
-    BOOL done;
+    BOOL foundHandled;
     u32 flags;
     void *msg;
     OSAlarm timer;
-    done = FALSE;
+    foundHandled = FALSE;
     result = -1;
     if (request->mUseSharedKey == FALSE) {
         flags = 0x80000;
@@ -314,12 +314,12 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
             OS_ReceiveMessage(&gMessageQueue, &msg, 1);
             switch ((u32) msg) {
                 case EXCHANGE_EVENT_CONNECT_TIMEOUT:
-                    if (done == FALSE) {
+                    if (foundHandled == FALSE) {
                         running = FALSE;
                     }
                     break;
                 case EXCHANGE_EVENT_SEARCH_FOUND:
-                    if (done == FALSE) {
+                    if (foundHandled == FALSE) {
                         OS_CancelAlarm(&timer);
                         if (CopyEssidScanRecords(&gMelcoRecord, 1) != 1) {
                             running = FALSE;
@@ -328,7 +328,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
                             if (ConnectEssidToEntry(&gMelcoRecord, &gMelcoBlock, flags) == FALSE) {
                                 running = FALSE;
                             } else {
-                                done = TRUE;
+                                foundHandled = TRUE;
                             }
                         }
                     }

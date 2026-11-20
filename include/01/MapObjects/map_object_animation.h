@@ -9,15 +9,15 @@ typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 typedef struct Vec3s16 Vec3s16;
 
-// Values of MissionGateObject.mState: the gate waits for the mission count, then is done; a kart hit plays the
-// animation first.
+// Values of MissionGateObject.mState: waiting for the mission count, playing the animation after a kart hit, and the
+// state UpdateMissionGate does nothing in.
 enum {
     MISSION_GATE_STATE_WAIT_COUNT,
-    MISSION_GATE_STATE_DONE,
+    MISSION_GATE_STATE_IDLE,
     MISSION_GATE_STATE_PLAY_ANIMATION,
 };
 
-// Object passed to the per-frame functions UpdateMissionGate and DrawMissionGate.
+// A mission gate: its map object, the two side objects, the animation frame and the state.
 typedef struct MissionGateObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MapObject *mNegativeSideObject;
@@ -92,8 +92,9 @@ void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 t
 
 #include "01/Menu/select_ghost.h"
 
-// Frames (MissionRunMapObject.mTimer) after a kart hit during which the object keeps its response and plays no hit
-// sound again.
+// Frames (MissionRunMapObject.mTimer) that CollideKartWithMissionRunMapObject starts when a kart hits with the timer at
+// 0 and the update counts down once per call. Hanachan and Iwante test it above 0 to answer with a fixed response;
+// Kuriking and King Teresa play their hit sound only at 0.
 #define MAP_OBJECT_KART_HIT_COOLDOWN_FRAMES 0x1f
 
 extern Vec3 gItemBombUpNormal;

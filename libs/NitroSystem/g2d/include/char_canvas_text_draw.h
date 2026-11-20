@@ -49,8 +49,9 @@ void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 
 void LetterChar(LetterCharInfo *pInfo);
 void ClearChar(u8 *pChar, s32 startX, s32 startY, s32 width, s32 height, u32 cl8, s32 bpp);
 u32 OBJSizeToShape(const u8 *pSize);
-// Bits of the flags argument of the text draw functions: vertical anchor of a rect, horizontal
-// alignment of every line.
+// Bits of the flags argument of NNSi_G2dTextCanvasDrawTextRect and DrawTextInRect: vertical anchor of the text in the
+// rect (TOP, MIDDLE, BOTTOM), horizontal alignment (LEFT, CENTER, RIGHT). Bits 0x2, 0x4, 0x10, 0x20 anchor
+// NNSi_G2dTextCanvasDrawText at a point.
 #define TEXT_CANVAS_FLAG_TOP 0x40
 #define TEXT_CANVAS_FLAG_MIDDLE 0x80
 #define TEXT_CANVAS_FLAG_BOTTOM 0x100
@@ -69,6 +70,6 @@ void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 
                                     u32 flags, u16 *txt);
 u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt);
 
-extern SplitCharFunc *const spliterTable[4];
-extern const u8 objs[4][4][2];
-extern const u32 objShapes[4][4];
+extern SplitCharFunc *const gSplitCharFunctions[4];
+extern const u8 gObjSizes[4][4][2];
+extern const u32 gObjShapes[4][4];

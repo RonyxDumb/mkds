@@ -29,22 +29,22 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "cell_animation.h"
 #include "Main/System/heap.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Race/race_m_ncer_index.h"
 #include "Main/Item/item_slot_tables.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/System/heap_call.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -79,7 +79,7 @@ void InitRaceItemSlot(void) {
     gRaceItemSlot->mScale.mScaleFrames = 0;
     gRaceItemSlot->mScale.mScaleX = RACE_ITEM_SLOT_SCALE_NORMAL;
     gRaceItemSlot->mScale.mScaleY = RACE_ITEM_SLOT_SCALE_NORMAL;
-    gRaceItemSlot->mScale.mScaleYPerFrame = RACE_ITEM_SLOT_SCALE_START_STEP;
+    gRaceItemSlot->mScale.mScaleYPerFrame = RACE_ITEM_SLOT_SCALE_START_Y_PER_FRAME;
     gRaceItemSlot->mScale.mScaleYTarget = RACE_ITEM_SLOT_SCALE_START_TARGET;
 }
 
@@ -237,8 +237,8 @@ void UpdateRaceItemSlot(void) {
         scale->mScaleYPerFrame = MUL_FIXED12_NO_ROUND(scale->mScaleYPerFrame, RACE_ITEM_SLOT_SCALE_DAMPING);
         scale->mScaleX = MUL_FIXED12_NO_ROUND(scale->mScaleYTarget, TO_FIXED12(2)) - scale->mScaleY;
         gRaceItemSlot->mScale.mScaleFrames += 1;
-        if (gRaceItemSlot->mScale.mScaleYTarget == RACE_ITEM_SLOT_SCALE_POP_TARGET &&
-            gRaceItemSlot->mScale.mScaleFrames > RACE_ITEM_SLOT_SCALE_POP_FRAMES) {
+        if (gRaceItemSlot->mScale.mScaleYTarget == RACE_ITEM_SLOT_SCALE_BOOST_TARGET &&
+            gRaceItemSlot->mScale.mScaleFrames > RACE_ITEM_SLOT_SCALE_BOOST_TARGET_FRAMES) {
             gRaceItemSlot->mScale.mScaleYTarget = RACE_ITEM_SLOT_SCALE_NORMAL;
         } else if (gRaceItemSlot->mScale.mScaleYTarget == RACE_ITEM_SLOT_SCALE_NORMAL &&
                    gRaceItemSlot->mScale.mScaleFrames > RACE_ITEM_SLOT_SCALE_END_FRAME) {
@@ -254,8 +254,8 @@ void UpdateRaceItemSlot(void) {
             gRaceItemSlot->mScale.mScaleFrames += 1;
             gRaceItemSlot->mScale.mScaleX = RACE_ITEM_SLOT_SCALE_NORMAL;
             gRaceItemSlot->mScale.mScaleY = RACE_ITEM_SLOT_SCALE_NORMAL;
-            gRaceItemSlot->mScale.mScaleYPerFrame = RACE_ITEM_SLOT_SCALE_POP_STEP;
-            gRaceItemSlot->mScale.mScaleYTarget = RACE_ITEM_SLOT_SCALE_POP_TARGET;
+            gRaceItemSlot->mScale.mScaleYPerFrame = RACE_ITEM_SLOT_SCALE_BOOST_STEP;
+            gRaceItemSlot->mScale.mScaleYTarget = RACE_ITEM_SLOT_SCALE_BOOST_TARGET;
         }
     }
     gRaceItemSlot->mScrollY = scrollY;
@@ -283,17 +283,17 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
 
     scrollY = gRaceItemSlot->mScrollY;
     upperItem = gRaceItemSlot->mUpperItem;
-    teamCell = GetRaceMNcerEntry(gRaceSetup->mUseTeams == 0 ? RACE_M_CELL_SLOT_BOX_NO_TEAMS
+    teamCell = GetRaceMNcerEntry(gRaceSetup->mUseTeams == 0 ? RACE_M_CELL_SLOT_NO_TEAMS
                                  : gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mPlayer.mTeamIndex == 0
-                                     ? RACE_M_CELL_SLOT_BOX_TEAM_0
-                                     : RACE_M_CELL_SLOT_BOX_TEAM_1);
+                                     ? RACE_M_CELL_SLOT_TEAM_0
+                                     : RACE_M_CELL_SLOT_TEAM_1);
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    cell = GetRaceMNcerEntry(RACE_M_CELL_SLOT_FRAME);
+    cell = GetRaceMNcerEntry(RACE_M_CELL_SLOT_DRAWN_FIRST);
     firstPos[0] = TO_FIXED12(0x18);
     firstPos[1] = TO_FIXED12(0x18);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
@@ -360,7 +360,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         matrixOams[2].mAttrs[3] = matrix.mElements[2] >> 4;
         matrixOams[3].mAttrs[3] = matrix.mElements[3] >> 4;
     }
-    cell = GetRaceMNcerEntry(RACE_M_CELL_ITEM_EMPTY);
+    cell = GetRaceMNcerEntry(RACE_M_CELL_ITEM_NONE);
     lastPos[0] = TO_FIXED12(0x18);
     lastPos[1] = TO_FIXED12(0x18);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],

@@ -16,7 +16,7 @@ struct NNSG2dFont gLCFontM;
 #pragma thumb on
 #pragma optimize_for_size on
 void LoadFontAndPlayerCharacterData(void) {
-    if (IsArchiveSlotLoaded(1) != 0) {
+    if (IsArchiveSlotLoaded(ARCHIVE_SLOT_MAIN_2D) != 0) {
         InitFontIfLoaded(&gLCFontS, FindFileInLoadedArchives("LC_Font_s.NFTR"));
         InitFontIfLoaded(&gLCFontM, FindFileInLoadedArchives("LC_Font_m.NFTR"));
         InitFontIfLoaded(&gMarioFont, FindFileInLoadedArchives("marioFont.NFTR"));
@@ -51,39 +51,27 @@ void ClearFontAndPlayerCharacterTables(void) {
         gPlayerCharacterBncl[characterSetIndex] = NULL;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 NNSG2dFont *GetFontByIndex(s32 index) {
     return gFontTable[index];
 }
-#pragma thumb off
 
-#pragma thumb on
 void *GetPlayerCharacterNclr(int index) {
     return gPlayerCharacterNclr[index];
 }
-#pragma thumb off
 
-#pragma thumb on
 Nclr *GetPlayerCharacterShyguyNclr(u32 index) {
     return gPlayerCharacterShyguyNclr[index];
 }
-#pragma thumb off
 
-#pragma thumb on
 Ncgr *GetPlayerCharacterNcgr(int index) {
     return gPlayerCharacterNcgr[index];
 }
-#pragma thumb off
 
-#pragma thumb on
 NNSG2dCellDataBank *GetPlayerCharacterNcer(int index) {
     return gPlayerCharacterNcer[index];
 }
-#pragma thumb off
 
-#pragma thumb on
 void *GetPlayerCharacterBncl(int index) {
     return gPlayerCharacterBncl[index];
 }

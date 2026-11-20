@@ -101,7 +101,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
     sceneTextInitParams.mUseSelectReturn = TRUE;
     sceneTextInitParams.mUseBackScreen = TRUE;
     sceneTextInitParams.mBackScreenKind = 1;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextInitParams);
     LoadWiFiMenuSceneData();
     InitPlayerEntryList(heap, GetWiFiMenuMainOamList());
@@ -144,12 +144,12 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
                     RegisterWiFiVSSettingCallbacks();
                     break;
                 case WIFI_MENU_START_SELECT_CHARACTER:
-                    SetupWiFiSession(1);
+                    SetupWiFiSession(WIFI_SESSION_SETUP_PACK);
                     gWiFiStates->mState = WIFI_STATE_SELECT_CHARACTER;
                     RegisterSelectCharacterCallbacks();
                     break;
                 case WIFI_MENU_START_VS_COURSE_SELECT:
-                    SetupWiFiSession(2);
+                    SetupWiFiSession(WIFI_SESSION_SETUP_COURSE_PICKS);
                     CopyEntriesToRaceSetupCopy();
                     gWiFiStates->mState = WIFI_STATE_VS_COURSE_SELECT;
                     RegisterWiFiVSCourseSelectCallbacks();
@@ -326,11 +326,11 @@ void SetWiFiVSSettingFlag(s32 flag) {
 }
 
 BOOL IsWiFiSessionOffOutsideLogin(void) {
-    BOOL valid = TRUE;
+    BOOL notInLoginMenu = TRUE;
     if (gWiFiStates != NULL && gWiFiStates->mState == WIFI_STATE_LOGIN_MENU) {
-        valid = FALSE;
+        notInLoginMenu = FALSE;
     }
-    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF && valid != FALSE) {
+    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF && notInLoginMenu != FALSE) {
         return TRUE;
     }
     return FALSE;

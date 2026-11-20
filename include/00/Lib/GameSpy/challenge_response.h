@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Gt2Buffer Gt2Buffer;
+typedef struct GTI2Buffer GTI2Buffer;
 
 extern s8 gGt2ChallengeKey[33];
 

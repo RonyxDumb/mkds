@@ -38,13 +38,13 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
 
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKingIceDonketuCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
@@ -75,13 +75,13 @@ void UpdateRaceHudSubScreenKingTeresaCells(void) {
 
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKingTeresaCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKingTeresaCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
@@ -133,8 +133,8 @@ BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Ve
         angleDifference =
             (u16) (FX_Atan2Idx(point->x - mapObject->mMapObject.mPos.x, point->z - mapObject->mMapObject.mPos.z) -
                    angle);
-        if (angleDifference > 0x8000) {
-            angleDifference -= 0x10000;
+        if (angleDifference > ANGLE_HALF_TURN) {
+            angleDifference -= ANGLE_FULL_TURN;
         }
         if (-halfAngle <= angleDifference && angleDifference <= halfAngle) {
             return 1;

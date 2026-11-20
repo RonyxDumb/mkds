@@ -235,7 +235,7 @@ void GX_BeginLoadBGExtPltt(void) {
     mask = GX_ResetBankForBGExtPltt();
     gBgExtPaletteLoadBankMask = mask;
     switch (mask) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_E:
             gBgExtPaletteLoadBase = 0x6880000;

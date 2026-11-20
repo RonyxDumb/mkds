@@ -7,7 +7,7 @@ u32 ConnectTestCreate(void) {
     result = DWC_Netcheck_Create(DWCi_AC_GetMemPtr(AC_MEM_NETCHECK));
     if (result != 0) {
         DWCi_AC_SetError(3);
-        return 0x11;
+        return AC_PHASE_ERROR;
     }
-    return 0xe;
+    return AC_PHASE_TEST_PROCESS;
 }

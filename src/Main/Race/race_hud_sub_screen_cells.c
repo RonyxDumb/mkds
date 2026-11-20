@@ -247,9 +247,9 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
             matrixIndex = 0;
             if (useRotation != 0) {
                 if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2Rotation(&rotationMatrix, (cells->mCells[cellIndex].mAngle + 0x8000 - angle));
+                    Matrix2x2Rotation(&rotationMatrix, (cells->mCells[cellIndex].mAngle + ANGLE_HALF_TURN - angle));
                 } else {
-                    Matrix2x2Rotation(&rotationMatrix, (angle + (0x8000 - cells->mCells[cellIndex].mAngle)));
+                    Matrix2x2Rotation(&rotationMatrix, (angle + (ANGLE_HALF_TURN - cells->mCells[cellIndex].mAngle)));
                 }
                 matrixIndex = AllocOamMatrixIndex(oamBuffer);
                 oamBuffer->mMatrices[matrixIndex].mPA = rotationMatrix.mElements[0] >> 4;
@@ -265,7 +265,7 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
             drawPosition[0] = TO_FIXED12(screenX);
             drawPosition[1] = TO_FIXED12(screenY);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cellData,
+                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cellData,
                                       useRotation != 0 ? &rotationMatrix : 0, drawPosition, matrixIndex, 1);
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
@@ -327,8 +327,8 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
             oamIndex = oamBuffer->mOamCount;
             drawPosition[0] = TO_FIXED12(screenX);
             drawPosition[1] = TO_FIXED12(screenY);
-            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cellData,
-                                                          &matrix, drawPosition, matrixIndex, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                          cellData, &matrix, drawPosition, matrixIndex, 1);
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                 if ((flag != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1) != -1) {

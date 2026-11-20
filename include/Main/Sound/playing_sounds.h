@@ -2,18 +2,19 @@
 
 #include "types.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h" // SoundSource, PlayingSound
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h" // SoundSource, PlayingSound
 
 void ExpireWhileRequestedSounds(SoundSource *source);
 u32 SetPlayingSoundsParams(SoundSource *source);
 // StartSound for any kind: starts soundId of seqArcNo at volume on the source and returns its PlayingSound, or NULL
-// when the source is not enabled. pitch is stored in the entry.
+// when sounds are disabled or the source is not enabled. pitch is stored in the entry.
 PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 volume, s16 pitch);
 // StartSoundWhileRequested for any kind: starts soundId of seqArcNo on the source, or refreshes it when it was already
-// started this way, and returns its PlayingSound.
+// started this way and still plays, and returns its PlayingSound; NULL when sounds are disabled or the source is not
+// enabled.
 PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 volume, s16 pitch);
-// StopSound for any kind: stops the first started soundId of seqArcNo on the source, fading out over fadeSteps (0 stops
-// at once).
+// StopSound for any kind: stops the first playing soundId of seqArcNo on the source (one that has its sequence player),
+// fading out over fadeSteps (0 stops at once); does nothing when sounds are disabled.
 void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps);
 // Stops the PlayingSound of the source, fading out over fadeSteps (0 stops at once), and takes it out of the source's
 // list.

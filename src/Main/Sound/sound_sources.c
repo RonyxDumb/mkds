@@ -1,13 +1,13 @@
 #include "Main/Sound/sound_sources.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "sound_player_control.h"
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/playing_sounds.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
@@ -46,12 +46,13 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         NNS_FndInitList(&gSoundSourceUpdateLists[index], 0x1c);
     }
     gSoundSourceUpdatePass[0] = 0;
-    gSoundSourceCountThisPass[0] = 0;
+    gSoundUpdateCountThisPass[0] = 0;
 }
 
 void SoundNop(void *address) {}
 
-// The sound pass: list 0 sources get volume and pan every call, list 1 sources in turns over four calls.
+// The sound pass: list 0 sources get volume and pan every call; list 1 sources get them once in four calls and only
+// their track parameters on two of the other three.
 void UpdateSoundSources(void) {
     NNSFndList *updateLists;
     u32 countThisPass;
@@ -79,7 +80,7 @@ void UpdateSoundSources(void) {
     }
     secondUpdateList = &gSoundSourceSecondUpdateList;
     source = secondUpdateList->mHead;
-    countThisPass = gSoundSourceCountThisPass[0];
+    countThisPass = gSoundUpdateCountThisPass[0];
     if (source != NULL) {
         updateLists = gSoundSourceUpdateLists;
         do {
@@ -104,7 +105,7 @@ void UpdateSoundSources(void) {
     if (gSoundSourceUpdatePass[0] == 4) {
         gSoundSourceUpdatePass[0] = 0;
     }
-    gSoundSourceCountThisPass[0] = 0;
+    gSoundUpdateCountThisPass[0] = 0;
 }
 
 // Stops every sound of every source, removes the entries from the source and the source from its update list.
@@ -168,12 +169,12 @@ void ReleaseAllSoundSources(void) {
     }
 }
 
-// Start slot of a source (offset 0x2c): starts the library sequence of the entry at the given priority.
+// Start function of a source: starts the entry's sequence from the sound archive at the given priority.
 void StartPlayingSoundSeqArc(u32 unused, PlayingSound *sound, u32 priority) {
     NNS_SndArcPlayerStartSeqArcEx(&sound->mSeqPlayer, -1, -1, priority, sound->mSeqArcNo, sound->mSoundId);
 }
 
-// Per-entry slot of a source (offset 0x30): sets track volume and pitch of a started sound.
+// Track function of a source: sets the track volume and pitch of a started sound.
 void SetPlayingSoundTrackParams(u32 unused, PlayingSound *sound) {
     NNS_SndPlayerSetTrackVolume(&sound->mSeqPlayer, gSeqTrackMask, sound->mVolume);
     NNS_SndPlayerSetTrackPitch(&sound->mSeqPlayer, gSeqTrackMask, sound->mPitch);
@@ -205,7 +206,8 @@ void ResetPlayingSound(PlayingSound *sound) {
     sound->mVolume = SOUND_VOLUME_MAX;
 }
 
-// Every caller passes bit 2 with 1: the sound pass then flips bit 0 and clears bit 2.
+// Every caller passes bit 2 with 1: the next sound pass after UpdateRace, while sounds are on, flips bit 0 and clears
+// bit 2.
 void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value) {
     if (value == 1) {
         BIT_SET(source->mSourceFlags, bit);

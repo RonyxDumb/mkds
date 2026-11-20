@@ -105,9 +105,9 @@ ScreenCallbacks gMenuScreenCallbacks[0x1e] = {
     {WriteSelectCupMScreenRegisters, (void (*)(u32)) UpdateSelectCupM},
     {WriteTimeAttackCupCourseRegisters, (void (*)(u32)) UpdateTimeAttackSelectCupCourse},
     {WriteSelectGhostScreenRegisters, (void (*)(u32)) UpdateSelectGhost},
-    {MenuScreen27Nop, (void (*)(u32)) RequestTitleScene},
-    {MenuScreen28Nop, (void (*)(u32)) RequestGhostScene},
-    {MenuScreen29Nop, (void (*)(u32)) RequestRaceOrWLMenuScene},
+    {RequestTitleSceneRegistersNop, (void (*)(u32)) RequestTitleScene},
+    {RequestGhostSceneRegistersNop, (void (*)(u32)) RequestGhostScene},
+    {RequestRaceOrWLMenuSceneRegistersNop, (void (*)(u32)) RequestRaceOrWLMenuScene},
 };
 
 struct MenuScene *gMenuScene;
@@ -322,11 +322,11 @@ void InitMenu(void) {
     gMenuScene->mDataSharingSyncFinished = TRUE;
     CopyMenuScreenCallbacks();
     ResetOamLists(gMenuScene->mMainOam, gMenuScene->mSubOam);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     Init3dEngine();
     SetHeapGroupId(5);
     InitFrmVramManagers();
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     if (MenuMB_IsMultiBootChildWrapper() == 0) {
         InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());
         RequestKartModelMenuCharacter(-1);
@@ -403,14 +403,14 @@ void InitMenu(void) {
     config.mUseSelectReturn = 1;
     config.mUseBackScreen = 1;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(MenuGetCurrentHeap(), &config);
     if (MenuGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
         ClearSelectReturnDisplayBitOn();
     }
     InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
     switch (GetMenuEntryKind()) {
-        case MENU_ENTRY_FIRST_SCREEN:
+        case MENU_ENTRY_SINGLE_PLAY_SELECT:
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             SetRaceSetupRequested(1);
             break;
@@ -419,7 +419,7 @@ void InitMenu(void) {
             switch (GetRaceSetupCopy()->mMode) {
                 case MODE_GRAND_PRIX:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, SCREEN_NONE);
-                    SetMenuEntryKind(0);
+                    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
                     SetRaceSetupRequested(1);
                     break;
                 case MODE_VS:
@@ -430,7 +430,7 @@ void InitMenu(void) {
                     break;
                 case MODE_TIME_ATTACK:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, SCREEN_NONE);
-                    SetMenuEntryKind(0);
+                    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
                     SetRaceSetupRequested(1);
                     break;
             }
@@ -446,7 +446,7 @@ void InitMenu(void) {
                     break;
                 case MODE_TIME_ATTACK:
                     SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, SCREEN_NONE);
-                    SetMenuEntryKind(0);
+                    SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
                     SetRaceSetupRequested(1);
                     break;
             }
@@ -458,7 +458,7 @@ void InitMenu(void) {
             } else {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, SCREEN_NONE);
             }
-            SetMenuEntryKind(0);
+            SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             SetRaceSetupRequested(1);
             break;
         case MENU_ENTRY_SELECT_GAME:
@@ -466,9 +466,9 @@ void InitMenu(void) {
             break;
         case MENU_ENTRY_TIME_ATTACK_TOP_MENU:
             CopyCurrentToRaceSetupCopy();
-            GetRaceSetupCopy()->mMode = 1;
+            GetRaceSetupCopy()->mMode = MODE_TIME_ATTACK;
             SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, SCREEN_NONE);
-            SetMenuEntryKind(0);
+            SetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             SetRaceSetupRequested(1);
             break;
     }

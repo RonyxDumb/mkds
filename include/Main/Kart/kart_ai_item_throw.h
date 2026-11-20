@@ -79,7 +79,8 @@ extern s32 gAwardStripKartYOffsets[37];
 extern s32 (*gSetPosStripPointFunction)();
 extern struct PosStrips *gPosStrips;
 
-// Texture coordinates of the low and the high half of the position strip texture, and the height a started strip has.
+// Texture coordinates of the low and the high half of the position strip texture, and the height StartPosStrip gives a
+// started strip (StartAwardKartPosStrip overwrites it at once).
 #define POS_STRIP_LOW_HALF_TEX_COORD 0x10000
 #define POS_STRIP_HIGH_HALF_TEX_COORD 0x8000
 #define POS_STRIP_START_HEIGHT 0x400

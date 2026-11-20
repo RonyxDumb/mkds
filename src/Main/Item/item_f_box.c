@@ -1,4 +1,5 @@
 #include "Main/Item/item_f_box.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Net/slot_result_pending.h"
 #include "Main/Item/item_data_slots_update.h"
 #include "Main/Item/item_object.h"
@@ -11,7 +12,7 @@
 #include "cpu_copy_fill.h"
 #include "Main/Item/item_slot_tables.h"
 #include "Main/Item/pooled_item_box_init.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Race/race.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Item/item_object_bouncing.h"
@@ -23,8 +24,8 @@
 
 const u16 gItemBombExcludedUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 const u8 gItemBombVec3UnitY[12] = {0, 0, 0, 0, 0, 0x10, 0, 0, 0, 0, 0, 0};
-const ItemInfo gItemInfoFBox = {1, 1, 7, 1, 0, 2, NULL};
-const ItemInfo gItemInfoKouraGThree = {1, 0, 0, 3, 0, 4, NULL};
+const ItemInfo gItemInfoFBox = {1, 1, ITEM_OBJECT_KIND_F_BOX, 1, 0, ITEM_USE_KIND_ONE_WITH_ORIENTATION, NULL};
+const ItemInfo gItemInfoKouraGThree = {1, 0, ITEM_OBJECT_KIND_KOURA_G, 3, 0, ITEM_USE_KIND_CIRCLE, NULL};
 const ItemKind gItemKindFBox = {0x144,
                                 3,
                                 0x20,
@@ -106,7 +107,7 @@ void InitItemFBoxFromData(ItemFBox *fbox) {
     if (fbox->mThrownForward == 0) {
         return;
     }
-    StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
 }
 
 #pragma thumb on
@@ -124,7 +125,7 @@ void SetupItemFBoxPooledMapObjects(void) {
     }
     axis = gItemFBoxRotationAxis;
     MTX_RotAxis33(&gItemFBoxRotation, &axis, 0xb50, 0xb50);
-    pool = &gItemPools[7];
+    pool = &gItemPools[ITEM_OBJECT_KIND_F_BOX];
     objectCursor = pool->mObjects;
     objectCount = pool->mObjectCount;
     for (index = 0; index < objectCount; index++) {
@@ -557,16 +558,16 @@ void ProcessItemDataMessage(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex
     } else {
         DelayItemData(kind, messageKind, frameDifference, packet, 0);
     }
-    if (kind != 0xb) {
+    if (kind != ITEM_OBJECT_KIND_TERESA) {
         return;
     }
-    if (messageKind != 0) {
+    if (messageKind != ITEM_DATA_MESSAGE_START) {
         return;
     }
     if (packet[1] == 0xff) {
         return;
     }
-    SetActiveItem(GetKartItems(kartIndex), 0x10);
+    SetActiveItem(GetKartItems(kartIndex), ITEM_INFO_TERESA);
 }
 
 void DelayItemDataWithFrameStamp(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {

@@ -10,7 +10,7 @@ typedef struct UnsignedHalfwordPair {
     /* 02 */ u16 mSecond;
 } UnsignedHalfwordPair;
 
-// A simple instrument: its wave, original key and envelope, release and pan.
+// A simple instrument: mWave, then the pair mSecondPair and the halfword mLastHalfword, copied unchanged.
 typedef struct InstSimple {
     /* 00 */ UnsignedHalfwordPair mWave;
     /* 04 */ UnsignedHalfwordPair mKeyAndEnvelope;
@@ -19,16 +19,16 @@ typedef struct InstSimple {
 
 // Values of SNDInstData.mType. The five simple types share the InstSimple layout; the code does not tell them apart.
 enum {
-    INSTRUMENT_TYPE_PCM = 1,
-    INSTRUMENT_TYPE_PSG,
-    INSTRUMENT_TYPE_NOISE,
-    INSTRUMENT_TYPE_DIRECT_PCM,
-    INSTRUMENT_TYPE_EMPTY,
+    INSTRUMENT_TYPE_SIMPLE_FIRST = 1,
+    INSTRUMENT_TYPE_SIMPLE_SECOND,
+    INSTRUMENT_TYPE_SIMPLE_THIRD,
+    INSTRUMENT_TYPE_SIMPLE_FOURTH,
+    INSTRUMENT_TYPE_SIMPLE_FIFTH,
     INSTRUMENT_TYPE_DRUM_SET = 0x10,
     INSTRUMENT_TYPE_KEY_SPLIT,
 };
 
-// An instrument entry: its type, wave, key and envelope, release and pan.
+// An instrument entry: mType, then mWave, mKeyAndEnvelope and mReleaseAndPan as in InstSimple.
 typedef struct SNDInstData {
     /* 00 */ u8 mType;
     /* 02 */ UnsignedHalfwordPair mWave;
@@ -43,7 +43,6 @@ typedef struct InstDrumSet {
     /* 02 */ SNDInstData mInstOffset[1];
 } InstDrumSet;
 
-// Entries of a key split instrument.
 #define KEY_SPLIT_ENTRY_COUNT 8
 
 // Eight bytes (0 for an unused entry), then eight 12-byte entries.

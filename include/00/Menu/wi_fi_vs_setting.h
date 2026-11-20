@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/System/backup_net_camera_work.h"
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
@@ -41,15 +42,16 @@ enum {
     WIFI_VS_SETTING_ROW_MATCHING,
 };
 
-// WiFiVSSetting.mSettingIndex runs from 0, the setting that needs buddy records, to LAST and wraps; without buddy
-// records the selector starts at NO_BUDDY_DEFAULT.
-#define WIFI_VS_SETTING_INDEX_BUDDIES 0
-#define WIFI_VS_SETTING_INDEX_NO_BUDDY_DEFAULT 2
+// WiFiVSSetting.mSettingIndex runs from 0, the setting that needs buddy records, to LAST and wraps; when the kept kart
+// type maps to that setting and there are no buddy records, the selector starts at INDEX_REGION.
+#define WIFI_VS_SETTING_INDEX_FRIENDS 0
+#define WIFI_VS_SETTING_INDEX_REGION 2
 #define WIFI_VS_SETTING_INDEX_LAST 3
 
-// Frames the cell rows take to slide in or out (x offset between 0 and OFFSET_HIDDEN), the return button's delay and
-// the frame its slide ends, the press state lasts and where its highlight shows again, the frames the arrow timers
-// count down from, and the frames the disconnect text waits at least.
+// Frames the two cell rows take to slide in or out (x offset between 0 and OFFSET_HIDDEN, negated for the second
+// row), the frames the matching row's y offset waits before it follows the return button's slide table, the frame
+// that follow ends, the press state's length and the frame its highlight shows again, the index timer start, and the
+// calls the disconnect text must pass.
 #define WIFI_VS_SETTING_SLIDE_FRAMES 10
 #define WIFI_VS_SETTING_OFFSET_HIDDEN 0x100
 #define WIFI_VS_SETTING_RETURN_DELAY_FRAMES 3
@@ -57,7 +59,7 @@ enum {
 #define WIFI_VS_SETTING_PRESS_FRAMES 10
 #define WIFI_VS_SETTING_PRESS_HIGHLIGHT_FRAMES 5
 #define WIFI_VS_SETTING_INDEX_TIMER_FRAMES 6
-#define WIFI_VS_SETTING_DISCONNECT_MIN_FRAMES 90
+#define WIFI_VS_SETTING_DISCONNECT_WAIT_FRAMES 90
 
 // Allocated by InitWiFiVSSetting and held in gWiFiVSSetting.
 typedef struct WiFiVSSetting {
@@ -71,21 +73,23 @@ typedef struct WiFiVSSetting {
     /* 0020 */ s32 mPendingWiFiState;
     /* 0024 */ BOOL mHighlightVisible;
     /* 0028 */ BOOL mSelectReturnPending;
-    // Count down from 6 only while mUnk_08 == 1; a press sets them to 6. Nothing fires at 0: the cell flag and offset
-    // they drive stop there.
+    // Count down from WIFI_VS_SETTING_INDEX_TIMER_FRAMES only while mRow is WIFI_VS_SETTING_ROW_SETTING; a left press
+    // or touch sets the decrement one, a right press or touch the increment one. Nothing fires at 0: they only set an
+    // arrow cell's visible flag and x offset.
     /* 002c */ s32 mIndexDecrementTimer;
     /* 0030 */ s32 mIndexIncrementTimer;
     /* 0034 */ BOOL mConnectionReleased;
     /* 0038 */ u8 mNscrCopy[0x1000];
     /* 1038 */ void *mHeap;
-    // Table of cells built from the Bncl / Bnll by InitLayoutTable.
+    // One entry per mWiFiVSSettingCellLayout entry, then one per mWiFiVSSettingLabelLayout label; InitLayoutTable
+    // allocates it.
     /* 103c */ LayoutTableEntry *mWiFiVSSettingTable;
-    /* 1040 */ NNSG2dCellDataBank *mWiFiVSSettingSNcer;
-    /* 1044 */ Ncgr *mWiFiVSSettingSNcgr;
-    /* 1048 */ Nclr *mWiFiVSSettingSONclr;
-    /* 104c */ LayoutEntryTable *mWiFiVSSettingBncl;
-    /* 1050 */ LayoutEntryTable *mWiFiVSSettingBnbl;
-    /* 1054 */ struct LayoutEntryTable *mWiFiVSSettingBnll;
+    /* 1040 */ NNSG2dCellDataBank *mWiFiVSSettingSCells;
+    /* 1044 */ Ncgr *mWiFiVSSettingSChars;
+    /* 1048 */ Nclr *mWiFiVSSettingSOPalette;
+    /* 104c */ LayoutEntryTable *mWiFiVSSettingCellLayout;
+    /* 1050 */ LayoutEntryTable *mWiFiVSSettingRects;
+    /* 1054 */ struct LayoutEntryTable *mWiFiVSSettingLabelLayout;
     /* 1058 */ struct Bmg *mWiFiMessages;
     /* 105c */ struct Bmg *mCommonMessages;
 } WiFiVSSetting;
@@ -93,7 +97,7 @@ typedef struct WiFiVSSetting {
 enum {
     WIFI_VS_MATCHING_STATE_SLIDE_IN,
     WIFI_VS_MATCHING_STATE_WAIT_MATCHING,
-    WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN,
+    WIFI_VS_MATCHING_STATE_EMBLEM_SHRINK,
     WIFI_VS_MATCHING_STATE_WAIT_PLAYER_LIST_TEXT,
     WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER,
     WIFI_VS_MATCHING_STATE_PAUSE_BETWEEN_OTHERS,
@@ -103,23 +107,23 @@ enum {
     WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT,
 };
 
-// Frame counts of the matching screen. The slide states last SLIDE_FRAMES, with the table x offset moving between 0
-// and OFFSET_HIDDEN; waiting for a match result gives up after RESULT_WAIT_FRAMES; BLINK_CYCLE_FRAMES is one blink
-// round of the found-opponent cells (shared by the opponents seen), BLEND_CYCLE_FRAMES one round of the palette blend.
-// An opponent's scale-in shows the totals for TOTAL_SCALE_FRAMES frames (the length of the scale percent table) and
-// the emblem for EMBLEM_SCALE_FRAMES, which ends the state.
+// Frame counts of the matching screen. The slide states count to SLIDE_FRAMES (the slide in adds 2 per call) while
+// the table x offset moves between 0 and OFFSET_HIDDEN; a -1 match result is taken only after FAILED_RESULT_MIN_FRAMES;
+// BLINK_CYCLE_FRAMES is where the blink counter wraps (the blink repeats 1, 2 or 4 times per cycle with 1, 2 or 3
+// other players found), BLEND_CYCLE_FRAMES one round of the palette blend. A scale-in scales the totals over
+// TOTAL_SCALE_FRAMES (the length of the scale percent table) and the emblem over EMBLEM_SCALE_FRAMES, which ends it.
 #define WIFI_VS_MATCHING_SLIDE_FRAMES 10
 #define WIFI_VS_MATCHING_OFFSET_HIDDEN 0x100
-#define WIFI_VS_MATCHING_RESULT_WAIT_FRAMES 0x78
+#define WIFI_VS_MATCHING_FAILED_RESULT_MIN_FRAMES 0x78
 #define WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES 0x50
 #define WIFI_VS_MATCHING_BLEND_CYCLE_FRAMES 0x3c
-#define WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES 0x14
-#define WIFI_VS_MATCHING_PLAYER_LIST_TEXT_FRAMES 0x28
+#define WIFI_VS_MATCHING_EMBLEM_SHRINK_FRAMES 0x14
+#define WIFI_VS_MATCHING_PAUSE_BEFORE_OTHERS_FRAMES 0x28
 #define WIFI_VS_MATCHING_PAUSE_FRAMES 0x50
 #define WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES 0x1e
 #define WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES 0x28
 
-// The Wi-Fi VS matching screen: its state, the other players found with names and emblems, heap and layout tables.
+// The Wi-Fi VS matching screen: its state, the other players found (indices, emblems), palette blend, heap and layouts.
 typedef struct WiFiVSMatching {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
@@ -130,9 +134,9 @@ typedef struct WiFiVSMatching {
     /* 0018 */ s16 mNameSlideOffsets[4];
     /* 0020 */ s32 mPendingWiFiState;
     /* 0024 */ s32 mOtherFound[3];
-    // mKartCount - 1: participants other than the own index.
+    // WiFiSession.mKartCount - 1: participants other than the own index.
     /* 0030 */ s32 mOtherCount;
-    // Session indices of those participants (u8[3]); they index mPlayerRecords through the getters.
+    // Session indices of those participants; they index WiFiSession.mPlayerRecords through the getters.
     /* 0034 */ u8 mOtherIndices[3];
     /* 0038 */ s32 mShownEntryCount;
     /* 003c */ BOOL mCheckTimeLimit;
@@ -146,14 +150,14 @@ typedef struct WiFiVSMatching {
     /* 00d4 */ u8 mNscrCopy[0x1000];
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
-    /* 10d8 */ u8 mOtherEmblems[3][0x200];
+    /* 10d8 */ u8 mOtherEmblems[3][EMBLEM_PIXEL_BYTES];
     /* 16d8 */ s32 mOtherHasEmblem[3];
-    /* 16e4 */ struct NNSG2dCellDataBank *mWiFiVSMatchingSNcer;
-    /* 16e8 */ Ncgr *mWiFiVSMatchingSNcgr;
-    /* 16ec */ Nclr *mWiFiVSMatchingSONclr;
-    /* 16f0 */ LayoutEntryTable *mWiFiVSMatchingBncl;
-    /* 16f4 */ void *mWiFiVSMatchingBnbl;
-    /* 16f8 */ struct LayoutEntryTable *mWiFiVSMatchingBnll;
+    /* 16e4 */ struct NNSG2dCellDataBank *mWiFiVSMatchingSCells;
+    /* 16e8 */ Ncgr *mWiFiVSMatchingSChars;
+    /* 16ec */ Nclr *mWiFiVSMatchingSOPalette;
+    /* 16f0 */ LayoutEntryTable *mWiFiVSMatchingCellLayout;
+    /* 16f4 */ void *mWiFiVSMatchingRects;
+    /* 16f8 */ struct LayoutEntryTable *mWiFiVSMatchingLabelLayout;
     /* 16fc */ struct Bmg *mWiFiMessages;
     /* 1700 */ void *mCommonMessages;
     /* 1704 */ u8 pad_1704[8];
@@ -172,14 +176,9 @@ typedef struct EntryCharacterKartKind {
 #define WIFI_MENU_START_VS_SETTING 1
 #define WIFI_MENU_START_SELECT_CHARACTER 2
 #define WIFI_MENU_START_VS_COURSE_SELECT 3
-// Values of MenuShared.mWLMenuKind: which callbacks the WL menu scene starts with (the member group, or the message
-// that leads on to the race, the result or the menu).
-#define WL_MENU_KIND_MEMBER_GROUP 0
-#define WL_MENU_KIND_TO_RACE 1
-#define WL_MENU_KIND_TO_RESULT 2
-#define WL_MENU_KIND_TO_MENU 3
 
-// Object behind gMenuShared, 0x130 bytes (CreateMenuShared allocates it).
+// State the menu screens pass to each other: entry kind, WiFi menu start kinds, picked characters and karts, cup,
+// course times and rankings; allocated by CreateMenuShared and held in gMenuShared.
 
 typedef struct MenuShared {
     /* 000 */ s32 mTitleBlendDone;
@@ -222,32 +221,37 @@ typedef struct MenuShared {
 typedef enum WiFiSessionState {
     WIFI_SESSION_STATE_OFF = 0,
     WIFI_SESSION_STATE_LOGIN = 1,
-    WIFI_SESSION_STATE_IDLE = 2, // logged in, nothing running
-    WIFI_SESSION_STATE_SEARCH = 3, // partner search with the registered keys
+    WIFI_SESSION_STATE_IDLE = 2, // logged in; no search, exchange or race running
+    // connecting to other players: by the registered kart keys, or to friends for WIFI_MATCH_TYPE_BUDDIES
+    WIFI_SESSION_STATE_SEARCH = 3,
     WIFI_SESSION_STATE_EXCHANGE = 4, // message exchange, one WiFiSessionStep at a time
-    WIFI_SESSION_STATE_RACE = 5, // running match, set by the race
+    WIFI_SESSION_STATE_RACE = 5, // Wi-Fi race in progress: the race sync runs; set by the race scene
     WIFI_SESSION_STATE_UNUSED = 6, // never requested
 } WiFiSessionState;
 
-// Values of WiFiSession.mStep: the exchange steps, named after what the step's message carries.
+// Values of WiFiSession.mStep: the steps of the exchange; the EXCHANGE_ steps are named after the message kind they
+// send.
 typedef enum WiFiSessionStep {
     WIFI_SESSION_STEP_EXCHANGE_RECORDS = 0,
-    WIFI_SESSION_STEP_EXCHANGE_SEEDS = 1, // sums the seeds into mRandom and starts the emblem copy
+    WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT = 1, // sums the seeds into mRandom and starts the emblem copy
     WIFI_SESSION_STEP_WAIT_BACKUP = 2, // waits until the backup is idle
     WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES = 3,
-    WIFI_SESSION_STEP_CONFIRM_CONTINUE = 4, // ends the session when one kart is left
+    // once every message of this step has arrived: when only the own kart is left it closes the connections and returns
+    // the session to IDLE
+    WIFI_SESSION_STEP_CONFIRM_CONTINUE = 4,
     WIFI_SESSION_STEP_EXCHANGE_PICKS = 5, // character and kart picks
     WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS = 6,
     WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS = 7,
     WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS = 8, // then tallies the course
     WIFI_SESSION_STEP_VERIFY_RESULT = 9,
-    WIFI_SESSION_STEP_READY = 10,
+    WIFI_SESSION_STEP_VERIFY_DONE = 10,
     WIFI_SESSION_STEP_LEAVING = 11, // connections are being closed
     WIFI_SESSION_STEP_ENDED = 12,
 } WiFiSessionStep;
 
-// Values of the mKind member of WiFiSessionMessage, WiFiSessionMessageHeader and WiFiPlayerRecord; each kind belongs
-// to one step (IsWiFiSessionMessageKindAllowed). Kinds from WIFI_SESSION_MESSAGE_KIND_COUNT up are rejected.
+// Values of the mKind member of WiFiSessionMessage, WiFiSessionMessageHeader and WiFiPlayerRecord;
+// IsWiFiSessionMessageKindAllowed accepts each kind only in a range of steps. Kinds from
+// WIFI_SESSION_MESSAGE_KIND_COUNT up are rejected.
 typedef enum WiFiSessionMessageKind {
     WIFI_SESSION_MESSAGE_RECORD_REQUEST = 0,
     WIFI_SESSION_MESSAGE_RECORD = 1,
@@ -269,7 +273,7 @@ typedef enum WiFiSessionMessageKind {
 
 // Results of GetWiFiSessionContinueResult.
 #define WIFI_CONTINUE_RESULT_NOT_SETTLED 0
-#define WIFI_CONTINUE_RESULT_KARTS_LEFT 1 // more than one kart is left
+#define WIFI_CONTINUE_RESULT_KARTS_REMAINING 1 // more than one kart is left
 #define WIFI_CONTINUE_RESULT_ENDED 2 // one kart left or the run ended
 
 // Indices of WiFiSession.mKeys, named after the key strings registered for the matching.
@@ -279,18 +283,22 @@ typedef enum WiFiSessionMessageKind {
 #define WIFI_MATCH_KEY_ELO 3
 
 // Values of the kart type key (mKeys[WIFI_MATCH_KEY_TYPE].mValue and the first argument of RequestWiFiSessionMatching).
-#define WIFI_MATCH_TYPE_FRIENDS 0
+#define WIFI_MATCH_TYPE_BUDDIES 0
 #define WIFI_MATCH_TYPE_ELO 1
 #define WIFI_MATCH_TYPE_REGION 3
 #define WIFI_MATCH_TYPE_REGION_ELO 4
-// Defaults for the keys a candidate did not register.
+// Defaults DWC_GetMatchIntValue returns for a key a candidate has no value for (it also returns them while matching is
+// stopped or in error).
 #define WIFI_MATCH_TYPE_MISSING 5
 #define WIFI_MATCH_REGION_MISSING 3
 #define WIFI_MATCH_ELO_MISSING (-1)
-// Elo window of the candidates: a key must be within this many points of the own elo (clamped to 0..WIFI_ELO_MAX).
+// Elo window of the candidates: ComputeEloEval, and ComputeRegionEloEval for kart type ELO, score a candidate only when
+// its elo differs from the own elo by less
+// than this many points; the filter bounds own elo -/+ this are clamped to 0..WIFI_ELO_MAX.
 #define WIFI_ELO_WINDOW 1000
 #define WIFI_ELO_MAX 10000
-// Scores the candidate evaluators return (the elo difference is subtracted).
+// Base scores the candidate evaluators return; the elo evaluators subtract the elo difference, but ComputeRegionEloEval
+// also returns 1 or 2 times WIFI_MATCH_SCORE_HIGH, and ComputeRegionEval returns a flag.
 #define WIFI_MATCH_SCORE_HIGH 2000
 #define WIFI_MATCH_SCORE_LOW 1000
 // Time limit in milliseconds of the minimum-complete option: 1 (no wait) or one minute.
@@ -308,22 +316,26 @@ typedef enum WiFiStartStatus {
 // Values of WiFiSession.mDisconnectKind and the results of CheckWiFiSessionDisconnect.
 typedef enum WiFiDisconnectKind {
     WIFI_DISCONNECT_NONE = 0,
-    WIFI_DISCONNECT_NO_INPUT = 1, // no input for 30 seconds
+    WIFI_DISCONNECT_NO_INPUT = 1, // no pad input for 30 seconds while the own kart has not ended
     WIFI_DISCONNECT_OPPONENT_LEFT = 2,
     WIFI_DISCONNECT_ERROR = 3, // result only
 } WiFiDisconnectKind;
 
-// Values of WiFiSession.mErrorKind (what DWC_GetLastError returned) that the session code tells apart.
-#define WIFI_ERROR_KIND_MATCHING_CLOSED 3
-#define WIFI_ERROR_KIND_HTTP_CLOSED 4
-#define WIFI_ERROR_KIND_LINK_DROPPED 6
-#define WIFI_ERROR_KIND_UNRECOVERABLE 7
+// Values of WiFiSession.mErrorKind (what DWC_GetLastError returned) that the session code tells apart; 0xb is also
+// treated as an error but has no name.
+#define WIFI_ERROR_KIND_UNAVAILABLE 3
+#define WIFI_ERROR_KIND_TEMPORARILY_UNAVAILABLE 4
+#define WIFI_ERROR_KIND_NETWORK 6
+#define WIFI_ERROR_KIND_TOO_FEW_BUDDIES 7
 
 // Values of the mode argument of SetupWiFiSession.
 typedef enum WiFiSessionSetup {
-    WIFI_SESSION_SETUP_FIRST = 0, // resets masks, records and picks and starts at the first step
+    // clears the step fields and the message arrays, sets the picks to none, registers the receive buffers and starts
+    // at the first step
+    WIFI_SESSION_SETUP_FIRST = 0,
     WIFI_SESSION_SETUP_PACK = 1, // packs the indices and counts the karts
-    WIFI_SESSION_SETUP_COURSE_PICKS = 2, // resets the picks and restarts at the course picks
+    // clears the course picks, repacks the indices and restarts at the course pick step
+    WIFI_SESSION_SETUP_COURSE_PICKS = 2,
     WIFI_SESSION_SETUP_CONTINUE_CHOICES = 3, // resets the picks and restarts at the continue choices
 } WiFiSessionSetup;
 
@@ -332,30 +344,32 @@ typedef enum WiFiSessionSetup {
 
 // Number of kart slots of the session (the size of the per-index tables).
 #define WIFI_SESSION_KART_SLOTS 4
-// mReceivedMask with every bit set: a message of this kind arrived once for all indices.
+// mReceivedMask with every bit set: a message of a later step's kind arrived, so the step counts as received from every
+// index.
 #define WIFI_SESSION_ALL_RECEIVED 0xff
-// Calls PickNextToIndex returns "no index" for after it picked one.
+// Calls PickNextToIndex answers with "no index" at the start of the session and after each pick.
 #define WIFI_SESSION_CALLS_AFTER_PICK 2
-// Value of the buddy status bytes the poll counts, and the one it skips.
-// Frames without a callback from a participant before its kart is removed from the session.
+// Frames without a received message from a kart above which UpdateWiFiSessionKartTimeouts marks the kart in
+// mKartRemoveMask, only after WIFI_SESSION_STEP_WAIT_BACKUP and before WIFI_SESSION_STEP_VERIFY_RESULT (in
+// EXCHANGE_CONTINUE_CHOICES only while the own continue choice is CONTINUE); RemoveWiFiSessionKarts then removes it
+// from the session.
+// WIFI_SESSION_STEP_VERIFY_RESULT, after which the kart is marked in mKartRemoveMask and then removed from the session.
 #define WIFI_SESSION_KART_TIMEOUT_FRAMES 300
 // Entries of WiFiSession.mBuddies and mBuddyStatuses.
 #define WIFI_BUDDY_COUNT 0x3c
-#define WIFI_BUDDY_STATUS_NOT_COUNTED 2
-#define WIFI_BUDDY_STATUS_COUNTED 4
 
 // Values of WiFiSessionLogin.mStep; FAILED and DONE are the end states. LOGIN_FAILED shuts down first.
 enum {
     WIFI_LOGIN_STEP_WAIT_INET = 1,
     WIFI_LOGIN_STEP_WAIT_LOGIN = 2,
     WIFI_LOGIN_STEP_WAIT_BACKUP = 3,
-    WIFI_LOGIN_STEP_UPDATE_BUDDIES = 4,
+    WIFI_LOGIN_STEP_WAIT_BUDDY_UPDATE = 4,
     WIFI_LOGIN_STEP_DONE = 5,
     WIFI_LOGIN_STEP_LOGIN_FAILED = 6,
     WIFI_LOGIN_STEP_FAILED = 7,
 };
 
-// The login state of a Wi-Fi session, of which only the step is known.
+// The login part of a Wi-Fi session: the object DWC_InitInet sets up, then mStep, the login step.
 typedef struct WiFiSessionLogin {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mStep;
@@ -369,8 +383,8 @@ typedef struct WiFiSessionMessage {
     /* 09 */ u8 mToIndex;
     /* 0a */ u8 mKartMask;
     /* 0b */ u8 mUnk_0b;
-    /* 0c */ s32 mCharacterIndices[4];
-    /* 1c */ s32 mKartIndices[4];
+    /* 0c */ s32 mCharacterIndices[WIFI_SESSION_KART_SLOTS];
+    /* 1c */ s32 mKartIndices[WIFI_SESSION_KART_SLOTS];
     /* 2c */ s32 mTalliedCourseId;
     /* 30 */ s32 mCharacterIndex;
     /* 34 */ s32 mKartIndex;
@@ -409,15 +423,15 @@ typedef struct KartKey {
     /* 14 */ u8 mId;
 } KartKey;
 
-// The online session: its state machine, per-player records, saved buddy list, picks and the roster of karts.
+// The Wi-Fi session: its state machine, per-player records, saved buddy list, picks and the karts taking part.
 typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;
     /* 0008 */ StateMachine mStateMachine;
-    /* 001c */ u8 mRecvBuffers[4][0x80];
-    // One 0x244-byte record per index: a 12-byte message header, then the player's name (0x14 bytes) and emblem
-    // (0x200), elo, region and seed. The own element is sent (kind 1), the others are received into.
-    /* 021c */ WiFiPlayerRecord mPlayerRecords[4];
+    /* 001c */ u8 mRecvBuffers[WIFI_SESSION_KART_SLOTS][0x80];
+    // One record per index: the message header, the PlayerRecord, the two totals and the seed. The own element is sent
+    // (kind RECORD), the others are received into.
+    /* 021c */ WiFiPlayerRecord mPlayerRecords[WIFI_SESSION_KART_SLOTS];
     /* 0b2c */ u8 mConnection[0xdb4];
     /* 18e0 */ DWCMatchOptMinComplete mMinCompleteOption;
     /* 18e8 */ s32 mStartStatus;
@@ -429,37 +443,49 @@ typedef struct WiFiSession {
     /* 1950 */ s32 mStep;
     /* 1954 */ RandomState64 mRandom;
     /* 196c */ u8 mUnk_196c[0x14];
-    // Calls of the step function in the current step; zeroed by every normal step change and by the timeout
-    // (changes to step 11 that are not timeouts leave it as is).
+    // Calls of UpdateWiFiSessionStepTimeout in the current step (none in VERIFY_DONE and ENDED); zeroed by every step
+    // change
+    // except changes to LEAVING that are not timeouts, and by the timeout.
     /* 1980 */ s32 mStepFrames;
-    // Per kart: zeroed by the callback for that kart, counted up each step for every other kart in mKartMask; above
-    // 300 it sets the kart's bit in mKartRemoveMask (while 2 < mStep < 9).
-    /* 1984 */ s32 mSinceCallbackFrames[4];
+    // Per index: zeroed by the receive callback for that index (not for an index outside mKartMask once the step is
+    // EXCHANGE_PICKS or later), counted up in every call of UpdateWiFiSessionStep for every other index in mKartMask
+    // (not in EXCHANGE_CONTINUE_CHOICES while the own continue choice is not CONTINUE);
+    // above WIFI_SESSION_KART_TIMEOUT_FRAMES it sets the index's bit in mKartRemoveMask, only after WAIT_BACKUP and
+    // before VERIFY_RESULT and, in EXCHANGE_CONTINUE_CHOICES, only once the own continue choice is CONTINUE.
+    /* 1984 */ s32 mSinceCallbackFrames[WIFI_SESSION_KART_SLOTS];
     /* 1994 */ u8 mUnk_1994[0x5];
     /* 1999 */ u8 mPickStartIndex;
     /* 199a */ u8 mUnk_199a[0x10];
     // Bit i: index i asked for our record (kind 0 message); the send step sends the record and clears the bit.
     /* 19aa */ u8 mSendRecordMask;
-    // Bit i: the message of the current step has arrived from index i (kinds 3 and 5 set 0xff); zeroed at every step
-    // change.
+    // Bit i: index i's message for the current step (or the next step) has arrived; a PICKS message in
+    // EXCHANGE_RECORDS_SENT
+    // or CONFIRM_CONTINUE and a COURSE_PICK message in EXCHANGE_PICK_MASKS set every bit; zeroed when a step handler
+    // moves on to the next step, except WAIT_BACKUP to EXCHANGE_PICKS; changes to LEAVING and LEAVING to ENDED leave it
+    // as is.
     /* 19ab */ u8 mReceivedMask;
     /* 19ac */ u8 mCallsSincePick;
     /* 19ad */ u8 mConnectionLost;
     /* 19ae */ u8 mUnk_19ae[2];
     /* 19b0 */ DWCAccUserData mUserData;
-    // 0x3c saved buddy entries (12 bytes each), loaded from the save at login and written back; their GP status is
-    // polled one per frame.
+    // 0x3c saved buddy entries (12 bytes each), loaded from the save at login and written back; while the session state
+    // is not OFF their GP status is polled, one entry per frame.
     /* 19f0 */ DWCAccFriendData mBuddies[WIFI_BUDDY_COUNT];
-    // One status byte per mBuddies entry (poll or the buddy status callback). Meaning of the values not decoded.
+    // One status byte per mBuddies entry, set by UpdateBuddyStatuses and by SetBuddyStatus; UpdateBuddyStatuses counts
+    // the entries equal to FRIEND_STATUS_MATCH_FRIEND into mStatus4BuddyCount.
     /* 1cc0 */ u8 mBuddyStatuses[WIFI_BUDDY_COUNT];
     /* 1cfc */ BOOL mBuddiesChanged;
-    // 0x44-byte buffers the net layer receives the kind 0..9 messages into (re-posted by the receive callback). The
-    // 0x244 profile records (mPlayerRecords) and mRecvBuffers (0x80 bytes) are also posted as receive buffers.
-    /* 1d00 */ WiFiSessionMessage mReceiveBuffers[4];
-    /* 1e10 */ WiFiSessionMessage mIndexMessages[4];
+    // Per index: the buffer the net layer receives the messages after the player record into; the receive callback
+    // posts it for that index when the record arrives and copies the continue, pick, course and result messages into
+    // mIndexMessages; SetupWiFiSession
+    // posts it again for two of its modes. mPlayerRecords (the first messages) and mRecvBuffers are also posted as
+    // receive buffers.
+    /* 1d00 */ WiFiSessionMessage mReceiveBuffers[WIFI_SESSION_KART_SLOTS];
+    /* 1e10 */ WiFiSessionMessage mIndexMessages[WIFI_SESSION_KART_SLOTS];
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
-    /* 1f34 */ BOOL mResetToOff;
+    // TRUE after ResetWiFiSessionToOff, FALSE after ResetWiFiSession; never read.
+    /* 1f34 */ BOOL mUnk_1f34;
     /* 1f38 */ BOOL mRaceSyncEnabled;
     /* 1f3c */ s32 mIrqCallbackCount;
     /* 1f40 */ s32 mDisconnectKind;
@@ -468,7 +494,7 @@ typedef struct WiFiSession {
     /* 1f4c */ u8 mUnk_1f4c;
     /* 1f4d */ u8 mUnk_1f4d;
     // Per index: its place among the indices set in mKartMask (-1 if absent); ResetWiFiSession zeroes it to 0.
-    /* 1f4e */ s8 mPackedIndices[4];
+    /* 1f4e */ s8 mPackedIndices[WIFI_SESSION_KART_SLOTS];
     /* 1f52 */ u8 mKartCount;
     /* 1f53 */ u8 mStartKartCount;
     /* 1f54 */ u8 mKartCountCopy;
@@ -483,7 +509,7 @@ void RegisterWiFiVSMatchingCallbacks(void);
 void AdvanceWiFiVSMatching(void);
 
 #include "Main/Graphics/nibble_tiles.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/player_record.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Graphics/layout_table_entry.h"
@@ -512,7 +538,7 @@ void AdvanceWiFiVSSettingIndexTimers(void);
 void UpdateWiFiVSSettingHighlight(void);
 void UpdateWiFiVSSettingOffsets(void);
 void AdvanceWiFiVSSettingWaitDisconnectedText(void);
-void AdvanceWiFiVSSettingWaitDisconnectText(void);
+void AdvanceWiFiVSSettingWaitDisconnectingText(void);
 void AdvanceWiFiVSSettingWaitDisconnectAnswer(void);
 void AdvanceWiFiVSSettingWaitNoBuddySettingText(void);
 void AdvanceWiFiVSSettingWaitNoBuddyListText(void);

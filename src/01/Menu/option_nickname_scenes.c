@@ -18,9 +18,9 @@ static SceneCallbacks gEndingSceneCallbacks = {
     InitEndingScene, UpdateEndingScene, ReleaseEndingScene, WriteEndingSceneRegistersWrapper, 0, 0, 30, 1, 0};
 
 int RunEndingScene(void *sceneNumbers) {
-    SceneCallbacks local = gEndingSceneCallbacks;
+    SceneCallbacks callbacks = gEndingSceneCallbacks;
 
-    RunScene(sceneNumbers, &local);
+    RunScene(sceneNumbers, &callbacks);
     return 0;
 }
 
@@ -52,9 +52,9 @@ void UpdateOptionScene(s16 *sceneNumbers) {
 }
 
 int RunOptionScene(void *sceneNumbers) {
-    SceneCallbacks local = gOptionSceneCallbacks;
+    SceneCallbacks callbacks = gOptionSceneCallbacks;
 
-    RunScene(sceneNumbers, &local);
+    RunScene(sceneNumbers, &callbacks);
     return 0;
 }
 
@@ -91,7 +91,7 @@ void UpdateNicknameScene(s16 *sceneNumbers) {
     ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 1);
     AdvanceNicknameScene();
     HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 1);
-    if (sceneNumbers != NULL && GetNicknameSceneNextScene() != -1) {
+    if (sceneNumbers != NULL && GetNicknameSceneNextScene() != NICKNAME_SCENE_NEXT_NONE) {
         sceneNumbers[2] = GetNicknameSceneNextScene();
     }
 }

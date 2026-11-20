@@ -4,14 +4,17 @@
 #include "03/System/tasks.h"
 #include "wireless_link_control.h"
 
-// Codes UsbScan.mResultCallback gets once the scan time is up: no entries, only entries with the flag set, or entries
-// with and without it. The callback in usb.c also has a case for the code after them, which nothing reports.
+// Codes UsbScan.mResultCallback gets: when the scan time is up, no entries (NONE), only entries with the flag set
+// (FLAGGED) or both kinds (MIXED); FLAGGED is also reported at once when a stored entry shows the flag. Entries with
+// the flag clear only give no call. The callback in usb.c also has a case for the code after them, which nothing
+// reports.
 #define USB_SCAN_RESULT_NONE 0
 #define USB_SCAN_RESULT_FLAGGED 1
 #define USB_SCAN_RESULT_MIXED 2
 #define USB_SCAN_RESULT_NEVER_REPORTED 3
 
-// Values of UsbScan.mReleaseProgress: running, release started, the close reply arrived.
+// Values of UsbScan.mReleaseProgress: running, release started by ReleaseUsbScan, the close request answered without an
+// error.
 #define USB_SCAN_RELEASE_RUNNING 0
 #define USB_SCAN_RELEASE_STARTED 1
 #define USB_SCAN_RELEASE_DONE 2
@@ -24,7 +27,8 @@ typedef struct UsbScanEntry {
     /* 6 */ u8 mFlag;
 } UsbScanEntry;
 
-// Object behind gUsbScan.
+// USB scan state: the scan buffers, found entries, result callback, scan parameters, start time, report task and
+// release progress.
 struct UsbScan {
     /* 0000 */ u8 mWmSystemBuffer[0xf00];
     /* 0f00 */ u8 mScanBuffer[0x400];
@@ -36,7 +40,7 @@ struct UsbScan {
     /* 1b7c */ TaskEntry *mReportTask;
     /* 1b80 */ vu8 mReleaseProgress;
     /* 1b81 */ u8 mPendingResult;
-    /* 1b82 */ u8 mReported;
+    /* 1b82 */ u8 mScanTimeUp;
 };
 
 typedef struct WMStartScanExCallback WMStartScanExCallback;

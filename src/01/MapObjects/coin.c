@@ -19,13 +19,13 @@
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -35,7 +35,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/MapObjects/group_follower_init.h"
 
 u16 gCoinShadowRotationIndex;
@@ -74,7 +74,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
     Vec3 scale;
     Vec3 shadowScale;
 
-    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mMapObject.mFlags & 1) == 0 &&
+    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) == 0 &&
         (s32) (coin->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 0x3d090) {
         shadowPosition.x = coin->mMapObject.mPos.x;
         shadowPosition.y = coin->mMapObject.mPos.y - 0x16000;
@@ -102,7 +102,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
 }
 
 void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
-    coin->mTimer = COIN_RISE_FRAMES;
+    coin->mTimer = COIN_RISE_TIMER_START;
     coin->mMapObject.mPos.x = kart->mPos.x;
     coin->mMapObject.mPos.y = kart->mPos.y + 0xc000;
     coin->mMapObject.mPos.z = kart->mPos.z;
@@ -112,7 +112,7 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
     coin->mModelAlpha = MAP_OBJECT_ALPHA_MAX;
     coin->mMapObject.mFlags = coin->mMapObject.mFlags | gCoinHiddenFlag;
     coin->mEffect = StartEffect(0x3f5, &coin->mMapObject.mPos);
-    coin->mEffectTimer = COIN_RISE_EFFECT_FRAMES;
+    coin->mEffectTimer = COIN_RISE_EFFECT_TIMER_START;
 }
 
 void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd) {
@@ -149,11 +149,11 @@ void StartCoinDrop(void) {
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        angle = (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
+        RANDOM_ADVANCE_S64(random);
+        angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
+        RANDOM_ADVANCE_S64(random);
+        speed = (u32) RANDOM_BELOW_U64(random, 0x800) + 0x800;
         coin->mState = COIN_STATE_DROP;
         coin->mScaleFactor = COIN_SCALE_START;
         coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
@@ -163,7 +163,7 @@ void StartCoinDrop(void) {
         coin->mMapObject.mPosStep.x = kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, FX_SinIdx(angle));
         coin->mMapObject.mPosStep.y = kart->mVelocity.y + 0x4000;
         coin->mMapObject.mPosStep.z = kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, FX_CosIdx(angle));
-        coin->mMapObject.mFlags &= ~1;
+        coin->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         soundArg.mSoundId = COIN_LEAVE_KART_SOUND_ID;
         soundArg.mPositionSource = NULL;
         soundArg.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
@@ -186,15 +186,15 @@ void StartCoinBossTransfer(void) {
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        angle = (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
+        RANDOM_ADVANCE_S64(random);
+        angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
+        RANDOM_ADVANCE_S64(random);
+        speed = (u32) RANDOM_BELOW_U64(random, 0x800) + 0x800;
         coin->mState = COIN_STATE_TRANSFER_RISE;
         coin->mScaleFactor = COIN_SCALE_START;
         coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
-        coin->mTimer = COIN_RISE_FRAMES;
+        coin->mTimer = COIN_RISE_TIMER_START;
         targetObject = NULL;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             kartCount = 0;
@@ -243,8 +243,8 @@ void SetBossCoinShownCount(s32 shownCount) {
                 if (foundCount <= shownCount) {
                     if (coin->mTargetPos == NULL) {
                         random = GetMapObjectRandom();
-                        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-                        angle = ((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32;
+                        RANDOM_ADVANCE_S64(random);
+                        angle = RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
                         coin->mScaleFactor = COIN_SCALE_FULL;
                         coin->mModelAlpha = 0;
                         coin->mTargetPos =
@@ -314,7 +314,7 @@ void StartCoinsFadeOut(void) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            if (coin->mState == COIN_STATE_RESTING && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
+            if (coin->mState == COIN_STATE_PLACED && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 coin->mMapObject.mPosStep.y = 0x5000;
                 coin->mModelAlpha = COIN_LAUNCH_FADE_START_ALPHA;
                 coin->mState = COIN_STATE_LAUNCH_FADE;
@@ -355,7 +355,7 @@ void StartCoinsFadeIn(void) {
                 coin->mState = COIN_STATE_BOUNCE;
                 coin->mScaleFactor = COIN_SCALE_FULL;
                 coin->mModelAlpha = 0;
-                coin->mMapObject.mFlags &= ~1;
+                coin->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             }
         }
     }
@@ -449,8 +449,8 @@ void InitCoinObjects(MapObjectList *coinList) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            coin->mSavedPos = coin->mMapObject.mCourseMapRow->mPosition;
-            coin->mMapObject.mPos = coin->mSavedPos;
+            coin->mPosCopy = coin->mMapObject.mCourseMapRow->mPosition;
+            coin->mMapObject.mPos = coin->mPosCopy;
             coin->mMapObject.mPos.y = coin->mMapObject.mPos.y + 0xe000;
             if (coin->mMapObject.mCourseMapRow->mGroupIndex >= 0) {
                 InitGroupFollower(&coin->mFollower, coin->mMapObject.mCourseMapRow, 0);
@@ -493,25 +493,25 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                         coin->mMapObject.mPosStep.x = 0;
                         coin->mMapObject.mPosStep.y = 0;
                         coin->mMapObject.mPosStep.z = 0;
-                        coin->mState = COIN_STATE_RESTING;
+                        coin->mState = COIN_STATE_PLACED;
                     }
-                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, 2);
+                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
             }
             break;
-        case COIN_STATE_RESTING: {
+        case COIN_STATE_PLACED: {
             u16 radius;
             s32 kartIndex;
             BOOL found;
             Vec3 *kartPos;
-            s32 dx;
-            s32 dz;
+            s32 differenceX;
+            s32 differenceZ;
             AdvanceCoinNsbtpFrame(coin, 1);
             if (coin->mFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
                 AdvanceGroupFollower(&coin->mFollower);
                 GetGroupFollowerCurvePosStep(&coin->mFollower, &coin->mMapObject.mPos, &coin->mMapObject.mPosStep);
                 coin->mMapObject.mPos.y += 0xe000;
-                coin->mSavedPos = coin->mMapObject.mPos;
+                coin->mPosCopy = coin->mMapObject.mPos;
             } else {
                 coin->mMapObject.mPosStep.x = 0;
                 coin->mMapObject.mPosStep.y = 0;
@@ -521,9 +521,9 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 radius = coin->mMapObject.mCourseMapRow->mSettings[1];
                 for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
                     kartPos = &GetKart((u16) kartIndex)->mPos;
-                    dx = kartPos->x - coin->mMapObject.mPos.x;
-                    dz = kartPos->z - coin->mMapObject.mPos.z;
-                    if (SQUARE_SUM2(dx, dz) < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
+                    differenceX = kartPos->x - coin->mMapObject.mPos.x;
+                    differenceZ = kartPos->z - coin->mMapObject.mPos.z;
+                    if (SQUARE_SUM2(differenceX, differenceZ) < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
                         found = TRUE;
                         goto checked;
                     }
@@ -595,7 +595,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             coin->mModelAlpha = newAlpha;
             if (coin->mScaleFactor < COIN_SCALE_FULL) {
-                coin->mScaleFactor += COIN_SCALE_GROW_STEP;
+                coin->mScaleFactor += COIN_SCALE_GROW_PER_FRAME;
                 if (coin->mScaleFactor > COIN_SCALE_FULL) {
                     coin->mScaleFactor = COIN_SCALE_FULL;
                 }
@@ -620,7 +620,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                                         coin->mMapObject.mCollisionSlotIndex, &pushOut, &normal, &secondNormal,
                                         &collisionBits, NULL, NULL, NULL, NULL) != 0) {
                 VEC_Add(&coin->mMapObject.mPos, &pushOut, &coin->mMapObject.mPos);
-                if (collisionBits & 0x214300) {
+                if (collisionBits & COURSE_HIT_WALL) {
                     BounceVelocityOffSurface(&coin->mMapObject.mPosStep, &secondNormal, 0x1000, 0x1000, 0xc00,
                                              &coin->mMapObject.mPosStep);
                     if ((s64) coin->mMapObject.mPosStep.x * coin->mMapObject.mPosStep.x +
@@ -633,22 +633,22 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     coin->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.y, 0x1400);
                     coin->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.z, 0x1400);
                 }
-                if ((collisionBits & 0x1e34ef) && coin->mMapObject.mPosStep.y <= 0) {
+                if ((collisionBits & COURSE_HIT_GROUND) && coin->mMapObject.mPosStep.y <= 0) {
                     coin->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.y, -0x800);
                     if (coin->mMapObject.mPosStep.y < 0x1000) {
                         coin->mMapObject.mPosStep.x = 0;
                         coin->mMapObject.mPosStep.y = 0;
                         coin->mMapObject.mPosStep.z = 0;
-                        coin->mState = COIN_STATE_RESTING;
+                        coin->mState = COIN_STATE_PLACED;
                     }
-                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, 2);
+                    StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
-                if ((collisionBits & 0x800) || coin->mMapObject.mPos.y < 0) {
+                if ((collisionBits & COURSE_HIT_BELOW_ZERO_BIT) || coin->mMapObject.mPos.y < 0) {
                     coin->mState = COIN_STATE_FADE_OUT_DROP;
                 }
             }
-            coin->mSavedPos.x = coin->mMapObject.mPos.x;
-            coin->mSavedPos.z = coin->mMapObject.mPos.z;
+            coin->mPosCopy.x = coin->mMapObject.mPos.x;
+            coin->mPosCopy.z = coin->mMapObject.mPos.z;
             break;
         }
         case COIN_STATE_FADE_OUT_DROP:
@@ -679,7 +679,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 coin->mState = COIN_STATE_BOUNCE;
                 coin->mScaleFactor = COIN_SCALE_FULL;
                 coin->mModelAlpha = 0;
-                coin->mMapObject.mFlags &= ~1;
+                coin->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             }
             break;
         case COIN_STATE_TRANSFER_RISE:
@@ -689,7 +689,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             coin->mModelAlpha = newAlpha;
             if (coin->mScaleFactor < COIN_SCALE_FULL) {
-                coin->mScaleFactor += COIN_SCALE_GROW_STEP;
+                coin->mScaleFactor += COIN_SCALE_GROW_PER_FRAME;
                 if (coin->mScaleFactor > COIN_SCALE_FULL) {
                     coin->mScaleFactor = COIN_SCALE_FULL;
                 }
@@ -703,7 +703,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             break;
         case COIN_STATE_TRANSFER_FLY:
             if (coin->mScaleFactor < COIN_SCALE_FULL) {
-                coin->mScaleFactor += COIN_SCALE_GROW_STEP;
+                coin->mScaleFactor += COIN_SCALE_GROW_PER_FRAME;
                 if (coin->mScaleFactor > COIN_SCALE_FULL) {
                     coin->mScaleFactor = COIN_SCALE_FULL;
                 }

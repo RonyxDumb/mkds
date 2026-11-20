@@ -32,35 +32,36 @@ enum {
     ITEM_KOURA_W_STATE_COUNT,
 };
 
-// Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
-// QuaternionFromYAxisToVec3 write.
+// Stack object of InitItemKouraWFromData: the direction Vec3NormalizeAndGetLengthUnchecked writes and the quaternion
+// QuaternionFromYAxisToVec3 writes.
 typedef struct DirectionQuaternion {
     /* 00 */ Vec3 mDirection;
     /* 0c */ Quaternion mQuaternion;
     /* 1c */ u8 mUnk_1c[4];
 } DirectionQuaternion;
 
-// Sound ids of ItemKouraW.mSoundId: the one set at reset, and the one the entry kart's shell takes when it starts
-// to steer to its target.
+// Sound ids of ItemKouraW.mSoundId: the one set at reset, and the one used once the shell starts to steer to the entry
+// kart.
 #define ITEM_KOURA_W_SOUND_ID_DEFAULT 0xdc
 #define ITEM_KOURA_W_SOUND_ID_ENTRY_STEERING 0xdd
-// ItemKouraW.mSpeed at reset, the speed the following and steering states move it toward (by the step each frame),
-// and its value when the rise starts.
+// ItemKouraW.mSpeed at the start (InitItemKouraWCommon), the speed the follow-link, steer-to-target and circle-target
+// states move it toward (by the step each call), and its value when the rise starts.
 #define ITEM_KOURA_W_START_SPEED 0x1a000
-#define ITEM_KOURA_W_CRUISE_SPEED 0xd000
+#define ITEM_KOURA_W_TARGET_SPEED 0xd000
 #define ITEM_KOURA_W_SPEED_STEP 0xccd
 #define ITEM_KOURA_W_RISE_START_SPEED 0x3000
-// ItemKouraW.mLift at reset, at the start of the rise and fall, and where the rise ends.
+// ItemKouraW.mLift at the start (InitItemKouraWCommon), at the start of the rise and of the fall, and the value above
+// which the rise ends.
 #define ITEM_KOURA_W_START_LIFT 0x32000
-#define ITEM_KOURA_W_HOVER_LIFT 0x28000
+#define ITEM_KOURA_W_RISE_FALL_START_LIFT 0x28000
 #define ITEM_KOURA_W_RISE_LIFT_LIMIT 0x2d000
-// ItemKouraW.mAngleStep when the circling starts, and the circle angles (65536 is a full turn): the first half turn
-// and the end of the part where the shell follows the course normal.
+// ItemKouraW.mAngleStep when the circling starts, the angle below which the radius shrinks by 2/5 per call (half a
+// turn; 65536 is a full turn), and the angle at which the circling ends and the rise starts.
 #define ITEM_KOURA_W_CIRCLE_START_ANGLE_STEP 0x3e8
 #define ITEM_KOURA_W_CIRCLE_HALF_ANGLE 0x8000
-#define ITEM_KOURA_W_CIRCLE_NORMAL_END_ANGLE 0x11f40
-// State frame of the pick-target state at which the shell starts its position strip, and the state frame after which
-// it stops looking for a target.
+#define ITEM_KOURA_W_CIRCLE_END_ANGLE 0x11f40
+// State frame of the pick-target state at which the shell starts its position strip, and the state frame after which it
+// takes the first-place kart as its target (when it has none yet) and steers to it.
 #define ITEM_KOURA_W_POS_STRIP_FRAME 8
 #define ITEM_KOURA_W_PICK_TARGET_LIMIT_FRAMES 0xa8c
 
@@ -118,30 +119,30 @@ s32 GrowItemObjectScale(ItemObject *item, s32 limit, s32 step);
 s32 GetItemDataSize(s32 itemKind, s32 messageKind);
 void InitItems(void);
 void StartCourseMapItemObjects(void);
-// Takes an object of the given kind from its pool, reserves, starts and places it; returns 0 when the pool is full
-// (mLimit - mReservedCount <= 0).
+// Takes an object of the given kind from its pool, reserves, starts and places it, marks it ownerless when the kart
+// index is ITEM_NO_KART_INDEX; returns 0 when the pool is full (mLimit - mReservedCount <= 0).
 void *StartItemObjectOrZero(s32 kind, u16 kartIndex, void *pos, void *normal);
 struct ItemObject *GetCollidedItemObject(u32 index);
 s32 CollideKartWithItemObjects(Kart *kart);
 void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin);
 void DrawItems(void *unused);
-// Per-frame item step: mode-5 sync, the object pools whose mActiveCount is not 0, every kart's record, the item timers,
-// two map-object steps
+// Per-frame item step: in MODE_WIFI the queued item data, the pools whose mActiveCount is not 0, every kart's
+// KartItems, the item block timers, the ortho quads and the bouncing item box timers.
 void UpdateItems(void);
 void ReleaseItemsAtFinish(void);
 BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex);
 BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer);
 BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex);
 void SetupItemKouraWKind(void);
-Vec3 *GetItemKouraWBurstInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio);
-BOOL IsItemKouraWBurst(ItemKouraW *item);
-s32 RequestItemKouraWBurst(ItemKouraW *item);
+Vec3 *GetItemKouraWGrowInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio);
+BOOL IsItemKouraWGrowing(ItemKouraW *item);
+s32 RequestItemKouraWGrow(ItemKouraW *item);
 void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model);
 void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model);
 void InitItemKouraWFromData(ItemKouraW *item);
 void *CopyItemKouraWData(void *cursor, ItemKouraW *item, void *toData);
-void UpdateItemKouraWBurst(void *stateObject);
-void EnterItemKouraWBurst(void *stateObject);
+void UpdateItemKouraWGrow(void *stateObject);
+void EnterItemKouraWGrow(void *stateObject);
 void UpdateItemKouraWFall(void *stateObject);
 void EnterItemKouraWFall(void *stateObject);
 void UpdateItemKouraWRise(void *stateObject);
@@ -165,11 +166,11 @@ void MarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 extern Vec3 gKouraWVec3UnitY;
 
 extern StateCallbacks gItemKouraWStateTable[8];
-extern volatile s32 gKouraWBurstMaxRadiusSquared;
+extern volatile s32 gKouraWGrowMaxRadiusSquared;
 extern Nsbmd *gKouraW;
-extern s32 gKouraWBurstScaleStep;
+extern s32 gKouraWGrowScaleStep;
 extern struct ItemObject **gCollidedItemObjects;
-extern s32 gKouraWBurstScaleLimit;
+extern s32 gKouraWGrowScaleLimit;
 extern s32 gKouraWBurstInverseLimit;
 
 extern const u16 gItemObjectNoOwnerBit;

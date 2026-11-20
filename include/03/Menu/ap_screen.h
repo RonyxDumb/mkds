@@ -25,17 +25,18 @@ enum {
     AP_CLOSE_KIND_BACK,
 };
 
-// Palette row of the selected entry, by entry index.
+// Palette rows of the selected button, by selected index (the three entries, then the multi button).
 typedef struct ApPaletteRows {
     /* 0 */ u8 mRowIndices[4];
 } ApPaletteRows;
 
-// Palette of the entry icon, by status index.
+// Palette of the entry icon, by the entry's set type (a type above 2 uses the last one).
 typedef struct ApEntryIconPalettes {
     /* 0 */ u8 mPaletteIndices[4];
 } ApEntryIconPalettes;
 
-// The screen of scanned access points: the remembered entry, the icon and reset button objects and the close kind.
+// The screen of the three stored access point entries: the remembered entry, the icon and reset button objects and the
+// close kind.
 typedef struct Ap {
     /* 00 */ void *mYbBgStep11Ncl;
     /* 04 */ OamRange *mEntryIconObjects[3];

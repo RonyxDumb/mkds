@@ -3,7 +3,8 @@
 #include "types.h"
 #include "00/Lib/NitroWiFi/socket_objects.h"
 
-// One entry of the array SOC_Poll takes: an object, the bits asked for and the bits found.
+// One entry of the array SOC_Poll takes: the socket, the event bits asked for and the event bits found (the error,
+// bits 0x20, 0x40 and 0x80 are always tested).
 typedef struct SocketPollEntry {
     /* 00 */ SOCLSocket *mFd;
     /* 04 */ s16 mEvents;
@@ -31,10 +32,10 @@ s32 SOC_Cleanup(void);
 s32 SOC_Startup(void *configPointer);
 void FreeFunc_SOCL(u32 *memory);
 void *AllocFunc_SOCL(u32 size);
-// Commands of SOC_Fcntl and the bit of the flags that makes a socket not block.
-#define SOC_F_GETFL 3
-#define SOC_F_SETFL 4
-#define SOC_O_NONBLOCK 4
+// Commands of SOC_Fcntl and the bit of the flags that marks a socket as not blocking.
+#define SOCKET_FCNTL_GET_FLAGS 3
+#define SOCKET_FCNTL_SET_FLAGS 4
+#define SOCKET_FLAG_NOT_BLOCKING 4
 
 s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode);
 s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedFlags);

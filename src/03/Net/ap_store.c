@@ -213,22 +213,22 @@ void WriteApWorkCopy(void) {
 void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     ApWorkCopy *workCopy;
     u32 keyLength;
-    s32 entryIndex;
+    s32 keyIndex;
     const u8 *sourceKey;
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
     MI_CpuFill8(workCopy, 0, sizeof(ApEntry) - 1);
     MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsids[0], sizeof(workCopy->mEntry.mSsids[0]));
     switch (exchangeResult->mKind) {
-        case AP_WEP_MODE_KEY_5_BYTES:
+        case EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
             keyLength = 5;
             break;
-        case AP_WEP_MODE_KEY_13_BYTES:
+        case EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_13_BYTES;
             keyLength = 0xd;
             break;
-        case AP_WEP_MODE_KEY_16_BYTES:
+        case EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_16_BYTES;
             keyLength = 0x10;
             break;
@@ -238,10 +238,10 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
             break;
     }
     workCopy->mEntry.mWepNotation = 0;
-    entryIndex = 0;
+    keyIndex = 0;
     destinationKey = workCopy->mEntry.mWepKeys[0];
     sourceKey = exchangeResult->mValueBytes[0];
-    for (; entryIndex < 4; entryIndex++) {
+    for (; keyIndex < 4; keyIndex++) {
         MI_CpuCopy8(sourceKey, destinationKey, keyLength);
         destinationKey += 0x10;
         sourceKey += 0x20;
@@ -408,12 +408,12 @@ void WriteApEntryToNvram(s32 entryIndex) {
         if ((store->mPages[0].mEntry.mEntrySetBits & entryBit) != 0) {
             stateBitSet = TRUE;
         }
-        if (setType == 0xff && stateBitSet != FALSE) {
+        if (setType == AP_SET_TYPE_EMPTY && stateBitSet != FALSE) {
             store->mPages[0].mEntry.mEntrySetBits = store->mPages[0].mEntry.mEntrySetBits & ~entryBit;
             gApStore->mPages[1].mEntry.mEntrySetBits = gApStore->mPages[1].mEntry.mEntrySetBits & ~entryBit;
             entryFlags[1] = 1;
             entryFlags[0] = 1;
-        } else if (setType != 0xff && stateBitSet == FALSE) {
+        } else if (setType != AP_SET_TYPE_EMPTY && stateBitSet == FALSE) {
             store->mPages[0].mEntry.mEntrySetBits = store->mPages[0].mEntry.mEntrySetBits | entryBit;
             gApStore->mPages[1].mEntry.mEntrySetBits = gApStore->mPages[1].mEntry.mEntrySetBits | entryBit;
             entryFlags[1] = 1;

@@ -28,7 +28,7 @@ void EnterMPLoadSoundData(void *stateObject);
 void UpdateMPLoadOverlay(void *stateObject);
 void EnterMPLoadOverlay(void *stateObject);
 void UpdateMPWaitRomArchive(void *stateObject);
-void UpdateMPLoadDlArchives(void *stateObject);
+void UpdateMPLoadDLArchives(void *stateObject);
 void EnterMPLoadDlArchives(void *stateObject);
 void UpdateMPSendGroupSendMask(void *stateObject);
 void UpdateMPSendParticipantMask(void *stateObject);

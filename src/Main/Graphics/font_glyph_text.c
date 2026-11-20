@@ -1,5 +1,6 @@
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Save/buddy_record_time.h"
+#include "Main/Race/race_goal_m.h"
 #include "Main/Graphics/font_glyph.h"
 #include "Main/Graphics/font_glyph_index.h"
 #include "Main/Graphics/font_and_player_character.h"
@@ -11,7 +12,7 @@
 #include "font_glyph_layout.h"
 #include "Main/Menu/title_state_handlers.h"
 
-const s16 gFrameOffsets[6] = {2, 4, 8, 4, 2, 0};
+const s16 gFrameOffsets[FRAME_OFFSET_COUNT] = {2, 4, 8, 4, 2, 0};
 
 #pragma optimize_for_size on
 
@@ -111,15 +112,15 @@ BOOL AreOtherMissionRecordsFilled5To7(void) {
         for (column = 1; column <= 9; column++) {
             isFilled = GetMissionRecordValue(row, column, &value);
             if (row == MissionRecordGetMissionRunTableRow() && column == MissionRecordGetMissionRunTableColumn()) {
-                if (isFilled != 0 && (u32) (value - 5) <= 2) {
+                if (isFilled != 0 && (u32) (value - MISSION_RECORD_VALUE_THIRD_BEST) <= 2) {
                     return FALSE;
                 }
             } else {
                 if (isFilled != 0) {
                     switch (value) {
-                        case MISSION_RECORD_VALUE_FIRST_HIGH_TIER:
-                        case MISSION_RECORD_VALUE_SECOND_HIGH_TIER:
-                        case MISSION_RECORD_VALUE_TOP_TIER:
+                        case MISSION_RECORD_VALUE_THIRD_BEST:
+                        case MISSION_RECORD_VALUE_SECOND_BEST:
+                        case MISSION_RECORD_VALUE_BEST:
                             break;
                         default:
                             return FALSE;

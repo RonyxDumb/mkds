@@ -20,7 +20,7 @@ typedef struct Camera Camera;
 #define COURSE_MAP_CAMERA_KIND_SEQUENCE 7
 #define COURSE_MAP_CAMERA_KIND_MISSION_RUN 8 // recorded only in mission run mode
 
-// CourseMapCamera.mChainStart values that mark the first and the second chain camera of a course.
+// CourseMapCamera.mChainStart values that mark the entry where the first and the second chain camera start.
 #define CAMERA_CHAIN_START_FIRST 1
 #define CAMERA_CHAIN_START_SECOND 2
 
@@ -42,7 +42,7 @@ typedef struct CourseMapCamera {
     /* 3e */ u16 mKind;
     /* 40 */ u16 mEntryGroupIndex;
     // Added to the position curve's parameter each call (0x1000 = one segment); also copied into
-    // SequenceCameraEntry.mUnk_7c, which nothing reads.
+    // SequenceCameraEntry.mPosCurveStep, which nothing reads.
     /* 42 */ s16 mPosCurvePerFrame;
     /* 44 */ u16 mLookAtBlendPerFrame;
     // Frames the entry lasts (compared with mCourseMapCameraFrames); the battle step compares it with the race clock
@@ -97,9 +97,9 @@ void UpdateCameraPosCurveLookAtBlend(Camera *camera);
 void UpdateCameraPosCurve(Camera *camera, s32 paramPerFrame);
 void UpdateStaffRollCameraAndLight(Camera *camera);
 // Entry kinds 5 and 6 (the angle entries of CourseMapCamera.mKind): puts the Camera around the followed Kart from the
-// entry's angles (mUnk_18.x, mUnk_18.y, mUnk_24.x, mUnk_24.y: degrees converted to 0x10000 per turn) and distance
-// (mUnk_18.z), lowers the position and look-at by the Kart's mHopHeight, pushes mPos out of walls except in modes 2 and
-// 4 of gRaceSetup.mMode, then updates the view.
+// entry's angles (mLookAtStartOrParams.x and .y, mLookAtEndOrParams.x and .y: degrees converted to 0x10000 per turn)
+// and distance (mLookAtStartOrParams.z), lowers the position and look-at by the Kart's mHopHeight, pushes mPos out of
+// walls except in MODE_BATTLE and MODE_MISSION_RUN of gRaceSetup.mMode, then updates the view.
 void UpdateCameraAngleEntry(Camera *camera);
 // Entry kind 1: moves mPos along the entry's curve (UpdateCameraPosCurve), points mLookAt at the followed Kart (raised
 // by 0x6000; when gRaceSetup.mRaceKind is 5 the Kart comes from the entry's mUnk_24.z and the raise from its
@@ -107,8 +107,10 @@ void UpdateCameraAngleEntry(Camera *camera);
 void UpdateCameraPosCurveLookAtKart(Camera *camera);
 // Does nothing while mCourseMapCamera is NULL. Otherwise runs the entry (UpdateCameraByEntryKind), counts
 // mCourseMapCameraFrames and, when it reaches the entry's mFrameCount, starts the entry at mNextIndex (sets
-// gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift 1 it also starts the
-// next entry of gSecondChainCamera. UpdateRace reaches it once a frame, only while gRace.mUseChainCameras is non-zero.
+// gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift
+// CAMERA_FRUSTUM_SHIFT_UP it also starts the next entry of gSecondChainCamera. UpdateRace reaches it only while
+// gRace.mUseChainCameras is non-zero: once a frame for gFirstChainCamera, and for gSecondChainCamera too in
+// UpdateChainCameraPair unless its mFrustumShift is CAMERA_FRUSTUM_SHIFT_DOWN.
 void UpdateCameraEntry(Camera *camera);
 // Steps gFirstChainCamera (UpdateCameraEntry), updates its view, stores it in gCurrentChainCamera and returns its view
 // matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 4.
@@ -138,7 +140,8 @@ void DisableEntryCameraUpdate(void);
 void SetEntryCameraUpdateHold(s32 hold);
 // Does nothing when CourseMap.mFirstAngleStartCamera is NULL. Otherwise sets mAngleStartRunning and makes that entry
 // the current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
-// mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
+// mReversePosCurve in MODE_BATTLE) when the entry has a group, advances the local random once when the entry Kart has
+// ended and sets gCameraEntryChanged.
 void StartEntryCameraAngleStart(void);
 // Eases mPosGoalYOffset toward 0 or, while KART_MOTION_ON_GROUND is set in the Kart's mMotionFlags or
 // KART_DRIVE_KEYED_PLACEMENT in its mDriveFlags, toward a multiple of the y of c (the Kart's forward vector times
@@ -159,9 +162,10 @@ void ApplyCameraFrustum(Camera *camera, s32 useSecondFar);
 MtxFx44 *GetProjectionMatrix(void);
 
 // The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
-// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstBattleSequenceCamera is set.
-// The Kart code starts its kind 6 and kind 8 entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The
-// chain cameras also run entries but never pick by position.
+// and is stepped by TryUpdateEntryCamera. mKind is CAMERA_KIND_ENTRY, or CAMERA_KIND_ENTRY_SEQUENCE in MODE_BATTLE when
+// CourseMap.mFirstBattleSequenceCamera is set. The Kart code starts its COURSE_MAP_CAMERA_KIND_ANGLE_START and
+// COURSE_MAP_CAMERA_KIND_MISSION_RUN entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The chain
+// cameras also run entries but never pick by position.
 extern Camera *gEntryCamera;
 extern struct Camera *gChaseCamera;
 extern s32 gDefaultLookAtHeight;
@@ -188,6 +192,7 @@ extern Camera *gFirstChainCamera;
 
 extern MtxFx44 gProjectionMatrix;
 
-// Camera.mLookAtHeight never falls below this while the height hold lowers it; the frames the camera angle start runs.
+// Camera.mLookAtHeight never falls below this while mHeightHold lowers it; the number of TryUpdateEntryCamera calls the
+// camera angle start runs (not counted in MODE_BATTLE).
 #define CAMERA_LOOK_AT_HEIGHT_MIN 0x5000
 #define CAMERA_ANGLE_START_FRAMES 300

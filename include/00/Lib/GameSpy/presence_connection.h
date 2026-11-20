@@ -3,10 +3,10 @@
 #include "types.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
-s32 gpiResetProfile(GpConnection *connection, GpiProfile *profile, void *data);
+s32 gpiResetProfile(GPConnection *connection, GPIProfile *profile, void *data);
 
-void gpiDestroy(GpConnection *connection);
+void gpiDestroy(GPConnection *connection);
 
-typedef struct GpConnection GpConnection;
+typedef struct GPConnection GPConnection;
 
-u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId);
+u32 gpiInitialize(GPConnection *connection, s32 titleNumber, s32 spaceId);

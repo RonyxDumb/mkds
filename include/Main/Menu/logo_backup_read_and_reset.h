@@ -18,7 +18,7 @@ typedef enum LogoState {
     LOGO_STATE_END = 11, // the scene asks for the next scene
 } LogoState;
 
-extern const char gLogoCommonBmgFileName[];
+extern const char gLogoAskResetBackupCommonBmgFileName[];
 
 void UpdateLogoResetBackupDone(void *stateObject);
 void EnterLogoResetBackupDone(void *stateObject);

@@ -7,16 +7,17 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/woodbox1_kind_data.h"
 
-#define WOODBOX1_BROKEN_FRAMES 900
+#define WOODBOX1_BROKEN_MIN_FRAMES 900
 #define WOODBOX1_SETTLE_FRAMES 90
-#define WOODBOX1_SMASH_VELOCITY 0x3000
+#define WOODBOX1_BREAK_MIN_SPEED 0x3000
 #define WOODBOX1_HEADING_ANGLE_OFFSET 0x1555
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
 
-// Woodbox1.mMapObject.mStateMachine states, in the order of gWoodbox1StateTable. INTACT rests at its base; a hit breaks
-// it open (BROKEN, 900 frames); FALL drops the box back in; SETTLE bounces it until it rests.
+// Woodbox1.mMapObject.mStateMachine states, in the order of gWoodbox1StateTable. INTACT rests at its base; a hit by a
+// fast or star kart (not in time attack) or an item breaks it open (BROKEN); after WOODBOX1_BROKEN_MIN_FRAMES FALL
+// drops it back in (mSettings[2] is 0, no box falling); SETTLE bounces it for WOODBOX1_SETTLE_FRAMES, then INTACT.
 enum {
     WOODBOX1_STATE_INTACT,
     WOODBOX1_STATE_BROKEN,
@@ -40,25 +41,29 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
 void CreateWoodbox1(MapObjectList *list);
 
 void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha);
-// Draws the model with its alpha capped at maxAlpha (put back afterwards), through NNS_G3dDraw1Mat1Shp.
+// Draws the model with every material's alpha set to maxAlpha when that is below the first material's alpha (put back
+// afterwards), through NNS_G3dDraw1Mat1Shp.
 void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
-// Draws the model with its alpha capped at maxAlpha (put back afterwards).
+// Draws the model with every material's alpha set to maxAlpha when that is below the first material's alpha (put back
+// afterwards).
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
 void SendMaterialPolygonAttributes(NNSG3dRS *renderState);
 // Draws the shadow model with its alpha capped at maxAlpha (put back afterwards).
 void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
-// Draws the model with the matrix and scale, its alpha capped at maxAlpha (put back afterwards).
+// Draws the model with the matrix and scale, every material's alpha set to maxAlpha when that is below the first
+// material's alpha (put back afterwards, with the polygon id).
 void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, MtxFx43 *matrix, Vec3 *scale, s32 maxAlpha);
 void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                                           s32 minNormalSpeed, Vec3 *result);
-// Splits the velocity along surfaceNormal: the rest is scaled by tangentScale, the part along is reversed and scaled
-// by bounceScale; the result goes to result.
+// Splits the velocity along surfaceNormal (an upward normal is first made horizontal; with no direction left the
+// velocity is copied unchanged): the rest is scaled by tangentScale, the part along it is reversed and scaled by
+// bounceScale, but replaced by minNormalSpeed along the normal if horizontally shorter; the result goes to result.
 void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                               s32 minNormalSpeed, Vec3 *result);
 void BlendDirectionTowardUp(Vec3 *direction, s32 blendFactor);
 void BlendDirectionTowardVector(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result);
-// Writes to offset the move that puts the point position out of the cylinder at center (radius in x/z, halfHeight in
-// y); the move has y = 0.
+// Writes to offset the horizontal move that puts the point position onto the side of the cylinder at center (radius in
+// x/z, halfHeight in y), limited in each axis to its distance to the nearer end; offset.y is 0.
 void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset);
 // Writes to offset the move that puts the point position exactly radius away from center.
 void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset);

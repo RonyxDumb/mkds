@@ -56,8 +56,8 @@ u32 StartBlendBrightnessFade(s32 kind, s32 screen, u32 plane, u16 frameCount) {
     return 1;
 }
 
-u8 gBlendBrightnessFadeGapByte[1];
-u8 gBlendBrightnessFadeGapBytes[8];
+u8 gBlendBrightnessFadeUnusedByte[1];
+u8 gBlendBrightnessFadeUnusedBytes[8];
 
 void AdvanceBlendBrightnessFade(TaskEntry *task, void *arg) {
     BlendBrightnessFadeSlot *slot = arg;
@@ -105,10 +105,10 @@ u32 StartBlendBrightnessFadeWait(u16 frameCount) {
 }
 
 void AdvanceBlendBrightnessFadeWait(TaskEntry *task, void *arg) {
-    BlendBrightnessFadeSlot *state = arg;
-    state->mFrames++;
-    if (state->mFrames >= state->mFrameCount) {
-        state->mEnabled = 0;
+    BlendBrightnessFadeSlot *slot = arg;
+    slot->mFrames++;
+    if (slot->mFrames >= slot->mFrameCount) {
+        slot->mEnabled = 0;
         RequestTaskRemoval(1, task);
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "types.h"
+#include "Main/Kart/kart_participant_record.h"
 
 typedef struct Kart Kart;
 
@@ -7,9 +8,9 @@ typedef struct Kart Kart;
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames.
 extern const u32 gSceneFuncs[16];
 
-extern const s32 gKartScaleFactorXTable[25];
+extern const s32 gKartScaleFactorXTable[KART_SCALE_TABLE_STEPS];
 
-extern const s32 gKartScaleFactorYTable[25];
+extern const s32 gKartScaleFactorYTable[KART_SCALE_TABLE_STEPS];
 
 extern const s32 gKartScaleFactorZTable[25];
 

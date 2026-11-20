@@ -16,11 +16,11 @@
 #include "card_rom_backup_access.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 
-extern const s32 gRecordTAttCommonMessageIndices[32];
+extern const s32 gRecordTAttCommonMessageIndices[RECORD_TATT_COURSE_COUNT];
 extern const u16 gRecordTAttCharacterCells[13];
 // row 0: character palette slots, row 1: kart palette slots
 extern const u16 gRecordTAttPaletteSlots[2][5];
-extern const s32 gRecordTAttGhostMessageIndices[32];
+extern const s32 gRecordTAttGhostMessageIndices[RECORD_TATT_COURSE_COUNT];
 
 void LocateAndQueueRecordTAtt(void);
 void SetupRecordTAttRowValues(u16 row);
@@ -33,17 +33,17 @@ void ResetRecordTAtt(void);
 void RequestRecordTAttSlideInRightAndSetup(void);
 void RequestRecordTAttWaitInput(void);
 void RequestRecordTAttSlideOutSide(void);
-void RequestRecordTAttSlideInSideAndMoveIndex(void);
+void RequestRecordTAttSlideInSideAndMoveIndexAndSetup(void);
 void RequestRecordTAttSlideOutRight(void);
 void RequestRecordTAttSlideOutTop(void);
 void RequestRecordTAttPressButton(void);
-void RequestRecordTAttSlideOutForClearPrompt(void);
-void RequestRecordTAttWaitClearPromptOpen(void);
+void RequestRecordTAttSlideOutForAskClear(void);
+void RequestRecordTAttWaitAskClearOpen(void);
 void RequestRecordTAttWaitClearAnswer(void);
-void RequestRecordTAttWaitClearPromptClose(void);
-void RequestRecordTAttSlideInAfterClearPrompt(void);
-void RequestRecordTAttSlideOutForTimeText(void);
-void RequestRecordTAttWaitTimeTextOpen(void);
-void RequestRecordTAttWaitTimeTextInput(void);
-void RequestRecordTAttWaitTimeTextClose(void);
-void RequestRecordTAttSlideInAfterTimeText(void);
+void RequestRecordTAttWaitAskClearClose(void);
+void RequestRecordTAttSlideInAfterAskClearAndSetup(void);
+void RequestRecordTAttSlideOutForTimeRecordChars(void);
+void RequestRecordTAttWaitTimeRecordCharsOpen(void);
+void RequestRecordTAttWaitTimeRecordCharsInput(void);
+void RequestRecordTAttWaitTimeRecordCharsClose(void);
+void RequestRecordTAttSlideInAfterTimeRecordChars(void);

@@ -19,20 +19,20 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Kart/kart_reset.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "system_state_globals.h"
 #include "Main/System/input_slots.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -42,7 +42,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "fixed_vector_math.h"
 #include "sound_archive_load_result.h"
@@ -102,8 +102,8 @@ void ClearKartGroundContact(Kart *kart, u32 clearedBits) {
     StopKartCurrentEffects(kart);
 }
 
-// Returns TRUE while the kart is below y = 0 and starts the respawn wait once; at y >= 0 it clears kart flag bits and
-// returns FALSE.
+// Returns TRUE while the kart is below y = 0 and, unless it is a WiFi peer or already waiting, starts the respawn wait;
+// at y >= 0 it clears motion and drive flag bits and returns FALSE.
 BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     void *soundHandleEntry;
     u32 kartIndex;
@@ -144,8 +144,8 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     return FALSE;
 }
 
-void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
-    s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, direction);
+void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *groundNormal) {
+    s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, groundNormal);
     s32 maxFactor;
 
     if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
@@ -176,8 +176,8 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
     }
 }
 
-// Counts mAirborneFrames, also clears mAirTiltAngle, sets or clears KART_MOTION_AIRBORNE_LONG and stores mLastGroundY.
-// Not run while the kart is below y = 0.
+// On the ground: clears mAirborneFrames, mAirTiltAngle and KART_MOTION_AIRBORNE_LONG and stores mLastGroundY. In the
+// air: counts mAirborneFrames and sets KART_MOTION_AIRBORNE_LONG once it exceeds KART_AIRBORNE_LONG_FRAMES.
 void UpdateKartAirborne(Kart *kart) {
     if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
         kart->mAirborneFrames = 0;
@@ -192,16 +192,16 @@ void UpdateKartAirborne(Kart *kart) {
     }
 }
 
-void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
+void AdvanceKartOrientation(Kart *kart, Vec3 *groundNormal) {
     Vec4 tiltQuaternion;
-    u32 value;
+    u32 unused;
 
     kart->mVelocityScaleFactor = TO_FIXED12(1);
     if (kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
-        AdvanceKartQuaternionFromVector(kart, direction);
+        AdvanceKartQuaternionFromVector(kart, groundNormal);
     }
     QuaternionBlend(&kart->mTiltQuaternion, &kart->mAirTiltQuaternion, &kart->mTiltQuaternion,
                     kart->mQuaternionBlendFactor);
@@ -225,7 +225,7 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     QuaternionNormalize(&kart->mCombinedQuaternion, &kart->mCombinedQuaternion);
 }
 
-// Runs only on a step with a ground hit (non-zero normal).
+// Runs only on a step with a course hit whose normal has a squared length of at least 0x10.
 void RefreshKartSurface(Kart *kart) {
     s32 hitValue = PickCollisionHitValue(0x1e34ef);
     s32 surfaceGroup;
@@ -311,8 +311,9 @@ void AdvanceKartBoosts(Kart *kart) {
     kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_RESPAWN_BOOST_WINDOW;
 }
 
-// Ends the hold TryHoldKartStill started: clears the hold bit and, if the hit link holds an object, moves mPos to the
-// link position; also requests surface sound entry 0 while the race runs.
+// Clears the still-hold bit and, if the hit link holds an object, moves mPos to the link position and drops the object
+// from the link; first requests surface sound entry 0 unless the ground-sound-step flag is set, and only once the race
+// has started.
 void StopKartStillHold(Kart *kart) {
     if (!(kart->mEffectFlags & KART_EFFECT_GROUND_SOUND_STEP)) {
         if (IsRaceStarted() == 1) {
@@ -351,7 +352,7 @@ void AdvanceKartHop(Kart *kart) {
 void AdvanceKartEffects(Kart *kart) {
     KartTurnEffects *turnEffects;
     KartEffects *effects;
-    u32 kartFlags;
+    u32 motionFlags;
 
     if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
         turnEffects = GetKartTurnEffects(kart->mIndex);
@@ -364,9 +365,9 @@ void AdvanceKartEffects(Kart *kart) {
         StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     }
     kart->mEffectVelocity = kart->mVelocity;
-    kartFlags = kart->mMotionFlags;
-    if (kartFlags & KART_MOTION_ON_GROUND) {
-        if (!(kartFlags & KART_MOTION_STILL_HOLD)) {
+    motionFlags = kart->mMotionFlags;
+    if (motionFlags & KART_MOTION_ON_GROUND) {
+        if (!(motionFlags & KART_MOTION_STILL_HOLD)) {
             kart->mEffectVelocity.y = kart->mEffectVelocity.y - kart->mVerticalSpeed;
         }
     }
@@ -380,17 +381,17 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
     u32 resultFlags = jntAnmResult->mFlag;
 
     translationPending = FALSE;
-    if ((resultFlags & 4) == 0) {
+    if ((resultFlags & JOINT_RESULT_NO_MOVE) == 0) {
         translationPending = TRUE;
     }
-    if ((resultFlags & 0x20) && !(resultFlags & 8)) {
+    if ((resultFlags & JOINT_RESULT_EX0_PARENT_INVERSE) && !(resultFlags & JOINT_RESULT_NO_SCALE_EX0)) {
         if (translationPending) {
             NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mTrans, 3);
             translationPending = FALSE;
         }
         NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mScaleEx0, 3);
     }
-    if (!(jntAnmResult->mFlag & JNT_RESULT_NO_ROTATION)) {
+    if (!(jntAnmResult->mFlag & JOINT_RESULT_NO_ROT)) {
         if (translationPending) {
             NNS_G3dGeBufferOP_N(0x19, &jntAnmResult->mRot, 0xc);
         } else {
@@ -399,20 +400,20 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
     } else if (translationPending) {
         NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mTrans, 3);
     }
-    if (!(jntAnmResult->mFlag & 1)) {
+    if (!(jntAnmResult->mFlag & JOINT_RESULT_NO_SCALE)) {
         NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mScale, 3);
     }
 }
 
 void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValues *scaleValues,
                                JointScaleCommand *command, u32 srtFlags) {
-    u8 optionFlags = command->mOptionFlags;
+    u8 optionFlags = command->mScaleCacheFlags;
     u32 nodeIndex;
 
     if (srtFlags & 4) {
-        jntAnmResult->mFlag |= 1;
+        jntAnmResult->mFlag |= JOINT_RESULT_NO_SCALE;
         if (optionFlags & 2) {
-            nodeIndex = command->mNodeId;
+            nodeIndex = command->mNodeDescIndex;
             NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] |= 1 << (nodeIndex & 0x1f);
         }
     } else {
@@ -420,7 +421,7 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
         jntAnmResult->mScale.y = scaleValues->mScale.y;
         jntAnmResult->mScale.z = scaleValues->mScale.z;
         if (optionFlags & 2) {
-            nodeIndex = command->mNodeId;
+            nodeIndex = command->mNodeDescIndex;
             NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] &= ~(1 << (nodeIndex & 0x1f));
             NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.x = scaleValues->mScaleInverse.x;
             NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.y = scaleValues->mScaleInverse.y;
@@ -429,14 +430,14 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
     }
     if (optionFlags & 1) {
         nodeIndex = command->mParentId;
-        jntAnmResult->mFlag |= JNT_RESULT_SEGMENT_SCALE_COMPENSATE;
+        jntAnmResult->mFlag |= JOINT_RESULT_EX0_PARENT_INVERSE;
         if (NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] & (1 << (nodeIndex & 0x1f))) {
-            jntAnmResult->mFlag |= JNT_RESULT_FIRST_EXTRA_SCALE_UNIT;
+            jntAnmResult->mFlag |= JOINT_RESULT_NO_SCALE_EX0;
         } else {
             jntAnmResult->mScaleEx0 = NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale;
         }
     }
-    jntAnmResult->mFlag |= JNT_RESULT_SECOND_EXTRA_SCALE_UNIT;
+    jntAnmResult->mFlag |= JOINT_RESULT_NO_SCALE_EX1;
 }
 
 void texmtxCalc_flag_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {

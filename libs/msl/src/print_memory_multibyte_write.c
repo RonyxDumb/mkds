@@ -20,13 +20,13 @@
 FILE gStdioFiles[3] = {
     {0,
      0,
-     1,
-     1,
-     2,
+     FILE_MODE_READ,
+     FILE_BUFFER_MODE_LINE,
+     FILE_KIND_WITH_WRITE_HOOK,
      0,
      0,
      0,
-     0,
+     FILE_STATE_IDLE,
      0,
      0,
      0,
@@ -46,13 +46,13 @@ FILE gStdioFiles[3] = {
      0},
     {1,
      0,
-     2,
-     1,
-     2,
+     FILE_MODE_WRITE,
+     FILE_BUFFER_MODE_LINE,
+     FILE_KIND_WITH_WRITE_HOOK,
      0,
      0,
      0,
-     0,
+     FILE_STATE_IDLE,
      0,
      0,
      0,
@@ -72,21 +72,21 @@ FILE gStdioFiles[3] = {
      0},
     {2,
      0,
-     2,
-     0,
-     2,
-     0,
-     0,
+     FILE_MODE_WRITE,
+     FILE_BUFFER_MODE_NONE,
+     FILE_KIND_WITH_WRITE_HOOK,
      0,
      0,
+     0,
+     FILE_STATE_IDLE,
      0,
      0,
      0,
      {0},
      0,
-     gStderrBuffer,
+     gStdioFile2Buffer,
      0x100,
-     gStderrBuffer,
+     gStdioFile2Buffer,
      0,
      0,
      0,
@@ -169,7 +169,7 @@ int sprintf(char *buf, const char *fmt, ...) {
 
 #pragma avoid_byte all
 
-void NopWriteHook(void) {}
+void WriteHookNop(void) {}
 
 void MemsetBody(u8 *dst, int fill, u32 count) {
     u32 *wordPtr;
@@ -474,7 +474,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
         return 0;
     }
     if (stream->mKind == FILE_KIND_WITH_WRITE_HOOK) {
-        NopWriteHook();
+        WriteHookNop();
     }
     bufferedMode = 1;
     if (stream->mNoNewlineConversion != 0) {
@@ -548,7 +548,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
     return written / itemSize;
 }
 
-void ConvertTextNewlinesNop(u8 *buffer, u32 *length) {}
+void ConvertNewlinesNop(u8 *buffer, u32 *length) {}
 
 void FileResetBuffer(FILE *stream) {
     stream->mBufferNext = stream->mBuffer;
@@ -565,7 +565,7 @@ int FileFlushBuffer(FILE *stream, u32 *writtenOut) {
     if (pending != 0) {
         stream->mBufferRemaining = pending;
         if (stream->mNoNewlineConversion == 0) {
-            ConvertTextNewlinesNop(stream->mBuffer, &stream->mBufferRemaining);
+            ConvertNewlinesNop(stream->mBuffer, &stream->mBufferRemaining);
         }
         result = stream->mWriteFunc(stream->mWriteFuncFirstArg, stream->mBuffer, &stream->mBufferRemaining,
                                     stream->mWriteFuncLastArg);

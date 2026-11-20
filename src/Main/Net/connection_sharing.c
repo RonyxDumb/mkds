@@ -20,7 +20,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "expanded_heap_head.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
@@ -64,11 +64,11 @@ static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRec
     BOOL result = FALSE;
     u8 toggleBits = receiveRecord->mFlags;
     if (gConnectionWork->mSyncToggle == 0) {
-        if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_A) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO) {
             result = TRUE;
         }
     } else {
-        if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_B) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE) {
             result = TRUE;
         }
     }
@@ -87,8 +87,8 @@ static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, Sharing
                 result = FALSE;
                 childIndex = 8;
             } else {
-                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_PHASE_A
-                                                              : SHARING_RECORD_FLAG_SYNC_PHASE_B;
+                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO
+                                                              : SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE;
                 if ((toggleBit & receiveRecords[childIndex].mFlags) == 0) {
                     result = FALSE;
                     childIndex = 8;
@@ -109,7 +109,7 @@ static inline u32 GetWorkConnectionMode(ConnectionWork *connectionWork) {
 }
 
 // Returns 1 once the last step is issued, 2 on failure, 3 when an error has been recorded, 0 otherwise.
-s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
+s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
     BOOL finished;
 
     finished = FALSE;
@@ -117,7 +117,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
         u16 ownIndex;
 
         ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (ownIndex == 0xffff) {
+        if (ownIndex == CONNECTION_OWN_INDEX_NONE) {
             return 2;
         }
     }
@@ -135,32 +135,32 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
             Initialize();
             break;
         case CONNECTION_STEP_STARTING_UP:
-            gConnectionWork->mState = CONNECTION_STATE_GATHERING;
+            gConnectionWork->mState = CONNECTION_STATE_SETUP;
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
                 StartScan(0, NULL, NULL);
             }
             break;
-        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_RESETTING:
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
                 StartScan(0, NULL, NULL);
             }
             break;
-        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_SETTING_LIFE_TIME:
             MeasureChannel(0);
             break;
         case CONNECTION_STEP_CHECKING_CHANNELS:
             SetParentChannelLowestSum();
-            FillGhostParentParameter(ghostSource);
+            FillGhostParentParameter(ghostRecord);
             SetParentParameter();
             break;
-        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_SETTING_PARENT_PARAMETER:
             StartParent(NULL);
             break;
-        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_STARTING_PARENT:
             StartMPWithBuffers();
             break;
         case CONNECTION_STEP_SEARCHING:
@@ -177,7 +177,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
             gConnectionWork->mMPSetupActive = 1;
             StartMPWithBuffers();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             if (isParent != 0) {
                 StartParentSideBlockTransfer();
             } else {
@@ -193,8 +193,8 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
     return finished;
 }
 
-// Child side; returns 1 when done, 2 on failure, 3 when an error has been recorded, 0 otherwise (the parent returns 1
-// at once).
+// Returns 3 when an error has been recorded, 2 when the multi-player setup is active and the child has no own index, 0
+// while a request is pending, 1 when the count request is done (a parent returns 1 once nothing is pending).
 s32 AdvanceBlockCountRequest(void) {
     BOOL finished;
 
@@ -206,7 +206,7 @@ s32 AdvanceBlockCountRequest(void) {
         u16 ownIndex;
 
         ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (ownIndex == 0xffff) {
+        if (ownIndex == CONNECTION_OWN_INDEX_NONE) {
             return 2;
         }
     }
@@ -240,7 +240,7 @@ void UpdateConnectionSendTimer(void) {
     s32 receivedChunkCount;
     s32 chunkCount;
 
-    if (gConnectionWork->mState != CONNECTION_STATE_GATHERING) {
+    if (gConnectionWork->mState != CONNECTION_STATE_SETUP) {
         return;
     }
     if (gConnectionWork->mStep == CONNECTION_STEP_BLOCK_DATA_REQUEST) {
@@ -256,8 +256,8 @@ void UpdateConnectionSendTimer(void) {
     QueuePacketToPort();
 }
 
-// Child side; returns 1 when done, 2 on failure, 3 when an error has been recorded, 0 otherwise (the parent returns 1
-// at once).
+// Child side; returns 3 while an active, not ending connection has an error code recorded, 2 when the own index is lost
+// during MP set-up, 0 while a request is pending, 1 when finished (a parent returns 1 once no request is pending).
 s32 AdvanceBlockReceive(void) {
     BOOL finished;
 
@@ -269,7 +269,7 @@ s32 AdvanceBlockReceive(void) {
         u16 ownIndex;
 
         ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (ownIndex == 0xffff) {
+        if (ownIndex == CONNECTION_OWN_INDEX_NONE) {
             return 2;
         }
     }
@@ -358,10 +358,10 @@ s32 GetZeroWordResult(void) {
 
     result = WORD_WAIT_RESULT_WAITING;
     connection = gConnectionWork;
-    if (GetWorkConnectionMode(connection) != 1) {
+    if (GetWorkConnectionMode(connection) != CONNECTION_MODE_PARENT) {
         result = WORD_WAIT_RESULT_NOT_RECEIVED;
     } else {
-        if (GetWorkConnectionMode(connection) == 1) {
+        if (GetWorkConnectionMode(connection) == CONNECTION_MODE_PARENT) {
             if ((connection->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 count = connection->mWaitToSendCount;
             } else {
@@ -392,7 +392,7 @@ void InitConnection(void *heap) {
     gConnectionWork->mUnk_0456_0 = 0;
 }
 
-// Bytes of the exp heap that the connection code allocates its buffers from.
+// Bytes of the exp heap that RomArchiveAllocFunc allocates the ROM archive buffers from.
 #define CONNECTION_HEAP_BYTES 0x7800
 
 void InitConnectionBuffers(void *heap) {
@@ -468,15 +468,15 @@ void ResetDataSharing(DataSharing *dataSharing) {
 void ResetConnectionData(void) {
     u8 *bytes;
     s32 childIndex;
-    s32 innerIndex;
+    s32 i;
     s32 byteIndex;
     s32 targetByteIndex;
 
-    for (childIndex = 0; childIndex < 7; childIndex++) {
+    for (childIndex = 0; childIndex < CHILD_LIST_MAX_CHILDREN; childIndex++) {
         gConnectionWork->mChildren.mEntries[childIndex].mAid = CHILD_ENTRY_NO_AID;
         bytes = gConnectionWork->mChildren.mEntries[childIndex].mBytes;
-        for (innerIndex = 0; innerIndex < 6; innerIndex++) {
-            bytes[innerIndex] = 0;
+        for (i = 0; i < 6; i++) {
+            bytes[i] = 0;
         }
     }
     gConnectionWork->mChildren.mExpectedRecordMask = 0;
@@ -491,10 +491,10 @@ void ResetConnectionData(void) {
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, PLAYER_NAME_BYTES);
     gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mLanguageIndex = gStartupWork->mLanguageIndex;
     gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mChildCount = 0;
-    for (innerIndex = 0; innerIndex < 4; innerIndex++) {
-        gConnectionWork->mScanSlots[innerIndex].mInUse = 0;
-        gConnectionWork->mScanSlots[innerIndex].mAge = 0;
-        bytes = gConnectionWork->mScanSlots[innerIndex].mKey.mBytes;
+    for (i = 0; i < 4; i++) {
+        gConnectionWork->mScanSlots[i].mInUse = 0;
+        gConnectionWork->mScanSlots[i].mAge = 0;
+        bytes = gConnectionWork->mScanSlots[i].mKey.mBytes;
         for (byteIndex = 0; byteIndex < 6; byteIndex++) {
             bytes[byteIndex] = 0;
         }
@@ -502,10 +502,10 @@ void ResetConnectionData(void) {
     gConnectionWork->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
     gConnectionWork->mRememberedScanKeyHeld = 0;
     gConnectionWork->mUnk_0434 = 0;
-    gConnectionWork->mScanMissCount = 1;
+    gConnectionWork->mUnk_0439 = 1;
     gConnectionWork->mExpectedRecordMask = 0;
     gConnectionWork->mOperationFlags = 0;
-    gConnectionWork->mLanguageIndex = LANGUAGE_UNSUFFIXED;
+    gConnectionWork->mLanguageIndex = LANGUAGE_JAPANESE;
     gConnectionWork->mReceivedNameMask = 0;
     gConnectionWork->mKeepScanning = 0;
     bytes = gConnectionWork->mScanState.mTargetAddress;

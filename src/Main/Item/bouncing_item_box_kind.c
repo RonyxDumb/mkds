@@ -3,7 +3,8 @@
 #include "Main/Item/pooled_item_box.h"
 #include "Main/MapObjects/view_frustum.h"
 
-const ItemInfo gItemInfoBouncingItemBox = {0, 0, 8, 1, 0, 2, NULL};
+const ItemInfo gItemInfoBouncingItemBox = {
+    0, 0, ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX, 1, 0, ITEM_USE_KIND_ONE_WITH_ORIENTATION, NULL};
 const ItemKind gItemKindBouncingItemBox = {0x14c,
                                            0,
                                            0,

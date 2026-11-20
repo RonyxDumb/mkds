@@ -9,7 +9,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/title_scene.h"
 #include "Main/Race/gp_records_killer.h"
@@ -37,6 +37,7 @@
 #include "vram_load_2d_graphics.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u16 gTitleDisplaySettingsDesc[20] = {1, 0x1e, 0x1c, 1, 0, 0,     0,    2, 0x60, 0x10,
                                            0, 1,    0,    0, 4, 0x100, 0x80, 0, 8,    0};
@@ -202,7 +203,7 @@ void CreateTitleScene(void) {
     TitleGX_SetOBJVRamModeChar(0x10);
     TitleGXS_SetOBJVRamModeChar(0x10);
     TitleWriteMainBlendAlpha(4, 8, 0, 0x10);
-    TitleWriteSubBlendAlpha(0, 0x3f, 6, 10);
+    TitleWriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     WriteMainWinEnableBits(0);
     TitleWriteSubWinEnableBits(0);
     config.mUseTxtSystem = 0;
@@ -215,22 +216,18 @@ void CreateTitleScene(void) {
     config.mUseSelectReturn = 0;
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(TitleGetCurrentHeap(), &config);
     gTitleScene->mCharacterKartPicks = CreateCharacterKartPicks(TitleGetCurrentHeap());
-    SetConnectionKind(0);
+    SetConnectionKind(CONNECTION_KIND_NONE);
     SetMultiSimple(0);
     ClearShuffledIndices();
     TitleSetRaceSetupRequested(1);
-    TitleSetMenuEntryKind(0);
+    TitleSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
     TitleSetUnfilledNotEliminated(0);
     TitleSetLVselIndex6Requested(0);
     ResetRaceSetup();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ReleaseTitleSceneObject(void) {
     ReleaseSceneText();

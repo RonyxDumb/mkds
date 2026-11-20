@@ -17,7 +17,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_player_control.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
@@ -55,7 +55,7 @@ void AdvanceSelectRaceRuleWaitConfirmChoices(void) {
             case 0:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
                 break;
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 1:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x10);
                 break;
@@ -68,11 +68,11 @@ void AdvanceSelectRaceRuleWaitConfirmAnswer(void) {
         switch (GetSelectChoisesIndex()) {
             case 0:
                 RequestSelectRaceRuleSlideOut();
-                gSelectRaceRule->mResult = 1;
+                gSelectRaceRule->mResult = MENU_SCREEN_RESULT_NEXT;
                 StartPlayerEntryListKind(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
                 RequestSelectReturnSlideOut();
                 break;
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 1:
                 RequestSelectRaceRuleChoose();
                 break;
@@ -94,7 +94,7 @@ void AdvanceSelectRaceRuleSlideOut(void) {
     returnOffsetY = -LookupSelectReturnSlideOutBg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
     value = gSelectRaceRule->mBncl->mCount;
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         for (cellIndex = 0; cellIndex < 2; cellIndex++) {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
@@ -213,14 +213,15 @@ s32 AdvanceSelectRaceRule(void) {
     selectRaceRule = gSelectRaceRule;
     DrawLayoutTable(selectRaceRule->mBncl, selectRaceRule->mNcer, selectRaceRule->mBnll, selectRaceRule->mOamList,
                     selectRaceRule->mTable);
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         DrawSelectRaceRuleRowOffsetLabels(rowIndex);
     }
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mState == SELECT_RACE_RULE_STATE_SLIDE_OUT) {
-        if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
-                                             selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
-            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnHiddenNoRequest() != 0) {
+        if (selectRaceRule->mResult == MENU_SCREEN_RESULT_NEXT &&
+            (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
+             selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
+            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnHiddenNoSlideInRequest() != 0) {
                 return gSelectRaceRule->mResult;
             }
         } else if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS) {
@@ -460,9 +461,10 @@ void RefreshSelectCupCourseForIndex(void) {
                                             selectCupCourse->mSelectCupCourseTaOrVsMBncl,
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
-        if (IsTimeRecordFilled(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
-            GetTimeRecordTime(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5,
-                              &recordTime);
+        if (IsTimeRecordFilled(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex],
+                               TIME_RECORD_BEST_LAP)) {
+            GetTimeRecordTime(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex],
+                              TIME_RECORD_BEST_LAP, &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
             PrintLabelLayoutTextFixedDigits(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,
@@ -486,7 +488,7 @@ void SetCourseIdFromSelectCupCourse(void) {
 
 void SetupGhostRecordSetForCupCourse(void) {
     SetupGhostRecordSetForCourse(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
-    SetRaceSetupCopyGhostRecordIndex(0);
+    SetRaceSetupCopyGhostRecordIndex(GHOST_RECORD_INDEX_COURSE);
 }
 
 #pragma thumb off

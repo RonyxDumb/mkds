@@ -27,7 +27,7 @@ void CreateChildWaitSession(void (*callback)(s32)) {
     params.mGameNamep = GetMessageEntry(gMessages, 0xf);
     params.mGameIntroductionp = GetMessageEntry(gMessages, 0x10);
     params.mHandshakeByte = GetLanguageIndex() + 0x31;
-    InitChildWaitSession(&gChildWaitSession->mSession, &params);
+    InitChildWaitSession(&gChildWaitSession->mSessionView, &params);
     if (StartChildWaitSession() == 0) {
         OS_Terminate();
     }
@@ -114,7 +114,7 @@ void AdvanceChildWaitSession(TaskEntry *task, void *arg) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case CHILD_WAIT_STATE_END_DONE:
+        case CHILD_WAIT_STATE_END_WH_DONE:
         case CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE:
             if (stateInfo[1] == 0) {
                 break;

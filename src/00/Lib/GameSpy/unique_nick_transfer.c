@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/unique_nick_transfer.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/operation_queue.h"
 #include "00/Lib/GameSpy/send_buffer.h"
@@ -26,37 +27,37 @@
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operation, const char *input) {
-    GpiCallback callback;
+s32 gpiProcessRegisterUniqueNick(GPConnection *connection, GPIOperation *operation, const char *input) {
+    GPICallback callback;
     u32 *arg;
     s32 result;
 
-    if (GpiReadError(connection, input, 1) != FALSE) {
+    if (gpiCheckForError(connection, input, 1) != FALSE) {
         return 4;
     }
     if (strncmp(input, "\\rn\\", 4) != 0) {
-        GpiSetError(connection, 1, "Unexpected data was received from the server.");
-        GpiQueueErrorCallback(connection, 3, 1);
-        return 3;
+        gpiSetError(connection, 1, "Unexpected data was received from the server.");
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(4);
         if (arg == NULL) {
-            GpiSetErrorMessage(connection, "Out of memory.");
-            return 1;
+            gpiSetErrorString(connection, "Out of memory.");
+            return PROFILE_RESULT_OUT_OF_MEMORY;
         }
         arg[0] = 0;
-        result = GpiQueueCallback(connection, callback, arg, operation, 0);
+        result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
         if (result != 0) {
             return result;
         }
     }
-    GpiRemoveOperation(connection, operation);
+    gpiRemoveOperation(connection, operation);
     return 0;
 }
 
-s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, GpiPeer *peer, s32 result,
+s32 gpiSendTransferReply(GPConnection *connection, GPITransferID *transferID, GPIPeer *peer, s32 result,
                          const char *msg) {
     char buffer[0x24];
     s32 stepResult;
@@ -64,16 +65,16 @@ s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, Gp
     if (msg == NULL) {
         msg = "";
     }
-    stepResult = GpiPeerSendXfer(connection, peer, 0xc9, transferID);
+    stepResult = gpiPeerStartTransferMessage(connection, peer, BUDDY_MESSAGE_TYPE_TRANSFER_REPLY, transferID);
     if (stepResult != 0) {
         return stepResult;
     }
     sprintf(buffer, "\\version\\%d\\result\\%d", 1, result);
-    stepResult = GpiPeerSendString(connection, peer, buffer);
+    stepResult = gpiSendOrBufferString(connection, peer, buffer);
     if (stepResult != 0) {
         return stepResult;
     }
-    stepResult = GpiPeerSendLenMsg(connection, peer, msg, -1);
+    stepResult = gpiPeerFinishTransferMessage(connection, peer, msg, -1);
     if (stepResult != 0) {
         return stepResult;
     }

@@ -27,7 +27,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Item/bouncing_item_box.h"
 #include "Main/Item/pooled_item_box.h"
@@ -40,13 +40,13 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/koopa_block.h"
@@ -83,9 +83,8 @@ static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
     return NULL;
 }
 
-// Map objects the game can hold at once, and the most one area query can return.
+// Size of the map object array (the count is held below it).
 #define MAP_OBJECT_CAPACITY 0x100
-#define FOUND_MAP_OBJECT_CAPACITY 0x20
 
 MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source) {
     s32 kindIndex;
@@ -170,15 +169,15 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                         descriptor->mKindData->mHeightRangeMin = -MAP_OBJECT_HEIGHT_RANGE_DEFAULT;
                     }
                     if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
-                        if (descriptor->mKindData->mHeightRangeMax < MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX) {
-                            descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX;
+                        if (descriptor->mKindData->mHeightRangeMax < MAP_OBJECT_HEIGHT_RANGE_REPLAY_UPPER_MIN) {
+                            descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_REPLAY_UPPER_MIN;
                         }
                     }
                 }
                 grpconfRow = FindGrpconfTblRowByKind(row->mKind);
                 if (grpconfRow->mViewTestKind != 0) {
                     descriptor->mKindData->mUseTwoPlaneViewTest =
-                        grpconfRow->mViewTestKind >= MAP_OBJECT_VIEW_TEST_KIND_PAIRED_PLANES ? 1 : 0;
+                        grpconfRow->mViewTestKind >= MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE_MIN ? 1 : 0;
                     tableValue = grpconfRow->mViewRadius;
                     descriptor->mKindData->mViewRadius =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
@@ -262,20 +261,20 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             SetMapObjectDrawDistance(object, kindData->mDrawDistance);
             object->mUseTwoPlaneViewTest = kindData->mUseTwoPlaneViewTest;
             if (kindData->mShapeKind != MAP_OBJECT_SHAPE_NONE) {
-                object->mFlags &= ~1;
+                object->mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             } else {
                 object->mFlags |= gMapObjectNoShapeFlag;
             }
             if (kindData->mCollidable != 0) {
-                object->mFlags &= ~0x40;
+                object->mFlags &= ~MAP_OBJECT_FLAG_NO_PUSH_OUT;
             } else {
                 object->mFlags |= gMapObjectNotCollidableFlag;
             }
             if ((descriptor->mLists[0] != NULL && descriptor->mLists[0]->mForEachObject != NULL) ||
                 (descriptor->mLists[1] != NULL && descriptor->mLists[1]->mForEachObject != NULL) ||
                 (descriptor->mLists[2] != NULL && descriptor->mLists[2]->mForEachObject != NULL)) {
-                object->mFlags &= ~2;
-                object->mFlags &= ~8;
+                object->mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                object->mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                 object->mAlpha = MAP_OBJECT_ALPHA_MAX;
             } else {
                 object->mFlags |= gMapObjectNoDrawListFlag;
@@ -290,11 +289,11 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 }
             }
             if (descriptor->mLists[3] != NULL && descriptor->mLists[3]->mForEachObject != NULL) {
-                object->mFlags &= ~4;
+                object->mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
             } else {
                 object->mFlags |= gMapObjectNoUpdateListFlag;
             }
-            object->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
+            object->mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared;
             if (courseRow != NULL) {
                 if (descriptor->mInitObject != NULL) {
                     descriptor->mInitObject(object, courseRow, gMapObjectKindRows[kindIndex].mInitData);
@@ -610,7 +609,7 @@ void RunMapObjectUpdateListInits(void) {
 const u16 gMapObjectNoUpdateListFlag = 4;
 const u16 gMapObjectNotCollidableFlag = 0x40;
 const u16 gMapObjectTimeAttackOrWiFiFlag = 0x800;
-const u16 gCollisionSlotPosStepFlag = 0x400;
+const u16 gCollisionSlotPosStepFlag = COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE;
 const u16 gMapObjectNoDrawListFlag = 2;
 const u16 gMapObjectNoDrawListSecondFlag = 8;
 const u16 gMapObjectNoShapeFlag = 1;

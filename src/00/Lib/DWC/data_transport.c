@@ -53,7 +53,7 @@ u16 DWCs_DecodeHeader(const void *message) {
     if (memcmp(header.mMagicStrings, gDwcMagicStrings, 2) == 0) {
         return header.mType;
     }
-    return 0;
+    return WIFI_MESSAGE_KIND_NONE;
 }
 
 s32 DWCs_GetRequiredHeaderSize(s32 type) {
@@ -68,13 +68,13 @@ s32 DWCs_GetRequiredHeaderSize(s32 type) {
 }
 
 // Per login (called by DWC_InitFriendsMatch): stores gWiFiMessageLayer, zeroes the struct and sets mSendChunkSize.
-void DWCi_InitTransport(WiFiMessageLayer *state) {
-    gWiFiMessageLayer = state;
-    MI_CpuFill8(state, 0, sizeof(WiFiMessageLayer));
+void DWCi_InitTransport(WiFiMessageLayer *layer) {
+    gWiFiMessageLayer = layer;
+    MI_CpuFill8(layer, 0, sizeof(WiFiMessageLayer));
     gWiFiMessageLayer->mSendChunkSize = 0x5b9;
 }
 
-void DWCi_RecvCallback(Gt2Connection *connection, void *message, s32 size, u32 reliable) {
+void DWCi_RecvCallback(GTI2Connection *connection, void *message, s32 size, u32 reliable) {
     if (gWiFiMessageLayer != NULL) {
         if (reliable != 0) {
             DWCs_HandleReliableMessage(connection, message, size);
@@ -84,15 +84,17 @@ void DWCi_RecvCallback(Gt2Connection *connection, void *message, s32 size, u32 r
     }
 }
 
-void DWCi_PingCallback(Gt2Connection *connection, u32 latency) {
+void DWCi_PingCallback(GTI2Connection *connection, u32 latency) {
     if (gWiFiMessageLayer->mPingCallback != NULL) {
         gWiFiMessageLayer->mPingCallback(latency, DWCi_GetConnectionAID(connection));
     }
 }
 
-// One step per frame in connection state 6 (returns at once when the layer is NULL): for each participant (except the
-// own index) continues the chunked send and, when the elapsed time since the last receive exceeds the peer's limit,
-// calls the timeout callback func (mReceiveTimeoutCallback; no writer in src).
+// One step per DWC_ProcessFriendsMatch call in connection state 6 (returns at once when the layer is NULL): for each
+// participant other than the own one with a send under way, sends the next chunk when the outgoing buffer has room and
+// calls mSendCallback after the last chunk; for each valid participant, when mReceiveTimeoutCallback is set and
+// mReceiveTimeoutTime is not 0 and the time since the last receive or the last call exceeds mReceiveTimeoutTime, calls
+// mReceiveTimeoutCallback. Neither member has a writer in src.
 void DWCi_TransportProcess(void) {
     u8 *aids;
     s32 aidCount;
@@ -175,12 +177,12 @@ void DWCs_Send(u32 aid, void *buffer, u32 size, u32 reliable) {
     gt2Send(connection, buffer, size, reliable);
 }
 
-void DWCs_HandleReliableMessage(Gt2Connection *connection, void *message, s32 size) {
+void DWCs_HandleReliableMessage(GTI2Connection *connection, void *message, s32 size) {
     u8 aid = DWCi_GetConnectionAID(connection);
     switch (DWCs_GetRecvState(aid)) {
         case WIFI_PEER_RECEIVE_STATE_INITIAL: {
             u16 headerType = DWCs_DecodeHeader(message);
-            if (headerType >= 2 && headerType <= 4) {
+            if (headerType >= WIFI_MESSAGE_KIND_SYNC_REQUEST && headerType <= WIFI_MESSAGE_KIND_SYNC_GO) {
                 DWCs_RecvDataHeader(aid, message, size);
             }
             break;
@@ -205,7 +207,7 @@ void DWCs_HandleReliableMessage(Gt2Connection *connection, void *message, s32 si
     }
 }
 
-void DWCs_HandleUnreliableMessage(Gt2Connection *connection, const void *message, int size) {
+void DWCs_HandleUnreliableMessage(GTI2Connection *connection, const void *message, int size) {
     int aid;
     WiFiPeerMessage *peer;
     u64 receiveTick;
@@ -213,8 +215,8 @@ void DWCs_HandleUnreliableMessage(Gt2Connection *connection, const void *message
     peer = &gWiFiMessageLayer->mPeers[aid];
     if ((peer->mReceiveBuffer != NULL) && (peer->mReceiveBufferSize >= size)) {
         MI_CpuCopy8(message, peer->mReceiveBuffer, size);
-        if (gWiFiMessageLayer->mReceiveCallback != NULL) {
-            gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
+        if (gWiFiMessageLayer->mUdpreadCallback != NULL) {
+            gWiFiMessageLayer->mUdpreadCallback(aid, peer->mReceiveBuffer, size);
         }
         if ((gWiFiMessageLayer->mReceiveTimeoutCallback != NULL) && (peer->mReceiveTimeoutTime != 0)) {
             receiveTick = OS_GetTick();
@@ -267,8 +269,8 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
         connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
         connection->mReceivedSize = 0;
         connection->mReceiveSize = 0;
-        if (gWiFiMessageLayer->mReceiveCallback != NULL) {
-            gWiFiMessageLayer->mReceiveCallback(aid, connection->mReceiveBuffer, expected);
+        if (gWiFiMessageLayer->mUdpreadCallback != NULL) {
+            gWiFiMessageLayer->mUdpreadCallback(aid, connection->mReceiveBuffer, expected);
         }
     }
     if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && connection->mReceiveTimeoutTime != 0) {

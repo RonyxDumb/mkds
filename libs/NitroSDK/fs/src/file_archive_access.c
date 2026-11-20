@@ -7,11 +7,13 @@
 #include "cpu_copy_fill.h"
 
 FSArchive *arc_list;
-FileLocation current_dir_pos;
+FileCommandData current_dir_pos;
 
-// Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
+// Starts a path lookup: a leading slash starts at the root of the current archive, an optional "name:" prefix picks a
+// loaded archive (returns 0 if it is unknown or not loaded), otherwise it starts at the current directory; the result
+// goes to dirPos when that is set, else to fileID.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
-    FileLocation pos;
+    FileCommandData pos;
     s32 charIndex;
     FSArchive *archive;
     s32 loaded;
@@ -110,7 +112,7 @@ u32 FS_OpenFileDirect(FSFile *file, FSArchive *archive, u32 imageTop, u32 imageB
     file->mArg.w.mUnk_08 = fileIndex;
     file->mArg.w.mUnk_00 = imageTop;
     file->mArg.w.mUnk_04 = imageBottom;
-    if (FSi_SendCommand(file, 7) == 0) {
+    if (FSi_SendCommand(file, ARCHIVE_COMMAND_OPEN_BY_RANGE) == 0) {
         return 0;
     }
     file->mStat |= FILE_STAT_IS_FILE;
@@ -133,7 +135,6 @@ u32 FS_OpenFileFast(FSFile *file, FSFileID fileID) {
     return 1;
 }
 
-// Opens a file by path.
 u32 FS_OpenFile(FSFile *file, const u8 *path) {
     FSFileID fileID;
 
@@ -145,7 +146,6 @@ u32 FS_OpenFile(FSFile *file, const u8 *path) {
     return 0;
 }
 
-// Closes an open file.
 u32 FS_CloseFile(FSFile *file) {
     if (FSi_SendCommand(file, 8) == 0) {
         return 0;
@@ -156,13 +156,14 @@ u32 FS_CloseFile(FSFile *file) {
     return 1;
 }
 
-// Waits until the file has no command pending; runs the command itself if it has not started.
+// Waits until the file has no command pending; runs the command itself if it has neither started nor been marked to
+// wait. Returns 1 when the command finished without error.
 u32 FS_WaitAsync(FSFile *file) {
     u32 needsRun;
-    u32 enabled;
+    u32 savedInterrupts;
 
     needsRun = 0;
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
         needsRun = (file->mStat & (FILE_STAT_SYNC | FILE_STAT_STARTED)) == 0;
         if (needsRun) {
@@ -176,26 +177,26 @@ u32 FS_WaitAsync(FSFile *file) {
             } while (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0);
         }
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     if (needsRun) {
         return FSi_ExecuteSyncCommand(file);
     }
-    return file->mError == 0;
+    return file->mError == ARCHIVE_RESULT_SUCCESS;
 }
 
 // Marks a pending command as cancelled.
 void FS_CancelFile(FSFile *file) {
-    u32 enabled;
+    u32 savedInterrupts;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
         file->mStat |= FILE_STAT_CANCEL;
         file->mArc->mFlag |= ARCHIVE_FLAG_CANCEL_PENDING;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Starts a read without waiting for it.
+// Starts a read without waiting for it; returns the byte count that will be read, cut to the end of the file.
 s32 FS_ReadFileAsync(FSFile *file, void *dst, s32 len) {
     return FSi_ReadFileCore(file, dst, len, 1);
 }
@@ -205,7 +206,8 @@ s32 FS_ReadFile(FSFile *file, void *dst, s32 len) {
     return FSi_ReadFileCore(file, dst, len, 0);
 }
 
-// Moves the file position, clamped to the file range; origin 0 is start, 1 current, 2 end.
+// Moves the file position, clamped to the file range; origin 0 is the start, 1 the current position, 2 the end; any
+// other origin returns 0 and moves nothing.
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     switch (origin) {
         case FILE_SEEK_START:
@@ -214,7 +216,7 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
         case FILE_SEEK_CURRENT:
             offset += file->mPosition;
             break;
-        case FS_SEEK_END:
+        case FILE_SEEK_END:
             offset += file->mProp.p.mUnk_08;
             break;
         default:
@@ -230,9 +232,8 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     return 1;
 }
 
-// Sets the current directory.
 u32 FS_ChangeDir(const u8 *path) {
-    FileLocation dirPos;
+    FileCommandData dirPos;
     FSFile searchFile;
 
     FS_InitFile(&searchFile);
@@ -243,7 +244,8 @@ u32 FS_ChangeDir(const u8 *path) {
     return 1;
 }
 
-// Packs up to three characters of an archive name into a word, upper case folded to lower.
+// Packs a name of at most three characters into a word, one byte each, upper case folded to lower; a longer name gives
+// 0.
 u32 FSi_GetPackedName(const u8 *name, s32 nameLen) {
     u32 packed;
     u32 diff;
@@ -265,30 +267,32 @@ u32 FSi_GetPackedName(const u8 *name, s32 nameLen) {
 // Archive read callback that copies from the archive memory image.
 s32 FSi_ReadMemCallback(FSArchive *archive, void *dst, u32 pos, u32 size) {
     MI_CpuCopy8(archive->mBase + pos, dst, size);
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Archive write callback that copies into the archive memory image.
 s32 FSi_WriteMemCallback(FSArchive *archive, const void *src, u32 pos, u32 size) {
     MI_CpuCopy8(src, archive->mBase + pos, size);
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Table read callback that copies from an address.
 s32 FSi_ReadMemoryCore(FSArchive *archive, void *dst, u32 pos, u32 size) {
     MI_CpuCopy8((const void *) pos, dst, size);
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
-// Cancels flagged commands and returns the next command the archive should run, if it is not suspended.
+// Cancels flagged commands, then starts the first queued command and returns it; returns 0 when a suspend is requested
+// or done, or when the command's own thread waits for it (that thread is woken instead). With nothing to run it stops
+// the archive's run and completes a requested suspend.
 FSFile *FSi_NextCommand(FSArchive *archive) {
     FSFile procFile;
     FSFile *file;
     FSFile *next;
-    u32 enabled;
+    u32 savedInterrupts;
     u32 first;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (archive->mFlag & ARCHIVE_FLAG_CANCEL_PENDING) {
         archive->mFlag &= ~ARCHIVE_FLAG_CANCEL_PENDING;
         file = archive->mList.mNext;
@@ -299,7 +303,7 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
                     if (archive->mList.mNext == file) {
                         archive->mList.mNext = next;
                     }
-                    FSi_ReleaseCommand(file, 3);
+                    FSi_ReleaseCommand(file, ARCHIVE_RESULT_CANCELED);
                     if (next == 0) {
                         next = archive->mList.mNext;
                     }
@@ -314,18 +318,18 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
         if (first != 0) {
             archive->mFlag |= ARCHIVE_FLAG_RUNNING;
         }
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         if (first != 0 && (archive->mProcFlag & ARCHIVE_PROC_START_RUN)) {
             archive->mProc(file, ARCHIVE_COMMAND_START_RUN);
         }
-        enabled = OS_DisableInterrupts();
+        savedInterrupts = OS_DisableInterrupts();
         file->mStat |= FILE_STAT_STARTED;
         if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
             OS_WakeupThread(&file->mQueue);
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return file;
     }
     if (archive->mFlag & ARCHIVE_FLAG_RUNNING) {
@@ -341,37 +345,39 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
         archive->mFlag |= ARCHIVE_FLAG_SUSPENDED;
         OS_WakeupThread(&archive->mStatQ);
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return 0;
 }
 
-// Runs the given command and then the following queued ones until one is left pending.
+// Runs the given command and then the following queued ones, until one continues in the background or one has a thread
+// waiting for it (that thread is woken).
 void FSi_ExecuteAsyncCommand(FSFile *file) {
     FSArchive *archive;
-    u32 enabled;
+    u32 savedInterrupts;
 
     archive = file->mArc;
     if (file == 0) {
         return;
     }
     do {
-        enabled = OS_DisableInterrupts();
+        savedInterrupts = OS_DisableInterrupts();
         file->mStat |= FILE_STAT_STARTED;
         if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
             OS_WakeupThread(&file->mQueue);
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return;
         }
         file->mStat |= FILE_STAT_ASYNC;
-        OS_RestoreInterrupts(enabled);
-        if (FSi_TranslateCommand(file, file->mCommand) == 6) {
+        OS_RestoreInterrupts(savedInterrupts);
+        if (FSi_TranslateCommand(file, file->mCommand) == ARCHIVE_RESULT_RUNNING_IN_BACKGROUND) {
             return;
         }
         file = FSi_NextCommand(archive);
     } while (file != 0);
 }
 
-// Runs one command to completion, then starts the queue.
+// Runs one command to completion, then runs the commands queued behind it; returns 1 when the command finished without
+// error.
 u32 FSi_ExecuteSyncCommand(FSFile *file) {
     FSFile *next;
 
@@ -380,27 +386,28 @@ u32 FSi_ExecuteSyncCommand(FSFile *file) {
     if (next != 0) {
         FSi_ExecuteAsyncCommand(next);
     }
-    return file->mError == 0;
+    return file->mError == ARCHIVE_RESULT_SUCCESS;
 }
 
-// Queues a command on its archive and runs it or waits for it.
+// Queues a command on its archive; returns 0 if the archive is unloading. A command not waited for is started or left
+// queued and 1 is returned; a waited-for one runs here once it is its turn and its result is returned.
 u32 FSi_SendCommand(FSFile *file, u32 command) {
     FSArchive *archive;
     FSFile *tail;
     FSFile *prev;
     u32 mask;
     FSFile *next;
-    u32 enabled;
+    u32 savedInterrupts;
 
     archive = file->mArc;
     file->mCommand = command;
     mask = 1 << command;
     file->mError = ARCHIVE_RESULT_PENDING;
     file->mStat |= FILE_STAT_BUSY;
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (archive->mFlag & ARCHIVE_FLAG_UNLOADING) {
-        FSi_ReleaseCommand(file, 3);
-        OS_RestoreInterrupts(enabled);
+        FSi_ReleaseCommand(file, ARCHIVE_RESULT_CANCELED);
+        OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
     if (mask & ARCHIVE_SYNC_COMMANDS_MASK) {
@@ -423,27 +430,27 @@ u32 FSi_SendCommand(FSFile *file, u32 command) {
     file->mLink.mNext = 0;
     if (((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0 && (archive->mFlag & ARCHIVE_FLAG_RUNNING) == 0) {
         archive->mFlag |= ARCHIVE_FLAG_RUNNING;
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         if (archive->mProcFlag & ARCHIVE_PROC_START_RUN) {
             archive->mProc(file, ARCHIVE_COMMAND_START_RUN);
         }
-        enabled = OS_DisableInterrupts();
+        savedInterrupts = OS_DisableInterrupts();
         file->mStat |= FILE_STAT_STARTED;
         if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) == 0) {
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             FSi_ExecuteAsyncCommand(file);
             return 1;
         }
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
     } else {
         if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) == 0) {
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return 1;
         }
         do {
             OS_SleepThread(&file->mQueue);
         } while ((file->mStat & FILE_STAT_STARTED) == 0);
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
     }
     return FSi_ExecuteSyncCommand(file);
 }
@@ -460,27 +467,28 @@ void FS_InitArchive(FSArchive *archive) {
 // Finds a registered archive by name.
 FSArchive *FS_FindArchive(const u8 *name, s32 nameLen) {
     u32 packed;
-    u32 enabled;
+    u32 savedInterrupts;
     FSArchive *archive;
 
     packed = FSi_GetPackedName(name, nameLen);
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     archive = arc_list;
     while (archive != 0 && archive->mName != packed) {
         archive = archive->mNext;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return archive;
 }
 
-// Adds an archive to the list under the given name.
+// Adds an archive to the list under the given name unless that name is already taken; returns whether it was added. The
+// first archive added becomes the current directory's archive.
 u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     u32 result;
-    u32 enabled;
+    u32 savedInterrupts;
     FSArchive *tail;
 
     result = 0;
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (FS_FindArchive(name, nameLen) == 0) {
         if (arc_list == 0) {
             arc_list = archive;
@@ -500,18 +508,19 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
         result = 1;
         archive->mFlag |= 1;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return result;
 }
 
-// Removes an archive from the list.
+// Removes a named archive from the list; if it was the current directory's archive, the current directory goes back to
+// the first archive.
 void FS_ReleaseArchiveName(FSArchive *archive) {
-    u32 enabled;
+    u32 savedInterrupts;
 
     if (archive->mName == 0) {
         return;
     }
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (archive->mNext != 0) {
         archive->mNext->mPrev = archive->mPrev;
     }
@@ -528,10 +537,10 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
         current_dir_pos.h.mArc = arc_list;
         current_dir_pos.h.mOwnId = 0;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Sets the archive memory image, table offsets and read and write callbacks.
+// Sets the archive memory image, table offsets and read and write callbacks (the memory copy ones when none is given).
 u32 FS_LoadArchive(FSArchive *archive, u8 *base, u32 fat, u32 fatSize, u32 fnt, u32 fntSize,
                    FS_ARCHIVE_READ_FUNC readFunc, FS_ARCHIVE_WRITE_FUNC writeFunc) {
     archive->mBase = base;
@@ -549,28 +558,28 @@ u32 FS_LoadArchive(FSArchive *archive, u8 *base, u32 fat, u32 fatSize, u32 fnt, 
     return 1;
 }
 
-// Cancels the queued commands and clears the archive.
+// If the archive is loaded, cancels its queued commands and clears its memory image and table offsets.
 u32 FS_UnloadArchive(FSArchive *archive) {
-    u32 enabled;
+    u32 savedInterrupts;
     FSFile *file;
     FSFile *next;
-    u32 suspended;
+    u32 suspendedHere;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (((archive->mFlag & ARCHIVE_FLAG_LOADED) ? 1 : 0) != 0) {
         archive->mFlag;
-        suspended = FS_SuspendArchive(archive);
+        suspendedHere = FS_SuspendArchive(archive);
         archive->mFlag |= ARCHIVE_FLAG_UNLOADING;
         file = archive->mList.mNext;
         if (file != 0) {
             do {
                 next = file->mLink.mNext;
-                FSi_ReleaseCommand(file, 3);
+                FSi_ReleaseCommand(file, ARCHIVE_RESULT_CANCELED);
                 file = next;
             } while (next != 0);
         }
         archive->mList.mNext = 0;
-        if (suspended != 0) {
+        if (suspendedHere != 0) {
             FS_ResumeArchive(archive);
         }
         archive->mBase = 0;
@@ -580,38 +589,38 @@ u32 FS_UnloadArchive(FSArchive *archive) {
         archive->mFntSize = 0;
         archive->mFntBak = 0;
         archive->mFatBak = archive->mFntBak;
-        archive->mFlag &= ~0xa2;
+        archive->mFlag &= ~(ARCHIVE_FLAG_LOADED | ARCHIVE_FLAG_CANCEL_PENDING | ARCHIVE_FLAG_UNLOADING);
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
 
-// Copies the two tables into memory; returns the size needed.
+// Copies the two tables into mem when the size needed fits maxSize; returns the size needed.
 u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
     FSFile tableFile;
     u32 totalSize;
 
     totalSize = ((s32) (archive->mFatSize + archive->mFntSize + 32) + 31) & ~31;
     if (totalSize <= maxSize) {
-        u8 *cache;
+        u8 *tableDst;
 
-        cache = (u8 *) ((mem + 31) & ~31);
+        tableDst = (u8 *) ((mem + 31) & ~31);
         FS_InitFile(&tableFile);
         if (FS_OpenFileDirect(&tableFile, archive, archive->mFat, archive->mFat + archive->mFatSize, -1) != 0) {
-            if (FS_ReadFile(&tableFile, cache, archive->mFatSize) < 0) {
-                MI_CpuFill8(cache, 0, archive->mFatSize);
+            if (FS_ReadFile(&tableFile, tableDst, archive->mFatSize) < 0) {
+                MI_CpuFill8(tableDst, 0, archive->mFatSize);
             }
             FS_CloseFile(&tableFile);
         }
-        archive->mFat = (u32) cache;
-        cache += archive->mFatSize;
+        archive->mFat = (u32) tableDst;
+        tableDst += archive->mFatSize;
         if (FS_OpenFileDirect(&tableFile, archive, archive->mFnt, archive->mFnt + archive->mFntSize, -1) != 0) {
-            if (FS_ReadFile(&tableFile, cache, archive->mFntSize) < 0) {
-                MI_CpuFill8(cache, 0, archive->mFntSize);
+            if (FS_ReadFile(&tableFile, tableDst, archive->mFntSize) < 0) {
+                MI_CpuFill8(tableDst, 0, archive->mFntSize);
             }
             FS_CloseFile(&tableFile);
         }
-        archive->mFnt = (u32) cache;
+        archive->mFnt = (u32) tableDst;
         archive->mLoadMem = mem;
         archive->mTable = FSi_ReadMemoryCore;
         archive->mFlag |= ARCHIVE_FLAG_TABLES_IN_MEMORY;
@@ -619,14 +628,15 @@ u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
     return totalSize;
 }
 
-// Returns the archive to reading its tables from the image; returns the table memory.
+// If the tables were copied into memory, returns the archive to reading them through its own read callback and returns
+// that table memory (0 when none).
 u32 FS_UnloadArchiveTables(FSArchive *archive) {
     u32 mem;
-    u32 suspended;
+    u32 suspendedHere;
 
     mem = 0;
     if (((archive->mFlag & ARCHIVE_FLAG_LOADED) ? 1 : 0) != 0) {
-        suspended = FS_SuspendArchive(archive);
+        suspendedHere = FS_SuspendArchive(archive);
         if (((archive->mFlag & ARCHIVE_FLAG_TABLES_IN_MEMORY) ? 1 : 0) != 0) {
             archive->mFlag &= ~ARCHIVE_FLAG_TABLES_IN_MEMORY;
             mem = archive->mLoadMem;
@@ -635,19 +645,20 @@ u32 FS_UnloadArchiveTables(FSArchive *archive) {
             archive->mFnt = archive->mFntBak;
             archive->mTable = archive->mRead;
         }
-        if (suspended != 0) {
+        if (suspendedHere != 0) {
             FS_ResumeArchive(archive);
         }
     }
     return mem;
 }
 
-// Stops the archive from starting commands; returns whether it was not already suspended.
+// Stops the archive from starting commands, waiting for a running command to finish; returns whether it was not already
+// suspended.
 u32 FS_SuspendArchive(FSArchive *archive) {
-    u32 enabled;
+    u32 savedInterrupts;
     u32 result;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     result = ((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0;
     if (result) {
         if (archive->mFlag & ARCHIVE_FLAG_RUNNING) {
@@ -659,31 +670,31 @@ u32 FS_SuspendArchive(FSArchive *archive) {
             archive->mFlag |= ARCHIVE_FLAG_SUSPENDED;
         }
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return result;
 }
 
-// Lets a suspended archive start commands again.
+// Lets a suspended archive start commands again; returns whether it was not suspended.
 u32 FS_ResumeArchive(FSArchive *archive) {
     FSFile *next;
-    u32 enabled;
+    u32 savedInterrupts;
     u32 result;
 
     next = 0;
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     result = ((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0;
     if (!result) {
         archive->mFlag &= ~ARCHIVE_FLAG_SUSPENDED;
         next = FSi_NextCommand(archive);
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     if (next != 0) {
         FSi_ExecuteAsyncCommand(next);
     }
     return result;
 }
 
-// Sets the archive notification callback and the events it receives.
+// Sets the archive's own command handler and the flags of the commands it handles; no handler or no flags clears both.
 void FS_SetArchiveProc(FSArchive *archive, FS_ARCHIVE_PROC_FUNC proc, u32 flags) {
     if (flags == 0) {
         proc = 0;
@@ -694,9 +705,10 @@ void FS_SetArchiveProc(FSArchive *archive, FS_ARCHIVE_PROC_FUNC proc, u32 flags)
     archive->mProcFlag = flags;
 }
 
-// Ends an asynchronous command with the given result.
+// Ends a command the archive left running in the background with the given result: finishes the queued asynchronous
+// command and starts the next, or wakes the thread waiting on the archive's sync queue.
 void FS_NotifyArchiveAsyncEnd(FSArchive *archive, u32 result) {
-    u32 enabled;
+    u32 savedInterrupts;
     FSFile *file;
 
     if (archive->mFlag & ARCHIVE_FLAG_ASYNC_COMMAND) {
@@ -709,10 +721,10 @@ void FS_NotifyArchiveAsyncEnd(FSArchive *archive, u32 result) {
         }
     } else {
         file = archive->mList.mNext;
-        enabled = OS_DisableInterrupts();
+        savedInterrupts = OS_DisableInterrupts();
         file->mError = result;
         archive->mFlag &= ~ARCHIVE_FLAG_SYNC_COMMAND;
         OS_WakeupThread(&archive->mSyncQ);
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
     }
 }

@@ -4,7 +4,7 @@
 s32 GetNotFoundInet(ACHOLD *hold) {
     s32 result;
 
-    if (hold->mEndSequence < 10) {
+    if (hold->mEndSequence < AC_PHASE_TEST_START) {
         if (hold->mEndState == AUTO_CONNECT_FIND_ERROR_51100) {
             result = -51100 - hold->mEndType;
         } else if (hold->mEndState == AUTO_CONNECT_FIND_ERROR_51200) {
@@ -12,10 +12,10 @@ s32 GetNotFoundInet(ACHOLD *hold) {
         } else {
             result = -51300 - hold->mEndType;
         }
-    } else if (hold->mEndSequence < 13) {
+    } else if (hold->mEndSequence < AC_PHASE_TEST_CREATE) {
         result = -52000 - hold->mEndType;
     } else {
-        result = hold->mErrorTest;
+        result = hold->mNetcheckReturnCode;
         if (result == 0) {
             result = -50000 - hold->mEndType;
         } else if (result == -1) {

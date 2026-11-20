@@ -18,7 +18,8 @@ typedef struct PushedMotion {
     /* 14 */ s32 mPushSpeed;
 } PushedMotion;
 
-// A map object that can be pushed: the MapObject and its PushedMotion; the pushed-motion kinds embed it first.
+// A map object that can be pushed: the MapObject and its PushedMotion; ObPakkunSf and Pukupuku embed it first and the
+// earthen pipe is one itself.
 typedef struct PushedObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ PushedMotion mMotion;

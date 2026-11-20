@@ -34,14 +34,14 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
         if (gRaceHudSubScreenItemBoxNearOnly == 0 ||
             IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mObjectPairs[objectIndex]) != FALSE) {
             mapObject = gRaceHudSubScreenItemBoxCells->mObjects[objectIndex];
-            if ((mapObject->mFlags & 1) == 0) {
+            if ((mapObject->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &mapObject->mPos;
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mDrawPos,
                                                     subScreenScale, 0, 0) != FALSE) {
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mCell = GetRaceSNcerEntry(0x4e);
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mXlu = mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                     cellCount++;
                     cellIndex++;
@@ -63,7 +63,7 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     u8 bestMinute;
     u8 bestSecond;
     u16 bestMillisecond;
-    s32 recordIndex;
+    s32 recordIndexThenIsRecord;
     s32 finishMs;
     TimeRecord *record;
     TimeRecord *records;
@@ -82,17 +82,17 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
     records = gRaceNewRecordTa->mRecords;
     finishMs = TIME_TO_MS(minute, second, millisecond);
-    for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
-        record = &records[recordIndex];
+    for (recordIndexThenIsRecord = 4; recordIndexThenIsRecord >= 0; recordIndexThenIsRecord--) {
+        record = &records[recordIndexThenIsRecord];
         if (record->mFilled != 0 &&
             finishMs == record->mMillisecond + (record->mSecond * 1000 + record->mMinute * 60000)) {
-            recordIndex = 1;
+            recordIndexThenIsRecord = 1;
             goto found;
         }
     }
-    recordIndex = 0;
+    recordIndexThenIsRecord = 0;
 found:
-    gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
+    gRaceNewRecordTa->mFinishTimeIsRecord = recordIndexThenIsRecord;
     record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
     gRaceNewRecordTa->mBestLapNumber =
         GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestMinute, &bestSecond, &bestMillisecond);

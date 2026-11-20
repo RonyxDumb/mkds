@@ -3,8 +3,8 @@
 #include "01/Menu/nickname_scene.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"
 #include "01/Menu/option_nickname_scenes.h"
@@ -21,6 +21,8 @@
 #include "registers.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
+#include "capture_output_effect.h"
 
 const u8 gOptionSelectMenuMLabelIndices[2] = {0, 1};
 const u8 gOptionSelectMenuXluCellIndices[2] = {0, 1};
@@ -185,13 +187,13 @@ void LocateAndQueueOptionSelectMenu(void) {
 void ApplyOptionSelectMenuSound(void) {
     switch (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND]) {
         case SOUND_MODE_STEREO:
-            SetSoundOutputEffect(0);
+            SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_NONE);
             break;
         case SOUND_MODE_SURROUND:
-            SetSoundOutputEffect(1);
+            SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_SURROUND);
             break;
         case SOUND_MODE_HEADPHONES:
-            SetSoundOutputEffect(2);
+            SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_HEADPHONE);
             break;
     }
 }
@@ -244,7 +246,7 @@ void AdvanceOptionSelectMenuSlideIn(void) {
         }
     }
     if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_SLIDE_FRAMES) {
-        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN_BG2;
+        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN_OK_GROUP;
         gOptionSelectMenu->mStateFrames = 0;
     }
 }
@@ -260,45 +262,45 @@ void AdvanceOptionSelectMenuSlideInBg2(void) {
 
 void AdvanceOptionSelectMenuWaitInput(void) {
     OptionSelectMenu *menu;
-    s32 sel;
+    s32 previousIndex;
     s32 touchedRect;
-    BOOL hasB;
-    BOOL hasA;
+    BOOL rectTouchBegan;
+    BOOL rectRecentlyLost;
     s32 rowIndex;
-    InputSlotIndex idx;
+    InputSlotIndex slotIndex;
     u16 hasPair;
 
     menu = gOptionSelectMenu;
-    sel = menu->mIndex;
-    idx = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    hasB = FALSE;
+    previousIndex = menu->mIndex;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    rectTouchBegan = FALSE;
     touchedRect = -1;
-    hasA = FALSE;
-    hasPair = gInputSlots[idx].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-        hasA = TRUE;
+    rectRecentlyLost = FALSE;
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+        rectRecentlyLost = TRUE;
     }
-    if (hasA == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
-        hasB = TRUE;
+    if (rectRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        rectTouchBegan = TRUE;
     }
-    if (hasB != FALSE) {
-        touchedRect = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
-                                              gInputSlots[idx].mPair.mPairY);
+    if (rectTouchBegan != FALSE) {
+        touchedRect = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+                                              gInputSlots[slotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
+    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto leaveMenu;
     } else {
         BOOL touchBegan = FALSE;
         BOOL recentlyLost = FALSE;
-        hasPair = gInputSlots[idx].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchBegan = TRUE;
         }
-        if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[idx].mPair.mPairX,
-                                                                         gInputSlots[idx].mPair.mPairY) != FALSE) {
+        if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                         gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
         leaveMenu:
             gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
             gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
@@ -309,7 +311,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
             goto end;
         }
     }
-    if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) ||
+    if (((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) ||
         touchedRect == OPTION_SELECT_ROW_OK) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] == 0) {
@@ -335,31 +337,31 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         StartSoundOncePerFrame(1);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         gOptionSelectMenu->mIndex--;
         if (gOptionSelectMenu->mIndex < 0) {
             gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_OK;
         }
         StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 || (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK &&
-                                                            (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0)) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0 || (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK &&
+                                                            (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0)) {
         gOptionSelectMenu->mIndex++;
         if (gOptionSelectMenu->mIndex > OPTION_SELECT_ROW_OK) {
             gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         }
         StartSoundOncePerFrame(0);
-    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = FRAME_OFFSET_COUNT;
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
             StartSoundOncePerFrame(10);
         } else {
             StartSoundOncePerFrame(1);
         }
-    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-            gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
+            gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = FRAME_OFFSET_COUNT;
         }
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
             StartSoundOncePerFrame(10);
@@ -369,22 +371,22 @@ void AdvanceOptionSelectMenuWaitInput(void) {
     } else if (touchedRect == 3) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = FRAME_OFFSET_COUNT;
         StartSoundOncePerFrame(10);
     } else if (touchedRect == 4) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = FRAME_OFFSET_COUNT;
         StartSoundOncePerFrame(10);
     } else if (touchedRect == 5) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = FRAME_OFFSET_COUNT;
         StartSoundOncePerFrame(1);
     } else if (touchedRect == 6) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = FRAME_OFFSET_COUNT;
         StartSoundOncePerFrame(1);
     }
 end:
@@ -400,7 +402,7 @@ end:
     if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] > 1) {
         gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] = 0;
     }
-    if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK && sel != OPTION_SELECT_ROW_OK) {
+    if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK && previousIndex != OPTION_SELECT_ROW_OK) {
         ResetPaletteBlendCycle();
     }
     ApplyOptionSelectMenuSound();
@@ -471,7 +473,7 @@ void AdvanceOptionSelectMenuWaitBackup(void) {
             backupBusy = 1;
         }
         if (backupBusy == 0) {
-            SetTxtSystemOpenSoundId(0x23);
+            SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
             RequestTxtSystemClose();
             RequestSelectReturnSlideIn();
         }
@@ -513,10 +515,10 @@ void WriteOptionSelectMenuTableOffsets(void) {
         for (entryIndex = 0; entryIndex < 3; entryIndex++) {
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[index][entryIndex][0]]
                 .mOffsetX -=
-                LookupFrameOffset(OPTION_SELECT_OFFSET_TIMER_FRAMES - gOptionSelectMenu->mOffsetTimers[index][0]);
+                LookupFrameOffset(FRAME_OFFSET_COUNT - gOptionSelectMenu->mOffsetTimers[index][0]);
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[index][entryIndex][1]]
                 .mOffsetX +=
-                LookupFrameOffset(OPTION_SELECT_OFFSET_TIMER_FRAMES - gOptionSelectMenu->mOffsetTimers[index][1]);
+                LookupFrameOffset(FRAME_OFFSET_COUNT - gOptionSelectMenu->mOffsetTimers[index][1]);
         }
     }
 }
@@ -608,7 +610,7 @@ void AdvanceOptionSelectMenu(void) {
         case OPTION_SELECT_STATE_SLIDE_IN:
             AdvanceOptionSelectMenuSlideIn();
             break;
-        case OPTION_SELECT_STATE_SLIDE_IN_BG2:
+        case OPTION_SELECT_STATE_SLIDE_IN_OK_GROUP:
             AdvanceOptionSelectMenuSlideInBg2();
             break;
         case OPTION_SELECT_STATE_WAIT_INPUT:
@@ -638,18 +640,18 @@ void AdvanceOptionSelectMenu(void) {
 }
 
 void WriteOptionSelectMenuRegisters(void) {
-    u32 plane;
+    u32 displayBits;
 
     if (gOptionSelectMenu->mBg1Visible != FALSE) {
-        plane = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
-        plane |= 2;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << 8);
+        displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        displayBits |= 2;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     } else {
-        plane = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
-        plane &= ~2;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << 8);
+        displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        displayBits &= ~2;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     }
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     reg_G2_BG0OFS = (-gOptionSelectMenu->mBg0Bg1Offset << 16) & 0x1ff0000;
     reg_G2_BG1OFS = (-gOptionSelectMenu->mBg0Bg1Offset << 16) & 0x1ff0000;
 }

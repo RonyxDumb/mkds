@@ -12,8 +12,8 @@
 
 #pragma opt_propagation off
 
-u8 gAvailablePacketHeader[4] = {0xfe, 0xfd, 9, 0};
-SbServerList *gSortServerList;
+u8 gAvailablePacketHeader[4] = {0xfe, 0xfd, AVAILABILITY_PACKET_TYPE, 0};
+SBServerList *gSortServerList;
 s32 gGsiAcResult;
 char gGsiAcHostname[0x40];
 GsiAvailableCheck gGsiAvailableCheck;
@@ -37,25 +37,25 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
 void AvailableSendPacket(void) {
     sendto(gGsiAvailableCheck.mSocket, &gGsiAvailableCheck.mPacketType, gGsiAvailableCheck.mPacketLength, 0,
            &gGsiAvailableCheck.mAddress, 8);
-    gGsiAvailableCheck.mSendTime = GetElapsedMilliseconds();
+    gGsiAvailableCheck.mSendTime = current_time();
 }
 
 void GSIStartAvailableCheckA(const char *gamename) {
     char hostBuffer[0x40];
-    s8 customHost;
+    s8 customHostFirstChar;
     strcpy(gGsiAcGamename, gamename);
     gGsiAvailableCheck.mSocket = -1;
     SocketStartUp();
-    customHost = gGsiAcHostname[0];
-    if (customHost == 0) {
+    customHostFirstChar = gGsiAcHostname[0];
+    if (customHostFirstChar == 0) {
         sprintf(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
     }
-    if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, MASTER_PORT,
+    if (get_sockaddrin(customHostFirstChar != 0 ? gGsiAcHostname : hostBuffer, REPORTING_AND_AVAILABILITY_PORT,
                        &gGsiAvailableCheck.mAddress) != FALSE) {
         gGsiAvailableCheck.mSocket = OpenNetSocket(2, 2, 0);
         if (gGsiAvailableCheck.mSocket != -1) {
             u32 len;
-            gGsiAvailableCheck.mPacketType = AVAILABLE_PACKET_TYPE;
+            gGsiAvailableCheck.mPacketType = AVAILABILITY_PACKET_TYPE;
             len = strlen(gamename);
             memcpy(gGsiAvailableCheck.mPacketGamename, gamename, len + 1);
             gGsiAvailableCheck.mPacketLength = len + 6;
@@ -110,7 +110,7 @@ s32 GSIAvailableCheckThink(void) {
         }
         return gGsiAcResult;
     }
-    if (GetElapsedMilliseconds() > gGsiAvailableCheck.mSendTime + 0x7d0) {
+    if (current_time() > gGsiAvailableCheck.mSendTime + 0x7d0) {
         if (gGsiAvailableCheck.mRetryCount == 1) {
             closesocket(gGsiAvailableCheck.mSocket);
             gGsiAcResult = 1;
@@ -122,31 +122,31 @@ s32 GSIAvailableCheckThink(void) {
     return 0;
 }
 
-s32 IntKeyCompare(SbServer **entry1, SbServer **entry2) {
-    SbServer *firstServer;
-    SbServer *secondServer;
+s32 IntKeyCompare(SBServer **entry1, SBServer **entry2) {
+    SBServer *firstServer;
+    SBServer *secondServer;
     s32 firstValue;
     s32 diff;
     firstServer = *entry1;
     secondServer = *entry2;
-    firstValue = SbServerGetInt(firstServer, gSortServerList->mSortKey, 0);
-    diff = firstValue - SbServerGetInt(secondServer, gSortServerList->mSortKey, 0);
+    firstValue = SBServerGetIntValueA(firstServer, gSortServerList->mSortKey, 0);
+    diff = firstValue - SBServerGetIntValueA(secondServer, gSortServerList->mSortKey, 0);
     if (gSortServerList->mSortAscending == 0) {
         diff = -diff;
     }
     return diff;
 }
 
-s32 FloatKeyCompare(SbServer **entry1, SbServer **entry2) {
-    SbServer *firstServer;
-    SbServer *secondServer;
+s32 FloatKeyCompare(SBServer **entry1, SBServer **entry2) {
+    SBServer *firstServer;
+    SBServer *secondServer;
     double firstValue;
     double secondValue;
     double difference;
     firstServer = *entry1;
     secondServer = *entry2;
-    firstValue = SbServerGetDouble(firstServer, gSortServerList->mSortKey, 0);
-    secondValue = SbServerGetDouble(secondServer, gSortServerList->mSortKey, 0);
+    firstValue = SBServerGetFloatValueA(firstServer, gSortServerList->mSortKey, 0);
+    secondValue = SBServerGetFloatValueA(secondServer, gSortServerList->mSortKey, 0);
     difference = firstValue - secondValue;
     if (gSortServerList->mSortAscending == 0) {
         difference = 0 - difference;

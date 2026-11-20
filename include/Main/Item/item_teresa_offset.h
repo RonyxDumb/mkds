@@ -11,29 +11,31 @@ s32 GetTeresaOffsetYDivisor(void);
 typedef struct NsbmdModel NsbmdModel;
 typedef struct ItemTeresa ItemTeresa;
 
-// Values of ItemTeresa.mItemObjectKind besides a real ItemObjectKind: nothing carried (no model drawn), and an item
-// taken that was none or that nobody held.
+// Values of ItemTeresa.mItemObjectKind besides a real ItemObjectKind: EMPTY, nothing carried yet (no item model is
+// drawn; it is set again once the item is given back), and TOOK_NOTHING, nothing was taken (no kart was picked in time,
+// or the picked kart held nothing the Boo may take).
 #define ITEM_TERESA_KIND_EMPTY ITEM_OBJECT_KIND_COUNT
 #define ITEM_TERESA_KIND_TOOK_NOTHING ITEM_OBJECT_KIND_NONE
 // Value of ItemTeresa.mTakenItemInfoIndex and mGivenItemInfoIndex while no item has arrived; the count is
 // ITEM_TERESA_COUNT_NOT_RECEIVED then.
 #define ITEM_TERESA_NOT_RECEIVED ITEM_INFO_COUNT
-#define ITEM_TERESA_COUNT_NOT_RECEIVED 0xffffffff
+#define ITEM_TERESA_COUNT_NOT_RECEIVED (-1)
 // ItemTeresa.mPendingPickedKartIndex while no picked kart was received.
 #define ITEM_TERESA_NO_PENDING_PICK 0xffffffff
 // Selector of the Teresa packets (SetItemTeresaFromPacket, the third byte AddItemDataItemIdAndBytes sends): the picked
 // kart, the state the sender reports, the item taken from the picked kart (item index * 4 + count), and the item given
-// back.
+// to the owner.
 #define ITEM_TERESA_PACKET_PICKED_KART 0
 #define ITEM_TERESA_PACKET_STATE 1
 #define ITEM_TERESA_PACKET_TAKEN_ITEM 2
 #define ITEM_TERESA_PACKET_GIVEN_ITEM 3
-// Points of the path the Boo follows when it took nothing, and the index it starts from.
+// Points of the path the Boo follows when it took nothing, and the index of the last of the four points loaded to start
+// it.
 #define ITEM_TERESA_PATH_POINT_COUNT 11
-#define ITEM_TERESA_PATH_START_INDEX 3
+#define ITEM_TERESA_PATH_LAST_LOADED_INDEX 3
 // State frames: the frame of the take-item state at which the dip (drop and rise of the offset) starts, the frames of
 // the fade-in at the picked kart after which a Boo without a picked kart gives up, and the frames the Boo may stall
-// waiting for the taken item.
+// waiting for the taken item or for the given item.
 #define ITEM_TERESA_DIP_START_FRAME 0x12
 #define ITEM_TERESA_NO_PICK_LIMIT_FRAMES 0x6e
 #define ITEM_TERESA_STALL_LIMIT_FRAMES 0x3c
@@ -42,7 +44,8 @@ typedef struct ItemTeresa ItemTeresa;
 #define ITEM_TERESA_TAKE_RISE_ACCELERATION 0x133
 
 // Values of the ItemTeresa state machine states, which gItemTeresaStateTable follows, and so of
-// ItemTeresa.mReportedState. FINISHED is the value after the last state; NONE means nothing reported yet.
+// ItemTeresa.mReportedState. FINISHED is the value after the last state; NONE means no report is waiting (set at reset
+// and again after a report is used).
 enum {
     ITEM_TERESA_STATE_FADE_OUT_AT_OWNER,
     ITEM_TERESA_STATE_WAIT_PICKED_KART,
@@ -73,9 +76,6 @@ void SetItemTeresaPosPointerToDrawPos(ItemTeresa *teresa);
 void UpdateItemTeresaWaitDelay(void *stateObject);
 void EnterItemTeresaWaitDelay(void *stateObject);
 void UpdateItemTeresaTakeItem(void *stateObject);
-
-// ItemTeresa.mPickedKartIndex while no kart is picked (one past the last kart index).
-#define ITEM_TERESA_NO_KART ITEM_NO_KART_INDEX
 
 // Object of item kind 11, element of gItemPools[11].
 typedef struct ItemTeresa {
@@ -147,7 +147,7 @@ typedef struct ItemInUse ItemInUse;
 void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 
 extern const Vec3 gItemTeresaItemOffsets[4];
-extern const Vec3 gItemTeresaPathPoints[11];
+extern const Vec3 gItemTeresaPathPoints[ITEM_TERESA_PATH_POINT_COUNT];
 extern StateCallbacks gItemTeresaStateTable[7];
 
 extern const u16 gItemTeresaPickWeights[8];

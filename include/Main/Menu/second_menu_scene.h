@@ -3,7 +3,8 @@
 #include "types.h"
 #include "Main/Scene/scene_display_archive_work.h"
 
-// Called with the object of the state machine; each state function reads it as the type of its machine.
+// Called with StateMachine.mObject: some state functions read it as the type of the object that owns the machine,
+// others ignore it (some machines pass NULL).
 typedef void (*StateCallback)(void *stateObject);
 
 // The enter and update callbacks of one state of a StateMachine's table.

@@ -6,7 +6,8 @@ typedef struct BuddyRecord BuddyRecord;
 
 typedef struct TimeRecord TimeRecord;
 
-// The kart appear file: a header and the rows of values that tell which karts a character may use.
+// The kart appear file: a header and the rows of values (one row per kart, one value per character) that tell which
+// karts a character may use: a value of 0 never, a larger one only up to the appear limit.
 typedef struct KartAppearFile {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mValues[1][13];
@@ -30,16 +31,11 @@ static inline u8 GetTimeRecordChar(u8 charIndex) {
 #define BUDDY_RECORD_MATCH_WIFI_RACE 2
 // Courses at the start of a Wi-Fi race series (RaceSetup.mCourseNumber 1 to this) that add no buddy record.
 #define WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT 3
-// The latest date the oldest-record search can see, as year, month and day.
-#define BUDDY_RECORD_LATEST_YEAR 100
-#define BUDDY_RECORD_LATEST_MONTH 12
-#define BUDDY_RECORD_LATEST_DAY 31
-
-// MissionRecord values that ComputeMissionRecordValue gives for a cup score of 70 or more, 90 or more and 100 or more
-// (cup_records.c:379-387); the values 5 to 7 are the top tiers.
-#define MISSION_RECORD_VALUE_FIRST_HIGH_TIER 5
-#define MISSION_RECORD_VALUE_SECOND_HIGH_TIER 6
-#define MISSION_RECORD_VALUE_TOP_TIER 7
+// The date the oldest-record search starts from, as year, month and day; only records dated earlier than it can be
+// picked.
+#define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_YEAR 100
+#define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_MONTH 12
+#define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_DAY 31
 
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut);
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord);

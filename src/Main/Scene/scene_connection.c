@@ -6,13 +6,13 @@
 #include "Main/Net/connect_non_multiboot.h"
 #include "Main/Scene/run_scenes.h"
 #include "Main/Net/wifi_session.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/wifi_session_login.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/message_screen.h"
 #include "Main/Net/player_record.h"
 #include "bios_calls.h"
-#include "Main/Sound/scene_sound_set.h"
+#include "Main/Sound/startup_sound_set_player_back_lights_and_random.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/System/backup_net_camera_work.h"
@@ -167,7 +167,9 @@ s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
     return result;
 }
 
-// On scenes 2 to 15 it also starts the stepped stop itself and returns FALSE when GetStaffRollEndedEarly is non-zero.
+// Returns FALSE when the scene sound set sequence keeps playing into the next scene: title to race, nickname to
+// keyboard, keyboard to emblem or option, option to emblem or keyboard, emblem to option, race to title or ending.
+// Going from the race to the ending also starts the stepped stop itself when GetStaffRollEndedEarly is non-zero.
 s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
     BOOL result = TRUE;
 
@@ -222,14 +224,14 @@ void RunMessageScreenThread(void *unused) {
         sessionHeapCreated = FALSE;
         hasDisplaySettings = FALSE;
         OS_SleepThread(&gSceneRunState->mThreadQueue);
-        gSceneRunState->mNextScene = 0;
+        gSceneRunState->mNextScene = SCENE_TITLE;
         ResetMessageScreen();
         if (gDisplaySettings != NULL) {
             hasDisplaySettings = TRUE;
         }
         ResetKeysInputSlot();
         ReadKeysIntoInputSlot();
-        VBlankIntrWait();
+        SVC_WaitVBlankIntr();
         if (SceneIsWiFiSessionHeapCreated()) {
             sessionHeapCreated = TRUE;
         }
@@ -257,7 +259,7 @@ void RunMessageScreenThread(void *unused) {
             }
             status = sessionHeapCreated == FALSE ? AdvanceConnectionEndStopOnError() == 1 : 1;
             UpdateSounds();
-            VBlankIntrWait();
+            SVC_WaitVBlankIntr();
             if (hasDisplaySettings != FALSE) {
                 RecordFrameTimes();
             }
@@ -269,7 +271,7 @@ void RunMessageScreenThread(void *unused) {
             ReadKeysIntoInputSlot();
             status = UpdateMessageScreen();
             UpdateSounds();
-            VBlankIntrWait();
+            SVC_WaitVBlankIntr();
             if (hasDisplaySettings != FALSE) {
                 RecordFrameTimes();
             }
@@ -279,7 +281,7 @@ void RunMessageScreenThread(void *unused) {
                 gSceneRunState->mNextScene = SCENE_WIFI_MENU;
                 break;
             default:
-                gSceneRunState->mNextScene = 0;
+                gSceneRunState->mNextScene = SCENE_TITLE;
                 break;
         }
     }
@@ -295,7 +297,7 @@ void RunMessageScreen(void) {
 
     sessionHeapCreated = FALSE;
     hasDisplaySettings = FALSE;
-    gSceneRunState->mNextScene = 0;
+    gSceneRunState->mNextScene = SCENE_TITLE;
     ResetMessageScreen();
     if (gDisplaySettings != NULL) {
         hasDisplaySettings = TRUE;
@@ -305,7 +307,7 @@ void RunMessageScreen(void) {
     }
     ResetKeysInputSlot();
     ReadKeysIntoInputSlot();
-    VBlankIntrWait();
+    SVC_WaitVBlankIntr();
     if (SceneIsWiFiSessionHeapCreated()) {
         sessionHeapCreated = TRUE;
     }
@@ -350,7 +352,7 @@ void RunMessageScreen(void) {
         }
         screenResult = UpdateMessageScreen();
         UpdateSounds();
-        VBlankIntrWait();
+        SVC_WaitVBlankIntr();
         if (hasDisplaySettings != FALSE) {
             RecordFrameTimes();
         }
@@ -360,7 +362,7 @@ void RunMessageScreen(void) {
             gSceneRunState->mNextScene = SCENE_WIFI_MENU;
             break;
         default:
-            gSceneRunState->mNextScene = 0;
+            gSceneRunState->mNextScene = SCENE_TITLE;
             break;
     }
 }
@@ -407,7 +409,7 @@ void RunMessageScreenOfKind(s32 kind) {
             RecordFrameTimes();
         } while (AreBrightnessFadesFaded() == 0);
     } else {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
+        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, BRIGHTNESS_LEVEL_FADED);
     }
 }
 
@@ -470,9 +472,9 @@ u32 IsDataSharingIncomplete(void) {
 
 BOOL ShouldGoSleepMode(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() ||
-        (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
-        GetCurrentSceneNumber() == 13 || GetCurrentSceneNumber() == 6) {
+        (GetCurrentSceneNumber() == SCENE_WIFI_MENU && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
+        (GetCurrentSceneNumber() != SCENE_WIFI_MENU && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
+        GetCurrentSceneNumber() == SCENE_GHOST || GetCurrentSceneNumber() == SCENE_WL_MENU) {
         return FALSE;
     }
     return TRUE;
@@ -504,14 +506,14 @@ void RunMessageScreenOfKindWrapper(s32 kind) {
     RunMessageScreenOfKind(kind);
 }
 
-s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
+s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 messageAllowed) {
     BOOL result;
     s32 value;
 
     result = FALSE;
     if (SceneIsWiFiSessionHeapCreated()) {
         value = CheckWiFiSessionDisconnect();
-        if (flag != 0 && value != WIFI_DISCONNECT_NONE) {
+        if (messageAllowed != 0 && value != WIFI_DISCONNECT_NONE) {
             switch (value) {
                 case WIFI_DISCONNECT_NO_INPUT:
                     value = MESSAGE_KIND_WIFI_NO_INPUT;
@@ -527,7 +529,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
             RunMessageScreenOfKind(value);
             result = TRUE;
         }
-    } else if (flag != 0 && SceneIsConnectionActiveNotEndingWithError()) {
+    } else if (messageAllowed != 0 && SceneIsConnectionActiveNotEndingWithError()) {
         RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
         result = TRUE;
         gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;

@@ -7,7 +7,8 @@ int FflushAll(void);
 
 u32 Abs(u32 value);
 
-// Function slots of a FILE; FileFlushBuffer calls the write one with a buffer and a count pointer.
+// Function slots of a FILE; FileFlushBuffer calls the write one with mWriteFuncFirstArg, the buffer, a count pointer
+// and mWriteFuncLastArg, only when bytes are pending.
 typedef int (*FileReadFunc)(s32 fileHandle, u8 *buffer, u32 *countPtr);
 typedef int (*FileWriteFunc)(s32 fileHandle, const u8 *buffer, const u32 *countPtr, u32 lastArg);
 typedef int (*FileCloseFunc)(void);
@@ -23,12 +24,13 @@ typedef enum FileWideMode {
 #define FILE_MODE_READ 0x1
 #define FILE_MODE_WRITE 0x2
 
-// FILE.mBufferMode values: flush after every write, flush at a newline, flush when the buffer is full.
+// FILE.mBufferMode values: flush after every write, flush after the last newline written (or when the buffer is full),
+// flush when the buffer is full.
 #define FILE_BUFFER_MODE_NONE 0
 #define FILE_BUFFER_MODE_LINE 1
 #define FILE_BUFFER_MODE_FULL 2
 
-// FILE.mKind values: not usable, and the kind whose writes call NopWriteHook first.
+// FILE.mKind values: not usable, and the kind whose writes call WriteHookNop first.
 #define FILE_KIND_NONE 0
 #define FILE_KIND_WITH_WRITE_HOOK 2
 
@@ -95,5 +97,5 @@ int printf(const char *fmt, ...);
 void *FormatPutBuffer(void *arg, const char *text, u32 count);
 void *FormatPutFwrite(void *file, const char *text, u32 count);
 
-void ConvertTextNewlinesNop(u8 *buffer, u32 *length);
-void NopWriteHook(void);
+void ConvertNewlinesNop(u8 *buffer, u32 *length);
+void WriteHookNop(void);

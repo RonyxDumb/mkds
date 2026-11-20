@@ -12,7 +12,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Race/race_scene.h"
 #include "Main/Menu/select_race_rule_state.h"
@@ -30,15 +30,15 @@
 #include "Main/Menu/menu_release.h"
 #include "Main/Menu/menu.h"
 #include "Main/Scene/title_no_input_frame_limit.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 #include "Main/Race/race_scene_callbacks.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "01/Menu/ending_scene.h"
 #include "expanded_heap_head.h"
 
@@ -51,7 +51,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     if (IsDataSharingIncomplete() == 0) {
         if (IsInputOpenDuringRace() == 0) {
             if (sceneNumbers != NULL) {
-                if (RaceSceneGetCurrentMode() == 5) {
+                if (RaceSceneGetCurrentMode() == MODE_WIFI) {
                     value = GetWiFiRaceSyncPickedValue();
                 } else {
                     value = GetChoisesSPickedValue();
@@ -90,7 +90,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             (sceneFrames > 0x5a && (GetDownBits(GetRaceSceneInputSlot(), 0xc0f) != 0 ||
                                                     RaceSceneIsSlotPairNew(GetRaceSceneInputSlot()) != 0))) {
                             sceneNumbers->mNextScene = SCENE_RACE;
-                            SetNextRaceKind(0);
+                            SetNextRaceKind(RACE_KIND_NORMAL);
                         }
                         break;
                     case RACE_KIND_REPLAY:

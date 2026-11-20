@@ -1,4 +1,5 @@
 #include "Main/Menu/picks_holder.h"
+#include "Main/Kart/karts.h"
 
 #include "Main/Race/random_pick.h"
 #include "Main/Menu/title_scene.h"
@@ -12,7 +13,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
@@ -27,7 +28,7 @@
 #include "bit_count.h"
 #include "Main/System/heap.h"
 
-const u32 gCharacterKartIndices[13] = {0, 3, 6, 9, 0xc, 0xf, 0x12, 0x15, 0x18, 0x1b, 0x1e, 0x21, 0x24};
+const u32 gCharacterKartIndices[13] = {0, 3, 6, 9, 0xc, 0xf, 0x12, 0x15, 0x18, 0x1b, 0x1e, 0x21, KART_INDEX_HEYHO};
 PicksHolder *gPicksHolder;
 
 #pragma thumb on
@@ -36,10 +37,6 @@ void CreatePicksHolder(void *heap) {
     gPicksHolder = HeapAlloc(heap, 4);
     gPicksHolder->mPicks = CreateCharacterKartPicks(heap);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ClearPicksHolderPointer(void) {
     gPicksHolder = NULL;

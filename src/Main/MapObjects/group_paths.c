@@ -106,9 +106,9 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
         segment->mPoints[2] = segment->mPoints[3];
     }
     segment->mStraightLength = length;
-    segment->mInverseStraightLength = FX_Div(0x1000000, segment->mStraightLength);
+    segment->mInverseStraightLength = FX_Div(SEGMENT_PROGRESS_END, segment->mStraightLength);
     segment->mCurveLength = endExtra + (length + startExtra);
-    segment->mInverseCurveLength = FX_Div(0x1000000, segment->mCurveLength);
+    segment->mInverseCurveLength = FX_Div(SEGMENT_PROGRESS_END, segment->mCurveLength);
     segment->mProgressLength = segment->mCurveLength;
     segment->mInverseProgressLength = segment->mInverseCurveLength;
     if (computeUp != 0) {
@@ -193,10 +193,6 @@ void InitGroupPaths(void) {
         gGroupPaths[groupIndex].mSegments = NULL;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitGroupFollowerForGroup(GroupFollower *follower, u16 groupIndex, int speed) {
     follower->mGroupIndex = groupIndex;

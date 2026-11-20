@@ -22,23 +22,28 @@ enum {
 enum {
     OPTION_TOP_ROW_SETTINGS,
     OPTION_TOP_ROW_EDIT,
-    OPTION_TOP_ROW_ERASE_DATA,
+    OPTION_TOP_ROW_RESET_BACKUP,
 };
 
 // The top menu of the options: its state, selected index, heap and layout tables.
 typedef struct OptionTopMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* Init leaves it unset when the previous option state is not 1, 2 or 4 (1, 4 -> 0, 2 -> 1) */
+    /* Init leaves it unset unless the previous option state is OPTION_STATE_SELECT_MENU or OPTION_STATE_SCENE_TITLE
+       (row OPTION_TOP_ROW_SETTINGS) or OPTION_STATE_HENSYU_MENU (row OPTION_TOP_ROW_EDIT) */
     /* 08 */ s32 mIndex;
-    /* counted only in states 1, 4, 5; zeroed when 1 and 4 hand over and 5 hands over to 6; state 5 keeps counting
-       while it requests the next option state */
+    /* counted only in OPTION_TOP_STATE_SLIDE_IN, OPTION_TOP_STATE_PRESS and OPTION_TOP_STATE_SLIDE_OUT; zeroed when
+       SLIDE_IN and PRESS hand over and when SLIDE_OUT hands over to OPTION_TOP_STATE_ASK_RESET; SLIDE_OUT keeps
+       counting while it requests the next option state */
     /* 0c */ s32 mStateFrames;
-    /* option state passed to RequestOptionState (1, 2 or 4); no initial store, set by the input handler (state 3,
-       also state 9), not set for entry 2 (dialog path); also tested inside the screen */
+    /* option state stored by the input handler (state OPTION_TOP_STATE_INPUT, also OPTION_TOP_STATE_RESET_DONE): the
+       select menu or hensyu menu, which SlideOut passes to RequestOptionState, or the title scene, for which SlideOut
+       requests the next scene instead; no initial store; not set for the erase/reset row (OPTION_TOP_ROW_RESET_BACKUP);
+       also tested inside the screen */
     /* 10 */ s32 mNextOptionState;
     /* 14 */ BOOL mHighlightVisible;
-    /* stored to reg_G2_BG0OFS without negation (the other mBg0Offset members are stored negated) */
+    /* stored to reg_G2_BG0OFS without negation (the mBg0Offset of the record, select and time attack menu screens is
+       stored negated) */
     /* 18 */ s32 mBg0Offset;
     /* 1c */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
@@ -52,24 +57,11 @@ typedef struct OptionTopMenu {
     /* 3c */ struct Bmg *mCommonMessages;
 } OptionTopMenu;
 
-// Values of RecordGpx.mIndex and the cup arguments of the record screen helpers: the cups in the order of their
-// names in common.bmg (entries 0x25 to 0x2c, gRecordGpxCupMessageIndices).
-enum {
-    RECORD_GPX_CUP_MUSHROOM,
-    RECORD_GPX_CUP_FLOWER,
-    RECORD_GPX_CUP_STAR,
-    RECORD_GPX_CUP_SPECIAL,
-    RECORD_GPX_CUP_SHELL,
-    RECORD_GPX_CUP_BANANA,
-    RECORD_GPX_CUP_LEAF,
-    RECORD_GPX_CUP_LIGHTNING,
-};
-
 // States of RecordGpx.mState and mNextState.
 enum {
     RECORD_GPX_STATE_BG_SLIDE_IN,
     RECORD_GPX_STATE_CELLS_SLIDE_IN,
-    RECORD_GPX_STATE_SELECT,
+    RECORD_GPX_STATE_WAIT_INPUT,
     RECORD_GPX_STATE_PAGE_SLIDE_OUT,
     RECORD_GPX_STATE_PAGE_SLIDE_IN,
     RECORD_GPX_STATE_CELLS_SLIDE_OUT,
@@ -82,44 +74,42 @@ enum {
     RECORD_INDEX_MOVE_PREVIOUS,
 };
 
-// The strip of the sub screen map (offset and size in bytes) that SetupRecordGpx fills from the map when the cup backup
-// flag is set and from the zeroed RecordGpx.mZeroBuffer otherwise.
+// The strip of the sub screen map (offset and size in bytes) that SetupRecordGpx copies from the map when the cup
+// backup flag of the selected cup is set; otherwise it reads the same offset in RecordGpx.mZeroBuffer, which holds only
+// RECORD_GPX_MAP_STRIP_BYTES zeroed bytes, so that read lies past the buffer.
 #define RECORD_GPX_MAP_STRIP_OFFSET 0x3c6
 #define RECORD_GPX_MAP_STRIP_BYTES 0x134
 
-// Frames of each slide of the screen (cells, pages and the BG0 layer); the cells travel RECORD_GPX_SLIDE_DISTANCE
-// sideways, the BG0 layer RECORD_GPX_BG0_SLIDE_DISTANCE.
+// Frames of each slide of the screen (cells, pages and the BG0 layer); the cells and pages travel
+// RECORD_GPX_SLIDE_DISTANCE sideways, the BG0 layer RECORD_GPX_BG0_SLIDE_DISTANCE vertically.
 #define RECORD_GPX_SLIDE_FRAMES 10
 #define RECORD_GPX_SLIDE_DISTANCE 256
 #define RECORD_GPX_BG0_SLIDE_DISTANCE 192
 
-// RecordGpx.mBg3OffsetY while no cup flag of the backup is set.
-#define RECORD_GPX_NO_CUP_BG3_OFFSET_Y 16
+// RecordGpx.mBg3OffsetY that InitRecordGpx stores when none of the cup backup flags is set; it stores 0 otherwise.
+#define RECORD_GPX_NO_CUP_FLAG_BG3_OFFSET_Y 16
 
-// Frames the cells of a row shift after a left or right press (RecordGpx.mOffsetTimers count them down).
-#define RECORD_GPX_OFFSET_TIMER_FRAMES 6
-
-// The Grand Prix record screen: its state, selected index, scroll offsets, heap, layout tables and trophy files.
+// The Grand Prix record screen: its state, selected index, BG offsets, heap, layout tables and trophy files.
 typedef struct RecordGpx {
-    /* 00 */ Ncgr *mRecordGpxMNcgr;
-    /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMNcer;
-    /* 08 */ LayoutEntryTable *mRecordGpxMBncl;
+    /* 00 */ Ncgr *mRecordGpxMChars;
+    /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMCells;
+    /* 08 */ LayoutEntryTable *mRecordGpxMCellLayout;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ LayoutEntryTable *mRecordGpxMBnll;
-    /* 14 */ Ncgr *mRecordGpxSNcgr;
-    /* 18 */ struct NNSG2dCellDataBank *mRecordGpxSNcer;
-    /* 1c */ LayoutEntryTable *mRecordGpxSBncl;
-    /* 20 */ struct LayoutEntryTable *mRecordGpxSBnbl;
-    /* 24 */ LayoutEntryTable *mRecordGpxSBnll;
-    /* 28 */ Ncgr *mRecordTrophyONcgr;
-    /* 2c */ struct NNSG2dCellDataBank *mRecordTrophyONcer;
-    /* 30 */ Nclr *mRecordTrophySONclr;
-    /* 34 */ void *mRecordTrophySOBncl;
+    /* 10 */ LayoutEntryTable *mRecordGpxMLabelLayout;
+    /* 14 */ Ncgr *mRecordGpxSChars;
+    /* 18 */ struct NNSG2dCellDataBank *mRecordGpxSCells;
+    /* 1c */ LayoutEntryTable *mRecordGpxSCellLayout;
+    /* 20 */ struct LayoutEntryTable *mRecordGpxSRects;
+    /* 24 */ LayoutEntryTable *mRecordGpxSLabelLayout;
+    /* 28 */ Ncgr *mRecordTrophyOChars;
+    /* 2c */ struct NNSG2dCellDataBank *mRecordTrophyOCells;
+    /* 30 */ Nclr *mRecordTrophySOPalette;
+    /* 34 */ void *mRecordTrophySOCellLayout;
     /* 38 */ void *mPlayerCharacterMNcgr;
     /* 3c */ struct NNSG2dCellDataBank *mPlayerCharacterMNcer;
     /* 40 */ Nclr *mPlayerCharacterMONclr;
     /* 44 */ struct LayoutEntryTable *mPlayerCharacterMBncl;
-    /* 48 */ Nscr *mRecordGpxSNscr;
+    /* 48 */ Nscr *mRecordGpxSScreenMap;
     /* 4c */ u8 *mZeroBuffer;
     /* 50 */ LayoutTableEntry *mRecordGpxMTable;
     /* 54 */ LayoutTableEntry *mRecordGpxSTable;
@@ -128,10 +118,10 @@ typedef struct RecordGpx {
     /* 60 */ s32 mState;
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames;
-    // The register receives the negation of this value in its upper half-word.
+    // Stored negated in the upper half-word of reg_G2_BG0OFS (WriteRecordGpxBgOffsets).
     /* 6c */ s32 mBg0Offset;
-    // X half of reg_G2S_DB_BG3OFS: the SUB engine's BG3, stored negated; the Y half is mBg3OffsetY (also the y
-    // of the S cells)
+    // mBg3OffsetX goes to the X half of reg_G2S_DB_BG3OFS (sub engine BG3) negated; mBg3OffsetY goes to the Y half,
+    // also negated, and is also the y offset of the S cells.
     /* 70 */ s32 mBg3OffsetX;
     /* 74 */ s32 mBg3OffsetY;
     /* 78 */ s32 mIndex;
@@ -172,7 +162,7 @@ void ReleaseRecordGpx(void);
 void InitRecordGpx(void *heap);
 void RequestRecordGpxBgSlideOut(void);
 void RequestRecordGpxCellsSlideOut(void);
-void RequestRecordGpxPageSlideInAndMoveIndex(void);
+void RequestRecordGpxPageSlideInAndMoveIndexAndSetup(void);
 void RequestRecordGpxPageSlideOut(void);
 void RequestRecordGpxSelect(void);
 void RequestRecordGpxCellsSlideInAndSetup(void);

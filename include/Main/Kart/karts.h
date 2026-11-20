@@ -17,8 +17,8 @@ typedef struct KartModelMenuView KartModelMenuView;
 
 // Value of the kart and character indexes of a menu slot or view that shows nothing.
 #define KART_MODEL_MENU_NONE (-1)
-// Last kart index the kart model menu cycles through; the yaw angle it rests at; the frames a timed spin stop waits;
-// the tilt limits and the scale floor of the view.
+// Last kart index the kart model menu cycles through; the yaw angle it rests at; the frame count a timed spin stop must
+// exceed; the tilt limits and the scale floor of the view.
 #define KART_MODEL_MENU_LAST_KART_INDEX 0x23
 #define KART_MODEL_MENU_REST_YAW 0xeaab
 #define KART_MODEL_MENU_SPIN_STOP_FRAMES 0x3c
@@ -26,8 +26,8 @@ typedef struct KartModelMenuView KartModelMenuView;
 #define KART_MODEL_MENU_TILT_UP_MAX 0x1388
 #define KART_MODEL_MENU_SCALE_MIN 0x800
 
-// Sets of material colours of SetKartModelMaterialColors: the course colours, the bright set of the menu models, the
-// dark grey set, and the dark set with an emissive colour (no caller).
+// Sets of material colours of SetKartModelMaterialColors: the course colours, the white diffuse set of the menu models,
+// the dark grey set, and the dark set with an emissive colour (used by SetKartModelsGrayColors).
 #define KART_MODEL_COLORS_COURSE 0
 #define KART_MODEL_COLORS_MENU 1
 #define KART_MODEL_COLORS_DARK 2
@@ -37,8 +37,8 @@ typedef struct KartModelMenuView KartModelMenuView;
 #define KART_INDEX_SPECIAL_FIRST 0x22
 #define KART_INDEX_SPECIAL_SECOND 0x23
 
-// The kart of CHARACTER_HEYHO in both character to kart tables (gCharacterKartIndexTable and
-// gCharacterKartIndexTableBattle).
+// The kart of CHARACTER_HEYHO in all three character to kart tables (gCharacterKartIndexTable,
+// gCharacterKartIndexTableBattle and gCharacterKartIndices).
 #define KART_INDEX_HEYHO 0x24
 
 typedef struct NNSG3dResFileHeader NNSG3dResFileHeader;
@@ -146,7 +146,7 @@ void GetKartPosFromPosSourceCopy(Vec3 *dst, u8 idx);
 // Copies the position of Kart idx to dst, read through mPosSource (which points to mPos, or for a kind-3 entry in mode
 // 5 to a Vec3 of the received record).
 void GetKartPos(Vec3 *dst, s32 idx);
-void ReleaseKartsAndClear(void);
+void ReleaseKartsAndClearPointer(void);
 // Runs slot 2 of Kart.mSlotFunctions for every Kart each time UpdateRace runs; the slot stores the Kart's squared
 // distance in its sound source.
 void UpdateKartSoundDistancesSquared(void);
@@ -187,7 +187,7 @@ void SetKartSpeedLimitReciprocal(unsigned int speedLimitReciprocal);
 
 void SetKartForwardSpeedRatio(s32 forwardSpeed);
 
-unsigned int GetKartZoneMask(void);
+unsigned int GetEntryKartZoneMask(void);
 
 void SetKartZoneMask(s32 kartIndex);
 
@@ -211,4 +211,4 @@ extern s32 gMinKartDistanceSquaredPresent;
 // 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
 extern s32 gMissionRunEndShapesPresent;
 extern s32 gKartSpeedLimitReciprocal;
-extern u32 gKartZoneMask;
+extern u32 gEntryKartZoneMask;

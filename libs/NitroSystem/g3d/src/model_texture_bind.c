@@ -23,22 +23,24 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
     NNSG3dResMatData *matEntry;
 
     matIndices = (u8 *) mat + data->mOffset;
-    if ((texData->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4_COMPRESSED) {
-        keyOffset = tex->mTexInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
+    if ((texData->mTexImageParam & TEX_PARAM_FORMAT_MASK) != TEX_PARAM_FORMAT_COMPRESSED) {
+        keyOffset = tex->mTexInfo.mVramKey & VRAM_HANDLE_OFFSET_MASK;
     } else {
-        keyOffset = tex->mTex4x4Info.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
+        keyOffset = tex->mTex4x4Info.mVramKey & VRAM_HANDLE_OFFSET_MASK;
     }
     for (matIndex = 0; matIndex < data->mNumIdx; matIndex++) {
         NNSG3dResDictEntryHeader *table;
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
         matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
         matEntry->mTexImageParam |= texData->mTexImageParam + keyOffset;
-        width = texData->mExtraParam & G3D_TEX_EXTRA_WIDTH_MASK;
+        width = texData->mExtraParam & TEX_SIZE_FIELD_MASK;
         height = (texData->mExtraParam >> 11) & 0x7ff;
         matEntry->mMagW =
-            (width == matEntry->mOrigWidth) ? 0x1000 : FX_Div(TO_FIXED12(width), TO_FIXED12(matEntry->mOrigWidth));
+            (width == matEntry->mOrigWidth) ? FIXED12_UNIT
+                                            : FX_Div(TO_FIXED12(width), TO_FIXED12(matEntry->mOrigWidth));
         matEntry->mMagH =
-            (height == matEntry->mOrigHeight) ? 0x1000 : FX_Div(TO_FIXED12(height), TO_FIXED12(matEntry->mOrigHeight));
+            (height == matEntry->mOrigHeight) ? FIXED12_UNIT
+                                              : FX_Div(TO_FIXED12(height), TO_FIXED12(matEntry->mOrigHeight));
     }
     data->mFlag |= 1;
 }
@@ -54,7 +56,7 @@ void releaseMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *da
         NNSG3dResDictEntryHeader *table;
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
         matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
-        matEntry->mTexImageParam &= G3D_TEX_IMAGE_KEEP_MASK;
+        matEntry->mTexImageParam &= TEX_PARAM_KEEP_MASK;
         matEntry->mMagW = FIXED12_UNIT;
         matEntry->mMagH = matEntry->mMagW;
     }
@@ -291,19 +293,19 @@ void OS_GetLowEntropyData(LowEntropyData *buffer) {
     u8 *userInfo;
     u8 *macBytes;
 
-    work = HW_MAIN_MEM_SYSTEM_BUF;
+    work = (u8 *) SYSTEM_WORK;
     userInfo = work + 0x80;
     macBytes = OFFSET_PTR(u8, userInfo, 0x74);
     vcount = reg_GX_VCOUNT;
     buffer->mTickAndVcount = OS_GetTickLo() | (vcount << 16);
-    buffer->mUserDataAndTickCounter = (*OFFSET_PTR(u16, macBytes, 4) << 16) ^ (u32) gTickOverflowCount;
-    buffer->mUserDataVblankAndGxStat = *OFFSET_PTR(u32, work, 0x3c) ^ ((gTickOverflowCount >> 32) ^ *(u32 *) macBytes);
-    buffer->mUserDataVblankAndGxStat = buffer->mUserDataVblankAndGxStat ^ reg_G3X_GXSTAT;
-    buffer->mClockFirst = *OFFSET_PTR(u32, work, 0x1e8);
+    buffer->mMacAddressAndTickOverflow = (*OFFSET_PTR(u16, macBytes, 4) << 16) ^ (u32) gTickOverflowCount;
+    buffer->mTickOverflowMacAddressVblankAndGxStat = *OFFSET_PTR(u32, work, 0x3c) ^ ((gTickOverflowCount >> 32) ^ *(u32 *) macBytes);
+    buffer->mTickOverflowMacAddressVblankAndGxStat = buffer->mTickOverflowMacAddressVblankAndGxStat ^ reg_G3X_GXSTAT;
+    buffer->mRealTimeClockFirstWord = *OFFSET_PTR(u32, work, 0x1e8);
     buffer->mClockSecond = *OFFSET_PTR(u32, work, 0x1ec);
     buffer->mMicrophone = *OFFSET_PTR(u32, work, 0x390) ^ (*OFFSET_PTR(u16, work, 0x394) << 16);
     buffer->mTouchPanel = (*OFFSET_PTR(u16, work, 0x3aa) << 16) | *OFFSET_PTR(u16, work, 0x3ac);
-    buffer->mTouchRssiAndButtons = reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF | (*OFFSET_PTR(u16, work, 0x398) << 16);
+    buffer->mWmRssiPoolAndButtons = reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF | (*OFFSET_PTR(u16, work, 0x398) << 16);
 }
 
 // Sets the locked-bank mask and the nine bank lock ids to 0.

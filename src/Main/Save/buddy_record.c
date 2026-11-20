@@ -36,7 +36,7 @@ void RefreshNotYetBuddyFlags(void) {
     BuddyRecord buddyRecord;
     u8 recordIndex;
 
-    for (recordIndex = 0; recordIndex < 60; recordIndex++) {
+    for (recordIndex = 0; recordIndex < BUDDY_RECORD_COUNT; recordIndex++) {
         GetBuddyRecord(recordIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 &&
             DWC_IsBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
@@ -71,7 +71,7 @@ s32 GetBuddyRecordVsWinCount(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
-        return buddyRecord.mResultCounts[0][0];
+        return buddyRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0];
     }
     return -1;
 }
@@ -81,7 +81,7 @@ s32 GetBuddyRecordVsLossCount(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
-        return buddyRecord.mResultCounts[0][1];
+        return buddyRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1];
     }
     return -1;
 }
@@ -91,7 +91,7 @@ s32 GetBuddyRecordBattleWinCount(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
-        return buddyRecord.mResultCounts[1][0];
+        return buddyRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0];
     }
     return -1;
 }
@@ -101,7 +101,7 @@ s32 GetBuddyRecordBattleLossCount(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
-        return buddyRecord.mResultCounts[1][1];
+        return buddyRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1];
     }
     return -1;
 }
@@ -111,7 +111,7 @@ s32 GetBuddyRecordWiFiRaceWinCount(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
-        return buddyRecord.mResultCounts[2][0];
+        return buddyRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0];
     }
     return -1;
 }
@@ -121,7 +121,7 @@ s32 GetBuddyRecordWiFiRaceLossCount(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
-        return buddyRecord.mResultCounts[2][1];
+        return buddyRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1];
     }
     return -1;
 }
@@ -171,7 +171,7 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     MI_CpuFill8(&buddyRecord, 0, sizeof(BuddyRecord));
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
-    if (gWiFiSession->mStateMachine.mState != 0) {
+    if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
         DWC_DeleteBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]);
     } else {
         MI_CpuFill8(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);
@@ -189,24 +189,46 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
     GetBuddyRecord(mergedIndex, &mergedRecord);
     ResetBuddyRecord(&combinedRecord);
     if (mergedRecord.mNotYetBuddy == 0) {
-        combinedRecord.mResultCounts[0][0] = combinedRecord.mResultCounts[0][0] + mergedRecord.mResultCounts[0][0];
-        combinedRecord.mResultCounts[0][1] = combinedRecord.mResultCounts[0][1] + mergedRecord.mResultCounts[0][1];
-        combinedRecord.mResultCounts[1][0] = combinedRecord.mResultCounts[1][0] + mergedRecord.mResultCounts[1][0];
-        combinedRecord.mResultCounts[1][1] = combinedRecord.mResultCounts[1][1] + mergedRecord.mResultCounts[1][1];
-        combinedRecord.mResultCounts[2][0] = combinedRecord.mResultCounts[2][0] + mergedRecord.mResultCounts[2][0];
-        combinedRecord.mResultCounts[2][1] = combinedRecord.mResultCounts[2][1] + mergedRecord.mResultCounts[2][1];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1];
         MI_CpuCopy8(mergedRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
         combinedRecord.mYear = mergedRecord.mYear;
         combinedRecord.mMonth = mergedRecord.mMonth;
         combinedRecord.mDay = mergedRecord.mDay;
     }
     if (keptRecord.mNotYetBuddy == 0) {
-        combinedRecord.mResultCounts[0][0] = combinedRecord.mResultCounts[0][0] + keptRecord.mResultCounts[0][0];
-        combinedRecord.mResultCounts[0][1] = combinedRecord.mResultCounts[0][1] + keptRecord.mResultCounts[0][1];
-        combinedRecord.mResultCounts[1][0] = combinedRecord.mResultCounts[1][0] + keptRecord.mResultCounts[1][0];
-        combinedRecord.mResultCounts[1][1] = combinedRecord.mResultCounts[1][1] + keptRecord.mResultCounts[1][1];
-        combinedRecord.mResultCounts[2][0] = combinedRecord.mResultCounts[2][0] + keptRecord.mResultCounts[2][0];
-        combinedRecord.mResultCounts[2][1] = combinedRecord.mResultCounts[2][1] + mergedRecord.mResultCounts[2][1];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0] + keptRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][0];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1] + keptRecord.mResultCounts[BUDDY_RECORD_MATCH_VS][1];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0] +
+            keptRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][0];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1] +
+            keptRecord.mResultCounts[BUDDY_RECORD_MATCH_BATTLE][1];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0] +
+            keptRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][0];
+        combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1] =
+            combinedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1] +
+            mergedRecord.mResultCounts[BUDDY_RECORD_MATCH_WIFI_RACE][1];
         MI_CpuCopy8(keptRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
         combinedRecord.mYear = keptRecord.mYear;
         combinedRecord.mMonth = keptRecord.mMonth;

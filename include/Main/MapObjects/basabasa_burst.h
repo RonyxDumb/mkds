@@ -4,12 +4,13 @@
 
 #include "Main/MapObjects/attractor.h" // MapObject
 
-#define BASABASA_BURST_TIMER_FRAMES 4
-#define BASABASA_BURST_CYCLE_FRAMES 0x14
+#define BASABASA_BURST_TIMER_CYCLES 4
+#define BASABASA_BURST_START_CYCLE_FRAME 0x14
 
 typedef struct MapObjectList MapObjectList;
 
-// A Basabasa burst map object: a cycle length, a timer, the burst count and its state.
+// A Basabasa burst map object: the frame it is at in its cycle, a timer (frames before a burst in time attack, cycles
+// while bursting), the burst count and its state.
 typedef struct BasabasaBurst {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mCycleFrames;

@@ -8,8 +8,8 @@
 // Start of the data TCM, and the interrupt check word at 0x3ff8 from it.
 #define HW_DTCM 0x027e0000
 #define IRQ_CHECK_FLAGS (*OFFSET_PTR(u32, &OSi_IrqThreadQueue, 0x3ff8))
-// End of the data TCM area that holds the launcher thread stack and the interrupt stack, 0x3f80 from its start.
-#define DTCM_THREAD_STACK_END OFFSET_PTR(u8, &OSi_IrqThreadQueue, 0x3f80)
+// End of the data TCM area that holds the launcher thread stack and the interrupt stack.
+#define DTCM_STACKS_END OFFSET_PTR(u8, &OSi_IrqThreadQueue, 0x3f80)
 
 typedef void (*OSIrqFunction)(void);
 typedef u32 OSIrqMask;

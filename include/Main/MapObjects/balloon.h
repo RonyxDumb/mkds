@@ -12,7 +12,8 @@ enum {
     BALLOON_STATE_FULL,
 };
 
-// A battle balloon map object, also held by the controller map object that updates the kart balloons.
+// A battle balloon map object, also held by the KartBalloons of the KartBalloonsObject that steps the balloons of every
+// kart.
 typedef struct Balloon {
     /* 00 */ MapObject mMapObject;
     // Frames left while the balloon has no kart: 0x1e from StartBalloonWithoutKart, counted down each update; at 0 the

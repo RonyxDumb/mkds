@@ -25,7 +25,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "00/Menu/wi_fi_vs_matching.h"
@@ -153,7 +153,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                     slotIndex = buddyIndex % 5;
                     BIT_SET(blockData->mFilledBits, slotIndex);
                     MI_CpuCopy8((u8 *) &gConnectionWork->mPlayerRecords[copyPlayerIndex] + 0x14,
-                                blockData->mEmblems[slotIndex], 0x200);
+                                blockData->mEmblems[slotIndex], EMBLEM_PIXEL_BYTES);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);
@@ -227,7 +227,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
                     slotIndex = buddyIndex % 5;
                     *filledBits = *filledBits | (1 << slotIndex);
                     MI_CpuCopy8(GetWiFiSessionPlayerRecordData(copyPlayerIndex & 0xff)->mEmblem,
-                                blockData->mEmblems[slotIndex], 0x200);
+                                blockData->mEmblems[slotIndex], EMBLEM_PIXEL_BYTES);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);
@@ -331,21 +331,21 @@ static inline s32 EmblemFX_MulInline(s32 multiplicand, s32 multiplier) {
 
 void CreateShapeMapObjectCountList(void *heap) {
     u16 shapeCount;
-    u16 countIndex;
+    u16 countShapeIndex;
     u16 entryIndex;
     u16 shapeIndex;
     u16 entryCount;
     CourseMapShape *courseMapShape;
     ShapeMapObjectCount *entry;
-    s32 extentX;
+    s32 radius;
     s32 extentY;
     s32 squaredSum;
     s32 extentZ;
     shapeCount = gCourseMap->mShapeCount;
     entryCount = 0;
     gShapeMapObjectCountList = HeapAlloc(heap, 8);
-    for (countIndex = 0; countIndex < shapeCount; countIndex++) {
-        if (GetCourseMapShape(countIndex)->mKind == COURSE_MAP_SHAPE_KIND_MAP_OBJECT_COUNT) {
+    for (countShapeIndex = 0; countShapeIndex < shapeCount; countShapeIndex++) {
+        if (GetCourseMapShape(countShapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_MAP_OBJECT_COUNT) {
             entryCount = entryCount + 1;
         }
     }
@@ -359,21 +359,21 @@ void CreateShapeMapObjectCountList(void *heap) {
         if (courseMapShape->mKind == COURSE_MAP_SHAPE_KIND_MAP_OBJECT_COUNT) {
             entry = &gShapeMapObjectCountList->mEntries[entryIndex];
             entry->mShapeIndex = shapeIndex;
-            extentX = 0;
+            radius = 0;
             switch (courseMapShape->mShapeKind) {
-                case 0:
-                    extentX = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.x);
+                case COURSE_MAP_SHAPE_FORM_BOX:
+                    radius = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.x);
                     extentY = EmblemFX_MulInline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
                     extentZ = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.z);
-                    squaredSum = EmblemFX_MulInline(extentX, extentX) + EmblemFX_MulInline(extentY, extentY);
+                    squaredSum = EmblemFX_MulInline(radius, radius) + EmblemFX_MulInline(extentY, extentY);
                     extentZ = EmblemFX_MulInline(extentZ, extentZ);
-                    extentX = FX_Sqrt(extentZ + squaredSum);
+                    radius = FX_Sqrt(extentZ + squaredSum);
                     break;
-                case 1:
-                    extentX = EmblemFX_MulInline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
+                case COURSE_MAP_SHAPE_FORM_CYLINDER:
+                    radius = EmblemFX_MulInline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
                     break;
             }
-            entry->mRadius = extentX;
+            entry->mRadius = radius;
             entry->mMapObjectCount = 0;
             entry->mIncreaseCount = 0;
             entryIndex = entryIndex + 1;

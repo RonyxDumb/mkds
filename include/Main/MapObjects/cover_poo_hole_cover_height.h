@@ -90,16 +90,17 @@ typedef struct CoverPooHole {
 #define COVER_POO_HOLE_HIT_POO_SPEED 0x1333
 #define COVER_POO_HOLE_HOLE_HEIGHT 0x1000
 
-#define COVER_POO_HOLE_KART_HIT_SOUND_ID 0x16e
-#define COVER_POO_HOLE_TILT_SOUND_ID 0x16f
+#define COVER_POO_HOLE_KART_HIT_WAIT_SOUND_ID 0x16e
+#define COVER_POO_HOLE_KART_HIT_RAISE_SOUND_ID 0x16f
 #define COVER_POO_HOLE_ITEM_HIT_SOUND_ID 0x1b0
 
-BOOL IsCoverPooHoleRaising(CoverPooHole *coverPooHole);
+BOOL IsCoverPooHoleRaiseState(CoverPooHole *coverPooHole);
 MapObjectList *CreateCoverPooHoleUpdateList(void);
 MapObjectList *CreateCoverPooHoleDrawList(void);
 MapObjectKindData *CreateCoverPooHoleKindData(void);
-void UpdateCoverPooHole(void *mapObjectList,
-                        CoverPooHole *coverPooHole); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateCoverPooHole(
+    void *mapObjectList,
+    CoverPooHole *coverPooHole); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 s32 CoverPooHoleFX_MulInline(s32 value, s32 scale);
 s32 CoverPooHoleFX_SinIdx(s32 angle);
 void InitCoverPooHoleObjects(MapObjectList *mapObjectList);

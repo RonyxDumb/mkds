@@ -4,14 +4,14 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "sprite_animation_control.h" // NNSG2dCellDataWithBR
 
-// Cells of race_m.NCER (mRaceMNcerEntries) that the item display picks: the box behind the item without teams and for
-// each team, the empty item and the slot frame, then one cell per item as LookupRaceMNcerIndex maps them.
+// Cells of race_m.NCER (mRaceMNcerEntries) that DrawRaceItemSlot picks: the slot cell for no teams and for each team,
+// the cell drawn first, the cell for no item, then one cell per item as LookupRaceMNcerIndex maps them.
 typedef enum {
-    RACE_M_CELL_SLOT_BOX_NO_TEAMS = 8,
-    RACE_M_CELL_SLOT_BOX_TEAM_0,
-    RACE_M_CELL_SLOT_BOX_TEAM_1,
-    RACE_M_CELL_ITEM_EMPTY,
-    RACE_M_CELL_SLOT_FRAME,
+    RACE_M_CELL_SLOT_NO_TEAMS = 8,
+    RACE_M_CELL_SLOT_TEAM_0,
+    RACE_M_CELL_SLOT_TEAM_1,
+    RACE_M_CELL_ITEM_NONE,
+    RACE_M_CELL_SLOT_DRAWN_FIRST,
     RACE_M_CELL_KINOKO_ONE,
     RACE_M_CELL_KINOKO_TWO,
     RACE_M_CELL_KINOKO_THREE,
@@ -33,7 +33,8 @@ typedef enum {
     RACE_M_CELL_BOUNCING_ITEM_BOX
 } RaceMCell;
 
-// Cells of race_s.NCER (mRaceSNcerEntries) that LookupRaceSNcerIndex picks per item; cells 0..7 are the kart cells.
+// Cells of race_s.NCER (mRaceSNcerEntries) that LookupRaceSNcerIndex picks per item; it returns the kart index (cells
+// 0..7, the kart icons) when it has no case for the item.
 typedef enum {
     RACE_S_CELL_KINOKO_ONE = 0x11,
     RACE_S_CELL_KINOKO_TWO,
@@ -72,7 +73,7 @@ typedef struct RaceNclrNcgr {
     /* 08 */ u8 mUnk_08[8];
 } RaceNclrNcgr;
 
-// Number of cells in each NCER the tables hold (race_m, race_goal_m, race_ta_m, race_battle_m, race_mr_m,
+// Number of cell entries the tables keep from each NCER (race_m, race_goal_m, race_ta_m, race_battle_m, race_mr_m,
 // race_goal_mr_m, race_s, race_goal_s, race_goal_team_s, race_new_record_ta_s, race_start_battle_m).
 #define RACE_M_NCER_COUNT 0x38
 #define RACE_GOAL_M_NCER_COUNT 0x44
@@ -86,8 +87,9 @@ typedef struct RaceNclrNcgr {
 #define RACE_NEW_RECORD_TA_S_NCER_COUNT 0x21
 #define RACE_START_BATTLE_M_NCER_COUNT 3
 
-// Slots of mNclrNcgrPairs: the palette and characters loaded from the file of that name (race_m_o, race_goal_m_o,
-// race_ta_m_o, ...). The _M files are for the main screen, the _S files for the sub screen.
+// Slots of mNclrNcgrPairs: the palette and characters of the file of that name (race_m_o, race_goal_m_o, race_ta_m_o,
+// ...), which InitRaceNcerNclrNcgrTables loads only for the modes that use them; the TA_M palette is the RACE_M palette
+// itself. The _M pairs go to the main screen and the _S pairs to the sub screen.
 typedef enum {
     RACE_NCER_PAIR_RACE_M,
     RACE_NCER_PAIR_GOAL_M,
@@ -103,7 +105,7 @@ typedef enum {
     RACE_NCER_PAIR_COUNT
 } RaceNcerPair;
 
-// The cell entries of each race screen and the palette and chars pairs they use.
+// The cell entries of each race cell file (main and sub screen) and the palette and graphics pairs loaded with them.
 typedef struct RaceNcerNclrNcgrTables {
     /* 000 */ NNSG2dCellDataWithBR *mRaceMNcerEntries[RACE_M_NCER_COUNT];
     /* 0e0 */ NNSG2dCellDataWithBR *mRaceGoalMNcerEntries[RACE_GOAL_M_NCER_COUNT];

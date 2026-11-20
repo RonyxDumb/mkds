@@ -35,7 +35,7 @@ void RequestRecordVSErasePageSlideIn(void);
 void RequestRecordVSEraseSubSlideOut(void);
 void RequestRecordVSEraseOpenConfirmText(void);
 void RequestRecordVSEraseWaitConfirmAnswer(void);
-void RequestRecordVSEraseCloseConfirmSlideOutMain(void);
+void RequestRecordVSEraseCloseConfirmText(void);
 void RequestRecordVSEraseSlideInAfterConfirm(void);
 void RequestRecordVSEraseSubSlideOutToScreen(void);
 void InitRecordVSErase(void *heap);

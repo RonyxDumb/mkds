@@ -17,7 +17,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "vram_bank_display_setup.h"
 #include "Main/System/result_archive_path.h"
@@ -51,10 +51,6 @@ void LocateAndQueueSelectRaceRuleWait(void) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, cellPalette[0]->mData,
                                        cellPalette[0]->mDataSize);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestSelectRaceRuleWaitSlideIn(void) {
     u16 cellEntryCount;
@@ -112,18 +108,10 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     AdvanceSelectRaceRuleWait();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ClearSelectRaceRuleWaitPointer(void) {
     ClearWaitPointer();
     gSelectRaceRuleWait = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectRaceRuleWaitSlideIn(void) {
     u16 cellEntryCount;
@@ -131,7 +119,8 @@ void AdvanceSelectRaceRuleWaitSlideIn(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = InterpolateS16(1, SELECT_RACE_RULE_WAIT_OFFSCREEN_Y, 0, gSelectRaceRuleWait->mStateFrames,
+                             SELECT_RACE_RULE_WAIT_SLIDE_STEPS);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= SELECT_RACE_RULE_WAIT_SLIDE_STEPS) {
@@ -145,7 +134,8 @@ void AdvanceSelectRaceRuleWaitSlideOut(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = InterpolateS16(1, 0, SELECT_RACE_RULE_WAIT_OFFSCREEN_Y, gSelectRaceRuleWait->mStateFrames,
+                             SELECT_RACE_RULE_WAIT_SLIDE_STEPS);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= SELECT_RACE_RULE_WAIT_SLIDE_STEPS) {
@@ -174,18 +164,11 @@ void SlideInSelectRaceRuleWait(void) {
     RequestSelectRaceRuleWaitSlideIn();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void PlaceSelectRaceRuleWait(void) {
     RequestSelectRaceRuleWaitSlideOut();
     RequestSelectRaceRuleWaitRest();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SlideOutSelectRaceRuleWait(void) {
     u32 unused;
     RequestSelectRaceRuleWaitSlideOut();

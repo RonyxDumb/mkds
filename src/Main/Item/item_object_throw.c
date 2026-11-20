@@ -1,9 +1,10 @@
 #include "Main/Item/item_object_throw.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
 #include "Main/Item/item_object_fade_out.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "fixed_vector_math.h"
 
 void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 pushOutMode,
@@ -68,7 +69,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
     object->mReflectsOnHit = TRUE;
     object->mPushOutMode = pushOutMode;
-    object->mCollisionQueryFlags = COURSE_QUERY_SKIP_TAGGED_TRIANGLES;
+    object->mCollisionQueryFlags = COURSE_QUERY_SKIP_HIT_VALUE_2000;
 }
 
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
@@ -145,7 +146,7 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
         Vec3NormalizeAndGetLengthUnchecked(flatDirection, flatDirection);
     }
     Vec3CrossUnrounded(flatDirection, &object->mItemObject.mNormal, &object->mSideDirection);
-    StartSound(&object->mItemObject.mSoundSource, 0xd5, 0x7f, 0);
+    StartSound(&object->mItemObject.mSoundSource, 0xd5, SOUND_VOLUME_MAX, 0);
 }
 
 void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *unused) {
@@ -170,7 +171,7 @@ void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal,
     object->mSurfaceDirection = *direction;
     Vec3CrossUnrounded(direction, &object->mItemObject.mNormal, &object->mSideDirection);
     object->mItemObject.mNormal.y += 1;
-    StartSound(&object->mItemObject.mSoundSource, 0xd5, 0x7f, 0);
+    StartSound(&object->mItemObject.mSoundSource, 0xd5, SOUND_VOLUME_MAX, 0);
 }
 
 void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
@@ -266,7 +267,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             FadeOutUsedUpItemObject(&object->mItemObject, 1);
             return;
         }
-        if ((object->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) &&
+        if ((object->mItemObject.mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) &&
             object->mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
             FadeOutItemObjectNoCallback(&object->mItemObject, 1);
             return;

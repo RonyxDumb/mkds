@@ -11,20 +11,21 @@
 
 // Sequence ids and a first bank id for which LoadSoundSetIfChanged loads a second wave archive (the source) and moves
 // its file to the place of the first one (the destination); the pairs of archive ids are listed with each.
-#define SOUND_SET_FIRST_SEQ_SWAP 0x4a
-#define SOUND_SET_SECOND_SEQ_SWAP 0x2b
-#define SOUND_SET_THIRD_SEQ_SWAP 0xf
-#define SOUND_SET_FOURTH_BANK_SWAP 0x10
-#define WAVE_ARC_FIRST_SWAP_SOURCE 0x63
-#define WAVE_ARC_FIRST_SWAP_DEST 0x31
-#define WAVE_ARC_SECOND_SWAP_SOURCE 0x64
-#define WAVE_ARC_SECOND_SWAP_DEST 0x58
-#define WAVE_ARC_THIRD_SWAP_SOURCE 0x34
-#define WAVE_ARC_THIRD_SWAP_DEST 0x33
-#define WAVE_ARC_FOURTH_SWAP_SOURCE 0x13
-#define WAVE_ARC_FOURTH_SWAP_DEST 0x12
+#define SOUND_SET_FIRST_MOVE_SEQ_ID 0x4a
+#define SOUND_SET_SECOND_MOVE_SEQ_ID 0x2b
+#define SOUND_SET_THIRD_MOVE_SEQ_ID 0xf
+#define SOUND_SET_FOURTH_MOVE_BANK_ID 0x10
+#define WAVE_ARC_FIRST_MOVE_SOURCE 0x63
+#define WAVE_ARC_FIRST_MOVE_DEST 0x31
+#define WAVE_ARC_SECOND_MOVE_SOURCE 0x64
+#define WAVE_ARC_SECOND_MOVE_DEST 0x58
+#define WAVE_ARC_THIRD_MOVE_SOURCE 0x34
+#define WAVE_ARC_THIRD_MOVE_DEST 0x33
+#define WAVE_ARC_FOURTH_MOVE_SOURCE 0x13
+#define WAVE_ARC_FOURTH_MOVE_DEST 0x12
 
-// A sound set: a sequence id and two bank ids; LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
+// A sound set: a sequence id and two bank ids; LoadSoundSet, IsSoundSetLoaded and LoadSoundSetIfChanged take one by
+// value.
 typedef struct SoundSet {
     /* 00 */ u32 mSeqId;
     /* 04 */ u32 mFirstBankId;
@@ -40,7 +41,8 @@ typedef struct LoadedSoundSet {
     /* 0c */ u32 mHeapState;
 } LoadedSoundSet;
 
-// The ids of the sound data files loaded so far (mFileIds, mCount); loads add an id, clearing walks and resets it.
+// The ids of the archive files that were given the address of another loaded file (mFileIds, mCount): each swap load
+// adds one, ClearSndFileAddresses sets their addresses to NULL and ClearSndFileIdList empties the list.
 typedef struct SndFileIdList {
     /* 00 */ u32 mFileIds[16];
     /* 40 */ s32 mCount;
@@ -69,5 +71,5 @@ u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet);
 
 extern struct NNSSndHeap *gCurrentSndHeap;
 extern SndFileIdList gSndDataFileIdList;
-// Same layout as the list above and goes through the same functions.
+// File ids moved while a sound set is loaded; LoadSoundSetIfChanged clears and refills it.
 extern SndFileIdList gSoundSetFileIdList;

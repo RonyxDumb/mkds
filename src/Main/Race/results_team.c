@@ -36,9 +36,9 @@ u32 GetResultSceneSeqKind(void) {
     kartCount = raceSetup->mKartCount;
     if (raceSetup->mMode == MODE_GRAND_PRIX) {
         if (gMenuShared->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
-            return RESULT_SCENE_SEQ_KIND_GP_HIGH_RANK;
+            return RESULT_SCENE_SEQ_KIND_GP_TROPHY;
         }
-        return RESULT_SCENE_SEQ_KIND_GP_LOW_RANK;
+        return RESULT_SCENE_SEQ_KIND_GP_NO_TROPHY;
     }
     switch (gStartupWork->mConnectionKind) {
         case CONNECTION_KIND_NONE:

@@ -88,8 +88,8 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     if (itemObject->mFramesSinceCourseHit <= ITEM_OBJECT_RECENT_HIT_FRAMES) {
         itemObject->mFramesSinceCourseHit += 1;
     }
-    if (itemObject->mFramesSinceReset <= ITEM_OBJECT_RECENT_HIT_FRAMES) {
-        itemObject->mFramesSinceReset += 1;
+    if (itemObject->mFramesSinceCourseHitAttribute <= ITEM_OBJECT_RECENT_HIT_FRAMES) {
+        itemObject->mFramesSinceCourseHitAttribute += 1;
     }
     if (!(itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING)) {
         itemObject->mCollisionBits = 0;
@@ -121,7 +121,8 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     }
     if (!(itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING) && itemObject->mCollisionSlotIndex != -1) {
         if (skipOverlapSearch == 0) {
-            FindCollisionSlotsOverlappingSlot(itemObject->mCollisionSlotIndex, 0x6000);
+            FindCollisionSlotsOverlappingSlot(itemObject->mCollisionSlotIndex,
+                                              COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
         }
         for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
             overlapFlags = gFoundCollisionSlotFlags[overlapIndex];
@@ -148,15 +149,15 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     if (collisionBits & COURSE_HIT_GROUND) {
         itemObject->mFramesSinceCourseHit = 0;
         if (collisionBits & 0x1000000) {
-            itemObject->mFramesSinceReset = 0;
+            itemObject->mFramesSinceCourseHitAttribute = 0;
         }
         if (collisionBits & 0x80400) {
             if (collisionBits & 0x400) {
                 if (itemObject->mCourseReleaseTimer == 0) {
                     if (itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING) {
-                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_RESTING_RELEASE_FRAMES;
+                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_COURSE_RELEASE_RESTING_FRAMES;
                     } else {
-                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_COURSE_RELEASE_FRAMES;
+                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_COURSE_RELEASE_NOT_RESTING_FRAMES;
                     }
                 }
             }
@@ -188,7 +189,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
             BlendDirectionTowardUp(&itemObject->mNormal, 0xcd);
         }
     }
-    if (itemObject->mFramesSinceReset < ITEM_OBJECT_RECENT_HIT_FRAMES) {
+    if (itemObject->mFramesSinceCourseHitAttribute < ITEM_OBJECT_RECENT_HIT_FRAMES) {
         itemObject->mFlags |= ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE;
     } else {
         itemObject->mFlags &= ~ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE;
@@ -210,7 +211,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     itemObject->mAgeFrames += 1;
     if (itemObject->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED) {
         if (itemObject->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT) {
-            if (itemObject->mAgeFrames > ITEM_OBJECT_EXCLUDED_AFTER_HIT_AGE_FRAMES &&
+            if (itemObject->mAgeFrames > ITEM_OBJECT_EXCLUDED_UNTIL_COURSE_HIT_AGE_FRAMES &&
                 !(itemObject->mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT)) {
                 itemObject->mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
             }

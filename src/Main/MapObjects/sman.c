@@ -29,18 +29,18 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
@@ -130,7 +130,7 @@ void InitSmanObjects(SmanList *smanList) {
         sman->mTopRiseProgress = FIXED12_UNIT;
         sman->mBottomScale = FIXED12_UNIT;
         index++;
-        sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0xf333);
+        sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, SMAN_TOP_HEIGHT);
         sman->mTopLowHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0x2000);
         sman->mTopHeight = sman->mTopStartHeight;
     }
@@ -157,13 +157,15 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                 sman->mTopHeight = sman->mTopLowHeight;
                 sman->mTopHeightPerFrame = 0;
                 sman->mState = SMAN_STATE_WAIT_LOW;
-                falloffIndex = 2;
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
                 if ((sman->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-                    if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mFarDistanceSquared) {
-                        if (sman->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                            falloffIndex = 3;
+                    if (sman->mMapObject.mFarDistanceSquared !=
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        if (sman->mMapObject.mFarDistanceSquared ==
+                            gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                         } else {
-                            falloffIndex = 4;
+                            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
                     }
                     soundRequest.mSoundId = SMAN_SOUND_ID;
@@ -177,7 +179,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             break;
         case SMAN_STATE_WAIT_LOW:
             sman->mStateFrames = sman->mStateFrames + 1;
-            if (sman->mStateFrames >= SMAN_STATE_END_FRAMES) {
+            if (sman->mStateFrames >= SMAN_WAIT_LOW_FRAMES) {
                 sman->mStateFrames = 0;
                 sman->mTopHeightPerFrame = ((sman->mTopStartHeight - sman->mTopLowHeight) * 0x40) / 0x1000;
                 sman->mState = SMAN_STATE_COME_BACK;
@@ -198,7 +200,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                 if (sman->mBottomScale >= FIXED12_UNIT) {
                     sman->mStateFrames = 0;
                     sman->mBottomScale = FIXED12_UNIT;
-                    sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~1;
+                    sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
                     sman->mState = SMAN_STATE_REST;
                 }
             }
@@ -211,7 +213,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
     sman->mAngleZ = sman->mAngleZ + sman->mAngleZPerFrame;
     if (sman->mAngleZ >= 0) {
         if (sman->mAngleZPerFrame < 0) {
-            sman->mAngleZPerFrame = -0xf0;
+            sman->mAngleZPerFrame = -SMAN_ANGLE_Z_PER_FRAME;
         } else {
             sman->mAngleZPerFrame = sman->mAngleZPerFrame - 8;
         }

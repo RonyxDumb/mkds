@@ -1,5 +1,5 @@
 #include "Main/MapObjects/sanbo.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 
 #include "matrix_3x3_basic.h"
 #include "Main/Course/course_map_group_entry.h"
@@ -60,7 +60,7 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *respons
         StartSoundIfKartStarOrKiller(&sanbo->mMapObject, kart);
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
-            soundStartParams.mSoundId = SANBO_HIT_SOUND_ID;
+            soundStartParams.mSoundId = SANBO_TOUCH_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
@@ -83,7 +83,7 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboSecondHitFlag;
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
-            soundStartParams.mSoundId = SANBO_HIT_SOUND_ID;
+            soundStartParams.mSoundId = SANBO_TOUCH_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
@@ -283,7 +283,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 if (sanbo->mFastWobbleTimer > 0) {
                     sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = SANBO_FAST_WOBBLE_ANGLE_PER_FRAME;
-                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > SANBO_WOBBLE_SOUND_ANGLE_PER_FRAME) {
+                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > SANBO_WOBBLE_SLOW_DOWN_END_ANGLE_PER_FRAME) {
                     sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame =
                         sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame - 0xb6;
                 } else {
@@ -374,7 +374,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             if (sanbo->mMapObject.mCourseMapRow->mSettings[1] != 0) {
                 return;
             }
-            if (sanbo->mLaunchWaitFrames-- > 0) {
+            if (sanbo->mLaunchWaitTimer-- > 0) {
                 return;
             }
             for (resetPieceIndex = 0; resetPieceIndex < sanbo->mPieceCount; resetPieceIndex++) {
@@ -385,8 +385,8 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             }
             sanbo->mPieceCount = 1;
             sanbo->mState = SANBO_STATE_REGROWING;
-            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~1;
-            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~8;
+            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
+            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             break;
         case SANBO_STATE_REGROWING:
             sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale =

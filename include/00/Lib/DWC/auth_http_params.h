@@ -22,5 +22,4 @@ typedef struct DWCHttpParam {
 extern char *gLangPairValues[7];
 extern DWCHttpParam DWCauthhttpparam;
 
-// Strings.
 extern char gNasAuthUrl[];

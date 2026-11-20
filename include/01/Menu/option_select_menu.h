@@ -7,13 +7,14 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/scene_text_init.h"
 
-// An s16 pair of OptionSelectMenu.
+// The x and y offset of one group of cells of OptionSelectMenu (mGroupOffsets).
 typedef struct OptionSelectMenuGroupOffset {
     /* 00 */ s16 mOffsetX;
     /* 02 */ s16 mOffsetY;
 } OptionSelectMenuGroupOffset;
 
-// Values of OptionSelectMenu.mIndex and the indices of mRowValues: the two setting rows, then the OK entry.
+// Values of OptionSelectMenu.mIndex and of the touch rectangle ids 0 to 2: the two setting rows, then the OK entry;
+// mRowValues has one entry and mOffsetTimers a pair of entries per setting row only.
 enum {
     OPTION_SELECT_ROW_SOUND,
     OPTION_SELECT_ROW_LOCATE_FRIEND,
@@ -25,7 +26,7 @@ enum {
 // WAIT_BACKUP waits for the message to finish and the backup write to end.
 enum {
     OPTION_SELECT_STATE_SLIDE_IN,
-    OPTION_SELECT_STATE_SLIDE_IN_BG2,
+    OPTION_SELECT_STATE_SLIDE_IN_OK_GROUP,
     OPTION_SELECT_STATE_WAIT_INPUT,
     OPTION_SELECT_STATE_OK_PRESSED_DELAY,
     OPTION_SELECT_STATE_SLIDE_OUT,
@@ -39,23 +40,22 @@ enum {
 #define OPTION_SELECT_BG_SLIDE_DISTANCE 140
 #define OPTION_SELECT_BG2_SLIDE_DISTANCE 40
 
-// Frames the chosen OK entry is shown before the slide out; the highlight comes back at the fifth.
+// Frames AdvanceOptionSelectMenuOkPressedDelay runs before the slide out; mHighlightVisible is set again from the
+// fifth.
 #define OPTION_SELECT_PRESS_FRAMES 10
 #define OPTION_SELECT_HIGHLIGHT_FRAME 5
-
-// Frames the cells of a row shift after its value changed (OptionSelectMenu.mOffsetTimers count them down).
-#define OPTION_SELECT_OFFSET_TIMER_FRAMES 6
 
 // The option select menu with two setting rows and an OK entry: their values, saved values, offsets and layout tables.
 typedef struct OptionSelectMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* 08 */ s32 mIndex; /* 0 and 1 are the two setting rows, 2 is the OK entry */
+    /* 08 */ s32 mIndex;
     /* 0c */ s32 mRowValues[2];
     /* 14 */ s32 mSavedRowValues[2];
     /* 1c */ BOOL mOkChosen;
-    /* counted only in states 0, 1, 3, 4; zeroed when 0, 1, 3 hand over and when 4 hands over to 5 (OK path); on
-       the Back path state 4 keeps counting while it requests the next option state */
+    /* counted only while the groups slide in, while the OK group slides in, in OK_PRESSED_DELAY and while sliding out;
+       zeroed when the first three hand over and when the slide out hands over to WAIT_BACKUP (OK path); on the Back
+       path the slide out keeps counting while it requests the next option state */
     /* 20 */ s32 mStateFrames;
     /* 24 */ s16 mBg0Bg1Offset;
     /* 26 */ OptionSelectMenuGroupOffset mGroupOffsets[3];
@@ -103,8 +103,9 @@ void SetOptionSoundRowFromSave(void);
 void SetSoundModeFromOptionRow(void);
 void ApplyOptionSelectMenuSound(void);
 void LocateAndQueueOptionSelectMenu(void);
-/* slot mRelease of OptionStateCallbacks; clears the global and undoes the display setup (DISPCNT bit 1 cleared),
-   the state heap is destroyed by AdvanceOptionStates after it returns */
+/* slot mRelease of OptionStateCallbacks; sets the sound row back from the save and applies it, hides BG1 (bit 1 of the
+   display plane field), clears the palette blend pointer and the global. On a state change AdvanceOptionStates destroys
+   the state heap after it returns */
 void ReleaseOptionSelectMenu(void);
 void InitOptionSelectMenu(void *heap);
 void InitOptionSelectMenuTexts(void);
@@ -114,7 +115,6 @@ void InitOptionSelectMenuTexts(void);
 extern const u8 gOptionSelectMenuMLabelIndices[2];
 extern const u8 gOptionSelectMenuXluCellIndices[2];
 extern const u8 gOptionSelectMenuValueCounts[3];
-// Object behind gBackupBuffers; the byte at 0x31 of the object at its first member holds flags.
 extern const u8 gOptionSelectMenuOffsetMIndices[1];
 extern const u8 gOptionSelectMenuRowSTableIndices[3];
 extern const u8 gOptionSelectMenuSLabelIndices[3];

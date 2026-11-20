@@ -7,8 +7,8 @@
 #include "01/MapObjects/map_object_model.h"
 
 #define CRAB_ROTATE_Z_ANGLE_PER_FRAME 0x71c
-#define CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK 0xf8e4
-#define CRAB_START_TIMER_FRAMES 0x12c
+#define CRAB_ROTATE_Z_ANGLE_PER_FRAME_REVERSE 0xf8e4
+#define CRAB_FLUNG_FRAMES 0x12c
 #define CRAB_HAND_WOBBLE_AMPLITUDE 0x1c7
 #define CRAB_HAND_WOBBLE_ANGLE_PER_FRAME 0xe39
 #define CRAB_PATH_SPEED 0x800
@@ -28,7 +28,7 @@ enum {
     CRAB_STATE_RISE,
 };
 
-// The crab map object, one state per value of mState: its spin, timer, crab and hand frames, wobbles and path follower.
+// The crab map object: its state, spin, timer, crab and hand frame indexes, two wobbles and path follower.
 typedef struct Crab {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mRotateZAnglePerFrame;
@@ -52,7 +52,8 @@ void CreateCrabAndCrabHand(void *mapObjectList);
 MapObjectList *CreateCrabUpdateList(void);
 MapObjectList *CreateCrabDrawList(void);
 MapObjectKindData *CreateCrabKindData(void);
-void UpdateCrab(void *mapObjectList, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateCrab(void *mapObjectList,
+                Crab *crab); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 s32 CrabFX_MulInline(s32 value, s32 factor);
 s16 CrabFX_SinIdx(s32 angle);
 void InitCrabObjects(MapObjectList *mapObjectList);

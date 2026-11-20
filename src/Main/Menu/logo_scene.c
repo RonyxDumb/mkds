@@ -18,7 +18,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Graphics/scene_text.h"
 #include "Main/Graphics/back_screen.h"
 #include "Main/Graphics/scene_text_init.h"
@@ -29,6 +29,7 @@
 #include "Main/Scene/display_settings_descs.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "capture_output_effect.h"
 
 void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName) {
@@ -81,25 +82,25 @@ void InitLogoScene(void *heap) {
     arg.mUseBackScreen = FALSE;
     arg.mBackScreenKind = 0;
     arg.mUseCanvas2 = 1;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &arg);
 }
 
 void ApplySavedSoundMode(void) {
     s32 outputEffect;
     s32 soundMode;
-    outputEffect = 0;
+    outputEffect = SOUND_OUTPUT_EFFECT_NONE;
     gLogoScene = NULL;
     soundMode = gBackupBuffers->mFirstBlock->mSoundMode;
     switch (soundMode) {
         case SOUND_MODE_STEREO:
             break;
         case SOUND_MODE_HEADPHONES:
-            outputEffect = 2;
+            outputEffect = SOUND_OUTPUT_EFFECT_HEADPHONE;
             break;
         case SOUND_MODE_SURROUND:
         default:
-            outputEffect = 1;
+            outputEffect = SOUND_OUTPUT_EFFECT_SURROUND;
             break;
     }
     SetSoundOutputEffect(outputEffect);
@@ -122,7 +123,7 @@ void WriteLogoSceneRegisters(void) {
 void UpdateLogoScene(SceneNumbers *sceneNumbers) {
     AdvanceStateMachine(&gLogoScene->mStateMachine);
     if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == LOGO_STATE_END) {
-        sceneNumbers->mNextScene = 0;
+        sceneNumbers->mNextScene = SCENE_TITLE;
     }
     AdvanceSceneText();
 }
@@ -142,7 +143,7 @@ void UpdateLogoReadBackup(void *stateObject) {
         stateMachine->mNextStateRequested = 1;
     }
     slotIndex = GetPadInputSlot();
-    if ((gInputSlots[slotIndex].mBits & PAD_KEYS_FACE_AND_SHOULDER) != PAD_KEYS_FACE_AND_SHOULDER) {
+    if ((gInputSlots[slotIndex].mBits & PAD_KEYS_A_B_X_Y_L_R) != PAD_KEYS_A_B_X_Y_L_R) {
         return;
     }
     gLogoScene->mResetBackupRequested = 1;

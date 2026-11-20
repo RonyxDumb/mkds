@@ -6,7 +6,7 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/MapObjects/teresa.h" // TeresaWobble
 
-// The trophy shown on a menu screen: its model and animation, rotation, light directions and particle effects.
+// The trophy shown on a results screen: its model and animation, rotation, light directions and particle effects.
 typedef struct Trophy {
     /* 000 */ u16 mModelIndex;
     /* 002 */ u16 mRankIndex;

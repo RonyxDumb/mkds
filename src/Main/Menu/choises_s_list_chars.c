@@ -1,6 +1,6 @@
 #include "Main/Menu/choises_s_list_chars.h"
 #include "Main/Menu/choises_s.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 #pragma thumb on
 
@@ -49,13 +49,10 @@ u32 IsChoisesSPickLocked(void) {
     return (gChoisesS->mPickLocked);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 // In mode 5 the sequence index is always 4, whatever the selected value.
 void StartChoisesSSelectedValueSeq(void) {
-    if (ChoisesSGetCurrentMode() == 5) {
+    if (ChoisesSGetCurrentMode() == MODE_WIFI) {
         StartChoisesSValueSeq(4);
     } else {
         switch (gChoisesS->mSelectedValue) {
@@ -83,9 +80,6 @@ void StartChoisesSSelectedValueSeq(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetChoisesSListCharsSize(int valueCount) {
     if (valueCount < 0) {

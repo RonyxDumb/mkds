@@ -52,7 +52,7 @@ enum {
     DOSSUN_HIT_SPIN_SETTLING,
 };
 
-// A Dossun map object that slams down: its state, timers, spin and hit data and the follower it moves along.
+// A Dossun map object: its state, timer, hover and drop values, spin and hit data and the follower it moves along.
 typedef struct Dossun {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState;
@@ -71,15 +71,15 @@ typedef struct Dossun {
     /* ec */ u16 mStartEntryIndex;
     /* ee */ u8 mUnk_ee[2];
     /* f0 */ s32 mIsSlowVariant;
-    /* f4 */ s32 mXOffset;
+    /* f4 */ s32 mUnk_f4;
     /* f8 */ s32 mHeightOffset;
-    /* fc */ s32 mZOffset;
+    /* fc */ s32 mUnk_fc;
     /* 100 */ s32 mInitialUpSpeed;
     /* 104 */ s32 mDownSpeedStep;
     /* 108 */ s32 mFollowerSetSpeed;
 } Dossun;
 
-// The draw list of the Kuribo map objects: functions that set up and draw each object.
+// The draw list of the Kuribo map objects: the functions that create the model, set up drawing and draw each object.
 typedef struct KuriboDrawList {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void (*mInit)(void);
@@ -106,10 +106,12 @@ void CreateDossunAndDossunShadow(void);
 void InitDossun(Dossun *dossun, CourseMapRow *row);
 void SetupDrawKuribo(void);
 void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha);
-void UpdateKuribo(void *unused, Kuribo *kuribo); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateKuribo(void *unused,
+                  Kuribo *kuribo); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha);
 u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
-void UpdateDossun(void *unused, Dossun *dossun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateDossun(void *unused,
+                  Dossun *dossun); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 
 extern const MapObjectList gKuriboUpdateListData;
 extern const struct KuriboDrawList gKuriboDrawListData;

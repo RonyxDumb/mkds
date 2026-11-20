@@ -16,7 +16,8 @@ MapObjectList *CreateMissionGateUpdateList(void);
 MapObjectList *CreateMissionGateDrawList(void);
 MapObjectKindData *CreateMissionGateKindData(void);
 void UpdateMissionGate(
-    void *unused, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
+    void *unused,
+    MissionGateObject *missionGateObject); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitMissionGateObjects(MapObjectList *missionGateList);
 void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject);
 void MissionGateNop(void);

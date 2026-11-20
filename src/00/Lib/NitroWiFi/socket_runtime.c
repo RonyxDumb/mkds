@@ -46,7 +46,7 @@ u32 SOCLi_RoundUp4(int size) {
     return size + 3U & 0xfffffffc;
 }
 
-// The halfword at 0x70 is read again for every test, through a volatile view of the object.
+// In this function mStatusFlags is only accessed through a volatile view of the socket.
 u32 SOCL_GetStatus(SOCLSocket *socket) {
     u32 status = 0;
     u32 interruptState;
@@ -55,11 +55,11 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
     if (SOCL_SocketIsInvalid(socket) != 0) {
         status |= 0x80;
     } else {
-        if ((volatileSocket->mStatusFlags & SOCL_STATUS_ERROR) != 0) {
+        if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECT_FAILED) != 0) {
             status |= 0x20;
         }
         if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE ||
-            (volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) != 0) {
+            (volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTED) != 0) {
             interruptState = OS_DisableInterrupts();
             if (SOCLi_GetReadBufferOccpiedSize(socket) > 0) {
                 status |= 1;
@@ -70,16 +70,16 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
             OS_RestoreInterrupts(interruptState);
         }
         isTcp = TRUE;
-        if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
+        if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_READ_COMMAND) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE) {
-            if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) != 0 &&
+            if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTED) != 0 &&
                 socket->mCps.mState != SOCKET_STATE_ESTABLISHED && (status & 1) == 0) {
-                volatileSocket->mStatusFlags &= ~(SOCL_STATUS_CONNECTING | SOCL_STATUS_CONNECTED);
+                volatileSocket->mStatusFlags &= ~(SOCKET_STATUS_CONNECTING | SOCKET_STATUS_CONNECTED);
             }
-            if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTING) == 0 &&
-                (volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) == 0) {
+            if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTING) == 0 &&
+                (volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTED) == 0) {
                 status |= 0x40;
             }
         }
@@ -99,7 +99,7 @@ s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket) {
             if (inPipe->mUdpDataOut != NULL) {
                 size = inPipe->mUdpDataOut->mSize;
             }
-        } else if ((kind == SOCKET_MODE_STREAM) || (kind == SOCKET_MODE_STREAM_DIRECT_READ)) {
+        } else if ((kind == SOCKET_MODE_STREAM) || (kind == SOCKET_MODE_STREAM_READ_COMMAND)) {
             size = socket->mCps.mReceiveBufferLength - inPipe->mConsumed;
         }
     }
@@ -200,7 +200,7 @@ s32 SOCL_CloseAll(void) {
         if (sockObj != NULL) {
             udpSendSocket = SOCLiUDPSendSocket;
             do {
-                if (sockObj != udpSendSocket && (sockObj->mStatusFlags & SOCL_STATUS_WAIT_CLOSE) == 0) {
+                if (sockObj != udpSendSocket && (sockObj->mStatusFlags & SOCKET_STATUS_CLOSE_REQUESTED) == 0) {
                     break;
                 }
                 sockObj = sockObj->mNext;
@@ -254,7 +254,7 @@ BOOL SOCL_IsClosed(SOCLSocket *socket) {
 
 static inline s32 SOCL_SocketIsTCP(SOCLSocket *socket) {
     BOOL isTcp = TRUE;
-    if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
+    if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_READ_COMMAND) {
         isTcp = FALSE;
     }
     return isTcp;
@@ -263,7 +263,7 @@ static inline s32 SOCL_SocketIsTCP(SOCLSocket *socket) {
 static inline s32 SOCL_SocketIsCreated(SOCLSocket *socket) {
     BOOL isCreated = FALSE;
     if (socket != NULL) {
-        isCreated = (socket->mStatusFlags & SOCL_STATUS_CREATE) != 0;
+        isCreated = (socket->mStatusFlags & SOCKET_STATUS_CREATED) != 0;
     }
     return isCreated;
 }
@@ -285,10 +285,10 @@ s32 SOCL_Close(s32 socketHandle) {
     if (SOCL_SocketIsCreated(sockObj) == 0) {
         return -0x27;
     }
-    if ((volatileSocket->mStatusFlags & SOCL_STATUS_WAIT_CLOSE) != 0) {
+    if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CLOSE_REQUESTED) != 0) {
         return -0x1a;
     }
-    volatileSocket->mStatusFlags |= (SOCL_STATUS_CLOSING | SOCL_STATUS_WAIT_CLOSE);
+    volatileSocket->mStatusFlags |= (SOCKET_STATUS_CLOSING | SOCKET_STATUS_CLOSE_REQUESTED);
     if (SOCL_SocketIsTCP(sockObj) != 0) {
         SOCLi_SendCommandPacket(&sockObj->mSendBlock->mCommandPipe, NULL);
     }
@@ -308,7 +308,7 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
         CPS_SocRelease();
     }
     CPS_SocUnRegister();
-    sockObj->mStatusFlags &= ~(SOCL_STATUS_CONNECTING | SOCL_STATUS_CONNECTED);
+    sockObj->mStatusFlags &= ~(SOCKET_STATUS_CONNECTING | SOCKET_STATUS_CONNECTED);
     if (sockObj->mFlagMode == SOCKET_MODE_DATAGRAM_SEND) {
         block = sockObj->mSendBlock;
     } else {
@@ -319,7 +319,7 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
     SOCLi_SocketUnregister(sockObj);
     SOCLi_SocketRegisterTrash(sockObj);
     OS_RestoreInterrupts(interruptState);
-    sockObj->mStatusFlags |= SOCL_STATUS_WAIT_RELEASE;
+    sockObj->mStatusFlags |= SOCKET_STATUS_TRASHED;
     return 0;
 }
 
@@ -398,11 +398,11 @@ s32 SOCL_Shutdown(s32 socketHandle) {
     if (SOCL_SocketIsCreated(sockObj) == 0) {
         return -0x27;
     }
-    if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) == 0 ||
-        (volatileSocket->mStatusFlags & SOCL_STATUS_CLOSING) != 0) {
+    if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTED) == 0 ||
+        (volatileSocket->mStatusFlags & SOCKET_STATUS_CLOSING) != 0) {
         return -0x38;
     }
-    volatileSocket->mStatusFlags |= SOCL_STATUS_CLOSING;
+    volatileSocket->mStatusFlags |= SOCKET_STATUS_CLOSING;
     outPipe = sockObj->mSendBlock;
     if (outPipe != NULL && outPipe->mExeSocket != NULL) {
         cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ShutdownCallBack, outPipe->mExeSocket, sockObj->mFlagBlock);
@@ -435,8 +435,8 @@ s32 SOCL_WriteTo(u32 socketHandle, void *buffer, u32 length, u16 remotePort, u32
         return -0x27;
     }
     if (SOCL_SocketIsTCP(sockObj) != 0) {
-        if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) == 0 ||
-            (volatileSocket->mStatusFlags & SOCL_STATUS_CLOSING) != 0) {
+        if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTED) == 0 ||
+            (volatileSocket->mStatusFlags & SOCKET_STATUS_CLOSING) != 0) {
             return -0x38;
         }
     }
@@ -532,7 +532,7 @@ s32 SOCLi_GetWriteBufferFreeSize(SOCLSocket *socket) {
     return freeSize;
 }
 
-s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u32 peerAddr,
+s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u32 remoteIp,
                            s32 isBlocking) {
     SOCLiSocketSendCommandPipe *outPipe = socket->mSendBlock;
     SOCLiCommandWrite *writePacket;
@@ -572,8 +572,8 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
             socket->mCps.mLocalPort = socket->mLocalPort;
         }
         writePacket->mLocalPort = socket->mLocalPort;
-        if (socket->mRemoteIp == 0 || peerAddr != 0) {
-            writePacket->mRemoteIp = peerAddr;
+        if (socket->mRemoteIp == 0 || remoteIp != 0) {
+            writePacket->mRemoteIp = remoteIp;
             writePacket->mRemotePort = remotePort;
         } else {
             writePacket->mRemoteIp = socket->mRemoteIp;
@@ -597,7 +597,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
     s32 written = 0;
     s32 sendCapacity;
     s32 chunkLength;
-    if (SOCL_SocketIsTCP(sockObj) == 0 || (sockObj->mStatusFlags & SOCL_STATUS_CONNECTED) != 0) {
+    if (SOCL_SocketIsTCP(sockObj) == 0 || (sockObj->mStatusFlags & SOCKET_STATUS_CONNECTED) != 0) {
         if (command->mRemoteIp != 0) {
             CPS_SocBind(command->mLocalPort, command->mRemotePort, command->mRemoteIp);
         }
@@ -616,7 +616,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
             chunkLength = CPS_SocWrite(sendBuffer, chunkLength);
             if (chunkLength <= 0) {
                 if (SOCL_SocketIsTCP(sockObj) != 0) {
-                    sockObj->mStatusFlags &= ~(SOCL_STATUS_CONNECTING | SOCL_STATUS_CONNECTED | SOCL_STATUS_CLOSING);
+                    sockObj->mStatusFlags &= ~(SOCKET_STATUS_CONNECTING | SOCKET_STATUS_CONNECTED | SOCKET_STATUS_CLOSING);
                 }
                 written = -0x4c;
                 break;
@@ -663,7 +663,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u
         return -0x1c;
     }
     if ((flags & 4) != 0 || sockObj->mFlagBlock == 0) {
-        if (sockObj->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
+        if (sockObj->mFlagMode == SOCKET_MODE_STREAM_READ_COMMAND) {
             return -0x1c;
         }
         value = 0;
@@ -677,8 +677,8 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u
         return -0x27;
     }
     if (SOCL_SocketIsTCP(sockObj) != 0) {
-        if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) == 0 ||
-            (volatileSocket->mStatusFlags & SOCL_STATUS_CLOSING) != 0) {
+        if ((volatileSocket->mStatusFlags & SOCKET_STATUS_CONNECTED) == 0 ||
+            (volatileSocket->mStatusFlags & SOCKET_STATUS_CLOSING) != 0) {
             return -0x38;
         }
     }
@@ -695,7 +695,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u
     return value;
 }
 
-s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr,
+s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *remoteIp,
                                s32 isBlocking, s32 flags) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
     s32 savedNoConsume;
@@ -711,9 +711,9 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
         inPipe->mNoConsume = 1;
     }
     if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
-        result = SOCLi_ReadUdpBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
+        result = SOCLi_ReadUdpBuffer(socket, buffer, length, remotePort, remoteIp, isBlocking);
     } else {
-        result = SOCLi_ReadBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
+        result = SOCLi_ReadBuffer(socket, buffer, length, remotePort, remoteIp, isBlocking);
         if (result >= 0) {
             SOCLi_ConsumeBuffer(socket);
         }
@@ -726,7 +726,7 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
 
 s32 SOCLi_ReadBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr, s32 isBlocking) {
     s32 result;
-    if (socket->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
+    if (socket->mFlagMode == SOCKET_MODE_STREAM_READ_COMMAND) {
         return SOCLi_ExecReadCommand(socket, buffer, length, remotePort, peerAddr);
     }
     result = SOCLi_CopyCPSBuffer(socket, buffer, length, remotePort, peerAddr);
@@ -766,7 +766,7 @@ s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
         } else {
             result = -0x1c;
         }
-        socket->mStatusFlags &= ~(SOCL_STATUS_CONNECTING | SOCL_STATUS_CONNECTED);
+        socket->mStatusFlags &= ~(SOCKET_STATUS_CONNECTING | SOCKET_STATUS_CONNECTED);
     }
     if (result >= 0) {
         if (remotePort != NULL && peerAddr != NULL) {
@@ -802,12 +802,12 @@ u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u
 }
 
 s32 SOCLi_ExecReadCommand(SOCLSocket *socket, u8 *buffer, s32 length, u16 *remotePort, u32 *peerAddr) {
-    SOCLiCommandRead *packetAddr = (SOCLiCommandRead *) SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
-    packetAddr->mBuffer = buffer;
-    packetAddr->mBufferLen = length;
-    packetAddr->mRemotePort = remotePort;
-    packetAddr->mRemoteIp = peerAddr;
-    return SOCLi_ExecCommandPacketInRecvPipe(socket, (SOCLiCommandPacket *) packetAddr);
+    SOCLiCommandRead *readPacket = (SOCLiCommandRead *) SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
+    readPacket->mBuffer = buffer;
+    readPacket->mBufferLen = length;
+    readPacket->mRemotePort = remotePort;
+    readPacket->mRemoteIp = peerAddr;
+    return SOCLi_ExecCommandPacketInRecvPipe(socket, (SOCLiCommandPacket *) readPacket);
 }
 
 s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
@@ -831,7 +831,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
             break;
         }
         isTcp = TRUE;
-        if (sockObj->mFlagMode != SOCKET_MODE_STREAM && sockObj->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
+        if (sockObj->mFlagMode != SOCKET_MODE_STREAM && sockObj->mFlagMode != SOCKET_MODE_STREAM_READ_COMMAND) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE && sockObj->mCps.mState != SOCKET_STATE_ESTABLISHED) {
@@ -840,7 +840,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         }
         OS_Sleep(10);
     }
-    if (sockObj->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
+    if (sockObj->mFlagMode == SOCKET_MODE_STREAM_READ_COMMAND) {
         if (gotData == NULL) {
             return 0;
         }
@@ -868,7 +868,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
 static inline s32 ReadUdpSOCL_SocketIsCreated(SOCLSocket *socket) {
     BOOL isCreated = FALSE;
     if (socket != NULL) {
-        isCreated = (socket->mStatusFlags & SOCL_STATUS_CREATE) != 0;
+        isCreated = (socket->mStatusFlags & SOCKET_STATUS_CREATED) != 0;
     }
     return isCreated;
 }

@@ -12,7 +12,7 @@
 #include "Main/Kart/kart_reset.h"
 #include "Main/Kart/kart_contact_effect_release.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Kart/kart_effect_param_tables.h"
@@ -23,7 +23,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/System/backup_net_camera_work.h"
@@ -31,14 +31,14 @@
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
 #include "Main/Race/race_start_sequence.h"
 #include "ITCM/kart_speed.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Kart/shadow_model_draw.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Graphics/model_effects.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Kart/kart_ai_battle.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
@@ -50,12 +50,12 @@
 #include "sound_archive_load_result.h"
 #include "sound_player_control.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -87,11 +87,11 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
     if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
         return;
     }
-    if (collisionFlags & 0x8000) {
+    if (collisionFlags & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
         if (kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
             return;
         }
-        value = (u16) ((PickCollisionHitValue(0x8000) & 0xe0) >> 5);
+        value = (u16) ((PickCollisionHitValue(COURSE_HIT_KEYED_PLACEMENT_OR_FADE) & 0xe0) >> 5);
         mode = gRaceSetup->mMode;
         if (mode == MODE_BATTLE || mode == MODE_MISSION_RUN) {
             PlaceKartAtKeyedPlacement(kart, value);
@@ -161,7 +161,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
             }
         }
         StopKartKillerEffect(kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xfd, SOUND_VOLUME_MAX, 0);
     }
     StopRunningKartItemSlot(&(gKartItems)[kart->mIndex]);
     if (collisionFlags & 0x400) {
@@ -190,7 +190,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         waterSurfacePos.y = kart->mPos.y - GetHeightAboveWaterOrEfct(kart->mPos.y);
         StartKartWaterSplashEffects(&waterSurfacePos, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
         kart->mEffectFlags |= KART_EFFECT_WATER_FALL;
-        StartSound(&kart->mSoundSource, value, 0x7f, 0);
+        StartSound(&kart->mSoundSource, value, SOUND_VOLUME_MAX, 0);
         kart->mGravity = 0;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
@@ -301,7 +301,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
-                    StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
+                    StartSound(&kart->mSoundSource, 0xa1, SOUND_VOLUME_MAX, 0);
                 }
             }
         } else if (kart->mDriveFlags & KART_DRIVE_ACCEL_HELD) {
@@ -349,7 +349,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
-                    StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
+                    StartSound(&kart->mSoundSource, 0xa1, SOUND_VOLUME_MAX, 0);
                 }
             }
         }
@@ -397,7 +397,7 @@ void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMot
     if (collisionFlags & 0x40000000) {
         kart->mMotionFlags |= KART_MOTION_MOVED_BY_OBJECT;
         kart->mHeadingAngle += headingDelta;
-    } else if (collisionFlags & 0x1e34ef) {
+    } else if (collisionFlags & COURSE_HIT_GROUND) {
         kart->mPointMotion.y = 0;
     }
     if (targetPointMotion->x | targetPointMotion->y | targetPointMotion->z) {
@@ -431,7 +431,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
     } else {
         baseSpeedLimitHitFactor = 0xccd;
     }
-    hitValue = PickCollisionHitValue(0x214300);
+    hitValue = PickCollisionHitValue(COURSE_HIT_WALL);
     ApplyKartContact(kart, contactNormal, (kart->mMotionFlags & KART_MOTION_COURSE_CONTACT) != 0,
                      baseSpeedLimitHitFactor, (s32) (hitValue & 0x1f00) >> 8, ((hitValue & 0xe0) << 11) >> 16, 2);
     kart->mMotionFlags |= KART_MOTION_COURSE_CONTACT;
@@ -532,7 +532,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                         StartEffectWithCallback(0x3b, &effectPos, kart, SetEffectScaleFromKart);
                     }
                 }
-                StartKartModelScaleAnimation(kart, 2);
+                StartKartModelScaleAnimation(kart, KART_MODEL_SCALE_BUMP);
             }
         }
         if (forwardDot > 0) {
@@ -552,15 +552,15 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                     StopDispCapBlend();
                 }
             }
-            if (kart->mVelocityLength > KART_CONTACT_HEADING_KICK_MIN_SPEED &&
+            if (kart->mVelocityLength > KART_CONTACT_HEADING_ANGLE_MIN_SPEED &&
                 baseSpeedLimitHitFactor != TO_FIXED12(1)) {
                 headingAnglePerFrame = FROM_FIXED12(kart->mVelocityLength) * 100;
-                if ((u16) kart->mTurnAngle > 0x7fff) {
+                if ((u16) kart->mTurnAngle > ANGLE_HALF_TURN - 1) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;
                 }
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;
             }
-        } else if (kart->mVelocityLength > KART_CONTACT_HEADING_KICK_MIN_SPEED &&
+        } else if (kart->mVelocityLength > KART_CONTACT_HEADING_ANGLE_MIN_SPEED &&
                    baseSpeedLimitHitFactor != TO_FIXED12(1)) {
             factor = TO_FIXED12(1) - forwardFactor;
             if (kart->mVelocityLength > KART_CONTACT_GRAZE_HEADING_MIN_SPEED && factor > 0x19a) {

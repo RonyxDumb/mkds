@@ -20,9 +20,9 @@
     // the signalling tests raise invalid for any NaN.
     //
     // Three-way float compare of r0 and r1: 0 equal, 1 less, 2 greater, 3 unordered.
-    .global FloatCompare3Way
-    .type FloatCompare3Way, @function
-FloatCompare3Way:
+    .global FloatDoubleCompare
+    .type FloatDoubleCompare, @function
+FloatDoubleCompare:
     mov r3, #0xff000000
     cmp r3, r0, lsl #1
     mov r2, #3
@@ -934,7 +934,7 @@ dflags_b_nan:
 dflags_return_ne:
     movs ip, #1
     bx lr
-    .size FloatCompare3Way, . - FloatCompare3Way
+    .size FloatDoubleCompare, . - FloatDoubleCompare
 
 // Invalid trap for floats: event code 0x04000049 with the operands in r0, r1.
     .global FloatCompareInvalidTrap

@@ -4,7 +4,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/choises_s_list_chars.h"
 #include "Main/System/file_in_loaded.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_goal_s_rule.h"
@@ -17,6 +17,7 @@
 #include "Main/Race/race_start_sequence.h"
 #include "Main/Race/race_goal_s_running.h"
 #include "Main/Race/race_goal_m.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/Race/race_new_record_ta.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/System/input_slots.h"
@@ -228,23 +229,17 @@ BOOL IsAllMissionRecords5To7AtGoalEnd(void) {
     s32 isFilled;
 
     isFilled = GetMissionRecordValue(GetMissionRunTableRow(), GetMissionRunTableColumn(), &recordValue);
-    if (GetEntryEndKind() == 0 && gChoisesS->mOtherMissionRecordsFilled5To7 != FALSE && isFilled != 0 &&
-        (u32) (recordValue - 5) <= 2) {
+    if (GetEntryEndKind() == RACE_END_KIND_GOAL && gChoisesS->mOtherMissionRecordsFilled5To7 != FALSE &&
+        isFilled != 0 && (u32) (recordValue - MISSION_RECORD_VALUE_THIRD_BEST) <= 2) {
         return 1;
     }
     return 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetChoisesSOpenDuringRace(void) {
     return (gChoisesS->mOpenDuringRace);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 u32 IsChoisesSOpen(void) {
     if (GetChoisesSOpenDuringRace() != 0 || gChoisesS->mOpenAfterRace != 0) {
@@ -252,9 +247,6 @@ u32 IsChoisesSOpen(void) {
     }
     return 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetChoisesSOpenDuringRace(u32 openFlag) {
     int wasOpen;
@@ -285,9 +277,6 @@ int GetChoisesSPickedValue(void) {
     return pickedValue;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 #pragma optimize_for_size on
 void WriteChoisesSValueTiles(u16 *screenMap, s32 column, s32 row) {
     SetScreenMapBlockLowBits(screenMap, column, row, 1, 1, 4);
@@ -319,7 +308,7 @@ s32 GetEntryEndKind(void) {
     if (IsKartEnded((u16) GetEntryIndex()) != 0) {
         return gRaceProgress->mEntryEndKind;
     }
-    return 6;
+    return RACE_END_KIND_NOT_ENDED;
 }
 
 #pragma thumb on
@@ -330,7 +319,7 @@ u32 GetChoisesSListIndex(void) {
     }
     if (GetRaceDone() != 0) {
         if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
-            if (GetEntryEndKind() == 0) {
+            if (GetEntryEndKind() == RACE_END_KIND_GOAL) {
                 return 2;
             }
             return 1;
@@ -361,9 +350,6 @@ void WriteChoisesSSelectedValueTiles(s32 selectedIndex) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteChoisesSListScreenMap(void) {
     WriteChoisesSListTiles();
@@ -432,7 +418,7 @@ u32 ChoisesSGetPairHasPair(InputSlotPair *inputSlotPair) {
 
 #pragma optimize_for_size on
 u32 ChoisesSIsPairRecentlyLost(InputSlotPair *inputSlotPair) {
-    if (ChoisesSGetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (ChoisesSGetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         return 1;
     }
     return 0;
@@ -485,7 +471,7 @@ BOOL IsChoisesSOpenAllowedDuringRace(void) {
         }
     }
     if (raceInProgress != 0) {
-        if (ChoisesSGetCurrentMode() != 5) {
+        if (ChoisesSGetCurrentMode() != MODE_WIFI) {
             modeAllowsOpen = 1;
         }
     }
@@ -576,9 +562,9 @@ void UpdateChoisesS(void) {
                         RaiseSndHandleVolumes();
                         gChoisesS->mCloseFrames = 1;
                     }
-                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
+                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_UP) != 0) {
                     MoveChoisesSSelectedValue(-1);
-                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
+                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_DOWN) != 0) {
                     MoveChoisesSSelectedValue(1);
                 }
             }
@@ -608,9 +594,9 @@ void UpdateChoisesS(void) {
                     RaiseSndHandleVolumes();
                     gChoisesS->mCloseFrames = 1;
                 }
-            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_UP) != 0) {
                 MoveChoisesSSelectedValue(-1);
-            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_DOWN) != 0) {
                 MoveChoisesSSelectedValue(1);
             }
         }
@@ -650,7 +636,7 @@ void UpdateChoisesS(void) {
             gChoisesS->mCloseFrames = 0;
         }
     }
-    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == MODE_WIFI &&
+    if (ChoisesSGetConnectionKind() != CONNECTION_KIND_NONE && ChoisesSGetCurrentMode() == MODE_WIFI &&
         IsRaceDoneOrReplayPastStartFrames() != 0) {
         gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
         if (gChoisesS->mAutoPickFrames > CHOISES_S_AUTO_PICK_FRAMES) {
@@ -661,7 +647,7 @@ void UpdateChoisesS(void) {
         frames = gChoisesS->mOpenDuringRaceFrames;
         gChoisesS->mOpenDuringRaceFrames = frames + 1;
         if (frames >= 1) {
-            gChoisesS->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_SETTLED;
+            gChoisesS->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_STATE_AFTER_FIRST_FRAME;
             gChoisesS->mOpenDuringRaceFrames = 1;
         }
     } else {
@@ -669,9 +655,6 @@ void UpdateChoisesS(void) {
         gChoisesS->mOpenDuringRaceFrames = 0;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateChoisesSScreenMap(void) {
     int isOpen;

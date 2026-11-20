@@ -42,8 +42,8 @@
 #include "01/MapObjects/hanachan_kart_eliminated.h"
 #include "01/MapObjects/mission_run_state_callbacks.h"
 #include "01/MapObjects/king_teresa.h"
-#include "Main/Sound/sound_handle_start.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "01/MapObjects/mission_run_map_objects_reset.h"
 #include "Main/System/heap.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
@@ -56,13 +56,13 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/System/heap_call.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
@@ -122,9 +122,9 @@ void SetHanachanSoundCallbacks(MissionRunMapObject *mapObject) {
 }
 
 void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
-    MissionRunMapObject *previousObject = mapObject->mPreviousObject;
+    MissionRunMapObject *previousObject = mapObject->mFollowedObject;
     int distance;
-    u16 oppositeAngle = (previousObject->mAngle + 0x8000);
+    u16 oppositeAngle = (previousObject->mAngle + ANGLE_HALF_TURN);
 
     switch (mapObject->mFollowerIndex) {
         case HANACHAN_FOLLOWER_FIRST:
@@ -143,34 +143,34 @@ void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mPos.x =
         previousObject->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
     mapObject->mMapObject.mPos.z =
-        mapObject->mPreviousObject->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
+        mapObject->mFollowedObject->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
 void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject) {
-    int diff;
+    int angleDifference;
     int step;
     int limit;
     s32 currentAngle;
 
-    mapObject->mTurnDelayFrames = mapObject->mTurnDelayFrames - 1;
-    if (mapObject->mTurnDelayFrames <= 0) {
-        mapObject->mTurnDelayFrames = 0;
+    mapObject->mTurnDelayTimer = mapObject->mTurnDelayTimer - 1;
+    if (mapObject->mTurnDelayTimer <= 0) {
+        mapObject->mTurnDelayTimer = 0;
         currentAngle = mapObject->mAngle;
-        diff = (u16) (mapObject->mPreviousObject->mAngle - currentAngle);
-        if (diff > 0x8000) {
-            diff -= 0x10000;
+        angleDifference = (u16) (mapObject->mFollowedObject->mAngle - currentAngle);
+        if (angleDifference > 0x8000) {
+            angleDifference -= 0x10000;
         }
         limit = mapObject->mAnglePerCall;
-        step = diff < -limit ? -limit : (diff > limit ? limit : diff);
+        step = angleDifference < -limit ? -limit : (angleDifference > limit ? limit : angleDifference);
         mapObject->mAngle = (u16) (currentAngle + step);
         mapObject->mMoveAngle = mapObject->mAngle;
     }
 }
 
 void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
-    MissionRunMapObject *previousObject = mapObject->mPreviousObject;
+    MissionRunMapObject *previousObject = mapObject->mFollowedObject;
     int distance;
-    u16 oppositeAngle = (previousObject->mAngle + 0x8000);
+    u16 oppositeAngle = (previousObject->mAngle + ANGLE_HALF_TURN);
 
     switch (mapObject->mFollowerIndex) {
         case HANACHAN_FOLLOWER_FIRST:
@@ -188,13 +188,13 @@ void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
     }
     mapObject->mMapObject.mPos.x =
         previousObject->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
-    mapObject->mMapObject.mPos.y = mapObject->mPreviousObject->mMapObject.mPos.y;
+    mapObject->mMapObject.mPos.y = mapObject->mFollowedObject->mMapObject.mPos.y;
     mapObject->mMapObject.mPos.z =
-        mapObject->mPreviousObject->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
+        mapObject->mFollowedObject->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
 void CopyHanachanFollowerPreviousAngle(MissionRunMapObject *mapObject) {
-    mapObject->mAngle = mapObject->mPreviousObject->mAngle;
+    mapObject->mAngle = mapObject->mFollowedObject->mAngle;
     mapObject->mMoveAngle = mapObject->mAngle;
 }
 
@@ -243,8 +243,8 @@ void StartHanachanFollowerMoveState(MissionRunMapObject *mapObject) {
         frameIndexValue = TO_FIXED12(frameOffset) - 0.5f;
     }
     modelAnimation = mapObject->mNsbmd->mAnimations[0];
-    modelAnimation->mHead.mFrameIndex = frameIndexValue;
-    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
+    modelAnimation->mFrameLoop.mFrameIndexFixed = frameIndexValue;
+    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mFrameLoop.mFrameIndexFixed;
 }
 
 void StartHanachanAnimationScaled(MissionRunMapObject *mapObject, int speedPercent) {
@@ -271,7 +271,7 @@ void SetHanachanFollowersTurnTiming(MissionRunMapObject *mapObject, int speedPer
         for (objectIndex = 0;
              objectIndex < list->mMapObjectCount && (follower = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            follower->mTurnDelayFrames =
+            follower->mTurnDelayTimer =
                 follower->mPrm->mHanachan.mFollowerTurnDelay * follower->mFollowerIndex * 100 / speedPercent;
             follower->mAnglePerCall = mapObject->mPrm->mHanachan.mFollowerAnglePerCall * speedPercent / 100;
         }
@@ -303,7 +303,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
     if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mHanachan.mMoveRangeRadius,
                        0)) {
         if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
-            speedPercent = 0x1000 - mapObject->mPrm->mHanachan.mOneBalloonSpeedReduction;
+            speedPercent = 0x1000 - mapObject->mPrm->mHanachan.mOneOrNoBalloonSpeedReduction;
             entryPercent = GetCurrentGroupEntryPercent(mapObject);
             speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
         } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
@@ -317,12 +317,12 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
             AdvanceHanachanCounterForAll(mapObject);
         }
         if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE &&
-            mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, HANACHAN_STATE_KART_IN_RANGE) != 0) {
+            mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, HANACHAN_STATE_KART_RANGE_ANIMATION) != 0) {
             if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAngleOffset,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeRadius,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeHalfAngle)) {
                 mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
-                mapObject->mStateNumber = HANACHAN_STATE_KART_IN_RANGE;
+                mapObject->mStateNumber = HANACHAN_STATE_KART_RANGE_ANIMATION;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mFirstKartRangeFrameStep,
                                               StartHanachanMoveAnimation);
@@ -332,7 +332,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
                                                 mapObject->mPrm->mHanachan.mSecondKartRangeRadius,
                                                 mapObject->mPrm->mHanachan.mSecondKartRangeHalfAngle)) {
                 mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
-                mapObject->mStateNumber = HANACHAN_STATE_KART_IN_RANGE;
+                mapObject->mStateNumber = HANACHAN_STATE_KART_RANGE_ANIMATION;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mSecondKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mSecondKartRangeFrameStep,
                                               StartHanachanMoveAnimation);
@@ -393,7 +393,7 @@ void StartHanachanMoveStateByBalloons(MissionRunMapObject *mapObject) {
     s32 entryPercent;
 
     if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
-        scaleFactor = 0x1000 - mapObject->mPrm->mHanachan.mOneBalloonSpeedReduction;
+        scaleFactor = 0x1000 - mapObject->mPrm->mHanachan.mOneOrNoBalloonSpeedReduction;
         entryPercent = GetCurrentGroupEntryPercent(mapObject);
         speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
     } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
@@ -684,10 +684,10 @@ void InitHanachanMapObject(MissionRunMapObject *mapObject) {
     secondFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mMapObject, 0x1fe);
     thirdFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mMapObject, 0x1fe);
     fourthFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mMapObject, 0x1fe);
-    firstFollower->mPreviousObject = mapObject;
-    secondFollower->mPreviousObject = firstFollower;
-    thirdFollower->mPreviousObject = secondFollower;
-    fourthFollower->mPreviousObject = thirdFollower;
+    firstFollower->mFollowedObject = mapObject;
+    secondFollower->mFollowedObject = firstFollower;
+    thirdFollower->mFollowedObject = secondFollower;
+    fourthFollower->mFollowedObject = thirdFollower;
     mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
@@ -701,31 +701,35 @@ void InitHanachanFollowerMapObject(MissionRunMapObject *mapObject) {
 
 void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
     s32 moveAngle;
-    s32 diff;
+    s32 angleDifference;
 
     if (kart->mItemEffect == KART_ITEM_EFFECT_STAR) {
         if (mapObject->mTimer > 0) {
             mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
         } else {
             moveAngle = mapObject->mMoveAngle;
-            diff = (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mMapObject.mPos.x,
+            angleDifference = (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mMapObject.mPos.x,
                                       kart->mPos.z - mapObject->mMapObject.mPos.z) -
                           moveAngle);
-            if (diff > 0x8000) {
-                diff -= 0x10000;
+            if (angleDifference > 0x8000) {
+                angleDifference -= 0x10000;
             }
-            if (diff > 0) {
-                mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mHanachan.mStarHitSideSpeed,
-                                                                        SIN_OF_ANGLE((u16) moveAngle + 0x4000));
+            if (angleDifference > 0) {
+                mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mHanachan.mStarHitSidePosStep,
+                                                                        SIN_OF_ANGLE((u16) moveAngle
+                                                                            + ANGLE_QUARTER_TURN));
                 mapObject->mMapObject.mPosStep.y = 0;
                 mapObject->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    mapObject->mPrm->mHanachan.mStarHitSideSpeed, COS_OF_ANGLE((u16) mapObject->mMoveAngle + 0x4000));
+                    mapObject->mPrm->mHanachan.mStarHitSidePosStep,
+                        COS_OF_ANGLE((u16) mapObject->mMoveAngle + ANGLE_QUARTER_TURN));
             } else {
-                mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mHanachan.mStarHitSideSpeed,
-                                                                        SIN_OF_ANGLE((u16) moveAngle - 0x4000));
+                mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mHanachan.mStarHitSidePosStep,
+                                                                        SIN_OF_ANGLE((u16) moveAngle
+                                                                            - ANGLE_QUARTER_TURN));
                 mapObject->mMapObject.mPosStep.y = 0;
                 mapObject->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    mapObject->mPrm->mHanachan.mStarHitSideSpeed, COS_OF_ANGLE((u16) mapObject->mMoveAngle - 0x4000));
+                    mapObject->mPrm->mHanachan.mStarHitSidePosStep,
+                        COS_OF_ANGLE((u16) mapObject->mMoveAngle - ANGLE_QUARTER_TURN));
             }
             mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
             StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
@@ -734,7 +738,7 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
             StartSoundFullVolumeWrapper(kart, 0x252);
         }
     } else {
-        mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_FLIP_DOUBLE;
+        mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_PUSH_DOUBLE_FLIP;
         StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
                                     0x1000);
         mapObject->mMapObject.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
@@ -744,25 +748,25 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
 }
 
 void InitHanachan(MapObjectList *mapObjectList) {
-    MissionRunMapObject *obj;
+    MissionRunMapObject *mapObject;
     s32 objectIndex;
 
     if (mapObjectList != NULL) {
         for (objectIndex = 0;
-             objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                AddMissionRunMapObject(obj);
+                AddMissionRunMapObject(mapObject);
             }
-            InitMissionRunMapObject(mapObjectList, obj, "hanachan.nsbmd", "hanachan.nsbca", "hanachan.prm");
-            LoadMissionRunMapObjectShadow(mapObjectList, obj, "sh_circle.nsbmd");
-            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "hanachan.nsbtp");
-            SetCollisionOffsetAndExtent(obj, obj->mPrm->mHead.mCollisionOffsetY, obj->mPrm->mHead.mCollisionExtentXZ,
-                                        obj->mPrm->mHead.mCollisionExtentXZ);
-            SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
-            SetKartCollisionCallback(obj, HanachanKartHitCallback);
-            SetItemCollisionCallback(obj, HanachanItemHitCallback);
-            obj->mKartRangeCooldown = obj->mPrm->mHanachan.mKartRangeCooldown;
+            InitMissionRunMapObject(mapObjectList, mapObject, "hanachan.nsbmd", "hanachan.nsbca", "hanachan.prm");
+            LoadMissionRunMapObjectShadow(mapObjectList, mapObject, "sh_circle.nsbmd");
+            LoadMapObjectModelNsbtpAnimation(mapObject->mNsbmd, "hanachan.nsbtp");
+            SetCollisionOffsetAndExtent(mapObject, mapObject->mPrm->mHead.mCollisionOffsetY, mapObject->mPrm->mHead.mCollisionExtentXZ,
+                                        mapObject->mPrm->mHead.mCollisionExtentXZ);
+            SetShadowOffsetYAndScale(mapObject, 0x5000, 0xc000);
+            SetKartCollisionCallback(mapObject, HanachanKartHitCallback);
+            SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
+            mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
         }
     }
 }
@@ -771,7 +775,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     void *firstNsbca;
     void *secondNsbca;
     void *firstNsbtp;
-    MissionRunMapObject *obj;
+    MissionRunMapObject *mapObject;
     MissionRunMapObject *sourceObject;
 
     firstNsbca = LoadMissionRunFile("hanachan_1.nsbca");
@@ -784,69 +788,69 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
         sourceObject = NULL;
     }
 
-    obj = mapObjectList->mMapObjects[0];
-    obj->mPrm = sourceObject->mPrm;
-    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
+    mapObject = mapObjectList->mMapObjects[0];
+    mapObject->mPrm = sourceObject->mPrm;
+    mapObject->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        AddMissionRunMapObject(obj);
+        AddMissionRunMapObject(mapObject);
     }
-    InitMissionRunMapObject(mapObjectList, obj, "hanachan_1.nsbmd", NULL, NULL);
-    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
-    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = HANACHAN_FOLLOWER_FIRST;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerFirstCollisionOffsetY,
-                                obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
-    SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
-    SetKartCollisionCallback(obj, HanachanKartHitCallback);
-    SetItemCollisionCallback(obj, HanachanItemHitCallback);
+    InitMissionRunMapObject(mapObjectList, mapObject, "hanachan_1.nsbmd", NULL, NULL);
+    InitMapObjectModelNsbcaAnimation(mapObject->mNsbmd, firstNsbca);
+    InitMapObjectModelNsbtpAnimation(mapObject->mNsbmd, firstNsbtp);
+    mapObject->mFollowerIndex = HANACHAN_FOLLOWER_FIRST;
+    SetCollisionOffsetAndExtent(mapObject, mapObject->mPrm->mHanachan.mFollowerFirstCollisionOffsetY,
+                                mapObject->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
+    SetShadowOffsetYAndScale(mapObject, 0x5000, 0xc000);
+    SetKartCollisionCallback(mapObject, HanachanKartHitCallback);
+    SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 
-    obj = mapObjectList->mMapObjects[1];
-    obj->mPrm = sourceObject->mPrm;
-    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
+    mapObject = mapObjectList->mMapObjects[1];
+    mapObject->mPrm = sourceObject->mPrm;
+    mapObject->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        AddMissionRunMapObject(obj);
+        AddMissionRunMapObject(mapObject);
     }
-    InitMissionRunMapObject(mapObjectList, obj, "hanachan_2.nsbmd", NULL, NULL);
-    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
-    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = HANACHAN_FOLLOWER_SECOND;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerSecondCollisionOffsetY,
-                                obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
-    SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
-    SetKartCollisionCallback(obj, HanachanKartHitCallback);
-    SetItemCollisionCallback(obj, HanachanItemHitCallback);
+    InitMissionRunMapObject(mapObjectList, mapObject, "hanachan_2.nsbmd", NULL, NULL);
+    InitMapObjectModelNsbcaAnimation(mapObject->mNsbmd, secondNsbca);
+    InitMapObjectModelNsbtpAnimation(mapObject->mNsbmd, firstNsbtp);
+    mapObject->mFollowerIndex = HANACHAN_FOLLOWER_SECOND;
+    SetCollisionOffsetAndExtent(mapObject, mapObject->mPrm->mHanachan.mFollowerSecondCollisionOffsetY,
+                                mapObject->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
+    SetShadowOffsetYAndScale(mapObject, 0x5000, 0xd000);
+    SetKartCollisionCallback(mapObject, HanachanKartHitCallback);
+    SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 
-    obj = mapObjectList->mMapObjects[2];
-    obj->mPrm = sourceObject->mPrm;
-    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
+    mapObject = mapObjectList->mMapObjects[2];
+    mapObject->mPrm = sourceObject->mPrm;
+    mapObject->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        AddMissionRunMapObject(obj);
+        AddMissionRunMapObject(mapObject);
     }
-    InitMissionRunMapObject(mapObjectList, obj, "hanachan_3.nsbmd", NULL, NULL);
-    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
-    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = HANACHAN_FOLLOWER_THIRD;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerThirdCollisionOffsetY,
-                                obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
-    SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
-    SetKartCollisionCallback(obj, HanachanKartHitCallback);
-    SetItemCollisionCallback(obj, HanachanItemHitCallback);
+    InitMissionRunMapObject(mapObjectList, mapObject, "hanachan_3.nsbmd", NULL, NULL);
+    InitMapObjectModelNsbcaAnimation(mapObject->mNsbmd, firstNsbca);
+    InitMapObjectModelNsbtpAnimation(mapObject->mNsbmd, firstNsbtp);
+    mapObject->mFollowerIndex = HANACHAN_FOLLOWER_THIRD;
+    SetCollisionOffsetAndExtent(mapObject, mapObject->mPrm->mHanachan.mFollowerThirdCollisionOffsetY,
+                                mapObject->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
+    SetShadowOffsetYAndScale(mapObject, 0x5000, 0xc000);
+    SetKartCollisionCallback(mapObject, HanachanKartHitCallback);
+    SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 
-    obj = mapObjectList->mMapObjects[3];
-    obj->mPrm = sourceObject->mPrm;
-    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
+    mapObject = mapObjectList->mMapObjects[3];
+    mapObject->mPrm = sourceObject->mPrm;
+    mapObject->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        AddMissionRunMapObject(obj);
+        AddMissionRunMapObject(mapObject);
     }
-    InitMissionRunMapObject(mapObjectList, obj, "hanachan_4.nsbmd", NULL, NULL);
-    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
-    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = HANACHAN_FOLLOWER_FOURTH;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerFourthCollisionOffsetY,
-                                obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
-    SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
-    SetKartCollisionCallback(obj, HanachanKartHitCallback);
-    SetItemCollisionCallback(obj, HanachanItemHitCallback);
+    InitMissionRunMapObject(mapObjectList, mapObject, "hanachan_4.nsbmd", NULL, NULL);
+    InitMapObjectModelNsbcaAnimation(mapObject->mNsbmd, secondNsbca);
+    InitMapObjectModelNsbtpAnimation(mapObject->mNsbmd, firstNsbtp);
+    mapObject->mFollowerIndex = HANACHAN_FOLLOWER_FOURTH;
+    SetCollisionOffsetAndExtent(mapObject, mapObject->mPrm->mHanachan.mFollowerFourthCollisionOffsetY,
+                                mapObject->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
+    SetShadowOffsetYAndScale(mapObject, 0x5000, 0xd000);
+    SetKartCollisionCallback(mapObject, HanachanKartHitCallback);
+    SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 }
 
 void DrawHanachan(void *mapObjectList, MissionRunMapObject *mapObject) {

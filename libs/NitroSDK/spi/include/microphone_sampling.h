@@ -22,7 +22,8 @@ enum {
     MICROPHONE_REPLY_STATUS_BUSY,
 };
 
-// The sampling buffer and its size must be multiples of 32; the rate is at least 0x400.
+// The sampling buffer address and its size must be multiples of 32 and the size cannot be 0; the rate is at least
+// 0x400.
 #define MICROPHONE_BUFFER_ALIGNMENT_MASK 0x1f
 #define MICROPHONE_MIN_SAMPLING_RATE 0x400
 
@@ -38,7 +39,8 @@ typedef enum MICSamplingType {
 
 typedef void (*MICCallback)(MICResult result, void *arg);
 
-// The parameters of microphone auto sampling: the type, buffer and size, rate, looping and the buffer full callback.
+// The parameters of microphone auto sampling: mType, mBuffer and mSize, mRate, mLoopEnable and the buffer full callback
+// mFullCallback with mFullArg.
 typedef struct MICAutoParam {
     /* 00 */ MICSamplingType mType;
     /* 04 */ void *mBuffer;
@@ -49,7 +51,8 @@ typedef struct MICAutoParam {
     /* 18 */ void *mFullArg;
 } MICAutoParam;
 
-// The microphone command in flight: its lock, callback, last result and the buffer full callback.
+// The microphone command: mLock, mCallback with mCallbackArg, mCommonResult, the buffer full callback mFull with
+// mFullArg, and mDstBuf.
 typedef struct MICWork {
     // Nonzero while a command is in flight.
     /* 00 */ u32 mLock;

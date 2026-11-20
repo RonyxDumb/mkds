@@ -89,6 +89,6 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
         return;
     }
     if (characterAnimation->mAnmObjCount != 0) {
-        characterAnimation->mHead.mFrameIndex = kart->mKartModelsEntry->mAnimationState.mMiddleFrame;
+        characterAnimation->mFrameLoop.mFrameIndexFixed = kart->mKartModelsEntry->mAnimationState.mMiddleFrame;
     }
 }

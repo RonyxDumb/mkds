@@ -36,12 +36,12 @@ typedef struct NNSG3dResMatCAnm {
     /* 08 */ NNSG3dResDict mDict;
 } NNSG3dResMatCAnm;
 
-#define G3D_PATTERN_NO_PALETTE 0xff
+#define TEX_PATTERN_KEEP_PALETTE 0xff
 
 typedef struct NNSG3dResTexPatAnmFV {
     /* 00 */ u16 mIdxFrame;
     /* 02 */ u8 mIdTex;
-    /* 03 */ u8 mIdPltt; // 0xff (G3D_PATTERN_NO_PALETTE) when the palette does not change
+    /* 03 */ u8 mIdPltt; // 0xff (TEX_PATTERN_KEEP_PALETTE) when the palette does not change
 } NNSG3dResTexPatAnmFV;
 
 typedef struct NNSG3dResDictTexPatAnmData {
@@ -84,8 +84,8 @@ typedef struct NNSG3dResTexSRTAnm {
 
 // Bits of NNSG3dResJntAnm.mFlag: samples are blended when the frame has a fraction, and the last sample is followed by
 // the first one.
-#define G3D_JNT_ANM_RES_FLAG_BLEND 0x1
-#define G3D_JNT_ANM_RES_FLAG_LOOPS 0x2
+#define JOINT_ANIM_BLEND_FRAMES 0x1
+#define JOINT_ANIM_WRAP_AROUND 0x2
 
 typedef struct NNSG3dResJntAnm {
     /* 00 */ NNSG3dResAnmHeader mAnmHeader;

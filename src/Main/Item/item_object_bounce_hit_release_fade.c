@@ -1,6 +1,6 @@
 #include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "Main/Item/item_kinoko.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_f_box.h"
@@ -28,28 +28,28 @@
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_koura_r_kart_items.h"
 #include "Main/Item/item_object_bouncing.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Item/item_link_following.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -58,7 +58,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
@@ -82,7 +82,7 @@ u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
     ItemObject *item = itemParam;
     ItemObject *other = otherParam;
 
-    return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
+    return (gItemHitTypes + item->mKind * ITEM_OBJECT_KIND_COUNT)[other->mKind];
 }
 
 void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
@@ -113,8 +113,8 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
         return;
     }
     random = &gRaceProgress->mRandom;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
+    RANDOM_ADVANCE(random);
+    angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
     item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
     item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
     item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);
@@ -324,7 +324,7 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
     if (item->mAlpha <= 0) {
         ReleaseItemPoolObject(&gItemPools[item->mKind], item);
     } else {
-        if (item->mAlpha < ITEM_OBJECT_FADE_ALPHA_NO_COLLISION) {
+        if (item->mAlpha < ITEM_OBJECT_RELEASE_ALPHA_NO_COLLISION) {
             FreeItemObjectCollisionSlot(item);
         }
     }
@@ -632,7 +632,7 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     }
     item->mFlags |= ITEM_OBJECT_FLAG_RESTING;
     kind = item->mKind;
-    if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
+    if (gItemKinds[kind].mKeepsAdvanceWhenRestingOrFalling == 0) {
         if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceRestingItemObject;
         }
@@ -687,7 +687,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 item->mVelocity.z = 0;
                 FadeOutUsedUpItemObject(item, 1);
             }
-            if (!(item->mCollisionBits & COURSE_HIT_FADES_ITEMS)) {
+            if (!(item->mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE)) {
                 return;
             }
             FadeOutItemObjectNoCallback(item, 1);
@@ -775,7 +775,7 @@ void StartFallingItemObject(ItemObject *item) {
     item->mFlags &= ~ITEM_OBJECT_FLAG_RESTING;
     item->mFlags |= ITEM_OBJECT_FLAG_LAUNCHED;
     kind = *(vs32 *) &item->mKind;
-    if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
+    if (gItemKinds[kind].mKeepsAdvanceWhenRestingOrFalling == 0) {
         if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceFallingItemObject;
         }
@@ -812,7 +812,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
                 return;
             }
         }
-        if (item->mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (item->mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             FadeOutItemObjectNoCallback(item, 1);
             return;
         }

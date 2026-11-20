@@ -11,8 +11,8 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/rect_containing_point.h"
 #include "Main/Scene/title_no_input_frame_limit.h"
-#include "Main/Sound/seq_queue.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/System/result_archive_path.h"
@@ -43,10 +43,10 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
         slotIndex = GetTitleInputSlot();
         if (TitleGetNewBits(slotIndex, PAD_KEY_A) != 0) {
-            SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
+            SetTitleState(TITLE_STATE_SELECT_PRESS, TITLE_NEXT_STATE_NONE);
             StartTitleSelectedSound();
             gTitleScene->mStartedOnSelected = TRUE;
-        } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
+        } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_DIRECTION_LEFT | PAD_KEY_DIRECTION_RIGHT)) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_OPTION:
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
@@ -60,7 +60,7 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
                     break;
             }
             gTitleScene->mNoInputFrames = 0;
-        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
+        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
                     if (gTitleScene->mPreferRecordEntry != FALSE) {
@@ -82,7 +82,7 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
             }
             StartSoundOncePerFrame(0);
             gTitleScene->mNoInputFrames = 0;
-        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_WL_MENU;
@@ -114,7 +114,7 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
                     gTitleScene->mStartedOnSelected = TRUE;
                 }
                 gTitleScene->mSelectedIndex = rectIndex;
-                SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
+                SetTitleState(TITLE_STATE_SELECT_PRESS, TITLE_NEXT_STATE_NONE);
                 StartTitleSelectedSound();
             }
         } else {
@@ -131,9 +131,6 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
     SetupAndDrawTitleTable();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 TitleSlideOutReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }

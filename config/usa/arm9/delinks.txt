@@ -1256,7 +1256,7 @@ src/Main/System/key_recording_buffer.c:
     .text       start:0x0204aa04 end:0x0204aa60
 
 // provisional: file name and boundaries
-src/Main/Sound/scene_sound_set.c:
+src/Main/Sound/startup_sound_set_player_back_lights_and_random.c:
     complete
     .text       start:0x0204aa60 end:0x0204ad24
 
@@ -2382,7 +2382,7 @@ src/Main/MapObjects/airship_draw.c:
     .bss        start:0x0217b1d8 end:0x0217b1dc
 
 // provisional: file name and boundaries
-src/Main/Sound/distance_sound_volume.c:
+src/Main/Sound/map_object_inverse_volume.c:
     complete
     .text       start:0x020a02c8 end:0x020a02f8
 
@@ -4026,7 +4026,7 @@ src/Main/Item/pooled_item_box_init.c:
     .rodata     start:0x0215a64c end:0x0215a6c0
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_seq.c:
+src/Main/Sound/sound_init_scene_sounds_and_screen_seqs.c:
     complete
     .text       start:0x02105550 end:0x02108e38
     .rodata     start:0x0215a6c0 end:0x0215a6e4
@@ -4034,18 +4034,18 @@ src/Main/Sound/sound_seq.c:
     .bss        start:0x0217c74c end:0x0217c8d8
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_data_path.c:
+src/Main/Sound/sound_data_sdat_path.c:
     complete
     .data       start:0x0216c8b0 end:0x0216c8cc
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_handle_slots.c:
+src/Main/Sound/sound_handle_slots_and_other_kart_falloff.c:
     complete
     .text       start:0x02108e38 end:0x02108e6c
     .bss        start:0x0217c8d8 end:0x0217c8fc
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_handle_pool.c:
+src/Main/Sound/sound_handle_accessors_and_mission_count_seq.c:
     complete
     .text       start:0x02108e6c end:0x02109038
 
@@ -4055,7 +4055,7 @@ src/Main/Sound/item_object_sound_source_init.c:
     .text       start:0x02109038 end:0x02109054
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_start.c:
+src/Main/Sound/sound_start_stop_and_release_wrapper.c:
     complete
     .text       start:0x02109054 end:0x02109110
 
@@ -4065,13 +4065,13 @@ src/Main/Sound/sound_source_init.c:
     .text       start:0x02109110 end:0x0210912c
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_falloffs_init.c:
+src/Main/Sound/sound_falloffs_and_playing_sounds_init.c:
     complete
     .text       start:0x0210912c end:0x02109178
     .bss        start:0x0217c8fc end:0x0217cc8c
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_return_argument.c:
+src/Main/Sound/sound_nop_wrapper.c:
     complete
     .text       start:0x02109178 end:0x02109184
 
@@ -4119,23 +4119,23 @@ src/Main/Sound/map_object_sound_counter_state.c:
     .bss        start:0x0217cc8c end:0x0217cc90
 
 // provisional: file name and boundaries
-src/Main/Sound/kart_surface_sound.c:
+src/Main/Sound/kart_sound_starts_and_track_params.c:
     complete
     .text       start:0x0210a67c end:0x0210b708
     .bss        start:0x0217cc90 end:0x0217cd10
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_handle_start.c:
+src/Main/Sound/sound_handle_start_and_distance_change.c:
     complete
     .text       start:0x0210b708 end:0x0210b850
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_distance_change_reset.c:
+src/Main/Sound/sound_distance_squared_change_reset.c:
     complete
     .text       start:0x0210b850 end:0x0210b870
 
 // provisional: file name and boundaries
-src/Main/Sound/map_object_sound_counter.c:
+src/Main/Sound/map_object_sound_starts_and_queues.c:
     complete
     .text       start:0x0210b870 end:0x0210bad4
     .data       start:0x0216ca28 end:0x0216ca48
@@ -4151,7 +4151,7 @@ src/Main/Sound/shine16_track_params.c:
     .text       start:0x0210bae8 end:0x0210bafc
 
 // provisional: file name and boundaries
-src/Main/Sound/surface_sound_ids.c:
+src/Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.c:
     complete
     .text       start:0x0210bafc end:0x0210bce0
     .rodata     start:0x0215a6e4 end:0x0215c380
@@ -4164,7 +4164,7 @@ src/Main/Sound/three_words_clear.c:
     .text       start:0x0210bce0 end:0x0210bcf4
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_source_list.c:
+src/Main/Sound/sound_source_types_and_handle_sound_start.c:
     complete
     .text       start:0x0210bcf4 end:0x0210c1b0
     .data       start:0x0216cafc end:0x0216cb00
@@ -4182,7 +4182,7 @@ src/Main/Sound/sound_sources.c:
     .bss        start:0x0217d028 end:0x0217d040
 
 // provisional: file name and boundaries
-src/Main/Sound/scene_players_release.c:
+src/Main/Sound/scene_players_start_stop_and_release.c:
     complete
     .text       start:0x0210d570 end:0x0210d740
 
@@ -4204,12 +4204,12 @@ src/Main/Sound/end_race_fade_steps.c:
     .text       start:0x0210dc48 end:0x0210dc50
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_mode_restore.c:
+src/Main/Sound/sound_mode_setup_and_restore.c:
     complete
     .text       start:0x0210dc50 end:0x0210dc7c
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_request_queue.c:
+src/Main/Sound/sound_handle_pool_request_queue_and_set_player.c:
     complete
     .text       start:0x0210dc7c end:0x0210e328
 
@@ -4232,7 +4232,7 @@ src/Main/Sound/sound_file_id_list.c:
     .text       start:0x0210ef50 end:0x0210ef68
 
 // provisional: file name and boundaries
-src/Main/Sound/sound_archive_setup.c:
+src/Main/Sound/sound_archive_setup_and_file_id_clear.c:
     complete
     .text       start:0x0210ef68 end:0x0210f068
 
@@ -4276,7 +4276,7 @@ src/Main/Scene/title_no_input_frame_limit.c:
     .text       start:0x0210f72c end:0x0210f744
 
 // provisional: file name and boundaries
-src/Main/Sound/seq_queue.c:
+src/Main/Sound/seq_queue_seq_volume_control_and_seq_variables.c:
     complete
     .text       start:0x0210f744 end:0x021108bc
     .rodata     start:0x0215c3a4 end:0x0215c3ac
@@ -4284,7 +4284,7 @@ src/Main/Sound/seq_queue.c:
     .bss        start:0x0217d1c8 end:0x0217d300
 
 // provisional: file name and boundaries
-src/Main/Sound/race_end_seq.c:
+src/Main/Sound/race_end_seq_menu_seqs_and_emblem_sound.c:
     complete
     .text       start:0x021108bc end:0x02111118
     .bss        start:0x0217d300 end:0x0217d31c

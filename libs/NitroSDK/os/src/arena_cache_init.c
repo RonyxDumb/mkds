@@ -30,24 +30,24 @@ void OS_InitArena(void) {
         return;
     }
     OSi_Initialized = 1;
-    OS_SetArenaHi(OS_ARENA_MAIN, OS_GetInitArenaHi(OS_ARENA_MAIN));
-    OS_SetArenaLo(OS_ARENA_MAIN, OS_GetInitArenaLo(OS_ARENA_MAIN));
-    OS_SetArenaLo(OS_ARENA_MAINEX, NULL);
-    OS_SetArenaHi(OS_ARENA_MAINEX, NULL);
-    OS_SetArenaHi(OS_ARENA_ITCM, OS_GetInitArenaHi(OS_ARENA_ITCM));
-    OS_SetArenaLo(OS_ARENA_ITCM, OS_GetInitArenaLo(OS_ARENA_ITCM));
-    OS_SetArenaHi(OS_ARENA_DTCM, OS_GetInitArenaHi(OS_ARENA_DTCM));
-    OS_SetArenaLo(OS_ARENA_DTCM, OS_GetInitArenaLo(OS_ARENA_DTCM));
-    OS_SetArenaHi(OS_ARENA_SHARED, OS_GetInitArenaHi(OS_ARENA_SHARED));
-    OS_SetArenaLo(OS_ARENA_SHARED, OS_GetInitArenaLo(OS_ARENA_SHARED));
-    OS_SetArenaHi(OS_ARENA_WRAM_MAIN, OS_GetInitArenaHi(OS_ARENA_WRAM_MAIN));
-    OS_SetArenaLo(OS_ARENA_WRAM_MAIN, OS_GetInitArenaLo(OS_ARENA_WRAM_MAIN));
+    OS_SetArenaHi(MEM_REGION_MAIN_RAM, OS_GetInitArenaHi(MEM_REGION_MAIN_RAM));
+    OS_SetArenaLo(MEM_REGION_MAIN_RAM, OS_GetInitArenaLo(MEM_REGION_MAIN_RAM));
+    OS_SetArenaLo(MEM_REGION_MAIN_RAM_EXTRA, NULL);
+    OS_SetArenaHi(MEM_REGION_MAIN_RAM_EXTRA, NULL);
+    OS_SetArenaHi(MEM_REGION_ITCM, OS_GetInitArenaHi(MEM_REGION_ITCM));
+    OS_SetArenaLo(MEM_REGION_ITCM, OS_GetInitArenaLo(MEM_REGION_ITCM));
+    OS_SetArenaHi(MEM_REGION_DTCM, OS_GetInitArenaHi(MEM_REGION_DTCM));
+    OS_SetArenaLo(MEM_REGION_DTCM, OS_GetInitArenaLo(MEM_REGION_DTCM));
+    OS_SetArenaHi(MEM_REGION_SHARED, OS_GetInitArenaHi(MEM_REGION_SHARED));
+    OS_SetArenaLo(MEM_REGION_SHARED, OS_GetInitArenaLo(MEM_REGION_SHARED));
+    OS_SetArenaHi(MEM_REGION_WRAM, OS_GetInitArenaHi(MEM_REGION_WRAM));
+    OS_SetArenaLo(MEM_REGION_WRAM, OS_GetInitArenaLo(MEM_REGION_WRAM));
 }
 
 // Sets up the extra main memory arena, and the memory protection regions when that arena is off.
 void OS_InitArenaEx(void) {
-    OS_SetArenaHi(OS_ARENA_MAINEX, OS_GetInitArenaHi(OS_ARENA_MAINEX));
-    OS_SetArenaLo(OS_ARENA_MAINEX, OS_GetInitArenaLo(OS_ARENA_MAINEX));
+    OS_SetArenaHi(MEM_REGION_MAIN_RAM_EXTRA, OS_GetInitArenaHi(MEM_REGION_MAIN_RAM_EXTRA));
+    OS_SetArenaLo(MEM_REGION_MAIN_RAM_EXTRA, OS_GetInitArenaLo(MEM_REGION_MAIN_RAM_EXTRA));
     if (gArena2Enabled != 0 && (OS_GetConsoleType() & 3) != 1) {
         return;
     }
@@ -72,16 +72,16 @@ void *OS_GetInitArenaHi(OSArenaId id) {
     u32 irqStackBottom;
 
     switch (id) {
-        case OS_ARENA_MAIN:
+        case MEM_REGION_MAIN_RAM:
             return (void *) 0x23e0000;
-        case OS_ARENA_MAINEX:
+        case MEM_REGION_MAIN_RAM_EXTRA:
             if (gArena2Enabled == 0 || (OS_GetConsoleType() & 3) == 1) {
                 return NULL;
             }
             return (void *) 0x2700000;
-        case OS_ARENA_ITCM:
+        case MEM_REGION_ITCM:
             return (void *) 0x2000000;
-        case OS_ARENA_DTCM:
+        case MEM_REGION_DTCM:
             dtcmStart = (u32) &OSi_IrqThreadQueue;
             irqStackBottom = dtcmStart + 0x3f80 - (u32) SDK_IRQ_STACKSIZE;
             sysStackSize = (s32) SDK_SYS_STACKSIZE;
@@ -92,9 +92,9 @@ void *OS_GetInitArenaHi(OSArenaId id) {
                 return (void *) (0x27e00e0 - sysStackSize);
             }
             return (void *) (irqStackBottom - sysStackSize);
-        case OS_ARENA_SHARED:
+        case MEM_REGION_SHARED:
             return (void *) 0x27ff680;
-        case OS_ARENA_WRAM_MAIN:
+        case MEM_REGION_WRAM:
             return (void *) 0x37f8000;
     }
     return NULL;
@@ -103,24 +103,24 @@ void *OS_GetInitArenaHi(OSArenaId id) {
 // Returns the Lo bound an arena starts out with.
 void *OS_GetInitArenaLo(OSArenaId id) {
     switch (id) {
-        case OS_ARENA_MAIN:
+        case MEM_REGION_MAIN_RAM:
 #ifdef version_EUR
             return (void *) 0x21da340;
 #else
             return (void *) 0x21da300;
 #endif
-        case OS_ARENA_MAINEX:
+        case MEM_REGION_MAIN_RAM_EXTRA:
             if (gArena2Enabled == 0 || (OS_GetConsoleType() & 3) == 1) {
                 return NULL;
             }
             return SDK_SECTION_ARENA_EX_START;
-        case OS_ARENA_ITCM:
+        case MEM_REGION_ITCM:
             return (void *) 0x1ffffa0;
-        case OS_ARENA_DTCM:
+        case MEM_REGION_DTCM:
             return (void *) 0x27e00e0;
-        case OS_ARENA_SHARED:
+        case MEM_REGION_SHARED:
             return (void *) 0x27ff000;
-        case OS_ARENA_WRAM_MAIN:
+        case MEM_REGION_WRAM:
             return (void *) 0x37f8000;
     }
     return NULL;
@@ -198,7 +198,7 @@ loop_inner:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: one mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void DC_InvalidateRange(void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
@@ -210,7 +210,7 @@ loop:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: one mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void DC_StoreRange(const void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
@@ -222,7 +222,7 @@ loop:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: two mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void DC_FlushRange(const void *address, int size) {
     mov ip, #0x0
     add r1, r1, r0
@@ -236,14 +236,14 @@ loop:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: a single mcr on coprocessor 15, no loop.
 asm void DC_WaitWriteBufferEmpty(void) {
     mov r0, #0x0
     mcr p15, 0, r0, c7, c10, 4
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: one mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void IC_InvalidateRange(void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f

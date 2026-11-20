@@ -17,8 +17,8 @@ void InitSelectCupGridCells(void);
 void RefreshSelectCupGridCupsEnabled(void);
 
 // Advances the cup chooser by one step: takes mNextState as mState, runs the handler of that state
-// (AdvanceSelectCupGridWaitFade to AdvanceSelectCupGridSlideOut), then updates the cells and the draw lists; returns
-// mResult once SlideOut has run for 10 steps, else 0.
+// (AdvanceSelectCupGridWaitFade to AdvanceSelectCupGridSlideOut), then updates the cells and, outside multiboot, the
+// draw lists (in multiboot it advances the race rule wait); returns mResult once SlideOut has run for 10 steps, else 0.
 s32 AdvanceSelectCupGrid(void);
 // Slides the cups out over 10 steps (mStateFrames counts the calls); AdvanceSelectCupGrid returns mResult after the
 // tenth.
@@ -27,7 +27,7 @@ void AdvanceSelectCupGridSlideOut(void);
 // requests SlideOut.
 void AdvanceSelectCupGridWaitExitAnswer(void);
 // Runs AdvanceSelectCupGridShownCourse; when GetSelectChoisesDone returns non-zero it requests WaitExitAnswer (and
-// plays sound 0xf for answer 1 when the flag at 0x027ffc40 is 2).
+// plays sound 0xf for answer 1 in multiboot).
 void AdvanceSelectCupGridWaitExitChoices(void);
 
 // Runs AdvanceSelectCupGridShownCourse and waits until IsSelectChoisesChooseNoRequest returns non-zero (after the
@@ -47,19 +47,19 @@ void AdvanceSelectCupGridWaitConfirmChoices(void);
 // requests WaitConfirmChoices.
 void AdvanceSelectCupGridWaitConfirmOpen(void);
 
-// Waits 10 steps after the cup was chosen; in mode 0 it then requests WaitConfirmOpen, otherwise it stores the
-// choice, sets mResult to 1 and requests SlideOut.
+// Waits 10 steps after the cup was chosen and until the cell slide of a mIndex change is over; in mode 0 it then
+// requests WaitConfirmOpen, otherwise it stores the choice, sets mResult to 1 and requests SlideOut.
 void AdvanceSelectCupGridWaitChosen(void);
 // Reads the touch rectangles and the keys: the exit input ends the screen with mResult 2 (in modes 2 to 4 it first
 // opens the message of WaitExitOpen when gMenuShared.mMenuEntryKind is 2 or 3), choosing an enabled cup requests
-// WaitChosen, touching a disabled cup plays the error sound, and a direction key moves mIndex to the neighbour cup
-// when that cup is enabled.
+// WaitChosen, touching a disabled cup plays the error sound (not in multiboot), and a direction key moves mIndex to the
+// neighbour cup when that cup is enabled.
 void AdvanceSelectCupGridChoose(void);
 
 // Waits until IsSelectReturnShownNoRequest returns non-zero, then requests Choose.
 void AdvanceSelectCupGridWaitReturn(void);
 
-// Slides the cups in over 10 steps (mStateFrames counts the calls), then requests WaitReturn.
+// Counts 10 calls in mStateFrames, sliding the cups in over them outside multiboot, then requests WaitReturn.
 void AdvanceSelectCupGridSlideIn(void);
 
 // Waits until AreBrightnessFadesClear returns non-zero, then requests SlideIn (the first state after InitSelectCupGrid:

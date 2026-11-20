@@ -19,7 +19,8 @@ typedef struct OriginSizeRect {
     /* 06 */ u16 mHeight;
 } OriginSizeRect;
 
-// The touch and key input state: recent touch samples, touch position and the keys down, pressed and released.
+// The touch and key input state: recent touch samples, touch position and previous touch position, the keys down,
+// pressed, pressed or repeated and released, and per-touch flags.
 typedef struct KeyTouchInput {
     /* 00 */ TPData mTouchSamples[5];
     /* 28 */ u16 mTouchX;
@@ -37,7 +38,7 @@ typedef struct KeyTouchInput {
             u8 mPressed : 1;
             u8 mPressedOrRepeated : 1;
             u8 mReleased : 1;
-            u8 mOther : 4;
+            u8 mUnused : 4;
         } mBits;
     };
 } KeyTouchInput;

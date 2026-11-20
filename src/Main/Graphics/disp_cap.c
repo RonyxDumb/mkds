@@ -11,7 +11,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Scene/scene_run_step.h"
 #include "Main/Net/rom_archive.h"
 #include "Main/Net/multiboot_parent.h"
@@ -56,14 +56,14 @@ u8 GetLowestGrandPrixRecordValue(void) {
     u8 engineClass;
     s32 recordValue;
 
-    lowestValue = 7;
+    lowestValue = RESULTS_GP_GRADE_BEST;
     for (cupIndex = 0; cupIndex < 8; cupIndex++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
             recordValue = GetGrandPrixRecordGrade(cupIndex, engineClass);
             if (recordValue == 9 || recordValue < lowestValue) {
                 lowestValue = recordValue;
             }
-            if (lowestValue == 9 || lowestValue < 5) {
+            if (lowestValue == 9 || lowestValue < RESULTS_GP_GRADE_THIRD_BEST) {
                 return 0;
             }
         }
@@ -93,7 +93,7 @@ void InitDispCap(void *heap) {
     gDispCap->mBlendMin = 0;
     gDispCap->mBlendFactor = DISP_CAP_BLEND_FACTOR_FULL;
     gDispCap->mMode = DISP_CAP_MODE_OFF;
-    if (gWvrState.mState == BANK_SHARE_ACTIVE) {
+    if (gWvrState.mState == WIRELESS_VRAM_STATE_STARTED) {
         gDispCap->mMode = DISP_CAP_MODE_OFF;
     }
 }
@@ -135,7 +135,7 @@ static inline s32 DispCapIsConnectionActiveNotEndingWithError(void) {
 
 void SetDispCapMode(s32 mode) {
     gDispCap->mMode = mode;
-    if (gWvrState.mState == BANK_SHARE_ACTIVE) {
+    if (gWvrState.mState == WIRELESS_VRAM_STATE_STARTED) {
         gDispCap->mMode = DISP_CAP_MODE_OFF;
     }
 }
@@ -172,7 +172,7 @@ void SetupDispCapMode1(void) {
     }
     DC_FlushRange(oamBuffer, 0x400);
     GXS_LoadOAM(oamBuffer, 0, 0x400);
-    VBlankIntrWait();
+    SVC_WaitVBlankIntr();
     gDispCap->mFlags &= ~DISP_CAP_FLAG_BANK_SWAPPED;
     reg_GX_POWCNT = reg_GX_POWCNT | 0x8000;
     ToggleDispCapBanks();
@@ -199,16 +199,16 @@ void ToggleDispCapBanks(void) {
     if (gDispCap->mFlags & DISP_CAP_FLAG_BANK_SWAPPED) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1000;
-        GX_SetBankForLCDC(4);
-        GX_SetBankForSubOBJ(8);
+        GX_SetBankForLCDC(VRAM_BANK_C);
+        GX_SetBankForSubOBJ(VRAM_BANK_D);
         gDispCap->mFlags &= ~DISP_CAP_FLAG_BANK_SWAPPED;
         captureBits = 2;
         powerBit = 1;
     } else {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x400;
-        GX_SetBankForSubBG(4);
-        GX_SetBankForLCDC(8);
+        GX_SetBankForSubBG(VRAM_BANK_C);
+        GX_SetBankForLCDC(VRAM_BANK_D);
         gDispCap->mFlags |= DISP_CAP_FLAG_BANK_SWAPPED;
         captureBits = 3;
         powerBit = 0;
@@ -217,8 +217,8 @@ void ToggleDispCapBanks(void) {
     reg_GX_DISPCAPCNT = 0x80300010 | (captureBits << 16);
 }
 
-// Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (DISP_CAP_FLAG_BLEND_FALLING set)
-// or 0x1000.
+// Writes the capture blend weights; when prevMenuOpen is 0 it also moves mBlendFactor toward 0
+// (DISP_CAP_FLAG_BLEND_FALLING set) or toward DISP_CAP_BLEND_FACTOR_FULL.
 void AdvanceDispCapBlend(s32 prevMenuOpen) {
     u8 weight;
 
@@ -327,7 +327,8 @@ BOOL IsDispCapFadeFlagSet(void) {
     return (gDispCap->mFlags & DISP_CAP_FLAG_FADE_FLAG) != 0;
 }
 
-// Sets the fade flag; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
+// Sets the fade flag, unless this is a child console in a link. AdvanceDispCap clears it only when a DispCap fade is
+// running and the brightness fades are clear.
 void SetDispCapFadeFlag(void) {
     if (DispCapIsConnectionActive() != 0 && DispCapGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
@@ -370,7 +371,7 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
         case CONNECTION_STEP_STARTING_UP:
             StartRomArchiveTransfer();
             break;
-        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_RESETTING:
         case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             if (isParent != 0) {
                 SetLifeTime(0x14);
@@ -380,7 +381,7 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
                 StartScan(1, NULL, NULL);
             }
             break;
-        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_SETTING_LIFE_TIME:
             MeasureChannel(0);
             break;
         case CONNECTION_STEP_CHECKING_CHANNELS:
@@ -388,13 +389,13 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
             FillParentParameter(1);
             SetParentParameter();
             break;
-        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_SETTING_PARENT_PARAMETER:
             StartParent(NULL);
             break;
-        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_STARTING_PARENT:
             StartMP();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_PARENT_READY;
             gConnectionWork->mChildren.mNameSendIndex = 0;
             result = TRUE;

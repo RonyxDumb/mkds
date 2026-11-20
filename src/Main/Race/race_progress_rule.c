@@ -13,7 +13,7 @@ BOOL IsKartNonCpu(u32 kartIndex) {
     s32 playerKind;
     isNonCpu = FALSE;
     playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
-    if ((u32) playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+    if ((u32) playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
         isNonCpu = TRUE;
     }
     if (isNonCpu != FALSE) {

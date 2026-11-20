@@ -5,6 +5,6 @@
 
 typedef struct MissionRunMapObject MissionRunMapObject;
 
-void SetUnusedCallback(MissionRunMapObject *mapObject, MapObjectCallback callback);
-void SetCourseCollisionCallback(MissionRunMapObject *mapObject, MapObjectCallback callback);
-void SetStoppedCallback(MissionRunMapObject *mapObject, MapObjectCallback callback);
+void SetUnusedCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback);
+void SetCourseCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback);
+void SetStoppedCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback);

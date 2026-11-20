@@ -34,13 +34,13 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/collision_hit_link.h"
 #include "Main/MapObjects/group_item_box.h"
@@ -145,7 +145,7 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
         value = 0x1000 - ((value - 0x10000) >> 8);
         bubble->mShadowMatrix.mAlphaCap = MKD_EF_BUBBLE_SHADOW_ALPHA_CAP;
     } else {
-        amount = 0xd - ((0x10000 - value) >> 13);
+        amount = MKD_EF_BUBBLE_SHADOW_ALPHA_CAP - ((0x10000 - value) >> 13);
         value = 0x1000;
         if (amount < 1) {
             amount = 1;
@@ -187,16 +187,17 @@ void EnterMkdEfBubbleLeap(void *stateObject) {
     bubble->mAngleZ = 0;
     bubble->mMapObject.mPos.y = bubble->mBottomY;
     bubble->mMapObject.mPosStep.y = 0x4b33;
-    bubble->mMapObject.mFlags &= ~2;
-    bubble->mMapObject.mFlags &= ~8;
+    bubble->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    bubble->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     bubble->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if ((bubble->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (bubble->mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = MKD_EF_BUBBLE_LEAP_SOUND_ID;
         soundRequest.mPositionSource = &bubble->mMapObject.mPos;

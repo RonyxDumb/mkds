@@ -3,22 +3,22 @@
 #include "types.h"
 
 typedef enum {
-    OS_ARENA_MAIN = 0,
-    OS_ARENA_MAIN_SUBPRIV = 1,
-    OS_ARENA_MAINEX = 2,
-    OS_ARENA_ITCM = 3,
-    OS_ARENA_DTCM = 4,
-    OS_ARENA_SHARED = 5,
-    OS_ARENA_WRAM_MAIN = 6,
-    OS_ARENA_WRAM_SUB = 7,
-    OS_ARENA_WRAM_SUBPRIV = 8,
-    OS_ARENA_MAX = 9
+    MEM_REGION_MAIN_RAM = 0,
+    MEM_REGION_1 = 1,
+    MEM_REGION_MAIN_RAM_EXTRA = 2,
+    MEM_REGION_ITCM = 3,
+    MEM_REGION_DTCM = 4,
+    MEM_REGION_SHARED = 5,
+    MEM_REGION_WRAM = 6,
+    MEM_REGION_7 = 7,
+    MEM_REGION_8 = 8,
+    MEM_REGION_COUNT = 9
 } OSArenaId;
 
 // Lo and Hi bound of every arena, kept in OSSystemWork.mArenaInfo.
 typedef struct {
-    void *lo[OS_ARENA_MAX];
-    void *hi[OS_ARENA_MAX];
+    void *lo[MEM_REGION_COUNT];
+    void *hi[MEM_REGION_COUNT];
 } OSArenaInfo;
 
 // Writes back every data cache line by set and way (cp15 c7,c10,2) without invalidating.

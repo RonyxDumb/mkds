@@ -3,22 +3,28 @@
 #include "types.h"
 #include "00/Lib/GameSpy/socket_calls.h" // SOCSockAddrIn
 
-// Packet types of the query and reporting protocol (the third byte of a query, the first byte of a reply).
+// The first key id a program can register, and the number of key ids of the list.
+#define REPORT_KEY_REGISTER_FIRST 50
+#define REPORT_KEY_MAX 254
+
+// Packet types of the query and reporting protocol (the third byte of a query, the first byte of every packet the
+// reporter sends).
 enum {
-    PACKET_QUERY = 0,
-    PACKET_CHALLENGE = 1,
-    PACKET_ECHO = 2,
-    PACKET_HEARTBEAT = 3,
-    PACKET_ADDERROR = 4,
-    PACKET_ECHO_RESPONSE = 5,
-    PACKET_CLIENT_MESSAGE = 6,
-    PACKET_CLIENT_MESSAGE_ACK = 7,
-    PACKET_KEEPALIVE = 8,
+    QR_PACKET_QUERY = 0,
+    QR_PACKET_CHALLENGE = 1,
+    QR_PACKET_ECHO = 2,
+    QR_PACKET_HEARTBEAT = 3,
+    QR_PACKET_ADD_ERROR = 4,
+    QR_PACKET_ECHO_RESPONSE = 5,
+    QR_PACKET_CLIENT_MESSAGE = 6,
+    QR_PACKET_CLIENT_MESSAGE_ACK = 7,
+    QR_PACKET_KEEPALIVE = 8,
 };
 
-// Milliseconds between the heartbeats and keepalives the reporter sends: QR_FIRST_HEARTBEAT_MS is the wait for a
-// heartbeat that is still unanswered (it is sent again), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the shortest gap before a
-// heartbeat that reports a state change.
+// Milliseconds: QR_FIRST_HEARTBEAT_MS is the wait before a heartbeat is sent again while no query has arrived yet
+// (mMasterState counts the sends; at 4 the no challenge error is reported), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the
+// shortest gap since the last heartbeat before one that reports a state change, QR_HEARTBEAT_INTERVAL_MS the normal gap
+// between heartbeats and QR_KEEPALIVE_INTERVAL_MS the gap between keepalives.
 #define QR_FIRST_HEARTBEAT_MS 10000
 #define QR_MIN_STATE_CHANGE_HEARTBEAT_MS 10000
 #define QR_HEARTBEAT_INTERVAL_MS 60000
@@ -35,7 +41,7 @@ typedef struct QueryRecord QueryRecord;
 
 typedef struct SOCHostEnt SOCHostEnt;
 
-// Output buffer the string writers append to: bytes at mUnk_000, used length at mLen.
+// Output buffer the string writers append to: mBuffer holds the bytes, mLen the used length.
 typedef struct QueryBuffer {
     /* 000 */ u8 mBuffer[0x800];
     /* 800 */ s32 mLen;
@@ -48,7 +54,7 @@ typedef struct LocalIpAddressBytes {
 
 typedef struct QueryRecord QueryRecord;
 
-// List of values and their count; filled by the callback at mUnk_094 of a QueryRecord.
+// List of key ids and their count; filled by mKeyListCallback of a QueryRecord and by qr2_keybuffer_add.
 typedef struct MatchingKeyIds {
     /* 000 */ u8 mKeys[0x100];
     /* 100 */ s32 mKeyCount;
@@ -62,7 +68,7 @@ typedef void (*QueryErrorFunc)(s32 errorType, const u8 *message, void *userData)
 typedef void (*QueryPublicAddressFunc)(u32 address, u16 port, void *userData);
 typedef void (*QueryNatnegFunc)(u32 cookie, void *userData);
 typedef void (*QueryClientMessageFunc)(const void *data, u32 len, void *userData);
-typedef void (*QueryCdkeyFunc)(s8 *query, s32 len, void *sender);
+typedef void (*QuerySemicolonFunc)(s8 *query, s32 len, void *sender);
 
 // The query reporting state: heartbeat socket and address, game name and keys, callbacks and public address.
 typedef struct QueryRecord {
@@ -82,15 +88,15 @@ typedef struct QueryRecord {
     /* 0ac */ u32 mLastHeartbeat;
     /* 0b0 */ u32 mLastKeepalive;
     /* 0b4 */ BOOL mUserStateChangeRequested;
-    /* 0b8 */ s32 mListedState;
+    /* 0b8 */ s32 mMasterState;
     /* 0bc */ s32 mIsPublic;
     /* 0c0 */ s32 mQport;
-    /* 0c4 */ BOOL mReadSocket;
+    /* 0c4 */ BOOL mOwnsSocket;
     /* 0c8 */ s32 mNatNegotiate;
-    /* 0cc */ SOCSockAddrIn mHbAddr;
-    /* 0d4 */ QueryCdkeyFunc mCdkeyProcess;
+    /* 0cc */ SOCSockAddrIn mMasterAddr;
+    /* 0d4 */ QuerySemicolonFunc mSemicolonFunc;
     /* 0d8 */ s32 mClientMessageKeys[10];
-    /* 100 */ s32 mCurMessageKey;
+    /* 100 */ s32 mClientMessageIndex;
     /* 104 */ u32 mPublicIp;
     /* 108 */ u16 mPublicPort;
     /* 10c */ void *mUserData;

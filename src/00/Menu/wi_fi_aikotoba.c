@@ -14,12 +14,13 @@
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/input_slots.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u8 gWiFiAikotobaCellIndices[2] = {6, 7};
 const u8 gWiFiAikotobaSTableIndices[2] = {4, 5};
@@ -136,9 +137,9 @@ void AdvanceWiFiAikotobaSlideIn(void) {
 }
 
 void AdvanceWiFiAikotobaWaitSelectReturn(void) {
-    int isReturnShown;
-    isReturnShown = IsSelectReturnShownNoRequest();
-    if (isReturnShown != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_INPUT;
     }
 }
@@ -150,13 +151,13 @@ void AdvanceWiFiAikotobaInput(void) {
     BOOL pairRecentlyLost;
     u16 hasPair;
     s32 previousIndex;
-    u32 pressedKeys;
+    u32 pressedKeyA;
     WiFiAikotoba *wiFiAikotoba;
 
     pairNewUnlessRecentlyLost = FALSE;
     pairRecentlyLost = FALSE;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -170,7 +171,7 @@ void AdvanceWiFiAikotobaInput(void) {
         pairNewUnlessRecentlyLost = FALSE;
         pairRecentlyLost = FALSE;
         hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             pairRecentlyLost = TRUE;
         }
         if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -187,11 +188,11 @@ void AdvanceWiFiAikotobaInput(void) {
     RequestSelectReturnPressWithSound(0);
     return;
 next:
-    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
-    if ((u16) pressedKeys != 0 || hitIndex <= 1) {
+    pressedKeyA = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+    if ((u16) pressedKeyA != 0 || hitIndex <= 1) {
         wiFiAikotoba = gWiFiAikotoba;
         previousIndex = wiFiAikotoba->mSelectedIndex;
-        if ((u16) pressedKeys == 0) {
+        if ((u16) pressedKeyA == 0) {
             switch (hitIndex) {
                 case 0:
                     wiFiAikotoba->mSelectedIndex = 0;
@@ -216,12 +217,12 @@ next:
         StartSoundOncePerFrame(5);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mSelectedIndex > 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0 && gWiFiAikotoba->mSelectedIndex > 0) {
         gWiFiAikotoba->mSelectedIndex = gWiFiAikotoba->mSelectedIndex - 1;
         StartSoundOncePerFrame(0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mSelectedIndex < 1) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0 && gWiFiAikotoba->mSelectedIndex < 1) {
         gWiFiAikotoba->mSelectedIndex = gWiFiAikotoba->mSelectedIndex + 1;
         StartSoundOncePerFrame(0);
     }
@@ -245,11 +246,11 @@ void AdvanceWiFiAikotobaSlideOut(void) {
     s32 rowIndex;
     s32 cellIndex;
     s32 unusedValue;
-    void *bmgEntry;
+    void *noticeText;
 
     if (GetWiFiNextScene() == -1 && IsBuddyRecordBlockFull() == 0 &&
         gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
-        SetWiFiNextScene(0xe);
+        SetWiFiNextScene(SCENE_KEYBOARD);
     }
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     if (gWiFiAikotoba->mStateFrames <= WIFI_AIKOTOBA_SLIDE_FRAMES) {
@@ -273,8 +274,8 @@ void AdvanceWiFiAikotobaSlideOut(void) {
         if (IsBuddyRecordBlockFull() != 0 && gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
             gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_NOTICE;
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_NONE;
-            bmgEntry = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0xf);
-            SetupTxtSystemMainTextButton(bmgEntry, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 6));
+            noticeText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0xf);
+            SetupTxtSystemMainTextButton(noticeText, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 6));
             gWiFiAikotoba->mStateFrames = 0;
             return;
         }
@@ -288,7 +289,7 @@ void AdvanceWiFiAikotobaBuddyFullNotice(void) {
     void *questionText;
     void *yesText;
 
-    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnHiddenNoSlideInRequest() != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK;
         questionText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0x10);
         yesText = GetBmgEntry(gWiFiAikotoba->mCommonMessages, 0);
@@ -305,7 +306,7 @@ void AdvanceWiFiAikotobaBuddyFullAsk(void) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
             if (GetWiFiNextScene() == -1) {
-                SetWiFiNextScene(8);
+                SetWiFiNextScene(SCENE_RECORD);
             }
             gMenuShared->mWiFiScene8StartKind = 1;
             return;
@@ -372,7 +373,7 @@ void AdvanceWiFiAikotoba(void) {
 }
 
 void WriteWiFiAikotobaRegisters(void) {
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
 }
 
 void RegisterWiFiAikotobaCallbacks(void) {

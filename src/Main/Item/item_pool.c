@@ -38,23 +38,23 @@
 #include "Main/Item/held_item.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gItemInUseThrowForwardBit = 0x10;
-const u16 gItemInUseDownBit = 0x20;
+const u16 gItemInUseThrowForwardBit = KART_ITEMS_THROW_FORWARD;
+const u16 gItemInUseDownBit = KART_ITEMS_DOWN;
 const u32 gItemCollisionBitOrder[13] = {0x80, 0x40000, 0x1000, 0x80000, 0x20000, 1,     0x100000,
                                         2,    0x40,    4,      8,       0x20,    0x2000};
 const u16 gKartItemsKeyReleasedBit = KART_ITEMS_KEY_RELEASED;
 const u16 gKartItemsKeyDownBit = KART_ITEMS_KEY_DOWN;
-const u16 gKartItemsDownBit = 0x20;
+const u16 gKartItemsDownBit = KART_ITEMS_DOWN;
 const Vec3 gKartItemsVec3UnitY = {0, 0x1000, 0};
 const u16 gKartItemsSlotBit = KART_ITEMS_SLOT;
 const u16 gKartItemsHeldBit = KART_ITEMS_HELD;
 const u16 gKartItemsInUseBit = KART_ITEMS_IN_USE;
 const u16 gKartItemsStartAllowedBit = KART_ITEMS_START_ALLOWED;
 const u16 gKartItemsStartUseBit = KART_ITEMS_START_USE;
-const u16 gKartItemsThrowForwardBit = 0x10;
-const u16 gItemInUseAdvancedBit = 0x100;
+const u16 gKartItemsThrowForwardBit = KART_ITEMS_THROW_FORWARD;
+const u16 gItemInUseAdvancedBit = KART_ITEMS_IN_USE_ADVANCED;
 const u16 gKartItemsEndUseBit = KART_ITEMS_END_USE;
-const u16 gItemObjectKouraRTargetedBit = ITEM_OWNER_KOURA_R_TARGETED;
+const u16 gItemObjectKouraRTargetedBit = ITEM_OWNER_KART_TARGETED_BY_KOURA_R;
 ItemKind *gItemKinds;
 
 // Hands out count objects from the pool, releasing the first active one while the pool is too full.
@@ -285,17 +285,17 @@ found:
         if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_RELEASE_PENDING) {
             StartItemObjectRelease(object);
         }
-    } else if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
+    } else if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_KART_TARGETED_BY_KOURA_R) == 0) {
         value = (u16) ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                            ? (u16) (object->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
                            : ITEM_NO_KART_INDEX);
-        if (value != 8) {
+        if (value != ITEM_NO_KART_INDEX) {
             StartKartSeqArcSoundOffset7(GetKart(value));
         }
     }
     if (frameDifference > 0) {
-        object->mPendingUpdateCount = frameDifference;
-        object->mPendingUpdateCount |= gItemObjectPendingUpdateBit;
+        object->mUpdatesRemaining = frameDifference;
+        object->mUpdatesRemaining |= gItemObjectPendingUpdateCatchUpBit;
     }
 }
 
@@ -389,7 +389,7 @@ BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
         found = TRUE;
         value = packet[2];
         if (pool->mKind == ITEM_OBJECT_KIND_KOURA_R) {
-            RequestItemKouraRHomingForKart((ItemKouraR *) object, value);
+            RequestItemKouraRSteerToKart((ItemKouraR *) object, value);
         }
         if (pool->mKind == ITEM_OBJECT_KIND_KOURA_W) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);
@@ -525,18 +525,18 @@ void UpdateItemPool(ItemPool *pool) {
     }
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         object = objects[objectIndex];
-        pendingUpdateCount = (u16) (object->mPendingUpdateCount & ~0x8000);
+        pendingUpdateCount = (u16) (object->mUpdatesRemaining & ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP);
         if (pendingUpdateCount <= 0) {
             if (UpdateItemObject(pool, object, 0) != 0) {
                 activeCount = pool->mActiveCount;
                 objectIndex--;
             }
         } else {
-            hasPendingCatchUp = object->mPendingUpdateCount & ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
+            hasPendingCatchUp = object->mUpdatesRemaining & ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
             updateCount = 1;
             if (hasPendingCatchUp != 0) {
                 min = 0x5f592e1;
-                object->mPendingUpdateCount &= ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
+                object->mUpdatesRemaining &= ~ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
                 updateCount += pendingUpdateCount;
             } else {
                 updateCount++;
@@ -544,10 +544,11 @@ void UpdateItemPool(ItemPool *pool) {
                     updateCount++;
                 }
             }
-            FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000, 0x6000);
-            object->mPendingUpdateCount++;
+            FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000,
+                                        COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
+            object->mUpdatesRemaining++;
             do {
-                object->mPendingUpdateCount--;
+                object->mUpdatesRemaining--;
                 if (UpdateItemObject(pool, object, 1) != 0) {
                     activeCount = pool->mActiveCount;
                     objectIndex--;
@@ -642,12 +643,12 @@ BOOL TryAddKartItemFlags(KartItems *kartItems) {
         kartItems->mFlags |= gKartItemsSlotBit;
     }
     entryIndex = kartItems->mEntryIndex;
-    padBits = gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT;
+    padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DIRECTION_UP;
     if (padBits != 0) {
         kartItems->mFlags |= gKartItemsThrowForwardBit;
     }
     entryIndex = kartItems->mEntryIndex;
-    padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DOWN;
+    padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DIRECTION_DOWN;
     if (padBits != 0) {
         kartItems->mFlags |= gKartItemsDownBit;
     }
@@ -899,7 +900,7 @@ void StartItemInUseOne(ItemInUse *itemInUse) {
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
     inUseAlias->mBehindDirection.z = -forwardAxis->z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
@@ -919,7 +920,7 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
     inUseAlias->mBehindDirection.z = -forwardAxis->z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
@@ -958,7 +959,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
     inUseAlias->mBehindDirection.x = -direction.x;
     inUseAlias->mBehindDirection.y = -direction.y;
     inUseAlias->mBehindDirection.z = -direction.z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 behindPos);
     if (itemInUse->mObjectCount > 1) {
@@ -1001,11 +1002,11 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     if (itemInUse->mIsActiveItem != FALSE) {
         kartItems->mActiveItem = ITEM_INFO_NONE;
         entryIndex = kartItems->mEntryIndex;
-        if ((u16) (gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT) != 0) {
+        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DIRECTION_UP) != 0) {
             kartItems->mFlags |= gItemInUseThrowForwardBit;
         }
         entryIndex = kartItems->mEntryIndex;
-        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DOWN) != 0) {
+        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DIRECTION_DOWN) != 0) {
             kartItems->mFlags |= gItemInUseDownBit;
         }
         StartLastItemInUseObjectAndInit(itemInUse, 1);
@@ -1025,9 +1026,9 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     object = itemInUse->mObjects[0];
     AdvanceItemInUseOne(itemInUse);
     if ((object->mFlags & ITEM_OBJECT_FLAG_IN_USE) != 0) {
-        direction.x = ((s64) inUseAlias->mBehindDirection.x << 13) >> 12;
-        direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
-        direction.z = ((s64) inUseAlias->mBehindDirection.z << 13) >> 12;
+        direction.x = SHIFT_LEFT_FROM_FIXED12(inUseAlias->mBehindDirection.x, 13);
+        direction.y = SHIFT_LEFT_FROM_FIXED12(inUseAlias->mBehindDirection.y, 13);
+        direction.z = SHIFT_LEFT_FROM_FIXED12(inUseAlias->mBehindDirection.z, 13);
         VEC_Add(&direction, &itemInUse->mKartOrientation.mRows[2], &direction);
         lengthSquared = LENGTH_SQUARED(direction);
         if (lengthSquared >= 0x10) {
@@ -1067,7 +1068,7 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
     itemInUse->mBehindDirection.x = -itemInUse->mKartOrientation.mRows[2].x;
     itemInUse->mBehindDirection.y = -forwardAxis->y;
     itemInUse->mBehindDirection.z = -forwardAxis->z;
-    scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
+    scaleOffset = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &itemInUse->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &itemInUse->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
@@ -1118,7 +1119,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     objectCount = itemInUse->mObjectCount;
     kartVector = kartItems->mKart->mPointMotion;
     objects = itemInUse->mObjects;
-    minDistance = itemInUse->mBehindDistance + (s32) (((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12);
+    minDistance = itemInUse->mBehindDistance + (s32) SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartScaleFactorTimesBase.z, 14);
     previousPos = &inUseAlias->mBehindPos;
     maxGap = MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, 0x3000);
     behindDirection = &inUseAlias->mBehindDirection;
@@ -1141,7 +1142,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
         historyIndex = inUseAlias->mHopHeightHistoryCount & ITEM_IN_USE_HOP_HISTORY_MASK;
         inUseAlias->mHopHeightHistoryCount = inUseAlias->mHopHeightHistoryCount + 1;
         inUseAlias->mHopHeightHistory[0][historyIndex] = inUseAlias->mSmoothedHopHeight;
-        speedFactor = ((s64) itemInUse->mKartVelocityLength << 9) >> 12;
+        speedFactor = SHIFT_LEFT_FROM_FIXED12(itemInUse->mKartVelocityLength, 9);
         if (speedFactor > 0x1000) {
             speedFactor = 0x1000;
         }

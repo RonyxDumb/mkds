@@ -18,48 +18,48 @@ void WcmCpsifUnlockMutexInIRQ(OSMutex *mutex) {
 }
 
 void WCM_ClearApList(void) {
-    u32 enabled;
+    u32 savedInterrupts;
     WCMWork *work;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     work = WCMi_GetSystemWork();
     if (work == NULL) {
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return;
     }
     if (work->mPbdBuffer != NULL && (s32) work->mNbdBuffer > 0) {
         MI_CpuFill8(work->mPbdBuffer, 0, work->mNbdBuffer);
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
 }
 
 u32 WCM_CountApList(void) {
-    u32 enabled;
+    u32 savedInterrupts;
     u32 count;
     WCMWork *work;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     work = WCMi_GetSystemWork();
     count = 0;
     if (work == NULL) {
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return count;
     }
     if (work->mPbdBuffer != NULL && work->mNbdBuffer > 0xc) {
         count = work->mPbdBuffer->mCount;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return count;
 }
 
 u32 WCM_LockApList(u32 lock) {
-    u32 enabled;
+    u32 savedInterrupts;
     WCMWork *work;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     work = WCMi_GetSystemWork();
     if (work == NULL) {
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
     if (lock != 0) {
@@ -69,25 +69,25 @@ u32 WCM_LockApList(u32 lock) {
         lock = work->mApListLock != 0;
         work->mApListLock = 0;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return lock;
 }
 
 u8 *WCM_PointApList(u16 index) {
-    u32 enabled;
+    u32 savedInterrupts;
     WCMApList *apNode;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (WCMi_GetSystemWork() == NULL) {
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return NULL;
     }
     apNode = WcmSearchIndexedApList(index);
     if (apNode == NULL) {
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return NULL;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return apNode->mData;
 }
 

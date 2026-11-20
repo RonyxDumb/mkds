@@ -10,13 +10,14 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Scene/run_scene_connection.h"
 #include "Main/Graphics/oam_upload.h"
 #include "Main/Graphics/oam_lists.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/scene_numbers.h"
 
 OamEntryList *gWiFiMenuOamLists;
 
@@ -44,7 +45,7 @@ void UpdateWiFiMenuScene(SceneNumbers *sceneNumbers) {
     HideUnusedOams(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
     if (sceneNumbers != NULL) {
         if (GetWiFiNextScene() != -1) {
-            if (GetWiFiNextScene() == 0) {
+            if (GetWiFiNextScene() == SCENE_TITLE) {
                 gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
             }
             sceneNumbers->mNextScene = GetWiFiNextScene();

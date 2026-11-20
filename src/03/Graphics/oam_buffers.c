@@ -28,7 +28,7 @@ void DeleteOamEntry(OamEntry *entry) {
     OamBuffers *buffers;
     s32 screen = 0;
 
-    entry->mAttr01 = (entry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+    entry->mAttr01 = (entry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
     buffers = gOamBuffers;
     if ((u32) entry >= (u32) buffers + 0x400) {
         screen = 1;
@@ -65,7 +65,7 @@ void RemoveNodeFromList(void *node) {
     u32 reloadedPrevious;
     u32 reloadedNext;
     u32 nullLink;
-    u32 restoredIrqMask;
+    u32 previousIrqMask;
     *(u32 *) ((previous) + (4)) = next;
     reloadedPrevious = (*(u32 *) ((nodeAddress) + (0)));
     reloadedNext = (*(u32 *) ((nodeAddress) + (4)));
@@ -73,7 +73,7 @@ void RemoveNodeFromList(void *node) {
     *(u32 *) ((nodeAddress) + (4)) = 0x0u;
     nullLink = (*(u32 *) ((nodeAddress) + (4)));
     *(u32 *) ((nodeAddress) + (0)) = nullLink;
-    restoredIrqMask = OS_EnableIrqMask(savedIrqMask);
+    previousIrqMask = OS_EnableIrqMask(savedIrqMask);
 }
 
 void AddNodeBefore(void *node, void *newNode) {
@@ -82,27 +82,27 @@ void AddNodeBefore(void *node, void *newNode) {
     u32 savedIrqMask = OS_DisableIrqMask(0x1u);
     u32 previous = (*(u32 *) ((nodeAddress) + (0)));
     u32 reloadedPrevious;
-    u32 restoredIrqMask;
+    u32 previousIrqMask;
     *(u32 *) ((previous) + (4)) = newNodeAddress;
     reloadedPrevious = (*(u32 *) ((nodeAddress) + (0)));
     *(u32 *) ((newNodeAddress) + (0)) = reloadedPrevious;
     *(u32 *) ((newNodeAddress) + (4)) = nodeAddress;
     *(u32 *) ((nodeAddress) + (0)) = newNodeAddress;
-    restoredIrqMask = OS_EnableIrqMask(savedIrqMask);
+    previousIrqMask = OS_EnableIrqMask(savedIrqMask);
 }
 
 void AddNodeToListBack(void *list, void *node) {
-    u32 sentinelAddress = (u32) list;
+    u32 lastEndNodeAddress = (u32) list;
     u32 nodeAddress = (u32) node;
     u32 unused;
-    sentinelAddress = (sentinelAddress) + 8u;
-    AddNodeBefore((void *) sentinelAddress, node);
+    lastEndNodeAddress = (lastEndNodeAddress) + 8u;
+    AddNodeBefore((void *) lastEndNodeAddress, node);
 }
 
 void AddNodeToListFront(void *list, void *node) {
-    u32 firstNode = (u32) list;
+    u32 nodeAfterFirstEndNode = (u32) list;
     u32 nodeAddress = (u32) node;
     u32 unused;
-    firstNode = *(const u32 *) ((firstNode) + 4u);
-    AddNodeBefore((void *) firstNode, node);
+    nodeAfterFirstEndNode = *(const u32 *) ((nodeAfterFirstEndNode) + 4u);
+    AddNodeBefore((void *) nodeAfterFirstEndNode, node);
 }

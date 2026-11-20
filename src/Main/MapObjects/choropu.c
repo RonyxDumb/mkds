@@ -1,4 +1,6 @@
 #include "Main/MapObjects/choropu.h"
+#include "Main/Graphics/model_animation.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/System/heap.h"
 #include "Main/Course/course_color_blend.h"
 #include "Main/MapObjects/group_follower_advance.h"
@@ -6,7 +8,7 @@
 #include "Main/MapObjects/jg.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_objects_and_race_progress.h" // ItemObject
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
@@ -56,7 +58,7 @@
 #include "01/MapObjects/mission_run_group_entry_queries.h"
 #include "Main/MapObjects/shadow_model_create.h"
 #include "Main/MapObjects/group_follower_init.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "matrix_4x3_basic.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/collision_hit_link_create.h"
@@ -241,8 +243,8 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
     vehicle->mMapObject.mMatrix.mRows[3].z = vehicle->mMapObject.mPos.z >> 4;
     animation = vehicle->mModelAnimation;
     if (animation != NULL) {
-        animation->mHead.mFrameIndex = TO_FIXED12(vehicle->mAnimationFrame);
-        animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+        animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(vehicle->mAnimationFrame);
+        animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
     }
     SendLight01Color(&vehicle->mCourseColorBlend.mColor);
     DrawNsbmdWithMatrixAndMaxAlpha(vehicle->mModel, &vehicle->mMapObject.mMatrix, &vehicle->mMapObject.mScale,
@@ -313,12 +315,12 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
         probeVec = testPosition;
         if (CollideSphereWithCourse(&probeVec, NULL, 0, 0xf000, 8, -2, &probeOffset, &probeVec, NULL, &hitFlags, NULL,
                                     NULL, NULL, NULL) != 0) {
-            if (hitFlags & 0x1e34ef) {
+            if (hitFlags & COURSE_HIT_GROUND) {
                 QuaternionFromYAxisToVec3(&probeVec, &vehicle->mGroundRotation);
                 AdvanceCourseColorBlend(&vehicle->mCourseColorBlend, (hitFlags & 0x3c000000) >> 26, 0x5000);
                 if (vehicle->mHitReactionTimer != 0 && vehicle->mMapObject.mPosStep.y < 0) {
-                    if (vehicle->mMapObject.mFlags & 1) {
-                        vehicle->mMapObject.mFlags &= ~1;
+                    if (vehicle->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) {
+                        vehicle->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
                         vehicle->mMapObject.mPosStep.y = -MUL_FIXED12_NO_ROUND(
                             vehicle->mMapObject.mPosStep.y, 0x733 + ((vehicle->mExtentPositive.y - 0x14000) >> 9));
                         vehicle->mHitRotation.mComponents[0] = -vehicle->mHitRotation.mComponents[0];
@@ -335,7 +337,7 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
                     }
                 }
             }
-            if ((hitFlags & 0x214300) && isInHitReaction) {
+            if ((hitFlags & COURSE_HIT_WALL) && isInHitReaction) {
                 vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + probeOffset.y;
                 vehicle->mMapObject.mPosStep.y = 0;
             }
@@ -535,8 +537,10 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     CreateShadowModel(&gCarAShadow, FindCourseMapObjFile("car_a_shadow.nsbmd"), 7);
     CreateShadowModel(&gTruckAShadow, FindCourseMapObjFile("truck_a_shadow.nsbmd"), 7);
     CreateShadowModel(&gBusAShadow, FindCourseMapObjFile("bus_a_shadow.nsbmd"), 7);
-    CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile("car_a.nsbtp"));
-    CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile("truck_a.nsbtp"));
+    CreateModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, gCarA, &gCarANsbtp, carFile,
+                         FindCourseMapObjFile("car_a.nsbtp"));
+    CreateModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, gTruckA, &gTruckANsbtp, truckFile,
+                         FindCourseMapObjFile("truck_a.nsbtp"));
     SetNsbmdPolygonIdLightEmiAll(gCarA, 0x3f, 2, 0x294a);
     for (carMaterialIndex = 0, carModel = gCarA->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {

@@ -46,7 +46,7 @@ void CreateEdit(void) {
     GetSecondaryMenuPair(&secondaryPairFirst, &secondaryPairSecond);
     if (secondaryPairFirst == 0) {
         CopyApWorkSsid(gEdit->mText);
-        gEdit->mCharCount = GetStringLengthWithLimit(gEdit->mText, 0x20);
+        gEdit->mCharCount = GetStringLengthWithLimit(gEdit->mText, EDIT_TEXT_MAX_CHARS);
     }
     LoadEditFilesAndSetBgCnt();
     LoadHlScr(secondaryPairFirst + 9);
@@ -58,7 +58,7 @@ void CreateEdit(void) {
     CreateObjectsForMenuPair(2);
     gEdit->mBgTextCanvas = InitBgTextCanvas(0, 0);
     gEdit->mOamEntry = CreateOamEntryFromNceImage(0, 0x3e);
-    gEdit->mOamEntry->mAttr2 = (gEdit->mOamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+    gEdit->mOamEntry->mAttr2 = (gEdit->mOamEntry->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     PlaceEditTextCursor();
     PrintEditText();
     SetUpdateFunction(StartEditFadeIn);
@@ -137,7 +137,7 @@ void UpdateEditFadeIn(void) {
         if (gEdit->mCharCount == 0) {
             SetEditKeyboardRemoveCharEnabled(0);
         }
-        if (gEdit->mCharCount == ' ') {
+        if (gEdit->mCharCount == EDIT_TEXT_MAX_CHARS) {
             SetEditKeyboardAddCharEnabled(0);
         }
         SetUpdateFunction(UpdateEditKeyboardIn);
@@ -145,7 +145,7 @@ void UpdateEditFadeIn(void) {
 }
 
 void UpdateEditKeyboardIn(void) {
-    if (GetEditKeyboardInput() != 255) {
+    if (GetEditKeyboardInput() != EDIT_KEYBOARD_INPUT_NOT_READY) {
         SetUpdateFunction(UpdateEdit);
     }
 }
@@ -188,7 +188,7 @@ void UpdateEditInput(void) {
                 StartSoundSeq(9);
             }
             gEdit->mOamEntry->mAttr01 =
-                (gEdit->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+                (gEdit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
             SetUpdateFunction(StartEditClose);
             return;
         case 0:
@@ -287,7 +287,7 @@ void PrintEditText(void) {
     charIndex = 0;
     column = charIndex;
     secondLineY = gEditLineY[1];
-    for (; charIndex < 0x20; charIndex++, column++) {
+    for (; charIndex < EDIT_TEXT_MAX_CHARS; charIndex++, column++) {
         Edit *edit;
         if (charIndex == 0x10) {
             charRect.mY = secondLineY;
@@ -300,8 +300,8 @@ void PrintEditText(void) {
             charText[0] = edit->mText[charIndex];
         }
         charRect.mX = gEditColumnX[column];
-        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mWidth, charRect.mHeight, 2, 0x480,
-                           charText);
+        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mWidth, charRect.mHeight, 2,
+                           TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, charText);
     }
     RequestBgTextCanvasUpload(gEdit->mBgTextCanvas);
 }
@@ -320,7 +320,7 @@ void PlaceEditTextCursor(void) {
         line = 1;
     }
     edit->mOamEntry->mAttr01 = ((gEditColumnX[column] & 0x1ff) << 16) |
-                               ((edit->mOamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (gEditLineY[line] & 0xff));
+                               ((edit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (gEditLineY[line] & 0xff));
 }
 
 void UpdateEditMessageResult(void) {
@@ -344,7 +344,7 @@ void UpdateEditMessageClose(void) {
     s32 secondaryPairFirst;
     if (IsMessageBoxOpen() == 0) {
         if (gEdit->mResult == EDIT_RESULT_CANCELED) {
-            gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+            gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
             SetUpdateFunction(UpdateEditFadeIn);
             return;
         }
@@ -373,7 +373,7 @@ BOOL IsEditTextValid(void) {
     if (secondaryPairSecond == 1 && gEdit->mText[0] == 0) {
         return FALSE;
     }
-    textLength = GetStringLengthWithLimit(gEdit->mText, 0x20);
+    textLength = GetStringLengthWithLimit(gEdit->mText, EDIT_TEXT_MAX_CHARS);
     switch (textLength) {
         case 0:
         case sizeof(WepKey5):
@@ -410,7 +410,7 @@ void UpdateEditInvalidMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & (0xc1fffcffu);
+        gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         SetUpdateFunction(UpdateEditFadeIn);
     }
 }

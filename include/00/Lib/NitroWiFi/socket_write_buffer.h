@@ -6,7 +6,8 @@
 typedef struct SOCLiSocketCommandPipe SOCLiSocketCommandPipe;
 typedef struct SOCLSocket SOCLSocket;
 
-// An SOCLiCommandPacket entry as SOCLi_MemCpy and the functions after it see it.
+// A SOCLiCommandPacket filled for a send: the one or two buffer pieces to copy, the write position after them, the
+// ports and the remote address.
 typedef struct SOCLiCommandWrite {
     /* 00 */ SOCLiCommandHandler mUnk_00;
     /* 04 */ SOCLSocket *mSocket;

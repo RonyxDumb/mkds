@@ -21,7 +21,7 @@ BOOL IsBattleKartAiLinkRequested(KartAi *kartAi);
 void RequestBattleKartAiPointLink(KartAi *kartAi);
 void AdvanceKartAiForBattle(KartAi *kartAi);
 
-void ResetKartAiForBattle(KartAi *kartAi, PointLink *link);
+void ResetKartAiForBattle(KartAi *kartAi, BattlePointLink *link);
 void SetupKartAiForBattle(KartAi *kartAi, s32 kartIndex);
 
 void SetupNonBattleKartAiItemInUseEntry(KartAi *kartAi);
@@ -42,7 +42,7 @@ void CallKartAiSetupHeldItemEntry(KartAi *kartAi);
 void CallKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi);
 void CallKartAiRequestLink(KartAi *kartAi);
 void CallKartAiAdvance(KartAi *kartAi);
-void CallKartAiReset(KartAi *kartAi, PointLink *link);
+void CallKartAiReset(KartAi *kartAi, BattlePointLink *link);
 void CallKartAiSetup(KartAi *kartAi, s32 kartIndex);
 void RegisterKartAiCallbacks(void);
 

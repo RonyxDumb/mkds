@@ -20,7 +20,7 @@ typedef struct ArchiveSlotInfo {
     /* 14 */ s32 mArchiveBufferSize;
 } ArchiveSlotInfo;
 
-// 8-byte entries of a string and a number.
+// A scene's name string (mName) and the archive buffer size (mArchiveBufferSize) it loads with, -1 for most scenes.
 typedef struct SceneName {
     /* 00 */ const char *mName;
     /* 04 */ s32 mArchiveBufferSize;
@@ -32,12 +32,12 @@ typedef struct SceneName {
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/archive_slots.h"
 #include "Main/System/scene_numbers.h"
 
-// Heap group ids passed to SetHeapGroupId: 0 is the id every expanded heap starts with; 9 is the id restored once the
-// special-purpose allocations of a step are done.
+// Heap group ids passed to SetHeapGroupId: 0 is the id every expanded heap starts with and the one archive slots are
+// loaded under; 9 is the id the scene setup works under, and the one set again after a part of it used another id.
 #define HEAP_GROUP_DEFAULT 0
 #define HEAP_GROUP_SCENE 9
 
@@ -85,25 +85,25 @@ extern const ArchiveSlotInfo gArchiveSlotInfos[21];
 extern const char *gModeArchiveNames[6];
 extern const char *gLanguageCodes[7];
 extern const char *gArchiveNames[20];
-extern char gArchiveSlotInfosEmptyPath3[];
-extern char gArchiveSlotInfosEmptyPath5[];
-extern char gArchiveSlotInfosEmptyPath12[];
-extern char gArchiveSlotInfosEmptyPath13[];
-extern char gArchiveSlotInfosEmptyPath4[];
-extern char gCourseArchiveNamesEmptyName0[];
-extern char gArchiveSlotInfosEmptyPath20[];
-extern char gArchiveSlotInfosEmptyPath9[];
-extern char gArchiveSlotInfosEmptyPath11[];
-extern char gArchiveSlotInfosEmptyPath19[];
+extern char gArchiveSlotInfosEmptyPathCourse[];
+extern char gArchiveSlotInfosEmptyPathScene[];
+extern char gArchiveSlotInfosEmptyPathSceneModeLanguage[];
+extern char gArchiveSlotInfosEmptyPathCourseTexture[];
+extern char gArchiveSlotInfosEmptyPathSnd[];
+extern char gCourseArchiveNamesEmptyNameFirst[];
+extern char gArchiveSlotInfosEmptyPathAtCount[];
+extern char gArchiveSlotInfosEmptyPathSceneLanguage[];
+extern char gArchiveSlotInfosEmptyPathSceneMode[];
+extern char gArchiveSlotInfosEmptyPathInMemory[];
 extern char gModeArchiveNameMr[];
 extern char gModeArchiveNameGp[];
 extern char gLanguageCodeIt[];
 extern char gModeArchiveNameVs[];
 extern char gModeArchiveNameTa[];
 extern char gModeArchiveNameMg[];
-extern char gLanguageCodeUs1[];
+extern char gLanguageCodeEnglish[];
 extern char gLanguageCodeFr[];
-extern char gLanguageCodeUs6[];
+extern char gLanguageCodeEuropeEnglish[];
 extern char gModeArchiveNameNt[];
 extern char gLanguageCodeJa[];
 extern char gLanguageCodeGe[];
@@ -128,9 +128,9 @@ extern char gArchiveNameCRS[];
 extern char gArchiveNameKM2[];
 extern char gArchiveNameCKS[];
 extern char gArchiveNameMAR[];
-extern char gSceneNameMenu1[];
+extern char gSceneNameMenu[];
 extern char gSceneNameRace[];
-extern char gSceneNameMenu4[];
+extern char gSceneNameSecondMenu[];
 extern char gSceneNameLogo[];
 extern char gSceneNameTest[];
 extern char gCourseArchiveNameAward[];

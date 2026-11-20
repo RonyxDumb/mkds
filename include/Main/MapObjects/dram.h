@@ -16,10 +16,11 @@
 
 #define DRAM_ALIGN_ANGLE 0x1999
 #define DRAM_MIN_ANGLE_STEP 0x96
-// Dram.mRamp at full turning speed; it runs from 0 to this over mRampFrameCount frames.
+// Dram.mRamp at full turning speed; mRampPerFrame is this divided by mRampFrameCount (0 when that is 0).
 #define DRAM_RAMP_FULL 0x1000
 
-// A Dram map object: its ramp and steady frame counts, delay, angle choices and the ramp it moves.
+// A Dram map object: its ramp, steady and delay frame counts, its turning angle and speed, the speed choices and the
+// angle left to align.
 typedef struct Dram {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mRampFrameCount;

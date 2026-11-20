@@ -14,7 +14,7 @@ typedef struct SocketAddress SocketAddress;
 typedef struct PacketTag PacketTag;
 typedef struct SendPacketScratch SendPacketScratch;
 
-// The byte table permuted by key bytes and xored with data: its two indices, the table and its entry count.
+// The state of a byte stream made from a table that key bytes permute: its two indices, the table and its entry count.
 typedef struct KeyStreamState {
     /* 00 */ u32 mIndex;
     /* 04 */ u32 mSwapIndex;
@@ -22,7 +22,7 @@ typedef struct KeyStreamState {
     /* 0c */ u32 mTableCount;
 } KeyStreamState;
 
-// A payload record: its length, two key bytes and the bytes.
+// A payload when the packet flags ask for the key stream: its length, two key bytes and the xored bytes.
 typedef struct PayloadRecord {
     /* 00 */ u16 mLength;
     /* 02 */ u8 mKeyPrefix[2];
@@ -59,7 +59,8 @@ typedef struct ItemContainer {
     /* 04 */ u8 mItems[1];
 } ItemContainer;
 
-// The packet header values read from or written to a packet: payload check byte, length, flags and tag.
+// The payload check byte, payload length, flags and tag that SendItemChainPacket collects for the header of the packet
+// it sends.
 typedef struct PacketFieldValues {
     /* 00 */ s8 mPayloadCrc;
     /* 02 */ s16 mPayloadLength;
@@ -87,7 +88,8 @@ enum {
 // Type of the second item BuildTwoItemChain writes.
 #define PACKET_ITEM_TRAILER 0x60
 
-// Values of PacketItem.mType in the top-level items FindItemAndParseSubItems looks for.
+// Values of PacketItem.mType in the top-level items FindItemAndParseSubItems can look for; only FIRST is searched in
+// this build.
 enum {
     PACKET_GROUP_ITEM_SECOND = 8,
     PACKET_GROUP_ITEM_FIRST,
@@ -110,12 +112,12 @@ enum {
     RECORD_ITEM_WEP_KEY_SHORT1,
     RECORD_ITEM_WEP_KEY_SHORT2,
     RECORD_ITEM_WEP_KEY_SHORT3,
-    RECORD_ITEM_STRING_SHORT_KEYS = 0x15,
+    RECORD_ITEM_STRING_FIRST = 0x15,
     RECORD_ITEM_WEP_KEY_LONG0 = 0x20,
     RECORD_ITEM_WEP_KEY_LONG1,
     RECORD_ITEM_WEP_KEY_LONG2,
     RECORD_ITEM_WEP_KEY_LONG3,
-    RECORD_ITEM_STRING_LONG_KEYS = 0x25,
+    RECORD_ITEM_STRING_SECOND = 0x25,
 };
 
 // Type of the item CopyFirstItemValueIfSlotBytes copies.
@@ -218,7 +220,7 @@ s32 SendFinishPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 SendWantedMaskPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 id);
-s32 IsKeyStreamFlagSet(u32 value);
+s32 IsKeyStreamAcceptedBitSet(u32 value);
 s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedItems *parsedItems, u8 *slots);
 s32 CopyFirstItemValueIfSlotBytes(PacketItem *container, u8 *output);
 s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record);

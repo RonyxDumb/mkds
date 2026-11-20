@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/operation_queue.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/profile_empty_check.h"
 #include "00/Lib/GameSpy/reply_parse.h"
@@ -26,13 +27,13 @@
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/wifi_library_globals.h"
 
-s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation) {
-    GpiConnection *gpState = connection->mGpiConnection;
-    GpiCallback callback;
+s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
+    GPIConnection *gpState = connection->mGpiConnection;
+    GPICallback callback;
     ConnectReply *arg;
     NewProfileReply *newProfileArg;
     ProfileSearchReply *searchArg;
-    RegisterNickReply *uniquenickArg;
+    RegisterUniqueNickReply *uniquenickArg;
     s32 result;
 
     if (connection == NULL) {
@@ -50,8 +51,8 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case PROFILE_OPERATION_CONNECT:
                 arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
-                    GpiSetErrorMessage(connection, "Out of memory.");
-                    return 1;
+                    gpiSetErrorString(connection, "Out of memory.");
+                    return PROFILE_RESULT_OUT_OF_MEMORY;
                 }
                 memset(arg, 0, sizeof(*arg));
                 arg->mResult = operation->mResult;
@@ -59,7 +60,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     arg->mProfile = gpState->mProfileId;
                     gpState->mProfileId = 0;
                 }
-                result = GpiQueueCallback(connection, callback, arg, operation, 0);
+                result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -67,12 +68,12 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case PROFILE_OPERATION_NEW_PROFILE:
                 newProfileArg = DWCi_GsMalloc(8);
                 if (newProfileArg == NULL) {
-                    GpiSetErrorMessage(connection, "Out of memory.");
-                    return 1;
+                    gpiSetErrorString(connection, "Out of memory.");
+                    return PROFILE_RESULT_OUT_OF_MEMORY;
                 }
                 memset(newProfileArg, 0, 8);
                 newProfileArg->mResult = operation->mResult;
-                result = GpiQueueCallback(connection, callback, newProfileArg, operation, 0);
+                result = gpiAddCallback(connection, callback, newProfileArg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -80,12 +81,12 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case PROFILE_OPERATION_INFO:
                 arg = DWCi_GsMalloc(0x204);
                 if (arg == NULL) {
-                    GpiSetErrorMessage(connection, "Out of memory.");
-                    return 1;
+                    gpiSetErrorString(connection, "Out of memory.");
+                    return PROFILE_RESULT_OUT_OF_MEMORY;
                 }
                 memset(arg, 0, 0x204);
                 arg->mResult = operation->mResult;
-                result = GpiQueueCallback(connection, callback, arg, operation, 0);
+                result = gpiAddCallback(connection, callback, arg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -93,13 +94,13 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case PROFILE_OPERATION_SEARCH:
                 searchArg = DWCi_GsMalloc(0x10);
                 if (searchArg == NULL) {
-                    GpiSetErrorMessage(connection, "Out of memory.");
-                    return 1;
+                    gpiSetErrorString(connection, "Out of memory.");
+                    return PROFILE_RESULT_OUT_OF_MEMORY;
                 }
                 memset(searchArg, 0, sizeof(*searchArg));
                 searchArg->mResult = operation->mResult;
                 searchArg->mMatches = 0;
-                result = GpiQueueCallback(connection, callback, searchArg, operation, 0);
+                result = gpiAddCallback(connection, callback, searchArg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -107,12 +108,12 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case PROFILE_OPERATION_REGISTER_UNIQUE_NICK:
                 uniquenickArg = DWCi_GsMalloc(4);
                 if (uniquenickArg == NULL) {
-                    GpiSetErrorMessage(connection, "Out of memory.");
-                    return 1;
+                    gpiSetErrorString(connection, "Out of memory.");
+                    return PROFILE_RESULT_OUT_OF_MEMORY;
                 }
                 memset(uniquenickArg, 0, 4);
                 uniquenickArg->mResult = operation->mResult;
-                result = GpiQueueCallback(connection, callback, uniquenickArg, operation, 0);
+                result = gpiAddCallback(connection, callback, uniquenickArg, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                 if (result != 0) {
                     return result;
                 }
@@ -125,14 +126,14 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     return 0;
 }
 
-u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperation **operationOut, int blocking,
-                       GpiCallbackFn callback, int param) {
-    GpiConnection *gpState = connection->mGpiConnection;
-    GpiOperation *pendingOp = DWCi_GsMalloc(sizeof(GpiOperation));
+u32 gpiAddOperation(GPConnection *connection, int type, void *data, GPIOperation **operationOut, int blocking,
+                       GPCallback callback, int param) {
+    GPIConnection *gpState = connection->mGpiConnection;
+    GPIOperation *pendingOp = DWCi_GsMalloc(sizeof(GPIOperation));
 
     if (pendingOp == NULL) {
-        GpiSetErrorMessage(connection, "Out of memory.");
-        return 1;
+        gpiSetErrorString(connection, "Out of memory.");
+        return PROFILE_RESULT_OUT_OF_MEMORY;
     }
     pendingOp->mType = type;
     pendingOp->mData = data;
@@ -142,11 +143,11 @@ u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperat
         pendingOp->mId = 1;
     } else {
         pendingOp->mId = gpState->mNextOperationId++;
-        if (gpState->mNextOperationId < GPI_FIRST_OPERATION_ID) {
-            gpState->mNextOperationId = GPI_FIRST_OPERATION_ID;
+        if (gpState->mNextOperationId < PROFILE_FIRST_OPERATION_ID) {
+            gpState->mNextOperationId = PROFILE_FIRST_OPERATION_ID;
         }
     }
-    pendingOp->mResult = GP_REQUEST_OK;
+    pendingOp->mResult = PROFILE_REQUEST_OK;
     pendingOp->mCallback.mCallback = callback;
     pendingOp->mCallback.mParam = param;
     pendingOp->mNext = gpState->mOperationList;
@@ -155,8 +156,8 @@ u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperat
     return 0;
 }
 
-void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
-    GpiConnection *gpState = connection->mGpiConnection;
+void gpiDestroyOperation(GPConnection *connection, GPIOperation *operation) {
+    GPIConnection *gpState = connection->mGpiConnection;
     GPISearchData *searchData;
 
     if (operation->mType == PROFILE_OPERATION_SEARCH) {
@@ -177,10 +178,10 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
     DWCi_GsFree(operation);
 }
 
-void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation) {
-    GpiConnection *gpState = connection->mGpiConnection;
-    GpiOperation *current = gpState->mOperationList;
-    GpiOperation *previous = NULL;
+void gpiRemoveOperation(GPConnection *connection, GPIOperation *operation) {
+    GPIConnection *gpState = connection->mGpiConnection;
+    GPIOperation *current = gpState->mOperationList;
+    GPIOperation *previous = NULL;
 
     while (current != NULL) {
         if (current == operation) {
@@ -189,7 +190,7 @@ void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation) {
             } else {
                 previous->mNext = operation->mNext;
             }
-            GpiDeleteOperation(connection, operation);
+            gpiDestroyOperation(connection, operation);
             return;
         }
         previous = current;
@@ -197,10 +198,10 @@ void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation) {
     }
 }
 
-BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
-    GpiOperation *node = object->mGpiConnection->mOperationList;
+BOOL gpiFindOperationByID(GPConnection *connection, GPIOperation **output, u32 operationId) {
+    GPIOperation *node = connection->mGpiConnection->mOperationList;
     while (node != NULL) {
-        if (node->mId == key) {
+        if (node->mId == operationId) {
             if (output != NULL) {
                 *output = node;
             }
@@ -214,8 +215,8 @@ BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
     return FALSE;
 }
 
-BOOL gpiOperationsAreBlocking(GpConnection *object) {
-    GpiOperation *node = object->mGpiConnection->mOperationList;
+BOOL gpiOperationsAreBlocking(GPConnection *connection) {
+    GPIOperation *node = connection->mGpiConnection->mOperationList;
     while (node != NULL) {
         if (node->mBlocking != 0 && node->mType != PROFILE_OPERATION_SEARCH) {
             return TRUE;
@@ -225,19 +226,19 @@ BOOL gpiOperationsAreBlocking(GpConnection *object) {
     return FALSE;
 }
 
-s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const char *input) {
+s32 GpiProcessOperation(GPConnection *connection, GPIOperation *operation, const char *input) {
     s32 result = 0;
     u32 type = operation->mType;
 
     switch (type) {
         case PROFILE_OPERATION_CONNECT:
-            result = GpiProcessConnectOperation(connection, operation, input);
+            result = gpiProcessConnect(connection, operation, input);
             break;
         case PROFILE_OPERATION_NEW_PROFILE:
             result = gpiProcessNewProfile(connection, operation, input);
             break;
         case PROFILE_OPERATION_INFO:
-            result = GpiProcessInfoOperation(connection, operation, input);
+            result = gpiProcessGetInfo(connection, operation, input);
             break;
         case PROFILE_OPERATION_REGISTER_UNIQUE_NICK:
             result = gpiProcessRegisterUniqueNick(connection, operation, input);

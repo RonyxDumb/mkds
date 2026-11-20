@@ -22,12 +22,13 @@ enum {
 // the extra keys and the bottom row.
 #define EDIT_ADDR_KEY_TOP_MIDDLE 1
 #define EDIT_ADDR_KEY_TOP_RIGHT 2
-#define EDIT_ADDR_KEY_REMOVE 10
+#define EDIT_ADDR_KEY_REMOVE_CHAR 10
 #define EDIT_ADDR_KEY_NEXT_GROUP 11
 #define EDIT_ADDR_KEY_CANCEL 12
 #define EDIT_ADDR_KEY_OK 13
 
-// The on-screen keyboard that edits an address: digit and extra keys, row texts, cursor and highlighted key.
+// The on-screen keyboard that edits an address: mDigitKeys, mExtraKeys and mRow4Keys, the row texts, mCursor, mInput
+// and the pressed, highlighted and cursor key indexes.
 typedef struct EditAddrKeyboard {
     /* 00 */ void *mRowTexts[4];
     /* 10 */ OamEntry *mDigitKeys[10];

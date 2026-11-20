@@ -40,7 +40,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 #include "Main/Menu/picks_holder.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Graphics/layout_table_entry.h"
@@ -53,6 +53,7 @@
 #include "Main/Menu/select_kart_data.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Race/race_setup_block.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 
@@ -570,18 +571,10 @@ void SetSelectCharacterBracketsMoving(void) {
     sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RefreshSelectCharacterRowCells(void) {
     SetSelectCharacterBracketsMoving();
     MoveSelectCharacterBracketsToRow();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupSelectCharacterRow(s32 previousTableIndex) {
     gSelectCharacter->mPreviousTableIndex = previousTableIndex;
@@ -609,10 +602,6 @@ void SetupSelectCharacterRow(s32 previousTableIndex) {
     gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsSelectCharacterModeAndTimerZero(void) {
     int result;
     if ((gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION) &&
@@ -621,10 +610,6 @@ u32 IsSelectCharacterModeAndTimerZero(void) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetSelectCharacterAngleAndScale(void) {
     CellFileSet *sParts = &gSelectCharacter->mSParts;
@@ -638,10 +623,6 @@ void SetSelectCharacterAngleAndScale(void) {
         }
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     void *heap;
@@ -662,15 +643,15 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter->mMode = mode;
     switch (GetRaceSetupCopy()->mEntryTransition) {
         case ENTRY_TRANSITION_FRESH:
-            SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
-            SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x80, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, 0x60, 0);
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 StartKartModelMenuBg0Increase();
             }
             break;
         case ENTRY_TRANSITION_FROM_KART:
-            SetupInterpolation(&gSelectCharacter->mInterpolations[0], 1, 10, -0x80, 0);
-            SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_AT_END, 10, -0x80, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[2], INTERPOLATION_STATE_AT_END, 10, 0x60, 0);
             switch (gSelectCharacter->mMode) {
                 case SELECT_CHARACTER_MODE_CONNECTION:
                     if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
@@ -683,7 +664,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             }
             break;
     }
-    SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
+    SetupInterpolation(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mSubOam = subOam;
     if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||
@@ -871,7 +852,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION) {
         ClearNonParticipantCharacterIndices();
-        SetSelectReturnSoundId(0xe);
+        SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
         RequestSelectReturnSlideIn();
     }
     if (AreBrightnessFadesClear() != 0) {
@@ -886,14 +867,10 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     FrmHeapShrinkInParent(gSelectCharacter->mHeap);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
     BOOL result = FALSE;
     if (gInputSlots[inputSlot].mPair.mHasPair == 0 &&
-        gInputSlots[inputSlot].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+        gInputSlots[inputSlot].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         result = TRUE;
     }
     return result;
@@ -1027,25 +1004,25 @@ int AdvanceSelectCharacter(void) {
                            (u16) (keyBits & PAD_KEY_B) != 0) {
                     StartSelectCharacterReturn();
                 } else {
-                    if (GetNewOrRepeatBits(inputSlot, PAD_KEY_UP) != 0) {
+                    if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_UP) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[0];
                         if (targetTableIndex != -1) {
                             selectCharacterReload->mTableIndex = targetTableIndex;
                         }
-                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DOWN) != 0) {
+                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_DOWN) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[1];
                         if (targetTableIndex != -1) {
                             selectCharacterReload->mTableIndex = targetTableIndex;
                         }
-                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_RIGHT) != 0) {
+                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_RIGHT) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[2];
                         if (targetTableIndex != -1) {
                             selectCharacterReload->mTableIndex = targetTableIndex;
                         }
-                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_LEFT) != 0) {
+                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_LEFT) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[3];
                         if (targetTableIndex != -1) {
@@ -1232,10 +1209,6 @@ int AdvanceSelectCharacter(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseSelectCharacter(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
@@ -1249,7 +1222,7 @@ void ReleaseSelectCharacter(void) {
 void WriteSelectCharacterRegisters(void) {
     u32 displayBits = 0x18;
 
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     if (!(gSelectCharacter->mState == SELECT_CHARACTER_STATE_DONE &&
           gSelectCharacter->mResult == MENU_SCREEN_RESULT_BACK)) {
         displayBits |= 1;

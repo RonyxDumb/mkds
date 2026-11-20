@@ -108,10 +108,6 @@ void ResetEntrySlots(void) {
     } while (slotIndex < 8);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Moves each entry toward its target slot one slot at a time, each move taking 10 frames.
 void AdvanceEntrySlots(void) {
     s32 entryIndex;
@@ -189,9 +185,10 @@ void AdvancePlayerEntryListOffsets(void) {
     AdvanceInterpolation(&gPlayerEntryList->mInterpolations[2]);
     AdvanceEntrySlots();
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
-                                 gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot],
-                                 gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames, 10);
+        offsetX =
+            InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
+                           gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot],
+                           gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames, PLAYER_ENTRY_LIST_MOVE_FRAMES);
         fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX = offsetX;
         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mOffsetX =
             fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX;
@@ -205,8 +202,8 @@ void AdvancePlayerEntryListOffsets(void) {
     }
 }
 
-static inline void PlayerEntryListMI_CpuCopy16(const void *source, void *destination, s32 byteCount) {
-    MIi_CpuCopy16(source, destination, byteCount);
+static inline void PlayerEntryListMI_CpuCopy16(const void *src, void *dest, s32 size) {
+    MIi_CpuCopy16(src, dest, size);
 }
 
 void SetExtraEntryNames(void) {
@@ -278,15 +275,15 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;
     }
     ResetEntrySlots();
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_AT_START, 10, 0x60, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[3], INTERPOLATION_STATE_AT_START, 10, 0x40, 0);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr",
                           "select_menu_etc_title_m.nce.ncer", NULL, "select_menu_etc_title_m.bncl", NULL, NULL,
                           FindFileInLoadedArchives);
     }
-    gPlayerEntryList->mSetupRequested = TRUE;
+    gPlayerEntryList->mSetupPending = TRUE;
     FrmHeapShrinkInParent(gPlayerEntryList->mHeap);
 }
 
@@ -304,9 +301,9 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     u8 screenMapFileSet[0x24];
     entryList->mMode = mode;
     gPlayerEntryList->mScreenKind = screenKind;
-    if (gPlayerEntryList->mSetupRequested != FALSE) {
+    if (gPlayerEntryList->mSetupPending != FALSE) {
         gPlayerEntryList->mTimer = PLAYER_ENTRY_LIST_TIMER_FRAMES;
-        SetupInterpolation(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
+        SetupInterpolation(&gPlayerEntryList->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
         switch (gPlayerEntryList->mMode) {
             case PLAYER_ENTRY_LIST_MODE_NO_CONNECTION:
                 gPlayerEntryList->mPlayerCount = 1;
@@ -432,7 +429,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     for (index = 0; index < 8; index++) {
         PrintEntryName(index, gPlayerEntryList->mEntries[index].mName);
     }
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_AT_START, 10, 0x60, 0);
     gPlayerEntryList->mUseTeams = 0;
     count = 0;
     if (gPlayerEntryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE &&
@@ -443,7 +440,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     onesCell = GetTimerOnesCellIndex();
     fileSet->mCellTable[onesCell].mVisible = gPlayerEntryList->mTimerEnabled;
     fileSet->mCellTable[GetTimerTensCellIndex()].mVisible = fileSet->mCellTable[onesCell].mVisible;
-    gPlayerEntryList->mSetupRequested = FALSE;
+    gPlayerEntryList->mSetupPending = FALSE;
 }
 
 void AdvancePlayerEntryList(void) {
@@ -515,7 +512,7 @@ void AdvancePlayerEntryList(void) {
                     } else {
                         counter = 0;
                     }
-                    if (counter == 0xff) {
+                    if (counter == SELECT_CHARACTER_SEND_BYTE_NONE) {
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible =
                             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;
@@ -614,18 +611,10 @@ void AdvancePlayerEntryList(void) {
                     fileSet->mCellTable);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleasePlayerEntryList(void) {
     HeapDestroy(gPlayerEntryList->mHeap);
     *&gPlayerEntryList = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WritePlayerEntryListRegisters(void) {
     u32 displayBits = 0x19;
@@ -691,10 +680,6 @@ void LoadPlayerEntryListFiles(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsPlayerEntryListTimerZero(void) {
     if (gPlayerEntryList->mTimer == 0) {
         return 1;
@@ -720,10 +705,6 @@ u32 IsEveryPlayerKartStored(void) {
     }
     return allKartsStored;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void StartPlayerEntryListKind(s32 kind) {
     s32 entryIndex;
@@ -783,10 +764,6 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
     gPlayerEntryList->mUseTeams = useTeams;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetEntryTeamIndex(int entryIndex, int teamIndex) {
     u32 slot;
     if ((gPlayerEntryList->mUseTeams != 0) && (teamIndex != gPlayerEntryList->mEntries[entryIndex].mTeamIndex)) {
@@ -799,10 +776,6 @@ void SetEntryTeamIndex(int entryIndex, int teamIndex) {
     }
     gPlayerEntryList->mEntries[entryIndex].mTeamIndex = teamIndex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetPlayerEntryListShowAllEntries(s32 showAll) {
     s32 entryIndex;
@@ -831,10 +804,7 @@ void SetPlayerEntryListShowAllEntries(s32 showAll) {
     gPlayerEntryList->mShowAllEntries = showAll;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RequestPlayerEntryListSetup(void) {
-    gPlayerEntryList->mSetupRequested = TRUE;
+    gPlayerEntryList->mSetupPending = TRUE;
 }
 #pragma thumb off

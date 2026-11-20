@@ -11,8 +11,8 @@ void ResetInputSlot(InputSlot *slot) {
     slot->mRepeatState = INPUT_REPEAT_IDLE;
     slot->mRepeatCallCount = 0x0u;
     slot->mRepeatMask = 0x0u;
-    slot->mRepeatDelayLimit = 0x14u;
-    slot->mRepeatIntervalLimit = 0x8u;
+    slot->mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
+    slot->mRepeatIntervalLimit = INPUT_REPEAT_INTERVAL_FRAMES;
     slot->mHoldLong = 0x0u;
     slot->mLongHoldEnabled = 0x0u;
     slot->mHoldStartTick = 0;
@@ -70,9 +70,9 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
             }
             break;
     }
-    maskedBits = slot->mBits & PAD_KEYS_SHOULDER_AND_MENU;
-    if (slot->mLongHoldEnabled != 0 && maskedBits == PAD_KEYS_SHOULDER_AND_MENU) {
-        if (slot->mPressedBits & PAD_KEYS_SHOULDER_AND_MENU) {
+    maskedBits = slot->mBits & PAD_KEYS_L_R_SELECT_START;
+    if (slot->mLongHoldEnabled != 0 && maskedBits == PAD_KEYS_L_R_SELECT_START) {
+        if (slot->mPressedBits & PAD_KEYS_L_R_SELECT_START) {
             slot->mHoldStartTick = OS_GetTick();
             slot->mHoldLong = 0;
             return;
@@ -85,7 +85,7 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
         }
         return;
     }
-    if (maskedBits != 0x30c) {
+    if (maskedBits != PAD_KEYS_L_R_SELECT_START) {
         slot->mLongHoldEnabled = 1;
     }
     slot->mHoldLong = 0;

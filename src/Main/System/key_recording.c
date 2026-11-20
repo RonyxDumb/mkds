@@ -14,7 +14,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "01/Menu/emblem_cursor.h"
 #include "Main/System/heap_call.h"
@@ -47,10 +47,10 @@ void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
     pairIndex = keyRecording->mPairIndex;
     pair = &buffer->mPairs[pairIndex * 2];
     packedKeys = 0;
-    packedKeys |= (keys & 1) ? 1 : 0;
-    packedKeys |= (keys & 2) ? 2 : 0;
-    packedKeys |= (keys & 0x100) ? 4 : 0;
-    packedKeys |= (keys & 0x600) ? 8 : 0;
+    packedKeys |= (keys & PAD_KEY_A) ? 1 : 0;
+    packedKeys |= (keys & PAD_KEY_B) ? 2 : 0;
+    packedKeys |= (keys & PAD_KEY_R) ? 4 : 0;
+    packedKeys |= (keys & (PAD_KEY_L | PAD_KEY_X)) ? 8 : 0;
     packedKeys |= (keys & 0x10) ? 0x10 : 0;
     packedKeys |= (keys & 0x20) ? 0x20 : 0;
     packedKeys |= (keys & 0x80) ? 0x40 : 0;
@@ -99,10 +99,10 @@ u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording) {
     pair = &buffer->mPairs[pairIndex * 2];
     packedKeys = pair[0];
     keys = 0;
-    keys |= (packedKeys & 1) ? 1 : 0;
-    keys |= (packedKeys & 2) ? 2 : 0;
-    keys |= (packedKeys & 4) ? 0x100 : 0;
-    keys |= (packedKeys & 8) ? 0x600 : 0;
+    keys |= (packedKeys & 1) ? PAD_KEY_A : 0;
+    keys |= (packedKeys & 2) ? PAD_KEY_B : 0;
+    keys |= (packedKeys & 4) ? PAD_KEY_R : 0;
+    keys |= (packedKeys & 8) ? (PAD_KEY_L | PAD_KEY_X) : 0;
     keys |= (packedKeys & 0x10) ? 0x10 : 0;
     keys |= (packedKeys & 0x20) ? 0x20 : 0;
     keys |= (packedKeys & 0x80) ? 0x40 : 0;
@@ -149,7 +149,7 @@ void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
                 sceneNumbers->mNextScene = SCENE_OPTION;
                 break;
             default:
-                sceneNumbers->mNextScene = 0;
+                sceneNumbers->mNextScene = SCENE_TITLE;
                 break;
         }
     }

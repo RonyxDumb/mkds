@@ -100,7 +100,8 @@ void AddKartItemUseFlags(KartItems *kartItems) {
         if (heldItemIndex == ITEM_INFO_NONE || kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE) {
             heldItemNotInUseKindOneOrTwo = FALSE;
         } else {
-            heldItemNotInUseKindOneOrTwo = (u32) (gItemInfos[heldItemIndex].mUseKind - 1) <= 1;
+            heldItemNotInUseKindOneOrTwo = (u32) (gItemInfos[heldItemIndex].mUseKind - ITEM_USE_KIND_ONE) <=
+                                           ITEM_USE_KIND_ONE_WITH_ORIENTATION - ITEM_USE_KIND_ONE;
         }
         if (heldItemNotInUseKindOneOrTwo != FALSE) {
             if ((kartItems->mFlags & KART_ITEMS_KEY_RELEASED) && TryAddKartItemFlags(kartItems) != FALSE) {

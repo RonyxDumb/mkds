@@ -1,4 +1,5 @@
 #include "01/MapObjects/bomb_king.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "01/MapObjects/bomb_king_sound_and_jump_collision.h"
 #include "01/MapObjects/mission_run_repeats_and_counter.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
@@ -58,20 +59,21 @@
 #include "Main/Sound/sound_source_init.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 #include "01/MapObjects/hanachan_move_and_followers.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/sound_distance_squared_change.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 
 const u32 gBombKingSkipKindSoundFlag = 0x40000000;
 const u16 gBombKingSkipListCallbackFlag = 8;
@@ -126,23 +128,23 @@ void ThrowStoredItemBomb(MissionRunMapObject *mapObject) {
 }
 
 void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
-    RandomState64 *rng;
+    RandomState64 *random;
     s32 angle;
     s32 bombIndex;
     Vec3 pos;
 
-    rng = GetMapObjectRandom();
-    rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
-    angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
+    random = GetMapObjectRandom();
+    RANDOM_ADVANCE_S64(random);
+    angle = RANDOM_HIGH16(random);
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
-        Vec3 vel = {0, 0, 0};
+        Vec3 velocity = {0, 0, 0};
         angle += 0x5555;
         if (GetAbsoluteCounter(mapObject) == 0) {
             pos.x = mapObject->mMapObject.mPos.x +
-                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadius, SIN_OF_ANGLE((u16) angle));
-            pos.y = mapObject->mMapObject.mPos.y + mapObject->mPrm->mBombKing.mRingOffsetY;
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadiusCounterZero, SIN_OF_ANGLE((u16) angle));
+            pos.y = mapObject->mMapObject.mPos.y + mapObject->mPrm->mBombKing.mRingOffsetYCounterZero;
             pos.z = mapObject->mMapObject.mPos.z +
-                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadius, COS_OF_ANGLE((u16) angle));
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadiusCounterZero, COS_OF_ANGLE((u16) angle));
         } else {
             pos.x =
                 mapObject->mMapObject.mPos.x +
@@ -153,9 +155,9 @@ void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
                 MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadiusCounterNonZero, COS_OF_ANGLE((u16) angle));
         }
         if (bombIndex == 0) {
-            ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mBombKing.mRingBombTimer);
+            ThrowItemBombFromPosition(StartItemBomb(), &pos, &velocity, mapObject->mPrm->mBombKing.mRingBombTimer);
         } else {
-            ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &vel,
+            ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &velocity,
                                       mapObject->mPrm->mBombKing.mRingParkedBombTimer);
         }
     }
@@ -169,32 +171,32 @@ void StartBombKingEffectAndSound(MissionRunMapObject *mapObject) {
 }
 
 void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
-    RandomState64 *rng;
+    RandomState64 *random;
     s32 angle;
     s32 bombIndex;
     Vec3 pos;
 
-    rng = GetMapObjectRandom();
-    rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
-    angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
+    random = GetMapObjectRandom();
+    RANDOM_ADVANCE_S64(random);
+    angle = RANDOM_HIGH16(random);
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
-        Vec3 vel = {0, 0, 0};
+        Vec3 velocity = {0, 0, 0};
         angle += 0x5555;
         pos.x = mapObject->mMapObject.mPos.x +
                 MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mJumpRingRadius, SIN_OF_ANGLE((u16) angle));
         pos.y = mapObject->mMapObject.mPos.y;
         pos.z = mapObject->mMapObject.mPos.z +
                 MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mJumpRingRadius, COS_OF_ANGLE((u16) angle));
-        ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mBombKing.mJumpRingBombTimer);
+        ThrowItemBombFromPosition(StartItemBomb(), &pos, &velocity, mapObject->mPrm->mBombKing.mJumpRingBombTimer);
     }
     {
-        Vec3 pos2;
-        Vec3 vel2 = {0, 0, 0};
-        pos2.x = mapObject->mMapObject.mPos.x;
-        pos2.y = mapObject->mMapObject.mPos.y;
-        pos2.z = mapObject->mMapObject.mPos.z;
-        ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos2, &vel2,
-                                  mapObject->mPrm->mBombKing.mJumpRingParkedBombTimer);
+        Vec3 centerPos;
+        Vec3 centerVelocity = {0, 0, 0};
+        centerPos.x = mapObject->mMapObject.mPos.x;
+        centerPos.y = mapObject->mMapObject.mPos.y;
+        centerPos.z = mapObject->mMapObject.mPos.z;
+        ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &centerPos, &centerVelocity,
+                                  mapObject->mPrm->mBombKing.mJumpCenterParkedBombTimer);
     }
     SetSpeedAndClearTarget(mapObject, 0);
 }
@@ -422,18 +424,18 @@ void StartBombKingRandomState(MissionRunMapObject *mapObject) {
     randomLimit = (u16) mapObject->mPrm->mBombKing.mRandomLimit;
     if (randomLimit == 0x10000) {
         rng = GetMapObjectRandom();
-        rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
-        randomValue = (u16) (((rng->mValue >> 32) * 0x10000) >> 32);
+        RANDOM_ADVANCE(rng);
+        randomValue = (u16) RANDOM_BELOW(rng, 0x10000);
     } else {
         rng = GetMapObjectRandom();
         if ((u16) randomLimit == 0) {
             randomValue = 0;
         } else {
-            rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
+            RANDOM_ADVANCE(rng);
             if ((u16) randomLimit == 0) {
-                randomValue = rng->mValue >> 32;
+                randomValue = RANDOM_HIGH32(rng);
             } else {
-                randomValue = ((rng->mValue >> 32) * (s64) (u16) randomLimit) >> 32;
+                randomValue = RANDOM_BELOW(rng, (s64) (u16) randomLimit);
             }
         }
         randomValue = (u16) randomValue;
@@ -635,21 +637,21 @@ void InitBombKingObjects(MapObjectList *list) {
 }
 
 void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
-    int active;
+    int result;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        active = IsWinnerDecided();
+        result = IsWinnerDecided();
     } else {
-        active = 0;
+        result = 0;
     }
-    if (active != 0) {
+    if (result != 0) {
         if (IsStateNumberBelow(mapObject, 1) != 0) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                active = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
+                result = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
             } else {
-                active = 0;
+                result = 0;
             }
-            if (active != 0) {
+            if (result != 0) {
                 StartBombKingKartEliminatedState(mapObject);
             } else {
                 StartBombKingKartNotEliminatedState(mapObject);
@@ -672,7 +674,7 @@ void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
 }
 
 void InitBombKingMapObject(MissionRunMapObject *mapObject) {
-    CreateParkedMapObjects(0xc9, 0xa, mapObject);
+    CreateParkedMapObjects(MAP_OBJECT_KIND_GROUP_ITEM_BOX, 0xa, mapObject);
     mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
@@ -684,11 +686,11 @@ void SetBombKingEffectScale(ParticleEmitter *emitter) {
 
 void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     if (itemObject->mKind == ITEM_OBJECT_KIND_BOMB) {
-        if (IsItemBombExploding(itemObject) == FALSE) {
+        if (IsItemBombGrowing(itemObject) == FALSE) {
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
         }
     }
-    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_BOUNCE;
+    mapObject->mItemResponse = ITEM_HIT_TYPE_BOUNCE;
     SetItemCollisionCallback(mapObject, BombKingItemBounceCallback);
 }
 
@@ -699,7 +701,7 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
     if (IsItemBombStored(mapObject) != 0) {
         ThrowOrReleaseStoredItemBomb(mapObject, NULL, 0);
     }
-    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
+    mapObject->mItemResponse = ITEM_HIT_TYPE_FADE_OUT;
     SetItemCollisionCallback(mapObject, BombKingItemHitCallback);
     if (IsStateNumberBelow(mapObject, 7) != 0) {
         velocity.x = mapObject->mMapObject.mPos.x - itemObject->mPos.x;

@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_draw.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_in_use.h"
@@ -164,10 +165,11 @@ BOOL DrawKartKillerItem(Kart *kart) {
         NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);
         SetKillerItemKartIndex(kart->mIndex);
-        frame = kart->mKartModelsEntry->mKillerItemAnimation.mFrameIndex;
+        frame = kart->mKartModelsEntry->mKillerItemAnimation.mFrameIndexFixed;
         killerItemNsbca = GetKillerItemNsbca();
-        killerItemNsbca->mHead.mFrameIndex = frame;
-        killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame = killerItemNsbca->mHead.mFrameIndex;
+        killerItemNsbca->mFrameLoop.mFrameIndexFixed = frame;
+        killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame =
+            killerItemNsbca->mFrameLoop.mFrameIndexFixed;
         DrawNsbmd(GetKillerItem());
         DrawShadowWithoutMatrix(GetKillerItemS());
     }

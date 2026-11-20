@@ -1,4 +1,5 @@
 #include "Main/Graphics/layout_entry_angle.h"
+#include "03/Graphics/nce_oam.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "arena_cache_init.h"
@@ -392,7 +393,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
             oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~LAYOUT_OAM_PALETTE_MASK) | (value * 0x1000);
         }
         oamBuffer[oamIndex].mAttr01 &= ~0x1000;
-        oamBuffer[oamIndex].mAttr01 &= LAYOUT_OAM_KEEP_NO_AFFINE_FLIP_MASK;
+        oamBuffer[oamIndex].mAttr01 &= OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         cellData->mPOamAttrArray[oamIndex].mAttr0 = oamBuffer[oamIndex].mAttr0;
         cellData->mPOamAttrArray[oamIndex].mAttr1 = oamBuffer[oamIndex].mAttr1;
         cellData->mPOamAttrArray[oamIndex].mAttr2 = oamBuffer[oamIndex].mAttr2;
@@ -401,7 +402,8 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     return canvas->mTextCanvas.mCharBytes;
 }
 
-// Clears the character canvas of entry b, draws the string d into it and queues its upload.
+// Clears the character canvas of the label labelIndex, draws text into it with the label's alignment and queues its
+// upload to the engine queueSelector picks.
 void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
                           LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance) {
     s32 canvasWidth;
@@ -426,21 +428,21 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
     offsetX = 0;
     offsetY = 0;
     if (labelEntry->mAxisX.mAlign == LAYOUT_ALIGN_START) {
-        flags |= 0x200;
+        flags |= TEXT_CANVAS_FLAG_LEFT;
     } else if (labelEntry->mAxisX.mAlign == LAYOUT_ALIGN_CENTER) {
-        flags |= 0x400;
+        flags |= TEXT_CANVAS_FLAG_CENTER;
         offsetX = (alignedWidth - canvasWidth) >> 1;
     } else if (labelEntry->mAxisX.mAlign == LAYOUT_ALIGN_END) {
-        flags |= 0x800;
+        flags |= TEXT_CANVAS_FLAG_RIGHT;
         offsetX = alignedWidth - canvasWidth;
     }
     if (labelEntry->mAxisY.mAlign == LAYOUT_ALIGN_START) {
-        flags |= 0x40;
+        flags |= TEXT_CANVAS_FLAG_TOP;
     } else if (labelEntry->mAxisY.mAlign == LAYOUT_ALIGN_CENTER) {
-        flags |= 0x80;
+        flags |= TEXT_CANVAS_FLAG_MIDDLE;
         offsetY = (alignedHeight - canvasHeight) >> 1;
     } else if (labelEntry->mAxisY.mAlign == LAYOUT_ALIGN_END) {
-        flags |= 0x100;
+        flags |= TEXT_CANVAS_FLAG_BOTTOM;
         offsetY = alignedHeight - canvasHeight;
     }
     canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, 0);
@@ -472,7 +474,7 @@ void PrintLabelLayoutTextFixedDigits(s32 queueSelector, u32 labelIndex, LayoutEn
     PrintLabelLayoutText(queueSelector, labelIndex, labelLayout, text, cellLayout, table, 1, fixedAdvance);
 }
 
-// Clears the character canvas of entry b and queues its upload.
+// Clears the character canvas of the label labelIndex and queues its upload to the engine queueSelector picks.
 void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout,
                                   LayoutEntryTable *cellLayout, LayoutTableEntry *table) {
     LabelCanvas *canvas;

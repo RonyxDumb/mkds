@@ -177,8 +177,8 @@ cd28_clear:
 // clang-format on
 
 // clang-format off
-// Kept as asm: sets bit lockID of the two words at 0x027fffb0 (bits 0x40 to 0x5f in the first, 0x60 and up in the
-// second). It tests with pl/mi after a compare.
+// Kept as asm: sets the bit for lockID in the two lock id words (ids 0x40 to 0x5f in the first, 0x60 and up in the
+// second, counted from the top bit). It tests with pl/mi after a compare.
 asm void OS_ReleaseLockID(u16 lockID) {
     ldr r3, =0x27fffb0
     cmp r0, #0x60

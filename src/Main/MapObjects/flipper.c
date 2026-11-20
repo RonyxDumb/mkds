@@ -25,7 +25,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -172,11 +172,11 @@ void DrawFlipper(void *mapObjectList, Flipper *flipper) {
     NNS_G3dGeBufferOP_N(0x1b, &flipper->mMapObject.mScale, 3);
     SetMapObjectModelMirror(gFlipper, flipper->mMirror, 0);
     animation = gFlipper->mAnimations[1];
-    animation->mHead.mFrameIndex = TO_FIXED12(flipper->mNsbtpFrameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(flipper->mNsbtpFrameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
     animation = gFlipper->mAnimations[3];
-    animation->mHead.mFrameIndex = TO_FIXED12(flipper->mNsbtaFrameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(flipper->mNsbtaFrameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
     DrawMapObjectModel(mapObjectList, gFlipper, flipper);
 }
 
@@ -202,16 +202,16 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
         switch (flipper->mMapObject.mCourseMapRow->mSettings[0]) {
             case 0:
                 flipper->mMirror = 0;
-                flipper->mMapObject.mFlags &= ~0x400;
+                flipper->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_MIRRORED;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
-                flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
+                flipper->mWaitTimer = FLIPPER_FIRST_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
-                flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
+                flipper->mWaitTimer = FLIPPER_FIRST_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
         }
@@ -290,7 +290,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             break;
         case FLIPPER_STATE_SWING_BACK:
             flipper->mMapObject.mAngle += 0x16c;
-            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_STEP_LIMIT) {
+            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_ANIMATION_STEP_LIMIT) {
                 flipper->mIsAnimating = 1;
             } else {
                 flipper->mIsAnimating = 0;
@@ -299,9 +299,8 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             if (flipper->mSwingStep <= 0) {
                 flipper->mSwingStep = 0;
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
+                RANDOM_ADVANCE_S64(mapObjectRandom);
+                randomValue = RANDOM_BELOW_U64(mapObjectRandom, 12);
                 flipper->mWaitTimer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = FLIPPER_STATE_WAIT;
             }
@@ -324,7 +323,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             break;
         case FLIPPER_STATE_ALT_SWING_BACK:
             flipper->mMapObject.mAngle += 0x2d8;
-            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_STEP_LIMIT) {
+            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_ANIMATION_STEP_LIMIT) {
                 flipper->mIsAnimating = 1;
             } else {
                 flipper->mIsAnimating = 0;
@@ -333,9 +332,8 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             if (flipper->mSwingStep <= 0) {
                 flipper->mSwingStep = 0;
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
+                RANDOM_ADVANCE_S64(mapObjectRandom);
+                randomValue = RANDOM_BELOW_U64(mapObjectRandom, 12);
                 flipper->mWaitTimer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = FLIPPER_STATE_WAIT;
             }

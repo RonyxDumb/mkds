@@ -2,12 +2,14 @@
 
 #include "types.h"
 
-// Most data bytes of all stations in one data sharing set (WMDataSet.mData); the child's send index starts at the last
-// of the four ring entries so that its first send takes entry 0.
+// Most data bytes of all stations in one data sharing set (WMDataSet.mData).
 #define WIRELESS_DATA_SHARING_MAX_SET_LENGTH 0x1fc
+// Last of the four ring entries (3); the child's send index starts there, so its first send is built in entry 3 and the
+// index then wraps to entry 0.
 #define WIRELESS_DATA_SHARING_RING_LAST_INDEX 3
 
-// Sequence number of a message that carries no data.
+// Marks no sequence number: stored for a data set that was not sent (no remote station) and for a port event that
+// carries no data.
 #define WIRELESS_SEQ_NO_NONE 0xffff
 
 // One data set: the stations still expected and the stations whose data has arrived, then the data of every station.

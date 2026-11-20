@@ -32,7 +32,7 @@ u32 fsi_digest_key_len = 0x40;
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
 s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
     if (info->mCompressedSizeAndFlags.bytes[3] & 1) {
-        return info->mCompressedSizeAndFlags.f.mCompressedSize;
+        return info->mCompressedSizeAndFlags.f.mCompressed;
     }
     return info->mRamSize;
 }
@@ -346,18 +346,18 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
 // Ends the asynchronous ROM read of an archive.
 void FSi_OnRomReadDone(void *arg) {
     FSArchive *archive = arg;
-    FS_NotifyArchiveAsyncEnd(archive, 0);
+    FS_NotifyArchiveAsyncEnd(archive, ARCHIVE_RESULT_SUCCESS);
 }
 
 // Archive read callback that reads from the card in the background.
 s32 FSi_ReadRomCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
     CARDi_ReadRom(fsi_default_dma_no, src, (u32) dst, len, FSi_OnRomReadDone, archive, 1);
-    return 6;
+    return ARCHIVE_RESULT_RUNNING_IN_BACKGROUND;
 }
 
 // Archive write callback that always fails.
 s32 FSi_WriteDummyCallback(FSArchive *archive, const void *src, u32 dst, u32 len) {
-    return 1;
+    return ARCHIVE_RESULT_FAILED;
 }
 
 // ROM archive callback: locks and unlocks the card.
@@ -365,25 +365,25 @@ s32 FSi_RomArchiveProc(FSFile *file, u32 command) {
     switch (command) {
         case ARCHIVE_COMMAND_START_RUN:
             CARD_LockRom(fsi_card_lock_id);
-            return 0;
+            return ARCHIVE_RESULT_SUCCESS;
         case ARCHIVE_COMMAND_STOP_RUN:
             CARD_UnlockRom(fsi_card_lock_id);
-            return 0;
+            return ARCHIVE_RESULT_SUCCESS;
         case 1:
-            return 4;
+            return ARCHIVE_RESULT_UNSUPPORTED;
         default:
-            return 8;
+            return ARCHIVE_RESULT_NOT_HANDLED;
     }
 }
 
 // Archive read callback that always fails.
 s32 FSi_ReadDummyCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
-    return 1;
+    return ARCHIVE_RESULT_FAILED;
 }
 
 // Archive callback that rejects every command.
 s32 FSi_EmptyArchiveProc(FSFile *file, u32 command) {
-    return 4;
+    return ARCHIVE_RESULT_UNSUPPORTED;
 }
 
 // Registers the "rom" archive and loads its tables from the ROM header.
@@ -410,7 +410,7 @@ void FSi_InitRom(u32 dmaNo) {
     }
     fntRegion = 0x27ffe40;
     fatRegion = 0x27ffe48;
-    FS_SetArchiveProc(&fsi_arc_rom, FSi_RomArchiveProc, 0x602);
+    FS_SetArchiveProc(&fsi_arc_rom, FSi_RomArchiveProc, ARCHIVE_PROC_START_RUN | ARCHIVE_PROC_STOP_RUN | 0x2);
     if (((CARDRomRegion *) fntRegion)->mOffset == (u8 *) -1) {
         return;
     }

@@ -2,7 +2,7 @@
 #include "00/Lib/GameSpy/login_connect.h"
 #include "00/Lib/DWC/memory_allocator.h"
 
-void gpiFreeInfoCache(GpiProfile *profile) {
+void gpiFreeInfoCache(GPIProfile *profile) {
     if (profile->mCache != NULL) {
         DWCi_GsFree(profile->mCache->mNick);
         profile->mCache->mNick = NULL;

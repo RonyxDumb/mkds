@@ -21,8 +21,6 @@ struct MtxFx43;
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 
-#define WATER_HEIGHT_ANGLE_PER_FRAME 0x10000
-
 #define WATER_FALL_SOUND_ID 0x114
 #define WATER_RISE_SOUND_ID 0x113
 

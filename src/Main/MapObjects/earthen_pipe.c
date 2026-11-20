@@ -22,6 +22,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/MapObjects/earthen_pipe_create.h"
 #include "Main/MapObjects/wanwan_chain.h"
+#include "Main/MapObjects/pushed_object_states_init.h"
 
 const MapObjectKindDescriptor gEarthenPipeKindDescriptor = {0,
                                                             {0, 0},
@@ -40,7 +41,7 @@ NsbmdModel *gEarthenPipe2;
 
 void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 maxAlpha) {
     MtxFx43 *matrix;
-    if (pipe->mMapObject.mStateMachine.mState == 0) {
+    if (pipe->mMapObject.mStateMachine.mState == PUSHED_OBJECT_STATE_IDLE) {
         matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
         DrawNsbmdModelWithMatrixAndMaxAlpha(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, maxAlpha);
         return;

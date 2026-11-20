@@ -5,17 +5,15 @@
 
 typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 
-// TexMtxCommand.mCommand: three packed geometry commands (matrix mode, load or multiply the 4x4 matrix, matrix mode),
-// and the matrix modes the command sets before and after the matrix: texture, and position and vector.
+// TexMtxCommand.mCommand: the command word sent before the matrix data; SET when MAT_RESULT_TEX_MATRIX_SET is set, MULT
+// otherwise. The two mode words sent around the matrix are TEX and POS_VEC.
 #define TEX_MTX_COMMAND_SET 0x101610
 #define TEX_MTX_COMMAND_MULT 0x101810
-#define TEX_MTX_MODE_TEXTURE 3
-#define TEX_MTX_MODE_POSITION_VECTOR 2
 // Bits of NNSG3dMatAnmResult.mFlag that pick the texture matrix calculation (scale one, rotation zero, translation
 // zero).
 #define TEX_MTX_CALC_FLAG_MASK 7
 
-// Command word and the 18 words sent with it: a mode, a 4x4 matrix and a trailing value.
+// Command word and the 18 words sent with it: a mode, a 4x4 matrix and a second mode (mUnk_4c is not sent).
 typedef struct TexMtxCommand {
     /* 00 */ u32 mCommand;
     /* 04 */ u32 mMtxModeTex;

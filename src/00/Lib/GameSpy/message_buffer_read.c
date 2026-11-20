@@ -24,45 +24,45 @@
 #include "00/Lib/GameSpy/profile_search.h"
 #include "00/Lib/GameSpy/peer_connection.h"
 
-u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
+u32 gpiReadMessageFromBuffer(GPConnection *connection, GPIBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
     char intText[0x10];
-    u8 *str;
+    u8 *headerEnd;
     s32 bodyLength;
-    s32 len;
+    s32 bodyEndOffset;
     *message = 0;
     if (inputBuffer->mLength < 5) {
         return 0;
     }
-    str = (u8 *) strchr((const char *) inputBuffer->mBuffer, 10);
-    if (str != NULL) {
-        if (strncmp((const char *) (str - 5), "\\msg\\", 5) != 0) {
+    headerEnd = (u8 *) strchr((const char *) inputBuffer->mBuffer, 10);
+    if (headerEnd != NULL) {
+        if (strncmp((const char *) (headerEnd - 5), "\\msg\\", 5) != 0) {
             return 3;
         }
-        *str = 0;
-        if (GpiGetValue((const char *) inputBuffer->mBuffer, "\\m\\", intText, 0x10) == FALSE) {
+        *headerEnd = 0;
+        if (gpiValueForKey((const char *) inputBuffer->mBuffer, "\\m\\", intText, 0x10) == FALSE) {
             return 3;
         }
         *type = StrtolBase10(intText);
-        if (GpiGetValue((const char *) inputBuffer->mBuffer, "\\len\\", intText, 0x10) == FALSE) {
+        if (gpiValueForKey((const char *) inputBuffer->mBuffer, "\\len\\", intText, 0x10) == FALSE) {
             return 3;
         }
         bodyLength = StrtolBase10(intText);
-        len = bodyLength + 1;
-        if (inputBuffer->mLength > len + (str - inputBuffer->mBuffer)) {
-            if (*(s8 *) (str + len) != 0) {
+        bodyEndOffset = bodyLength + 1;
+        if (inputBuffer->mLength > bodyEndOffset + (headerEnd - inputBuffer->mBuffer)) {
+            if (*(s8 *) (headerEnd + bodyEndOffset) != 0) {
                 return 3;
             }
-            *message = (s32) (str + 1);
+            *message = (s32) (headerEnd + 1);
             *plen = bodyLength;
-            inputBuffer->mPos = len + (str - inputBuffer->mBuffer) + 1;
+            inputBuffer->mPos = bodyEndOffset + (headerEnd - inputBuffer->mBuffer) + 1;
         } else {
-            *str = 10;
+            *headerEnd = 10;
         }
     }
     return 0;
 }
 
-u32 gpiClipBufferToPosition(GpConnection *connection, GpiBuffer *buffer) {
+u32 gpiClipBufferToPosition(GPConnection *connection, GPIBuffer *buffer) {
     s32 position;
     if (buffer == NULL || buffer->mBuffer == NULL || (position = buffer->mPos) == 0) {
         return 0;

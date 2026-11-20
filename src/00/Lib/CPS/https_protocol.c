@@ -26,20 +26,20 @@
 
 u8 gRandomByteStateMixed;
 u32 gNewEntryIdCount;
-u8 gRandomByteState[0x14];
+u8 gRandomByteState[SHA1_DIGEST_SIZE];
 HttpsEntry gUncachedHttpsEntry;
 HttpsEntry gHttpsEntries[4];
 
 static char sPrefixNone[] = "\xff\xff\xff";
-static char sPrefixCommonName[] = "\x55\x04\x03";
+static char sPrefixHostPattern[] = "\x55\x04\x03";
 u32 gSslLowThreadPriority = 0xffffffff;
-static char sPrefixRsaEncryption[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01";
-static char sPrefixRsaAlgorithm[] = "\x55\x08\x01\x01";
-static char sPrefixMd5WithRsa[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x04";
-static char sPrefixSha1WithRsa[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x05";
-u16 gOfferedValues[2] = {4, 5};
-const char *gTaggedItemPrefixes[6] = {sPrefixNone,       sPrefixRsaEncryption, sPrefixRsaAlgorithm,
-                                      sPrefixMd5WithRsa, sPrefixSha1WithRsa,   sPrefixCommonName};
+static char sPrefixKeyValuesLong[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01";
+static char sPrefixKeyValuesShort[] = "\x55\x08\x01\x01";
+static char sPrefixMd5Digest[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x04";
+static char sPrefixSha1Digest[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x05";
+u16 gOfferedValues[2] = {HTTPS_COMMON_VALUE_MD5, HTTPS_COMMON_VALUE_HASH20};
+const char *gTaggedItemPrefixes[6] = {sPrefixNone,       sPrefixKeyValuesLong, sPrefixKeyValuesShort,
+                                      sPrefixMd5Digest, sPrefixSha1Digest,   sPrefixHostPattern};
 
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes) {
     s32 entryIndex;
@@ -145,8 +145,8 @@ CPSCaInfo *FindAuthorityByName(HttpsState *httpsState, const s8 *name) {
     return 0;
 }
 
-// Reads a length (one byte below 0x80, else 0x80 + n followed by n big-endian bytes) and moves *a past it; -1 when the
-// value would not fit in 32 bits.
+// Reads a length (one byte below 0x80, else 0x80 + n followed by n big-endian bytes) and moves *position past it; -1
+// when the value would not fit in 32 bits.
 s32 ReadLengthAndAdvance(u8 **position) {
     u8 *cursor;
     s32 length;
@@ -186,13 +186,14 @@ void AppendCommaSeparatedText(s8 *dest, const s8 *source, s32 count) {
     *dest = 0;
 }
 
-// Returns year << 16 | month << 8 | day from digit text; a tag of 0x17 means a two-digit year, else four digits.
-u32 ParseDateText(const u8 *digits, u32 tag) {
+// Returns year << 16 | month << 8 | day from digit text; a tag kind of ITEM_TAG_DATE_TWO_DIGIT_YEAR means a two-digit
+// year (below 50 is 20xx, else 19xx), else four digits.
+u32 ParseDateText(const u8 *digits, u32 tagKind) {
     u32 leadingNumber;
     u32 year;
     leadingNumber = digits[1] + digits[0] * 10 - 0x210;
     digits += 2;
-    if (tag == 0x17) {
+    if (tagKind == ITEM_TAG_DATE_TWO_DIGIT_YEAR) {
         if (leadingNumber < 0x32) {
             year = leadingNumber + 0x7d0;
         } else {
@@ -226,7 +227,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
     }
     tagKind = tag & 0x1f;
     switch (tagKind) {
-        case ASN1_TAG_INTEGER:
+        case ITEM_TAG_INTEGER:
             if (httpsState->mCaptureValues != 0) {
                 if (index == 0) {
                     while (*cursor == 0) {
@@ -240,7 +241,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                                 httpsState->mFirstValueLength = length;
                             }
                             break;
-                        case TAGGED_ITEM_MODE_PUBLIC_KEY:
+                        case TAGGED_ITEM_MODE_ITEM_RECORD:
                             httpsState->mItemRecord.mModulusLen = length;
                             httpsState->mItemRecord.mModulus = cursor;
                             break;
@@ -257,7 +258,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                                 httpsState->mSecondValueLength = length;
                             }
                             break;
-                        case TAGGED_ITEM_MODE_PUBLIC_KEY:
+                        case TAGGED_ITEM_MODE_ITEM_RECORD:
                             httpsState->mItemRecord.mExponentLen = length;
                             httpsState->mItemRecord.mExponent = cursor;
                             break;
@@ -266,8 +267,8 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             }
             cursor += length;
             break;
-        case ASN1_TAG_BIT_STRING:
-            if (depth == 1 && mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
+        case ITEM_TAG_SKIP_FIRST_BYTE:
+            if (depth == 1 && mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                 httpsState->mCheckedBytes = cursor + 1;
                 httpsState->mCheckedBytesLength = length - 1;
             }
@@ -281,7 +282,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                 cursor += length;
             }
             break;
-        case ASN1_TAG_OBJECT_IDENTIFIER:
+        case ITEM_TAG_PREFIX_LOOKUP:
             failed = 0;
             prefixCursor = gTaggedItemPrefixes;
             itemStart = cursor;
@@ -298,12 +299,12 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                             break;
                         case TAGGED_ITEM_MD5_WITH_RSA:
                         case TAGGED_ITEM_SHA1_WITH_RSA:
-                            if (mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
+                            if (mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                                 httpsState->mDigestKind = failed;
                             }
                             break;
                         case TAGGED_ITEM_COMMON_NAME:
-                            if (mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
+                            if (mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                                 httpsState->mCopyNextText = failed;
                             }
                             break;
@@ -315,11 +316,12 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             } while (failed < 6);
             cursor += length;
             break;
-        case ASN1_TAG_UTF8_STRING:
-        case ASN1_TAG_PRINTABLE_STRING:
-        case ASN1_TAG_T61_STRING:
-        case ASN1_TAG_IA5_STRING:
-            if (mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
+        // text items
+        case 0x0c:
+        case 0x13:
+        case 0x14:
+        case 0x16:
+            if (mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                 if (httpsState->mDatesSeen != 0) {
                     AppendCommaSeparatedText(httpsState->mCommaSeparatedText, (const s8 *) cursor, length);
                     if (httpsState->mCopyNextText == TAGGED_ITEM_COMMON_NAME && length <= 0x4f) {
@@ -333,9 +335,9 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             httpsState->mCopyNextText = 0;
             cursor += length;
             break;
-        case ASN1_TAG_UTC_TIME:
-        case ASN1_TAG_GENERALIZED_TIME:
-            if (mode != 2) {
+        case ITEM_TAG_DATE_TWO_DIGIT_YEAR:
+        case ITEM_TAG_DATE_FOUR_DIGIT_YEAR:
+            if (mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                 date = ParseDateText(cursor, tagKind);
                 if (index == 0) {
                     if (httpsState->mCurrentDate >= date) {
@@ -350,8 +352,8 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             cursor += length;
             httpsState->mDatesSeen = 1;
             break;
-        case ASN1_TAG_SEQUENCE:
-            if (depth == 0 && index == 0 && mode != 2) {
+        case ITEM_TAG_SEQUENCE:
+            if (depth == 0 && index == 0 && mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                 httpsState->mDigestStart = cursor;
             }
             itemEnd = cursor + length;
@@ -365,11 +367,11 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                     }
                 } while (cursor < itemEnd);
             }
-            if (depth == 1 && index == 0 && mode != 2) {
+            if (depth == 1 && index == 0 && mode != TAGGED_ITEM_MODE_ITEM_RECORD) {
                 httpsState->mDigestEnd = cursor;
             }
             break;
-        case ASN1_TAG_SET:
+        case ITEM_TAG_SET:
             itemEnd = cursor + length;
             if (cursor < itemEnd) {
                 do {
@@ -513,8 +515,8 @@ s32 GetTextLengthUpToDot(const s8 *text) {
     return text - start;
 }
 
-// Returns FALSE when the texts match; a '*' in the second matches the first characters of one dot-separated part of the
-// first.
+// Returns FALSE when text matches pattern; a '*' in pattern stands for any characters inside one dot-separated part of
+// text.
 BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern) {
     s32 textPartLength;
     s32 patternPartLength;
@@ -539,8 +541,9 @@ BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern) {
     }
 }
 
-// Parses and checks each item of the list message in turn, passing the flags to mCheckFlagsCallback; mSetupState
-// becomes HTTPS_SETUP_ITEM_LIST_CHECKED when the last result is 0, else HTTPS_SETUP_FAILED.
+// Parses and checks the first item of the list message and goes on to the next one only while items remain and its
+// check result (the low byte of its flags) was not 0 but mCheckFlagsCallback cleared all the flags; mSetupState becomes
+// HTTPS_SETUP_ITEM_LIST_CHECKED when the final flags are 0, else HTTPS_SETUP_FAILED (also when an item does not parse).
 void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     s32 itemIndex;
     s32 remainingLength;
@@ -557,7 +560,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     httpsState->mCurrentDate = date.mDay + (((date.mYear + 0x7d0) << 16) + (date.mMonth << 8));
     httpsState->mCommaSeparatedText[0] = 0;
     httpsState->mFirstValueLength = httpsState->mSecondValueLength = 0;
-    parseMode = FALSE;
+    parseMode = TAGGED_ITEM_MODE_KEEP_VALUES;
     itemIndex = parseMode;
     for (;;) {
         itemLength = (((cursor[0] << 8) + cursor[1]) << 8) + cursor[2];
@@ -586,7 +589,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
         if (resultCode == 1 && remainingLength != 0) {
             nextItem = cursor + 3;
             httpsState->mCaptureValues = 0;
-            if (ParseTaggedItem(httpsState, &nextItem, 0, 0, 2) != 0) {
+            if (ParseTaggedItem(httpsState, &nextItem, 0, 0, TAGGED_ITEM_MODE_ITEM_RECORD) != 0) {
                 httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 return;
             }
@@ -597,7 +600,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
         }
         itemIndex++;
         if (resultCode != 0 && flags == 0 && remainingLength != 0) {
-            parseMode = TRUE;
+            parseMode = TAGGED_ITEM_MODE_SKIP_VALUES;
             continue;
         }
         break;
@@ -609,17 +612,17 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     }
 }
 
-void ParseAnswerMessage(HttpsState *httpsState, u8 *message) {
+void ParseAnswerMessage(HttpsState *httpsState, u8 *cursor) {
     u8 idLength;
     u8 *afterId;
     u8 *idLengthByte;
     HttpsEntry *entry;
-    MI_CpuCopy8(message + 2, httpsState->mAnswerBlock, sizeof(httpsState->mAnswerBlock));
-    idLengthByte = message + 0x22;
-    message = (u8 *) message + 0x23;
+    MI_CpuCopy8(cursor + 2, httpsState->mAnswerBlock, sizeof(httpsState->mAnswerBlock));
+    idLengthByte = cursor + 0x22;
+    cursor = (u8 *) cursor + 0x23;
     idLength = *idLengthByte;
     entry = httpsState->mEntry;
-    if (entry != NULL && idLength == 0x20 && memcmp(entry->mSessionId, message, 0x20) == 0) {
+    if (entry != NULL && idLength == 0x20 && memcmp(entry->mSessionId, cursor, 0x20) == 0) {
         httpsState->mReusedEntry = 1;
     } else {
         if (entry != NULL) {
@@ -628,11 +631,11 @@ void ParseAnswerMessage(HttpsState *httpsState, u8 *message) {
         if (idLength == 0) {
             httpsState->mEntry = &gUncachedHttpsEntry;
         } else {
-            httpsState->mEntry = AddEntryOrReplaceLongestUnused(message);
+            httpsState->mEntry = AddEntryOrReplaceLongestUnused(cursor);
         }
         httpsState->mReusedEntry = 0;
     }
-    afterId = message + idLength;
+    afterId = cursor + idLength;
     httpsState->mCommonValue = (afterId[0] << 8) + afterId[1];
     httpsState->mSetupState = HTTPS_SETUP_ANSWER_RECEIVED;
 }
@@ -718,11 +721,12 @@ void ParseOfferMessage(HttpsState *httpsState, const u8 *message) {
     }
 }
 
-// Transforms the bytes in b with the six length and pointer pairs of c and writes 0x30 bytes to a.
+// Transforms the bytes in encrypted with the six length and pointer pairs of privateKey and writes 0x30 bytes to
+// secret; does nothing when privateKey is NULL, its mModulusLength is 0 or the work block cannot be allocated.
 void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *privateKey) {
     u16 *workBlock;
     u16 *keyBlock;
-    u16 *productBlock;
+    u16 *dividendBlock;
     u16 *firstPowerBlock;
     u16 *secondPowerBlock;
     u16 *primeBlock;
@@ -739,8 +743,8 @@ void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *pr
         return;
     }
     keyBlock = workBlock + digitCount;
-    productBlock = keyBlock + digitCount;
-    firstPowerBlock = productBlock + digitCount;
+    dividendBlock = keyBlock + digitCount;
+    firstPowerBlock = dividendBlock + digitCount;
     secondPowerBlock = firstPowerBlock + digitCount;
     primeBlock = secondPowerBlock + digitCount;
     outputBlock = primeBlock + digitCount;
@@ -754,24 +758,24 @@ void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *pr
     CPSi_big_montpower(secondPowerBlock, workBlock, keyBlock, digitCount, primeBlock);
     CPSi_big_sub(workBlock, firstPowerBlock, secondPowerBlock, digitCount);
     CPSi_big_from_char(keyBlock, privateKey->mCoefficient, privateKey->mCoefficientLength, digitCount);
-    CPSi_big_mult(productBlock, workBlock, keyBlock, digitCount);
+    CPSi_big_mult(dividendBlock, workBlock, keyBlock, digitCount);
     CPSi_big_from_char(keyBlock, privateKey->mPrime2, privateKey->mPrime2Length, digitCount);
-    CPSi_big_mult(workBlock, productBlock, keyBlock, digitCount);
-    CPSi_big_add(productBlock, workBlock, secondPowerBlock, digitCount);
+    CPSi_big_mult(workBlock, dividendBlock, keyBlock, digitCount);
+    CPSi_big_add(dividendBlock, workBlock, secondPowerBlock, digitCount);
     CPSi_big_from_char(keyBlock, privateKey->mModulus, privateKey->mModulusLength, digitCount);
-    if (CPSi_big_sign(productBlock, digitCount) < 0) {
-        CPSi_big_negate(productBlock, digitCount);
-        CPSi_big_div(NULL, productBlock, keyBlock, outputBlock, digitCount, divisionWork);
+    if (CPSi_big_sign(dividendBlock, digitCount) < 0) {
+        CPSi_big_negate(dividendBlock, digitCount);
+        CPSi_big_div(NULL, dividendBlock, keyBlock, outputBlock, digitCount, divisionWork);
         CPSi_big_sub(outputBlock, keyBlock, outputBlock, digitCount);
     } else {
-        CPSi_big_div(NULL, productBlock, keyBlock, outputBlock, digitCount, divisionWork);
+        CPSi_big_div(NULL, dividendBlock, keyBlock, outputBlock, digitCount, divisionWork);
     }
     CPSi_char_from_big(secret, outputBlock, 0x30, digitCount);
     CPSiFree(workBlock);
 }
 
 void ComputeLabeledDigest16(u8 *digest, const u8 *label, HttpsState *httpsState) {
-    u8 innerDigest[0x14];
+    u8 innerDigest[SHA1_DIGEST_SIZE];
     Hash20Context *hash20;
     CPSMd5Ctx *hash16;
     hash20 = &httpsState->mScratchHash20;
@@ -784,21 +788,22 @@ void ComputeLabeledDigest16(u8 *digest, const u8 *label, HttpsState *httpsState)
     hash16 = &httpsState->mScratchHash16;
     CPSi_md5_init(hash16);
     CPSi_md5_calc(hash16, httpsState->mEntry->mMasterSecret, 0x30);
-    CPSi_md5_calc(hash16, innerDigest, 0x14);
+    CPSi_md5_calc(hash16, innerDigest, SHA1_DIGEST_SIZE);
     CPSi_md5_result(hash16, digest);
 }
 
 void ReplaceEntryBytesWithLabeledDigests(HttpsState *httpsState) {
-    u8 firstDigest[16];
-    u8 secondDigest[16];
-    u8 thirdDigest[16];
+    u8 firstDigest[MD5_DIGEST_SIZE];
+    u8 secondDigest[MD5_DIGEST_SIZE];
+    u8 thirdDigest[MD5_DIGEST_SIZE];
     ComputeLabeledDigest16(firstDigest, (const u8 *) "A", httpsState);
     ComputeLabeledDigest16(secondDigest, (const u8 *) "BB", httpsState);
     ComputeLabeledDigest16(thirdDigest, (const u8 *) "CCC", httpsState);
     MI_CpuCopy8(firstDigest, httpsState->mEntry->mMasterSecret, sizeof(httpsState->mEntry->mMasterSecret));
 }
 
-// Fills mDerivedBytes from digests, splits it between the send and receive members and seeds the two key stream states.
+// Fills mDerivedBytes from digests, points the send and receive members into it (in the order set by
+// mReceivesOfferRecord) and seeds the two key stream states.
 void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     s32 digestLength;
     s32 keyStreamLength;
@@ -811,12 +816,12 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     void *hashContext;
     switch (httpsState->mCommonValue) {
         case HTTPS_COMMON_VALUE_MD5:
-            digestLength = 0x10;
+            digestLength = MD5_DIGEST_SIZE;
             keyStreamLength = 0x10;
             extraLength = 0;
             break;
         case HTTPS_COMMON_VALUE_HASH20:
-            digestLength = 0x14;
+            digestLength = SHA1_DIGEST_SIZE;
             keyStreamLength = 0x10;
             extraLength = 0;
             break;
@@ -839,9 +844,9 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
             hashContext = &httpsState->mScratchHash16;
             CPSi_md5_init(hashContext);
             CPSi_md5_calc(hashContext, httpsState->mEntry->mMasterSecret, 0x30);
-            CPSi_md5_calc(hashContext, labelAndDigest + 1, 0x14);
+            CPSi_md5_calc(hashContext, labelAndDigest + 1, SHA1_DIGEST_SIZE);
             CPSi_md5_result(hashContext, httpsState->mDerivedBytes + outputOffset);
-            outputOffset += 0x10;
+            outputOffset += MD5_DIGEST_SIZE;
             blockIndex++;
         } while (outputOffset < totalLength);
     }
@@ -864,8 +869,8 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     CPSi_rc4_init(httpsState->mSendKeyStreamState, httpsState->mSendKeyStreamBytes, 0x10);
 }
 
-// Recovers the entry's 0x30 bytes from the encrypted secret, derives the key bytes and sets mSetupState to
-// HTTPS_SETUP_KEYS_DERIVED.
+// Recovers the entry's 0x30 bytes from the encrypted secret, replaces them with labeled digests, derives mDerivedBytes
+// and sets mSetupState to HTTPS_SETUP_KEYS_DERIVED.
 void rcv_client_key_exchange(HttpsState *httpsState, const u8 *encryptedSecret) {
     decrypt_premaster_secret(httpsState->mEntry->mMasterSecret, encryptedSecret, httpsState->mPrivateKey);
     ReplaceEntryBytesWithLabeledDigests(httpsState);
@@ -890,7 +895,7 @@ void ComputeLabeledMessageDigest16(HttpsState *httpsState, u8 *digest, u32 fromO
     CPSi_md5_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
     CPSi_md5_calc(messageHash, padBytes, 0x30);
-    CPSi_md5_calc(messageHash, digest, 0x10);
+    CPSi_md5_calc(messageHash, digest, MD5_DIGEST_SIZE);
     CPSi_md5_result(messageHash, digest);
 }
 
@@ -911,7 +916,7 @@ void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromO
     CPSi_sha1_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
     CPSi_sha1_calc(messageHash, padBytes, 0x28);
-    CPSi_sha1_calc(messageHash, digest, 0x14);
+    CPSi_sha1_calc(messageHash, digest, SHA1_DIGEST_SIZE);
     CPSi_sha1_result(messageHash, digest);
 }
 
@@ -921,7 +926,7 @@ void CheckMessageDigestsAndSetState(HttpsState *httpsState, u8 *receivedDigests)
     MI_CpuCopy8(&httpsState->mMessageHash16, &httpsState->mScratchHash16, sizeof(httpsState->mMessageHash16));
     ComputeLabeledMessageDigest16(httpsState, ownDigest, 1);
     MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, sizeof(httpsState->mScratchHash16));
-    compareResult = memcmp(receivedDigests, ownDigest, 0x10);
+    compareResult = memcmp(receivedDigests, ownDigest, MD5_DIGEST_SIZE);
     if (compareResult != 0) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
@@ -929,7 +934,7 @@ void CheckMessageDigestsAndSetState(HttpsState *httpsState, u8 *receivedDigests)
     MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, sizeof(httpsState->mMessageHash20));
     ComputeLabeledMessageDigest20(httpsState, ownDigest, 1);
     MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, sizeof(httpsState->mScratchHash20));
-    compareResult = memcmp(receivedDigests + 0x10, ownDigest, 0x14);
+    compareResult = memcmp(receivedDigests + MD5_DIGEST_SIZE, ownDigest, SHA1_DIGEST_SIZE);
     if (compareResult != 0) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
@@ -959,71 +964,72 @@ u32 XorReceivedBytesWithKeyStream(HttpsState *httpsState, u8 *bytes, u32 count) 
 }
 
 s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *record) {
-    u8 computedDigest[0x14];
+    u8 computedDigest[SHA1_DIGEST_SIZE];
     u8 padBytes[0x30];
     s32 payloadLength;
     u32 digestLength;
     CPSMd5Ctx *scratchHash16;
     Hash20Context *scratchHash20;
-    payloadLength = XorReceivedBytesWithKeyStream(httpsState, (record + 5), (record[3] << 8) + record[4]);
+    payloadLength = XorReceivedBytesWithKeyStream(httpsState, (record + TLS_RECORD_HEADER_SIZE),
+                                                  (record[3] << 8) + record[4]);
     switch (httpsState->mCommonValue) {
         case HTTPS_COMMON_VALUE_MD5:
-            payloadLength -= 0x10;
+            payloadLength -= MD5_DIGEST_SIZE;
             record[3] = payloadLength >> 8;
             record[4] = payloadLength;
             scratchHash16 = &httpsState->mScratchHash16;
             CPSi_md5_init(scratchHash16);
-            CPSi_md5_calc(scratchHash16, httpsState->mReceiveDigestBytes, 0x10);
+            CPSi_md5_calc(scratchHash16, httpsState->mReceiveDigestBytes, MD5_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x36, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
             CPSi_md5_calc(scratchHash16, httpsState->mReceiveRecordCount, 8);
             CPSi_md5_calc(scratchHash16, record, 1);
             CPSi_md5_calc(scratchHash16, record + 3, 2);
-            CPSi_md5_calc(scratchHash16, record + 5, payloadLength);
+            CPSi_md5_calc(scratchHash16, record + TLS_RECORD_HEADER_SIZE, payloadLength);
             CPSi_md5_result(scratchHash16, computedDigest);
             CPSi_md5_init(scratchHash16);
-            CPSi_md5_calc(scratchHash16, httpsState->mReceiveDigestBytes, 0x10);
+            CPSi_md5_calc(scratchHash16, httpsState->mReceiveDigestBytes, MD5_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
-            CPSi_md5_calc(scratchHash16, computedDigest, 0x10);
+            CPSi_md5_calc(scratchHash16, computedDigest, MD5_DIGEST_SIZE);
             CPSi_md5_result(scratchHash16, computedDigest);
-            digestLength = 0x10;
+            digestLength = MD5_DIGEST_SIZE;
             break;
         case HTTPS_COMMON_VALUE_HASH20:
-            payloadLength -= 0x14;
+            payloadLength -= SHA1_DIGEST_SIZE;
             record[3] = payloadLength >> 8;
             record[4] = payloadLength;
             scratchHash20 = &httpsState->mScratchHash20;
             CPSi_sha1_init(scratchHash20);
-            CPSi_sha1_calc(scratchHash20, httpsState->mReceiveDigestBytes, 0x14);
+            CPSi_sha1_calc(scratchHash20, httpsState->mReceiveDigestBytes, SHA1_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x36, 0x28);
             CPSi_sha1_calc(scratchHash20, padBytes, 0x28);
             CPSi_sha1_calc(scratchHash20, httpsState->mReceiveRecordCount, 8);
             CPSi_sha1_calc(scratchHash20, record, 1);
             CPSi_sha1_calc(scratchHash20, record + 3, 2);
-            CPSi_sha1_calc(scratchHash20, record + 5, payloadLength);
+            CPSi_sha1_calc(scratchHash20, record + TLS_RECORD_HEADER_SIZE, payloadLength);
             CPSi_sha1_result(scratchHash20, computedDigest);
             CPSi_sha1_init(scratchHash20);
-            CPSi_sha1_calc(scratchHash20, httpsState->mReceiveDigestBytes, 0x14);
+            CPSi_sha1_calc(scratchHash20, httpsState->mReceiveDigestBytes, SHA1_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x5c, 0x28);
             CPSi_sha1_calc(scratchHash20, padBytes, 0x28);
-            CPSi_sha1_calc(scratchHash20, computedDigest, 0x14);
+            CPSi_sha1_calc(scratchHash20, computedDigest, SHA1_DIGEST_SIZE);
             CPSi_sha1_result(scratchHash20, computedDigest);
-            digestLength = 0x14;
+            digestLength = SHA1_DIGEST_SIZE;
             break;
     }
-    if (memcmp(record + 5 + payloadLength, computedDigest, digestLength) != 0) {
+    if (memcmp(record + TLS_RECORD_HEADER_SIZE + payloadLength, computedDigest, digestLength) != 0) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
     }
     IncrementBigEndianBytes(httpsState->mReceiveRecordCount, 8);
-    return payloadLength + 5;
+    return payloadLength + TLS_RECORD_HEADER_SIZE;
 }
 
 s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg) {
     HttpsState *httpsState = rawHttpsState;
     u8 *record = recordArg;
     s32 payloadLength = (record[3] << 8) + record[4];
-    u8 *digestPosition = record + 5 + payloadLength;
+    u8 *digestPosition = record + TLS_RECORD_HEADER_SIZE + payloadLength;
     u8 padBytes[0x30];
     CPSMd5Ctx *scratchHash16;
     Hash20Context *scratchHash20;
@@ -1031,47 +1037,47 @@ s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg
         case HTTPS_COMMON_VALUE_MD5:
             scratchHash16 = &httpsState->mScratchHash16;
             CPSi_md5_init(scratchHash16);
-            CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, 0x10);
+            CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, MD5_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x36, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
             CPSi_md5_calc(scratchHash16, httpsState->mSendRecordCount, 8);
             CPSi_md5_calc(scratchHash16, record, 1);
             CPSi_md5_calc(scratchHash16, record + 3, 2);
-            CPSi_md5_calc(scratchHash16, record + 5, payloadLength);
+            CPSi_md5_calc(scratchHash16, record + TLS_RECORD_HEADER_SIZE, payloadLength);
             CPSi_md5_result(scratchHash16, digestPosition);
             CPSi_md5_init(scratchHash16);
-            CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, 0x10);
+            CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, MD5_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
-            CPSi_md5_calc(scratchHash16, digestPosition, 0x10);
+            CPSi_md5_calc(scratchHash16, digestPosition, MD5_DIGEST_SIZE);
             CPSi_md5_result(scratchHash16, digestPosition);
-            payloadLength += 0x10;
+            payloadLength += MD5_DIGEST_SIZE;
             break;
         case HTTPS_COMMON_VALUE_HASH20:
             scratchHash20 = &httpsState->mScratchHash20;
             CPSi_sha1_init(scratchHash20);
-            CPSi_sha1_calc(scratchHash20, httpsState->mSendDigestBytes, 0x14);
+            CPSi_sha1_calc(scratchHash20, httpsState->mSendDigestBytes, SHA1_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x36, 0x28);
             CPSi_sha1_calc(scratchHash20, padBytes, 0x28);
             CPSi_sha1_calc(scratchHash20, httpsState->mSendRecordCount, 8);
             CPSi_sha1_calc(scratchHash20, record, 1);
             CPSi_sha1_calc(scratchHash20, record + 3, 2);
-            CPSi_sha1_calc(scratchHash20, record + 5, payloadLength);
+            CPSi_sha1_calc(scratchHash20, record + TLS_RECORD_HEADER_SIZE, payloadLength);
             CPSi_sha1_result(scratchHash20, digestPosition);
             CPSi_sha1_init(scratchHash20);
-            CPSi_sha1_calc(scratchHash20, httpsState->mSendDigestBytes, 0x14);
+            CPSi_sha1_calc(scratchHash20, httpsState->mSendDigestBytes, SHA1_DIGEST_SIZE);
             MI_CpuFill8(padBytes, 0x5c, 0x28);
             CPSi_sha1_calc(scratchHash20, padBytes, 0x28);
-            CPSi_sha1_calc(scratchHash20, digestPosition, 0x14);
+            CPSi_sha1_calc(scratchHash20, digestPosition, SHA1_DIGEST_SIZE);
             CPSi_sha1_result(scratchHash20, digestPosition);
-            payloadLength += 0x14;
+            payloadLength += SHA1_DIGEST_SIZE;
             break;
     }
     record[3] = payloadLength >> 8;
     record[4] = payloadLength;
-    CPSi_rc4_crypt(httpsState->mSendKeyStreamState, (record + 5), payloadLength);
+    CPSi_rc4_crypt(httpsState->mSendKeyStreamState, (record + TLS_RECORD_HEADER_SIZE), payloadLength);
     IncrementBigEndianBytes(httpsState->mSendRecordCount, 8);
-    return payloadLength + 5;
+    return payloadLength + TLS_RECORD_HEADER_SIZE;
 }
 
 u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection) {
@@ -1093,8 +1099,9 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection) {
     return 0;
 }
 
-// Reads one record, checks and xors it when mSetupState is HTTPS_SETUP_CIPHER_RECORD_RECEIVED or
-// HTTPS_SETUP_COMPLETE, runs the handler of its kind and returns mSetupState.
+// Reads one record; xors and checks a record that is not a status record when mSetupState is
+// HTTPS_SETUP_CIPHER_RECORD_RECEIVED or HTTPS_SETUP_COMPLETE, and a status record only when it is longer than 7 bytes;
+// mSetupState.
 u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u32 length;
@@ -1110,7 +1117,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
             httpsState->mSetupState = HTTPS_SETUP_FAILED;
             return httpsState->mSetupState;
         }
-    } while (length < 5);
+    } while (length < TLS_RECORD_HEADER_SIZE);
     recordType = header[0];
     if (recordType == 0x80) {
         if (httpsState->mReceivesOfferRecord != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
@@ -1121,7 +1128,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                 httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 return httpsState->mSetupState;
             }
-            if (ReadExactReceivedBytes(record, length, connection) == 0 && record[0] == 1) {
+            if (ReadExactReceivedBytes(record, length, connection) == 0 && record[0] == HTTPS_HANDSHAKE_OFFER) {
                 ParseOfferMessageWithThreeByteValues(httpsState, record + 1);
             } else {
                 httpsState->mSetupState = HTTPS_SETUP_FAILED;
@@ -1133,7 +1140,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
             httpsState->mSetupState = HTTPS_SETUP_FAILED;
         }
     } else {
-        length = ((header[3] << 8) + header[4]) + 5;
+        length = ((header[3] << 8) + header[4]) + TLS_RECORD_HEADER_SIZE;
         record = CPSiAlloc(length);
         if (record == NULL) {
             httpsState->mSetupState = HTTPS_SETUP_FAILED;
@@ -1145,29 +1152,29 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
             return httpsState->mSetupState;
         }
         if (((u8) (httpsState->mSetupState + (0x100 - HTTPS_SETUP_CIPHER_RECORD_RECEIVED)) <= 1 &&
-             recordType != TLS_CONTENT_ALERT) ||
-            (recordType == TLS_CONTENT_ALERT && length > 7)) {
+             recordType != HTTPS_RECORD_TYPE_ALERT) ||
+            (recordType == HTTPS_RECORD_TYPE_ALERT && length > 7)) {
             length = XorReceivedRecordWithKeyStreamAndCheckDigest(httpsState, record);
         }
         body = record + TLS_RECORD_HEADER_SIZE;
         length -= TLS_RECORD_HEADER_SIZE;
         switch (recordType) {
-            case TLS_CONTENT_CHANGE_CIPHER_SPEC:
+            case HTTPS_RECORD_TYPE_CIPHER:
                 MI_CpuFill8(httpsState->mReceiveRecordCount, 0, 8);
                 httpsState->mSetupState = HTTPS_SETUP_CIPHER_RECORD_RECEIVED;
                 break;
-            case TLS_CONTENT_ALERT:
+            case HTTPS_RECORD_TYPE_ALERT:
                 if (body[0] == 2) {
                     httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 }
                 break;
-            case TLS_CONTENT_HANDSHAKE:
+            case HTTPS_RECORD_TYPE_HANDSHAKE:
                 do {
                     messageType = body[0];
                     messageLength = body[3] + ((body[1] << 16) + (body[2] << 8));
                     body += 4;
                     switch (messageType) {
-                        case TLS_HANDSHAKE_CLIENT_HELLO:
+                        case HTTPS_HANDSHAKE_OFFER:
                             if (httpsState->mReceivesOfferRecord != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
                                 ParseOfferMessage(httpsState, body);
                             }
@@ -1175,16 +1182,16 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                         case TLS_HANDSHAKE_CLIENT_KEY_EXCHANGE:
                             rcv_client_key_exchange(httpsState, body);
                             break;
-                        case TLS_HANDSHAKE_SERVER_HELLO:
+                        case HTTPS_HANDSHAKE_ANSWER:
                             ParseAnswerMessage(httpsState, body);
                             break;
                         case TLS_HANDSHAKE_CERTIFICATE:
                             ParseAndCheckItemListMessage(httpsState, body);
                             break;
-                        case TLS_HANDSHAKE_SERVER_HELLO_DONE:
-                            httpsState->mSetupState = HTTPS_SETUP_REPLY_END_RECEIVED;
+                        case HTTPS_HANDSHAKE_ANSWER_END:
+                            httpsState->mSetupState = HTTPS_SETUP_ANSWER_END_RECEIVED;
                             break;
-                        case TLS_HANDSHAKE_FINISHED:
+                        case HTTPS_HANDSHAKE_DIGESTS:
                             CheckMessageDigestsAndSetState(httpsState, body);
                             break;
                         default:
@@ -1200,7 +1207,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                     }
                 } while (httpsState->mSetupState != HTTPS_SETUP_FAILED);
                 break;
-            case TLS_CONTENT_APPLICATION_DATA:
+            case HTTPS_RECORD_TYPE_DATA:
                 httpsState->mReceivedBlock = record;
                 httpsState->mReceivedBlockOffset = TLS_RECORD_HEADER_SIZE;
                 httpsState->mReceivedBlockEnd = length + TLS_RECORD_HEADER_SIZE;
@@ -1211,9 +1218,9 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     return httpsState->mSetupState;
 }
 
-// Writes n bytes taken from digests of gRandomByteState, skipping zero bytes.
+// Writes count nonzero bytes taken from digests of gRandomByteState.
 void FillNonzeroRandomBytes(u8 *out, s32 count) {
-    u8 digest[0x14];
+    u8 digest[SHA1_DIGEST_SIZE];
     Hash20Context hashState;
     u32 randomWord;
     s32 digestIndex;
@@ -1233,13 +1240,13 @@ void FillNonzeroRandomBytes(u8 *out, s32 count) {
         randomWord = nextValue >> 32;
         MixBytesIntoRandomState(&randomWord, 4);
     }
-    digestIndex = 0x14;
+    digestIndex = SHA1_DIGEST_SIZE;
     outputCount = 0;
     while (outputCount < count) {
-        if (digestIndex == 0x14) {
+        if (digestIndex == SHA1_DIGEST_SIZE) {
             CPSi_sha1_init(&hashState);
             savedInterrupts = OS_DisableInterrupts();
-            CPSi_sha1_calc(&hashState, gRandomByteState, 0x14);
+            CPSi_sha1_calc(&hashState, gRandomByteState, SHA1_DIGEST_SIZE);
             CPSi_sha1_result_prng(&hashState, digest);
             carry = 1;
             byteIndex = 0x13;
@@ -1269,18 +1276,18 @@ void MixBytesIntoRandomState(void *bytes, u32 byteCount) {
     u32 savedInterrupts;
     CPSi_sha1_init(&hashState);
     savedInterrupts = OS_DisableInterrupts();
-    CPSi_sha1_calc(&hashState, gRandomByteState, 0x14);
+    CPSi_sha1_calc(&hashState, gRandomByteState, SHA1_DIGEST_SIZE);
     CPSi_sha1_calc(&hashState, bytes, byteCount);
     CPSi_sha1_result(&hashState, gRandomByteState);
     OS_RestoreInterrupts(savedInterrupts);
     gRandomByteStateMixed = 1;
 }
 
-u8 SendAnswerRecord(CPSSoc *connection) {
+u8 SendReplyRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     ItemList *itemList = httpsState->mItemList;
     s32 itemListLength;
-    u32 seconds;
+    u32 fourByteValue;
     u8 *message;
     u8 *cursor;
     s32 length;
@@ -1289,19 +1296,19 @@ u8 SendAnswerRecord(CPSSoc *connection) {
     } else {
         itemListLength = 0;
     }
-    seconds = GetRtcSecondsPlusFixedOffset();
-    httpsState->mAnswerBlock[0] = seconds >> 24;
-    httpsState->mAnswerBlock[1] = seconds >> 16;
-    httpsState->mAnswerBlock[2] = seconds >> 8;
-    httpsState->mAnswerBlock[3] = seconds;
+    fourByteValue = GetRtcSecondsPlusFixedOffset();
+    httpsState->mAnswerBlock[0] = fourByteValue >> 24;
+    httpsState->mAnswerBlock[1] = fourByteValue >> 16;
+    httpsState->mAnswerBlock[2] = fourByteValue >> 8;
+    httpsState->mAnswerBlock[3] = fourByteValue;
     FillNonzeroRandomBytes(&httpsState->mAnswerBlock[4], 0x1c);
     message = CPSiAlloc(itemListLength + 0x9d);
     if (message == NULL) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return 1;
     }
-    cursor = message + 5;
-    message[5] = 2;
+    cursor = message + TLS_RECORD_HEADER_SIZE;
+    message[5] = HTTPS_HANDSHAKE_ANSWER;
     cursor[1] = 0;
     cursor[2] = 0;
     cursor[3] = 0x46;
@@ -1315,12 +1322,12 @@ u8 SendAnswerRecord(CPSSoc *connection) {
         httpsState->mReusedEntry = 1;
     } else {
         FillNonzeroRandomBytes(cursor + 0x27, 0x1c);
-        seconds = gNewEntryIdCount;
-        cursor[0x43] = seconds >> 24;
-        cursor[0x44] = seconds >> 16;
-        cursor[0x45] = seconds >> 8;
+        fourByteValue = gNewEntryIdCount;
+        cursor[0x43] = fourByteValue >> 24;
+        cursor[0x44] = fourByteValue >> 16;
+        cursor[0x45] = fourByteValue >> 8;
         cursor += 0x46;
-        *cursor++ = seconds;
+        *cursor++ = fourByteValue;
         httpsState->mEntry = AddEntryOrReplaceLongestUnused(cursor - 0x20);
         gNewEntryIdCount = gNewEntryIdCount + 1;
         httpsState->mReusedEntry = 0;
@@ -1331,7 +1338,7 @@ u8 SendAnswerRecord(CPSSoc *connection) {
     *cursor++ = 0;
     if (httpsState->mReusedEntry == 0) {
         if (itemListLength != 0) {
-            cursor[0] = 0xb;
+            cursor[0] = TLS_HANDSHAKE_CERTIFICATE;
             length = itemListLength + 6;
             cursor[1] = length >> 16;
             cursor[2] = length >> 8;
@@ -1347,67 +1354,67 @@ u8 SendAnswerRecord(CPSSoc *connection) {
             MI_CpuCopy8(itemList->mBytes, cursor, itemListLength);
             cursor += itemListLength;
         }
-        cursor[0] = 0xe;
+        cursor[0] = HTTPS_HANDSHAKE_ANSWER_END;
         cursor[1] = 0;
         cursor[2] = 0;
         cursor += 3;
         *cursor++ = 0;
     }
-    length = cursor - message - 5;
-    message[0] = 0x16;
+    length = cursor - message - TLS_RECORD_HEADER_SIZE;
+    message[0] = HTTPS_RECORD_TYPE_HANDSHAKE;
     message[1] = 3;
     message[2] = 0;
     message[3] = length >> 8;
     message[4] = length;
-    CPSi_sha1_calc(&httpsState->mMessageHash20, message + 5, length);
-    CPSi_md5_calc(&httpsState->mMessageHash16, message + 5, length);
-    CPSi_TcpWrite2Raw(message, length + 5, NULL, 0, connection);
+    CPSi_sha1_calc(&httpsState->mMessageHash20, message + TLS_RECORD_HEADER_SIZE, length);
+    CPSi_md5_calc(&httpsState->mMessageHash16, message + TLS_RECORD_HEADER_SIZE, length);
+    CPSi_TcpWrite2Raw(message, length + TLS_RECORD_HEADER_SIZE, NULL, 0, connection);
     CPSiFree(message);
     return httpsState->mReusedEntry;
 }
 
 void SendOneByteRecordAndMessageDigests(CPSSoc *connection) {
-    u8 *msg;
+    u8 *message;
     HttpsState *httpsState;
     httpsState = connection->mHttpsState;
-    msg = CPSiAlloc(0x83);
-    if (msg == NULL) {
+    message = CPSiAlloc(0x83);
+    if (message == NULL) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
-    msg[0] = 0x14;
-    msg[1] = 3;
-    msg[2] = 0;
-    msg[3] = 0;
-    msg[4] = 1;
-    msg[5] = 1;
+    message[0] = HTTPS_RECORD_TYPE_CIPHER;
+    message[1] = 3;
+    message[2] = 0;
+    message[3] = 0;
+    message[4] = 1;
+    message[5] = 1;
     MI_CpuFill8(httpsState->mSendRecordCount, 0, 8);
-    msg[6] = 0x16;
-    msg[7] = 3;
-    msg[8] = 0;
-    msg[9] = 0;
-    msg[10] = 0x28;
-    msg[11] = 0x14;
-    msg[12] = 0;
-    msg[13] = 0;
-    msg[14] = 0x24;
+    message[6] = HTTPS_RECORD_TYPE_HANDSHAKE;
+    message[7] = 3;
+    message[8] = 0;
+    message[9] = 0;
+    message[10] = 0x28;
+    message[11] = HTTPS_HANDSHAKE_DIGESTS;
+    message[12] = 0;
+    message[13] = 0;
+    message[14] = 0x24;
     MI_CpuCopy8(&httpsState->mMessageHash16, &httpsState->mScratchHash16, sizeof(httpsState->mMessageHash16));
-    ComputeLabeledMessageDigest16(httpsState, msg + 0xf, 0);
+    ComputeLabeledMessageDigest16(httpsState, message + 0xf, 0);
     MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, sizeof(httpsState->mScratchHash16));
     MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, sizeof(httpsState->mMessageHash20));
-    ComputeLabeledMessageDigest20(httpsState, msg + 0x1f, 0);
+    ComputeLabeledMessageDigest20(httpsState, message + 0x1f, 0);
     MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, sizeof(httpsState->mScratchHash20));
-    CPSi_sha1_calc(&httpsState->mMessageHash20, msg + 0xb, 0x28);
-    CPSi_md5_calc(&httpsState->mMessageHash16, msg + 0xb, 0x28);
-    CPSi_TcpWrite2Raw(msg, AppendDigestAndXorSentRecordWithKeyStream(httpsState, msg + 6) + 6, NULL, 0, connection);
-    CPSiFree(msg);
+    CPSi_sha1_calc(&httpsState->mMessageHash20, message + 0xb, 0x28);
+    CPSi_md5_calc(&httpsState->mMessageHash16, message + 0xb, 0x28);
+    CPSi_TcpWrite2Raw(message, AppendDigestAndXorSentRecordWithKeyStream(httpsState, message + 6) + 6, NULL, 0, connection);
+    CPSiFree(message);
 }
 
 void SendOfferRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 *message;
     u8 *cursor;
-    u8 *lastByte;
+    u8 *bytePtr;
     u32 seconds;
     s32 payloadLength;
     u32 offeredIndex;
@@ -1433,39 +1440,39 @@ void SendOfferRecord(CPSSoc *connection) {
         MI_CpuCopy8(httpsState->mEntry, cursor + 0x23, 0x20);
         cursor += 0x43;
     } else {
-        lastByte = cursor + 0x22;
+        bytePtr = cursor + 0x22;
         cursor += 0x23;
-        *lastByte = 0;
+        *bytePtr = 0;
     }
     offeredIndex = 0;
     *cursor = 0;
-    lastByte = cursor + 1;
+    bytePtr = cursor + 1;
     cursor += 2;
-    *lastByte = 4;
+    *bytePtr = 4;
     offeredCursor = gOfferedValues;
     for (; offeredIndex < 2; offeredIndex++) {
         *cursor = *offeredCursor >> 8;
-        lastByte = cursor + 1;
+        bytePtr = cursor + 1;
         cursor += 2;
-        *lastByte = *offeredCursor;
+        *bytePtr = *offeredCursor;
         offeredCursor++;
     }
     *cursor = 1;
     cursor[1] = 0;
-    lastByte = cursor + 2;
-    payloadLength = lastByte - message - 5;
-    message[0] = 0x16;
+    bytePtr = cursor + 2;
+    payloadLength = bytePtr - message - TLS_RECORD_HEADER_SIZE;
+    message[0] = HTTPS_RECORD_TYPE_HANDSHAKE;
     message[1] = 3;
     message[2] = 0;
     message[3] = payloadLength >> 8;
     message[4] = payloadLength;
-    message[5] = 1;
+    message[5] = HTTPS_HANDSHAKE_OFFER;
     message[6] = (payloadLength - 4) >> 16;
     message[7] = (payloadLength - 4) >> 8;
     message[8] = payloadLength - 4;
-    CPSi_TcpWrite2Raw(message, payloadLength + 5, NULL, 0, connection);
-    CPSi_md5_calc(&httpsState->mMessageHash16, message + 5, payloadLength);
-    CPSi_sha1_calc(&httpsState->mMessageHash20, message + 5, payloadLength);
+    CPSi_TcpWrite2Raw(message, payloadLength + TLS_RECORD_HEADER_SIZE, NULL, 0, connection);
+    CPSi_md5_calc(&httpsState->mMessageHash16, message + TLS_RECORD_HEADER_SIZE, payloadLength);
+    CPSi_sha1_calc(&httpsState->mMessageHash20, message + TLS_RECORD_HEADER_SIZE, payloadLength);
     CPSiFree(message);
 }
 
@@ -1528,12 +1535,12 @@ void send_client_key_exchange(CPSSoc *connection) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
-    record[0] = 0x16;
+    record[0] = HTTPS_RECORD_TYPE_HANDSHAKE;
     record[1] = 3;
     record[2] = 0;
     record[3] = (modulusLength + 4) >> 8;
     record[4] = modulusLength + 4;
-    record[5] = 0x10;
+    record[5] = TLS_HANDSHAKE_CLIENT_KEY_EXCHANGE;
     record[6] = modulusLength >> 16;
     record[7] = modulusLength >> 8;
     writePtr = record + 9;
@@ -1549,8 +1556,8 @@ void send_client_key_exchange(CPSSoc *connection) {
         *lowBytePtr = result[digitIndex];
     }
     CPSi_TcpWrite2Raw(record, modulusLength + 9, NULL, 0, connection);
-    CPSi_md5_calc(&httpsState->mMessageHash16, record + 5, (u32) modulusLength + 4);
-    CPSi_sha1_calc(&httpsState->mMessageHash20, record + 5, modulusLength + 4);
+    CPSi_md5_calc(&httpsState->mMessageHash16, record + TLS_RECORD_HEADER_SIZE, (u32) modulusLength + 4);
+    CPSi_sha1_calc(&httpsState->mMessageHash20, record + TLS_RECORD_HEADER_SIZE, modulusLength + 4);
     CPSiFree(record);
     CPSiFree(result);
     CPSiFree(paddedSecret);
@@ -1569,11 +1576,11 @@ u32 ReadRecordsExpectingStates7And6(CPSSoc *connection) {
     return 0;
 }
 
-BOOL RunSetupAfterReadingOfferRecord(CPSSoc *connection) {
+BOOL RunSetupByReadingOfferRecord(CPSSoc *connection) {
     if (ReadHttpsRecordAndSetState(connection) != HTTPS_SETUP_OFFER_RECEIVED) {
         return TRUE;
     }
-    if (SendAnswerRecord(connection) != 0) {
+    if (SendReplyRecord(connection) != 0) {
         DeriveBytesAndInitKeyStreamStates(connection->mHttpsState);
         SendOneByteRecordAndMessageDigests(connection);
         if (ReadRecordsExpectingStates7And6(connection) != 0) {
@@ -1591,7 +1598,7 @@ BOOL RunSetupAfterReadingOfferRecord(CPSSoc *connection) {
     return FALSE;
 }
 
-void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
+void RunSetupByReadingOfferRecordUntilDone(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (1) {
         CPSi_TcpListenRaw(connection);
@@ -1599,7 +1606,7 @@ void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
         httpsState->mReceivesOfferRecord = 1;
         CPSi_sha1_init(&httpsState->mMessageHash20);
         CPSi_md5_init(&httpsState->mMessageHash16);
-        if (RunSetupAfterReadingOfferRecord(connection) == 0) {
+        if (RunSetupByReadingOfferRecord(connection) == 0) {
             httpsState->mSetupState = HTTPS_SETUP_COMPLETE;
             return;
         }
@@ -1609,7 +1616,7 @@ void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
     }
 }
 
-BOOL RunSetupAfterSendingOfferRecord(CPSSoc *connection) {
+BOOL RunSetupBySendingOfferRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 state;
     SendOfferRecord(connection);
@@ -1618,7 +1625,7 @@ BOOL RunSetupAfterSendingOfferRecord(CPSSoc *connection) {
         if (state == HTTPS_SETUP_FAILED) {
             return TRUE;
         }
-        if (state == HTTPS_SETUP_REPLY_END_RECEIVED || httpsState->mReusedEntry != 0) {
+        if (state == HTTPS_SETUP_ANSWER_END_RECEIVED || httpsState->mReusedEntry != 0) {
             break;
         }
     }
@@ -1652,7 +1659,7 @@ BOOL CPSi_SslConnect(CPSSoc *connection) {
     httpsState->mReceivesOfferRecord = 0;
     CPSi_sha1_init(&httpsState->mMessageHash20);
     CPSi_md5_init(&httpsState->mMessageHash16);
-    return RunSetupAfterSendingOfferRecord(connection);
+    return RunSetupBySendingOfferRecord(connection);
 }
 
 u8 *ReadHttpsRecordsUntilBytesReceived(u32 *unreadCount, CPSSoc *connection) {
@@ -1717,12 +1724,12 @@ s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *seco
             firstChunkLength = firstLength;
         }
         secondChunkLength = chunkLength - firstChunkLength;
-        MI_CpuCopy8(firstBytes, record + 5, firstChunkLength);
+        MI_CpuCopy8(firstBytes, record + TLS_RECORD_HEADER_SIZE, firstChunkLength);
         firstBytes += firstChunkLength;
         firstLength -= firstChunkLength;
-        MI_CpuCopy8(secondBytes, record + 5 + firstChunkLength, secondChunkLength);
+        MI_CpuCopy8(secondBytes, record + TLS_RECORD_HEADER_SIZE + firstChunkLength, secondChunkLength);
         secondBytes += secondChunkLength;
-        record[0] = 0x17;
+        record[0] = HTTPS_RECORD_TYPE_DATA;
         record[1] = 3;
         record[2] = recordByte2;
         record[3] = chunkLength >> 8;
@@ -1744,13 +1751,13 @@ s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *seco
     return sentCount;
 }
 
-// When mSetupState is HTTPS_SETUP_COMPLETE sends the 7-byte record that ends with 1, 0, then runs
-// CPSi_TcpShutdownRaw and clears mSetupState.
+// Sends a status record with the body bytes 1, 0 (digest appended, xored with the key stream) when mSetupState is
+// HTTPS_SETUP_COMPLETE; always runs CPSi_TcpShutdownRaw and then sets mSetupState to HTTPS_SETUP_START.
 void CPSi_SslShutdown(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 alertRecord[0x20];
     if (httpsState->mSetupState == HTTPS_SETUP_COMPLETE) {
-        alertRecord[0] = 0x15;
+        alertRecord[0] = HTTPS_RECORD_TYPE_ALERT;
         alertRecord[1] = 3;
         alertRecord[2] = 0;
         alertRecord[3] = 0;

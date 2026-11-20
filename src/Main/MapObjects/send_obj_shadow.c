@@ -57,8 +57,8 @@ void DrawObjShadowAfterMaterial(ShadowMatrix *shadow, void *wordPointer, u32 unu
     }
     polygonAttributes = gObjShadowMaterial->mPolyAttr;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
-    polygonAttributes = polygonAttributes & ~0x1f0000;
-    polygonAttributes = polygonAttributes | (alpha << 16);
+    polygonAttributes = polygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+    polygonAttributes = polygonAttributes | (alpha << POLYGON_ATTR_ALPHA_SHIFT);
     NNS_G3dGeBufferOP_N(0x29, &polygonAttributes, 1);
     NNS_G3dGeSendDL((u8 *) gObjShadowShape + gObjShadowShape->mOfsDL, gObjShadowShape->mSizeDL);
 }
@@ -87,8 +87,8 @@ void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
     }
     polygonAttributes = gObjShadowMaterial->mPolyAttr;
     alpha = alpha < shadow->mAlphaCap ? alpha : shadow->mAlphaCap;
-    polygonAttributes = polygonAttributes & ~0x1f0000;
-    polygonAttributes = polygonAttributes | (alpha << 16);
+    polygonAttributes = polygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+    polygonAttributes = polygonAttributes | (alpha << POLYGON_ATTR_ALPHA_SHIFT);
     NNS_G3dGeBufferOP_N(0x29, &polygonAttributes, 1);
     NNS_G3dGeSendDL((u8 *) gObjShadowShape + gObjShadowShape->mOfsDL, gObjShadowShape->mSizeDL);
 }

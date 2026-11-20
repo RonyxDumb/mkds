@@ -2,41 +2,41 @@
 #include "types.h"
 #include "touch_panel_sampling.h" // TPData
 
+// Bits of the pad key word (the slots' mPressedBits, mBits, mRepeatBits ... and the keyboard's key word): one bit per
+// key.
 #define PAD_KEY_B 0x2
 
-#define PAD_KEY_DOWN 0x80
+#define PAD_KEY_DIRECTION_DOWN 0x80
 
 #define PAD_KEY_L 0x200
 
-#define PAD_KEY_LEFT 0x20
+#define PAD_KEY_DIRECTION_LEFT 0x20
 
 #define PAD_KEY_R 0x100
 
-#define PAD_KEY_RIGHT 0x10
+#define PAD_KEY_DIRECTION_RIGHT 0x10
 
 #define PAD_KEY_START 0x8
 
-#define PAD_KEY_UP 0x40
+#define PAD_KEY_DIRECTION_UP 0x40
 
 #define PAD_KEY_X 0x400
 
 #define PAD_KEY_Y 0x800
 
-// Bits of the pad key word (the slots' mPressedBits, mBits, mRepeatBits ... and the keyboard's key word): one bit per
-// key.
 #define PAD_KEY_A 0x1
 
 #define PAD_KEY_SELECT 0x4
 
-// A, B, X, Y, Select and Start: every key except the directions and the shoulder keys.
-#define PAD_KEYS_NO_DIRECTION_OR_SHOULDER \
+// A, B, X, Y, Select and Start: every key except the four direction keys, L and R.
+#define PAD_KEYS_A_B_X_Y_SELECT_START \
     (PAD_KEY_A | PAD_KEY_B | PAD_KEY_SELECT | PAD_KEY_START | PAD_KEY_X | PAD_KEY_Y)
 
-// A, B, X, Y and both shoulder keys.
-#define PAD_KEYS_FACE_AND_SHOULDER (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
+// A, B, X, Y, L and R.
+#define PAD_KEYS_A_B_X_Y_L_R (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
 
-// Both shoulder keys, Select and Start.
-#define PAD_KEYS_SHOULDER_AND_MENU (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
+// L, R, Select and Start.
+#define PAD_KEYS_L_R_SELECT_START (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
 
 // All twelve keys.
 #define PAD_KEYS_ALL 0xfff
@@ -53,7 +53,7 @@
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 
-// Slots of gInputSlots that the code addresses through a constant, named after the source kind each one gets.
+// Slots 8 and 9 of gInputSlots, named after the source kind each one gets.
 typedef enum InputSlotIndex { INPUT_SLOT_PAD_OR_PARTICIPANT = 8, INPUT_SLOT_PAD_AND_TOUCH = 9 } InputSlotIndex;
 
 // The recorded key pairs (bits, repeat count) and their byte count.
@@ -101,16 +101,14 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
-// A pair missing for fewer frames than this (InputSlotPair.mNoPairCount) still counts as a brief gap.
-#define INPUT_NO_PAIR_BRIEF_FRAMES 5
+// A touch pair lost for fewer frames than this (InputSlotPair.mNoPairCount) still counts as recently lost;
+// IsPairRecentlyLost answers yes while there is no pair and mNoPairCount is below it.
+#define INPUT_PAIR_RECENTLY_LOST_FRAMES 5
 
 // InputSlotHead.mRepeatState: no masked bit held, held until the first repeat, repeating at the interval.
 #define INPUT_REPEAT_IDLE 0
 #define INPUT_REPEAT_WAIT_DELAY 1
 #define INPUT_REPEAT_WAIT_INTERVAL 2
-
-// A touch pair lost for fewer samples than this still counts as recently lost.
-#define INPUT_PAIR_LOSS_SAMPLES 5
 
 // The key state of an input slot: pressed, held and cleared bits and repeat state; gKeysInputSlot is only this part.
 typedef struct InputSlotHead {
@@ -135,7 +133,8 @@ typedef struct InputSlotHead {
     /* 24 */ s32 mReadsKeyBits;
 } InputSlotHead;
 
-// Values of InputSlot.mSourceKind: where the slot gets its keys from each frame.
+// Values of InputSlot.mSourceKind: where the slot gets its keys from each frame. REQUESTED_BITS and WIFI_REQUESTED_BITS
+// are read alike; ResetInputSlotsFromRaceSetup picks the WiFi one in a WiFi race.
 #define INPUT_SOURCE_NONE 0
 #define INPUT_SOURCE_KEY_RECORDING_PLAYBACK 1
 #define INPUT_SOURCE_PAD_RECORDED 2
@@ -215,13 +214,13 @@ typedef struct InputSlotAtNoPairCount {
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtNoPairCount;
 
-// Slot 7 from mSourceKind on: mNextBits is the mBits of slot 8.
-typedef struct EmblemInputSlotView {
+// Slot 7 from mSourceKind on: mPadOrParticipantBits is the mBits of slot 8.
+typedef struct PadOrParticipantSlotBitsView {
     /* 00 */ u8 mUnk_00[0x22];
-    /* 22 */ volatile u16 mNextBits;
-} EmblemInputSlotView;
+    /* 22 */ volatile u16 mPadOrParticipantBits;
+} PadOrParticipantSlotBitsView;
 
-// Slot 8 from mWritesKeyBits on.
+// Slot 8 (INPUT_SLOT_PAD_OR_PARTICIPANT) from mWritesKeyBits on: mPair is the mPair of that slot.
 typedef struct PadOrParticipantSlotPairView {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ volatile InputSlotPair mPair;
@@ -233,7 +232,7 @@ typedef struct PadOrParticipantSlotPairView {
 #define gInputHasPairs ((InputSlotAtHasPair *) &gInputSlots[0].mPair.mHasPair)
 #define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
 #define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
-#define gEmblemInputSlotView ((EmblemInputSlotView *) &gInputSlots[7].mSourceKind)
+#define gEmblemInputSlotView ((PadOrParticipantSlotBitsView *) &gInputSlots[7].mSourceKind)
 #define gPadOrParticipantSlotPairView                                                                                  \
     ((PadOrParticipantSlotPairView *) &gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mWritesKeyBits)
 

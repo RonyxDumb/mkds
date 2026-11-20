@@ -7,21 +7,23 @@ typedef void (*ExchangeEventCallback)(u32 event, u32 arg);
 
 typedef struct RawEntry RawEntry;
 
-// Values of gExchangeWcmState, the request the exchange WCM layer is waiting on.
+// Values of gExchangeWcmState and gEssidWcmState: where the WCM layer is in starting up, searching, connecting and
+// cleaning up.
 #define EXCHANGE_WCM_STATE_STOPPED 0
 #define EXCHANGE_WCM_STATE_INITIALIZED 1
 #define EXCHANGE_WCM_STATE_CLEANING_UP 2
 #define EXCHANGE_WCM_STATE_IDLE 3
-#define EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING 4
+#define EXCHANGE_WCM_STATE_RETURNING_TO_IDLE 4
 #define EXCHANGE_WCM_STATE_SEARCHING 5
 #define EXCHANGE_WCM_STATE_SEARCH_PENDING 6
 #define EXCHANGE_WCM_STATE_CONNECTED 7
 #define EXCHANGE_WCM_STATE_CONNECT_PENDING 8
 
-// Event numbers the WCM notice callback passes to ExchangeEventCallback (and the alarms queue).
-#define EXCHANGE_EVENT_UNEXPECTED_NOTICE 1
-#define EXCHANGE_EVENT_CHAINED_REQUEST_FAILED 2
-#define EXCHANGE_EVENT_LINK_TERMINATED 3
+// Event numbers passed to ExchangeEventCallback: the WCM notice callback passes most of them; CONNECT_TIMEOUT and
+// SEARCH_TIMEOUT are queued by alarms.
+#define EXCHANGE_EVENT_OTHER_NOTICE 1
+#define EXCHANGE_EVENT_REQUEST_FAILED 2
+#define EXCHANGE_EVENT_LINK_TERMINATING 3
 #define EXCHANGE_EVENT_SCAN_ROUND 4
 #define EXCHANGE_EVENT_SEARCH_FOUND 5
 #define EXCHANGE_EVENT_STARTUP_DONE 6

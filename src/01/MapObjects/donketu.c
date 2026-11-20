@@ -41,7 +41,7 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/Kart/camera.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "01/MapObjects/donketu_fall_kart_collision.h"
 #include "01/MapObjects/donketu_water_land_state.h"
@@ -55,7 +55,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/sound_source_init.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 
 MapObjectKindDescriptor gBossDonketuKindDescriptor = {0,
                                                       {0, 0},
@@ -172,10 +172,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
                 velocityWhenBoosted.x = kart->mVelocity.x;
                 velocityWhenBoosted.z = kart->mVelocity.z;
-                if ((s64) velocityWhenBoosted.z * velocityWhenBoosted.z +
-                        ((s64) velocityWhenBoosted.x * velocityWhenBoosted.x +
-                         (s64) velocityWhenBoosted.y * velocityWhenBoosted.y) >=
-                    0x10) {
+                if (LENGTH_SQUARED_Z_FIRST(velocityWhenBoosted) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
@@ -183,7 +180,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
                 velocityWhenBoosted.y = donketu->mPrm->mDonketu.mHitBoostedVelocityY;
-                StartMapObjectState(donketu, DONKETU_STATE_AFTER_KART_LAUNCH, NULL);
+                StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitBoostedAnimationEntry,
                                             donketu->mPrm->mDonketu.mHitBoostedFrameStep);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitBoostedAnglePerCall, 0x270f000);
@@ -195,8 +192,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 effectPosition;
 
                 VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
-                if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
-                    0x10) {
+                if (LENGTH_SQUARED_Z_FIRST(effectPosition) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }
                 VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
@@ -221,16 +217,13 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 }
             }
         }
-    } else if (IsStateNumberBelow(donketu, DONKETU_STATE_AFTER_KART_LAUNCH)) {
+    } else if (IsStateNumberBelow(donketu, DONKETU_STATE_LAUNCH_FALL_LAND)) {
         if (donketu->mPrm->mDonketu.mHitNotBoostedVelocityY > 0 ||
             donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale > 0) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
             velocityWhenNotBoosted.x = kart->mVelocity.x;
             velocityWhenNotBoosted.z = kart->mVelocity.z;
-            if ((s64) velocityWhenNotBoosted.z * velocityWhenNotBoosted.z +
-                    ((s64) velocityWhenNotBoosted.x * velocityWhenNotBoosted.x +
-                     (s64) velocityWhenNotBoosted.y * velocityWhenNotBoosted.y) >=
-                0x10) {
+            if (LENGTH_SQUARED_Z_FIRST(velocityWhenNotBoosted) >= 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
@@ -238,7 +231,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
             velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mHitNotBoostedVelocityY;
-            StartMapObjectState(donketu, DONKETU_STATE_AFTER_KART_LAUNCH, NULL);
+            StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnimationEntry,
                                         donketu->mPrm->mDonketu.mHitNotBoostedFrameStep);
             SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnglePerCall, 0x270f000);
@@ -265,7 +258,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
                 velocityWhenBoosted.y = donketu->mPrm->mDonketu.mChaseHitBoostedVelocityY;
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitBoostedHorizontalSpeed,
                                                              FX_CosIdx((u16) donketu->mMoveAngle));
-                StartMapObjectState(donketu, DONKETU_STATE_AFTER_KART_LAUNCH, NULL);
+                StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseHitBoostedAnimationEntry,
                                             donketu->mPrm->mDonketu.mChaseHitBoostedFrameStep);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mChaseHitBoostedAnglePerCall, 0x270f000);
@@ -306,7 +299,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
             donketu->mMapObject.mPos.y -= donketu->mMapObject.mPosStep.y;
             donketu->mMapObject.mPos.z -= donketu->mMapObject.mPosStep.z;
         }
-    } else if (IsStateNumberBelow(donketu, DONKETU_STATE_AFTER_KART_LAUNCH)) {
+    } else if (IsStateNumberBelow(donketu, DONKETU_STATE_LAUNCH_FALL_LAND)) {
         if (donketu->mPrm->mDonketu.mChaseHitNotBoostedVelocityY > 0 ||
             donketu->mPrm->mDonketu.mChaseHitNotBoostedHorizontalSpeed > 0) {
             velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitNotBoostedHorizontalSpeed,
@@ -314,7 +307,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
             velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mChaseHitNotBoostedVelocityY;
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitNotBoostedHorizontalSpeed,
                                                             FX_CosIdx((u16) donketu->mMoveAngle));
-            StartMapObjectState(donketu, DONKETU_STATE_AFTER_KART_LAUNCH, NULL);
+            StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseHitNotBoostedAnimationEntry,
                                         donketu->mPrm->mDonketu.mChaseHitNotBoostedFrameStep);
             SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mChaseHitNotBoostedAnglePerCall, 0x270f000);
@@ -344,7 +337,7 @@ void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) 
 }
 
 void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
-    StartMapObjectState(donketu, DONKETU_STATE_AFTER_KART_LAUNCH, NULL);
+    StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
     StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mWaterLandAnimationEntry,
                                   donketu->mPrm->mDonketu.mWaterLandFrameStep, NULL);
     StopTurningMoveFollowsAngle(donketu);
@@ -360,7 +353,7 @@ void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
 s32 UpdateDonketuFall(MissionRunMapObject *donketu) {
     if (donketu->mVelocity.y < 0) {
         SetKartCollisionCallback(donketu, DonketuFallKartCollisionCallback);
-        donketu->mStateNumber = DONKETU_STATE_AFTER_KART_LAUNCH;
+        donketu->mStateNumber = DONKETU_STATE_LAUNCH_FALL_LAND;
         donketu->mStateFunction = NULL;
     }
     return 0;
@@ -405,18 +398,18 @@ void StartDonketuWaterWalkState(MissionRunMapObject *donketu) {
 
 void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     Vec3 velocity;
-    s32 scale;
+    s32 horizontalSpeed;
 
     velocity.x = donketu->mMapObject.mPos.x;
     velocity.y = 0;
     velocity.z = donketu->mMapObject.mPos.z;
-    if ((s64) velocity.z * velocity.z + SQUARE_SUM2(velocity.x, velocity.y) >= 16) {
+    if (LENGTH_SQUARED_Z_FIRST(velocity) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
     }
-    scale = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;
-    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
-    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, scale);
-    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, scale);
+    horizontalSpeed = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, horizontalSpeed);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, horizontalSpeed);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, horizontalSpeed);
     velocity.y = -donketu->mPrm->mDonketu.mWaterSinkDescentSpeed;
     StartMapObjectState(donketu, 8, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWaterSinkAnimationEntry,
@@ -712,7 +705,7 @@ void StartDonketuStartupSecond(MissionRunMapObject *donketu) {
     if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mHead.mStartupSecondAnimationEntry,
                                     donketu->mPrm->mHead.mStartupSecondFrameStep);
-        StartStateFrameCountCallback(donketu, donketu->mPrm->mHead.mWaitForRaceStartDelayFrames,
+        StartStateFrameCountCallback(donketu, donketu->mPrm->mHead.mWaitForRaceStartDelayFrameCount,
                                      &StartDonketuWaitForRaceStart);
         return;
     }
@@ -837,7 +830,7 @@ void InitBossDonketu(MapObjectList *list) {
                                         donketu->mPrm->mHead.mCollisionExtentXZ, 0);
             SetShadowOffsetYAndScale(donketu, 0, 0x11000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-            donketu->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS;
+            donketu->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL;
         }
     }
 }

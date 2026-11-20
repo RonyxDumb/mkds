@@ -45,13 +45,13 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_kinoko.h"
 #include "01/MapObjects/item_bomb_node_placement.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "01/MapObjects/kuriking_turn_to_entry_state.h"
 #include "01/MapObjects/kuriking_state_shared.h"
@@ -251,19 +251,19 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     firstRange = prm->mKinokoRandomLimit;
     if (firstRange == 0x10000) {
         random = GetMapObjectRandom();
-        random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
-        firstResult = (random->mValue >> 32) * 0x10000 >> 32;
+        RANDOM_ADVANCE_INCREMENT_FIRST(random);
+        firstResult = RANDOM_BELOW(random, 0x10000);
     } else {
         random = GetMapObjectRandom();
         if ((u16) firstRange == 0) {
             firstScaledDraw = 0;
         } else {
-            random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
+            RANDOM_ADVANCE_INCREMENT_FIRST(random);
             firstRangeLow = (u16) firstRange;
             if (firstRangeLow == 0) {
-                firstScaledDraw = random->mValue >> 32;
+                firstScaledDraw = RANDOM_HIGH32(random);
             } else {
-                firstScaledDraw = ((s64) (random->mValue >> 32) * firstRangeLow) >> 32;
+                firstScaledDraw = RANDOM_BELOW_S64(random, firstRangeLow);
             }
         }
         firstResult = firstScaledDraw;
@@ -272,19 +272,19 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         secondRange = mapObject->mThrowCount;
         if (secondRange == 0x10000) {
             random = GetMapObjectRandom();
-            random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
-            secondResult = (random->mValue >> 32) * 0x10000 >> 32;
+            RANDOM_ADVANCE_INCREMENT_FIRST(random);
+            secondResult = RANDOM_BELOW(random, 0x10000);
         } else {
             random = GetMapObjectRandom();
             if ((u16) secondRange == 0) {
                 secondScaledDraw = 0;
             } else {
-                random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
+                RANDOM_ADVANCE_INCREMENT_FIRST(random);
                 secondRangeLow = (u16) secondRange;
                 if (secondRangeLow == 0) {
-                    secondScaledDraw = random->mValue >> 32;
+                    secondScaledDraw = RANDOM_HIGH32(random);
                 } else {
-                    secondScaledDraw = ((s64) (random->mValue >> 32) * secondRangeLow) >> 32;
+                    secondScaledDraw = RANDOM_BELOW_S64(random, secondRangeLow);
                 }
             }
             secondResult = secondScaledDraw;

@@ -49,7 +49,7 @@ void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderO
             }
         }
     }
-    ResetModelAnimationLooping(&modelAnimation->mHead, 0);
+    ResetModelAnimationLooping(&modelAnimation->mFrameLoop, 0);
     renderObj->mDrawKind = 0;
     modelAnimation->mRenderObj = renderObj;
     modelAnimation->mAnmObjCount = anmObjCount;
@@ -133,7 +133,7 @@ void SetModelAnimation(ModelAnimation *modelAnimation, s32 entryIndex) {
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = TO_FIXED12(1);
     frameCountFixed = TO_FIXED12(
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
-    ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
+    ResetModelAnimationWithLoopFlag(&modelAnimation->mFrameLoop, frameCountFixed,
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
 
@@ -160,7 +160,7 @@ void StartModelAnimationBlend(ModelAnimation *modelAnimation, u16 entryIndex) {
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0;
     frameCountFixed = TO_FIXED12(
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
-    ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
+    ResetModelAnimationWithLoopFlag(&modelAnimation->mFrameLoop, frameCountFixed,
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
 
@@ -176,8 +176,8 @@ void AdvanceModelAnimation(ModelAnimation *modelAnimation) {
             modelAnimation->mPreviousAnmObj = NULL;
         }
     }
-    AdvanceModelAnimationFrame(&modelAnimation->mHead);
-    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
+    AdvanceModelAnimationFrame(&modelAnimation->mFrameLoop);
+    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mFrameLoop.mFrameIndexFixed;
 }
 
 // Moves only the blend; the caller sets the frame.

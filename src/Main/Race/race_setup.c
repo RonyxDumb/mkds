@@ -36,13 +36,13 @@ void CreateRaceSetupCopy(void *heap) {
 
 #pragma thumb off
 
-void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size) {
-    volatile u32 valueCopy = value;
-    MIi_CpuClearFast(valueCopy, destination, size);
+void RaceSetupCopyMI_CpuFillFast(void *dest, u32 data, u32 size) {
+    volatile u32 dataCopy = data;
+    MIi_CpuClearFast(dataCopy, dest, size);
 }
 
-void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size) {
-    RaceSetupCopyMI_CpuFillFast(destination, 0, size);
+void RaceSetupCopyMI_CpuClearFast(void *dest, u32 size) {
+    RaceSetupCopyMI_CpuFillFast(dest, 0, size);
 }
 
 u32 RaceSetupCopyGetConnectionKind(void) {
@@ -79,7 +79,7 @@ void ResetRaceSetupCopy(void) {
     }
     gRaceSetupCopy->mMissionTableRow = 1;
     gRaceSetupCopy->mMissionTableColumn = 1;
-    if (RaceSetupCopyGetConnectionKind() == 0) {
+    if (RaceSetupCopyGetConnectionKind() == CONNECTION_KIND_NONE) {
         if (RaceSetupCopyMB_IsMultiBootChildWrapper() == 0) {
             gRaceSetupCopy->mMissionFile = FindSceneFile("mission.mr");
         } else {
@@ -92,9 +92,6 @@ void ResetRaceSetupCopy(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 RaceSetupCopy *GetRaceSetupCopy(void) {
     return gRaceSetupCopy;
@@ -155,13 +152,13 @@ void SetNextRaceSetupFromKartMask(void) {
     for (; nextEntryIndex < 8; nextEntryIndex++) {
         SetNextRaceEntry(nextEntryIndex, -1, -1, PLAYER_KIND_NONE, -1, 3);
     }
-    WiFiSetNextMode(5);
+    WiFiSetNextMode(MODE_WIFI);
     WiFiSetNextCourseId(gRaceSetupCopy->mCourseId);
-    WiFiSetNextEngineIndex(1);
+    WiFiSetNextEngineIndex(ENGINE_CLASS_MEDIUM);
     WiFiSetNextMirrorMode(0);
     WiFiSetNextUseTeams(0);
     WiFiSetNextRuleKind(RULE_KIND_FREE);
-    WiFiSetNextCourseListMode(0);
+    WiFiSetNextCourseListMode(COURSE_LIST_MODE_SINGLE);
     kartMask = 0;
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
@@ -196,10 +193,6 @@ void CopyEntriesToRaceSetupCopy(void) {
         }
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetCourseId(void) {
     return (gRaceSetupCopy->mCourseId);
@@ -313,10 +306,6 @@ void ClearUseTeams(void) {
     gRaceSetupCopy->mUseTeams = 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetTeamIndex(u16 entryIndex, u32 teamIndex) {
     gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = teamIndex;
 }
@@ -340,10 +329,6 @@ void SetListedCpuSlot(u16 entryIndex, u32 cpuSlot) {
 void SetKartStored(u16 entryIndex, u32 kartStored) {
     gRaceSetupCopy->mEntries[entryIndex].mKartStored = kartStored;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetRaceSetupCopyGhostRecordIndex(u32 ghostRecordIndex) {
     gRaceSetupCopy->mGhostRecordIndex = ghostRecordIndex;

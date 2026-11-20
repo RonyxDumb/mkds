@@ -29,8 +29,8 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "01/MapObjects/mission_run_frame_callbacks.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
@@ -51,8 +51,8 @@
 #include "01/MapObjects/mission_run_entry_index.h"
 #include "01/MapObjects/mission_run_motion_setters.h"
 #include "01/MapObjects/mission_run_point_in_range_callback.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "01/MapObjects/donketu_fall.h"
 #include "01/MapObjects/donketu_water_land_state.h"
 #include "Main/System/backup_net_camera_work.h"
@@ -60,8 +60,9 @@
 
 #include "01/MapObjects/kuriking_state_shared.h"
 
-// MissionRunMapObject.mStateNumber of Donketu while it is launched by a boosted kart, falling or landed in the water.
-#define DONKETU_STATE_AFTER_KART_LAUNCH 7
+// MissionRunMapObject.mStateNumber of Donketu after a kart hit launched it (boosted or not), while it falls, and after
+// it landed in the water; hits no longer launch it.
+#define DONKETU_STATE_LAUNCH_FALL_LAND 7
 
 MapObjectList *CreateDonketuUpdateList(void);
 MapObjectList *CreateKingIceDonketuDrawList(void);

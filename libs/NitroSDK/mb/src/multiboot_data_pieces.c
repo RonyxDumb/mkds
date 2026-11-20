@@ -11,34 +11,24 @@ PieceSizes gPieceSizes;
 
 void MBi_SetChildMPMaxSize(s32 packetSize) {
     gPieceSizes.mPieceSize = packetSize - 2;
-    gPieceSizes.mPieceCount = MULTIBOOT_CHILD_MP_BUFFER_SIZE / gPieceSizes.mPieceSize;
-    gPieceSizes.mBufSize = MULTIBOOT_CHILD_MP_BUFFER_SIZE;
+    gPieceSizes.mPieceCount = MULTIBOOT_CHILD_PIECE_BUFFER_SIZE / gPieceSizes.mPieceSize;
+    gPieceSizes.mBufSize = MULTIBOOT_CHILD_PIECE_BUFFER_SIZE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer) {
     gPieceBuffer = buffer;
     MI_CpuFill8(buffer, 0, sizeof(MbRequestPieceBuf));
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_ClearParentPieceBuffer(s32 child) {
     s32 childIndex;
 
     if (gPieceBuffer != NULL) {
         childIndex = child - 1;
-        MI_CpuFill8(&gPieceBuffer->mDataBuf[childIndex * 0x20], 0, 0x1e);
+        MI_CpuFill8(&gPieceBuffer->mDataBuf[childIndex * 0x20], 0, MULTIBOOT_CHILD_PIECE_BUFFER_SIZE);
         gPieceBuffer->mDataBmp[childIndex] = 0;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u8 *MBi_MakeParentSendBuffer(ParentMessage *message, u8 *output) {
     u8 *cursor;

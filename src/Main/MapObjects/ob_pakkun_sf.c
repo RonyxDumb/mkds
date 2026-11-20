@@ -33,13 +33,13 @@
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/woodbox1_kind_data.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/pendulum.h"
 #include "Main/Course/course_triangle_flag.h"
@@ -83,7 +83,7 @@ struct Nsbmd *gSecondHand;
 void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
     gObPakkunSf->mFrameIndex = ((obPakkunSf->mFramesSinceInit & OB_PAKKUN_SF_FRAME_TOGGLE_BIT) >> 4);
-    if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == 0) {
+    if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == PUSHED_OBJECT_STATE_IDLE) {
         matrix = SetViewRotatedMatrixPos(&obPakkunSf->mPushedObject.mMapObject.mPos);
         DrawNsbmdModelWithMatrixAndMaxAlpha(gObPakkunSf, matrix, &obPakkunSf->mPushedObject.mMapObject.mScale, 0,
                                             alpha);
@@ -101,12 +101,14 @@ void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf) {
     obPakkunSf->mFramesSinceInit = obPakkunSf->mFramesSinceInit + 1;
     if ((obPakkunSf->mFramesSinceInit & OB_PAKKUN_SF_SOUND_FRAME_MASK) == 0 &&
         (obPakkunSf->mPushedObject.mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared ==
+            gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = OB_PAKKUN_SF_SOUND_ID;
         soundRequest.mPositionSource = &obPakkunSf->mPushedObject.mMapObject.mPos;
@@ -139,10 +141,6 @@ void CreateObPakkunSf(void) {
     CreateNsbmdModel(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
     SetNsbmdModelFixedAttributes(gObPakkunSf);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
     obPakkunSf->mPushedObject.mMapObject.mPos.y =

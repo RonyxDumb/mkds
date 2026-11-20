@@ -23,14 +23,14 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "geometry_engine_setup.h"
 #include "Main/Kart/kart_drift.h"
 #include "sound_archive_load_result.h"
@@ -44,7 +44,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "geometry_matrix_commands.h"
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Item/pooled_item_box.h"
@@ -64,6 +64,8 @@ s32 gOrthoQuadHoldFrameCount;
 s32 gOrthoQuadMoveStartFrameCount;
 BOOL gOrthoQuadUseCreamEffect;
 OrthoQuad *gOrthoQuads;
+// One byte per row of the 8 rows; a bit is set where a placed quad marks cells, and a start cell whose bit is set is
+// skipped.
 u8 gOrthoQuadCells[8];
 OrthoQuadModel gOrthoQuadGesoSumi;
 OrthoQuadModel gOrthoQuadCreamEffect;
@@ -85,7 +87,7 @@ void InitBouncingItemBoxMapObjects(void) {
     ItemPool *pool;
     MapObject *mapObject;
     if (gItemInfos[ITEM_INFO_BOUNCING_ITEM_BOX].mEnabled != FALSE) {
-        pool = &gItemPools[8];
+        pool = &gItemPools[ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX];
         objectCursor = pool->mObjects;
         objectCount = pool->mObjectCount;
         index = 0;
@@ -102,10 +104,6 @@ void InitBouncingItemBoxMapObjects(void) {
         pool->mDrawnByMapObjects = 1;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void InitBouncingItemBoxTimers(void) {
     s32 timerIndex;
@@ -133,8 +131,8 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     s32 cornerIndex;
     s32 fallSpeed;
     NNSSndSeqPlayer **sndHandle;
-    s16 coordX;
-    s16 coordY;
+    s16 x;
+    s16 y;
     s32 fallDistance;
 
     velocities = quad->mCornerVelocities;
@@ -164,16 +162,16 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
             quad->mCorners[cornerIndex].mHalf.mY += velocities[cornerIndex][1];
             velocities[cornerIndex][0] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][0], 0x10cd);
             velocities[cornerIndex][1] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][1], 0x10cd);
-            coordX = quad->mCorners[cornerIndex].mHalf.mX;
-            if (coordX > ORTHO_QUAD_COORD_LIMIT) {
+            x = quad->mCorners[cornerIndex].mHalf.mX;
+            if (x > ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mX = ORTHO_QUAD_COORD_LIMIT;
-            } else if (coordX < -ORTHO_QUAD_COORD_LIMIT) {
+            } else if (x < -ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mX = -ORTHO_QUAD_COORD_LIMIT;
             }
-            coordY = quad->mCorners[cornerIndex].mHalf.mY;
-            if (coordY > ORTHO_QUAD_COORD_LIMIT) {
+            y = quad->mCorners[cornerIndex].mHalf.mY;
+            if (y > ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mY = ORTHO_QUAD_COORD_LIMIT;
-            } else if (coordY < -ORTHO_QUAD_COORD_LIMIT) {
+            } else if (y < -ORTHO_QUAD_COORD_LIMIT) {
                 quad->mCorners[cornerIndex].mHalf.mY = -ORTHO_QUAD_COORD_LIMIT;
             }
         }
@@ -181,15 +179,15 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
         cornerIndex = 0;
         if (cornerIndex < 4) {
             do {
-                coordX = velocities[cornerIndex][0];
-                coordY = velocities[cornerIndex][1];
-                if (coordY < 0) {
-                    fallSpeed = coordY * coordY > coordX * coordX ? 7 : 5;
+                x = velocities[cornerIndex][0];
+                y = velocities[cornerIndex][1];
+                if (y < 0) {
+                    fallSpeed = y * y > x * x ? 7 : 5;
                     if (cornerIndex == quad->mPickedCornerIndex) {
                         fallSpeed += (fallSpeed << 1) + ((fallSpeed * framesFromMoveStart) >> 9);
                     }
                 } else {
-                    fallSpeed = coordY * coordY > coordX * coordX ? 2 : 3;
+                    fallSpeed = y * y > x * x ? 2 : 3;
                 }
                 fallDistance = fallSpeed;
                 fallDistance += (fallSpeed * framesFromMoveStart) >> 8;
@@ -205,8 +203,8 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     if ((quad->mTimer & ORTHO_QUAD_CORNER_PICK_MASK) == 0) {
         RandomState64 *random = &gRaceProgress->mLocalRandom;
 
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        quad->mPickedCornerIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 6) >> 32);
+        RANDOM_ADVANCE(random);
+        quad->mPickedCornerIndex = (u16) RANDOM_BELOW_U64(random, 6);
     }
 }
 
@@ -312,14 +310,14 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
     reg_G3_TEXIMAGE_PARAM = model->mTeximageParam;
-    reg_G3_PLTT_BASE = model->mPlttBase;
+    reg_G3_TEXPLTT_BASE = model->mPlttBase;
     reg_G3_DIF_AMB = model->mDifAmb;
     reg_G3_SPE_EMI = model->mSpeEmi;
     reg_G3_MTX_MODE = 0;
     G3_LoadMtx44(&gOrthoQuadMatrix);
-    reg_G3_MTX_MODE = 3;
+    reg_G3_MTX_MODE = TARGET_MATRIX_TEXTURE;
     reg_G3_MTX_IDENTITY = 0;
-    reg_G3_MTX_MODE = 2;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
     reg_G3_MTX_IDENTITY = 0;
     reg_G3_MTX_SCALE = 0x64000;
     reg_G3_MTX_SCALE = 0x64000;
@@ -336,13 +334,13 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         reg_G3_TEXCOORD = 0;
         reg_G3_VTX_16 = quad->mCorners[0].mWord;
         reg_G3_VTX_16 = 0;
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16;
-        reg_G3_VTX_DIFF = quad->mCorners[1].mWord;
+        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexCoordHighSize << 8) >> 16) << 16;
+        reg_G3_VTX_XY = quad->mCorners[1].mWord;
         reg_G3_TEXCOORD =
-            (u16) ((s32) (model->mTexSizeT << 8) >> 16) | ((u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16);
-        reg_G3_VTX_DIFF = quad->mCorners[2].mWord;
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeT << 8) >> 16);
-        reg_G3_VTX_DIFF = quad->mCorners[3].mWord;
+            (u16) ((s32) (model->mTexCoordLowSize << 8) >> 16) | ((u16) ((s32) (model->mTexCoordHighSize << 8) >> 16) << 16);
+        reg_G3_VTX_XY = quad->mCorners[2].mWord;
+        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexCoordLowSize << 8) >> 16);
+        reg_G3_VTX_XY = quad->mCorners[3].mWord;
         reg_G3_END_VTXS = 0;
         quadIndex++;
     } while (quadIndex < gOrthoQuadCount);
@@ -352,7 +350,8 @@ void DrawOrthoQuads(void) {
     DrawOrthoQuadsWithModel(gOrthoQuadUseCreamEffect != 0 ? &gOrthoQuadCreamEffect : &gOrthoQuadGesoSumi);
 }
 
-// Marks the cells in rows row - 2 to row + 2 next to column; returns the bits that were already marked.
+// Marks a block of cells around column in gOrthoQuadCells: five cells wide in rows row - 1 to row + 1, three cells wide
+// in rows row - 2 and row + 2 (rows 0 to 7 only); returns the bits that were already marked.
 u8 MarkOrthoQuadCellsAndGetOverlap(s32 column, s32 row) {
     u8 overlapAbove;
     s32 fiveCellMask;
@@ -389,8 +388,8 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     OrthoQuad *quad;
     s16(*velocities)[2];
     s32 cornerIndex;
-    s16 cosResult;
     s16 sinResult;
+    s16 cosResult;
     s32 value;
     s16 velocityX;
     s16 velocityY;
@@ -399,16 +398,16 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     quad = &gOrthoQuads[index];
     random = &raceProgress->mLocalRandom;
     velocities = quad->mCornerVelocities;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    value = (s32) (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
-    cosResult = SIN_OF_ANGLE(value);
-    sinResult = COS_OF_ANGLE(value);
+    RANDOM_ADVANCE(random);
+    value = (s32) (u16) RANDOM_BELOW_U64(random, 0x10000);
+    sinResult = SIN_OF_ANGLE(value);
+    cosResult = COS_OF_ANGLE(value);
     if (overlap != 0) {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        value = (s16) (((u64) (u32) (random->mValue >> 32) * 0xcd) >> 32) + 0x800;
+        RANDOM_ADVANCE(random);
+        value = (s16) RANDOM_BELOW_U64(random, 0xcd) + 0x800;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        value = 0xa66 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x52) >> 32);
+        RANDOM_ADVANCE(random);
+        value = 0xa66 + (s16) RANDOM_BELOW_U64(random, 0x52);
     }
     value = (s16) value;
     if (gOrthoQuadUseCreamEffect != 0) {
@@ -426,8 +425,8 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
         velocityY = velocities[cornerIndex][1];
         velocityX = velocities[cornerIndex][0];
-        velocities[cornerIndex][0] = (sinResult * velocityX - cosResult * velocityY) >> 12;
-        velocities[cornerIndex][1] = (cosResult * velocityX + sinResult * velocityY) >> 12;
+        velocities[cornerIndex][0] = (cosResult * velocityX - sinResult * velocityY) >> 12;
+        velocities[cornerIndex][1] = (sinResult * velocityX + cosResult * velocityY) >> 12;
         *GetOrthoQuadCorner(quad, cornerIndex) = startPair;
     }
     quad->mStartPair = startPair;
@@ -439,7 +438,7 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
 // Local entry only: places up to count quads at random cells; the cream effect does not restart while quads show.
 void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     HalfwordPair startPair;
-    s32 cellIndex;
+    s32 i;
     s32 placedCount;
     s32 cellBit;
     s32 column;
@@ -461,32 +460,32 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     gOrthoQuadUseCreamEffect = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
     gOrthoQuadUseCreamEffect = useCreamEffect;
-    for (cellIndex = 0; cellIndex < 8; cellIndex++) {
-        gOrthoQuadCells[cellIndex] = 0;
+    for (i = 0; i < 8; i++) {
+        gOrthoQuadCells[i] = 0;
     }
     cellBit = 1;
-    for (cellIndex = 0, placedCount = 0; cellIndex < 0x10 && placedCount < count; cellIndex++) {
+    for (i = 0, placedCount = 0; i < 0x10 && placedCount < count; i++) {
         if (gOrthoQuadUseCreamEffect != 0) {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mX = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mY = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
+            RANDOM_ADVANCE(random);
+            startPair.mHalf.mX = (s16) RANDOM_BELOW_U64(random, 0x1000) * 2;
+            RANDOM_ADVANCE(random);
+            startPair.mHalf.mY = (s16) RANDOM_BELOW_U64(random, 0xc00) * 2;
         } else if (gOrthoQuadCount == 0) {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mX = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
+            startPair.mHalf.mX = RANDOM_BELOW_U64(random, 0x1000);
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mX =
-                startPair.mHalf.mX + (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32);
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mY = ((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                startPair.mHalf.mX + (s16) RANDOM_BELOW_U64(random, 0x1000);
+            RANDOM_ADVANCE(random);
+            startPair.mHalf.mY = RANDOM_BELOW_U64(random, 0xc00);
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mY =
-                startPair.mHalf.mY + (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32);
+                startPair.mHalf.mY + (s16) RANDOM_BELOW_U64(random, 0xc00);
         } else {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mX = ((u64) (u32) (random->mValue >> 32) * 0x2000) >> 32;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mY = ((u64) (u32) (random->mValue >> 32) * 0x1800) >> 32;
+            RANDOM_ADVANCE(random);
+            startPair.mHalf.mX = RANDOM_BELOW_U64(random, 0x2000);
+            RANDOM_ADVANCE(random);
+            startPair.mHalf.mY = RANDOM_BELOW_U64(random, 0x1800);
         }
         column = startPair.mHalf.mX >> 10;
         row = startPair.mHalf.mY >> 10;
@@ -555,7 +554,7 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
     s32 cornerY;
     s32 pushY;
     s32 pushX;
-    s32 otherCornerIndex;
+    s32 pushedCornerIndex;
     s16(*velocities)[2] = quad->mCornerVelocities;
 
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
@@ -591,13 +590,13 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
                 pushY = -0x171;
             }
         }
-        for (otherCornerIndex = 0; otherCornerIndex < 4; otherCornerIndex++) {
-            if (cornerIndex == otherCornerIndex) {
-                velocities[otherCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
-                velocities[otherCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
+        for (pushedCornerIndex = 0; pushedCornerIndex < 4; pushedCornerIndex++) {
+            if (cornerIndex == pushedCornerIndex) {
+                velocities[pushedCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
+                velocities[pushedCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
             } else {
-                velocities[otherCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
-                velocities[otherCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
+                velocities[pushedCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
+                velocities[pushedCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
             }
         }
     }
@@ -691,8 +690,8 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
     quadModel->mDifAmb = model->mDiffAmb;
     quadModel->mSpeEmi = model->mSpecEmi;
     teximageParam = quadModel->mTeximageParam;
-    quadModel->mTexSizeT = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
-    quadModel->mTexSizeS = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
+    quadModel->mTexCoordLowSize = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
+    quadModel->mTexCoordHighSize = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
 }
 #pragma thumb off
 
@@ -730,15 +729,15 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             }
             raceProgress = gRaceProgress;
             random = &raceProgress->mLocalRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             gesso->mOrthoQuadCounts[candidateIndex] =
-                (u16) (((random->mValue >> 32) * ITEM_GESSO_MAX_QUADS_PER_KART) >> 32) + 1;
+                (u16) RANDOM_BELOW(random, ITEM_GESSO_MAX_QUADS_PER_KART) + 1;
         }
     } else {
         rank = 1;
         ownerRank = GetKartRank(ownerIndex);
         do {
-            kartIndex = GetKartAtRank(rank);
+            kartIndex = GetRaceProgressKartIndexAtRank(rank);
             kart = GetKart(kartIndex);
             if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0 &&
                 (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0 &&

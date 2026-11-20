@@ -42,15 +42,15 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -113,10 +113,10 @@ s32 IsSelectedMemberRowSelectable(void) {
 
     result = TRUE;
     selectedIndex = gMultiSelectMemberGroup->mSelectedIndex;
-    if (selectedIndex != 4) {
+    if (selectedIndex != MULTI_SELECT_MEMBER_GROUP_NS_ROW) {
         memberChecksPass = FALSE;
         if (gMultiSelectMemberGroup->mMemberRows[selectedIndex].mHasText != 0 &&
-            gMultiSelectMemberGroup->mMemberRows[selectedIndex].mChildCount < 7) {
+            gMultiSelectMemberGroup->mMemberRows[selectedIndex].mChildCount < CHILD_LIST_MAX_CHILDREN) {
             memberChecksPass = TRUE;
         }
         if (memberChecksPass == FALSE) {
@@ -203,7 +203,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
         entryOffset += 0xc;
         rowCellIndices++;
         rowIndex++;
-    } while (rowIndex < 4);
+    } while (rowIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT);
     if (gMultiSelectMemberGroup->mSelectedIndex == rowIndex && showSelected != 0) {
         rowSelected = 1;
     } else {
@@ -219,10 +219,6 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
     SetLabelPaletteIndex(4, valueTable.mPaletteIndices[rowSelected], cellFileSet->mLabelLayout, cellFileSet->mCellTable,
                          cellFileSet->mCellLayout);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Fills with 0 using a volatile halfword.
 static inline void MultiSelectMI_CpuClear16(void *destination, s32 byteCount) {
@@ -252,7 +248,7 @@ void UpdateMemberRowsFromScanSlots(void) {
         case MULTI_SELECT_MEMBER_GROUP_UPDATE_POLL_SLOTS:
             if (gMultiSelectMemberGroup->mRowPressed != FALSE) {
                 if (gMultiSelectMemberGroup->mSelectedIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT) {
-                    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+                    for (slotIndex = 0; slotIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT; slotIndex++) {
                         if (TryGetScanSlotName(slotIndex, &GetWLMenuSceneScanSlotPick()->mSlotTexts[slotIndex]) != 0) {
                             GetWLMenuSceneScanSlotPick()->mSlotTexts[slotIndex].mTerminator = 0;
                         } else {
@@ -275,7 +271,7 @@ void UpdateMemberRowsFromScanSlots(void) {
             if (gMultiSelectMemberGroup->mState != MULTI_SELECT_MEMBER_GROUP_STATE_CHOOSE) {
                 return;
             }
-            for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+            for (slotIndex = 0; slotIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT; slotIndex++) {
                 oldHasText = gMultiSelectMemberGroup->mMemberRows[slotIndex].mHasText;
                 oldWord8 = gMultiSelectMemberGroup->mMemberRows[slotIndex].mChildCount;
                 oldWord4 = gMultiSelectMemberGroup->mMemberRows[slotIndex].mIsMultiBoot;
@@ -298,7 +294,7 @@ void UpdateMemberRowsFromScanSlots(void) {
                 }
                 if (oldHasText == 0 && gMultiSelectMemberGroup->mMemberRows[slotIndex].mHasText != 0) {
                     isNewEntry = TRUE;
-                    for (otherSlotIndex = 0; otherSlotIndex < 4; otherSlotIndex++) {
+                    for (otherSlotIndex = 0; otherSlotIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT; otherSlotIndex++) {
                         if (wcsncmp(entry.mText, GetWLMenuSceneScanSlotPick()->mSlotTexts[otherSlotIndex].mText, 0xb) ==
                             0) {
                             isNewEntry = FALSE;
@@ -396,7 +392,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     if (gMultiSelectMemberGroup->mEntriesCleared == FALSE) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;
         if (gMultiSelectMemberGroup->mEntriesClearFrames > MULTI_SELECT_MEMBER_GROUP_CLEAR_FRAMES) {
-            for (rowIndex = 0; rowIndex < 4; rowIndex++) {
+            for (rowIndex = 0; rowIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT; rowIndex++) {
                 MultiSelectMI_CpuClear16(&GetWLMenuSceneScanSlotPick()->mSlotTexts[rowIndex], 0x16);
             }
             gMultiSelectMemberGroup->mEntriesCleared = TRUE;
@@ -415,10 +411,10 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
             }
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
-            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS) {
+            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES) {
                 gMultiSelectMemberGroup->mBg3Offset =
                     InterpolateS16(1, -0xc0, 0, gMultiSelectMemberGroup->mBg3OffsetFrames,
-                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS);
+                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
                 gMultiSelectMemberGroup->mBg3Offset = 0;
@@ -432,7 +428,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
             value = gInputSlots[slotIndex].mPair.mHasPair;
-            if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+            if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                 pairRecentlyGone = TRUE;
             }
             if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && value != 0) {
@@ -451,7 +447,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT;
                     gMultiSelectMemberGroup->mPressWaitFrames = 0;
                     RefreshMultiSelectMemberGroup(0);
-                    if (gMultiSelectMemberGroup->mSelectedIndex == MULTI_SELECT_MEMBER_GROUP_RETURN_ROW) {
+                    if (gMultiSelectMemberGroup->mSelectedIndex == MULTI_SELECT_MEMBER_GROUP_NS_ROW) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
                     } else {
                         if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
@@ -467,20 +463,20 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 }
             } else if ((u16) (value & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 0;
+                    sceneNumbers->mNextScene = SCENE_TITLE;
                 }
                 gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT;
                 RequestSelectReturnPressWithSound(1);
-            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex--;
                 if (gMultiSelectMemberGroup->mSelectedIndex < 0) {
-                    gMultiSelectMemberGroup->mSelectedIndex = MULTI_SELECT_MEMBER_GROUP_RETURN_ROW;
+                    gMultiSelectMemberGroup->mSelectedIndex = MULTI_SELECT_MEMBER_GROUP_NS_ROW;
                 }
                 RefreshMultiSelectMemberGroup(1);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
-            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex++;
-                if (gMultiSelectMemberGroup->mSelectedIndex > MULTI_SELECT_MEMBER_GROUP_RETURN_ROW) {
+                if (gMultiSelectMemberGroup->mSelectedIndex > MULTI_SELECT_MEMBER_GROUP_NS_ROW) {
                     gMultiSelectMemberGroup->mSelectedIndex = 0;
                 }
                 RefreshMultiSelectMemberGroup(1);
@@ -488,17 +484,17 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             } else if (rectIndex == 0xc) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
                 RefreshMultiSelectMemberGroup(
-                    gMultiSelectMemberGroup->mSelectedIndex != MULTI_SELECT_MEMBER_GROUP_RETURN_ROW ? 1 : 0);
+                    gMultiSelectMemberGroup->mSelectedIndex != MULTI_SELECT_MEMBER_GROUP_NS_ROW ? 1 : 0);
                 gMultiSelectMemberGroup->mPressWaitFrames = 0;
                 gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT;
-                gMultiSelectMemberGroup->mSelectedIndex = MULTI_SELECT_MEMBER_GROUP_RETURN_ROW;
+                gMultiSelectMemberGroup->mSelectedIndex = MULTI_SELECT_MEMBER_GROUP_NS_ROW;
                 gMultiSelectMemberGroup->mRowPressed = TRUE;
             } else {
-                for (rowIndex = 0; rowIndex < 4; rowIndex++) {
+                for (rowIndex = 0; rowIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT; rowIndex++) {
                     if (IsRectInMemberRow(rectIndex, rowIndex) != 0) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != rowIndex ? 1 : 0;
                         if (gMultiSelectMemberGroup->mMemberRows[rowIndex].mHasText != 0 &&
-                            gMultiSelectMemberGroup->mMemberRows[rowIndex].mChildCount < 7) {
+                            gMultiSelectMemberGroup->mMemberRows[rowIndex].mChildCount < CHILD_LIST_MAX_CHILDREN) {
                             NNS_SndArcSetCurrent(&gOnMemorySndArc);
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
                             NNS_SndArcSetCurrent(&gFileSndArc);
@@ -516,7 +512,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             break;
         case MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT:
             gMultiSelectMemberGroup->mPressWaitFrames++;
-            if (gMultiSelectMemberGroup->mPressWaitFrames >= MULTI_SELECT_MEMBER_GROUP_PRESS_STEPS) {
+            if (gMultiSelectMemberGroup->mPressWaitFrames >= MULTI_SELECT_MEMBER_GROUP_PRESS_FRAMES) {
                 gMultiSelectMemberGroup->mPressWaitFrames = 0;
                 RefreshMultiSelectMemberGroup(1);
                 if (gMultiSelectMemberGroup->mSelectedIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT &&
@@ -530,10 +526,10 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             break;
         case MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT:
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
-            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS) {
+            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES) {
                 gMultiSelectMemberGroup->mBg3Offset =
                     InterpolateS16(1, 0, -0xc0, gMultiSelectMemberGroup->mBg3OffsetFrames,
-                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS);
+                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
                 gMultiSelectMemberGroup->mBg3Offset = 0;
@@ -554,18 +550,10 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseMultiSelectMemberGroup(void) {
     HeapDestroy(gMultiSelectMemberGroup->mHeap);
     *&gMultiSelectMemberGroup = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteMultiSelectMemberGroupRegisters(void) {
     u32 displayBits = 0x16;

@@ -1,5 +1,5 @@
 #include "Main/Item/item_kinoko.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_f_box.h"
@@ -27,28 +27,28 @@
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_koura_r_kart_items.h"
 #include "Main/Item/item_object_bouncing.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Item/item_link_following.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -57,7 +57,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
@@ -68,7 +68,7 @@
 
 const u16 gItemKinokoNoOwnerBit = ITEM_OWNER_NO_OWNER;
 
-const ItemInfo gItemInfoKinoko = {1, 1, 3, 1, 0, 0, StartItemKinokoBoost};
+const ItemInfo gItemInfoKinoko = {1, 1, ITEM_OBJECT_KIND_KINOKO, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemKinokoBoost};
 
 const ItemKind gItemKindKinoko = {0x138,
                                   8,
@@ -113,8 +113,8 @@ const ItemKind gItemKindKinoko = {0x138,
                                   1,
                                   0};
 
-// Item hook of the mushroom: starts the kart boost, uses up one held object, marks the use,
-// and makes the event call when the mode is 5.
+// Mushroom use hook: starts the kart boost, removes one held object and sets mKinokoBoostStarted; in a Wi-Fi race it
+// also adds a frame-only item data record of kind 3.
 void StartItemKinokoBoost(ItemInUse *itemInUse, HeldItem *heldItem) {
     StartKartKinokoBoost(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
@@ -122,14 +122,14 @@ void StartItemKinokoBoost(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
-    AddItemDataFrameOnly(3);
+    AddItemDataFrameOnly(ITEM_OBJECT_KIND_KINOKO);
 }
 
 void ResetItemKinoko(ItemKinoko *kinoko) {
     kinoko->mVisible = TRUE;
 }
 
-// Runs DrawItemObjectModel with the last two parameters swapped when the 0x134 word is set.
+// Draws the object's model when mVisible is set.
 void DrawItemKinoko(ItemKinoko *kinoko, void *viewAxis, void *model) {
     if (kinoko->mVisible == FALSE) {
         return;
@@ -137,7 +137,7 @@ void DrawItemKinoko(ItemKinoko *kinoko, void *viewAxis, void *model) {
     DrawItemObjectModel(&kinoko->mBouncingItemObject.mItemObject, model, viewAxis);
 }
 
-// Decreases the 0x130 word by one; when it goes below zero StartItemObjectReleaseTimerSynced runs first.
+// Counts mTimer down; once it is below zero it starts the release timer, then the resting step runs.
 void AdvanceRestingItemKinoko(ItemKinoko *kinoko) {
     kinoko->mTimer--;
     if (kinoko->mTimer < 0) {
@@ -146,7 +146,8 @@ void AdvanceRestingItemKinoko(ItemKinoko *kinoko) {
     AdvanceRestingItemObject(&kinoko->mBouncingItemObject.mItemObject);
 }
 
-// Sets the object up through AdvanceBouncingItem when the 0x74 word allows it.
+// Advances the bouncing motion; once the object has landed and neither fade-out nor release has started, it stops the
+// sound and starts resting, switching mAdvance to the resting step unless the object is ending.
 void AdvanceBouncingItemKinoko(ItemKinoko *kinoko) {
     u32 collisionHitLink;
 
@@ -165,7 +166,8 @@ void AdvanceBouncingItemKinoko(ItemKinoko *kinoko) {
     }
 }
 
-// Returns what StartItemObjectOrZero gives, with its 0x134 and 0x130 words cleared.
+// Starts a mushroom object (NULL if none is free); unless the object is ending it clears mAdvance, then frees its
+// collision slot and leaves it hidden with mTimer 0.
 ItemKinoko *StartItemKinokoOrZero(void) {
     ItemKinoko *kinoko;
 
@@ -182,7 +184,8 @@ ItemKinoko *StartItemKinokoOrZero(void) {
     return kinoko;
 }
 
-// Stores the two Vec3s in the object and sets the word at 0x80.
+// Makes the object visible, copies normal and pos when given (a given normal also sets ITEM_OBJECT_FLAG_KEEP_NORMAL)
+// and sets the velocity to pos minus mPrevPos.
 void ShowItemKinokoAt(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
     kinoko->mVisible = TRUE;
     SetCourseColorBlendColor(&kinoko->mBouncingItemObject.mItemObject.mColorBlend, 1);
@@ -198,7 +201,8 @@ void ShowItemKinokoAt(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
                  &kinoko->mBouncingItemObject.mItemObject.mVelocity);
 }
 
-// Runs the object's first word and stores the 0x120 and 0x130 words.
+// Takes the mushroom out of the slot, makes it ownerless, creates its collision slot and sound source, starts it
+// bouncing with the velocity, stores mTimer and clears the slot.
 void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer) {
     ItemKinoko *kinoko;
 

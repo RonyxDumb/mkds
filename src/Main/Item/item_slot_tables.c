@@ -26,7 +26,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Item/item_object_fade_out.h"
 #include "fixed_vector_math.h"
@@ -44,16 +44,16 @@ s32 gKouraWBlockTimer;
 ItemSlotTable gItemSlotHumanGhostPeerTable;
 ItemSlotTable gItemSlotCpuTable;
 ItemSlotTable gItemSlotForcedTable;
-u16 gItemWeightSums[18];
-s32 gItemSlotPossibleItems[18];
-s32 gItemSlotSpinItems[18];
+u16 gItemWeightSums[ITEM_INFO_COUNT];
+s32 gItemSlotPossibleItems[ITEM_INFO_COUNT];
+s32 gItemSlotSpinItems[ITEM_INFO_COUNT];
 
 static inline u32 ItemSlotNextRandomBelow(RandomState64 *random, u32 limit) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (limit == 0) {
-        return random->mValue >> 32;
+        return RANDOM_HIGH32(random);
     } else {
-        return ((random->mValue >> 32) * limit) >> 32;
+        return RANDOM_BELOW(random, limit);
     }
 }
 
@@ -87,7 +87,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     acc = 0;
     usedObjectCost = 0;
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-        for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
+        for (poolIndex = 0; poolIndex < ITEM_OBJECT_KIND_COUNT; poolIndex++) {
             usedObjectCost +=
                 (u16) (gItemKinds[(s32) poolIndex].mObjectCapCost *
                        (gItemPools[(s32) poolIndex].mReservedCount - gItemPools[(s32) poolIndex].mRestingCount));
@@ -349,11 +349,11 @@ static inline u16 ItemSlotNextRandomBelowU16(RandomState64 *random, u32 limit) {
     if (limit == 0) {
         value = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         if (limit == 0) {
-            value = random->mValue >> 32;
+            value = RANDOM_HIGH32(random);
         } else {
-            value = ((random->mValue >> 32) * limit) >> 32;
+            value = RANDOM_BELOW(random, limit);
         }
     }
     return value;
@@ -457,7 +457,7 @@ u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     s32 columnCount;
     s32 columnIndex;
     s32 rowIndex;
-    u16(*tab)[0x12];
+    u16(*tab)[ITEM_INFO_COUNT];
 
     rowCount = *data++;
     columnCount = *data++;
@@ -473,18 +473,12 @@ u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     return data;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u8 *ComputeItemSlotTableDataEnd(u8 *data) {
     return data + 2 + data[1] * data[0];
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
-    u16(*tab)[0x12];
+    u16(*tab)[ITEM_INFO_COUNT];
     s32 rowIndex;
     s32 columnIndex;
     u16 sourceRow;
@@ -580,7 +574,7 @@ void CreateItemSlotTables(void) {
     }
     rowCount = gItemSlotHumanGhostPeerTable.mRowCount;
     for (itemIndex = 0; itemIndex < ITEM_INFO_COUNT; itemIndex++) {
-        gItemSlotPossibleItems[itemIndex] = 0x12;
+        gItemSlotPossibleItems[itemIndex] = ITEM_INFO_COUNT;
         for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             if (gItemSlotHumanGhostPeerTable.mRows[rowIndex][itemIndex] != 0 ||
                 gItemSlotCpuTable.mRows[rowIndex][itemIndex] != 0) {
@@ -589,9 +583,9 @@ void CreateItemSlotTables(void) {
         }
     }
     gItemSlotPossibleItemCount = 0;
-    for (compactIndex = 0; compactIndex < 0x12; compactIndex++) {
+    for (compactIndex = 0; compactIndex < ITEM_INFO_COUNT; compactIndex++) {
         entry = &gItemSlotPossibleItems[compactIndex];
-        if (gItemSlotPossibleItems[compactIndex] != 0x12) {
+        if (gItemSlotPossibleItems[compactIndex] != ITEM_INFO_COUNT) {
             gItemSlotPossibleItems[gItemSlotPossibleItemCount++] = *entry;
         }
     }

@@ -11,7 +11,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/segment_progress_point.h"
@@ -27,7 +27,7 @@
 #pragma thumb on
 #pragma optimize_for_size on
 
-NsbmdModel *gItemModels[14];
+NsbmdModel *gItemModels[ITEM_OBJECT_KIND_COUNT];
 
 void *FindItemFile(char *fileName) {
     char buf[0x100];
@@ -74,27 +74,27 @@ void CreateItemModels(void) {
     BOOL isRainbowCourse;
 
     i = 0;
-    while (i < 0xe) {
+    while (i < ITEM_OBJECT_KIND_COUNT) {
         gItemModels[i] = NULL;
         i++;
     }
-    gItemModels[0] = CreateItemModel("it_koura_g.nsbmd", NULL, "it_koura_g.nsbtx");
-    gItemModels[1] = CreateItemModel("it_koura_r.nsbmd", NULL, "it_koura_r.nsbtx");
-    gItemModels[2] = CreateItemModel("it_banana.nsbmd", NULL, "it_banana.nsbtx");
-    gItemModels[3] = CreateItemModel("it_kinoko.nsbmd", NULL, "it_kinoko.nsbtx");
-    gItemModels[4] = CreateItemModel("it_star.nsbmd", NULL, "it_star.nsbtx");
-    gItemModels[5] = CreateItemModel("it_koura_w.nsbmd", NULL, "it_koura_w.nsbtx");
-    gItemModels[6] = CreateItemModel("it_thunder.nsbmd", NULL, "it_thunder.nsbtx");
-    gItemModels[7] = CreateItemModel("it_f_box.nsbmd", NULL, "it_f_box.nsbtx");
-    gItemModels[9] = CreateItemModel("it_bomb.nsbmd", "it_bomb.nsbtp", "it_bomb.nsbtx");
-    gItemModels[10] = CreateItemModel("it_gesso.nsbmd", NULL, "it_gesso.nsbtx");
-    gItemModels[11] = CreateItemModel("it_teresa.nsbmd", NULL, "it_teresa.nsbtx");
-    gItemModels[12] = CreateItemModel("it_kinoko_p.nsbmd", NULL, "it_kinoko_p.nsbtx");
-    gItemModels[13] = CreateItemModel("it_killer.nsbmd", NULL, "it_killer.nsbtx");
-    gItemModels[8] = gItemModels[7];
+    gItemModels[ITEM_OBJECT_KIND_KOURA_G] = CreateItemModel("it_koura_g.nsbmd", NULL, "it_koura_g.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_KOURA_R] = CreateItemModel("it_koura_r.nsbmd", NULL, "it_koura_r.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_BANANA] = CreateItemModel("it_banana.nsbmd", NULL, "it_banana.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_KINOKO] = CreateItemModel("it_kinoko.nsbmd", NULL, "it_kinoko.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_STAR] = CreateItemModel("it_star.nsbmd", NULL, "it_star.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_KOURA_W] = CreateItemModel("it_koura_w.nsbmd", NULL, "it_koura_w.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_THUNDER] = CreateItemModel("it_thunder.nsbmd", NULL, "it_thunder.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_F_BOX] = CreateItemModel("it_f_box.nsbmd", NULL, "it_f_box.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_BOMB] = CreateItemModel("it_bomb.nsbmd", "it_bomb.nsbtp", "it_bomb.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_GESSO] = CreateItemModel("it_gesso.nsbmd", NULL, "it_gesso.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_TERESA] = CreateItemModel("it_teresa.nsbmd", NULL, "it_teresa.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_KINOKO_P] = CreateItemModel("it_kinoko_p.nsbmd", NULL, "it_kinoko_p.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_KILLER] = CreateItemModel("it_killer.nsbmd", NULL, "it_killer.nsbtx");
+    gItemModels[ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX] = gItemModels[ITEM_OBJECT_KIND_F_BOX];
     isRainbowCourse = (gRaceSetup->mCourseId == COURSE_ID_RAINBOW);
     i = 0;
-    while (i < 0xe) {
+    while (i < ITEM_OBJECT_KIND_COUNT) {
         itemKind = &gItemKinds[i];
         if (itemKind->mSetup != NULL) {
             itemKind->mSetup();
@@ -273,11 +273,11 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         }
         pos->y = pos->y + velocity->y;
     }
-    if (CollideSphereWithCourse(pos, &follower->mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                follower->mDirectedItemObject.mItemObject.mCourseRadius, 4,
-                                follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &vector, &hitNormal,
-                                &wallNormal, &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL,
-                                NULL, NULL) != 0) {
+    if (CollideSphereWithCourse(
+            pos, &follower->mDirectedItemObject.mItemObject.mPrevPos, 0,
+            follower->mDirectedItemObject.mItemObject.mCourseRadius, COURSE_QUERY_SKIP_HIT_VALUE_2000,
+            follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &vector, &hitNormal, &wallNormal,
+            &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         if (follower->mDirectedItemObject.mPushOutMode != 0) {
             if (vector.y > 0) {
                 pos->y = pos->y + vector.y;
@@ -316,7 +316,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
             FadeOutUsedUpItemObject(&follower->mDirectedItemObject.mItemObject, 1);
             return;
         }
-        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             if (follower->mDirectedItemObject.mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
                 FadeOutItemObjectNoCallback(&follower->mDirectedItemObject.mItemObject, 1);
                 return;

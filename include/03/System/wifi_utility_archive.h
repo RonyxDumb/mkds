@@ -7,9 +7,7 @@ typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
 
 // Commands the archive procedure gets.
-#define FS_COMMAND_WRITEFILE 1
-#define FS_COMMAND_ACTIVATE 9
-#define FS_COMMAND_IDLE 10
+#define ARCHIVE_PROC_WRITE 1
 
 BOOL AreStringEndsEqual(const u8 *first, const char *second, s32 endLength);
 void DeleteLoadedFile(void *block, ...);
@@ -22,7 +20,7 @@ void ReleaseDwcArchive(void);
 void InitDwcArchive(void);
 
 extern const u8 gDwcArchiveName[4];
-// Character data in the overlay's data.
+// File name ending of LZ-compressed files; LoadFile decompresses a path that ends with it.
 extern char gLzFileSuffix[3];
 extern u8 gRomDir[5];
 extern u8 gDwcUtilityBinName[21];

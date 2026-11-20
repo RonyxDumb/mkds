@@ -21,9 +21,9 @@ void InitMPChunkBuffers(void *heap) {
     int slot;
     int byteOffset;
     void *allocation;
-    ConnectionWork **workAddress;
+    ConnectionWork **workPointerAddress;
     allocation = HeapAllocAligned(heap, MP_CHUNK_PACKET_BYTES, HEAP_ALIGN_CACHE_LINE);
-    workAddress = &gConnectionWork;
+    workPointerAddress = &gConnectionWork;
     gConnectionWork->mChunkBuffer = allocation;
     slot = 0;
     byteOffset = 0;
@@ -32,12 +32,8 @@ void InitMPChunkBuffers(void *heap) {
         gConnectionWork->mChunkReceivedFlags[slot] = allocation;
         byteOffset = byteOffset + 4;
         slot = slot + 1;
-    } while (slot < 8);
+    } while (slot < MP_PARTICIPANT_SLOT_COUNT);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 static inline u32 MPStatesGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
@@ -75,7 +71,7 @@ void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s
     s32 playerBit;
 
     state = gConnectionWork->mState;
-    if (state != CONNECTION_STATE_GATHERING) {
+    if (state != CONNECTION_STATE_SETUP) {
         StoreReceivedPlayerName(data, playerIndex, keepMask);
         return;
     }
@@ -94,7 +90,7 @@ s32 IsAllMPChildSharedDataCopied(void) {
     allCopied = 1;
     childIndex = allCopied;
     childMask = gConnectionWork->mChildren.mChildMask;
-    for (; childIndex < 8; childIndex++) {
+    for (; childIndex < MP_PARTICIPANT_SLOT_COUNT; childIndex++) {
         if ((childMask & (allCopied << childIndex)) &&
             gConnectionWork->mDataSharing.mSharedDataCopied[childIndex] == 0) {
             allCopied = 0;
@@ -200,10 +196,6 @@ u32 AdvanceMainAndMenuDLArchives(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Asks for state 16 with the next race's course and mode.
 void RequestMPWaitRaceArchives(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
@@ -215,10 +207,6 @@ void RequestMPWaitRaceArchives(void *courseId, void *mode) {
     gConnectionWork->mCourseId = courseId;
     gConnectionWork->mMode = mode;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestMPWaitResultArchives(void) {
     MPStateMachine *stateMachine;
@@ -257,10 +245,6 @@ u32 AdvanceRaceArchives(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void EnterMPWaitRaceArchives(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
@@ -284,10 +268,6 @@ void UpdateMPWaitRaceArchives(void *stateObject) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void LoadCourseSoundSetCallback(void) {
     u32 loaded;
 
@@ -305,10 +285,6 @@ void EnterMPLoadCourseSound(void *stateObject) {
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateMPLoadCourseSound(void *stateObject) {
     int result;

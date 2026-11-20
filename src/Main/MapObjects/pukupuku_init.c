@@ -36,7 +36,7 @@ MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gRotaryGearTestCylinderKindData;
-    kindData->mHeightRangeMax = PUKUPUKU_HEIGHT_RANGE_MAX;
+    kindData->mHeightRangeMax = ROTARY_GEAR_TEST_CYLINDER_HEIGHT_RANGE_MAX;
     return kindData;
 }
 
@@ -78,11 +78,11 @@ void UpdateRotary(u32 unused, Rotary *object) {
     previousAngle = object->mCollisionMapObject.mMapObject.mAngle;
     AdvanceStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine);
     angleChange = object->mCollisionMapObject.mMapObject.mAngle - previousAngle;
-    if (angleChange > 0x8000) {
-        angleChange -= 0x10000;
+    if (angleChange > ANGLE_HALF_TURN) {
+        angleChange -= ANGLE_FULL_TURN;
     }
-    if (angleChange < -0x8000) {
-        angleChange += 0x10000;
+    if (angleChange < -ANGLE_HALF_TURN) {
+        angleChange += ANGLE_FULL_TURN;
     }
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x =
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mRows[1].x, angleChange);

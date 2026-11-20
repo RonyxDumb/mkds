@@ -22,7 +22,8 @@ typedef struct CourseSoundTableRow {
     /* 00 */ u16 mEntries[8];
 } CourseSoundTableRow;
 
-// A course sound slot: its volume handles, first table index and the volumes of its three ranges.
+// A course sound slot: its volume handle and previous volume handle, first table index and the low, mid and high
+// volumes (mVolumes).
 typedef struct CourseSoundSlot {
     /* 00 */ u32 mVolumeHandle;
     /* 04 */ u32 mPreviousVolumeHandle;

@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_drift.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_contact.h"
@@ -21,7 +22,7 @@
 #include "Main/MapObjects/woodbox.h"
 #include "Main/MapObjects/group_follower.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
@@ -33,17 +34,17 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "fixed_vector_math.h"
 #include "Main/Race/standings_balloons.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Sound/sound_falloffs.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Kart/camera.h"
 #include "Main/Graphics/disp_cap.h"
-#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_bomb.h"
 #include "Main/Graphics/emitters.h"
@@ -61,7 +62,7 @@
 #include "Main/Kart/kart_resources.h"
 #include "Main/Kart/kart_slot8_return.h"
 #include "Main/Kart/kart_nop_and_absolute_value.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/System/init_after_startup.h"
 
 const int gKartCollisionSingleEffectIds[1] = {0x3a};
@@ -75,7 +76,7 @@ Vec3 gFixedPositionSelectedEffectIds = {0x48, 0x49, 0x4a};
 Vec4 gKartLaunchDoubleFlipTargetQuaternion = {0, 0, 0, 0x1000};
 Vec3 gKartPointMotionDecayFactors = {0xf33, 0xe66, 0xf33};
 KartKillerEndRankOffsets gKartKillerEndRankOffsets = {{1, 1, 1, 1, 2, 2, 3, 3}};
-s16 gKartFlipEndFrameCount = 0x1e;
+s16 gKartFlipRotationEndFrames = 0x1e;
 s32 gKartWobbleEaseFactor = 0x4cd;
 s16 gTurnHeadingReductionAtSpeedLimit = 0x96;
 s32 gSpeedReductionAtFullTurnRatio = 0x1ec;
@@ -103,10 +104,10 @@ s32 gKartPushFlipStartVerticalSpeed = 0x3000;
 s32 gKartFlipSecondLandVerticalSpeed = 0x1000;
 Vec3 gFixedPositionEffectPos = {-5652480, 0x2f8000, -24412160};
 s32 gKartPushDoubleFlipStartAnglePerFrame = 0x898;
-s32 gKartJumpPadVerticalSpeeds[5] = {0x1800, 0x2000, 0x3000, 0x800, 0x4000};
+s32 gKartSurfaceJumpVerticalSpeeds[5] = {0x1800, 0x2000, 0x3000, 0x800, 0x4000};
 s32 gKartRespawnOffsetScale = 0x1e000;
 s32 gKartFlipStartVerticalSpeed = 0x24cd;
-s32 gKartJumpPadSpeedLimitGoals[5] = {0x7000, 0x6400, 0x4000, 0x6800, 0x3c00};
+s32 gKartSurfaceJumpSpeedLimitGoals[5] = {0x7000, 0x6400, 0x4000, 0x6800, 0x3c00};
 s32 gFirstBaseSpeedLimitReciprocal = 0x6000;
 Vec3 gKartPlacementHeadingAxis = {0, 0x1000, 0};
 s32 gKartPushFlipStartAnglePerFrame = 0x708;
@@ -357,7 +358,7 @@ void CollideKartWithMapObjects(Kart *kart) {
         kart->mPrevTouchingMapObjects[slotIndex] = touchedMapObjects[slotIndex];
         if (kart->mMapObjectSoundPlayed[slotIndex] != 0) {
             kart->mMapObjectSoundFrames[slotIndex]++;
-            if (kart->mMapObjectSoundFrames[slotIndex] > KART_MAP_OBJECT_SOUND_FRAMES) {
+            if (kart->mMapObjectSoundFrames[slotIndex] > KART_MAP_OBJECT_SOUND_MAX_FRAMES) {
                 kart->mMapObjectSoundPlayed[slotIndex] = 0;
                 kart->mMapObjectSoundFrames[slotIndex] = 0;
             }
@@ -544,15 +545,15 @@ void CollideKartWithKarts(Kart *kart) {
                 if (kart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED ||
                     otherKart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED) {
                     if (gSceneSoundState.mRaceFrames > KART_COLLISION_SOUND_MIN_RACE_FRAMES) {
-                        StartSound(&kart->mSoundSource, 0x80, 0x7f, 0);
+                        StartSound(&kart->mSoundSource, 0x80, SOUND_VOLUME_MAX, 0);
                     }
                     if (kart->mVelocityLength > otherKart->mVelocityLength) {
                         otherKart->mKartCollisionTimer = KART_COLLISION_TIMER_FRAMES;
                     } else {
                         kart->mKartCollisionTimer = KART_COLLISION_TIMER_FRAMES;
                     }
-                    StartKartModelScaleAnimation(kart, 2);
-                    StartKartModelScaleAnimation(otherKart, 2);
+                    StartKartModelScaleAnimation(kart, KART_MODEL_SCALE_BUMP);
+                    StartKartModelScaleAnimation(otherKart, KART_MODEL_SCALE_BUMP);
                     kart->mKartCollisionDelayTimer = KART_COLLISION_DELAY_FRAMES;
                     if (effectsStarted == 0) {
                         effectsStarted = TryStartKartCollisionEffects(kart, &normal, callbackValue);
@@ -629,7 +630,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirecti
     canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
         StartKartPushFlip(hitKart, pushDirection, 1);
-        StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&hitKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HIT_SOUND;
         }
@@ -683,7 +684,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
             flipAxis.z = -flipAxis.z;
         }
         StartKartPushDoubleFlip(hitKart, &flipAxis, 1);
-        StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartSound(&hitKart->mSoundSource, 0xe8, SOUND_VOLUME_MAX, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HIT_SOUND;
         }
@@ -999,12 +1000,12 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             return;
         }
         itemObject->mKartSoundMask |= (u8) (1 << kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xe9, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xe9, SOUND_VOLUME_MAX, 0);
         return;
     }
-    kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & ITEM_OBJECT_OWNER_NOT_KART) == 0
-                           ? (u16) (itemObject->mOwnerKartIndexAndFlags & ~0xff00)
-                           : 8);
+    kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
+                           ? (u16) (itemObject->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
+                           : ITEM_NO_KART_INDEX);
     if (kartIndex >= gRaceSetup->mKartCount) {
         return;
     }
@@ -1082,10 +1083,10 @@ void StartKartBoost(Kart *kart, KartBoostKind boostKind, s16 boostFrames) {
         if (boostKind != KART_BOOST_RESPAWN) {
             return;
         }
-        StartSound(&kart->mSoundSource, 0xa2, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xa2, SOUND_VOLUME_MAX, 0);
         return;
     }
-    StartSound(&kart->mSoundSource, 0x9f, 0x7f, 0);
+    StartSound(&kart->mSoundSource, 0x9f, SOUND_VOLUME_MAX, 0);
 }
 
 void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
@@ -1165,35 +1166,35 @@ void EndKartDrift(Kart *kart) {
 
 void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (kart->mTurnDirection > 0) {
-        if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
+        if (kart->mTurnAngle > KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle = kart->mTurnAngle - 200;
-            if (kart->mTurnAngle < KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle < KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = KART_TURN_ANGLE_LIMIT;
             }
-        } else if (kart->mTurnAngle < KART_MAX_TURN_ANGLE) {
+        } else if (kart->mTurnAngle < KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle += 375;
-            if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle > KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = KART_TURN_ANGLE_LIMIT;
             }
         }
     } else {
-        if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
+        if (kart->mTurnAngle < -KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle = kart->mTurnAngle + 200;
-            if (kart->mTurnAngle > -KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle > -KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = -KART_TURN_ANGLE_LIMIT;
             }
-        } else if (kart->mTurnAngle > -KART_MAX_TURN_ANGLE) {
+        } else if (kart->mTurnAngle > -KART_TURN_ANGLE_LIMIT) {
             kart->mTurnAngle -= 375;
-            if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
-                kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
+            if (kart->mTurnAngle < -KART_TURN_ANGLE_LIMIT) {
+                kart->mTurnAngle = -KART_TURN_ANGLE_LIMIT;
             }
         }
     }
     if (fromLowSpeedTurn != 0) {
         return;
     }
-    if (kart->mDriftHeadingAnglePerFrame <= KART_DRIFT_HEADING_MIN) {
-        kart->mDriftHeadingAnglePerFrame = KART_DRIFT_HEADING_MIN;
+    if (kart->mDriftHeadingAnglePerFrame <= KART_DRIFT_HEADING_ANGLE_PER_FRAME_MIN) {
+        kart->mDriftHeadingAnglePerFrame = KART_DRIFT_HEADING_ANGLE_PER_FRAME_MIN;
     } else {
         kart->mDriftHeadingAnglePerFrame = MUL_FIXED12_NO_ROUND(kart->mDriftHeadingAnglePerFrame, 0xf33);
     }
@@ -1209,7 +1210,7 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
         return;
     }
-    StartSoundWhileRequested(&kart->mSoundSource, 0xd1, 0x7f, 0);
+    StartSoundWhileRequested(&kart->mSoundSource, 0xd1, SOUND_VOLUME_MAX, 0);
 }
 
 // Drift step: the hop, the turn held after it, the charge, and the release with the mini-turbo.
@@ -1339,10 +1340,10 @@ recheck:
             value = -value;
         }
         kart->mTurnAngle += (s16) (turn * value);
-        if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
-            kart->mTurnAngle = KART_MAX_TURN_ANGLE;
-        } else if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
-            kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
+        if (kart->mTurnAngle > KART_TURN_ANGLE_LIMIT) {
+            kart->mTurnAngle = KART_TURN_ANGLE_LIMIT;
+        } else if (kart->mTurnAngle < -KART_TURN_ANGLE_LIMIT) {
+            kart->mTurnAngle = -KART_TURN_ANGLE_LIMIT;
         }
         if (!(kart->mMotionFlags & KART_MOTION_DRIFTING)) {
             return;
@@ -1405,11 +1406,11 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
         pending = FALSE;
         entryIndex = kart->mEntryIndex;
         bits = gInputSlots[entryIndex].mBits;
-        if ((u16) (bits & PAD_KEY_LEFT)) {
+        if ((u16) (bits & PAD_KEY_DIRECTION_LEFT)) {
             dir = TRUE;
             kart->mTurnDirection = -1;
             delta = 500;
-        } else if ((u16) (bits & PAD_KEY_RIGHT)) {
+        } else if ((u16) (bits & PAD_KEY_DIRECTION_RIGHT)) {
             dir = TRUE;
             kart->mTurnDirection = 1;
             delta = -500;

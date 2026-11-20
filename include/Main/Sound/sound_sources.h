@@ -3,7 +3,7 @@
 #include "types.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -12,7 +12,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 
 typedef struct SoundSource SoundSource;

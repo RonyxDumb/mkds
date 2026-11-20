@@ -42,11 +42,11 @@ void InitCrab(Crab *crab) {
 }
 
 static inline u16 CrabNextRandomBelow(RandomState64 *random, u32 limit) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (limit == 0) {
-        return random->mValue >> 32;
+        return RANDOM_HIGH32(random);
     } else {
-        return ((random->mValue >> 32) * limit) >> 32;
+        return RANDOM_BELOW(random, limit);
     }
 }
 
@@ -69,7 +69,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
             sideDirection.z = valueX;
             sideDirection.x = -valueZ;
             sideDirection.y = 0;
-            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_REVERSE;
         }
         crab->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(sideDirection.x, 0x1800);
         crab->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(sideDirection.y, 0x1800);
@@ -85,7 +85,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         if (CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME;
         } else {
-            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_REVERSE;
         }
     }
     if (sourceVelocity != NULL) {
@@ -93,7 +93,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mMapObject.mPosStep.z += sourceVelocity->z / 2;
     }
     crab->mMapObject.mPosStep.y = 0x4000;
-    crab->mTimer = CRAB_START_TIMER_FRAMES;
+    crab->mTimer = CRAB_FLUNG_FRAMES;
     crab->mState = CRAB_STATE_FLUNG;
     crab->mMapObject.mFlags |= gCrabLaunchFlag;
 }
@@ -186,8 +186,8 @@ void InitCrabObjects(MapObjectList *mapObjectList) {
         crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
         crab->mHandWobble.mAnglePerFrameDelta = 0;
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
+        RANDOM_ADVANCE(mapObjectRandom);
+        crab->mTimer = (u16) ((u16) RANDOM_BELOW_U64(mapObjectRandom, 60) + 30);
         crab->mState = CRAB_STATE_WAIT;
     }
 }
@@ -258,7 +258,8 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
         case CRAB_STATE_WALK:
             crab->mFollower.mSpeed = CRAB_PATH_SPEED;
             crab->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-                crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength, 0x800);
+                crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength,
+                CRAB_PATH_SPEED);
             if (AdvanceGroupFollower(&crab->mFollower) != FALSE) {
                 crab->mHandWobble.mAngle = 0;
                 crab->mHandWobble.mMid = 0;
@@ -267,9 +268,8 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                 crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
                 crab->mHandWobble.mAnglePerFrameDelta = 0;
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
+                RANDOM_ADVANCE(mapObjectRandom);
+                crab->mTimer = (u16) ((u16) RANDOM_BELOW_U64(mapObjectRandom, 60) + 30);
                 crab->mState = CRAB_STATE_WAIT;
             }
             crab->mCrabNsbtpFrameIndexFixed12 += 0x200;
@@ -341,11 +341,10 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
             crab->mHandWobble.mAnglePerFrameDelta = 0;
             mapObjectRandom = GetMapObjectRandom();
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-            crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
+            RANDOM_ADVANCE(mapObjectRandom);
+            crab->mTimer = (u16) ((u16) RANDOM_BELOW_U64(mapObjectRandom, 60) + 30);
             crab->mState = CRAB_STATE_WAIT;
-            crab->mMapObject.mFlags &= ~1;
+            crab->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             break;
     }
 }

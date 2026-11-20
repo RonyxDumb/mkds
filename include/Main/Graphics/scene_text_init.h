@@ -5,7 +5,8 @@
 
 void ReleaseSceneText(void);
 
-// Argument block of InitSceneText (ten words read from it).
+// What InitSceneText sets up: a use flag for the text system, select choises, select return and back screen, with the
+// font, canvas flags and back screen kind they need.
 typedef struct SceneTextInitParams {
     /* 00 */ BOOL mUseTxtSystem;
     /* 04 */ void *mTxtSystemFont;
@@ -19,7 +20,8 @@ typedef struct SceneTextInitParams {
     /* 24 */ s32 mBackScreenKind;
 } SceneTextInitParams;
 
-// SceneText.mSubCharOffset before InitTxtSystem returns the real offset.
+// Start value of SceneText.mSubCharOffset; each loader that runs takes the current value and returns the lower one
+// after its char data.
 #define SCENE_TEXT_SUB_CHAR_OFFSET 0x5800
 
 void InitSceneText(void *heap, SceneTextInitParams *config);

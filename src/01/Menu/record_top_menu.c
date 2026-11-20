@@ -25,11 +25,13 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Race/results_gp.h"
 
 const u16 gRecordTopMenuGradeSTableIndices[3] = {2, 3, 4};
 const u16 gRecordTopMenuRowCellIndices[3] = {9, 0xa, 0xb};
 const u16 gRecordTopMenuLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};
-const s32 gRecordTopMenuTouchRowIndices[3] = {0, 1, 2};
+const s32 gRecordTopMenuTouchRowIndices[RECORD_TOP_ROW_COUNT] =
+    {RECORD_TOP_ROW_GPX, RECORD_TOP_ROW_TIME_ATTACK, RECORD_TOP_ROW_VS};
 const u16 gRecordTopMenuLabelHeights[3][3] = {{0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}};
 const s32 gRecordTopMenuRowRecordScreens[3] = {RECORD_SCREEN_GPX, RECORD_SCREEN_TIME_ATTACK, RECORD_SCREEN_VS};
 const u16 gRecordTopMenuRecordMessageIndices[3] = {6, 7, 8};
@@ -95,48 +97,48 @@ void SetRecordTopMenuRowOff(s32 row) {
 }
 
 void ResetRecordTopMenu(void) {
-    s32 rowIndex;
-    s32 labelIndex;
+    s32 i;
+    s32 j;
     const u16 *labelRow;
     s32 mainLayoutCount;
 
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_FADE;
     gRecordTopMenu->mStateFrames = 0;
-    gRecordTopMenu->mBg0Offset = ~0xbf;
+    gRecordTopMenu->mBg0Offset = -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
     mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
-    gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = ~0xbf;
-    gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = ~0xbf;
-    gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = ~0xbf;
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[rowIndex]].mOffsetY = ~0xbf;
+    gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
+    gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
+    gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
+    for (i = 0; i < 3; i++) {
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mOffsetY =
+            -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-        for (labelIndex = 0, labelRow = gRecordTopMenuLabelIndices[rowIndex]; labelIndex < 3; labelIndex++) {
-            gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY = ~0xbf;
+    for (i = 0; i < RECORD_TOP_ROW_COUNT; i++) {
+        for (j = 0, labelRow = gRecordTopMenuLabelIndices[i]; j < 3; j++) {
+            gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY =
+                -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
             labelRow++;
         }
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX =
+    for (i = 0; i < RECORD_TOP_ROW_COUNT; i++) {
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX =
             RECORD_TOP_MENU_SLIDE_DISTANCE;
-        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[rowIndex]].mOffsetX =
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX =
             RECORD_TOP_MENU_SLIDE_DISTANCE;
-        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[rowIndex]].mOffsetX =
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX =
             RECORD_TOP_MENU_SLIDE_DISTANCE;
-        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX =
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX =
             RECORD_TOP_MENU_SLIDE_DISTANCE;
-        SetRecordTopMenuRowOff(rowIndex);
+        SetRecordTopMenuRowOff(i);
     }
 }
 
-// Requests state 1 for the next update.
 void RequestRecordTopMenuSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-// Requests state 2 for the next update.
-void RequestRecordTopMenuRowsSettle(void) {
+void RequestRecordTopMenuRowsPressOffsetAfterSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SETTLE;
     gRecordTopMenu->mStateFrames = 0;
 }
@@ -147,7 +149,6 @@ void RequestRecordTopMenuWaitSelectReturn(void) {
     RequestSelectReturnSlideIn();
 }
 
-// Requests state 4 for the next update.
 void RequestRecordTopMenuInput(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
@@ -159,13 +160,11 @@ void RequestRecordTopMenuRowPress(void) {
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-// Requests state 6 for the next update.
 void RequestRecordTopMenuSlideOut(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-// Requests state 7 for the next update.
 void RequestRecordTopMenuRowsSlideOut(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
@@ -189,7 +188,6 @@ void RequestRecordTopMenuWaitMessageClose(void) {
     RequestTxtSystemClose();
 }
 
-// Requests state 11 for the next update.
 void RequestRecordTopMenuRowsSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
@@ -212,32 +210,34 @@ void DecrementRecordTopMenuIndex(void) {
 }
 
 void RefreshRecordTopMenuGradeCells(void) {
-    s32 best = 7;
-    s32 cup;
+    s32 lowestGrade = RESULTS_GP_GRADE_BEST;
+    s32 i;
     s32 engineClass;
 
-    for (cup = 0; cup < 8; cup++) {
+    for (i = 0; i < 8; i++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
-            if (IsGrandPrixRecordFilled(cup, engineClass)) {
-                s32 grade = GetGrandPrixRecordGrade(cup, engineClass);
-                if (best > grade) {
-                    best = grade;
+            if (IsGrandPrixRecordFilled(i, engineClass)) {
+                s32 grade = GetGrandPrixRecordGrade(i, engineClass);
+                if (lowestGrade > grade) {
+                    lowestGrade = grade;
                 }
             } else {
-                best = 0;
+                lowestGrade = 0;
             }
         }
     }
-    for (cup = 0; cup < 3; cup++) {
-        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[cup]].mVisible = 0;
+    for (i = 0; i < 3; i++) {
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mVisible = 0;
     }
-    if (best > 4) {
-        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[best - 5]].mVisible = 1;
+    if (lowestGrade > RESULTS_GP_GRADE_THIRD_BEST - 1) {
+        gRecordTopMenu
+            ->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[lowestGrade - RESULTS_GP_GRADE_THIRD_BEST]]
+            .mVisible = 1;
     }
 }
 
 void InitRecordTopMenu(void *heap) {
-    u32 scores[3][3] = {0};
+    u32 totals[3][3] = {0};
     u16 buf[16];
     s32 remainingSize;
     u16 labelEntryIndex;
@@ -270,7 +270,7 @@ void InitRecordTopMenu(void *heap) {
             break;
     }
     LocateAndQueueRecordTopMenu();
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         SetCellOamModeXlu(gRecordTopMenuXluCellIndices[rowIndex], 1, gRecordTopMenu->mRecordTopMenuSNcer,
                           gRecordTopMenu->mRecordTopMenuSBncl);
     }
@@ -289,7 +289,7 @@ void InitRecordTopMenu(void *heap) {
                                        gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     labelEntryIndex = 1;
     mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         for (labelIndex = 0; labelIndex < 3; labelIndex++) {
             remainingSize -= InitLabelCanvas(
                 heap, gRecordTopMenuLabelIndices[rowIndex][labelIndex], gRecordTopMenu->mRecordTopMenuMBnll,
@@ -299,25 +299,25 @@ void InitRecordTopMenu(void *heap) {
             labelEntryIndex = mainLayoutCount + gRecordTopMenuLabelIndices[rowIndex][labelIndex];
         }
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         PrintLabelLayoutTextNoFixedAdvance(
             0, gRecordTopMenuLabelIndices[0][rowIndex], gRecordTopMenu->mRecordTopMenuMBnll,
             GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[rowIndex]),
             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
     firstBlock = &gBackupBuffers->mFirstBlock;
-    scores[1][0] = (*firstBlock)->mTotals[0];
-    scores[2][0] = (*firstBlock)->mTotals[1];
-    scores[1][1] = (*firstBlock)->mTotals[2];
-    scores[2][1] = (*firstBlock)->mTotals[3];
-    scores[1][2] = (*firstBlock)->mTotals[4];
-    scores[2][2] = (*firstBlock)->mTotals[5];
-    for (rowIndex = 1; rowIndex < 3; rowIndex++) {
+    totals[1][0] = (*firstBlock)->mTotals[0];
+    totals[2][0] = (*firstBlock)->mTotals[1];
+    totals[1][1] = (*firstBlock)->mTotals[2];
+    totals[2][1] = (*firstBlock)->mTotals[3];
+    totals[1][2] = (*firstBlock)->mTotals[4];
+    totals[2][2] = (*firstBlock)->mTotals[5];
+    for (rowIndex = 1; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         for (labelIndex = 0; labelIndex < 3; labelIndex++) {
-            if (scores[rowIndex][labelIndex] > 9999) {
-                scores[rowIndex][labelIndex] = 9999;
+            if (totals[rowIndex][labelIndex] > 9999) {
+                totals[rowIndex][labelIndex] = 9999;
             }
-            FormatAsciiNumber(scores[rowIndex][labelIndex], buf);
+            FormatAsciiNumber(totals[rowIndex][labelIndex], buf);
             PrintLabelLayoutTextFixedAdvance(
                 0, gRecordTopMenuLabelIndices[rowIndex][labelIndex], gRecordTopMenu->mRecordTopMenuMBnll, buf,
                 gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, 6);
@@ -370,36 +370,36 @@ void AdvanceRecordTopMenuSlideIn(void) {
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[rowIndex]].mOffsetY = offsetY;
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         for (labelIndex = 0, labelRow = gRecordTopMenuLabelIndices[rowIndex]; labelIndex < 3; labelIndex++) {
             gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY = offsetY;
             labelRow++;
         }
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= RECORD_TOP_MENU_SLIDE_FRAMES) {
-        RequestRecordTopMenuRowsSettle();
+        RequestRecordTopMenuRowsPressOffsetAfterSlideIn();
     }
 }
 
-void AdvanceRecordTopMenuRowsSettle(void) {
+void AdvanceRecordTopMenuRowsPressOffsetAfterSlideIn(void) {
     s16 offsetX;
     s32 rowIndex;
 
     gRecordTopMenu->mStateFrames++;
     offsetX = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
-    if (gRecordTopMenu->mStateFrames >= RECORD_TOP_MENU_PRESS_FRAMES) {
+    if (gRecordTopMenu->mStateFrames >= SELECTED_PRESS_FRAMES) {
         RequestRecordTopMenuWaitSelectReturn();
     }
 }
@@ -414,20 +414,20 @@ void AdvanceRecordTopMenuWaitSelectReturn(void) {
 
 void AdvanceRecordTopMenuInput(void) {
     InputSlotIndex slotIndex;
-    u16 keyBPressed;
+    u16 pressedKeyBits;
     BOOL touchBegan;
-    s32 touchedRect;
+    s32 touchedRectIndex;
     BOOL recentlyLost;
     BOOL touchBeganAgain;
     BOOL recentlyLostAgain;
     s32 rowIndex;
 
     touchBegan = FALSE;
-    touchedRect = -1;
+    touchedRectIndex = -1;
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     recentlyLost = FALSE;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -435,15 +435,15 @@ void AdvanceRecordTopMenuInput(void) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchedRect = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+        touchedRectIndex = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
                                               gInputSlots[slotIndex].mPair.mPairY);
     }
-    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
-    if (keyBPressed == 0) {
+    pressedKeyBits = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    if (pressedKeyBits == 0) {
         touchBeganAgain = FALSE;
         recentlyLostAgain = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLostAgain = TRUE;
         }
         if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -462,8 +462,8 @@ void AdvanceRecordTopMenuInput(void) {
     RequestSelectReturnPressWithSound(1);
     return;
 skip:
-    if ((u32) touchedRect <= 2) {
-        rowIndex = gRecordTopMenuTouchRowIndices[touchedRect];
+    if ((u32) touchedRectIndex <= RECORD_TOP_ROW_COUNT - 1) {
+        rowIndex = gRecordTopMenuTouchRowIndices[touchedRectIndex];
         if (gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mVisible != 0) {
             if (gRecordTopMenu->mIndex == rowIndex) {
                 SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
@@ -476,15 +476,15 @@ skip:
             RequestRecordTopMenuRowPress();
         }
     } else {
-        keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
-        if (keyBPressed != 0) {
+        pressedKeyBits = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+        if (pressedKeyBits != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             RequestRecordTopMenuRowPress();
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             DecrementRecordTopMenuIndex();
             SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             IncrementRecordTopMenuIndex();
             SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
@@ -504,7 +504,7 @@ void AdvanceRecordTopMenuRowPress(void) {
     if (gRecordTopMenu->mStateFrames == RECORD_TOP_MENU_ROW_ON_FRAME) {
         SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
     }
-    if (gRecordTopMenu->mStateFrames >= RECORD_TOP_MENU_PRESS_FRAMES) {
+    if (gRecordTopMenu->mStateFrames >= SELECTED_PRESS_FRAMES) {
         if (gRecordTopMenu->mIndex == RECORD_TOP_ROW_VS && GetRecordCount() == 0) {
             RequestRecordTopMenuRowsSlideOut();
             return;
@@ -523,7 +523,7 @@ void AdvanceRecordTopMenuSlideOut(void) {
     s32 mainLayoutCount;
 
     if (GetRecordNextScene() == -1 && gRecordTopMenu->mRecordScreen == RECORD_SCREEN_START) {
-        SetRecordNextScene(0);
+        SetRecordNextScene(SCENE_TITLE);
     }
     gRecordTopMenu->mStateFrames++;
     offsetX = InterpolateS16(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
@@ -538,13 +538,13 @@ void AdvanceRecordTopMenuSlideOut(void) {
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[rowIndex]].mOffsetY = offsetY;
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         for (labelIndex = 0, labelRow = gRecordTopMenuLabelIndices[rowIndex]; labelIndex < 3; labelIndex++) {
             gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY = offsetY;
             labelRow++;
         }
     }
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[rowIndex]].mOffsetX = offsetX;
@@ -562,7 +562,7 @@ void AdvanceRecordTopMenuRowsSlideOut(void) {
     gRecordTopMenu->mStateFrames++;
     offsetX = InterpolateS16(1, 0, RECORD_TOP_MENU_SLIDE_DISTANCE, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[rowIndex]].mOffsetX = offsetX;
@@ -574,9 +574,9 @@ void AdvanceRecordTopMenuRowsSlideOut(void) {
 }
 
 void AdvanceRecordTopMenuWaitMessageOpen(void) {
-    int txtSystemNoCloseRequest;
-    txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
-    if (txtSystemNoCloseRequest != 0) {
+    int txtSystemOpenNoCloseRequest;
+    txtSystemOpenNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
+    if (txtSystemOpenNoCloseRequest != 0) {
         RequestRecordTopMenuMessageInput();
     }
 }
@@ -595,7 +595,7 @@ void AdvanceRecordTopMenuMessageInput(void) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
         hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -612,9 +612,9 @@ void AdvanceRecordTopMenuMessageInput(void) {
 }
 
 void AdvanceRecordTopMenuWaitMessageClose(void) {
-    int txtSystemNoOpenRequest;
-    txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
-    if (txtSystemNoOpenRequest != 0) {
+    int txtSystemClosedNoOpenRequest;
+    txtSystemClosedNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
+    if (txtSystemClosedNoOpenRequest != 0) {
         RequestRecordTopMenuRowsSlideIn();
     }
 }
@@ -625,7 +625,7 @@ void AdvanceRecordTopMenuRowsSlideIn(void) {
     gRecordTopMenu->mStateFrames++;
     offsetX = InterpolateS16(1, RECORD_TOP_MENU_SLIDE_DISTANCE, 0, gRecordTopMenu->mStateFrames,
                              RECORD_TOP_MENU_SLIDE_FRAMES);
-    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[rowIndex]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[rowIndex]].mOffsetX = offsetX;
@@ -647,7 +647,7 @@ void AdvanceRecordTopMenu(void) {
             AdvanceRecordTopMenuSlideIn();
             break;
         case RECORD_TOP_MENU_STATE_ROWS_SETTLE:
-            AdvanceRecordTopMenuRowsSettle();
+            AdvanceRecordTopMenuRowsPressOffsetAfterSlideIn();
             break;
         case RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN:
             AdvanceRecordTopMenuWaitSelectReturn();
@@ -700,7 +700,7 @@ void WriteRecordTopMenuRegisters(void) {
 }
 
 void RegisterRecordTopMenuCallbacks(void) {
-    RecordScreenCallbacks tbl = {InitRecordTopMenu, ReleaseRecordTopMenu, AdvanceRecordTopMenu,
+    RecordScreenCallbacks callbacks = {InitRecordTopMenu, ReleaseRecordTopMenu, AdvanceRecordTopMenu,
                                  WriteRecordTopMenuBgOffsets, WriteRecordTopMenuRegisters};
-    SetRecordScreenCallbacks(&tbl);
+    SetRecordScreenCallbacks(&callbacks);
 }

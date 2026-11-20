@@ -30,7 +30,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
@@ -45,13 +45,13 @@
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Menu/keyboard_char_tables.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 
@@ -99,9 +99,9 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
                 balloonPos.x = kart->mPos.x;
                 balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
                 balloonPos.z = kart->mPos.z;
-                lastBalloon->mMapObject.mFlags &= ~4;
-                lastBalloon->mMapObject.mFlags &= ~2;
-                lastBalloon->mMapObject.mFlags &= ~8;
+                lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+                lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                 lastBalloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
                 StartBalloonWithoutKart(lastBalloon, &balloonPos);
             }
@@ -142,7 +142,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
             }
             SetupKartFollowEffect(StartEffect(0x7a, &kart->mPos), kart->mIndex, 0x20);
             SetupKartFollowEffect(StartEffect(0x7b, &kart->mPos), kart->mIndex, 0x20);
-            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), KART_BALLOONS_HIT_SOUND_ID);
+            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), KART_BALLOONS_TRANSFER_SOUND_ID);
             if (GetBalloonOrShineCount(hitKartIndex) == 0) {
                 EliminateKartAndCheckWinner(hitKartIndex);
             }
@@ -225,7 +225,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
         }
     }
     if (firstKartIndex == gRaceSetup->mEntryIndex || secondKartIndex == gRaceSetup->mEntryIndex) {
-        soundStartParams.mSoundId = KART_BALLOONS_HIT_SOUND_ID;
+        soundStartParams.mSoundId = KART_BALLOONS_TRANSFER_SOUND_ID;
         soundStartParams.mPositionSource = NULL;
         soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
         soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
@@ -264,9 +264,9 @@ BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
             balloonPos.x = kart->mPos.x;
             balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
             balloonPos.z = kart->mPos.z;
-            lastBalloon->mMapObject.mFlags &= ~4;
-            lastBalloon->mMapObject.mFlags &= ~2;
-            lastBalloon->mMapObject.mFlags &= ~8;
+            lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+            lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             lastBalloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             StartBalloonWithoutKart(lastBalloon, &balloonPos);
         }
@@ -540,7 +540,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetKartInflatingBalloon(kartIndex, 0);
                 AddBalloonOrShineCountAndMoveRank(kartIndex, 1);
                 if (kartBalloons->mRemainingSpawnCount <= 0) {
-                    kartBalloons->mSpawnTimer = KART_BALLOONS_RESPAWN_WAIT_FRAMES;
+                    kartBalloons->mSpawnTimer = KART_BALLOONS_SPAWN_WAIT_FRAMES;
                     kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
                 }
                 StartSoundFullVolumeWrapper(GetKart((u16) kartIndex), 0x152);
@@ -595,9 +595,9 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
                 SetBalloonKartIndex(balloon, kartIndex);
                 SetBalloonDrawCountAndList(balloon, 1, NULL);
-                balloon->mMapObject.mFlags &= ~4;
-                balloon->mMapObject.mFlags &= ~2;
-                balloon->mMapObject.mFlags &= ~8;
+                balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+                balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                 balloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             }
         } else {
@@ -608,9 +608,9 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetBalloonKartIndex(balloon, kartIndex);
                 if (balloonIndex == 0) {
                     SetBalloonDrawCountAndList(balloon, balloonCount, kartBalloons->mBalloons);
-                    balloon->mMapObject.mFlags &= ~4;
-                    balloon->mMapObject.mFlags &= ~2;
-                    balloon->mMapObject.mFlags &= ~8;
+                    balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+                    balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                    balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                     balloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
                 } else {
                     SetBalloonDrawCountAndList(balloon, 0, NULL);

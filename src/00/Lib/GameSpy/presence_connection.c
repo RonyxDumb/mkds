@@ -10,8 +10,8 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/login_connect_close.h"
 
-u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
-    GpConnection newConnection;
+u32 gpiInitialize(GPConnection *connection, s32 productID, s32 namespaceID) {
+    GPConnection newConnection;
     u32 result;
     s32 callbackIndex;
     connection->mGpiConnection = NULL;
@@ -26,9 +26,9 @@ u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
     newConnection.mGpiConnection->mInfoCachingBuddyOnly = FALSE;
     newConnection.mGpiConnection->mSimulation = 0;
     newConnection.mGpiConnection->mFirewall = FALSE;
-    newConnection.mGpiConnection->mProductId = titleNumber;
-    newConnection.mGpiConnection->mNamespaceId = spaceId;
-    if (GpiInitProfileList(&newConnection) == FALSE) {
+    newConnection.mGpiConnection->mProductId = productID;
+    newConnection.mGpiConnection->mNamespaceId = namespaceID;
+    if (gpiInitProfiles(&newConnection) == FALSE) {
         DWCi_GsFree(newConnection.mGpiConnection);
         newConnection.mGpiConnection = NULL;
         return 1;
@@ -40,29 +40,29 @@ u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
     }
     newConnection.mGpiConnection->mDebugBuffer = NULL;
     gpiDebug(&newConnection, "\n\n\n\n\n*************\ngpiInitialize\n");
-    result = GpiResetConnection(&newConnection);
+    result = gpiReset(&newConnection);
     if (result != 0) {
         gpiDestroy(&newConnection);
         return result;
     }
     SocketStartUp();
-    srand(GetElapsedMilliseconds());
+    srand(current_time());
     connection->mGpiConnection = newConnection.mGpiConnection;
     return 0;
 }
 
-void gpiDestroy(GpConnection *connection) {
-    GpiConnection *gpState;
+void gpiDestroy(GPConnection *connection) {
+    GPIConnection *gpState;
     gpState = connection->mGpiConnection;
-    GpiCloseConnection(connection, 1);
+    gpiDisconnect(connection, 1);
     DWCi_GsFree(gpState->mDebugBuffer);
     gpState->mDebugBuffer = NULL;
-    HashtableDelete(gpState->mProfileList.mTable);
+    TableFree(gpState->mProfileList.mTable);
     DWCi_GsFree(gpState);
     connection->mGpiConnection = NULL;
 }
 
-s32 gpiResetProfile(GpConnection *connection, GpiProfile *profile, void *data) {
+s32 gpiResetProfile(GPConnection *connection, GPIProfile *profile, void *data) {
     u32 result;
     result = 0u;
     profile->mBuddyStatus = NULL;

@@ -6,12 +6,12 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 
-#define WANWAN_HIT_FRAMES 0x78
-#define WANWAN_ROAM_START_FRAMES 0x40
-#define WANWAN_FOLLOW_PATH_FRAMES 0x40
+#define WANWAN_HIT_TURN_START_FRAMES 0x78
+#define WANWAN_ROAM_BLEND_FRAMES 0x40
+#define WANWAN_FOLLOW_PATH_BLEND_FRAMES 0x40
 #define WANWAN_LUNGE_FRAMES 0xb4
-#define WANWAN_HIT_SHAKE_FRAMES 0x40
-#define WANWAN_HIT_PHASE_END_FRAMES 0x28
+#define WANWAN_HIT_BLEND_FRAMES 0x40
+#define WANWAN_HIT_PATH_TURN_START_FRAMES 0x28
 #define WANWAN_PULL_BACK_FRAMES 0xb4
 
 #define WANWAN_PATH_BASE_LAND_SOUND_ID 0x1a1
@@ -84,7 +84,8 @@ void UpdateWanwanRoam(void *stateObject);
 void EnterWanwanRoam(void *stateObject);
 u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
-void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateWanwan(void *unused,
+                  Wanwan *wanwan); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
 MapObjectList *CreateWanwanUpdateList(void);
 WanwanDrawList *CreateWanwanDrawList(void);
@@ -92,7 +93,7 @@ WanwanKindData *CreateWanwanKindData(void);
 
 void EnterWanwanRest(void *stateObject);
 
-// A Wanwan map object: its pull-back and hit state, vectors and the ring of chain post pointers.
+// A Wanwan map object: its center, orientation, roam curve points, path follower, chain object and kart target.
 typedef struct Wanwan {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Vec3 mCenterPos;

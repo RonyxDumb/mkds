@@ -35,13 +35,13 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/Race/race.h"
 #include "Main/MapObjects/segment_curve.h"
@@ -106,7 +106,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             dossun->mSpinAngle = dossun->mSpinSpeed;
             dossun->mHitState = DOSSUN_HIT_NONE;
             dossun->mKartMask = 0;
-            dossun->mTimer = DOSSUN_START_FRAMES;
+            dossun->mTimer = DOSSUN_AFTER_HIT_WAIT_FRAMES;
             dossun->mState = DOSSUN_STATE_WAIT_START;
             return;
         }
@@ -164,12 +164,12 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             break;
         case DOSSUN_STATE_HOVER:
             dossun->mTimer--;
-            if (dossun->mTimer < 0 && dossun->mSineAngle < DOSSUN_HOVER_SINE_ANGLE_LIMIT) {
+            if (dossun->mTimer < 0 && dossun->mSineAngle < DOSSUN_HOVER_SINE_ANGLE_STEP) {
                 dossun->mState++;
                 dossun->mDownSpeedOrFollowerSpeed = -dossun->mInitialUpSpeed;
                 return;
             }
-            dossun->mSineAngle += 0x1555;
+            dossun->mSineAngle += DOSSUN_HOVER_SINE_ANGLE_STEP;
             dossun->mMapObject.mPos.y = dossun->mSineBaseY;
             sine = FX_SinIdx(dossun->mSineAngle);
             dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mSineAmplitude);
@@ -227,12 +227,14 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         if (dossun->mState == DOSSUN_STATE_WAIT_BEFORE_FOLLOW) {
             fromEntry = follower->mFromEntry;
             if (IsMapObjectOutOfRange(&dossun->mMapObject) == FALSE) {
-                if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                    stateValue = 2;
-                } else if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                    stateValue = 3;
+                if (dossun->mMapObject.mFarDistanceSquared ==
+                    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                    stateValue = SOUND_FALLOFF_SHORT_RANGE;
+                } else if (dossun->mMapObject.mFarDistanceSquared ==
+                           gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                    stateValue = SOUND_FALLOFF_MEDIUM_RANGE;
                 } else {
-                    stateValue = 4;
+                    stateValue = SOUND_FALLOFF_LONG_RANGE;
                 }
                 soundRequest.mSoundId = DOSSUN_WAIT_BEFORE_FOLLOW_SOUND_ID;
                 soundRequest.mPositionSource = &dossun->mMapObject.mPos;
@@ -240,7 +242,8 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mMapObject.mPos);
                 StartSoundFromParams(&soundRequest);
             }
-            StartCameraWobbleAtDistance(dossun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+            StartCameraWobbleAtDistance(dossun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
+                                        0x1000);
             if ((dossun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) == 0) {
                 StartEffect(0x59, &fromEntry->mPos);
                 StartEffect(0x5a, &fromEntry->mPos);
@@ -371,24 +374,20 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     dossun->mSineBaseY = dossun->mMapObject.mPos.y;
     dossun->mEnteredWaitBeforeFollow = FALSE;
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateDossunAndDossunShadow(void) {
     CreateNsbmd(&gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
     CreateShadowModel(&gDossunShadow, FindCourseMapObjFile("dossun_shadow.nsbmd"), 0x3f);
     SetNsbmdPolygonIdLightEmiAll(gDossun, 0x3f, 2, 0x294a);
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mIsSlowVariant = row->mSettings[0];
     InitGroupFollower(&dossun->mFollower, row, dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mSettings[1];
-    dossun->mXOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
+    dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
     dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
-    dossun->mZOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
+    dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
     dossun->mInitialUpSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
     dossun->mDownSpeedStep = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
     dossun->mFollowerSetSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
@@ -397,7 +396,7 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     if (dossun->mIsSlowVariant != 0) {
         CreateMapObjectSoundSourceFalloff3(&dossun->mMapObject);
     } else {
-        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
+        dossun->mMapObject.mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared;
     }
 }
 #pragma thumb off

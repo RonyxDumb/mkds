@@ -23,7 +23,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "fixed_vector_math.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
@@ -216,7 +216,7 @@ void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16
     for (pointIndex = 1; pointIndex < chain->mPointCount; pointIndex++) {
         polygonId = AllocPolygonIdWrapping();
         model->mPolygonAttributes &= ~0x3f000000;
-        model->mPolygonAttributes |= polygonId << 24;
+        model->mPolygonAttributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewTransposeMatrixPos(&chain->mPoints[pointIndex]),
                                             &chain->mModelScale, 1, maxAlpha);
     }
@@ -228,6 +228,6 @@ void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s
     QueueNsbmdModelMaterial(model);
     polygonId = AllocPolygonIdWrapping();
     model->mPolygonAttributes &= ~0x3f000000;
-    model->mPolygonAttributes |= polygonId << 24;
+    model->mPolygonAttributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewRotatedMatrixPos(position), &chain->mModelScale, 1, maxAlpha);
 }

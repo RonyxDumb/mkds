@@ -23,168 +23,169 @@
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gItemObjectPendingUpdateBit = ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
+const u16 gItemObjectPendingUpdateCatchUpBit = ITEM_OBJECT_PENDING_UPDATE_CATCH_UP;
 const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}},
                                           {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}},
                                           {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};
 s32 gItemPointLinksByIndex[4];
 
-// Runs the countdown that starts the held objects, then counts the use timer down and, when it ends, takes one object
-// off the held item.
-void UpdateHeldItem(HeldItem *rec) {
+// Runs the countdown that starts the held objects. Then, only for an item with a use timer that is running and once the
+// start countdown has finished, counts the timer down and, when it reaches 0, takes one object off the held item (and
+// its pool reservation).
+void UpdateHeldItem(HeldItem *heldItem) {
     s32 objectIndex;
     u32 objectKind;
-    ItemInfoIndex kind;
+    ItemInfoIndex itemInfoIndex;
     s32 reservedCount;
 
-    StartNextHeldItemObject(rec);
-    if (rec->mUsesTimer == 0) {
+    StartNextHeldItemObject(heldItem);
+    if (heldItem->mUsesTimer == 0) {
         return;
     }
-    if (rec->mTimer == 0) {
+    if (heldItem->mTimer == 0) {
         return;
     }
-    if (rec->mObjectStartFramesLeft != 0) {
+    if (heldItem->mObjectStartFramesLeft != 0) {
         return;
     }
-    rec->mTimer -= 1;
-    if (rec->mTimer != 0) {
+    heldItem->mTimer -= 1;
+    if (heldItem->mTimer != 0) {
         return;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
-        if (gRaceSetup->mEntryIndex == rec->mKartItems->mKartIndex) {
-            kind = (ItemInfoIndex) rec->mItemInfoIndex;
-            AddItemDataFrameOnly(gItemInfos[kind].mObjectKind);
+        if (gRaceSetup->mEntryIndex == heldItem->mKartItems->mKartIndex) {
+            itemInfoIndex = (ItemInfoIndex) heldItem->mItemInfoIndex;
+            AddItemDataFrameOnly(gItemInfos[itemInfoIndex].mObjectKind);
         }
     }
-    rec->mObjectCount -= 1;
-    objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
+    heldItem->mObjectCount -= 1;
+    objectKind = gItemInfos[heldItem->mItemInfoIndex].mObjectKind;
     reservedCount = gItemPools[objectKind].mReservedCount;
     GetItemPool(objectKind)->mReservedCount = reservedCount - 1;
-    if (rec->mObjectCount == 0) {
-        rec->mItemInfoIndex = ITEM_INFO_NONE;
-        rec->mObjectCount = 0;
-        rec->mObjectStartFramesLeft = 0;
-        rec->mUsesTimer = 0;
-        rec->mTimer = 0;
-        rec->mUseTimerLimit = 0;
+    if (heldItem->mObjectCount == 0) {
+        heldItem->mItemInfoIndex = ITEM_INFO_NONE;
+        heldItem->mObjectCount = 0;
+        heldItem->mObjectStartFramesLeft = 0;
+        heldItem->mUsesTimer = 0;
+        heldItem->mTimer = 0;
+        heldItem->mUseTimerLimit = 0;
         for (objectIndex = 0; objectIndex < 3; objectIndex++) {
-            rec->mObjects[objectIndex] = NULL;
+            heldItem->mObjects[objectIndex] = NULL;
         }
     }
 }
 
 // Makes the item held and reserves its objects in the item's pool.
-void SetHeldItem(HeldItem *rec, s32 kind) {
+void SetHeldItem(HeldItem *heldItem, s32 itemInfoIndex) {
     u32 objectCountOrKind;
     s32 reservedCount;
 
-    objectCountOrKind = gItemInfos[kind].mObjectCount;
-    rec->mItemInfoIndex = kind;
-    rec->mObjectCount = objectCountOrKind;
-    rec->mObjectStartFramesLeft = 0;
-    SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
-    rec->mUsesTimer = gItemInfos[kind].mUsesTimer;
-    rec->mTimer = 0;
-    rec->mUseTimerLimit = 0;
-    objectCountOrKind = gItemInfos[kind].mObjectKind;
+    objectCountOrKind = gItemInfos[itemInfoIndex].mObjectCount;
+    heldItem->mItemInfoIndex = itemInfoIndex;
+    heldItem->mObjectCount = objectCountOrKind;
+    heldItem->mObjectStartFramesLeft = 0;
+    SetupKartAiHeldItemEntry(heldItem->mKartItems->mKart);
+    heldItem->mUsesTimer = gItemInfos[itemInfoIndex].mUsesTimer;
+    heldItem->mTimer = 0;
+    heldItem->mUseTimerLimit = 0;
+    objectCountOrKind = gItemInfos[itemInfoIndex].mObjectKind;
     reservedCount = gItemPools[objectCountOrKind].mReservedCount;
-    GetItemPool(objectCountOrKind)->mReservedCount = reservedCount + rec->mObjectCount;
+    GetItemPool(objectCountOrKind)->mReservedCount = reservedCount + heldItem->mObjectCount;
 }
 
-void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
+void RemoveHeldItemObjects(HeldItem *heldItem, s32 amount) {
     s32 objectIndex;
     int objectKind;
 
-    rec->mObjectCount -= amount;
-    objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
+    heldItem->mObjectCount -= amount;
+    objectKind = gItemInfos[heldItem->mItemInfoIndex].mObjectKind;
     GetItemPool(objectKind)->mReservedCount = gItemPools[objectKind].mReservedCount - amount;
-    if (rec->mObjectCount == 0) {
-        rec->mItemInfoIndex = ITEM_INFO_NONE;
-        rec->mObjectCount = 0;
-        rec->mObjectStartFramesLeft = 0;
-        rec->mUsesTimer = 0;
-        rec->mTimer = 0;
-        rec->mUseTimerLimit = 0;
+    if (heldItem->mObjectCount == 0) {
+        heldItem->mItemInfoIndex = ITEM_INFO_NONE;
+        heldItem->mObjectCount = 0;
+        heldItem->mObjectStartFramesLeft = 0;
+        heldItem->mUsesTimer = 0;
+        heldItem->mTimer = 0;
+        heldItem->mUseTimerLimit = 0;
         for (objectIndex = 0; objectIndex < 3; objectIndex++) {
-            rec->mObjects[objectIndex] = NULL;
+            heldItem->mObjects[objectIndex] = NULL;
         }
     }
 }
 
-void ResetHeldItem(HeldItem *rec) {
-    s32 slotIndex;
+void ResetHeldItem(HeldItem *heldItem) {
+    s32 objectIndex;
 
-    rec->mItemInfoIndex = ITEM_INFO_NONE;
-    rec->mObjectCount = 0;
-    rec->mObjectStartFramesLeft = 0;
-    rec->mUsesTimer = 0;
-    rec->mTimer = 0;
-    rec->mUseTimerLimit = 0;
-    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
-        rec->mObjects[slotIndex] = NULL;
+    heldItem->mItemInfoIndex = ITEM_INFO_NONE;
+    heldItem->mObjectCount = 0;
+    heldItem->mObjectStartFramesLeft = 0;
+    heldItem->mUsesTimer = 0;
+    heldItem->mTimer = 0;
+    heldItem->mUseTimerLimit = 0;
+    for (objectIndex = 0; objectIndex < 3; objectIndex++) {
+        heldItem->mObjects[objectIndex] = NULL;
     }
 }
 
 // Gives the held objects back to the pool, or the reserved count unless keep is set, then empties the record.
-void ReleaseHeldItem(HeldItem *rec, s32 keep) {
+void ReleaseHeldItem(HeldItem *heldItem, s32 keepReservedCount) {
     s32 reservedCount;
     s32 objectIndex;
     s32 objectCount;
     s32 releaseIndex;
-    s32 startedObjectCount;
-    ItemInfoIndex kind = (ItemInfoIndex) rec->mItemInfoIndex;
-    u32 poolIndex = gItemInfos[kind].mObjectKind;
+    s32 takenObjectCount;
+    ItemInfoIndex itemInfoIndex = (ItemInfoIndex) heldItem->mItemInfoIndex;
+    u32 poolIndex = gItemInfos[itemInfoIndex].mObjectKind;
 
     if (gRaceSetup->mMode == MODE_WIFI) {
-        objectCount = rec->mObjectCount;
-        if (rec->mIsPeerEntry == FALSE) {
+        objectCount = heldItem->mObjectCount;
+        if (heldItem->mIsPeerEntry == FALSE) {
             for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
                 AddItemDataNoItemId(poolIndex);
             }
         }
     }
-    if (rec->mObjectStartFramesLeft != 0) {
-        startedObjectCount = rec->mObjectCount;
-        for (releaseIndex = 0; releaseIndex < startedObjectCount; releaseIndex++) {
-            ReleaseItemPoolObject(&gItemPools[rec->mObjects[releaseIndex]->mKind], rec->mObjects[releaseIndex]);
+    if (heldItem->mObjectStartFramesLeft != 0) {
+        takenObjectCount = heldItem->mObjectCount;
+        for (releaseIndex = 0; releaseIndex < takenObjectCount; releaseIndex++) {
+            ReleaseItemPoolObject(&gItemPools[heldItem->mObjects[releaseIndex]->mKind], heldItem->mObjects[releaseIndex]);
         }
-    } else if (keep == 0) {
+    } else if (keepReservedCount == 0) {
         reservedCount = gItemPools[poolIndex].mReservedCount;
-        GetItemPool(poolIndex)->mReservedCount = reservedCount - rec->mObjectCount;
+        GetItemPool(poolIndex)->mReservedCount = reservedCount - heldItem->mObjectCount;
     }
-    rec->mItemInfoIndex = ITEM_INFO_NONE;
-    rec->mObjectCount = 0;
-    rec->mObjectStartFramesLeft = 0;
-    rec->mUsesTimer = 0;
-    rec->mTimer = 0;
-    rec->mUseTimerLimit = 0;
+    heldItem->mItemInfoIndex = ITEM_INFO_NONE;
+    heldItem->mObjectCount = 0;
+    heldItem->mObjectStartFramesLeft = 0;
+    heldItem->mUsesTimer = 0;
+    heldItem->mTimer = 0;
+    heldItem->mUseTimerLimit = 0;
     for (objectIndex = 0; objectIndex < 3; objectIndex++) {
-        rec->mObjects[objectIndex] = NULL;
+        heldItem->mObjects[objectIndex] = NULL;
     }
 }
 
-static inline u32 TakeHeldItemObjects_inline(RandomState64 *generator, u32 range) {
-    generator->mValue = generator->mMultiplier * generator->mValue + generator->mIncrement;
+static inline u32 HeldItemNextRandomBelow(RandomState64 *generator, u32 range) {
+    RANDOM_ADVANCE(generator);
     if (range == 0) {
-        return generator->mValue >> 32;
+        return RANDOM_HIGH32(generator);
     } else {
-        return ((generator->mValue >> 32) * range) >> 32;
+        return RANDOM_BELOW(generator, range);
     }
 }
 
 // Takes the held objects from their pool and gives each a starting velocity.
-void TakeHeldItemObjects(HeldItem *rec) {
-    Kart *owner = rec->mKartItems->mKart;
-    CourseColorBlend *halves = &owner->mKartModelsEntry->mCourseColorBlend;
-    Vec3 *dir = &owner->mDrawBaseRow2;
-    Vec3 *axis = &owner->mDrawBaseRow0;
-    s32 slotIndex;
+void TakeHeldItemObjects(HeldItem *heldItem) {
+    Kart *owner = heldItem->mKartItems->mKart;
+    CourseColorBlend *colorBlend = &owner->mKartModelsEntry->mCourseColorBlend;
+    Vec3 *drawBaseRow2 = &owner->mDrawBaseRow2;
+    Vec3 *drawBaseRow0 = &owner->mDrawBaseRow0;
+    s32 objectIndex;
     s32 count;
     RandomState64 *generator;
     const ItemSpreadRow *row;
     ItemObject *object;
-    s32 kind = rec->mItemInfoIndex;
+    s32 itemInfoIndex = heldItem->mItemInfoIndex;
     s32 poolIndex;
     s32 radius;
     s32 angle;
@@ -201,87 +202,87 @@ void TakeHeldItemObjects(HeldItem *rec) {
     } else {
         generator = &gRaceProgress->mRandom;
     }
-    angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
-    poolIndex = gItemInfos[kind].mObjectKind;
+    angle = (u16) HeldItemNextRandomBelow(generator, ANGLE_FULL_TURN);
+    poolIndex = gItemInfos[itemInfoIndex].mObjectKind;
     if (gItemKinds[poolIndex].mStartsFalling != 0) {
         radius = 0x2000;
     } else {
         radius = 0x1800;
     }
-    count = rec->mObjectCount;
+    count = heldItem->mObjectCount;
     radiusTimesAnglePairFirst = MUL_FIXED12_NO_ROUND(radius, SIN_OF_ANGLE(angle));
     radiusTimesAnglePairSecond = MUL_FIXED12_NO_ROUND(radius, COS_OF_ANGLE(angle));
-    TakeItemPoolObjects(&gItemPools[poolIndex], count, rec->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
-    slotIndex = 0;
-    if (slotIndex < count) {
+    TakeItemPoolObjects(&gItemPools[poolIndex], count, heldItem->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
+    objectIndex = 0;
+    if (objectIndex < count) {
         row = &gItemSpreadRows[count - 1];
         do {
-            rowX = row->mOffsets[slotIndex].mX;
-            rowY = row->mOffsets[slotIndex].mY;
-            rowXJittered = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
-            rowYJittered = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333));
+            rowX = row->mOffsets[objectIndex].mX;
+            rowY = row->mOffsets[objectIndex].mY;
+            rowXJittered = MUL_FIXED12_NO_ROUND(rowX, 0x1000 + (s32) HeldItemNextRandomBelow(generator, 0x333));
+            rowYJittered = MUL_FIXED12_NO_ROUND(rowY, 0x1000 + (s32) HeldItemNextRandomBelow(generator, 0x333));
             directionAmount = MUL_FIXED12_NO_ROUND(rowXJittered, radiusTimesAnglePairSecond) -
                               MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairFirst);
-            object = rec->mObjects[slotIndex];
-            object->mVelocity.x = MUL_FIXED12_NO_ROUND(dir->x, directionAmount);
-            object->mVelocity.y = MUL_FIXED12_NO_ROUND(dir->y, directionAmount);
-            object->mVelocity.z = MUL_FIXED12_NO_ROUND(dir->z, directionAmount);
+            object = heldItem->mObjects[objectIndex];
+            object->mVelocity.x = MUL_FIXED12_NO_ROUND(drawBaseRow2->x, directionAmount);
+            object->mVelocity.y = MUL_FIXED12_NO_ROUND(drawBaseRow2->y, directionAmount);
+            object->mVelocity.z = MUL_FIXED12_NO_ROUND(drawBaseRow2->z, directionAmount);
             VEC_MultAdd(MUL_FIXED12_NO_ROUND(rowYJittered, radiusTimesAnglePairSecond) +
                             MUL_FIXED12_NO_ROUND(directionAmount, radiusTimesAnglePairFirst),
-                        axis, &object->mVelocity, &object->mVelocity);
+                        drawBaseRow0, &object->mVelocity, &object->mVelocity);
             object->mScale.x = 0xcd;
             object->mScale.y = 0xcd;
             object->mScale.z = 0xcd;
-            object->mColorBlend = *halves;
-            slotIndex++;
-        } while (slotIndex < count);
+            object->mColorBlend = *colorBlend;
+            objectIndex++;
+        } while (objectIndex < count);
     }
 }
 
 // Takes the held objects and starts the countdown that starts them one at a time.
-void StartHeldItemObjects(HeldItem *rec) {
-    rec->mObjectStartFramesLeft = HELD_ITEM_OBJECT_START_FRAMES;
-    TakeHeldItemObjects(rec);
+void StartHeldItemObjects(HeldItem *heldItem) {
+    heldItem->mObjectStartFramesLeft = HELD_ITEM_OBJECT_START_FRAMES;
+    TakeHeldItemObjects(heldItem);
 }
 
-BOOL StartHeldItemTimer(HeldItem *rec, s32 frames) {
-    if (rec->mTimer != 0) {
+BOOL StartHeldItemTimer(HeldItem *heldItem, s32 frames) {
+    if (heldItem->mTimer != 0) {
         return FALSE;
     }
-    rec->mTimer = frames;
+    heldItem->mTimer = frames;
     return TRUE;
 }
 
 // The held item can be used again once the timer has counted down by this many frames.
-void SetHeldItemUseDelay(HeldItem *rec, s32 frames) {
-    rec->mUseTimerLimit = rec->mTimer - frames;
+void SetHeldItemUseDelay(HeldItem *heldItem, s32 frames) {
+    heldItem->mUseTimerLimit = heldItem->mTimer - frames;
 }
 
-void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count) {
-    s32 slotIndex;
+void RemoveHeldItem(HeldItem *heldItem, s32 *itemInfoIndex, s32 *count) {
+    s32 objectIndex;
 
-    *kind = rec->mItemInfoIndex;
-    *count = rec->mObjectCount;
-    rec->mItemInfoIndex = ITEM_INFO_NONE;
-    rec->mObjectCount = 0;
-    rec->mObjectStartFramesLeft = 0;
-    rec->mUsesTimer = 0;
-    rec->mTimer = 0;
-    rec->mUseTimerLimit = 0;
-    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
-        rec->mObjects[slotIndex] = NULL;
+    *itemInfoIndex = heldItem->mItemInfoIndex;
+    *count = heldItem->mObjectCount;
+    heldItem->mItemInfoIndex = ITEM_INFO_NONE;
+    heldItem->mObjectCount = 0;
+    heldItem->mObjectStartFramesLeft = 0;
+    heldItem->mUsesTimer = 0;
+    heldItem->mTimer = 0;
+    heldItem->mUseTimerLimit = 0;
+    for (objectIndex = 0; objectIndex < 3; objectIndex++) {
+        heldItem->mObjects[objectIndex] = NULL;
     }
 }
 
 // Like SetHeldItem, but the count comes from the caller and nothing is reserved in the pool.
-void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count) {
-    rec->mItemInfoIndex = kind;
-    rec->mObjectCount = count;
-    rec->mObjectStartFramesLeft = 0;
-    SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
-    rec->mUsesTimer = gItemInfos[kind].mUsesTimer;
-    rec->mTimer = 0;
-    rec->mUseTimerLimit = 0;
+void SetHeldItemWithCount(HeldItem *heldItem, s32 itemInfoIndex, s32 count) {
+    heldItem->mItemInfoIndex = itemInfoIndex;
+    heldItem->mObjectCount = count;
+    heldItem->mObjectStartFramesLeft = 0;
+    SetupKartAiHeldItemEntry(heldItem->mKartItems->mKart);
+    heldItem->mUsesTimer = gItemInfos[itemInfoIndex].mUsesTimer;
+    heldItem->mTimer = 0;
+    heldItem->mUseTimerLimit = 0;
 }
 
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
@@ -290,19 +291,19 @@ void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
     GetItemPool(objectKind)->mReservedCount = gItemPools[objectKind].mReservedCount - amount;
 }
 
-s32 GetItemPointLinkByIndex(s32 idx) {
-    return gItemPointLinksByIndex[idx];
+s32 GetItemPointLinkByIndex(s32 index) {
+    return gItemPointLinksByIndex[index];
 }
 
-void InitSegmentPoints(SegmentPoints *segmentPoints, const Vec3 *points, s32 scale) {
+void InitSegmentPoints(SegmentPoints *segmentPoints, const Vec3 *points, s32 rate) {
     s32 pointIndex;
 
-    for (pointIndex = 0; pointIndex < 4; pointIndex++) {
+    for (pointIndex = 0; pointIndex < SEGMENT_POINT_COUNT; pointIndex++) {
         segmentPoints->mPointPointers[pointIndex] = &segmentPoints->mPoints[pointIndex];
         segmentPoints->mPoints[pointIndex] = points[pointIndex];
     }
     segmentPoints->mWriteIndex = 0;
-    InitSegmentProgress(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers, scale);
+    InitSegmentProgress(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers, rate);
 }
 
 s32 PushSegmentPoint(SegmentPoints *segmentPoints, const Vec3 *point) {
@@ -321,11 +322,11 @@ s32 PushSegmentPoint(SegmentPoints *segmentPoints, const Vec3 *point) {
 
 // Writes the link nearest pos among the link, its neighbours and their neighbours.
 BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3 *pos) {
-    ItemPointLink *node = in->mLink;
+    ItemPointLink *startLink = in->mLink;
     ItemPointLink *best;
     ItemPointLink *nextLink;
     ItemPointLink *linkAroundNext;
-    Vec3 *linkPos = node->mPointPos;
+    Vec3 *linkPos = startLink->mPointPos;
     s32 nextCount;
     ItemPointLink *previousLink;
     ItemPointLink *linkAroundPrevious;
@@ -335,20 +336,20 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
     s32 deltaX;
     s32 deltaY;
     s32 deltaZ;
-    s32 bestDist;
+    s32 bestDistanceSquared;
     s32 linkIndex;
     s32 firstAroundIndex;
     s32 secondAroundIndex;
     Vec3 *posAlias = pos;
-    ItemPointLink *nodeAlias = node;
+    ItemPointLink *nodeAlias = startLink;
 
-    best = node;
+    best = startLink;
     deltaX = FROM_FIXED12(linkPos->x - pos->x);
     deltaY = FROM_FIXED12(linkPos->y - pos->y);
     deltaZ = FROM_FIXED12(linkPos->z - pos->z);
-    bestDist = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+    bestDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
     for (linkIndex = 0; linkIndex < nodeAlias->mNextCount; linkIndex++) {
-        nextLink = node->mNextLinks[linkIndex];
+        nextLink = startLink->mNextLinks[linkIndex];
         if (nextLink != NULL) {
             linkPos = nextLink->mPointPos;
             deltaX = FROM_FIXED12(linkPos->x - pos->x);
@@ -356,8 +357,8 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
             deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
             distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             nextCount = nextLink->mNextCount;
-            if (distanceSquared < bestDist) {
-                bestDist = distanceSquared;
+            if (distanceSquared < bestDistanceSquared) {
+                bestDistanceSquared = distanceSquared;
                 best = nextLink;
             }
             for (firstAroundIndex = 0; firstAroundIndex < nextCount; firstAroundIndex++) {
@@ -367,22 +368,22 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
                 deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
                 deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
                 distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-                if (distanceSquared < bestDist) {
-                    bestDist = distanceSquared;
+                if (distanceSquared < bestDistanceSquared) {
+                    bestDistanceSquared = distanceSquared;
                     best = linkAroundNext;
                 }
             }
             previousCount = nextLink->mPreviousCount;
             for (secondAroundIndex = 0; secondAroundIndex < previousCount; secondAroundIndex++) {
                 linkAroundNext = nextLink->mPreviousLinks[secondAroundIndex];
-                if (linkAroundNext != node) {
+                if (linkAroundNext != startLink) {
                     linkPos = linkAroundNext->mPointPos;
                     deltaX = FROM_FIXED12(linkPos->x - pos->x);
                     deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
                     deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
                     distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-                    if (distanceSquared < bestDist) {
-                        bestDist = distanceSquared;
+                    if (distanceSquared < bestDistanceSquared) {
+                        bestDistanceSquared = distanceSquared;
                         best = linkAroundNext;
                     }
                 }
@@ -390,7 +391,7 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
         }
     }
     for (linkIndex = 0; linkIndex < nodeAlias->mPreviousCount; linkIndex++) {
-        previousLink = node->mPreviousLinks[linkIndex];
+        previousLink = startLink->mPreviousLinks[linkIndex];
         if (previousLink != NULL) {
             previousLinkPos = previousLink->mPointPos;
             deltaX = FROM_FIXED12(previousLinkPos->x - pos->x);
@@ -398,8 +399,8 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
             deltaZ = FROM_FIXED12(previousLinkPos->z - posAlias->z);
             distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             previousCount = previousLink->mPreviousCount;
-            if (distanceSquared < bestDist) {
-                bestDist = distanceSquared;
+            if (distanceSquared < bestDistanceSquared) {
+                bestDistanceSquared = distanceSquared;
                 best = previousLink;
             }
             for (firstAroundIndex = 0; firstAroundIndex < previousCount; firstAroundIndex++) {
@@ -409,22 +410,22 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
                 deltaY = FROM_FIXED12(previousLinkPos->y - posAlias->y);
                 deltaZ = FROM_FIXED12(previousLinkPos->z - posAlias->z);
                 distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-                if (distanceSquared < bestDist) {
-                    bestDist = distanceSquared;
+                if (distanceSquared < bestDistanceSquared) {
+                    bestDistanceSquared = distanceSquared;
                     best = linkAroundPrevious;
                 }
             }
             nextCount = previousLink->mNextCount;
             for (secondAroundIndex = 0; secondAroundIndex < nextCount; secondAroundIndex++) {
                 linkAroundPrevious = previousLink->mNextLinks[secondAroundIndex];
-                if (linkAroundPrevious != node) {
+                if (linkAroundPrevious != startLink) {
                     previousLinkPos = linkAroundPrevious->mPointPos;
                     deltaX = FROM_FIXED12(previousLinkPos->x - pos->x);
                     deltaY = FROM_FIXED12(previousLinkPos->y - posAlias->y);
                     deltaZ = FROM_FIXED12(previousLinkPos->z - posAlias->z);
                     distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-                    if (distanceSquared < bestDist) {
-                        bestDist = distanceSquared;
+                    if (distanceSquared < bestDistanceSquared) {
+                        bestDistanceSquared = distanceSquared;
                         best = linkAroundPrevious;
                     }
                 }
@@ -433,7 +434,7 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
     }
     out->mLink = best;
     out->mNextLinksUsed = 1;
-    return best != node;
+    return best != startLink;
 }
 
 BOOL CopyCloserItemPointLinkRef(ItemPointLinkRef *current, ItemPointLinkRef *candidate, ItemPointLinkRef *out,
@@ -456,7 +457,7 @@ BOOL CopyCloserItemPointLinkRef(ItemPointLinkRef *current, ItemPointLinkRef *can
 
 // Follows the next links until one is nearer to pos than the start link.
 BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3 *pos) {
-    ItemPointLink *node = in->mLink;
+    ItemPointLink *startLink = in->mLink;
     s32 distanceSquared;
     Vec3 *linkPos;
     s32 deltaY;
@@ -465,13 +466,13 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
     s32 startDistanceSquared;
     s32 stepsLeft;
     s32 deltaZ;
-    ItemPointLink *child;
+    ItemPointLink *nextLink;
     ItemPointLink *current;
     ItemPointLink *best;
-    s32 bestDist;
-    s32 childIndex;
+    s32 bestDistanceSquared;
+    s32 nextLinkIndex;
 
-    linkPos = node->mPointPos;
+    linkPos = startLink->mPointPos;
     deltaX = FROM_FIXED12(linkPos->x - pos->x);
     deltaY = FROM_FIXED12(linkPos->y - pos->y);
     deltaZ = FROM_FIXED12(linkPos->z - pos->z);
@@ -479,97 +480,97 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
     stepsLeft = gCourseMap->mItemPointCount;
     posAlias = pos;
 
-    current = node;
+    current = startLink;
     do {
         best = NULL;
-        bestDist = 0x7fffffff;
-        for (childIndex = 0; childIndex < current->mNextCount; childIndex++) {
-            child = current->mNextLinks[childIndex];
-            if (child != NULL) {
-                linkPos = child->mPointPos;
+        bestDistanceSquared = 0x7fffffff;
+        for (nextLinkIndex = 0; nextLinkIndex < current->mNextCount; nextLinkIndex++) {
+            nextLink = current->mNextLinks[nextLinkIndex];
+            if (nextLink != NULL) {
+                linkPos = nextLink->mPointPos;
                 deltaX = FROM_FIXED12(linkPos->x - pos->x);
                 deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
                 deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
                 distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-                if (distanceSquared < bestDist) {
-                    bestDist = distanceSquared;
-                    best = child;
+                if (distanceSquared < bestDistanceSquared) {
+                    bestDistanceSquared = distanceSquared;
+                    best = nextLink;
                 }
             }
         }
-        if (bestDist < startDistanceSquared) {
+        if (bestDistanceSquared < startDistanceSquared) {
             out->mLink = best;
             out->mNextLinksUsed = 1;
-            return best != node;
+            return best != startLink;
         }
         stepsLeft--;
         current = best;
-    } while (stepsLeft > 1 && best != node);
-    out->mLink = node;
+    } while (stepsLeft > 1 && best != startLink);
+    out->mLink = startLink;
     out->mNextLinksUsed = 1;
     return FALSE;
 }
 
 // Writes the link to go on to, leaning toward kart idx when it is close.
-void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx, s32 flag) {
-    ItemPointLink *node = in->mLink;
-    s32 side = in->mNextLinksUsed;
-    ItemPointLink *cur;
-    ItemPointLink *child;
+void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 kartIndex, s32 flag) {
+    ItemPointLink *startLink = in->mLink;
+    s32 nextLinksUsed = in->mNextLinksUsed;
+    ItemPointLink *targetLink;
+    ItemPointLink *candidateLink;
     s32 secondCount;
     s32 linkCount;
     Vec3 *origin;
-    BOOL found;
+    BOOL kartIsNear;
     s32 bestDistanceSquared;
     ItemPointLink *bestSecondLink;
-    Vec3 *pos;
-    s32 childIndex;
+    Vec3 *kartPos;
+    s32 candidateIndex;
     Vec3 *childPos;
-    Kart *other;
+    Kart *kart;
     s32 distance;
 
-    if (side != 0) {
-        linkCount = node->mNextCount;
-        cur = node->mNextLinks[0];
+    if (nextLinksUsed != 0) {
+        linkCount = startLink->mNextCount;
+        targetLink = startLink->mNextLinks[0];
     } else {
-        linkCount = node->mPreviousCount;
-        cur = node->mPreviousLinks[0];
+        linkCount = startLink->mPreviousCount;
+        targetLink = startLink->mPreviousLinks[0];
     }
-    if (linkCount <= 1 && (side != 0 ? cur->mPreviousCount : cur->mNextCount) <= 1) {
+    if (linkCount <= 1 && (nextLinksUsed != 0 ? targetLink->mPreviousCount : targetLink->mNextCount) <= 1) {
     done:
-        out->mLink = cur;
-        out->mNextLinksUsed = side;
+        out->mLink = targetLink;
+        out->mNextLinksUsed = nextLinksUsed;
         return;
     }
-    origin = node->mPointPos;
-    found = FALSE;
+    origin = startLink->mPointPos;
+    kartIsNear = FALSE;
     bestDistanceSquared = 0x5f592e1;
-    if (idx < 8) {
-        other = GetKart(idx);
-        pos = &other->mDrawMatrixPos;
+    if (kartIndex < 8) {
+        kart = GetKart(kartIndex);
+        kartPos = &kart->mDrawMatrixPos;
         {
-            s64 sq = (s64) (((const Vec3 *) pos)->x - ((const Vec3 *) origin)->x) *
-                     (((const Vec3 *) pos)->x - ((const Vec3 *) origin)->x);
-            sq += (s64) (((const Vec3 *) pos)->z - ((const Vec3 *) origin)->z) *
-                  (((const Vec3 *) pos)->z - ((const Vec3 *) origin)->z);
-            if (sq < 0x225510000000LL) {
-                found = TRUE;
-                for (childIndex = 0; childIndex < linkCount; childIndex++) {
-                    child = side != 0 ? node->mNextLinks[childIndex] : node->mPreviousLinks[childIndex];
-                    if (child != NULL) {
-                        childPos = child->mPointPos;
-                        distance = FROM_FIXED12(pos->x - origin->x) * FROM_FIXED12(childPos->x - origin->x);
-                        distance += FROM_FIXED12(pos->z - origin->z) * FROM_FIXED12(childPos->z - origin->z);
+            s64 distanceSquaredXZ = (s64) (((const Vec3 *) kartPos)->x - ((const Vec3 *) origin)->x) *
+                     (((const Vec3 *) kartPos)->x - ((const Vec3 *) origin)->x);
+            distanceSquaredXZ += (s64) (((const Vec3 *) kartPos)->z - ((const Vec3 *) origin)->z) *
+                  (((const Vec3 *) kartPos)->z - ((const Vec3 *) origin)->z);
+            if (distanceSquaredXZ < 0x225510000000LL) {
+                kartIsNear = TRUE;
+                for (candidateIndex = 0; candidateIndex < linkCount; candidateIndex++) {
+                    candidateLink = nextLinksUsed != 0 ? startLink->mNextLinks[candidateIndex] : startLink->mPreviousLinks[candidateIndex];
+                    if (candidateLink != NULL) {
+                        childPos = candidateLink->mPointPos;
+                        distance = FROM_FIXED12(kartPos->x - origin->x) * FROM_FIXED12(childPos->x - origin->x);
+                        distance += FROM_FIXED12(kartPos->z - origin->z) * FROM_FIXED12(childPos->z - origin->z);
                         if (distance > 0) {
                             distance =
-                                FROM_FIXED12(child->mPointPos->x - pos->x) * FROM_FIXED12(child->mPointPos->x - pos->x);
+                                FROM_FIXED12(candidateLink->mPointPos->x - kartPos->x) * FROM_FIXED12(candidateLink->mPointPos->x - kartPos->x);
                             distance +=
-                                FROM_FIXED12(child->mPointPos->y - pos->y) * FROM_FIXED12(child->mPointPos->y - pos->y);
+                                FROM_FIXED12(candidateLink->mPointPos->y - kartPos->y) * FROM_FIXED12(candidateLink->mPointPos->y - kartPos->y);
                             distance +=
-                                FROM_FIXED12(child->mPointPos->z - pos->z) * FROM_FIXED12(child->mPointPos->z - pos->z);
+                                FROM_FIXED12(candidateLink->mPointPos->z - kartPos->z) * FROM_FIXED12(candidateLink->mPointPos->z - kartPos->z);
                             if (distance < bestDistanceSquared) {
                                 bestDistanceSquared = distance;
-                                cur = child;
+                                targetLink = candidateLink;
                             }
                         }
                     }
@@ -577,39 +578,39 @@ void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx,
             }
         }
     }
-    if (side == 0 || (found != FALSE && flag != 0)) {
-        if ((side != 0 ? cur->mPreviousCount : cur->mNextCount) > 1) {
+    if (nextLinksUsed == 0 || (kartIsNear != FALSE && flag != 0)) {
+        if ((nextLinksUsed != 0 ? targetLink->mPreviousCount : targetLink->mNextCount) > 1) {
             bestSecondLink = NULL;
-            secondCount = side != 0 ? cur->mPreviousCount : cur->mNextCount;
-            for (childIndex = 0; childIndex < secondCount; childIndex++) {
-                child = side != 0 ? cur->mPreviousLinks[childIndex] : cur->mNextLinks[childIndex];
-                if (child != NULL && child != node) {
-                    if (found != FALSE) {
-                        childPos = child->mPointPos;
-                        distance = FROM_FIXED12(pos->x - origin->x) * FROM_FIXED12(childPos->x - origin->x);
-                        distance += FROM_FIXED12(pos->z - origin->z) * FROM_FIXED12(childPos->z - origin->z);
+            secondCount = nextLinksUsed != 0 ? targetLink->mPreviousCount : targetLink->mNextCount;
+            for (candidateIndex = 0; candidateIndex < secondCount; candidateIndex++) {
+                candidateLink = nextLinksUsed != 0 ? targetLink->mPreviousLinks[candidateIndex] : targetLink->mNextLinks[candidateIndex];
+                if (candidateLink != NULL && candidateLink != startLink) {
+                    if (kartIsNear != FALSE) {
+                        childPos = candidateLink->mPointPos;
+                        distance = FROM_FIXED12(kartPos->x - origin->x) * FROM_FIXED12(childPos->x - origin->x);
+                        distance += FROM_FIXED12(kartPos->z - origin->z) * FROM_FIXED12(childPos->z - origin->z);
                         if (distance > 0) {
                             distance =
-                                FROM_FIXED12(child->mPointPos->x - pos->x) * FROM_FIXED12(child->mPointPos->x - pos->x);
+                                FROM_FIXED12(candidateLink->mPointPos->x - kartPos->x) * FROM_FIXED12(candidateLink->mPointPos->x - kartPos->x);
                             distance +=
-                                FROM_FIXED12(child->mPointPos->y - pos->y) * FROM_FIXED12(child->mPointPos->y - pos->y);
+                                FROM_FIXED12(candidateLink->mPointPos->y - kartPos->y) * FROM_FIXED12(candidateLink->mPointPos->y - kartPos->y);
                             distance +=
-                                FROM_FIXED12(child->mPointPos->z - pos->z) * FROM_FIXED12(child->mPointPos->z - pos->z);
+                                FROM_FIXED12(candidateLink->mPointPos->z - kartPos->z) * FROM_FIXED12(candidateLink->mPointPos->z - kartPos->z);
                             if (distance < bestDistanceSquared) {
                                 bestDistanceSquared = distance;
-                                bestSecondLink = child;
+                                bestSecondLink = candidateLink;
                             }
                         }
                     } else {
-                        cur = child;
-                        side = 1;
+                        targetLink = candidateLink;
+                        nextLinksUsed = 1;
                         goto done;
                     }
                 }
             }
             if (bestSecondLink != NULL) {
-                cur = bestSecondLink;
-                side = side == 0 ? 1 : 0;
+                targetLink = bestSecondLink;
+                nextLinksUsed = nextLinksUsed == 0 ? 1 : 0;
             }
         }
     }
@@ -650,7 +651,8 @@ u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut) {
 
 #pragma thumb on
 
-// Sets each link's direction to its first next link; also fills gItemPointLinksByIndex.
+// Stores each link's direction toward its first next link (normalised when the offset is long enough), and records the
+// links whose mRadius is at least ITEM_POINT_LINK_INDEXED_RADIUS in gItemPointLinksByIndex by mLinkIndex.
 void InitItemPointLinkDirections(void) {
     ItemPointLink *link;
     Vec3 direction;
@@ -682,9 +684,9 @@ void InitItemPointLinkDirections(void) {
 
 #pragma thumb off
 
-static inline u32 ThrowBouncingItem_inline(RandomState64 *generator, u32 range) {
-    generator->mValue = generator->mMultiplier * generator->mValue + generator->mIncrement;
-    return ((u64) (u32) (generator->mValue >> 32) * range) >> 32;
+static inline u32 BouncingItemNextRandomBelow(RandomState64 *generator, u32 range) {
+    RANDOM_ADVANCE(generator);
+    return RANDOM_BELOW_U64(generator, range);
 }
 
 // Gives a bouncing item its start velocity and position from the kart; c is 1 to throw forward.
@@ -714,9 +716,9 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             value += MUL_FIXED12_NO_ROUND(itemInUse->mKartHopHeight, 0x14cd);
         }
     }
-    if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_SPREAD_KART_SPEED) {
-        direction.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
-        direction.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
+    if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_OFFSET_KART_SPEED) {
+        direction.z += BouncingItemNextRandomBelow(&gRaceProgress->mRandom, 0xf6) - 0x7b;
+        direction.x += BouncingItemNextRandomBelow(&gRaceProgress->mRandom, 0xf6) - 0x7b;
     }
     direction.x = MUL_FIXED12_NO_ROUND(direction.x, value);
     direction.y = MUL_FIXED12_NO_ROUND(direction.y, value);
@@ -812,7 +814,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             if (value <= 0) {
                 LandItemObjectIfOnGround(&item->mItemObject, pos, velocity, gravity, &hitNormal);
             } else {
-                item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_BOUNCED;
+                item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_BOUNCED_OFF_GROUND;
                 value = VEC_DotProduct(&hitNormal, velocity);
                 offset.x = MUL_FIXED12_NO_ROUND(hitNormal.x, value);
                 offset.y = MUL_FIXED12_NO_ROUND(hitNormal.y, value);
@@ -835,7 +837,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             }
             item->mItemObject.mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
         }
-        if (item->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (item->mItemObject.mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             FadeOutItemObjectNoCallback(&item->mItemObject, 1);
             return;
         }

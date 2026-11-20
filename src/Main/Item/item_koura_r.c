@@ -1,6 +1,8 @@
 #include "Main/Item/item_kinoko.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_f_box.h"
 #include "Main/MapObjects/attractor_distance_flag.h"
@@ -27,28 +29,28 @@
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_koura_r_kart_items.h"
 #include "Main/Item/item_object_bouncing.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Item/item_link_following.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -57,7 +59,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
@@ -72,11 +74,11 @@ StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRStraight},
                                            {NULL, UpdateItemKouraRStraight},
                                            {NULL, UpdateItemKouraRSeekAfterThrow},
                                            {EnterItemKouraRFollowLink, UpdateItemKouraRFollowLink},
-                                           {EnterItemKouraRHoming, UpdateItemKouraRHoming},
+                                           {EnterItemKouraRSteerToKart, UpdateItemKouraRSteerToKart},
                                            {NULL, UpdateItemKouraRCloseIn},
-                                           {NULL, UpdateItemKouraRGlideToKartVelocity}};
+                                           {NULL, UpdateItemKouraRGlide}};
 
-const ItemInfo gItemInfoKouraR = {1, 1, 1, 1, 0, 1, NULL};
+const ItemInfo gItemInfoKouraR = {1, 1, ITEM_OBJECT_KIND_KOURA_R, 1, 0, ITEM_USE_KIND_ONE, NULL};
 
 const ItemKind gItemKindKouraR = {0x274,
                                   8,
@@ -132,7 +134,7 @@ void StartItemKouraRSound(void *kouraParam, s32 unused) {
     AdvanceSoundDistanceSquaredChange(
         &kouraR->mSoundDistanceSquaredChange,
         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f);
-    StartSoundWhileRequested(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, 0xd8, 0x7f,
+    StartSoundWhileRequested(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource, 0xd8, SOUND_VOLUME_MAX,
                              0);
 }
 
@@ -177,7 +179,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
                 if (rankAhead < 1) {
                     rankAhead = gRaceSetup->mKartCount;
                 }
-                targetKartIndex = GetKartAtRank(rankAhead);
+                targetKartIndex = GetRaceProgressKartIndexAtRank(rankAhead);
             }
             InitLinkFollowingItemFromInUse(&kouraR->mLinkFollowingItemObject, itemInUse, 0x2d, 0x5b, 1, 0, 1, 0x5000,
                                            targetKartIndex, 0);
@@ -194,7 +196,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     }
     ResetItemKouraRKartItems(kouraR);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
-        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT_WIFI_RACE;
         kouraR->mStateMachine.mNextStateRequested = 1;
     }
     return kouraR->mThrowForward;
@@ -216,7 +218,7 @@ void UpdateItemKouraRStraight(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-void RequestItemKouraRHomingForKart(ItemKouraR *kouraR, u32 kartIndex) {
+void RequestItemKouraRSteerToKart(ItemKouraR *kouraR, u32 kartIndex) {
     u32 value = kartIndex;
     u32 minusOne;
     u32 collisionSlotIndex;
@@ -288,7 +290,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     u16 ownerKartIndex;
     u16 targetKartIndex;
-    u16 rankAhead;
+    u16 targetRank;
 
     ownerKartIndex =
         !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
@@ -299,11 +301,11 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
         targetKartIndex = ITEM_NO_KART_INDEX;
     } else {
-        rankAhead = GetKartRank(ownerKartIndex) - 1;
-        if (rankAhead < 1) {
-            rankAhead = gRaceSetup->mKartCount;
+        targetRank = GetKartRank(ownerKartIndex) - 1;
+        if (targetRank < 1) {
+            targetRank = gRaceSetup->mKartCount;
         }
-        targetKartIndex = GetKartAtRank(rankAhead);
+        targetKartIndex = GetRaceProgressKartIndexAtRank(targetRank);
     }
     AdvanceLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0xd000, 0x29, targetKartIndex, 0);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
@@ -349,15 +351,16 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     }
 }
 
-void EnterItemKouraRHoming(void *stateObject) {
+void EnterItemKouraRSteerToKart(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mBounce =
         (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
 }
 
-// Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
-// one of the four SteerItemKouraRToKart calls, and stores the 0x24c/0x24e halfwords it picks.
-void UpdateItemKouraRHoming(void *stateObject) {
+// Homing state: if the kart is removed, parked, a Teresa or dropping to respawn, glide toward the kart's velocity;
+// otherwise steer toward the kart, and when the steer call returns non-zero go to the seek-after-throw state. Requests
+// the shell sound unless a fade-out has started.
+void UpdateItemKouraRSteerToKart(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
     Kart *kart;
@@ -406,8 +409,9 @@ void UpdateItemKouraRHoming(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Checks IsKartNotNormal of the Kart, then the 0x240 counter and the sum of the two
-// squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
+// Close-in state: fades the shell out as a hit if IsKartNotNormal, else steers at the kart; requests the shell sound
+// unless a fade-out has started; the shell fades out as a hit when it is within the hit radius of the kart in x and z,
+// or once mStateFrames passes ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES.
 void UpdateItemKouraRCloseIn(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
@@ -442,8 +446,8 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
     FadeOutItemObjectHitByKart(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0, 8);
 }
 
-// Runs AdvanceItemObjectMotion and hands StartItemKouraRSound to AddSoundRequest when the 0x74 bit 0 is clear.
-void UpdateItemKouraRGlideToKartVelocity(void *stateObject) {
+// Advances the shell's motion; unless a fade-out has started, requests the shell sound.
+void UpdateItemKouraRGlide(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0xc000);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
@@ -455,8 +459,9 @@ void UpdateItemKouraRGlideToKartVelocity(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Runs StartKartSeqArcSoundOffset8 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
-// third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
+// Plays the sound at the kart held in mKartItems when hitType is 1 or 2 and the other object is owned by that kart; an
+// object not in use must also be active, flagged ITEM_OWNER_KART_TARGETED_BY_KOURA_R and younger than
+// ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES.
 void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam) {
     ItemKouraR *kouraR;
     ItemObject *other;
@@ -467,7 +472,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
 
     kouraR = kouraParam;
     other = otherParam;
-    if ((u32) (hitType - 1) > 1) {
+    if ((u32) (hitType - ITEM_HIT_TYPE_BOUNCE) > ITEM_HIT_TYPE_FADE_OUT - ITEM_HIT_TYPE_BOUNCE) {
         return;
     }
     kartItems = kouraR->mKartItems;
@@ -486,7 +491,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         if ((otherFlags & ITEM_OBJECT_FLAG_ACTIVE) == 0) {
             return;
         }
-        if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
+        if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_KART_TARGETED_BY_KOURA_R) == 0) {
             return;
         }
         if (other->mAgeFrames >= ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES) {
@@ -496,8 +501,9 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
     StartKartSeqArcSoundOffset8(kart, kart->mSoundIndex);
 }
 
-// Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
-// CopyItemObjectData, CopyItemPointLinkIndex, StoreItemDataFlagBit, LoadItemDataFlagBit and AddItemDataSizedByKind.
+// Copies the shell's item data to or from the buffer: the object data and previous link index, plus two flag bits
+// carried in velocity.y (mReverse) and pos.y (mThrowForward); when writing it also adds the item data record for the
+// kind and returns its buffer.
 void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     s32 dot;
     void *result;
@@ -524,8 +530,9 @@ void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     return result;
 }
 
-// Stores SetItemKouraSoundTrackParams in the 0x30 word, moves the seven words of gItemKouraRStateTable to 0x23c,
-// then picks one of three calls from the 0x254/0x21c words.
+// Sets the shell up from received item data: resets the sound change, sets the sound track function, starts the state
+// machine with gItemKouraRStateTable, then picks the follow-link, seek-after-throw or straight state from mThrowForward
+// and the previous link.
 void InitItemKouraRFromData(ItemKouraR *kouraR) {
     u16 ownerKartIndex;
     u32 rank;
@@ -573,9 +580,8 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     ResetItemKouraRKartItems(kouraR);
 }
 
-// Returns 1 while GetKart(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
-// words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
-// Returns FALSE when it requested CloseIn because the shell is not yet at the kart.
+// Returns TRUE when the shell is already within hit range of the kart or has no collision slot; otherwise frees the
+// slot, requests CloseIn and returns FALSE.
 BOOL RequestItemKouraRCloseInIfFar(void *kouraParam, s32 kartIndex) {
     ItemKouraR *kouraR;
     Kart *kart;

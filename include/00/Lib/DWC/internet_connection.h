@@ -4,9 +4,9 @@
 
 u32 DWC_GetLinkLevel(void);
 
-// Values of DWCInetControl.mState, which DWC_GetInetStatus also returns (0 without the object): the connect has not
-// started, the access point connection is being made, it finished, the link is up, the cleanup has started, the link
-// was lost, or the access point connection failed (the code is large or small, as DWC_GetInetStatus sorts it).
+// Values of DWCInetControl.mState. DWC_GetInetStatus returns 0 without the object and otherwise only CONNECTING, ONLINE
+// or one of the two FAILED values; the failed values split the access point error code: -1 to -10 is SMALL_CODE, below
+// -10 is LARGE_CODE.
 enum {
     INET_STATUS_INITIALIZED = 1,
     INET_STATUS_CONNECTING = 2,
@@ -18,11 +18,11 @@ enum {
     INET_STATUS_FAILED_SMALL_CODE = 8,
 };
 
-// Values of the type argument of DWC_SetAuthServer: which login server the connection uses.
+// Values of the type argument of DWC_SetAuthServer: which authentication server address is set.
 enum {
-    DWC_CONNECTINET_AUTH_TEST,
-    DWC_CONNECTINET_AUTH_DEVELOP,
-    DWC_CONNECTINET_AUTH_RELEASE,
+    AUTH_SERVER_TEST,
+    AUTH_SERVER_DEV,
+    AUTH_SERVER_NO_TEST_OR_DEV_LABEL,
 };
 
 typedef struct DWCInetControl {

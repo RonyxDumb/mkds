@@ -1,5 +1,6 @@
 #include "Main/Graphics/model_effects.h"
 #include "Main/System/heap.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Graphics/effects.h"
 #include "model_set_resource_lookup.h"
 #include "Main/MapObjects/map_object_list.h"
@@ -9,7 +10,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "model_material_set.h"
 #include "model_texture_bind.h"
@@ -57,7 +58,7 @@ ModelEffectKind gModelEffectKinds[MODEL_EFFECT_KIND_COUNT] = {
      1,
      0,
      0,
-     (void (*)(ModelEffect *, s32)) StartDonketuWaterSplashModel,
+     (void (*)(ModelEffect *, s32)) StartModelEffectDonketuWaterSplash,
      UpdateWaterEfctKinds,
      0xb8,
      {NULL, NULL, NULL, NULL}}};
@@ -354,7 +355,7 @@ void InitModelEffectObjects(void *heap) {
             modelEffect->mStart = kindRow->mStart;
             modelEffect->mUpdate = kindRow->mUpdate;
             NNS_FndAppendListObject(&gModelEffects->mFreeLists[kindIndex], modelEffect);
-            if (kindIndex == 2) {
+            if (kindIndex == MODEL_EFFECT_KART_WATER_SPLASH) {
                 scale = gRaceSetup->mCourseId == COURSE_ID_OLD_KOOPA_AGB ? 0xb33 : 0x1000;
                 modelEffect->mScale.x = scale;
                 modelEffect->mScale.y = scale;
@@ -400,7 +401,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         animation = modelEffect->mAnimations[0];
         if (animation != NULL) {
             if (nsbcaFile != NULL) {
-                InitModelAnimation(0, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
                 InitModelAnimationEntries(animation, nsbcaFile, heap);
             } else {
                 animation->mAnmObjCount = 0;
@@ -418,7 +419,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         animation = modelEffect->mAnimations[1];
         if (animation != NULL) {
             if (nsbmaFile != NULL) {
-                InitModelAnimation(4, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimation(MODEL_ANIMATION_KIND_MAT_C, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
                 InitModelAnimationEntries(animation, nsbmaFile, heap);
             } else {
                 animation->mAnmObjCount = 0;
@@ -429,7 +430,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
             if (nsbtaFile == NULL) {
                 animation->mAnmObjCount = 0;
             } else {
-                InitModelAnimation(1, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimation(MODEL_ANIMATION_KIND_TEX_SRT, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
                 InitModelAnimationEntries(animation, nsbtaFile, heap);
             }
         }
@@ -476,7 +477,7 @@ void StartKartWaterSplashModel(ModelEffect *modelEffect) {
     }
 }
 
-void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
+void StartModelEffectDonketuWaterSplash(ModelEffect *modelEffect) {
     modelEffect->mScale.x = 0x3d9a;
     modelEffect->mScale.y = 0x3d9a;
     modelEffect->mScale.z = 0x3d9a;
@@ -489,7 +490,8 @@ void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
     StartEffect(0x422, &modelEffect->mPos);
 }
 
-// Update of the kart and Donketu splash kinds: sets mFinished at mFinishFrameCount, else advances animations 0 and 1.
+// Update of the kart and Donketu splash kinds: sets mFinished once mSinceStartFrames reaches mFinishFrameCount, else
+// advances animation 0 and animation 1 when it exists.
 void UpdateWaterEfctKinds(ModelEffect *modelEffect) {
     if (modelEffect->mSinceStartFrames >= modelEffect->mFinishFrameCount) {
         modelEffect->mFinished = 1;
@@ -540,7 +542,7 @@ void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects) {
 }
 
 void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
-    if (modelEffect->mSinceStartFrames >= MODEL_EFFECT_BOMBCORE_END_FRAME) {
+    if (modelEffect->mSinceStartFrames >= MODEL_EFFECT_BOMBCORE2_END_FRAME) {
         modelEffect->mFinished = 1;
         return;
     }
@@ -549,8 +551,8 @@ void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
     AdvanceModelAnimation(modelEffect->mAnimations[2]);
 }
 
-// Starts a kart splash object at position when startModel is set, then the particle effects of
-// gKartWaterSplashEffectIds.
+// Does nothing when the kart splash row has no objects; otherwise starts a kart splash object at position when
+// startModel is set, then the particle effects of gKartWaterSplashEffectIds that are not negative.
 void StartKartWaterSplashEffects(const Vec3 *position, s32 startModel) {
     ModelEffect *modelEffect;
     u16 effectIndex;

@@ -9,7 +9,7 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
-#define ROCK_GROUND_GRACE_FRAMES 10
+#define ROCK_SOUND_AFTER_GROUND_FRAMES 10
 
 #define ROCK_HEIGHT_RANGE_MAX 0x3e8000
 
@@ -17,7 +17,7 @@
 #define COLLISION_SLOT_COUNT 0x100
 #define FOUND_COLLISION_SLOT_CAPACITY 0x80
 
-// Bits of CollisionSlot.mFlags that the map object code sets or tests.
+// Bits of CollisionSlot.mFlags: map and item objects pass the kind and MARK_RADIUS_CHANGE; the slot code sets the rest.
 #define COLLISION_SLOT_FLAG_MAP_OBJECT 0x2000 // CreateCollisionSlot flags of a map object slot
 #define COLLISION_SLOT_FLAG_ITEM_OBJECT 0x4000 // and of an item object slot
 #define COLLISION_SLOT_FLAG_RADIUS_CHANGED 0x100
@@ -41,7 +41,8 @@ static inline CollisionSlot *GetCollisionSlot(s16 slotId) {
     return &gCollisionSlots[slotId];
 }
 
-// One end of a collision slot (gCollisionSlotHighEnds, gCollisionSlotLowEnds): the other end's index, a slot index, x.
+// One end of a collision slot (gCollisionSlotHighEnds, gCollisionSlotLowEnds): the other end's index, a slot index (low
+// ends) or a scan limit (high ends), x.
 typedef struct CollisionSlotEnd {
     /* 00 */ u32 mOtherEndIndex : 8;
 // Low-end list: the slot index. High-end list: the lowest low-end index the search scans down to.
@@ -51,7 +52,8 @@ typedef struct CollisionSlotEnd {
 
 u32 FreeCollisionSlot(s32 slotIndex);
 s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
-// The first hit of a rock: the collision object it hit and whether the link is blocked.
+// The first two entries of the hit-object list CollideSphereWithCourse fills (gSphereHitObjects): mObject, and
+// mLinkBlocked, non-zero when a second object was hit.
 typedef struct CollisionFirstHit {
     /* 00 */ CollisionMapObject *mObject;
     /* 04 */ s32 mLinkBlocked;

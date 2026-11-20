@@ -1,0 +1,110 @@
+#pragma once
+#include "types.h"
+#include "sound_player_control.h"
+#include "sound_archive_load.h"
+#include "matrix44_concat.h" // MtxFx44
+#include "Main/Graphics/ortho_quad_corners.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
+
+// Falloff indices (SoundSource.mFalloffIndex, SoundStartParams.mFalloffIndex) of the map object curves: the kinds pick
+// one by comparing their mFarDistanceSquared with that of gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE] and
+// [SOUND_FALLOFF_MEDIUM_RANGE]. The outer distances 380, 800 and 1100 hold outside a replay (InitSoundFalloffs).
+#define SOUND_FALLOFF_SHORT_RANGE 2
+#define SOUND_FALLOFF_MEDIUM_RANGE 3
+#define SOUND_FALLOFF_LONG_RANGE 4
+
+// The other curves the course sound objects use, named by the outer distance gSoundFalloffs gives them (600, 1200 and
+// 3000, against 380, 800 and 1100 above; InitSoundFalloffs).
+#define SOUND_FALLOFF_SHORT_MEDIUM_RANGE 6
+#define SOUND_FALLOFF_LONGER_RANGE 8
+#define SOUND_FALLOFF_VERY_LONG_RANGE 5
+
+typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
+
+typedef struct NNSSndHeap NNSSndHeap;
+
+// The volume curve of one kind of sound source: full volume to the inner distance, falling to 0 at the outer one.
+typedef struct SoundFalloff {
+    // Distance beyond which the sound is silent.
+    /* 00 */ s32 mOuterDistance;
+    /* 04 */ s32 mMidDistance;
+    /* 08 */ s32 mMidVolume;
+    // Distance up to which the distance curve gives the maximum volume (a sound behind the camera can still be
+    // quieter).
+    /* 0c */ s32 mInnerDistance;
+    // Highest volume of the curve.
+    /* 10 */ s32 mMaxVolume;
+    /* 14 */ s32 mInnerToMidSlope;
+    /* 18 */ s32 mMidToOuterSlope;
+    /* 1c */ s32 mForwardDistanceSlope;
+    /* 20 */ s32 mFarDistanceSquared;
+} SoundFalloff;
+
+// Volume curves picked by SoundSource.mFalloffIndex, or by SoundStartParams.mFalloffIndex when there is no kart source;
+// filled by InitSoundFalloffs.
+extern SoundFalloff gSoundFalloffs[16];
+
+extern NNSSndSeqPlayer *gMatchingEntrySeqHandle;
+
+extern u32 gMissionRunSelMode;
+
+extern NNSSndSeqPlayer *gSeqZeroAndSessionSeqHandle;
+
+extern s32 gSeqZeroLoopOn;
+
+extern NNSSndSeqPlayer *gSndHandleSlots[12];
+
+extern struct NNSSndArc gOnMemorySndArc;
+
+extern u32 gRaceSoundKind;
+
+extern s32 gOrthoQuadHoldFrameCount;
+
+extern s32 gOrthoQuadFrames;
+
+extern OrthoQuad *gOrthoQuads;
+
+extern u16 gOrthoQuadKartIndex;
+
+// TRUE while the cream effect quads show, FALSE for geso_sumi and when no quads show; set by the call that started the
+// quads.
+extern BOOL gOrthoQuadUseCreamEffect;
+
+extern u16 gOrthoQuadFirstPolygonId;
+
+// Polygon alpha: 0x1f when the quads start, falls by 1 every second frame after the hold and ends them at 0.
+extern u16 gOrthoQuadAlpha;
+
+
+extern u32 gBouncingItemBoxTimers[8];
+
+static inline void SetBouncingItemBoxTimer(u16 kartIndex, u32 timer) {
+    gBouncingItemBoxTimers[kartIndex] = timer;
+}
+
+extern s32 gOrthoQuadMoveStartFrameCount;
+
+extern NNSSndHeap *gSndHeap;
+
+extern u32 gSceneSeqRestartAfterStar;
+
+extern NNSSndHeap *gSeqRowSndHeap;
+
+extern u32 gSoundStartedThisFrame;
+
+extern u32 gSndHeapSavedState[];
+
+extern u32 gKartStarSeqStartPending;
+
+struct NNSSndSeqPlayer;
+
+extern struct NNSSndSeqPlayer *gChoisesSSeqHandle;
+
+extern u32 gBeforeStartSeqStarted;
+
+extern u16 gMissionRunMSselSeqIndex;
+
+extern s32 gMissionRunMSselStep32Count;
+
+extern s32 gMissionRunMSselStep0Count;

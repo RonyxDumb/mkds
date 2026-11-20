@@ -6,8 +6,8 @@ typedef struct CharacterKartPicks CharacterKartPicks;
 
 void PickRandomCharactersAndKarts(CharacterKartPicks *picks);
 
-// The characters and karts of eight entries; a set bit in the given bits means the caller already set that entry's
-// value.
+// The character and kart of each of eight entries; a set bit in mCharacterGivenBits or mKartGivenBits keeps the value
+// the caller set, the picks fill the other entries.
 typedef struct CharacterKartPicks {
     /* 00 */ u8 mKartGivenBits;
     /* 01 */ u8 mCharacterGivenBits;

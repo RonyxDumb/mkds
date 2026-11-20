@@ -9,13 +9,13 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "fixed_arctangent.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/segment_progress_point.h"
 #include "Main/Item/item_objects_and_race_progress.h"
@@ -132,12 +132,14 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             correction.z = 0;
             if (wanwan->mFollowsPath != 0) {
                 if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
-                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        falloffIndex = 2;
-                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        falloffIndex = 3;
+                    if (wanwan->mMapObject.mFarDistanceSquared ==
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                    } else if (wanwan->mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                     } else {
-                        falloffIndex = 4;
+                        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     }
                     secondSoundParams.mSoundId = WANWAN_PATH_BASE_LAND_SOUND_ID;
                     secondSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
@@ -153,12 +155,14 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             touchesGround = TRUE;
             if (wanwan->mFollowsPath != 0) {
                 if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
-                    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        falloffIndex = 2;
-                    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        falloffIndex = 3;
+                    if (wanwan->mMapObject.mFarDistanceSquared ==
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                    } else if (wanwan->mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                     } else {
-                        falloffIndex = 4;
+                        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     }
                     thirdSoundParams.mSoundId = WANWAN_PATH_COURSE_LAND_SOUND_ID;
                     thirdSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
@@ -172,7 +176,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     if (touchesGround != FALSE) {
         touchesGround = TRUE;
         if (wanwan->mMapObject.mStateMachine.mState == WANWAN_STATE_HIT) {
-            if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_FRAMES) {
+            if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_TURN_START_FRAMES) {
                 touchesGround = FALSE;
             }
         }
@@ -202,7 +206,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             wanwan->mMapObject.mPosStep.y = 0;
         }
         if (usesCourseCollision != 0) {
-            if (surfaceFlags & 0x1e34ef) {
+            if (surfaceFlags & COURSE_HIT_GROUND) {
                 value = DOT2_FIXED12(wanwan->mMapObject.mPosStep.x, surfaceNormal.x, wanwan->mMapObject.mPosStep.z,
                                      surfaceNormal.z);
                 if (value < 0) {
@@ -216,7 +220,8 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             touchesGround != FALSE) {
             firstSoundParams = gWanwanTouchGroundSoundParams;
             firstSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
-            firstSoundParams.mDistanceSquared = wanwan->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
+            firstSoundParams.mDistanceSquared =
+                wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
             StartSoundFromParams(&firstSoundParams);
         }
     }
@@ -324,17 +329,17 @@ void UpdateWanwanRoam(void *stateObject) {
                 if (radiusRange == 0) {
                     radiusExtra = 0;
                 } else {
-                    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                    RANDOM_ADVANCE(random);
                     if (radiusRange == 0) {
-                        radiusExtra = (u32) (random->mValue >> 32);
+                        radiusExtra = (u32) RANDOM_HIGH32(random);
                     } else {
-                        radiusExtra = (u32) (((u64) (random->mValue >> 32) * (u64) radiusRange) >> 32);
+                        radiusExtra = (u32) (((u64) RANDOM_HIGH32(random) * (u64) radiusRange) >> 32);
                     }
                 }
                 random = GetMapObjectRandom();
                 radius = radiusExtra + 0x2d000;
-                random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-                angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
+                RANDOM_ADVANCE(random);
+                angleIndex = (u16) RANDOM_BELOW(random, 0x10000) >> 4;
                 attemptCount++;
                 candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2], radius);
                 candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2 + 1], radius);
@@ -391,7 +396,7 @@ void UpdateWanwanRoam(void *stateObject) {
                    44),
             &wanwan->mYawQuaternion);
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_ROAM_START_FRAMES) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_ROAM_BLEND_FRAMES) {
         wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }
@@ -409,12 +414,13 @@ void EnterWanwanLunge(void *stateObject) {
     if (wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
-    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        falloffIndex = 2;
-    } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        falloffIndex = 3;
+    if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+    } else if (wanwan->mMapObject.mFarDistanceSquared ==
+               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
     } else {
-        falloffIndex = 4;
+        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
     }
     soundRequest.mSoundId = WANWAN_LUNGE_SOUND_ID;
     soundRequest.mPositionSource = &wanwan->mMapObject.mPos;
@@ -457,8 +463,8 @@ void UpdateWanwanLunge(void *stateObject) {
         wanwan->mTargetFrame += 0xb4;
     }
     VEC_Subtract(&wanwan->mTargetPos, &wanwan->mMapObject.mPos, &offset);
-    wanwan->mMapObject.mPosStep.x += (s32) (((s64) offset.x << 5) >> 12);
-    wanwan->mMapObject.mPosStep.z += (s32) (((s64) offset.z << 5) >> 12);
+    wanwan->mMapObject.mPosStep.x += (s32) SHIFT_LEFT_FROM_FIXED12(offset.x, 5);
+    wanwan->mMapObject.mPosStep.z += (s32) SHIFT_LEFT_FROM_FIXED12(offset.z, 5);
     if (WanwanGetHorizontalLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x40000000) {
         wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x4cc);
         wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x4cc);
@@ -527,10 +533,10 @@ void UpdateWanwanHit(void *stateObject) {
                        44),
                 &wanwan->mYawQuaternion);
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_SHAKE_FRAMES) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_BLEND_FRAMES) {
             wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_PHASE_END_FRAMES) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_PATH_TURN_START_FRAMES) {
             wanwan->mAngleAroundX += 0x200;
         } else {
             wanwan->mMapObject.mPosStep.y -= 0x266;
@@ -543,7 +549,7 @@ void UpdateWanwanHit(void *stateObject) {
         if (wanwan->mAngleAroundX == WANWAN_ANGLE_AROUND_X_HIT) {
             wanwan->mMapObject.mPosStep.y -= 0x19a;
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_FRAMES) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_TURN_START_FRAMES) {
             wanwan->mAngleAroundX += 0x100;
         }
         if (wanwan->mAngleAroundX > WANWAN_ANGLE_AROUND_X_HIT_END) {
@@ -575,8 +581,8 @@ void UpdateWanwanPullBack(void *stateObject) {
                 (wanwan->mMapObject.mPos.z - wanwan->mCenterPos.z) >=
         (s64) radius * radius) {
         VEC_Subtract(&wanwan->mCenterPos, &wanwan->mMapObject.mPos, &toCenter);
-        wanwan->mMapObject.mPosStep.x += (s32) (((s64) toCenter.x << 2) >> 12);
-        wanwan->mMapObject.mPosStep.z += (s32) (((s64) toCenter.z << 2) >> 12);
+        wanwan->mMapObject.mPosStep.x += (s32) SHIFT_LEFT_FROM_FIXED12(toCenter.x, 2);
+        wanwan->mMapObject.mPosStep.z += (s32) SHIFT_LEFT_FROM_FIXED12(toCenter.z, 2);
         if (XzLengthSquared(&wanwan->mMapObject.mPosStep) >= 0x1000000) {
             wanwan->mMapObject.mPosStep.x -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.x, 0x199);
             wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mPosStep.z, 0x199);

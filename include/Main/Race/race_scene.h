@@ -21,12 +21,13 @@ u32 ShouldEndStaffRoll(u32 sceneFrames);
 u32 ShouldEndAwardRace(u32 sceneFrames);
 void AdvanceDispCapAndUploadRaceHud(void);
 void ReleaseRaceScene(void);
-// Slot mInit of the Race scene; not the whole preparation (RunRaceScene and RunScene's prologue run
-// before it). Calls in order: CreateOverlayExpHeap (creates the heap that FreeOverlayExpHeap destroys),
-// StopWvrAndWait (kinds 3 and 5) or ClearLcdcBankAndStartWvrAndWait + InitRaceConnection, Init3dEngine, InitDispCap,
-// SetupRaceDisplay (screen layout), ResetInputSlotsFromRaceSetup, InitRace, InitChoisesS, InitRaceHud,
-// SetupRaceHudScreens (not kind 3), SetLeftRightKeysSwapped, and the mode 5 net state / mode 2 StartMicInput
-// extras. Does not allocate gRace: InitRace does.
+// Slot mInit of the Race scene; not the whole preparation (RunRaceScene and RunScene's prologue run before it). Calls
+// in order: CreateOverlayExpHeap (creates the heap that FreeOverlayExpHeap destroys), StopWvrAndWait
+// (RACE_KIND_START_GP and RACE_KIND_AWARD) or ClearLcdcBankAndStartWvrAndWait + InitRaceConnection, Init3dEngine,
+// InitDispCap, SetupRaceDisplay (screen layout), ResetInputSlotsFromRaceSetup, InitRace, InitChoisesS, InitRaceHud,
+// SetupRaceHudScreens (not RACE_KIND_START_GP), SetLeftRightKeysSwapped (mirror mode, or the mission run swap bit),
+// then in MODE_WIFI with a created session heap the race sync flag and the WIFI_SESSION_STATE_RACE request, or in
+// MODE_BATTLE with BATTLE_KIND_BALLOON StartMicInput. Does not allocate gRace: InitRace does.
 void InitRaceScene(void);
 void SetupRaceDisplay(void *heap);
 u32 ShouldUpdateRace(u32 sceneFrames);

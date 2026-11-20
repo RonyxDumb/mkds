@@ -19,6 +19,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/ghost_scene.h"
 
 char *gTimeAttackTopMenuSNcgrName = "ta/TimeAttack_top_menu_s.nce.ncgr";
 char *gTimeAttackTopMenuSNcerName = "ta/TimeAttack_top_menu_s.nce.ncer";
@@ -77,12 +78,12 @@ void LocateAndQueueTimeAttackTopMenu(void) {
 void RequestTimeAttackTopMenuSlideIn(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SLIDE_IN;
     gTimeAttackTopMenu->mStateFrames = 0;
-    gTimeAttackTopMenu->mBg0Offset = -192;
+    gTimeAttackTopMenu->mBg0Offset = -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE;
 }
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
 // mState and runs AdvanceTimeAttackTopMenuSettle.
-void RequestTimeAttackTopMenuSettle(void) {
+void RequestTimeAttackTopMenuSlideInPressOffset(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SETTLE;
     gTimeAttackTopMenu->mStateFrames = 0;
 }
@@ -105,7 +106,7 @@ void RequestTimeAttackTopMenuPress(void) {
     gTimeAttackTopMenu->mStateFrames = 0;
     switch (gTimeAttackTopMenu->mIndex) {
         case TIME_ATTACK_TOP_ROW_SEND_GHOST:
-        case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
+        case TIME_ATTACK_TOP_ROW_GET_GHOST:
             RequestSelectReturnSlideOut();
             break;
     }
@@ -144,24 +145,24 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackTopMenu->mSubOamList = subOam;
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_NONE;
     RequestTimeAttackTopMenuSlideIn();
-    if (GetPreviousMenuScreenNumber() == 0x1f) {
-        if (gMenuShared->mGhostSceneInitialCallbacksIndex == 0) {
+    if (GetPreviousMenuScreenNumber() == SCREEN_NONE) {
+        if (gMenuShared->mGhostSceneInitialCallbacksIndex == GHOST_SCENE_CALLBACKS_SEND) {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
         } else {
-            gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
+            gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;
         }
     } else {
-        gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
+        gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
     }
     LocateAndQueueTimeAttackTopMenu();
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         SetCellOamModeXlu(gTimeAttackTopMenuXluCellIndices[index], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
                           gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
     }
     ResetOamLists(gTimeAttackTopMenu->mMainOamList, gTimeAttackTopMenu->mSubOamList);
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,
                     &gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX =
             TIME_ATTACK_TOP_SLIDE_DISTANCE;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX =
@@ -192,7 +193,7 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
                              TIME_ATTACK_TOP_SLIDE_FRAMES);
     gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE, 0,
                                                     gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuVisibleTableIndices[index]].mOffsetX = offsetX;
@@ -201,7 +202,7 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = offsetX;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = offsetX;
     if (gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_SLIDE_FRAMES) {
-        RequestTimeAttackTopMenuSettle();
+        RequestTimeAttackTopMenuSlideInPressOffset();
     }
 }
 
@@ -211,7 +212,7 @@ void AdvanceTimeAttackTopMenuSettle(void) {
 
     gTimeAttackTopMenu->mStateFrames++;
     selectedPressOffset = GetSelectedPressOffset(gTimeAttackTopMenu->mStateFrames);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX =
             selectedPressOffset;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX =
@@ -236,41 +237,41 @@ void AdvanceTimeAttackTopMenuWaitSelectReturn(void) {
 
 void AdvanceTimeAttackTopMenuInput(void) {
     BOOL touchStarted = FALSE;
-    u32 tappedRectIndex = -1;
+    u32 touchedRectIndex = -1;
     s32 newIndex = 3;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    BOOL flag1 = FALSE;
+    BOOL recentlyLost = FALSE;
     InputSlot *inputSlot;
     s32 pressedBits;
-    BOOL flag4;
-    s32 flag3;
+    BOOL touchStartedAgain;
+    s32 recentlyLostAgain;
 
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-        flag1 = TRUE;
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+        recentlyLost = TRUE;
     }
-    if (flag1 == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
         gInputSlots[slotIndex].mPair.mHasPair != 0) {
         touchStarted = TRUE;
     }
     if (touchStarted != FALSE) {
-        tappedRectIndex =
+        touchedRectIndex =
             RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
                                     gInputSlots[slotIndex].mPair.mPairY);
     }
     inputSlot = &gInputSlots[slotIndex];
     pressedBits = inputSlot->mPressedBits & PAD_KEY_B;
     if ((u16) pressedBits == 0) {
-        flag3 = flag4 = FALSE;
+        recentlyLostAgain = touchStartedAgain = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-            flag3 = 1;
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
+            recentlyLostAgain = 1;
         }
-        if (flag3 == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        if (recentlyLostAgain == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
-            flag4 = TRUE;
+            touchStartedAgain = TRUE;
         }
-        if (flag4 == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+        if (touchStartedAgain == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
                                                                     gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
@@ -282,18 +283,18 @@ void AdvanceTimeAttackTopMenuInput(void) {
     return;
 next:
     pressedBits = inputSlot->mPressedBits & PAD_KEY_A;
-    if ((u16) pressedBits != 0 || tappedRectIndex <= 2) {
+    if ((u16) pressedBits != 0 || touchedRectIndex <= 2) {
         if ((u16) pressedBits == 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
-            switch (tappedRectIndex) {
-                case TIME_ATTACK_TOP_ROW_TIME_TRIALS:
-                    newIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
+            switch (touchedRectIndex) {
+                case TIME_ATTACK_TOP_ROW_SELECT_CHARACTER:
+                    newIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
                     break;
                 case TIME_ATTACK_TOP_ROW_SEND_GHOST:
                     newIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
                     break;
-                case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
-                    newIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
+                case TIME_ATTACK_TOP_ROW_GET_GHOST:
+                    newIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;
                     break;
             }
             if (gTimeAttackTopMenu->mIndex != newIndex) {
@@ -304,31 +305,31 @@ next:
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
         }
         switch (gTimeAttackTopMenu->mIndex) {
-            case TIME_ATTACK_TOP_ROW_TIME_TRIALS:
-                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_TIME_TRIALS;
+            case TIME_ATTACK_TOP_ROW_SELECT_CHARACTER:
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_SELECT_CHARACTER;
                 break;
             case TIME_ATTACK_TOP_ROW_SEND_GHOST:
                 gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_SEND_GHOST;
                 break;
-            case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
-                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST;
+            case TIME_ATTACK_TOP_ROW_GET_GHOST:
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_GET_GHOST;
                 break;
         }
         RequestTimeAttackTopMenuPress();
     } else {
-        if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex--;
             if (gTimeAttackTopMenu->mIndex < 0) {
-                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
+                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex++;
             if (gTimeAttackTopMenu->mIndex >= TIME_ATTACK_TOP_ROW_COUNT) {
-                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
+                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
@@ -353,7 +354,7 @@ void AdvanceTimeAttackTopMenuPress(void) {
         case TIME_ATTACK_TOP_ROW_SEND_GHOST:
             gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = selectedPressOffset;
             break;
-        case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
+        case TIME_ATTACK_TOP_ROW_GET_GHOST:
             gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = selectedPressOffset;
             break;
     }
@@ -374,7 +375,7 @@ void AdvanceTimeAttackTopMenuSlideOut(void) {
                              TIME_ATTACK_TOP_SLIDE_FRAMES);
     gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, 0, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE,
                                                     gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuVisibleTableIndices[index]].mOffsetX = offsetX;
@@ -412,7 +413,7 @@ s32 AdvanceTimeAttackTopMenu(void) {
         gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_SLIDE_FRAMES) {
         return gTimeAttackTopMenu->mResult;
     }
-    return 0;
+    return TIME_ATTACK_TOP_RESULT_NONE;
 }
 
 void WriteTimeAttackTopMenuBg0Offset(void) {

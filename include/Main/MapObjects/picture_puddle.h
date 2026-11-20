@@ -5,8 +5,8 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/map_object_model.h"
 
-// Values of Picture.mState: IDLE does nothing, WAIT counts mWaitFrames down, PLAY steps the animation and plays its
-// sounds.
+// Values of Picture.mState: IDLE does nothing and nothing leaves it; WAIT counts mWaitFrames down, then PLAY; PLAY
+// steps the animation, plays its sounds and goes back to WAIT with a new mWaitFrames when the frame index is 0 again.
 enum {
     PICTURE_STATE_IDLE,
     PICTURE_STATE_WAIT,
@@ -30,7 +30,7 @@ void CreatePuddle(void *mapObjectList);
 MapObjectList *CreatePictureUpdateList(void);
 MapObjectList *CreatePictureDrawList(void);
 void UpdatePicture(void *mapObjectList,
-                   Picture *picture); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                   Picture *picture); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void DrawPicture(void *mapObjectList, Picture *picture);
 void CreatePicture1AndPicture2(void *mapObjectList);
 

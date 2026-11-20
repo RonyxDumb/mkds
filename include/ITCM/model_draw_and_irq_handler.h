@@ -40,7 +40,7 @@ void NNS_G3dGeFlushBuffer(void);
 GxCommandBuffer *NNS_G3dGeReleaseBuffer(void);
 void NNS_G3dGeSetBuffer(GxCommandBuffer *commandBuffer);
 
-// Calls MIi_CpuClear32 with 0, passed through a stack offset of its own.
+// Clears the 8 bytes (two words) at destination.
 static inline void ClearHintBitmap(u32 *destination) {
     volatile u32 fillValue = 0;
     MIi_CpuClear32(fillValue, destination, 8);

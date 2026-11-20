@@ -1,12 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "Main/System/backup_net_camera_work.h"
 
 typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Argument of AdvanceLld.
+// OAM entries (mOams) and how many are used (mOamCount); AdvanceLld appends the cells it draws.
 typedef struct OamBuffer {
     /* 000 */ u8 mOams[0x400];
     /* 400 */ u16 mOamCount;
@@ -36,11 +37,12 @@ enum {
     EMBLEM_STATE_FADE_OUT_TO_GRID,
     EMBLEM_STATE_FADE_IN_AT_GRID,
     EMBLEM_STATE_CHOISES = 10,
-    EMBLEM_STATE_SAVING,
+    EMBLEM_STATE_WAIT_BACKUP,
     EMBLEM_STATE_DONE,
 };
 
-// Values of Emblem.mCursorTargetState: which part of the sub screen the cursor is on.
+// Values of Emblem.mCursorTargetState: which part of the sub screen the cursor is on (GRID, BUTTONS, COLORS), or HELD
+// while a press is still held.
 enum {
     EMBLEM_CURSOR_TARGET_GRID,
     EMBLEM_CURSOR_TARGET_BUTTONS,
@@ -48,7 +50,8 @@ enum {
     EMBLEM_CURSOR_TARGET_HELD,
 };
 
-// Values of Emblem.mDisplayState: the screen setup the display step runs next.
+// Values of Emblem.mDisplayState: which graphics work AdvanceEmblemDisplay does while the state is set; IDLE and CAMERA
+// do none.
 enum {
     EMBLEM_DISPLAY_UPLOAD_SCREENS,
     EMBLEM_DISPLAY_IDLE,
@@ -78,7 +81,6 @@ enum {
 // Calls of the screen upload state (mUploadFrames) before the grid is shown.
 #define EMBLEM_UPLOAD_FRAMES 2
 
-// Object behind gEmblem, allocated by InitEmblem.
 typedef void (*EmblemTransitionFunc)(void);
 
 // The emblem editor: its screen graphics, record and grid bytes, cursors, state and fade values.
@@ -114,8 +116,8 @@ typedef struct Emblem {
     /* 0870 */ struct NNSG2dCellDataBank *mEmblemCameraSNcer;
     /* 0874 */ struct AnimBank *mEmblemCameraSNanr;
     /* 0878 */ struct Lld *mEmblemCameraSLld;
-    /* 087c */ u8 mRecordBytes[0x200];
-    /* 0a7c */ u8 mGridCharBytes[0x200];
+    /* 087c */ u8 mRecordBytes[EMBLEM_PIXEL_BYTES];
+    /* 0a7c */ u8 mGridCharBytes[EMBLEM_PIXEL_BYTES];
     /* 0c7c */ u8 mCellNibbles[0x400];
     /* 107c */ s32 mButtonCursorIndex;
     /* 1080 */ s32 mColorCursorIndex;

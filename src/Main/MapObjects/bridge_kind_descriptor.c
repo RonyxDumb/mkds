@@ -1,6 +1,7 @@
 #include "Main/MapObjects/bridge_kind_descriptor.h"
 #include "Main/MapObjects/rotary.h"
 #include "Main/MapObjects/bridge.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/MapObjects/jg.h"
@@ -60,7 +61,8 @@ void CreateBridge(void) {
 
     file = FindCourseMapObjFile("bridge.nsbmd");
     CreateNsbmd(&gBridge, file, NULL);
-    CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile("bridge.nsbca"));
+    CreateModelAnimation(MODEL_ANIMATION_KIND_JOINT, gBridge, &gBridgeNsbca, file,
+                         FindCourseMapObjFile("bridge.nsbca"));
     gBridgeDrawList->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
     SetNsbmdPolygonIdLightEmiAll(gBridge, 0x3f, 2, 0x294a);
     SetMapObjectsModel(&gBridgeDrawList->mMapObjectList, gBridge);
@@ -74,15 +76,15 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
     bridge->mCollisionMapObject.mCollisionData.mTracksNormal = 1;
-    bridge->mSwingAmplitude = ((courseRow->mSettings[0] * 0x10000) / 0x168) >> 1;
-    bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mSettings[1]) >> 1;
+    bridge->mSwingAmplitude = ((courseRow->mSettings[0] * ANGLE_FULL_TURN) / 0x168) >> 1;
+    bridge->mSwingAnglePerFrame = (ANGLE_FULL_TURN / courseRow->mSettings[1]) >> 1;
     bridge->mPeakPauseFrameCount = courseRow->mSettings[2];
     bridge->mTroughPauseFrameCount = courseRow->mSettings[3];
     bridge->mPauseTimer = 0;
     bridge->mSwingAngle = 0;
     if (gRaceSetup->mMode == MODE_WIFI) {
         bridge->mSwingAnglePerFrame = 0;
-        bridge->mSwingAngle = ((courseRow->mSettings[4] * 0x10000) / 0x168) >> 1;
+        bridge->mSwingAngle = ((courseRow->mSettings[4] * ANGLE_FULL_TURN) / 0x168) >> 1;
     }
     bridge->mCollisionMapObject.mCollisionData.mHalfSizeX =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.x, 0x5a000);
@@ -100,8 +102,8 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
     bridge->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     bridge->mCollisionMapObject.mMapObject.mFlags |= gBridgeInitFlag;
-    bridge->mCollisionMapObject.mMapObject.mFlags &= ~2;
-    bridge->mCollisionMapObject.mMapObject.mFlags &= ~8;
+    bridge->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    bridge->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     bridge->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if (courseRow->mRotationDegrees.y < 0) {
         CreateMapObjectSoundSourceFalloff4(&bridge->mCollisionMapObject.mMapObject);

@@ -15,7 +15,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Kart/kart_models_entry.h"
 #include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
@@ -46,20 +46,20 @@ void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed, u32 colo
     heightTexCoord = (texHeightFixed << 8) >> 16;
     widthTexCoord = (texWidthFixed << 8) >> 16;
     reg_G3_TEXCOORD = 0x60006;
-    vertexZ = gKartNameTagLineVertices[2];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[0] | gKartNameTagLineVertices[1] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[2];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[0] | gKartNameTagSlantedQuadVertices[1] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = heightTexCoord << 16 | 6;
-    vertexZ = gKartNameTagLineVertices[5];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[3] | gKartNameTagLineVertices[4] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[5];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[3] | gKartNameTagSlantedQuadVertices[4] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = widthTexCoord | heightTexCoord << 16;
-    vertexZ = gKartNameTagLineVertices[8];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[6] | gKartNameTagLineVertices[7] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[8];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[6] | gKartNameTagSlantedQuadVertices[7] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = widthTexCoord | 0x60000;
-    vertexZ = gKartNameTagLineVertices[11];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[9] | gKartNameTagLineVertices[10] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[11];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[9] | gKartNameTagSlantedQuadVertices[10] << 16;
     reg_G3_VTX_16 = vertexZ;
 }
 
@@ -101,7 +101,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
         isEntryIndexHumanGhostOrPeer = FALSE;
         if (entryIndex != -1) {
             playerKind = GetCurrentEntry(entryIndex)->mPlayer.mKind;
-            if (playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+            if (playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                 isEntryIndexHumanGhostOrPeer = TRUE;
             }
             if (isEntryIndexHumanGhostOrPeer != FALSE) {
@@ -139,7 +139,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
             } else {
                 isEntryHumanGhostOrPeer = FALSE;
                 playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
-                if (playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+                if (playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                     isEntryHumanGhostOrPeer = TRUE;
                 }
                 if (isEntryHumanGhostOrPeer != FALSE && kartIndex != gRaceSetup->mEntryIndex) {
@@ -265,7 +265,7 @@ void UploadKartNameTagTextures(void) {
     heap = GetHeap(GetCurrentHeapCall());
     UploadKartEmblems();
     gKartNameTagsUnusedWord = 0;
-    gKartEmblemPlltBuffer = HeapAllocAligned(heap, 0x20, -4);
+    gKartEmblemPlltBuffer = HeapAllocAligned(heap, KART_EMBLEM_PLTT_BYTES, -4);
     gKartEntryNameTexBuffer = HeapAllocAligned(heap, 0x100, -4);
     gKartEntryNamePlltBuffer = HeapAllocAligned(heap, 8, -4);
     gKartNameTagMaskedTexBuffer = HeapAllocAligned(heap, 0x200, -4);
@@ -302,7 +302,7 @@ void SetupKartEmblemTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     plttBuffer = gKartEmblemPlltBuffer;
     emblemTex = gKartNameTags->mEmblemTex[kartIndex];
     MI_CpuCopy8(gKartNameTags->mEmblemPltt[kartIndex], plttBuffer, texPlttEntry->mPlttByteCount);
-    firstColor = 0x7fff;
+    firstColor = COLOR15_WHITE;
     if (gRaceSetup->mUseTeams != 0) {
         firstColor = gTeamPaletteColors[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }
@@ -312,10 +312,6 @@ void SetupKartEmblemTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     texPlttEntry->mPlttData = plttBuffer;
     texPlttEntry->mTexData = emblemTex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupKartEntryNameTexture(TexPlttEntry *texPlttEntry, u32 kartIndex) {
     u16 kartPaletteColor;
@@ -344,10 +340,6 @@ void SetPaletteKartColor(TexPlttEntry *texPlttEntry, u32 kartIndex) {
     plttData[1] = kartPaletteColor;
     DC_FlushRange(plttData, 8);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     u8 *pixels;
@@ -455,7 +447,7 @@ void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData) {
     GX_LoadTex(texData, texOffset, KART_EMBLEM_TEX_BYTES);
     GX_EndLoadTex();
     GX_BeginLoadTexPltt();
-    GX_LoadTexPltt(plttData, plttOffset, 0x20);
+    GX_LoadTexPltt(plttData, plttOffset, KART_EMBLEM_PLTT_BYTES);
     GX_EndLoadTexPltt();
 }
 

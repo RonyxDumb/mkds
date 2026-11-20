@@ -15,7 +15,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "fixed_vector_math.h"
 #include "Main/Item/item_objects_and_race_progress.h"
@@ -259,7 +259,7 @@ void ApplyKartCurrentEffectRow7(Kart *kart) {
 void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
     ParticleEmitter *effect;
 
-    if (GetCurrentCameraKind() != 0) {
+    if (GetCurrentCameraKind() != CAMERA_KIND_CHASE) {
         return;
     }
     GetChaseCamera();
@@ -530,9 +530,9 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
     }
     chaseCamera = GetChaseCamera();
     kart = effect->mCallbackData;
-    if (GetCurrentCameraKind() != 0 ||
+    if (GetCurrentCameraKind() != CAMERA_KIND_CHASE ||
         (effect->mFlags.mEmissionStopped != 0 && (effect->mCallbackState = effect->mCallbackState + 1,
-                                                  effect->mCallbackState > KART_BOOST_CAMERA_EFFECT_END_STEPS))) {
+                                                  effect->mCallbackState > KART_BOOST_CAMERA_EFFECT_STOPPED_STEP_LIMIT))) {
         effect->mFlags.mEnding = 1;
         gKartBoostCameraEffect = NULL;
         return;
@@ -895,7 +895,7 @@ void InitCourseCameraEffects(void) {
             }
             break;
         }
-        case 0x10: {
+        case COURSE_ID_OLD_FRAPPE_64: {
             ParticleEmitter *effect;
 
             if (GetRaceUseChainCameras() != 0) {
@@ -989,7 +989,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     effect->mDirection = directionHalfwords;
     distanceSlope = gOldLuigiAgbFirstChaseEffectDistanceSlope + extraDistance;
     VEC_MultAdd(gOldLuigiAgbFirstChaseEffectBaseDistance +
-                    (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12),
+                    MUL_FIXED12_ROUNDED_S64(distanceSlope, speedRatio),
                 &forwardFlat, &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
     effectPos.y = effectPos.y - MUL_FIXED12_ROUNDED(gOldLuigiAgbFirstChaseEffectHeightDrop, speedRatio);
@@ -1118,7 +1118,7 @@ void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
     extraDistance = extraDistance * 3;
-    VEC_MultAdd((s32) (((s64) extraDistance * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat,
+    VEC_MultAdd(MUL_FIXED12_ROUNDED_S64(extraDistance, speedRatio) + 0x5800, &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;

@@ -26,7 +26,7 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParams *params
     gChildWaitSessionView->mTgid = 0;
     gChildWaitSessionView->mChannel = 0;
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
-    gChildWaitSessionView->mPrevState = 1;
+    gChildWaitSessionView->mPrevState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mEndWaitFrames = 0;
     ClearChildWaitSharedEntries();
     gChildWaitSessionView->mGameRegistry.mRomFilePathp = params->mRomFilePathp;
@@ -48,7 +48,7 @@ BOOL StopChildWaitSession(void) {
     u8 *statePointer = &session->mState;
     u8 state = *statePointer;
 
-    if (state == CHILD_WAIT_STATE_IDLE || state == CHILD_WAIT_STATE_END_DONE ||
+    if (state == CHILD_WAIT_STATE_IDLE || state == CHILD_WAIT_STATE_END_WH_DONE ||
         state == CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE || state == CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE ||
         state == CHILD_WAIT_STATE_ABORT_DONE) {
         session->mState = CHILD_WAIT_STATE_ENDED;
@@ -58,7 +58,7 @@ BOOL StopChildWaitSession(void) {
     if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT || state == CHILD_WAIT_STATE_CHILD_JOINED ||
         state == CHILD_WAIT_STATE_DOWNLOADING || state == CHILD_WAIT_STATE_CHILD_LEFT) {
         if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT &&
-            session->mMultiBootInitFrames < CHILD_WAIT_MULTIBOOT_MIN_RUN_FRAMES) {
+            session->mMultiBootInitFrames < CHILD_WAIT_MULTIBOOT_INIT_FRAME_COUNT) {
             return 0;
         }
         MB_EndToIdle();
@@ -86,8 +86,8 @@ void ResetChildWaitSessionState(void) {
     SetWhGgid(gChildWaitSessionView->mGameRegistry.mGgid);
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mTgid = WM_GetNextTgid();
-    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy,
-                sizeof(gChildWaitSessionView->mApStoreHeadCopy));
+    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreFirstBlockCopy,
+                sizeof(gChildWaitSessionView->mApStoreFirstBlockCopy));
     gChildWaitSessionView->mHandshakeDone = 0;
     gChildWaitSessionView->mStallCount = 0;
     gChildWaitSessionView->mTgid++;
@@ -162,16 +162,16 @@ void AdvanceChildWaitState(void) {
                 EndChildWaitWh();
             }
             return;
-        case CHILD_WAIT_STATE_CHILD_LOST:
+        case CHILD_WAIT_STATE_DOWNLOAD_STARTED_NONE:
             MB_EndToIdle();
             gChildWaitSessionView->mEndWaitFrames = 0;
             gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_WAIT;
             return;
-        case CHILD_WAIT_STATE_END_WAIT:
+        case CHILD_WAIT_STATE_END_WH_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
-                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_END_DONE;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_END_WH_DONE;
                 }
             }
             return;
@@ -287,7 +287,7 @@ void InitChildWaitMultiBoot(void) {
 
 void AdvanceChildWaitMultiBoot(void) {
     switch (GetMultiBootParentState()) {
-        case MULTIBOOT_PARENT_STATE_READY:
+        case MULTIBOOT_PARENT_STATE_INITIALIZED:
             StartMultiBootParentFromIdle(&gChildWaitSessionView->mGameRegistry, gChildWaitSessionView->mChannel);
             return;
         case MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN:
@@ -314,7 +314,7 @@ void AdvanceChildWaitMultiBoot(void) {
             }
             if ((u8) (gChildWaitSessionView->mState + (256 - CHILD_WAIT_STATE_DOWNLOADING)) <= 1) {
                 if (GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_DOWNLOAD_STARTED) == 0) {
-                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_LOST;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_DOWNLOAD_STARTED_NONE;
                     return;
                 }
             }
@@ -373,7 +373,7 @@ void AdvanceChildWaitDataSharing(void) {
                     return;
                 }
                 if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK ||
-                    GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK_END) {
+                    GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK_NO_ADVANCE) {
                     GetChildWaitReplyCode();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_SHARING_BLOCK_ACKED;
                 } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_FINAL_REPLY) {
@@ -431,7 +431,7 @@ void ClearChildWaitSharedEntries(void) {
 void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
     u16 aid;
 
-    if (gChildWaitSessionView->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
+    if (gChildWaitSessionView->mHandshakeDone == 1) {
         gChildWaitSessionView->mSendEntry->mCode = code;
         gChildWaitSessionView->mSendEntry->mValue = value;
         MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload,
@@ -477,8 +477,8 @@ void ReadChildWaitReply(void) {
         session = gChildWaitSessionView;
         if (session->mEntryPresent[entryIndex] != 0) {
             entry = GetChildWaitSharedEntry(session, entryIndex);
-            if (entryIndex == CHILD_WAIT_STATE_IDLE) {
-                if (session->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
+            if (entryIndex == 1) {
+                if (session->mHandshakeDone == 1) {
                     if (entry->mCode != CHILD_WAIT_CODE_BLOCK_ACK) {
                         return;
                     }

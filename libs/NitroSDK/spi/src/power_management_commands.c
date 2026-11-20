@@ -136,7 +136,7 @@ u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData) {
     }
     gPowerSleepHandshakeReplyReceived = 0;
     PMi_SleepEndFlag = 0;
-    PMi_SetLCDPower(0, 2, 0, 0);
+    PMi_SetLCDPower(0, POWER_LED_STATUS_SECOND, 0, 0);
     PMi_SendPxiData((trigger & 0xff) | 0x2006100);
     PMi_SendPxiData((keyIntrData & 0xffff) | 0x1010000);
     return 0;
@@ -213,11 +213,11 @@ u32 PMi_SetLEDAsync(u32 status, PMCallback callback, void *arg) {
         case POWER_LED_STATUS_ON:
             utilityCommand = POWER_UTILITY_LED_ON;
             break;
-        case POWER_LED_STATUS_BLINK_FAST:
-            utilityCommand = POWER_UTILITY_LED_BLINK_FAST;
+        case POWER_LED_STATUS_THIRD:
+            utilityCommand = POWER_UTILITY_LED_FOR_THIRD_STATUS;
             break;
-        case POWER_LED_STATUS_BLINK_SLOW:
-            utilityCommand = POWER_UTILITY_LED_BLINK_SLOW;
+        case POWER_LED_STATUS_SECOND:
+            utilityCommand = POWER_UTILITY_LED_FOR_SECOND_STATUS;
             break;
         default:
             utilityCommand = 0;
@@ -249,24 +249,24 @@ u32 PM_SetBackLightAsync(u32 target, u32 sw, PMCallback callback, void *arg) {
 
     utilityCommand = 0;
     if (target == 0) {
-        if (sw == 1) {
+        if (sw == POWER_SWITCH_ON) {
             utilityCommand = 6;
         }
-        if (sw == 0) {
+        if (sw == POWER_SWITCH_OFF) {
             utilityCommand = 7;
         }
     } else if (target == 1) {
-        if (sw == 1) {
+        if (sw == POWER_SWITCH_ON) {
             utilityCommand = 4;
         }
-        if (sw == 0) {
+        if (sw == POWER_SWITCH_OFF) {
             utilityCommand = 5;
         }
     } else if (target == 2) {
-        if (sw == 1) {
+        if (sw == POWER_SWITCH_ON) {
             utilityCommand = 8;
         }
-        if (sw == 0) {
+        if (sw == POWER_SWITCH_OFF) {
             utilityCommand = 9;
         }
     }
@@ -411,7 +411,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     }
     if (shutdownRequested == 0) {
         if (lcdPower == 1) {
-            PMi_SetLCDPower(1, 1, 1, 0);
+            PMi_SetLCDPower(1, POWER_LED_STATUS_ON, 1, 0);
         } else {
             PMi_SetLED(POWER_LED_STATUS_ON);
         }
@@ -434,7 +434,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
 // (waiting for it when isSync is nonzero). Off: stores the counter for that guard. Returns 1 when done.
 BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
     switch (sw) {
-        case 1:
+        case POWER_SWITCH_ON:
             if (skip == 0) {
                 if (SYSTEM_WORK->mVblankCount - PMi_LCDCount <= 7) {
                     return 0;
@@ -449,7 +449,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
             }
             reg_GX_POWCNT |= 1;
             break;
-        case 0:
+        case POWER_SWITCH_OFF:
             reg_GX_POWCNT &= ~1;
             PMi_LCDCount = SYSTEM_WORK->mVblankCount;
             if (led != 0) {
@@ -467,8 +467,8 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
 // Anything but 1 counts as 0. Switches the screens on or off with no LED change; returns 0 when the turn-on guard of
 // PMi_SetLCDPower refuses.
 BOOL PM_SetLCDPower(u32 sw) {
-    if (sw != 1) {
-        sw = 0;
+    if (sw != POWER_SWITCH_ON) {
+        sw = POWER_SWITCH_OFF;
     }
     return PMi_SetLCDPower(sw, 0, 0, 1);
 }

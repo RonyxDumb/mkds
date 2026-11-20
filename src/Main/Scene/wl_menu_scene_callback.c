@@ -14,14 +14,14 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "arena_cache_init.h"
 #include "tick_counter.h"
 #include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
-#include "Main/Sound/scene_sound_set.h"
+#include "Main/Sound/startup_sound_set_player_back_lights_and_random.h"
 #include "Main/Save/backup_access.h"
 
 SceneCallbacks gWLMenuSceneCallbacks = {InitWLMenuSceneCallback,
@@ -79,9 +79,9 @@ void FillStartupWork(void) {
     MI_CpuCopy8(ownerInfo.mNickName, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
     gStartupWork->mFavoriteColor = ownerInfo.mFavoriteColor;
 #ifdef version_EUR
-    gStartupWork->mRegion = 2;
+    gStartupWork->mRegion = REGION_EUROPE;
 #else
-    gStartupWork->mRegion = 1;
+    gStartupWork->mRegion = REGION_USA;
 #endif
     switch (ownerInfo.mLanguage) {
         case LANGUAGE_ENGLISH:

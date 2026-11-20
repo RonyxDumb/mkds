@@ -5,7 +5,7 @@
 #include "Main/Save/emblem_block.h"
 
 #include "Main/Graphics/nibble_tiles.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/player_record.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Graphics/layout_table_entry.h"
@@ -49,8 +49,8 @@ void AdvanceWiFiVSMatchingWaitNoOpponentsBack(void);
 void AdvanceWiFiVSMatchingWaitResultShown(void);
 void AdvanceWiFiVSMatchingPauseBetweenOthers(void);
 void AdvanceWiFiVSMatchingScaleInOther(void);
-void AdvanceWiFiVSMatchingWaitPlayerListText(void);
-void AdvanceWiFiVSMatchingEmblemScaleIn(void);
+void AdvanceWiFiVSMatchingPauseBeforeOthers(void);
+void AdvanceWiFiVSMatchingEmblemShrink(void);
 void AdvanceWiFiVSMatchingWaitMatching(void);
 void AdvanceWiFiVSMatchingSlideIn(void);
 void PrintWiFiVSMatchingNoOpponents(void);

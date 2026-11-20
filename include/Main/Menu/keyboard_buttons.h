@@ -23,7 +23,8 @@ typedef enum KeyboardMessage {
     KEYBOARD_MESSAGE_SAVING = 0x81,
 } KeyboardMessage;
 
-// Results of CheckFriendKeyString: the message of the friend code screen that goes with a rejected key.
+// Results of CheckFriendKeyString: 0 accepts the key, 1 a key that fails the key check or equals the key made from the
+// user data, 2 a key already in the friend list; the last two choose the rejection message.
 #define FRIEND_KEY_CHECK_INCORRECT 1
 #define FRIEND_KEY_CHECK_ALREADY_REGISTERED 2
 
@@ -31,11 +32,11 @@ typedef enum KeyboardMessage {
 // name screen (the five layout tabs come first, then the two buttons).
 #define KEYBOARD_FRIEND_KEY_RECT_FIRST_BUTTON 1
 #define KEYBOARD_FRIEND_KEY_RECT_SECOND_BUTTON 0
-#define KEYBOARD_NAME_RECT_TAB_KANA 0
-#define KEYBOARD_NAME_RECT_TAB_ASCII 1
-#define KEYBOARD_NAME_RECT_TAB_EURO 2
-#define KEYBOARD_NAME_RECT_TAB_PICTOGRAMS 3
-#define KEYBOARD_NAME_RECT_TAB_PICTOGRAMS_EXTRA 4
+#define KEYBOARD_NAME_RECT_LAYOUT_JP 0
+#define KEYBOARD_NAME_RECT_LAYOUT_ASCII 1
+#define KEYBOARD_NAME_RECT_LAYOUT_EURO 2
+#define KEYBOARD_NAME_RECT_LAYOUT_PICTO 3
+#define KEYBOARD_NAME_RECT_LAYOUT_PICTO_SECOND 4
 #define KEYBOARD_NAME_RECT_FIRST_BUTTON 5
 #define KEYBOARD_NAME_RECT_SECOND_BUTTON 6
 
@@ -43,8 +44,10 @@ typedef enum KeyboardMessage {
 // SceneNumbers.mNextScene when it is not -1.
 u32 GetKeyboardNextScene(void);
 void WriteKeyboardRegisters(void);
-// Advances the Keyboard screen by one step: takes mNextState as mState, runs the handler of that state
-// (one AdvanceKeyboard handler per KEYBOARD_STATE_* value) and then runs the cell and drawing helpers of the screen.
+// Advances the Keyboard screen by one step: advances the link level icons and the scene text, takes mNextState as
+// mState, advances the text entry while mTextEntryEnabled is set, runs the handler of that state (one AdvanceKeyboard
+// handler per KEYBOARD_STATE_* value) and then prints the text and shows and draws the screen's objects and layout
+// tables.
 void AdvanceKeyboard(void);
 void ShowKeyboardLayoutObject(void);
 void ShowKeyboardRemainingCharObjects(void);
@@ -52,36 +55,22 @@ void ShowKeyboardTextIndexObject(void);
 void ShowKeyboardDisabledButtonObjects(void);
 void ShowKeyboardCursorButtonObjects(void);
 void PrintKeyboardTextChars(void);
-// Handler of KEYBOARD_STATE_ASK_EMBLEM.
 void AdvanceKeyboardAskEmblem(void);
-// Handler of KEYBOARD_STATE_WAIT_BACKUP.
 void AdvanceKeyboardWaitBackup(void);
-// Handler of KEYBOARD_STATE_SHOW_SAVING.
 void AdvanceKeyboardShowSaving(void);
-// Handler of KEYBOARD_STATE_ANSWER_CONFIRM.
 void AdvanceKeyboardAnswerConfirm(void);
-// Handler of KEYBOARD_STATE_SLIDE_IN_CONFIRM.
 void AdvanceKeyboardSlideInConfirm(void);
-// Handler of KEYBOARD_STATE_SLIDE_OUT_NAME.
 void AdvanceKeyboardSlideOutName(void);
-// Handler of KEYBOARD_STATE_ENTER_NAME.
 void AdvanceKeyboardEnterName(void);
-// Handler of KEYBOARD_STATE_SLIDE_IN_NAME.
 void AdvanceKeyboardSlideInName(void);
 void UpdateKeyboardNameButtons(void);
 
-// Handler of KEYBOARD_STATE_WAIT_FADE_NAME.
 void AdvanceKeyboardWaitFadeName(void);
-// Handler of KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR.
 void AdvanceKeyboardShowFriendKeyError(void);
-// Handler of KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY.
 void AdvanceKeyboardSlideOutFriendKey(void);
-// Handler of KEYBOARD_STATE_ENTER_FRIEND_KEY.
 void AdvanceKeyboardEnterFriendKey(void);
-// Handler of KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY.
 void AdvanceKeyboardSlideInFriendKey(void);
 void UpdateKeyboardFriendKeyButtons(void);
-// Handler of KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY.
 void AdvanceKeyboardWaitFadeFriendKey(void);
 void InitKeyboardDisplay(void);
 

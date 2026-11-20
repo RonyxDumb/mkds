@@ -2,8 +2,9 @@
 
 #include "types.h"
 
-// A root certificate authority entry the TLS code checks server certificates against. Each authority is one
-// data-only file (ca_info_*.c): the exponent bytes, this entry, the distinguished name and the modulus.
+// A certificate authority entry the HTTPS code looks up by name (mDn) and uses with mModulus and mExponent to check a
+// certificate. Each authority is one data-only file (ca_info_*.c): exponent bytes, modulus bytes and this entry, which
+// holds the name text.
 typedef struct CPSCaInfo {
     /* 00 */ char *mDn;
     /* 04 */ s32 mModulusLen;

@@ -9,7 +9,8 @@
 #define DOUBLE_EXPONENT_MASK 0x7ff00000
 #define DOUBLE_HIGH_MANTISSA_MASK 0xfffff
 
-// The decimal digits of a double: the sign, exponent, digit count and digits, filled by DoubleToDigitChars.
+// A decimal number: the sign, exponent, digit count and the digits (values 0 to 9, or their characters after
+// DoubleToDigitChars).
 typedef struct DigitRecord {
     /* 00 */ u8 mNegative;
     /* 01 */ u8 mUnk_01;

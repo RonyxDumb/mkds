@@ -3,11 +3,10 @@
 #include "float_trap_dispatch.h"
 
 // clang-format off
-// Converts the double r1:r0 to an unsigned 64-bit integer in r1:r0, dropping the fraction. Fractions set inexact (or
-// trap); negative values below -1, values of 2^64 and more, and NaN raise invalid (or trap) and give all ones; -1 < x <
-// 0 gives 0.
-// Kept as asm: it uses tst, and saves ip and the argument registers around its calls in the middle of the body
-// with one-word `stmdb sp!, {lr}` frames.
+// Converts the double r1:r0 to an unsigned 64-bit integer in r1:r0, dropping the fraction. A dropped fraction sets
+// inexact (or traps); values of 2^64 and more and NaN raise invalid (or trap) and give all ones.
+// Kept as asm: it uses tst, saves ip and the argument registers around its GetFloatStatus calls in the middle of the
+// body, and the trap calls use one-word `stmdb sp!, {lr}` frames.
 asm u64 _ll_ufrom_d(u32 lowWord, u32 highWord) {
     // Negative input: see u64_negative. ip = 0x43e - exponent is the right shift that turns the 64-bit significand into
     // the integer; below 0 the value is too large, 64 or more it is below 1.
@@ -77,7 +76,7 @@ u64_too_small:
     orr r3, r3, #0x10
     str r3, [r2]
     bx lr
-    // Negative: -0 and values above -1 give 0, the rest are invalid.
+    // Negative: every negative value gives 0 except a NaN, which is invalid.
 u64_negative:
     cmn r1, #0x100000
     cmpeq r0, #0

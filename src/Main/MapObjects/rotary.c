@@ -252,8 +252,8 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     if (object->mModelIndex == ROTARY_MODEL_GEAR_BLACK && courseRow->mSettings[5] == 0) {
         object->mModelIndex = ROTARY_MODEL_GEAR_WHITE;
     }
-    object->mCollisionMapObject.mMapObject.mFlags &= ~2;
-    object->mCollisionMapObject.mMapObject.mFlags &= ~8;
+    object->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    object->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     object->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if (kindInfo->mModelIndex == 0) {
         object->mSoundId = courseRow->mRotationDegrees.x > 0 ? 0x175 : 0x176;

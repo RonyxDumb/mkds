@@ -4,8 +4,8 @@
 #include "00/Lib/DWC/access_point_state.h"
 #include "wireless_link_control.h"
 
-// Three words: a function called with (name, size) that returns a block, a function called with (name, block, 0) that
-// releases it, and a word.
+// The allocator (mAlloc, called with a name and a size) and the release function (mFree, called with a name, the block
+// and 0) a network check is created with; mBmworkarea is only ever set to 0.
 typedef struct DWCNetcheckParam {
     /* 00 */ void *(*mAlloc)();
     /* 04 */ void (*mFree)();

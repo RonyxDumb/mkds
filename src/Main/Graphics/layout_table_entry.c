@@ -1,4 +1,5 @@
 #include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "matrix_2x2_basic.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam_matrix_count.h"
@@ -30,10 +31,6 @@ void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
                      LayoutTableEntry **tableOut) {
     u16 count;
@@ -46,8 +43,8 @@ void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable 
     InitLayoutTableEntries(*tableOut, count);
 }
 
-// Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
-// drawing when the entry is disabled or lies off the 256 x 192 screen.
+// Draws the entry index: first the label entry attached to it (mLabelIndex), then itself; appends the cell OAMs to
+// oamList, and returns without drawing when mVisible is 0 or the entry lies off the 256 x 192 screen.
 u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
                     RaceHudOamBuffer *oamList, LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
@@ -94,8 +91,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
             position[0] = TO_FIXED12(entry->mPositionX);
             position[1] = TO_FIXED12(entry->mPositionY);
         } else {
-            position[0] = (entry->mPositionX + (width >> 1) * (1 - axisRecords[0].mAlign)) << 12;
-            position[1] = (entry->mPositionY + (height >> 1) * (1 - axisRecords[1].mAlign)) << 12;
+            position[0] = (entry->mPositionX + (width >> 1) * (LAYOUT_ALIGN_CENTER - axisRecords[0].mAlign)) << 12;
+            position[1] = (entry->mPositionY + (height >> 1) * (LAYOUT_ALIGN_CENTER - axisRecords[1].mAlign)) << 12;
         }
     }
     position[0] += TO_FIXED12(entry->mOffsetX);
@@ -118,8 +115,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], 0x80 - oamCount, cellData, matrix, position,
-                                                groupIndex, entry->mDoubleAffine);
+    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], RACE_HUD_OAM_COUNT - oamCount, cellData,
+                                                matrix, position, groupIndex, entry->mDoubleAffine);
 }
 
 void DrawLayoutTable(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
@@ -137,10 +134,6 @@ void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, NNSG2dCellData
         DrawLayoutEntry(entryIndex, cells, cellLayout, labelLayout, oamList, table + entryIndex, 0);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells,
                           LayoutEntryTable *labelLayout, void *oamList, LayoutTableEntry *table) {

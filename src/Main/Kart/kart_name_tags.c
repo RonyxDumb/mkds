@@ -24,18 +24,18 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Kart/karts.h"
 #include "registers.h"
 
-u16 gKartNameTagLineVertices[12] = {0xf400, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
+u16 gKartNameTagSlantedQuadVertices[12] = {0xf400, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
 TexPlttEntry gKartNameTagEmblemTexPltt = {0xd200000, 0, 0, {0, 0}, NULL, NULL, {0, 0, 0, 0}, 0, 0, 0};
 TexPlttEntry gKartNameTagColorQuadTexPltt = {
     0x28100000,   0x20, 8, {0, 0}, (void *) gKartNameTagColorQuadTexture, (void *) gKartNameTagColorQuadPalette,
@@ -116,7 +116,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             if (distanceSquared > gSoundFalloffs[0].mFarDistanceSquared) {
                 isWithinFalloff = FALSE;
             }
-            if (kart->mSoundSource.mSourceFlags & 1) {
+            if (kart->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
                 isSourceEnabled = TRUE;
             } else {
                 isSourceEnabled = FALSE;
@@ -159,7 +159,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             }
         }
     }
-    if (GetCurrentCameraKind() != 3) {
+    if (GetCurrentCameraKind() != CAMERA_KIND_ENTRY_SEQUENCE) {
         objectCount = 0;
         for (orderIndex = gKartNameTags->mAlongViewOrderIndex[gRaceSetup->mEntryIndex] + 1;
              orderIndex < gRaceSetup->mKartCount; orderIndex++) {
@@ -198,7 +198,7 @@ void UpdateKartNameTags(void) {
     KartNameTag *kartObject;
     Vec3 *posSource;
     Kart *kart;
-    if (GetCurrentCameraKind() == 0) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHASE) {
         gKartDistanceLimitsSquared = &gChaseDistanceLimitsSquared;
     } else {
         gKartDistanceLimitsSquared = &gOtherCameraDistanceLimitsSquared;
@@ -214,7 +214,7 @@ void UpdateKartNameTags(void) {
         alphaScale = 0x1000;
         if (distance > 0) {
             if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED ||
-                GetCurrentCameraKind() == 3) {
+                GetCurrentCameraKind() == CAMERA_KIND_ENTRY_SEQUENCE) {
                 distance -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
                 kartObject->mFadeState = KART_NAME_TAG_FADE_IN;
@@ -230,7 +230,7 @@ void UpdateKartNameTags(void) {
         if (gKartNameTags->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
             (GetKart(kartObject->mKartIndex)->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) != 0 ||
             (GetAbsoluteValue(posSource->y - GetKart(gRaceSetup->mEntryIndex)->mPos.y) > 0x96000 &&
-             GetCurrentCameraKind() != 3)) {
+             GetCurrentCameraKind() != CAMERA_KIND_ENTRY_SEQUENCE)) {
             kartObject->mFadeLevelPerCall = -1;
         }
         if (kartObject->mFadeStopped != FALSE) {
@@ -328,7 +328,7 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     MtxFx44 *projectionMatrix;
     KartNameTag *kartObject;
     BOOL isProjected;
-    if (GetCurrentCameraKind() != 0 && GetCurrentCameraKind() != 3) {
+    if (GetCurrentCameraKind() != CAMERA_KIND_CHASE && GetCurrentCameraKind() != CAMERA_KIND_ENTRY_SEQUENCE) {
         return;
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
@@ -336,7 +336,7 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     reg_G3_DIF_AMB = 0x42100000;
     reg_G3_MTX_MODE = 0;
     G3_LoadMtx44(&gKartNameTagProjection);
-    reg_G3_MTX_MODE = 3;
+    reg_G3_MTX_MODE = TARGET_MATRIX_TEXTURE;
     reg_G3_MTX_IDENTITY = 0;
     for (sortIndex = gRaceSetup->mKartCount - 1; sortIndex >= 0; sortIndex--) {
         kartObject = gKartNameTags->mNameTagByKart[gKartNameTags->mKartIndicesByDistanceAlongView[sortIndex]];
@@ -402,7 +402,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     s32 unusedValue;
     reg_G3_TEXIMAGE_PARAM = texPlttEntry->mTexImageParam;
     if (texPlttEntry->mPlttByteCount != 0) {
-        reg_G3_PLTT_BASE = texPlttEntry->mPlttOffset >> (4 - ((texPlttEntry->mTexImageParam >> 26 & 7) == 2));
+        reg_G3_TEXPLTT_BASE = texPlttEntry->mPlttOffset >> (4 - ((texPlttEntry->mTexImageParam >> 26 & 7) == 2));
     }
     MTX_Identity43_(&quadMatrix);
     quadMatrix.mRows[3] = kartObject->mPos;
@@ -425,10 +425,10 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     quadMatrix.mRows[2].y = 0;
     quadMatrix.mRows[2].x = 0;
     reg_G3_POLYGON_ATTR = (GetKartNameTagPolygonIdBits(kartObject) | 0xc0) | (alpha << 16);
-    reg_G3_MTX_MODE = 2;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
     G3_LoadMtx43(&quadMatrix);
     reg_G3_BEGIN_VTXS = 1;
-    reg_G3_COLOR = 0x7fff;
+    reg_G3_COLOR = COLOR15_WHITE;
     drawVertices(texWidthFixed, texHeightFixed, kartObject->mKartPaletteColor);
     reg_G3_END_VTXS = 0;
 }

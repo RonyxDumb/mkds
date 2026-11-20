@@ -6,7 +6,8 @@
 #include "Main/Race/race_goal_times.h"
 #include "Main/Graphics/font_and_player_character.h"
 
-// The loaded files of the download screen: the search icon, the multiboot child font and messages, the download chars.
+// The loaded files of the download screen: the search icon, the multiboot child font and messages, the multi download
+// chars and palette.
 typedef struct DownloadScreenFiles {
     /* 00 */ void *mSearchIconCellLayout;
     /* 04 */ void *mSearchIconLayoutCellLayout;

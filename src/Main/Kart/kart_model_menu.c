@@ -28,7 +28,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "signed_int_divide.h"
 #include "fixed_vector_math.h"
@@ -85,7 +85,7 @@ BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
     enum { CHARACTER_FIRST } candidateCharacter;
 
     *characterIndex = _s32_div_f((u16) kartIndex, 3);
-    if (*characterIndex >= 8) {
+    if (*characterIndex >= CHARACTER_KARON) {
         switch (*characterIndex) {
             case CHARACTER_KARON:
                 backupFlagIndex = 0x14;
@@ -210,7 +210,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            gEntryCamera->mCurrentSequenceEntry = gEntryCamera->mSequenceEntries;
+            gEntryCamera->mFirstSequenceEntry = gEntryCamera->mSequenceEntries;
             gEntryCamera->mUnk_224 = 0;
             gEntryCamera->mKind = CAMERA_KIND_ENTRY_SEQUENCE;
             gCameraEntryChanged = 1;
@@ -358,7 +358,7 @@ void SetupCamera(Camera *camera) {
     camera->mLookAtOffset = zero;
     camera->mSideDistanceSign = gRaceSetup->mMirrorMode ? -1 : 1;
     camera->mSequenceEntries = NULL;
-    camera->mCurrentSequenceEntry = NULL;
+    camera->mFirstSequenceEntry = NULL;
     camera->mUnk_20c = 0;
     camera->mUnk_20e = 0;
     camera->mUnk_224 = 0;
@@ -439,7 +439,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
             Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
         }
     }
-    reg_G3_MTX_MODE = 2;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
     eyePos.x = camera->mPos.x >> 4;
     eyePos.y = (camera->mPos.y + camera->mViewPosYOffset) >> 4;
     eyePos.z = camera->mPos.z >> 4;
@@ -489,6 +489,6 @@ void UpdateCameraView(Camera *camera) {
     camera->mViewLookAt.x = lookAtPos.x >> 4;
     camera->mViewLookAt.y = lookAtPos.y >> 4;
     camera->mViewLookAt.z = lookAtPos.z >> 4;
-    reg_G3_MTX_MODE = 2;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
     G3i_LookAt_(&camera->mViewPos, &camera->mUp, &camera->mViewLookAt, 1, &camera->mViewMatrix);
 }

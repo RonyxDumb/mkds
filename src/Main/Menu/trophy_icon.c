@@ -17,7 +17,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "vram_transfer_queue.h"
 
 char *gTrophyIconNcerName = "common/trophy_icon.nce.ncer";
@@ -59,17 +59,9 @@ void CreateTrophyIcon(void *heap) {
     gTrophyIcon->mBncl = sceneFile;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ClearTrophyIconPointer(void) {
     gTrophyIcon = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLayout, u32 destIndex, u16 paletteSlot,
                      int queueSelector) {

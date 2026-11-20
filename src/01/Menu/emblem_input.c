@@ -11,13 +11,13 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "01/MapObjects/mission_run_range_and_collision_callbacks.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
@@ -67,7 +67,7 @@ void AdvanceEmblemInput(void) {
     pairUsable = TRUE;
     pairRecentlyLost = 0;
     value = gInputSlots[slotIndex].mPair.mHasPair;
-    if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         pairRecentlyLost = pairUsable;
     }
     if (pairRecentlyLost == 0 && value == 0) {
@@ -93,106 +93,106 @@ void AdvanceEmblemInput(void) {
     } else {
         gEmblemInput->mStillCallCount = 0;
     }
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_LEFT;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_DIRECTION_LEFT;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mLeftHeldCount + 1;
+        heldCount = gEmblemInput->mLeftKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mLeftHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_RIGHT;
+    gEmblemInput->mLeftKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_DIRECTION_RIGHT;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mRightHeldCount + 1;
+        heldCount = gEmblemInput->mRightKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mRightHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_UP;
+    gEmblemInput->mRightKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_DIRECTION_UP;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mUpHeldCount + 1;
+        heldCount = gEmblemInput->mUpKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mUpHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DOWN;
+    gEmblemInput->mUpKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_DIRECTION_DOWN;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mDownHeldCount + 1;
+        heldCount = gEmblemInput->mDownKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mDownHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_A;
+    gEmblemInput->mDownKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_A;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mAHeldCount + 1;
+        heldCount = gEmblemInput->mAKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mAHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_B;
+    gEmblemInput->mAKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_B;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBHeldCount + 1;
+        heldCount = gEmblemInput->mBKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mBHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_X;
+    gEmblemInput->mBKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_X;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mXHeldCount + 1;
+        heldCount = gEmblemInput->mXKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mXHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_Y;
+    gEmblemInput->mXKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_Y;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mYHeldCount + 1;
+        heldCount = gEmblemInput->mYKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mYHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_L;
+    gEmblemInput->mYKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_L;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mLHeldCount + 1;
+        heldCount = gEmblemInput->mLKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mLHeldCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_R;
+    gEmblemInput->mLKeyRepeatCount = heldCount;
+    bitHeld = gEmblemInputSlotView->mPadOrParticipantBits & PAD_KEY_R;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mRHeldCount + 1;
+        heldCount = gEmblemInput->mRKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
-    gEmblemInput->mRHeldCount = heldCount;
+    gEmblemInput->mRKeyRepeatCount = heldCount;
 }
 
 s32 GetEmblemInputX(void) {
@@ -233,26 +233,26 @@ u16 GetEmblemInputBits(u16 mask) {
 
 BOOL IsEmblemInputRepeat(int mask) {
     switch (mask) {
-        case PAD_KEY_LEFT:
-            return gEmblemInput->mLeftHeldCount == 1 || gEmblemInput->mLeftHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
-        case PAD_KEY_RIGHT:
-            return gEmblemInput->mRightHeldCount == 1 || gEmblemInput->mRightHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
-        case PAD_KEY_UP:
-            return gEmblemInput->mUpHeldCount == 1 || gEmblemInput->mUpHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
-        case PAD_KEY_DOWN:
-            return gEmblemInput->mDownHeldCount == 1 || gEmblemInput->mDownHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_DIRECTION_LEFT:
+            return gEmblemInput->mLeftKeyRepeatCount == 1 || gEmblemInput->mLeftKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_DIRECTION_RIGHT:
+            return gEmblemInput->mRightKeyRepeatCount == 1 || gEmblemInput->mRightKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_DIRECTION_UP:
+            return gEmblemInput->mUpKeyRepeatCount == 1 || gEmblemInput->mUpKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_DIRECTION_DOWN:
+            return gEmblemInput->mDownKeyRepeatCount == 1 || gEmblemInput->mDownKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_A:
-            return gEmblemInput->mAHeldCount == 1 || gEmblemInput->mAHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+            return gEmblemInput->mAKeyRepeatCount == 1 || gEmblemInput->mAKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_B:
-            return gEmblemInput->mBHeldCount == 1 || gEmblemInput->mBHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+            return gEmblemInput->mBKeyRepeatCount == 1 || gEmblemInput->mBKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_X:
-            return gEmblemInput->mXHeldCount == 1 || gEmblemInput->mXHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+            return gEmblemInput->mXKeyRepeatCount == 1 || gEmblemInput->mXKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_Y:
-            return gEmblemInput->mYHeldCount == 1 || gEmblemInput->mYHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+            return gEmblemInput->mYKeyRepeatCount == 1 || gEmblemInput->mYKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_L:
-            return gEmblemInput->mLHeldCount == 1 || gEmblemInput->mLHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+            return gEmblemInput->mLKeyRepeatCount == 1 || gEmblemInput->mLKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_R:
-            return gEmblemInput->mRHeldCount == 1 || gEmblemInput->mRHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+            return gEmblemInput->mRKeyRepeatCount == 1 || gEmblemInput->mRKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
     }
     return FALSE;
 }

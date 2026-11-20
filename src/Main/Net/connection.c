@@ -14,7 +14,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/rom_archive.h"
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/packet_port.h"
@@ -72,7 +72,7 @@ void ResetConnection(void) {
     ResetConnectionData();
     blocks = &gConnectionWork->mBlockTransfer;
     blockEntry = &blocks->mBlockEntries[0];
-    for (index = 0; index < 0xc; index++) {
+    for (index = 0; index < CONNECTION_BLOCK_ENTRY_COUNT; index++) {
         blockEntry->mPath[0] = 0;
         blockEntry->mBuffer = NULL;
         blockEntry++;
@@ -86,7 +86,8 @@ void ResetConnection(void) {
     FillParentParameter(1);
 }
 
-// Fills the record handed to WM_StepDataSharing, steps the data sharing with it and keeps the result.
+// Fills the record handed to WM_StepDataSharing, steps the data sharing with it, keeps the result and, when the result
+// is 0 in the synced state, clears the send byte.
 void StepDataSharing(void) {
     SharingSendRecord *sendData;
     u32 role;
@@ -122,11 +123,11 @@ void StepDataSharing(void) {
     role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
     if (role != CONNECTION_MODE_PARENT || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
         if (gConnectionWork->mSyncToggle == 0) {
-            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_A;
-            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_B;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE;
         } else {
-            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_B;
-            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_A;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO;
         }
     }
     sendData->mMicOverThreshold = gTouchMicInput->mMicOverThreshold;
@@ -145,7 +146,7 @@ BOOL UpdateDataSharing(void) {
     BOOL allRead;
     u16 participantIndex;
     u16 clearIndex;
-    u8 receivedMask;
+    u8 leftMask;
     u8 *sharedData;
     u8 buf[8][8];
     u32 participantMask;
@@ -199,13 +200,13 @@ BOOL UpdateDataSharing(void) {
     allRead = TRUE;
     sharedData = WM_GetSharedDataAddress(gConnectionWork->mSharingInfo, gConnectionWork->mSharingDataSet, 0);
     if (sharedData != NULL) {
-        receivedMask = sharedData[4];
-        if (receivedMask != 0) {
+        leftMask = sharedData[4];
+        if (leftMask != 0) {
             for (participantIndex = 0; participantIndex < 8; participantIndex++) {
                 bit = 1 << participantIndex;
                 participantMask = gConnectionWork->mParticipantMask;
                 entryIndex = gConnectionWork->mParticipantPosByIndex[participantIndex].mEntryIndex;
-                if ((participantMask & bit) != 0 && (receivedMask & bit) != 0) {
+                if ((participantMask & bit) != 0 && (leftMask & bit) != 0) {
                     gConnectionWork->mParticipantMask = participantMask & ~bit;
                     if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
                         RemoveRaceProgressKart(entryIndex);
@@ -265,7 +266,7 @@ void InitializeCallback(WirelessMessage *event) {
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
-    if (gConnectionWork->mConnectionKind != 0) {
+    if (gConnectionWork->mConnectionKind != CONNECTION_KIND_NONE) {
         WM_SetPortCallback(1, PacketPortCallback, NULL);
     }
     ResetConnectionData();
@@ -301,7 +302,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
+    gConnectionWork->mStep = CONNECTION_STEP_RESETTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
@@ -331,7 +332,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
+    gConnectionWork->mStep = CONNECTION_STEP_RESETTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
@@ -349,7 +350,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    SetStepAndRequestPending(CONNECTION_STEP_RESTARTING);
+    SetStepAndRequestPending(CONNECTION_STEP_RESETTING);
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
@@ -367,7 +368,7 @@ void ResetCallback(WirelessMessage *event) {
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    gConnectionWork->mStep = CONNECTION_STEP_SETTING_TIMEOUT;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_LIFE_TIME;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetLifeTime(SetLifeTimeCallback, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         StopConnection();
@@ -381,7 +382,8 @@ void SetLifeTimeCallback(WirelessMessage *event) {
     }
 }
 
-// Measures each allowed channel 7 times in a row, in two passes over channels 1 to 14; a is the one just measured.
+// Measures each allowed channel 7 times in a row, in two passes over channels 1 to 14, then ends the request;
+// measuredChannel is the channel just measured, 0 on the first call, which starts at channel 1.
 void MeasureChannel(u16 measuredChannel) {
     u16 allowedChannels;
     u16 channel;
@@ -456,7 +458,7 @@ void *RomArchiveAllocFunc(s32 unusedValue, u32 size, void *block) {
     if (block != NULL) {
         HeapFree(gConnectionWork->mHeap, block);
     } else {
-        allocated = HeapAllocAligned(gConnectionWork->mHeap, size, -0x20);
+        allocated = HeapAllocAligned(gConnectionWork->mHeap, size, -HEAP_ALIGN_CACHE_LINE);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return allocated;
@@ -464,19 +466,19 @@ void *RomArchiveAllocFunc(s32 unusedValue, u32 size, void *block) {
 
 void StartRomArchiveTransfer(void) {
     u32 role;
-    BOOL flag;
+    BOOL allowed;
     BOOL shouldStart;
 
     gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_TRANSFER;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        flag = TRUE;
+        allowed = TRUE;
         role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-            flag = FALSE;
+            allowed = FALSE;
         }
-        if (flag != FALSE) {
+        if (allowed != FALSE) {
             shouldStart = TRUE;
         }
     }
@@ -528,19 +530,19 @@ void StartRomArchiveSend(void) {
 
 void StopRomArchiveTransfer(void) {
     u32 role;
-    BOOL flag;
+    BOOL allowed;
     BOOL shouldStop;
 
     gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
     gConnectionWork->mRequestPending = 1;
     shouldStop = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        flag = TRUE;
+        allowed = TRUE;
         role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
         if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-            flag = FALSE;
+            allowed = FALSE;
         }
-        if (flag != FALSE) {
+        if (allowed != FALSE) {
             shouldStop = TRUE;
         }
     }
@@ -570,10 +572,11 @@ u16 ComputeParentTgid(u32 unusedValue) {
     return (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
 }
 
-// Calls WM_SetParentParameter; also stores 1 in the first session word.
+// Sets the connection mode to parent and calls WM_SetParentParameter with the parent parameter; stops the connection if
+// the call is not accepted.
 void SetParentParameter(void) {
     gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
-    gConnectionWork->mStep = CONNECTION_STEP_CONFIGURING_HOST;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_PARENT_PARAMETER;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetParentParameter(SetParentParameterCallback, gConnectionWork->mParentParameter) != 2) {
         StopConnection();
@@ -591,14 +594,16 @@ void StartParent(WirelessMessageCallback callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_OPENING_HOST;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_PARENT;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         StopConnection();
     }
 }
 
-// Callback of WM_StartParent: code 7 adds a child, 9 removes one, 0 copies the own data into the first member record.
+// Callback of WM_StartParent: code 7 adds a child; code 9 removes one (and marks it left when a parent is in a synced
+// race); code 0 copies the own name and flags into the first player record, seeds the random state and ends the
+// request; any other result stops the connection.
 void StartParentCallback(WirelessMessage *event) {
     RandomState64 *randomState;
     u32 role;

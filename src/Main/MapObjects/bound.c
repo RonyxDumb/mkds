@@ -30,13 +30,13 @@
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/shine_balloon.h"
 #include "Main/System/backup_net_camera_work.h"
@@ -79,8 +79,8 @@ MapObjectKindDescriptor gBerryKindDescriptor = {0,
                                              CreateBoundUpdateList};
 
 static inline u32 CollideKartWithBound_inline(RandomState64 *randomState64) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    return randomState64->mValue >> 32;
+    RANDOM_ADVANCE(randomState64);
+    return RANDOM_HIGH32(randomState64);
 }
 
 void InitBound(Bound *bound) {
@@ -327,7 +327,8 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
             InitGroupFollower(&bound->mFollower, bound->mMapObject.mCourseMapRow, 0);
             bound->mFollower.mSpeed = BOUND_PATH_SPEED;
             bound->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-                bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength, 0x3000);
+                bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength,
+                BOUND_PATH_SPEED);
         } else {
             bound->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         }
@@ -502,12 +503,14 @@ BOOL StartBoundWobble(s32 mapObjectIndex) {
         bound->mWobbleYAnglePerFrameChange = 0;
         bound->mWobbling = TRUE;
         if ((bound->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (bound->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (bound->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             soundParams.mSoundId = BOUND_ITEM_HIT_SOUND_ID;
             soundParams.mPositionSource = &bound->mMapObject.mPos;

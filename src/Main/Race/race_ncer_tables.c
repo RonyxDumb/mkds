@@ -449,13 +449,13 @@ NNSG2dCellDataWithBR *GetRaceMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceMNcerEntries[cellIndex];
 }
 
-u32 LookupRaceMNcerIndex(u32 kind) {
+u32 LookupRaceMNcerIndex(u32 item) {
     u32 cellIndex;
     KartItems *kartItems;
     enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
 
-    cellIndex = RACE_M_CELL_ITEM_EMPTY;
-    switch (kind) {
+    cellIndex = RACE_M_CELL_ITEM_NONE;
+    switch (item) {
         case ITEM_INFO_KOURA_G:
             cellIndex = RACE_M_CELL_KOURA_G;
             break;
@@ -642,7 +642,7 @@ void RenderKartEntryNames(void) {
     s32 textY;
     s32 color;
     s32 colorBelow;
-    BOOL flag;
+    BOOL fullName;
     u8 charCanvas[0x20];
     TextCanvas textCanvas;
     u16 kartName[22];
@@ -656,11 +656,11 @@ void RenderKartEntryNames(void) {
     textCanvas.mFont = font;
     textCanvas.mLineSpacing = 0;
     kartIndex = 0;
-    flag = FALSE;
+    fullName = FALSE;
     for (; kartIndex < 8; kartIndex++) {
         textX = (kartIndex % 4) << 6;
         textY = (((u32) kartIndex >> 2) << 4) + 8;
-        CopyKartEntryName(kartIndex, kartName, flag);
+        CopyKartEntryName(kartIndex, kartName, fullName);
         if (kartIndex == GetFollowedKartOrEntryIndex()) {
             if (gRaceSetup->mUseTeams != 0) {
                 if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 0) {

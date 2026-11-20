@@ -7,7 +7,7 @@
 
 u32 TitleIsPairRecentlyLost(InputSlotPair *inputSlotPair) {
     if (TitleGetPairHasPair(inputSlotPair) == 0) {
-        if (inputSlotPair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+        if (inputSlotPair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             return 1;
         }
     }

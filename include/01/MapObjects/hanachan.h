@@ -8,10 +8,10 @@ typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct MapObjectList MapObjectList;
 
 #include "01/MapObjects/kuriking_state_shared.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
-// Values of MissionRunMapObject.mFollowerIndex: the follower's place behind the leader; the distances and the frame
-// offsets scale with it.
+// Values of MissionRunMapObject.mFollowerIndex: the follower's place behind mFollowedObject; the distances
+// (mFollower*Distance), animation frame offset and turn delay scale with it.
 enum {
     HANACHAN_FOLLOWER_FIRST = 1,
     HANACHAN_FOLLOWER_SECOND,
@@ -19,8 +19,9 @@ enum {
     HANACHAN_FOLLOWER_FOURTH,
 };
 
-// MissionRunMapObject.mStateNumber while the leader slows for a kart inside one of its kart ranges.
-#define HANACHAN_STATE_KART_IN_RANGE 3
+// MissionRunMapObject.mStateNumber while UpdateHanachanMoveState slows Hanachan for a kart inside one of its kart
+// ranges.
+#define HANACHAN_STATE_KART_RANGE_ANIMATION 3
 
 MapObjectList *CreateHanachanFollowerUpdateList(void);
 MapObjectList *CreateHanachanFollowerDrawList(void);

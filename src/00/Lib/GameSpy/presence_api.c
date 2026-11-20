@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/presence_api.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
@@ -34,63 +35,63 @@
 #include "00/Lib/GameSpy/profile_find_by_buddy.h"
 #include "00/Lib/GameSpy/profile_info_set.h"
 
-u32 GpInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
+u32 gpInitialize(GPConnection *connection, s32 productID, s32 namespaceID) {
     if (gGsiAcResult != 1) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (connection == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    return GpiInitialize(connection, productID, namespaceID);
+    return gpiInitialize(connection, productID, namespaceID);
 }
 
-void GpDestroy(GpConnection *connection) {
+void GpDestroy(GPConnection *connection) {
     if (connection != NULL && connection->mGpiConnection != NULL) {
         gpiDestroy(connection);
     }
 }
 
-u32 GpUpdate(GpConnection *connection) {
-    GpiConnection *gpState;
+u32 gpProcess(GPConnection *connection) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    return GpiUpdateConnection(connection, 0);
+    return gpiProcess(connection, 0);
 }
 
-u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *connection, void *func, u32 callback),
+u32 GpSetCallback(GPConnection *connection, s32 func, void (*callback)(void *connection, void *func, u32 callback),
                   u32 param) {
-    GpiConnection *gpState;
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (func < 0 || func >= 6) {
-        GpiSetErrorMessage(connection, "Invalid func.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid func.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     gpState->mCallbacks[func].mCallback = callback;
     gpState->mCallbacks[func].mParam = param;
     return 0;
 }
 
-u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *partnerchallenge, s32 firewall,
-                               s32 blocking, GpConnectCb callback, u32 param) {
-    GpiConnection *gpState;
+u32 GpConnectPreAuthenticatedA(GPConnection *connection, s8 *authtoken, s8 *partnerchallenge, s32 firewall,
+                               s32 blocking, ConnectCallback callback, u32 param) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (authtoken == NULL || *authtoken == 0) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (partnerchallenge == NULL || *partnerchallenge == 0) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (callback == NULL) {
-        GpiSetErrorMessage(connection, "No callback.");
-        return 2;
+        gpiSetErrorString(connection, "No callback.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         ConnectReply arg = {0};
@@ -99,25 +100,25 @@ u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *part
     }
     return GpiStartConnect(connection, "", "", "",
                            "", authtoken, partnerchallenge, NULL, firewall, 0, blocking,
-                           (GpiCallbackFn) callback, param);
+                           (GPCallback) callback, param);
 }
 
-void GpDisconnect(GpConnection *connection) {
+void gpDisconnect(GPConnection *connection) {
     if (connection != NULL && connection->mGpiConnection != NULL && connection->mGpiConnection->mSimulation == 0) {
-        GpiCloseConnection(connection, 1);
-        GpiResetConnection(connection);
+        gpiDisconnect(connection, 1);
+        gpiReset(connection);
     }
 }
 
-u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                     s32 icquin, u32 blocking, GpProfileSearchCb callback, u32 param) {
-    GpiConnection *gpState;
+u32 GpProfileSearchA(GPConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
+                     s32 icquin, u32 blocking, ProfileSearchCallback callback, u32 param) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (callback == NULL) {
-        GpiSetErrorMessage(connection, "No callback.");
-        return 2;
+        gpiSetErrorString(connection, "No callback.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         ProfileSearchReply arg = {0};
@@ -126,17 +127,17 @@ u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
         return 0;
     }
     return gpiProfileSearch(connection, nick, uniquenick, email, firstname, lastname, icquin, 0, blocking,
-                                (GpiCallbackFn) callback, param);
+                                (GPCallback) callback, param);
 }
 
-u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpGetInfoCb callback, u32 param) {
-    GpiConnection *gpState;
+u32 GpGetInfo(GPConnection *connection, u32 profile, s32 checkCache, u32 blocking, GetInfoCallback callback, u32 param) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL || profile == 0) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (callback == NULL) {
-        GpiSetErrorMessage(connection, "No callback.");
-        return 2;
+        gpiSetErrorString(connection, "No callback.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         GetInfoReply arg = {0};
@@ -144,46 +145,46 @@ u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blockin
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    return gpiGetInfo(connection, profile, checkCache, blocking, (GpiCallbackFn) callback, param);
+    return gpiGetInfo(connection, profile, checkCache, blocking, (GPCallback) callback, param);
 }
 
-u32 GpSetInfosA(GpConnection *connection, s32 info, const s8 *value) {
-    GpiConnection *gpState;
+u32 GpSetInfosA(GPConnection *connection, s32 info, const s8 *value) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     return gpiSetInfos(connection, info, value);
 }
 
-u32 GpWriteAddbuddy(GpConnection *connection, u32 profile, const char *reason) {
-    GpiConnection *gpState;
+u32 gpSendBuddyRequestA(GPConnection *connection, u32 profile, const char *reason) {
+    GPIConnection *gpState;
     char reasonCopy[0x401];
     s8 *cursor;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (reason == NULL) {
-        GpiSetErrorMessage(connection, "Invalid reason.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid reason.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    GpiCopyString(reasonCopy, reason, 0x401);
+    CopyStringWithTerminator(reasonCopy, reason, 0x401);
     if (*(s8 *) reasonCopy != 0) {
         cursor = (s8 *) reasonCopy;
         do {
@@ -193,48 +194,48 @@ u32 GpWriteAddbuddy(GpConnection *connection, u32 profile, const char *reason) {
             cursor++;
         } while (*cursor != 0);
     }
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\addbuddy\\");
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\sesskey\\");
-    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\newprofileid\\");
-    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profile);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\reason\\");
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, reasonCopy);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\addbuddy\\");
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\sesskey\\");
+    gpiAppendIntToBuffer(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\newprofileid\\");
+    gpiAppendIntToBuffer(connection, &gpState->mOutputBuffer, profile);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\reason\\");
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, reasonCopy);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\final\\");
     return 0;
 }
 
-u32 GpAuthBuddyRequest(GpConnection *connection, u32 profile) {
-    GpiConnection *gpState;
+u32 GpAuthBuddyRequest(GPConnection *connection, u32 profile) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     return gpiAuthBuddyRequest(connection, profile);
 }
 
-u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
+u32 GpDenyBuddyRequest(GPConnection *connection, int profile) {
     int found;
     int canFree;
-    GpiConnection *gpState;
-    GpiProfile *profileEntry;
+    GPIConnection *gpState;
+    GPIProfile *profileEntry;
     if ((connection == NULL) || (gpState = connection->mGpiConnection, gpState == NULL)) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    found = GpiFindProfile(connection, profile, &profileEntry);
+    found = gpiGetProfile(connection, profile, &profileEntry);
     if (found == 0) {
         return 0;
     }
@@ -242,70 +243,70 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
     if ((gpState->mInfoCaching == 0) && (profileEntry->mRequestCount <= 0)) {
         DWCi_GsFree(profileEntry->mAuthSig);
         profileEntry->mAuthSig = NULL;
-        canFree = GpiIsProfileEmpty(profileEntry);
+        canFree = gpiCanFreeProfile(profileEntry);
         if (canFree != 0) {
-            GpiRemoveProfile(connection, profileEntry);
+            gpiRemoveProfile(connection, profileEntry);
         }
     }
     return 0;
 }
 
-s32 GpGetBuddyCount(GpConnection *object, s32 *output) {
-    GpiConnection *state;
-    if (object == NULL || object->mGpiConnection == NULL) {
-        return 2;
+s32 gpGetNumBuddies(GPConnection *connection, s32 *numBuddies) {
+    GPIConnection *gpState;
+    if (connection == NULL || connection->mGpiConnection == NULL) {
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    state = object->mGpiConnection;
-    if (state->mSimulation != 0) {
-        *output = 0;
+    gpState = connection->mGpiConnection;
+    if (gpState->mSimulation != 0) {
+        *numBuddies = 0;
         return 0;
     }
-    *output = state->mBuddyCount;
+    *numBuddies = gpState->mBuddyCount;
     return 0;
 }
 
-u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status) {
-    GpiConnection *gpState;
-    GpiProfile *profileRec;
-    GpiBuddyStatus *buddyInfo;
+u32 gpGetBuddyStatus(GPConnection *connection, s32 index, GpBuddyStatus *status) {
+    GPIConnection *gpState;
+    GPIProfile *profileEntry;
+    GPIBuddyStatus *buddyInfo;
     void *string;
     s32 num;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         memset(status, 0, sizeof(*status));
         return 0;
     }
     if (status == NULL) {
-        GpiSetErrorMessage(connection, "Invalid status.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid status.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     num = gpState->mBuddyCount;
     if (index < 0 || index >= num) {
-        GpiSetErrorMessage(connection, "Invalid index.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid index.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    profileRec = GpiFindProfileByBuddyIndex(connection, index);
-    if (profileRec == NULL) {
-        GpiSetErrorMessage(connection, "Invalid index.");
-        return 2;
+    profileEntry = gpiFindBuddy(connection, index);
+    if (profileEntry == NULL) {
+        gpiSetErrorString(connection, "Invalid index.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    buddyInfo = profileRec->mBuddyStatus;
+    buddyInfo = profileEntry->mBuddyStatus;
     if (buddyInfo == NULL) {
         AssertionFailed("buddyStatus", "gp.c", NULL, 0x5cf);
     }
-    status->mProfileId = profileRec->mProfileId;
+    status->mProfileId = profileEntry->mProfileId;
     status->mStatus = buddyInfo->mStatus;
     string = buddyInfo->mStatusString;
     if (string != NULL) {
-        GpiCopyString(status->mStatusString, string, 0x100);
+        CopyStringWithTerminator(status->mStatusString, string, 0x100);
     } else {
         *(u8 *) string = 0;
     }
     string = buddyInfo->mLocationString;
     if (string != NULL) {
-        GpiCopyString(status->mLocationString, string, 0x100);
+        CopyStringWithTerminator(status->mLocationString, string, 0x100);
     } else {
         *(u8 *) string = 0;
     }
@@ -314,17 +315,17 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
     return 0;
 }
 
-u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index) {
-    GpiConnection *gpState;
-    GpiProfile *profileEntry;
+u32 gpGetBuddyIndex(GPConnection *connection, u32 profile, s32 *index) {
+    GPIConnection *gpState;
+    GPIProfile *profileEntry;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         *index = 0;
         return 0;
     }
-    if (GpiFindProfile(connection, profile, &profileEntry) != 0 && profileEntry->mBuddyStatus != NULL) {
+    if (gpiGetProfile(connection, profile, &profileEntry) != 0 && profileEntry->mBuddyStatus != NULL) {
         *index = profileEntry->mBuddyStatus->mIndex;
     } else {
         *index = -1;
@@ -332,66 +333,66 @@ u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index) {
     return 0;
 }
 
-u32 GpIsBuddy(GpConnection *connection, u32 profile) {
+u32 gpIsBuddy(GPConnection *connection, u32 profile) {
     int found;
-    GpiProfile *pProfile[1];
+    GPIProfile *pProfile[1];
     if ((connection == NULL) || (connection->mGpiConnection == NULL)) {
         return 0;
     }
     if (connection->mGpiConnection->mSimulation != 0) {
         return 0;
     }
-    found = GpiFindProfile(connection, profile, pProfile);
+    found = gpiGetProfile(connection, profile, pProfile);
     if ((found != 0) && (pProfile[0]->mBuddyStatus != NULL)) {
         return 1;
     }
     return 0;
 }
 
-u32 GpDeleteBuddy(GpConnection *connection, u32 profile) {
-    GpiConnection *gpState;
+u32 GpDeleteBuddy(GPConnection *connection, u32 profile) {
+    GPIConnection *gpState;
     u32 result;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    result = GpiWriteDelbuddyAndRemoveBuddy(connection, profile);
+    result = gpiDeleteBuddy(connection, profile);
     if (result == 0) {
         return 0;
     }
     return result;
 }
 
-u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, const char *locationString) {
-    GpiConnection *gpState;
+u32 gpSetStatusA(GPConnection *connection, s32 status, const char *statusString, const char *locationString) {
+    GPIConnection *gpState;
     char statusCopy[0x100];
     char locationCopy[0x100];
     s8 *cursor;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (statusString == NULL) {
-        GpiSetErrorMessage(connection, "Invalid statusString.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid statusString.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (locationString == NULL) {
-        GpiSetErrorMessage(connection, "Invalid locationString.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid locationString.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    GpiCopyString(statusCopy, statusString, 0x100);
+    CopyStringWithTerminator(statusCopy, statusString, 0x100);
     if (*(s8 *) statusCopy != 0) {
         cursor = (s8 *) statusCopy;
         do {
@@ -401,7 +402,7 @@ u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, 
             cursor++;
         } while (*cursor != 0);
     }
-    GpiCopyString(locationCopy, locationString, 0x100);
+    CopyStringWithTerminator(locationCopy, locationString, 0x100);
     if (*(s8 *) locationCopy != 0) {
         cursor = (s8 *) locationCopy;
         do {
@@ -416,42 +417,42 @@ u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, 
         return 0;
     }
     gpState->mStatus = status;
-    GpiCopyString(gpState->mStatusString, statusCopy, 0x100);
-    GpiCopyString(gpState->mLocationString, locationCopy, 0x100);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\status\\");
-    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, status);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\sesskey\\");
-    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\statstring\\");
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, statusCopy);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\locstring\\");
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, locationCopy);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
+    CopyStringWithTerminator(gpState->mStatusString, statusCopy, 0x100);
+    CopyStringWithTerminator(gpState->mLocationString, locationCopy, 0x100);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\status\\");
+    gpiAppendIntToBuffer(connection, &gpState->mOutputBuffer, status);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\sesskey\\");
+    gpiAppendIntToBuffer(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\statstring\\");
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, statusCopy);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\locstring\\");
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, locationCopy);
+    gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\final\\");
     return 0;
 }
 
-u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message) {
-    GpiConnection *gpState;
+u32 gpSendBuddyMessageA(GPConnection *connection, s32 profile, const char *message) {
+    GPIConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
-        return 2;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
-        GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-        return 2;
+        gpiSetErrorString(connection, "The connection has already been disconnected.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     if (message == NULL) {
-        GpiSetErrorMessage(connection, "Invalid message.");
-        return 2;
+        gpiSetErrorString(connection, "Invalid message.");
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
-    return gpiSendBuddyMessage(connection, profileRec, GPI_BM_MESSAGE, message);
+    return gpiSendBuddyMessage(connection, profile, BUDDY_MESSAGE_TYPE_MESSAGE, message);
 }
 
-static void UnusedLiteralsConnection(GpConnection *connection) {
-    GpiSetErrorMessage(connection, "The connection has already been disconnected.");
-    GpiAppendBufferString(connection, &connection->mGpiConnection->mOutputBuffer, "\\sesskey\\");
-    GpiAppendBufferString(connection, &connection->mGpiConnection->mOutputBuffer, "\\final\\");
-    GpiSetErrorMessage(connection, "No callback.");
+static void UnusedLiteralsConnection(GPConnection *connection) {
+    gpiSetErrorString(connection, "The connection has already been disconnected.");
+    gpiAppendStringToBuffer(connection, &connection->mGpiConnection->mOutputBuffer, "\\sesskey\\");
+    gpiAppendStringToBuffer(connection, &connection->mGpiConnection->mOutputBuffer, "\\final\\");
+    gpiSetErrorString(connection, "No callback.");
 }

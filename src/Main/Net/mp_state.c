@@ -56,10 +56,6 @@ void UpdateMPWaitResultArchives(void *stateObject) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void EnterMPLoadResultSound(void *stateObject) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
@@ -72,10 +68,6 @@ void LoadResultSceneSoundSetCallback(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void UpdateMPLoadResultSound(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
@@ -87,17 +79,9 @@ void UpdateMPLoadResultSound(void *stateObject) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 s32 WLMenuToResultAdvanceMPStateMachineWrapper(void) {
     return AdvanceMPStateMachine();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadSndDataFromFileCallback(void) {
     int result;

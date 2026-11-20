@@ -15,7 +15,7 @@
 
 extern MtxFx33 gItemFBoxRotation;
 
-// A mission run box map object: the collision map object and nothing more.
+// A mission run box map object: its mCollisionMapObject.
 typedef struct MissionRunBox {
     /* 000 */ CollisionMapObject mCollisionMapObject;
 } MissionRunBox;
@@ -46,6 +46,6 @@ void CreateDram(void);
 extern const MapObjectKindData gMissionRunBoxKindData;
 extern StateCallbacks gDramStateTable[6];
 
-extern const u16 gMissionRunBoxMapObjectFlag;
+extern const u16 gMissionRunBoxInactiveFlag;
 extern const u16 gItemObjectExcludedUntilCourseHitBit;
 extern const MapObjectKindDescriptor gMissionRunBoxKindDescriptor;

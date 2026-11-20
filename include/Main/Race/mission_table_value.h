@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// missionTable.mtbl: byte table, mUnk_06 is the row width.
+// The missionTable.mtbl file: mRowCount and mColumnCount, then one byte per cell in mValues, mColumnCount cells to a
+// row.
 typedef struct MissionTable {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mRowCount;

@@ -3,11 +3,12 @@
 #include "types.h"
 #include "03/Net/wh.h"
 
-// Values of MultiBootParentHeader.mState: READY after the setup, ACCEPTING_CHILDREN while the parent waits for
-// children, DOWNLOADING once the downloads started, BOOTING once the boot requests went out, BOOTED when the parent
-// ended after that, ENDING after the end request, FAILED when a call failed or no child answered the boot request.
+// Values of MultiBootParentHeader.mState: ENDED after the parent ended (also the cleared header), INITIALIZED after
+// InitMultiBootParentComm, ACCEPTING_CHILDREN while the parent waits for children, DOWNLOADING once the downloads
+// started, BOOTING once the boot requests went out, BOOTED when the parent ended after that, ENDING after the end
+// request, FAILED when StartParentFromIdle failed, an error notice arrived, or no boot request call succeeded.
 #define MULTIBOOT_PARENT_STATE_ENDED 0
-#define MULTIBOOT_PARENT_STATE_READY 1
+#define MULTIBOOT_PARENT_STATE_INITIALIZED 1
 #define MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN 2
 #define MULTIBOOT_PARENT_STATE_DOWNLOADING 3
 #define MULTIBOOT_PARENT_STATE_BOOTING 4
@@ -16,7 +17,8 @@
 #define MULTIBOOT_PARENT_STATE_FAILED 7
 
 // Indexes of GetMultiBootChildMask, the masks of MultiBootParentHeader in order, and the values GetMultiBootChildState
-// returns for the first mask a child is in (CONNECTED to BOOT_STARTABLE), 0 for a child that is not connected.
+// returns: the first of REQUESTED to BOOT_STARTABLE whose mask holds the child, else CONNECTED, and NOT_CONNECTED when
+// the child is not in the connected mask.
 #define MULTIBOOT_CHILD_MASK_CONNECTED 0
 #define MULTIBOOT_CHILD_MASK_REQUESTED 1
 #define MULTIBOOT_CHILD_MASK_DOWNLOAD_PENDING 2
@@ -31,14 +33,15 @@
 #define MULTIBOOT_CHILD_STATE_SEND_COMPLETE 5
 #define MULTIBOOT_CHILD_STATE_BOOT_STARTABLE 6
 
-// One multiboot child: its MAC address and aid.
+// One multiboot child: the user data copied from MB_CommGetChildUser (mUnk_00), its MAC address and aid.
 typedef struct MultiBootChildRecord {
     /* 00 */ u8 mUnk_00[0x16];
     /* 16 */ u8 mMacAddress[6];
     /* 1c */ u16 mAid;
 } MultiBootChildRecord;
 
-// The state of a multiboot parent and its child masks: requested, download, send complete and boot startable.
+// The state of a multiboot parent and its child masks: connected, requested, download pending, download started, send
+// complete and boot startable.
 typedef struct MultiBootParentHeader {
     /* 00 */ u16 mState;
     /* 02 */ u16 mMask;
@@ -46,7 +49,7 @@ typedef struct MultiBootParentHeader {
     /* 06 */ u16 mDownloadPendingMask;
     /* 08 */ u16 mDownloadStartedMask;
     /* 0a */ u16 mSendCompleteMask;
-    /* 0c */ u16 mBootStartableMask;
+    /* 0c */ u16 mBootedMask;
 } MultiBootParentHeader;
 
 struct MultiBootParent {
@@ -55,7 +58,7 @@ struct MultiBootParent {
     /* 002c */ u8 mFileData[0x10000];
     /* 1002c */ u8 mUnk_1002c[0x14];
     /* 10040 */ u8 mCommWork[0xb100];
-    /* 1b140 */ void *mCommWorkPointer;
+    /* 1b140 */ void *mMultiBootWorkPointer;
     /* 1b144 */ void *mFileBuffer;
     /* 1b148 */ u8 mUnk_1b148[0x18];
     /* 1b160 */ WhWork mWhWork;

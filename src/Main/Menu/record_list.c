@@ -21,7 +21,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "sound_archive_load_result.h"
 #include "cpu_copy_fill.h"
@@ -80,10 +80,6 @@ void SortRecordRange(s32 first, u16 count) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void CreateRecordList(void *heap) {
     void *value;
     gRecordList = HeapAlloc(heap, sizeof(*gRecordList));
@@ -95,15 +91,9 @@ void CreateRecordList(void *heap) {
     gRecordList->mEmblem2Bin = value;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearRecordListPointer(void) {
     gRecordList = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 // Fills the table with the used slots, flagged ones first, each group ordered by key.
 void BuildRecordList(void) {
@@ -237,10 +227,6 @@ s32 GetRecordFriendKeyText(u16 listIndex, void *text) {
     return GetBuddyFriendKeyText(gRecordList->mEntries[listIndex].mRecordIndex, text);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void LocateAndQueueRecordVS(void) {
     void *file;
     Nclr *emblemPalette;
@@ -307,17 +293,9 @@ void LocateAndQueueRecordVS(void) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x40, emblemPalette->mData, 0x20);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u16 GetRecordVSFirstRecordIndex(void) {
     return gRecordVS->mPageIndex * 5;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 BOOL IsRecordVSRowFilled(int row) {
     int firstIndex;
@@ -329,10 +307,6 @@ BOOL IsRecordVSRowFilled(int row) {
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Shows or hides the objects of the five rows and of each row's flag.
 void AdvanceRecordVSRowObjects(void) {
@@ -476,25 +450,17 @@ void RefreshRecordVSPage(void) {
     PrintRecordVSShownRecord();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 IncrementRecordVSPageIndex(void) {
     s32 pageIndex = gRecordVS->mPageIndex + 1;
     gRecordVS->mPageIndex = pageIndex;
     return pageIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 DecrementRecordVSPageIndex(void) {
     s32 pageIndex = gRecordVS->mPageIndex - 1;
     gRecordVS->mPageIndex = pageIndex;
     return pageIndex;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void IncrementRecordVSIndex(void) {
     int isFilled;
@@ -531,19 +497,15 @@ void DecrementRecordVSIndex(void) {
     gRecordVS->mIndex = previousIndex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSOffsetTimers(void) {
     s32 buttonIndex;
     u16 firstIndex;
 
     firstIndex = GetRecordVSFirstRecordIndex();
     gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[0]].mOffsetX =
-        -LookupFrameOffset(RECORD_PAGE_ARROW_FRAMES - gRecordVS->mOffsetTimers[0]);
+        -LookupFrameOffset(RECORD_VS_OFFSET_TIMER_FRAMES - gRecordVS->mOffsetTimers[0]);
     gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[1]].mOffsetX =
-        LookupFrameOffset(RECORD_PAGE_ARROW_FRAMES - gRecordVS->mOffsetTimers[1]);
+        LookupFrameOffset(RECORD_VS_OFFSET_TIMER_FRAMES - gRecordVS->mOffsetTimers[1]);
     for (buttonIndex = 0; buttonIndex < 2; buttonIndex++) {
         if (gRecordVS->mOffsetTimers[buttonIndex] > 0) {
             gRecordVS->mOffsetTimers[buttonIndex]--;
@@ -577,20 +539,12 @@ void ToggleRecordVSRowFlag(s32 row) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 BOOL IsRecordVSIndexChangeRunning(void) {
     if (gRecordVS->mIndexChangeTimer != 0) {
         return 1;
     }
     return 0;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSIndexChange(void) {
     u16 mainBase;
@@ -769,7 +723,7 @@ void RequestRecordVSSubSlideOutRequestScreen(void) {
     RequestSelectReturnSlideOut();
 }
 
-void RequestRecordVSSubSlideInAndRefreshPage(void) {
+void RequestRecordVSSubSlideInFromEraseAndRefreshPage(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_IN;
@@ -904,11 +858,11 @@ void InitRecordVS(void *heap) {
     if (GetRecordPrevScreen() == RECORD_SCREEN_VS_ERASE) {
         if (GetRecordCount() != 0) {
             gRecordVS->mState = RECORD_VS_STATE_SUB_SLIDE_IN;
-            RequestRecordVSSubSlideInAndRefreshPage();
+            RequestRecordVSSubSlideInFromEraseAndRefreshPage();
         } else {
             gRecordVS->mState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
             RequestRecordVSMainSlideOut();
-            if (GetRecordPrevScene() == 12) {
+            if (GetRecordPrevScene() == SCENE_WIFI_MENU) {
                 gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
             } else {
                 gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;

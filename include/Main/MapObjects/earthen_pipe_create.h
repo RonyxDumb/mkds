@@ -25,7 +25,8 @@ struct ItemFBox;
 #define ITEM_BOX_SHADOW_AT_POSITION 1
 #define ITEM_BOX_SHADOW_NONE 2
 
-// An item box map object that InitItemBox handles: rotations, shadow, alpha, forced rows and path follower.
+// An item box map object: box and question rotation indexes, frames since the hit, shadow, alphas, forced rows and path
+// follower.
 typedef struct ItemBox {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mBoxRotationIndex;

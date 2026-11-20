@@ -38,9 +38,11 @@ const s8 gEditKeyboardCursorMoves[53][4] = {
     {0x1f, 0x14, 0x21, 0x2c}, {0x20, 0x15, 0x22, 0x2d}, {0x21, 0x16, 0x23, 0x2e}, {0x22, 0x17, 0x30, 0x2e},
     {0x31, 0x18, 0x25, 0x33}, {0x24, 0x19, 0x26, 0x33}, {0x25, 0x1a, 0x27, 0x33}, {0x26, 0x1b, 0x28, 0x33},
     {0x27, 0x1c, 0x29, 0x33}, {0x28, 0x1d, 0x2a, 0x34}, {0x29, 0x1e, 0x2b, 0x34}, {0x2a, 0x1f, 0x2c, 0x34},
-    {0x2b, 0x20, 0x2d, 0x34}, {0x2c, 0x21, 0x2e, 0x34}, {0x2d, -1, 0x31, 0x34},   {0x17, 0, 0xc, 0x30},
-    {0x23, 0x2f, 0x18, 0x31}, {0x2e, 0x30, 0x24, 0x33}, {0xb, 0x34, 0, 0x17},     {0x34, -2, 0x34, -4},
-    {0x33, -3, 0x33, -5}};
+    {0x2b, 0x20, 0x2d, 0x34}, {0x2c, 0x21, 0x2e, 0x34},
+    {0x2d, EDIT_KEY_UP_FROM_LAST_GRID_KEY, 0x31, 0x34},
+    {0x17, 0, 0xc, 0x30},     {0x23, 0x2f, 0x18, 0x31}, {0x2e, 0x30, 0x24, 0x33}, {0xb, 0x34, 0, 0x17},
+    {0x34, EDIT_KEY_UP_FROM_BOTTOM_LEFT, 0x34, EDIT_KEY_DOWN_FROM_BOTTOM_LEFT},
+    {0x33, EDIT_KEY_UP_FROM_BOTTOM_RIGHT, 0x33, EDIT_KEY_DOWN_FROM_BOTTOM_RIGHT}};
 
 void CreateEditKeyboard(void) {
     u16 textRect[4] = {0};
@@ -60,19 +62,21 @@ void CreateEditKeyboard(void) {
     gEditKeyboard->mCursorKeyIndex = 0;
     gEditKeyboard->mRemoveCharEnabled = 1;
     gEditKeyboard->mAddCharEnabled = 1;
-    for (index = 0; index < 0x2f; index++) {
+    for (index = 0; index < EDIT_KEY_MAIN_COUNT; index++) {
         gEditKeyboard->mKeys[index] = CreateOamEntryFromNceImage(0, 0x34);
         gEditKeyboard->mKeys[index]->mAttr01 =
-            (gEditKeyboard->mKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+            (gEditKeyboard->mKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
         gEditKeyboard->mKeys[index]->mAttr2 =
-            (gEditKeyboard->mKeys[index]->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+            (gEditKeyboard->mKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
     for (index = 0; index < 4; index++) {
         gEditKeyboard->mExtraKeys[index] = CreateOamEntryFromNceImage(0, gEditKeyboardExtraKeyImages[index]);
         gEditKeyboard->mExtraKeys[index]->mAttr01 =
-            (gEditKeyboard->mExtraKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+            (gEditKeyboard->mExtraKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
         gEditKeyboard->mExtraKeys[index]->mAttr2 =
-            (gEditKeyboard->mExtraKeys[index]->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+            (gEditKeyboard->mExtraKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
     for (index = 0; index < 2; index++) {
         gEditKeyboard->mRow4Keys[index] = CreateOamRangeFromNceImage(0, gEditKeyboardRow4KeyImages[index], 1);
@@ -88,7 +92,7 @@ void CreateEditKeyboard(void) {
             for (columnIndex = 0, textRect[0] = 0; columnIndex < 12; columnIndex++, charIndex++, textRect[0] += 0x12) {
                 text[0] = gEditKeyboardPageKeyTexts[index][charIndex];
                 DrawCanvasTextRect(gEditKeyboard->mRowTexts[index][rowIndex], textRect[0], textRect[1], textRect[2],
-                                   textRect[3], 2, 0x480, text);
+                                   textRect[3], 2, TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, text);
             }
             if (index == 0) {
                 gEditKeyboard->mRowTextRanges[rowIndex] = CreateOamRange(0, entryCount, 1);
@@ -127,8 +131,8 @@ BOOL HasEditKeyboard(void) {
 }
 
 static inline void EditKeyboardInG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *y = object->mAttr01 & OAM_ATTR01_Y_MASK;
+    *x = (object->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = object->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void AdvanceEditKeyboardSlideInRow0(TaskEntry *task, void *arg) {

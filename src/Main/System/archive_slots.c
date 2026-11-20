@@ -9,7 +9,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/System/backup_net_camera_work.h"
 
@@ -32,7 +32,7 @@ void InitArchiveSlots(void *heap) {
 
     gArchiveSlots = HeapAlloc(heap, sizeof(ArchiveSlots));
     gArchiveSlots->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
-    for (index = 0; index < 20; index++) {
+    for (index = 0; index < ARCHIVE_SLOT_COUNT; index++) {
         gArchiveSlots->mSlots[index].mLoaded = 0;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -40,7 +40,7 @@ void InitArchiveSlots(void *heap) {
         gArchiveSlots->mFileTable = HeapAlloc(heap, gArchiveSlots->mFileTableSize);
         FS_TryLoadTable((u32) gArchiveSlots->mFileTable, gArchiveSlots->mFileTableSize);
     }
-    for (index = 0; index < 16; index++) {
+    for (index = 0; index < ARCHIVE_BUFFER_COUNT; index++) {
         ResetArchiveBuffer(index);
     }
     gArchiveSlots->mCourseId = NULL;
@@ -94,10 +94,10 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
     void *data;
 
     file = &gArchiveSlots->mFile;
-    if (((file->mStat & FILE_RECORD_BUSY) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
         return 0;
     }
-    if (((file->mStat & FILE_RECORD_OPEN) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_IS_FILE) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     opened = FS_OpenFile(file, (const u8 *) path);
@@ -174,7 +174,8 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     } else {
         dSuffix = "";
     }
-    OS_SNPrintf(path, 0x80, "/data/Course/%s%s%s.carc", gCourseArchiveNames[courseId].mName, dSuffix, textureSuffix);
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Course/%s%s%s.carc", gCourseArchiveNames[courseId].mName, dSuffix,
+                textureSuffix);
 }
 
 u32 GetLanguageCode(void) {
@@ -186,10 +187,6 @@ u32 GetLanguageCode(void) {
     }
     return (u32) gLanguageCodes[languageIndex];
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
@@ -204,13 +201,13 @@ void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName) {
     u32 languageCode;
     if (*sceneName != 0) {
         languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
+        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
     }
 }
 
 void BuildSceneArchivePath(char *path, const char *sceneName) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s%s", sceneName, ".carc");
+        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s", sceneName, ".carc");
     }
 }
 

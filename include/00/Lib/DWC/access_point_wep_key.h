@@ -4,7 +4,7 @@
 
 struct ACWORK;
 
-// Bytes handed out by FillApWepKey: a leading byte, then the payload.
+// WEP key description for WCM_ConnectAsync: mMode, mKeyId and the key bytes mKey; FillApWepKey fills mMode and mKey.
 typedef struct WCMWepDesc {
     /* 00 */ u8 mMode;
     /* 01 */ u8 mKeyId;

@@ -55,13 +55,13 @@ void UpdateRaceHudSubScreenCoinCells(void) {
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenCoinCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenCoinCells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1)) {
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x58);
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                 cellCount++;
             }
         }

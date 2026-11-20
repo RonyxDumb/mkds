@@ -21,7 +21,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "system_state_globals.h"
 #include "Main/Race/race_setup_block.h"
@@ -57,7 +57,7 @@ void InitStemSets(void *heap) {
     timedQuad = &gStemSets->mTimedQuad;
     gStemSets->mTimedQuad.mTimer = 0;
     timedQuad->mAlpha = 0;
-    timedQuad->mColor = TIMED_QUAD_COLOR_WHITE;
+    timedQuad->mColor = COLOR15_WHITE;
     timedQuad->mEnabled = FALSE;
 }
 
@@ -67,7 +67,7 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     u16 nsbmdIndex;
     Nsbmd *nsbmd;
     Nsbmd *nsbcaModel;
-    ModelAnimation *nsbcaAnimation;
+    ModelAnimation *animation;
     u16 nsbcaIndex;
     Nsbmd *nsbmaModel;
     ModelAnimation *nsbmaAnimation;
@@ -103,30 +103,31 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     }
     for (nsbcaIndex = 0; nsbcaIndex < stemSetParams->mNsbcaCount; nsbcaIndex++) {
         nsbcaModel = &stemSet->mNsbmds[nsbcaIndex];
-        nsbcaAnimation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
+        animation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
         snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
-        InitModelAnimation(0, nsbcaAnimation, nsbcaModel, 1, heap, NULL);
-        InitModelAnimationEntries(nsbcaAnimation, FindSceneFile(fileName), heap);
-        SetModelAnimation(nsbcaAnimation, 0);
+        InitModelAnimation(MODEL_ANIMATION_KIND_JOINT, animation, nsbcaModel, 1, heap, NULL);
+        InitModelAnimationEntries(animation, FindSceneFile(fileName), heap);
+        SetModelAnimation(animation, 0);
     }
     for (nsbmaIndex = 0; nsbmaIndex < stemSetParams->mNsbmaCount; nsbmaIndex++) {
         nsbmaModel = &stemSet->mNsbmds[nsbmaIndex];
         nsbmaAnimation = &stemSet->mNsbcaNsbmaNsbtp[1][nsbmaIndex];
         snprintf(fileName, 0x80, "%s.nsbma", stemSetParams->mStems[nsbmaIndex]);
-        InitModelAnimation(4, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
+        InitModelAnimation(MODEL_ANIMATION_KIND_MAT_C, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
         InitModelAnimationEntries(nsbmaAnimation, FindSceneFile(fileName), heap);
         SetModelAnimation(nsbmaAnimation, 0);
     }
     if (useOneNsbtpAnimation != FALSE) {
-        nsbcaAnimation = stemSet->mNsbcaNsbmaNsbtp[2];
-        InitModelAnimation(2, nsbcaAnimation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
+        animation = stemSet->mNsbcaNsbmaNsbtp[2];
+        InitModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, animation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap,
+                           lastNsbmdFile);
         for (nsbtpIndex = 0; nsbtpIndex < stemSetParams->mNsbtpCount; nsbtpIndex++) {
             snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
-            InitModelAnimationEntry(nsbcaAnimation, nsbtpIndex,
+            InitModelAnimationEntry(animation, nsbtpIndex,
                                     NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(FindSceneFile(fileName)), 0), 0,
                                     heap);
         }
-        SetModelAnimation(nsbcaAnimation, 0);
+        SetModelAnimation(animation, 0);
     }
 }
 
@@ -207,13 +208,13 @@ void StartStemSet(s32 setIndex) {
             SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
             animations = stemSet->mNsbcaNsbmaNsbtp[0];
             if (animations != NULL) {
-                animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
-                animations[nsbmdIndex].mHead.mLoopCount = loopCount;
+                animations[nsbmdIndex].mFrameLoop.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
+                animations[nsbmdIndex].mFrameLoop.mLoopCount = loopCount;
             }
             animations = stemSet->mNsbcaNsbmaNsbtp[1];
             if (animations != NULL) {
-                animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
-                animations[nsbmdIndex].mHead.mLoopCount = loopCount;
+                animations[nsbmdIndex].mFrameLoop.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
+                animations[nsbmdIndex].mFrameLoop.mLoopCount = loopCount;
             }
         }
     }
@@ -278,7 +279,7 @@ void DrawStemSets(void) {
             NNS_G3dGlb.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
             MI_Copy36B(&baseTransform, &NNS_G3dGlb.mPrmBaseRot);
-            NNS_G3dGlb.mFlag &= ~0xa4;
+            NNS_G3dGlb.mFlag &= ~RENDER_GLOBALS_BASE_CACHE_BITS;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mRows[3]);
             NNS_G3dGlbFlushP();
             NNS_G3dDraw(&nsbmd->mRenderObj);
@@ -291,7 +292,7 @@ void DrawStemSets(void) {
         reg_G3_MTX_MODE = 0;
         G3_LoadMtx44(&gStemSets->mOrthoMtx);
         reg_G3_TEXIMAGE_PARAM = 0x20000000;
-        reg_G3_MTX_MODE = 2;
+        reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
         reg_G3_MTX_IDENTITY = 0;
         DrawTimedQuad(&gStemSets->mTimedQuad);
     }
@@ -317,7 +318,7 @@ void SetStemSet(s32 setIndex) {
 void StartTimedQuad(TimedQuad *timedQuad) {
     timedQuad->mTimer = 0xau;
     timedQuad->mAlpha = 0xcu;
-    timedQuad->mColor = TIMED_QUAD_COLOR_WHITE;
+    timedQuad->mColor = COLOR15_WHITE;
     timedQuad->mEnabled = 0x1u;
 }
 

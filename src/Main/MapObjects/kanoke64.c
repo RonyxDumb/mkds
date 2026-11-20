@@ -21,20 +21,20 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "Main/Race/race_setup_input.h"
@@ -59,16 +59,16 @@ static inline u32 MapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
+    RANDOM_ADVANCE(mapObjectRandom);
+    return RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 static inline u16 MapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
+    RANDOM_ADVANCE(mapObjectRandom);
+    return (u32) RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
@@ -78,12 +78,13 @@ static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
     if (kanoke64->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
-    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        falloffIndex = 2;
-    } else if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        falloffIndex = 3;
+    if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+    } else if (kanoke64->mMapObject.mFarDistanceSquared ==
+               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
     } else {
-        falloffIndex = 4;
+        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
     }
     soundRequest.mSoundId = soundId;
     soundRequest.mPositionSource = &kanoke64->mMapObject.mPos;
@@ -132,11 +133,11 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit) {
     if (limit == 0) {
         return 0;
     }
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE(randomState64);
     if (limit == 0) {
-        return randomState64->mValue >> 32;
+        return RANDOM_HIGH32(randomState64);
     }
-    return ((randomState64->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState64, limit);
 }
 
 s16 Kanoke64FX_SinIdx(s32 angle) {
@@ -209,19 +210,19 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
 
     switch (kanoke64->mState) {
         case 0:
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 kanoke64->mState = 1;
                 return;
             }
             if (kanoke64->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (kanoke64->mTimer-- <= 0) {
-                    kanoke64->mTimer = KANOKE64_BURST_TIMER_FRAMES;
+                    kanoke64->mTimer = KANOKE64_BURST_TIMER_LOOPS;
                     kanoke64->mState = 1;
                 }
                 return;
             }
             if (Kanoke64IsKartNearInAngle(kanoke64, kanoke64->mMapObject.mAngle) != FALSE) {
-                kanoke64->mTimer = KANOKE64_BURST_TIMER_FRAMES;
+                kanoke64->mTimer = KANOKE64_BURST_TIMER_LOOPS;
                 kanoke64->mState = 1;
             }
             return;
@@ -230,7 +231,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
         default:
             return;
     }
-    if (kanoke64->mNsbcaFrameIndex == KANOKE64_BURST_END_FRAME) {
+    if (kanoke64->mNsbcaFrameIndex == KANOKE64_BURST_FRAME) {
         for (burstIndex = 0; burstIndex < 3; burstIndex++) {
             Kanoke64SetRandomPos(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
                                  kanoke64->mMapObject.mPos.z);

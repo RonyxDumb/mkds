@@ -4,6 +4,7 @@
 #include "00/Lib/DWC/match_keys.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/DWC/match_work.h"
+#include "00/Lib/DWC/match_qr2_callbacks.h"
 
 typedef struct PeerAddress PeerAddress;
 
@@ -41,8 +42,8 @@ extern MatchingSignatureText gMatchingSignature;
 extern char gUnsignedFormat[3];
 extern char gDwcPidKey[8];
 extern char gDwcEvalKey[9];
-extern MatchingKey gMatchingKeys[154];
-extern u8 gMatchingMaskedParticipantIndices[0x20];
+extern MatchingKey gMatchingKeys[MATCHING_GAME_KEY_COUNT];
+extern u8 gMatchingMaskedParticipantIndices[WIFI_MATCH_MAX_PARTICIPANTS];
 extern void *gMatchingFilterText;
 extern struct DWCMatchOptMinCompleteIn *gOptMinComp;
 // Points at WiFiConnection.mMatching: set by DWCi_MatchInit, set to NULL by DWCi_ShutdownMatch.

@@ -22,16 +22,10 @@ void MBi_SetBeaconRecvStatusBuffer(void *entryTable) {
     mbrsp = entryTable;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void MBi_SetScanLockFunc(void (*setCallback)(const u8 *), void (*clearCallback)(void)) {
     gSetBssidCallback = setCallback;
     gClearBssidCallback = clearCallback;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record) {
     u32 value;
@@ -43,7 +37,7 @@ void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *re
     value = MBi_ReadIconInfo(params->mIconCharPathp, entry->mIcon, 1) == 0;
     iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, entry->mIcon, 0) == 0;
     if ((value | iconPaletteMissing) != 0) {
-        entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_NO_ICON;
+        entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_WITHOUT_ICON;
         MemFillWordsByBlock_inline(entry, 0x220);
     }
     entry->mGgid = params->mGgid;
@@ -316,7 +310,7 @@ void MB_InitRecvGameInfoStatus(void) {
     mbrsp->mScanCountUnit = 1;
 }
 
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock) {
+u32 MB_RecvGameInfoBeacon(MBBeaconMsgCallback callback, u32 value, WMBssDesc *scanBlock) {
     s32 entryIndex;
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
@@ -344,10 +338,6 @@ u32 MBi_CheckMBParent(WMBssDesc *scanBlock) {
     return 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void MBi_SetSSIDToBssDesc(WMBssDesc *scanBlock, u32 value) {
     scanBlock->mSsidLength = 0x20u;
     scanBlock->mSsidHalfwords[0] = value;
@@ -355,11 +345,7 @@ void MBi_SetSSIDToBssDesc(WMBssDesc *scanBlock, u32 value) {
     scanBlock->mSsidHalfwords[2] = (scanBlock->mGameInfo.mTgid);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
-s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) {
+s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, MBBeaconMsgCallback callback) {
     s32 entryIndex;
     MbBeaconRecvStatus *entryTable;
     MBGameInfoRecvList *entry;
@@ -403,7 +389,7 @@ s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) 
     return -1;
 }
 
-void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback) {
+void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, MBBeaconMsgCallback callback) {
     MBGameInfoRecvList *entry;
     u32 entryBit;
     entry = &mbrsp->mEntries[entryIndex];
@@ -429,7 +415,7 @@ void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callba
     }
 }
 
-void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value) {
+void MB_CountGameInfoLifetime(MBBeaconMsgCallback callback, u32 value) {
     u32 stopFollowing;
     s32 entryIndex;
     stopFollowing = 0;
@@ -500,10 +486,6 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex) {
     if (newBlock->mGameInfo.mTgid != mbrsp->mEntries[entryIndex].mScanBuffer.mGameInfo.mTgid) {
         MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
@@ -511,10 +493,6 @@ void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex) {
         MBi_LockScanTarget(entryIndex);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_CheckSeqNoFixed(u32 entryIndex) {
     if (gReceivedGameInfo->mSeqNoFixed != mbrsp->mEntries[entryIndex].mSeqNoFixed) {

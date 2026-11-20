@@ -204,8 +204,8 @@ void UpdateApResult(void) {
         case 1:
             gAp->mCloseKind = AP_CLOSE_KIND_SELECTED;
             selectedIndex = gApSelectedIndex;
-            if (selectedIndex >= 4) {
-                entryIndex = selectedIndex - 4;
+            if (selectedIndex >= AP_SELECTED_FIRST_RESET) {
+                entryIndex = selectedIndex - AP_SELECTED_FIRST_RESET;
                 if (GetApEntrySetType(entryIndex) == 0xff) {
                     StartSoundSeq(9);
                     SetButtonResult(-1);
@@ -218,7 +218,7 @@ void UpdateApResult(void) {
                 SetUpdateFunction(UpdateApMessageResult);
                 return;
             }
-            if (selectedIndex <= 2) {
+            if (selectedIndex <= AP_SELECTED_THIRD_ENTRY) {
                 CopyApEntryToWorkCopy(selectedIndex);
             }
             StartSoundSeq(6);
@@ -301,7 +301,7 @@ void UpdateApRelease(void) {
 
 void PlaceApSelection(void) {
     u8 selectedIndex = gApSelectedIndex;
-    if (selectedIndex < 4) {
+    if (selectedIndex < AP_SELECTED_FIRST_RESET) {
         PlaceSelectionCorners(gApSelectionRects[selectedIndex].mX, gApSelectionRects[selectedIndex].mRight,
                               gApSelectionRects[selectedIndex].mY, gApSelectionRects[selectedIndex].mBottom);
     } else {
@@ -351,9 +351,9 @@ void MoveApSelection(int direction) {
             break;
         case AP_SELECTED_MULTI: {
             u8 rememberedIndex = gAp->mRememberedEntryIndex;
-            s32 targetIndex = rememberedIndex + 4;
+            s32 resetSelectedIndex = rememberedIndex + 4;
             if (direction == 1) {
-                gApSelectedIndex = targetIndex;
+                gApSelectedIndex = resetSelectedIndex;
             } else if (direction == 3) {
                 gApSelectedIndex = rememberedIndex;
             } else {
@@ -405,7 +405,7 @@ void MoveApSelection(int direction) {
 }
 
 void SetApSelectedButtonImage(void) {
-    s32 entryIndex = gApSelectedIndex - 4;
+    s32 entryIndex = gApSelectedIndex - AP_SELECTED_FIRST_RESET;
     CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mResetButtonObjects[entryIndex], 0));
     SetOamRangePosition(gAp->mResetButtonObjects[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
                         gApObjectPositions[entryIndex + 3].mY);
@@ -413,7 +413,7 @@ void SetApSelectedButtonImage(void) {
 }
 
 void UpdateApMessageResult(void) {
-    s32 entryIndex = gApSelectedIndex - 4;
+    s32 entryIndex = gApSelectedIndex - AP_SELECTED_FIRST_RESET;
     switch (GetMessageBoxResult()) {
         case 1:
             StartSoundSeq(0xe);
@@ -455,7 +455,7 @@ void RequestApSelectionPalette(void) {
     int statusIndex;
     paletteRows = gApPaletteRows;
     iconPalettes = gApEntryIconPalettes;
-    if (gApSelectedIndex <= 3) {
+    if (gApSelectedIndex <= AP_SELECTED_MULTI) {
         RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mRowIndices[gApSelectedIndex],
                                 paletteRows.mRowIndices[gApSelectedIndex]);
         if (gApSelectedIndex != AP_SELECTED_MULTI) {

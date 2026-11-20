@@ -29,7 +29,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "vram_transfer_queue.h"
 
 const u32 gSelectCupMCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13},
@@ -353,9 +353,9 @@ void AdvanceSelectCupMScrollDown(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
-    subOffset =
-        InterpolateS16(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = InterpolateS16(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, SELECT_CUP_M_SCROLL_STEPS);
+    subOffset = InterpolateS16(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames,
+                               SELECT_CUP_M_SCROLL_STEPS);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;
@@ -397,9 +397,9 @@ void AdvanceSelectCupMScrollUp(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, 0xa);
-    subOffset =
-        InterpolateS16(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = InterpolateS16(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, SELECT_CUP_M_SCROLL_STEPS);
+    subOffset = InterpolateS16(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames,
+                               SELECT_CUP_M_SCROLL_STEPS);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;

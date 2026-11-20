@@ -25,43 +25,43 @@ u32 DWC_AddCommonKeyValueString(void *key, void *value, void *string, u32 separa
 }
 
 s32 DWC_GetCommonValueString(const char *key, char *value, const char *string, int separator) {
-    const char *pair;
+    const char *pairSeparator;
     const char *nextSeparator;
     s32 len;
     enum { SEPARATOR_LENGTH = 1 } k;
     if (value == NULL) {
         return -1;
     }
-    pair = strchr(string, separator);
-    if (pair == NULL) {
+    pairSeparator = strchr(string, separator);
+    if (pairSeparator == NULL) {
         return -1;
     }
     k = SEPARATOR_LENGTH;
     while (1) {
-        if (strncmp(pair + 1, key, strlen(key)) == 0 &&
-            (len = strlen(key), len += (u32) pair, separator == *(s8 *) (len + k))) {
+        if (strncmp(pairSeparator + 1, key, strlen(key)) == 0 &&
+            (len = strlen(key), len += (u32) pairSeparator, separator == *(s8 *) (len + k))) {
             break;
         }
-        nextSeparator = strchr(pair + 1, separator);
+        nextSeparator = strchr(pairSeparator + 1, separator);
         if (nextSeparator == NULL) {
             return -1;
         }
-        pair = strchr(nextSeparator + 1, separator);
-        if (pair == NULL) {
+        pairSeparator = strchr(nextSeparator + 1, separator);
+        if (pairSeparator == NULL) {
             return -1;
         }
     }
-    pair = strchr(pair + 1, separator);
-    if (pair == NULL) {
+    pairSeparator = strchr(pairSeparator + 1, separator);
+    if (pairSeparator == NULL) {
         return -1;
     }
-    nextSeparator = strchr(pair + 1, separator);
+    nextSeparator = strchr(pairSeparator + 1, separator);
     if (nextSeparator != NULL) {
-        len = nextSeparator - (pair + 1);
+        len = nextSeparator - (pairSeparator + 1);
     } else {
-        len = strlen(pair + 1);
+        len = strlen(pairSeparator + 1);
     }
-    strncpy(value, pair + 1, len);
+    strncpy(value, pairSeparator + 1, len);
     value[len] = 0;
     return len;
 }
@@ -89,7 +89,7 @@ u32 DWCi_GetMathRand32(u32 max) {
 }
 
 BOOL DWCi_IsSendableReliable(u32 aid, s32 type) {
-    if ((type == 1 && DWC_IsValidAID(aid) == 0) || DWCi_IsValidAID(aid) == FALSE) {
+    if ((type == WIFI_MESSAGE_KIND_DATA && DWC_IsValidAID(aid) == 0) || DWCi_IsValidAID(aid) == FALSE) {
         return FALSE;
     }
     if (DWCs_GetSendState(aid) == 1) {
@@ -101,11 +101,11 @@ BOOL DWCi_IsSendableReliable(u32 aid, s32 type) {
     return FALSE;
 }
 
-// Starts a send of kind a (1 = data) to peer b: refuses (FALSE) while an error is pending or DWCi_IsSendableReliable
-// says no (peer not usable, kind 1 to a non-participant, already sending, or less send room than the header needs);
+// Starts a send of type (1 = data) to peer aid: refuses (FALSE) while an error is pending or DWCi_IsSendableReliable
+// says no (peer not usable, type 1 to a non-participant, already sending, or less send room than the header needs);
 // marks the peer sending, stores the buffer and size, writes the 8-byte header and the first chunk (when the socket has
 // no room for the chunk it returns TRUE after the header); DWCi_TransportProcess sends the later chunks; calls
-// mSendCallback when the whole message went out at once (kind 1 only).
+// mSendCallback when the whole message went out at once (type 1 only).
 BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
     WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
     DWCTransportHeader header;
@@ -132,7 +132,7 @@ BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
     DWCs_Send(aid, buffer, chunk, 1);
     peer->mSentSize += chunk;
     if (peer->mSentSize == peer->mSendSize) {
-        if (gWiFiMessageLayer->mSendCallback != NULL && type == 1) {
+        if (gWiFiMessageLayer->mSendCallback != NULL && type == WIFI_MESSAGE_KIND_DATA) {
             gWiFiMessageLayer->mSendCallback(peer->mSendSize, aid);
         }
         peer->mSendState = 0;
@@ -160,17 +160,18 @@ BOOL DWC_SendUnreliable(u32 aid, void *buffer, s32 size) {
     return TRUE;
 }
 
-// Gives peer a the buffer b of capacity c to receive into and sets mReceiveState to 1 with both received counters 0;
-// refuses (FALSE) while a body is being received into the old buffer (state 2).
+// Gives peer aid the buffer recvBuffer of capacity size to receive into and sets mReceiveState to
+// WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER with mReceivedSize and mReceiveSize 0; refuses (FALSE) while a data body is
+// being received into the old buffer (state WIFI_PEER_RECEIVE_STATE_DATA_BODY).
 BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size) {
-    WiFiPeerMessage *connection = DWCs_GetTransConnection(aid);
-    if (DWCs_GetRecvState(aid) == 2) {
+    WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
+    if (DWCs_GetRecvState(aid) == WIFI_PEER_RECEIVE_STATE_DATA_BODY) {
         return FALSE;
     }
-    connection->mReceiveBuffer = recvBuffer;
-    connection->mReceiveBufferSize = size;
-    connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
-    connection->mReceivedSize = 0;
-    connection->mReceiveSize = 0;
+    peer->mReceiveBuffer = recvBuffer;
+    peer->mReceiveBufferSize = size;
+    peer->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
+    peer->mReceivedSize = 0;
+    peer->mReceiveSize = 0;
     return TRUE;
 }

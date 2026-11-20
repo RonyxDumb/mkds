@@ -7,9 +7,11 @@
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Kart/kart_ai_item_use.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectList, MapObjectKindData
 
-// Values of Sman.mState: at rest, the top part goes up and down, wait with the top low, both parts come back.
+// Values of Sman.mState: at rest, the top part goes up and down (when mCourseMapRow->mSettings[0] is above 0 the object
+// is parked once the top falls below 0 and never waits), wait with the top low, both parts come back.
 enum {
     SMAN_STATE_REST,
     SMAN_STATE_TOP_FLIGHT,
@@ -17,7 +19,8 @@ enum {
     SMAN_STATE_COME_BACK,
 };
 
-// A Sman map object in two parts (top and bottom models): a hit sends the top up and down, then both parts come back.
+// A Sman map object in two parts (top and bottom models): a hit sends the top up and down, then both parts come back,
+// unless the first setting of its course map row is above 0 (then it is parked when the top is below 0).
 typedef struct Sman {
     /* 00 */ MapObject mMapObject;
     // The angle changes only while this is non-zero (states 0 and 3).
@@ -32,8 +35,8 @@ typedef struct Sman {
     /* bc */ s32 mTopHeightPerFrame;
     /* c0 */ s32 mTopStartHeight;
     /* c4 */ s32 mTopLowHeight;
-    // State of UpdateSman: 0 at rest, 1 top goes up and down, 2 waits, 3 both parts come back;
-    // CollideKartWithSman and CollideItemObjectWithSman set 1.
+    // State of UpdateSman (SMAN_STATE_*); CollideKartWithSman and CollideItemObjectWithSman set SMAN_STATE_TOP_FLIGHT
+    // when *firstResponse is 1.
     /* c8 */ s32 mState;
 } Sman;
 
@@ -67,7 +70,7 @@ MapObjectList *CreateSmanUpdateList(void);
 MapObjectList *CreateSmanBottomDrawList(void);
 MapObjectList *CreateSmanTopDrawList(void);
 MapObjectKindData *CreateSmanKindData(void);
-void UpdateSman(void *mapObjectList, Sman *sman); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateSman(void *mapObjectList, Sman *sman); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked pool objects) */
 void InitSmanObjects(SmanList *smanList);
 void DrawSmanBottom(void *mapObjectList, Sman *sman);
 void SetupDrawSmanBottom(void *mapObjectList);
@@ -76,26 +79,25 @@ void DrawSmanTop(void *mapObjectList, Sman *sman);
 void SetupDrawSmanTop(void *mapObjectList);
 void CreateSmanTop(void *mapObjectList);
 
-extern const KartAiItemUseEntry gBattleNormalHeldItemEntries[18];
-extern const KartAiItemUseEntry gBattleEasyHeldItemEntries[18];
-extern const KartAiItemUseEntry gBattleNormalItemInUseEntries[14];
-extern const KartAiItemUseEntry gBattleHardItemInUseEntries[14];
-extern const KartAiItemUseEntry gBattleHardHeldItemEntries[18];
-extern const KartAiItemUseEntry gBattleEasyItemInUseEntries[14];
+extern const KartAiItemUseEntry gBattleNormalHeldItemEntries[ITEM_INFO_COUNT];
+extern const KartAiItemUseEntry gBattleEasyHeldItemEntries[ITEM_INFO_COUNT];
+extern const KartAiItemUseEntry gBattleNormalItemInUseEntries[ITEM_OBJECT_KIND_COUNT];
+extern const KartAiItemUseEntry gBattleHardItemInUseEntries[ITEM_OBJECT_KIND_COUNT];
+extern const KartAiItemUseEntry gBattleHardHeldItemEntries[ITEM_INFO_COUNT];
+extern const KartAiItemUseEntry gBattleEasyItemInUseEntries[ITEM_OBJECT_KIND_COUNT];
 extern s32 *gStaffGhostTime;
 
 extern const KartAiItemUseEntry *gBattleHeldItemEntries;
 extern void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gUseItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-// Particle effect ids StartKartWaterSplashEffects starts with a kind 2 object; -1 marks an unused entry.
 extern const KartAiItemUseEntry *gBattleItemInUseEntries;
 extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 
-// The killer kart of the staff roll: its forward speed, the frames of contact that reset the end count timer hold and
-// the end count it ends at.
-#define KART_KILLER_STAFF_FORWARD_SPEED 0xa800
+// The Killer item cursor: its forward speed, the frames the end count hold timer is set to on contact and the end count
+// it ends at.
+#define KART_KILLER_FORWARD_SPEED 0xa800
 #define KART_KILLER_END_HOLD_FRAMES 5
 #define KART_KILLER_END_COUNT_FRAMES 0x78

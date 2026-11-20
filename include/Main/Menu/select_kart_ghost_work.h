@@ -36,7 +36,7 @@ typedef struct GhostListEntry GhostListEntry;
 #define PLAYER_ENTRY_SLOT_FIRST_INNER 1
 #define PLAYER_ENTRY_SLOT_SECOND_INNER 2
 #define PLAYER_ENTRY_SLOT_SECOND_OUTER 3
-// Frames an entry takes to move between slots, and frames the list timer runs.
+// Frames an entry takes to move one slot, and frames the list timer counts down from while it is enabled.
 #define PLAYER_ENTRY_LIST_MOVE_FRAMES 10
 #define PLAYER_ENTRY_LIST_TIMER_FRAMES 0x708
 
@@ -65,13 +65,15 @@ typedef struct RaceSetupCopyEntry {
 #define ENTRY_TRANSITION_FROM_CHARACTER 1
 #define ENTRY_TRANSITION_FROM_KART 2
 
-// A copy of the race setup that the screens edit; it is written to the next half of gRaceSetup when they finish.
+// A copy of the race setup that the screens edit; SetNextRaceSetupFromCopy writes it to the next half of gRaceSetup
+// (only the cup and course for menu entry kind 2).
 typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
     /* c4 */ s32 mKartCount;
-    // A MODE_* value of race_setup_block.h: copied from the current mode (3 for most modes in a Wi-Fi race), set by the
-    // select screens, stored as the next mode by SetNextRaceSetupFromCopy.
+    // A MODE_* value of race_setup_block.h: copied from the current mode (MODE_VS in place of grand prix, time attack
+    // and mission run when a connection kind is set), set by the select screens, stored as the next mode by
+    // SetNextRaceSetupFromCopy.
     /* c8 */ s32 mMode;
     /* cc */ s32 mCupIndex;
     /* d0 */ s32 mCourseId;
@@ -118,7 +120,8 @@ typedef enum SelectKartState {
     SELECT_KART_STATE_DONE,
 } SelectKartState;
 
-// Steps of the cell slide in state SLIDE_CELL, steps state CONFIRM and state HOLD run; mStateFrames counts them.
+// Limits of mStateFrames: state SLIDE_CELL ends once it passes SELECT_KART_SLIDE_CELL_STEPS, CONFIRM once it reaches
+// SELECT_KART_CONFIRM_STEPS, HOLD once it passes SELECT_KART_HOLD_STEPS.
 #define SELECT_KART_SLIDE_CELL_STEPS 6
 #define SELECT_KART_CONFIRM_STEPS 5
 #define SELECT_KART_HOLD_STEPS 60
@@ -135,7 +138,8 @@ typedef struct ScreenMapFileSet {
     /* 14 */ Nscr *mScreenMaps[4];
 } ScreenMapFileSet;
 
-// The kart select screen: its cell files, state, kart and entry, highlighted kart, touch state and result.
+// The kart select screen: its screen map and cell files, OAM lists, messages, state, entry, character and kart,
+// interpolations, mode, touch state, sliding cell and result.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ ScreenMapFileSet mSelectKartSBParts;
@@ -200,8 +204,8 @@ typedef enum SelectCharacterMode {
     SELECT_CHARACTER_MODE_WIFI_SESSION = 2,
 } SelectCharacterMode;
 
-// SelectCharacter.mResult once the player entry list timer has run out: the screen after this one is reached as for
-// MENU_SCREEN_RESULT_NEXT.
+// SelectCharacter.mResult once the player entry list timer has run out: the screen after this one skips the kart screen
+// in VS and Wi-Fi; in battle it is the same as for MENU_SCREEN_RESULT_NEXT.
 #define SELECT_CHARACTER_RESULT_TIME_UP 3
 
 // The byte of the data sharing to the others while no character is picked.
@@ -255,7 +259,7 @@ typedef struct PlayerEntryList {
     /* 1ac */ s32 mEmptySlotSoundPlayed[4];
     /* 1bc */ s32 mCharacterShown[8];
     /* 1dc */ s32 mKartShown[8];
-    /* 1fc */ BOOL mSetupRequested;
+    /* 1fc */ BOOL mSetupPending;
     /* 200 */ s32 mTimerEnabled;
     /* 204 */ s32 mUseTeams;
     /* 208 */ s32 mShowAllEntries;
@@ -286,7 +290,7 @@ typedef enum {
     RESULTS_BATTLE_STATE_DONE
 } ResultsBattleState;
 
-// Values of ResultsBattle.mFileSetKind: the row of gResultsBattleVictoryFileNames, named after the files it loads.
+// Values of ResultsBattle.mFileSetKind: the row of gResultsBattleFileNames, named after the files it loads.
 typedef enum {
     RESULTS_BATTLE_FILES_VICTORY,
     RESULTS_BATTLE_FILES_LOSE,
@@ -430,7 +434,8 @@ typedef struct GhostSceneCallbacks {
     /* 0c */ void (*mWriteRegisters)(void);
 } GhostSceneCallbacks;
 
-// The ghost scene: its OAM lists, course and slot ghost counts, cup positions, slot numbers, records and buffers.
+// The ghost scene: its OAM lists, course and slot ghost counts, cup positions, slot numbers, records and buffers, and
+// the current and requested part callbacks.
 typedef struct GhostScene {
     /* 000 */ u8 mMainOam[0x404];
     /* 404 */ u8 mSubOam[0x404];
@@ -468,8 +473,9 @@ enum {
     SCROLL_LIST_STATE_PICK,
 };
 
-// Calls a pick of the scroll list runs, calls a scroll step takes once the direction was held for more than
-// SCROLL_LIST_FAST_HELD_MOVES moves and before that, and calls the right column bits stay.
+// Calls a pick of the scroll list runs; calls a scroll step takes once the direction was held for more than
+// SCROLL_LIST_FAST_HELD_MOVES moves and before that (also the held calls after which the next move starts); calls the
+// right column high bits stay before the timer clears them.
 #define SCROLL_LIST_PICK_FRAMES 10
 #define SCROLL_LIST_FAST_SCROLL_FRAMES 5
 #define SCROLL_LIST_SLOW_SCROLL_FRAMES 0xf

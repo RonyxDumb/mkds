@@ -103,19 +103,19 @@ void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, ParticleInstance *ptcl, Ve
     acc->z = acc->z + gravity->z;
 }
 
-void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance *ptcl, Vec3 *acc,
+void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *random, ParticleInstance *ptcl, Vec3 *acc,
                              ParticleEmitter *emtr) {
-    if (ptcl->mAge % rng->mInterval != 0) {
+    if (ptcl->mAge % random->mInterval != 0) {
         return;
     }
-    acc->x = acc->x + ((rng->mRangeX * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mRangeX << 8)) >>
+    acc->x = acc->x + ((random->mRangeX * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (random->mRangeX << 8)) >>
                        8);
-    acc->y = acc->y + ((rng->mRangeY * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mRangeY << 8)) >>
+    acc->y = acc->y + ((random->mRangeY * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (random->mRangeY << 8)) >>
                        8);
-    acc->z = acc->z + ((rng->mRangeZ * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mRangeZ << 8)) >>
+    acc->z = acc->z + ((random->mRangeZ * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (random->mRangeZ << 8)) >>
                        8);
 }
 
@@ -253,12 +253,12 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
         return;
     }
     if (lifeRate < hi) {
-        s32 cb; // PERM
-        s32 er; // PERM
-        s32 cr; // PERM
-        s32 eg; // PERM
-        s32 cg; // PERM
-        s32 eb; // PERM
+        s32 cb;
+        s32 er;
+        s32 cr;
+        s32 eg;
+        s32 cg;
+        s32 eb;
         er = header->mColor & SPL_COLOR_CHANNEL_MASK;
         eg = (header->mColor >> 5) & SPL_COLOR_CHANNEL_MASK;
         eb = (header->mColor >> 10) & SPL_COLOR_CHANNEL_MASK;
@@ -419,7 +419,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
     resource = emtr->mResource;
     emitTotal = emtr->mEmitRate + emtr->mEmitFraction;
     header = resource->mHeader;
-    emtr->mEmitFraction = emitTotal & 0xfff;
+    emtr->mEmitFraction = emitTotal & FIXED12_FRACTION_MASK;
     emitCount = FROM_FIXED12(emitTotal);
     if (header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CIRCLE_RANDOM ||
         header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CIRCLE_EVEN ||
@@ -1714,7 +1714,7 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     texParam = tex->mParam;
     SetTexImageParam(tex->mTextureVramAddr, texParam.mFormat, texParam.mSizeS, texParam.mSizeT, texParam.mWrapS,
                      texParam.mWrapT, texParam.mColor0Transparent);
-    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0));
+    reg_G3_TEXPLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     scaleX = TO_FIXED12(tex->mWidth);
@@ -1725,7 +1725,7 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     reg_G3_MTX_MODE = 1;
 }
 
-void SPLUtil_SetTexture_Stub(ParticleTexture *tex) {}
+void SPLUtil_SetTextureNop(ParticleTexture *tex) {}
 
 void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     ParticleResourceHeader *header;
@@ -1971,7 +1971,7 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     if (header->mFlags.mHasTextureAnim) {
         textureFunc = SPLUtil_SetTexture;
     } else {
-        textureFunc = SPLUtil_SetTexture_Stub;
+        textureFunc = SPLUtil_SetTextureNop;
     }
     for (particle = emitter->mParticles.mFront; particle != 0; particle = particle->mNext) {
         textureFunc(mgr->mTextures + particle->mTextureIndex);
@@ -2059,7 +2059,7 @@ u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt) {
     return (NNS_GfdDefaultFuncAllocPlttVram(size, is4Pltt, 0) & 0xffff) << 3;
 }
 
-SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,
+SPLManager *SPLManager_Create(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,
                            u16 maxPolyId) {
     SPLManager *mgr;
     s32 index;
@@ -2333,7 +2333,7 @@ ParticleEmitter *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 
     return emtr;
 }
 
-ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
+ParticleEmitter *SPLManager_CreateEmitterWithCallback(SPLManager *mgr, s32 resourceId, Vec3 *pos, s32 param,
                                                    void (*initCallback)(ParticleEmitter *emtr, s32 param)) {
     ParticleEmitter *emtr;
 

@@ -14,7 +14,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Graphics/text_canvas.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "arena_cache_init.h"
 #include "vram_transfer_queue.h"
 #include "char_canvas_text_draw.h"
@@ -67,15 +67,11 @@ s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     gSelectReturn->mSoundId = SELECT_RETURN_SOUND_ID;
     return subCharOffset;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearSelectReturnPointer(void) {
     gSelectReturn = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitSelectReturnDisplay(void) {
     u32 subDisplayBits;
     subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
@@ -146,9 +142,6 @@ void AdvanceSelectReturnSlideIn(void) {
         gSelectReturn->mSlideInRequested = FALSE;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectReturnShown(void) {
     SelectReturn *selectReturn;
@@ -163,9 +156,6 @@ void AdvanceSelectReturnShown(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceSelectReturnPress(void) {
     SelectReturn *selectReturn;
     selectReturn = gSelectReturn;
@@ -271,7 +261,7 @@ void RequestSelectReturnPressWithSound(s32 requestSlideOut) {
 }
 
 void RequestSelectReturnSlideOut(void) {
-    if (IsSelectReturnHiddenNoRequest() != 0) {
+    if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
         gSelectReturn->mSlideOutRequested = FALSE;
     } else {
         gSelectReturn->mSlideOutRequested = TRUE;
@@ -298,7 +288,7 @@ BOOL IsSelectReturnShownNoRequest(void) {
     return result;
 }
 
-BOOL IsSelectReturnHiddenNoRequest(void) {
+BOOL IsSelectReturnHiddenNoSlideInRequest(void) {
     BOOL result;
     SelectReturn *selectReturn;
     result = FALSE;
@@ -308,15 +298,12 @@ BOOL IsSelectReturnHiddenNoRequest(void) {
     }
     return result;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 int LookupSelectReturnSlideInBg2Offset(int frame) {
     if (frame < 0) {
         frame = 0;
     }
-    if (10 <= frame) {
+    if (SELECT_RETURN_SLIDE_STEPS <= frame) {
         frame = 9;
     }
     return gSelectReturnSlideInBg2Offsets[frame];
@@ -326,51 +313,38 @@ int LookupSelectReturnSlideOutBg2Offset(int frame) {
     if (frame < 0) {
         frame = 0;
     }
-    if (10 <= frame) {
+    if (SELECT_RETURN_SLIDE_STEPS <= frame) {
         frame = 9;
     }
     return gSelectReturnSlideOutBg2Offsets[frame];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 BOOL IsSelectReturnShownNoRequestAndInRect(s32 pointX, s32 pointY) {
     if (IsSelectReturnShownNoRequest() != 0 && pointX >= 0 && pointX <= 0x28 && pointY >= 0x98 && pointY <= 0xc0) {
         return TRUE;
     }
     return FALSE;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearSelectReturnDisplayBitOn(void) {
     gSelectReturn->mDisplayBitOn = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetSelectReturnDisplayBitOn(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gSelectReturn->mDisplayBitOn = TRUE;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetSelectReturnSoundId(u32 soundId) {
     gSelectReturn->mSoundId = soundId;
 }
-#pragma thumb off
 
-#pragma thumb on
 // Zeroes the char buffer gate; StartSelectChoises sets it after taking the strings.
 void ClearSelectChoisesUseCharBuffers(void) {
     gSelectChoises->mUseCharBuffers = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     s32 canvasIndex;
     s32 charSpacing;
@@ -417,15 +391,11 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     gSelectChoises->mIndexNoneSoundId = SELECT_CHOISES_NONE_SOUND_ID;
     return subCharOffset;
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearSelectChoisesPointer(void) {
     gSelectChoises = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 InitSelectChoisesDisplay(void) {
     u32 operandBits;
     u32 registerValue;
@@ -443,9 +413,6 @@ u32 InitSelectChoisesDisplay(void) {
     *(u16 *) ((registerAddress) + 0u) = registerValue;
     return operandBits;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 s32 LoadSelectChoises(s32 subCharOffset) {
     Ncgr *chars;
@@ -614,7 +581,7 @@ static inline s32 SelectChoisesIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL recentlyLost = FALSE;
     u16 hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
 
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -668,7 +635,7 @@ void AdvanceSelectChoisesChoose(void) {
     } else {
         if ((u16) (keys & PAD_KEY_B) != 0) {
             gSelectChoises->mIndexNone = 1;
-            gSelectChoises->mChosenFrames = SELECT_CHOISES_RETURN_START_FRAME;
+            gSelectChoises->mChosenFrames = SELECT_CHOISES_NONE_START_FRAME;
             gSelectChoises->mNextState = SELECT_CHOISES_STATE_CHOSEN;
             if (gSelectChoises->mDisplayBitOn != 0) {
                 if (gSelectChoises->mIndexNoneSoundId != -1) {
@@ -677,7 +644,7 @@ void AdvanceSelectChoisesChoose(void) {
             }
             return;
         }
-        if ((u16) (keys & PAD_KEY_UP) != 0 && gSelectChoises->mIndex == 1) {
+        if ((u16) (keys & PAD_KEY_DIRECTION_UP) != 0 && gSelectChoises->mIndex == 1) {
             gSelectChoises->mIndex = 0;
             RefreshAndQueueSelectChoises();
             if (gSelectChoises->mDisplayBitOn != 0) {
@@ -685,7 +652,7 @@ void AdvanceSelectChoisesChoose(void) {
             }
             return;
         }
-        if ((u16) (keys & PAD_KEY_DOWN) != 0 && gSelectChoises->mIndex == 0) {
+        if ((u16) (keys & PAD_KEY_DIRECTION_DOWN) != 0 && gSelectChoises->mIndex == 0) {
             gSelectChoises->mIndex = 1;
             RefreshAndQueueSelectChoises();
             if (gSelectChoises->mDisplayBitOn != 0) {
@@ -694,9 +661,6 @@ void AdvanceSelectChoisesChoose(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectChoisesChosen(void) {
     SelectChoises *selectChoises;
@@ -719,10 +683,6 @@ void AdvanceSelectChoisesChosen(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceSelectChoises(void) {
     if (gSelectChoises->mEnabled != 0) {
         gSelectChoises->mState = gSelectChoises->mNextState;
@@ -738,8 +698,8 @@ void AdvanceSelectChoises(void) {
                 break;
         }
         gSelectChoises->mToggleFrames++;
-        if ((gSelectChoises->mToggleOn != 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_ON_FRAMES) ||
-            (gSelectChoises->mToggleOn == 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_OFF_FRAMES)) {
+        if ((gSelectChoises->mToggleOn != 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_ON_LIMIT) ||
+            (gSelectChoises->mToggleOn == 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_OFF_LIMIT)) {
             gSelectChoises->mToggleOn = gSelectChoises->mToggleOn == 0;
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();
@@ -824,9 +784,6 @@ BOOL IsSelectChoisesHiddenNoRequest(void) {
     }
     return result;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 s32 GetSelectChoisesIndex(void) {
     if (gSelectChoises->mIndexNone != 0) {

@@ -9,15 +9,16 @@ enum {
     LAYOUT_ALIGN_END,
 };
 
-// Two bytes: a signed 12-bit number, a 2-bit selector at bit 12, and two more bits.
+// One axis of a layout entry: mPosition, mAlign (how mPosition sits against the extent) and mLineAlign (passed to the
+// text drawing as lineAlign), packed in two bytes.
 typedef struct LayoutAxis {
     /* 00 */ s16 mPosition : 12;
     /* 00 */ u16 mAlign : 2;
     /* 00 */ u16 mLineAlign : 2;
 } LayoutAxis;
 
-// 6-byte entry of the array RectTableGetEntry indexes: two LayoutAxis and the two sizes added to what
-// GetLayoutAxisStartX and GetLayoutAxisStartY return for them.
+// An entry of a rect table: mAxisX and mAxisY place the left and top edges (GetLayoutAxisStartX/Y with mWidth and
+// mHeight), and mWidth and mHeight are its size.
 typedef struct RectTableEntry {
     /* 00 */ LayoutAxis mAxisX;
     /* 02 */ LayoutAxis mAxisY;
@@ -25,8 +26,7 @@ typedef struct RectTableEntry {
     /* 05 */ u8 mHeight;
 } RectTableEntry;
 
-// Header of an array: a count at 6, then the entries from 8 (GetCellLayoutEntry indexes 8-byte entries,
-// GetLabelLayoutEntry 12-byte ones, RectTableGetEntry and RectTableFindContaining 6-byte ones).
+// Header of a layout table: mCount, then the entries (cell, label or rect entries, depending on the table).
 typedef struct LayoutEntryTable {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u16 mCount;

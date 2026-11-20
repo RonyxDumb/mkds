@@ -8,7 +8,7 @@
 #include "Main/MapObjects/woodbox.h"
 #include "Main/MapObjects/group_follower.h"
 #include "Main/Item/item_f_box.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/MapObjects/attractor_distance_flag.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
@@ -22,13 +22,13 @@
 #include "fixed_vector_math.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/item_object_sound_source_init.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/MapObjects/choropu_state.h"
@@ -85,7 +85,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     reset = gItemKinds[kind].mReset;
     item->mKind = kind;
     item->mFlags = 0;
-    item->mPendingUpdateCount = 0;
+    item->mUpdatesRemaining = 0;
     item->mScale.x = 0;
     item->mScale.y = 0;
     item->mScale.z = 0;
@@ -150,7 +150,7 @@ void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, const Vec3 *no
         InitCourseColorBlend(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
-    item->mFramesSinceReset = flag != 0 ? 0 : ITEM_OBJECT_RECENT_HIT_FRAMES;
+    item->mFramesSinceCourseHitAttribute = flag != 0 ? 0 : ITEM_OBJECT_RECENT_HIT_FRAMES;
 }
 
 s32 DoesItemObjectHurtKart(ItemObject *item) {
@@ -164,7 +164,7 @@ BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart) {
     if (item->mCollisionSlotIndex == -1 ||
         kart->mIndex == (u16) ((item->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED) != 0
                                    ? (u16) (item->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                                   : 8)) {
+                                   : ITEM_NO_KART_INDEX)) {
         return FALSE;
     }
     hitRadius = kart->mRadius + item->mRadius;
@@ -440,7 +440,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mCoursePointOrParams.y = 0;
     item->mCoursePointOrParams.z = 0;
     item->mFramesSinceCourseHit = ITEM_OBJECT_RECENT_HIT_FRAMES;
-    item->mFramesSinceReset = 0;
+    item->mFramesSinceCourseHitAttribute = 0;
     item->mCourseReleaseTimer = 0;
     item->mHitLinkTimer = 0;
     item->mAgeFrames = 1;

@@ -27,19 +27,19 @@ typedef struct UnmatchedDataAddress {
     /* 04 */ u32 mAddress;
 } UnmatchedDataAddress;
 
-void DWCi_MatchGPRecvBuddyMsgCallback(GpConnection *gpConnection, u32 profileId, const char *message);
-void DWCi_GT2ConnectedCallback(Gt2Connection *connection, s32 result);
-void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2Connection *connection, u32 address, u32 port, s32 latency,
+void DWCi_MatchGPRecvBuddyMsgCallback(GPConnection *gpConnection, u32 profileId, const char *message);
+void DWCi_GT2ConnectedCallback(GTI2Connection *connection, s32 result);
+void DWCi_GT2ConnectAttemptCallback(u32 socket, GTI2Connection *connection, u32 address, u32 port, s32 latency,
                                     char *message);
-u32 DWCi_GT2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 size);
+u32 DWCi_GT2UnrecognizedMessageCallback(GTI2Socket *socket, s32 address, s32 port, void *message, s32 size);
 void DWCi_MatchProcess(s32 runStateMachine);
 void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
-                                DWCMatchedCallback matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
+                                DWCMatchedSCCallback matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
                                 u32 evalParam);
-void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedCallback matchedCallback,
+void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedSCCallback matchedCallback,
                                 u32 matchedParam, MatchEvalFunc *evalCallback, u32 evalParam);
 u32 DWCi_QR2Startup(u32 profileId);
-void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, Gt2Socket **connectionSocket,
+void DWCi_MatchInit(WiFiMatching *wiFiMatching, GPConnection *gpConnection, GTI2Socket **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
 #include "00/Lib/DWC/internet_connection.h"

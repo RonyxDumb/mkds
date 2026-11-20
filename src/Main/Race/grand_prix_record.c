@@ -26,7 +26,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Net/pending_files.h"
@@ -35,7 +35,8 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const u8 gCupRankTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
+const u8 gCupRankTable[8] = {0, 1, 2, CUP_RANK_NO_TROPHY, CUP_RANK_NO_TROPHY, CUP_RANK_NO_TROPHY, CUP_RANK_NO_TROPHY,
+                             CUP_RANK_NO_TROPHY};
 
 void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum) {
     u16 milliseconds = firstTime->mMillisecond + secondTime->mMillisecond;
@@ -148,7 +149,7 @@ u32 TrySetMissionRecord(void) {
     missionColumn = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableColumn : -1;
     endKind = IsKartEnded((u16) gRaceSetup->mEntryIndex);
     endKind = (endKind != 0) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED;
-    if (endKind != 0) {
+    if (endKind != RACE_END_KIND_GOAL) {
         return 0;
     }
     GetMissionRecord((u16) missionRow, (u16) missionColumn, &storedRecord);
@@ -167,7 +168,7 @@ u32 TrySetMissionRecord(void) {
     return stored;
 }
 
-void InitWLMenuRequestMPWaitRaceArchives(void *heap) {
+void InitWLMenuRequestMPWaitRaceArchivesForNextRace(void *heap) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
@@ -199,11 +200,11 @@ void InitWLMenuResetRaceSetup(void *heap) {
     }
     connectionKind = gStartupWork->mConnectionKind;
     kindIsOneOrTwo = 1;
-    if (connectionKind != 1 && connectionKind != 2) {
+    if (connectionKind != CONNECTION_KIND_MEMBER_SELECT && connectionKind != CONNECTION_KIND_WL_MENU) {
         kindIsOneOrTwo = 0;
     }
     if (kindIsOneOrTwo != 0) {
-        AllocConnectionBuffers(heap, connectionKind == 1, bannerFile);
+        AllocConnectionBuffers(heap, connectionKind == CONNECTION_KIND_MEMBER_SELECT, bannerFile);
         InitMPChunkBuffers(heap);
     }
     ResetRaceSetup();

@@ -1,5 +1,5 @@
 #include "Main/MapObjects/sun_fireball.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "matrix_3x3_basic.h"
 #include "Main/Course/course_map_group_entry.h"
@@ -95,8 +95,8 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
 void SunFireballInitNop(void) {}
 
 static inline u32 SunFireballNextRandomU32(RandomState64 *randomState64) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    return randomState64->mValue >> 32;
+    RANDOM_ADVANCE(randomState64);
+    return RANDOM_HIGH32(randomState64);
 }
 
 void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
@@ -173,7 +173,8 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
             sunFireball->mMapObject.mPosStep.y = stepValue;
             sunFireball->mMapObject.mPos.y = sunFireball->mMapObject.mPos.y + sunFireball->mMapObject.mPosStep.y;
             if (sunFireball->mMapObject.mPosStep.y < 0) {
-                sunFireball->mMoveAngle = ((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32;
+                sunFireball->mMoveAngle
+                    = ((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * ANGLE_FULL_TURN) >> 32;
                 sunFireball->mState = SUN_FIREBALL_STATE_HIT_SPIRAL;
             }
             break;
@@ -255,9 +256,9 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mEmitterB->mLife = SUN_FIREBALL_SHORT_LIFE_FRAMES;
     sunFireball->mEmitterA->mEmitInterval = SUN_FIREBALL_SHORT_EMIT_INTERVAL;
     sunFireball->mEmitterB->mEmitInterval = SUN_FIREBALL_SHORT_EMIT_INTERVAL;
-    sunFireball->mMapObject.mFlags &= ~1;
-    sunFireball->mMapObject.mFlags &= ~8;
-    sunFireball->mMapObject.mFlags &= ~2;
-    sunFireball->mMapObject.mFlags &= ~8;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     sunFireball->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }

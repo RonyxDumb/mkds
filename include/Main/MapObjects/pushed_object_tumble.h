@@ -10,4 +10,4 @@ void UpdatePushedObjectTumble(void *stateObject);
 
 void EnterPushedObjectTumble(void *stateObject);
 
-extern const u8 gPushedObjectTumbleFlag[2];
+extern const u8 gPushedObjectInactiveFlag[2];

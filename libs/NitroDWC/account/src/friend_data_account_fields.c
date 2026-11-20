@@ -15,25 +15,17 @@
 #pragma thumb on
 
 u64 DWCi_Acc_GetFriendKey(const DWCAccFriendData *data) {
-    return (u64) data->mFriendKeyHi << 32 | data->mFriendKeyLo;
+    return (u64) data->mFriendKeyHi32 << 32 | data->mFriendKeyLo32;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetFriendDataGsProfileId(const DWCAccFriendData *friendData) {
     return friendData->mGsProfileId;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi) {
     enum { SHIFT_NONE } shift = SHIFT_NONE;
-    DWCi_Acc_SetMaskBits(&loginid->mIdData, useridHi, shift, 0x7ff);
-    loginid->mUserIdLo = useridLo;
+    DWCi_Acc_SetMaskBits(&loginid->mIdData, useridHi, shift, ACCOUNT_USER_ID_HIGH_MASK);
+    loginid->mUserIdLo32 = useridLo;
 }
 
 void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid) {
@@ -41,23 +33,17 @@ void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid) {
 }
 
 void DWCi_Acc_SetFriendKey(DWCAccFriendData *data, u32 friendkeyLo, u32 friendkeyHi) {
-    data->mFriendKeyLo = friendkeyLo;
-    data->mFriendKeyHi = friendkeyHi;
+    data->mFriendKeyLo32 = friendkeyLo;
+    data->mFriendKeyHi32 = friendkeyHi;
 }
 
 void DWCi_Acc_SetGsProfileId(DWCAccFriendData *data, u32 gsProfileId) {
     data->mGsProfileId = gsProfileId;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 GetFriendDataFlags(const DWCAccFriendData *friendData) {
-    return (friendData->mIdData >> DWC_ACC_FLAGS_SHIFT) & DWC_ACC_FLAGS_MASK;
+    return (friendData->mIdData >> ACCOUNT_FLAGS_SHIFT) & ACCOUNT_FLAGS_MASK;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 DWCi_Acc_GetFlag_DataType(const DWCAccFriendData *frienddata) {
     return GetFriendDataFlags(frienddata) & ACCOUNT_DATA_TYPE_MASK;
@@ -73,23 +59,14 @@ BOOL DWC_IsBuddyFriendData(const DWCAccFriendData *frienddata) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 GetFriendDataType(const DWCAccFriendData *friendData) {
     return DWCi_Acc_GetFlag_DataType(friendData);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetFriendDataFlags(DWCAccFriendData *friendData, u32 flags) {
-    DWCi_Acc_SetMaskBits(&friendData->mIdData, flags, DWC_ACC_FLAGS_SHIFT, DWC_ACC_FLAGS_MASK);
+    DWCi_Acc_SetMaskBits(&friendData->mIdData, flags, ACCOUNT_FLAGS_SHIFT, ACCOUNT_FLAGS_MASK);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetFriendDataType(DWCAccFriendData *friendData, u32 dataType) {
     u32 flags;
     u32 value;
@@ -100,9 +77,6 @@ void SetFriendDataType(DWCAccFriendData *friendData, u32 dataType) {
     value = value | dataType;
     SetFriendDataFlags(friendData, value);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void DWCi_SetBuddyFriendData(DWCAccFriendData *frienddata) {
     u32 flags;
@@ -113,28 +87,28 @@ void DWCi_SetBuddyFriendData(DWCAccFriendData *frienddata) {
 }
 
 u64 DWC_Acc_CreateFriendKey(int gsProfileId, u32 gamecode) {
-    u32 code[2];
+    u32 crcInput[2];
     u8 table[0x100];
     u64 crc;
 
-    code[0] = gsProfileId;
-    code[1] = gamecode;
+    crcInput[0] = gsProfileId;
+    crcInput[1] = gamecode;
     Crc8InitTable(table, 7);
-    crc = Crc8(table, code, 8) & 0x7f;
+    crc = Crc8(table, crcInput, 8) & 0x7f;
     crc <<= 32;
     crc |= (u32) gsProfileId;
     return crc;
 }
 
 BOOL DWC_Acc_CheckFriendKey(u64 friendkey, u32 gamecode) {
-    u32 code[2];
+    u32 crcInput[2];
     u8 table[0x100];
     s32 crc;
 
-    code[0] = friendkey;
-    code[1] = gamecode;
+    crcInput[0] = friendkey;
+    crcInput[1] = gamecode;
     Crc8InitTable(table, 7);
-    crc = Crc8(table, code, 8) & 0x7f;
+    crc = Crc8(table, crcInput, 8) & 0x7f;
     return crc == (friendkey >> 32);
 }
 
@@ -149,29 +123,21 @@ int DWC_Acc_FriendKeyToGsProfileId(u64 friendkey, u32 gamecode) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void FormatFriendKey(u32 low, u32 high, u32 buffer) {
     OS_SNPrintf((char *) buffer, 0xd, "%012llu", low, high);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u64 DWC_StringToFriendKey(const char *string) {
     const s8 *chars = (const s8 *) string;
     u64 result;
-    u64 dec;
+    u64 placeValue;
     s32 digitIndex;
 
     result = 0;
-    dec = 1;
+    placeValue = 1;
     for (digitIndex = 0; digitIndex < 12; digitIndex++) {
-        result += dec * (s64) (*(chars + 11 - digitIndex) - 0x30);
-        dec *= 10;
+        result += placeValue * (s64) (*(chars + 11 - digitIndex) - 0x30);
+        placeValue *= 10;
     }
     return result;
 }
@@ -191,12 +157,12 @@ void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result) {
 }
 
 void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, char *username) {
-    char idPart[0x15];
+    char userIdPart[0x15];
     char playerPart[0x15];
 
-    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, idPart);
+    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, userIdPart);
     DWCi_Acc_U64ToString32(GetFriendDataPlayerId(loginid), 0x20, playerPart);
-    OS_SNPrintf(username, 0x15, "%s%c%c%c%c%s", idPart, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
+    OS_SNPrintf(username, 0x15, "%s%c%c%c%c%s", userIdPart, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
                 (u8) (gamecode >> 8), (u8) gamecode, playerPart);
 }
 
@@ -208,7 +174,7 @@ void DWCi_Acc_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
     userdata->mGsProfileId = 0;
     userdata->mGamecode = gamecode;
     DWCi_Acc_CreateTempLoginId(&userdata->mPseudo);
-    SetFriendDataType(&userdata->mAuthentic, 0);
+    SetFriendDataType(&userdata->mAuthentic, ACCOUNT_DATA_TYPE_NONE);
     Crc32InitTable(crcTable, 0xedb88320);
     userdata->mCrc32 = Crc32(crcTable, userdata, 0x3c);
     userdata->mFlag |= 1;
@@ -228,7 +194,7 @@ void DWCi_Acc_CreateTempLoginId(DWCAccFriendData *loginid) {
     }
     rand = tick * 0x5d588b656c078965ull + 0x269ec3;
     DWCi_Acc_SetPlayerId(loginid, rand >> 32);
-    SetFriendDataType(loginid, 1);
+    SetFriendDataType(loginid, ACCOUNT_DATA_TYPE_LOGIN_ID);
 }
 
 BOOL DWCi_Acc_CheckConsoleUserId(const DWCAccFriendData *loginid) {
@@ -247,10 +213,6 @@ BOOL DWCi_Acc_CheckConsoleUserId(const DWCAccFriendData *loginid) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsFriendDataLoginId(const DWCAccFriendData *friendData) {
     int dataType;
     dataType = DWCi_Acc_GetFlag_DataType(friendData);
@@ -260,36 +222,22 @@ u32 IsFriendDataLoginId(const DWCAccFriendData *friendData) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 BOOL DWCi_Acc_IsAuthentic(const DWCAccUserData *userdata) {
     return IsFriendDataLoginId(&userdata->mAuthentic);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 IsFriendDataTypeNonZero(const void *friendData) {
     int dataType;
     dataType = DWCi_Acc_GetFlag_DataType(friendData);
-    if (dataType != 0) {
+    if (dataType != ACCOUNT_DATA_TYPE_NONE) {
         return 1;
     }
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 IsFriendDataTypeNonZeroWrapper(const void *friendData) {
     return IsFriendDataTypeNonZero(friendData);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void DWC_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
     DWCi_Acc_CreateUserData(userdata, gamecode);
@@ -298,7 +246,7 @@ void DWC_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
 BOOL DWC_CheckValidConsole(const DWCAccUserData *userdata) {
     DWCAuthWiFiId id;
 
-    if (DWCi_Acc_GetFlag_DataType(&userdata->mAuthentic) == 0) {
+    if (DWCi_Acc_GetFlag_DataType(&userdata->mAuthentic) == ACCOUNT_DATA_TYPE_NONE) {
         return 1;
     }
     DWC_Auth_GetId(&id);
@@ -372,25 +320,17 @@ u64 DWC_CreateFriendKey(const DWCAccUserData *userdata) {
     return friendKey;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitFriendDataFromFriendKey(void *friendData, u32 friendKeyLow, u32 friendKeyHigh) {
     MI_CpuFill8(friendData, 0, 0xc);
     DWCi_Acc_SetFriendKey(friendData, friendKeyLow, friendKeyHigh);
-    SetFriendDataType(friendData, 2);
+    SetFriendDataType(friendData, ACCOUNT_DATA_TYPE_FRIEND_KEY);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void DWC_CreateExchangeToken(const DWCAccUserData *userdata, DWCAccFriendData *token) {
     MI_CpuFill8(token, 0, 12);
     if (DWCi_Acc_IsAuthentic(userdata) != 0) {
         DWCi_Acc_SetGsProfileId(token, userdata->mGsProfileId);
-        SetFriendDataType(token, 3);
+        SetFriendDataType(token, ACCOUNT_DATA_TYPE_GS_PROFILE_ID);
     } else {
         *token = userdata->mPseudo;
     }

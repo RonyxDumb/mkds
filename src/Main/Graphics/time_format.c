@@ -8,7 +8,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -33,10 +33,10 @@ s16 LookupIndexChangeOffset(s32 step, s32 row) {
 
 void FormatNumberByVariant(s32 number, u16 *text, s32 variant) {
     switch (variant) {
-        case 0:
+        case TIME_FORMAT_ASCII:
             FormatAsciiNumber(number, text);
             break;
-        case 1:
+        case TIME_FORMAT_FULL_WIDTH:
             FormatFullWidthNumber(number, text);
             break;
     }
@@ -44,10 +44,10 @@ void FormatNumberByVariant(s32 number, u16 *text, s32 variant) {
 
 void WriteColonByVariant(u16 *text, s32 variant) {
     switch (variant) {
-        case 0:
+        case TIME_FORMAT_ASCII:
             *text = 0x3a;
             break;
-        case 1:
+        case TIME_FORMAT_FULL_WIDTH:
             *text = 0xff1a;
             break;
     }
@@ -55,10 +55,10 @@ void WriteColonByVariant(u16 *text, s32 variant) {
 
 void WriteZeroDigitByVariant(u16 *text, s32 variant) {
     switch (variant) {
-        case 0:
+        case TIME_FORMAT_ASCII:
             *text = 0x30;
             break;
-        case 1:
+        case TIME_FORMAT_FULL_WIDTH:
             *text = 0xff10;
             break;
     }
@@ -121,7 +121,8 @@ void FormatTwoDigitNumber(u32 number, u16 *text) {
     }
 }
 
-// Writes the year, month and day as text in the order the region selects.
+// Writes the year (20 plus two digits), month and day as text; the region selects the order, and German selects "."
+// instead of "/".
 void FormatDate(DateBytes *date, u16 *text) {
     switch (gStartupWork->mRegion) {
         case REGION_JAPAN:
@@ -133,7 +134,7 @@ void FormatDate(DateBytes *date, u16 *text) {
             FormatTwoDigitNumber(date->mDay, text + 8);
             text[10] = 0;
             break;
-        case REGION_AMERICA:
+        case REGION_USA:
             FormatTwoDigitNumber(date->mMonth, text);
             text[2] = 0x2f;
             FormatTwoDigitNumber(date->mDay, text + 3);

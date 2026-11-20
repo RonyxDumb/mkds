@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Read by ScanStringSourceOp: a pointer to the next byte, and a flag word.
+// The text ScanStringSourceOp reads from: mNextChar, the next byte, and mAtEnd, set once the end 0 was read.
 typedef struct ScanStringSource {
     /* 00 */ const char *mNextChar;
     /* 04 */ int mAtEnd;
@@ -14,9 +14,10 @@ typedef struct ScanStringSource {
 #define SCAN_OP_UNREAD 1
 #define SCAN_OP_AT_END 2
 
-// States of ScanInt32 and ScanInt64. READ_SIGN skips spaces and a sign, AFTER_SIGN looks for a leading 0,
-// CHECK_RADIX_MARK for an x, FIRST_DIGIT needs a digit, DIGITS has read at least one. ENDED stops after the digits,
-// FAILED stops on a bad start. STOPPED and VALID group them.
+// States of ScanInt32 and ScanInt64. READ_SIGN skips spaces and a sign, AFTER_SIGN looks for a leading 0 (only when the
+// base is 0 or 16), CHECK_RADIX_MARK for an x after it, FIRST_DIGIT needs a digit, DIGITS has read at least one. ENDED
+// stops after the digits, FAILED stops on a bad start (a bad base or length, or no digit). STOPPED is ENDED and FAILED;
+// VALID is CHECK_RADIX_MARK, DIGITS and ENDED, the states whose text is counted.
 #define SCAN_INT_STATE_READ_SIGN 0x1
 #define SCAN_INT_STATE_AFTER_SIGN 0x2
 #define SCAN_INT_STATE_CHECK_RADIX_MARK 0x4
@@ -27,9 +28,11 @@ typedef struct ScanStringSource {
 #define SCAN_INT_STATES_STOPPED 0x60
 #define SCAN_INT_STATES_VALID 0x34
 
-// States of ScanDouble. The decimal ones follow the text: spaces and sign, the digits before the point, the point and
-// the digits after it, E and the exponent sign and digits. DONE and FAILED end the loop, VALID_END groups the states
-// in which the text read so far is a number. INFINITY and NAN read the rest of those words.
+// States of ScanDouble. The decimal ones follow the text: spaces and sign, the start of the number (a point, a 0 that
+// may begin 0x, or a digit), leading zeros, the digits before the point, a leading point and the digits after the
+// point, E and the exponent sign and digits. DONE and FAILED end the loop, VALID_END groups the states in which the
+// text read so far is a number. INFINITY and NAN read the rest of those words; HEX, entered after 0x, runs the hex
+// states below.
 #define SCAN_DOUBLE_STATE_READ_SIGN 0x1
 #define SCAN_DOUBLE_STATE_START_NUMBER 0x2
 #define SCAN_DOUBLE_STATE_LEADING_ZEROS 0x4
@@ -61,10 +64,12 @@ typedef struct ScanStringSource {
 #define SCAN_HEX_STATE_EXPONENT_DIGITS 0x100
 #define SCAN_HEX_STATES_VALID_END 0x18e
 
-// Digits ScanDouble keeps of a decimal number; further digits only move the exponent.
+// Digits ScanDouble keeps of a decimal number; further integer digits only raise the exponent and further fraction
+// digits are dropped.
 #define SCAN_DOUBLE_MAX_DIGITS 20
 
-// Called through a pointer by ScanWithSourceFunc and ScanDouble: (their second argument, value, 0/1/2).
+// Called through a pointer by ScanInt32, ScanInt64, ScanDouble and ScanWithSourceFunc with (source, character,
+// operation); operation is SCAN_OP_READ, SCAN_OP_UNREAD or SCAN_OP_AT_END.
 typedef int (*ScanReadCharFunc)(void *source, int character, int operation);
 
 // Read by ScanDouble.
@@ -80,9 +85,12 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
 u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSource *source, int *usedCount,
               int *negative, int *overflow);
 
-// 0x80 entries, indexed by byte values 0x00-0x7f by ScanDouble.
+// Upper case of each byte value 0x00-0x7f (a-z map to A-Z); read by ScanInt32, ScanInt64, ScanDouble and the profile
+// info code.
 extern const u8 gUpperCaseMap[128];
-// Byte table indexed by bytes below 0x80; read by StrcmpMapped.
+// Lower case of each byte value 0x00-0x7f (A-Z map to a-z); read by StrcmpMapped, StringHash, ServerStringHash and
+// _strlwr.
 extern const u8 gLowerCaseMap[128];
-// u16 per byte value 0x00-0x7f; FormatParseSpec tests bit 3. Also read by ScanParseSpec.
+// Class bits of each byte value 0x00-0x7f: 0x100 space, 8 digit, 1 letter, 0x400 hex digit; read by the Scan and Format
+// functions and the GameSpy text code.
 extern const u16 gCharClassFlags[128];

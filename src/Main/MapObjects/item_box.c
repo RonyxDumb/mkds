@@ -96,7 +96,7 @@ MtxFx43 gItemBoxShadowMatrix;
 void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
     InitItemBox(itemBox, row);
     if (itemBox->mNoCourseRow != 0) {
-        itemBox->mFollower.mGroupFollower.mGroupIndex = (0x0000ffffu);
+        itemBox->mFollower.mGroupFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         return;
     }
     InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&gGroupFollowerSpeed, row->mSettings[0]);
@@ -104,9 +104,6 @@ void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
     GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitGroupItemBoxObjects(void) {
     gGroupItemBoxHeightAngle = 0;
     gGroupItemBoxHeightOffset = 0;
@@ -176,8 +173,8 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) {
         itemBox->mDrawMatrixCallback(itemBox->mDrawMatrixCallbackOwner, &matrix);
         newPolygonId = AllocPolygonIdWrapping();
         model = gBox;
-        model->mPolygonAttributes = model->mPolygonAttributes & 0xc0ffffff;
-        model->mPolygonAttributes = model->mPolygonAttributes | newPolygonId << 24;
+        model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ID_MASK;
+        model->mPolygonAttributes = model->mPolygonAttributes | newPolygonId << POLYGON_ATTR_ID_SHIFT;
     } else {
         rotation = &gBoxRotations[itemBox->mBoxRotationIndex];
         cosine = rotation->mCosine;
@@ -198,13 +195,13 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) {
         matrix.mRows[3].z = position->z >> 4;
         polygonId = itemBox->mPolygonId;
         model = gBox;
-        model->mPolygonAttributes = model->mPolygonAttributes & 0xc0ffffff;
-        model->mPolygonAttributes = model->mPolygonAttributes | polygonId << 24;
+        model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ID_MASK;
+        model->mPolygonAttributes = model->mPolygonAttributes | polygonId << POLYGON_ATTR_ID_SHIFT;
     }
     alpha = itemBox->mBoxAlpha;
     model = gBox;
-    model->mPolygonAttributes = model->mPolygonAttributes & 0xffe0ffff;
-    model->mPolygonAttributes = model->mPolygonAttributes | alpha << 16;
+    model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+    model->mPolygonAttributes = model->mPolygonAttributes | alpha << POLYGON_ATTR_ALPHA_SHIFT;
     if (itemBox->mPositionSource != NULL) {
         if (itemBox->mMapObject.mScale.z < 0x29) {
             return;
@@ -260,12 +257,12 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
     matrix.mRows[3].z = position->z >> 4;
     alphaModel = gQuestion;
     alpha = itemBox->mQuestionAlpha;
-    alphaModel->mPolygonAttributes &= 0xffe0ffff;
-    alphaModel->mPolygonAttributes |= (u16) alpha << 16;
+    alphaModel->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+    alphaModel->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
     polygonId = itemBox->mPolygonId;
     polygonIdModel = gQuestion;
-    polygonIdModel->mPolygonAttributes &= 0xc0ffffff;
-    polygonIdModel->mPolygonAttributes |= polygonId << 24;
+    polygonIdModel->mPolygonAttributes &= ~POLYGON_ATTR_ID_MASK;
+    polygonIdModel->mPolygonAttributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
     DrawNsbmdModelWithMatrixAndMaxAlpha(
         gQuestion, &matrix, itemBox->mPositionSource != NULL ? &itemBox->mMapObject.mScale : 0, 0, maxAlpha);
 }
@@ -295,8 +292,8 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         itemBox->mQuestionAlpha = ITEM_BOX_QUESTION_ALPHA;
         alphaCap = 0xd;
     } else {
-        boxAlpha = alphaCap * 0x1a >> 6;
-        questionAlpha = alphaCap * 0x14 >> 6;
+        boxAlpha = alphaCap * ITEM_BOX_BOX_ALPHA >> 6;
+        questionAlpha = alphaCap * ITEM_BOX_QUESTION_ALPHA >> 6;
         alphaCap = alphaCap * 0xd >> 6;
         if (boxAlpha > 0) {
             if (questionAlpha < 1) {
@@ -309,7 +306,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         itemBox->mBoxAlpha = boxAlpha;
         itemBox->mQuestionAlpha = questionAlpha;
     }
-    if ((s32) (itemBox->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) > 0x27100) {
+    if ((s32) (itemBox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) > 0x27100) {
         if (GetEntryRaceEnded() == 0) {
             return;
         }
@@ -317,7 +314,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
     if (alphaCap < 1) {
         return;
     }
-    if (itemBox->mShadowMode == 0) {
+    if (itemBox->mShadowMode == ITEM_BOX_SHADOW_MATRIX) {
         itemBox->mShadowMatrix.mAlphaCap = alphaCap;
         DrawObjShadowAfterMaterial(&itemBox->mShadowMatrix,
                                    itemBox->mUsesGroupShadow != 0 ? &gGroupItemBoxShadowScaleWord : 0, unusedArg,
@@ -354,11 +351,11 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     u32 framesSinceHit;
 
     itemBox->mBoxRotationIndex++;
-    if (itemBox->mBoxRotationIndex >= ITEM_BOX_BOX_ROTATION_STEPS) {
+    if (itemBox->mBoxRotationIndex >= BOX_ROTATION_COUNT) {
         itemBox->mBoxRotationIndex = 0;
     }
     itemBox->mQuestionRotationIndex++;
-    if (itemBox->mQuestionRotationIndex >= ITEM_BOX_QUESTION_ROTATION_STEPS) {
+    if (itemBox->mQuestionRotationIndex >= QUESTION_ROTATION_COUNT) {
         itemBox->mQuestionRotationIndex = 0;
     }
     framesSinceHit = itemBox->mFramesSinceHit;
@@ -367,7 +364,7 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     }
     itemBox->mFramesSinceHit = framesSinceHit + 1;
     if (framesSinceHit > ITEM_BOX_HIT_FRAMES_FLAG_CLEAR) {
-        itemBox->mMapObject.mFlags = itemBox->mMapObject.mFlags & ~1;
+        itemBox->mMapObject.mFlags = itemBox->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
     }
 }
 
@@ -408,7 +405,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     itemBox->mMapObject.mFlags |= gItemBoxHitFlag;
     distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT;
     playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
-    if ((u32) playerKind <= 3) {
+    if ((u32) playerKind <= PLAYER_KIND_PEER) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
             kindInMask = TRUE;
         }
@@ -425,7 +422,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
 
 u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox) {
     if (itemBox->mNoCourseRow != 0) {
-        return 0x270f000;
+        return MAP_OBJECT_FAR_VALUE;
     }
     if (itemBox->mUsesGroupShadow == 0) {
         return 0;

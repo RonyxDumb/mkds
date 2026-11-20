@@ -6,11 +6,11 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/map_object_model.h"
 
-#define SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED 0x19
-#define SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED 8
+#define SHINE_BALLOON_APPEAR_PULSE_SCALE_SPEED 0x19
+#define SHINE_BALLOON_DISAPPEAR_PULSE_SCALE_SPEED 8
 
 #define SHINE_BALLOON_TIMER_FRAMES 0x1e
-#define SHINE_BALLOON_PULSE_SCALE_MIN 0x4a
+#define SHINE_BALLOON_SHOWN_PULSE_SCALE 0x4a
 
 // ShineBalloonObject.mState values: HIDDEN waits until the kart has a balloon, APPEAR and DISAPPEAR pulse the scale,
 // SHOWN follows the kart until its balloons are gone.
@@ -39,7 +39,7 @@ MapObjectList *CreateShineBalloonDrawList(void);
 
 MapObjectKindData *CreateShineBalloonKindData(void);
 
-/* skipped for objects with mFlags & 4 (parked pool objects) */
+/* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
 void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
 void SetupDrawShineBalloon(void *mapObjectList);

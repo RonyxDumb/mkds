@@ -30,20 +30,13 @@ void SetupMPLink(MPLink *link) {
     gMPLink->mReceiveBuffer = NULL;
     gMPLink->mCallback = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetMPLinkCallback(MPLinkEventCallback callback) {
     u32 irqState = (OS_DisableInterrupts());
-    u32 restoredIrq;
+    u32 irqStateBeforeRestore;
     gMPLink->mCallback = callback;
-    restoredIrq = (OS_RestoreInterrupts(irqState));
+    irqStateBeforeRestore = (OS_RestoreInterrupts(irqState));
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     s32 wmResult;
@@ -53,7 +46,7 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     gMPLink->mReceiveBufferSize = ((scanBuffer->mGameInfo.mParentMaxSize + 0x55) & ~0x1f) * 2;
     gMPLink->mParentMaxSize = scanBuffer->mGameInfo.mParentMaxSize;
     gMPLink->mChildMaxSize = scanBuffer->mGameInfo.mChildMaxSize;
-    gMPLink->mParentPayloadSize = gMPLink->mParentMaxSize - 6;
+    gMPLink->mUnk_18 = gMPLink->mParentMaxSize - 6;
     MBi_SetChildMPMaxSize(gMPLink->mChildMaxSize);
     wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, scanBuffer, NULL, 1, 0);
     if (wmResult != WIRELESS_CALL_QUEUED) {
@@ -240,12 +233,12 @@ void StartResetCallback(WirelessMessage *result) {
 
 u32 IsMPReadyToQueueData(void) {
     u32 ready = 0;
-    u32 mpActive = 0;
+    u32 startedAndNothingQueued = 0;
     MPLink *mpLink = gMPLink;
     if (mpLink->mMPStarted == TRUE && mpLink->mDataQueued == FALSE) {
-        mpActive = 1;
+        startedAndNothingQueued = 1;
     }
-    if (mpActive != 0 && mpLink->mResetting == FALSE) {
+    if (startedAndNothingQueued != 0 && mpLink->mResetting == FALSE) {
         ready = 1;
     }
     return ready;
@@ -290,7 +283,7 @@ void QueueMPDataCallback(WirelessMessage *result) {
         }
     } else if (result->mResultCode == WIRELESS_RESULT_NO_ANSWER) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(MP_LINK_EVENT_SEND_BUSY, result);
+            gMPLink->mCallback(MP_LINK_EVENT_SEND_NO_ANSWER, result);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
@@ -306,13 +299,13 @@ void ClearPortCallback(void) {
     WM_SetPortCallback(MP_LINK_PORT, NULL, NULL);
 }
 
-void InitScanConnectWork(ScanConnectWork *work, void *initData) {
+void InitScanConnectWork(ScanConnectWork *work, void *userInfo) {
     if (gScanConnectInitialized == FALSE) {
         gScanConnectInitialized = TRUE;
         MI_CpuFill8(work, 0, SCAN_CONNECT_WORK_SIZE);
         gScanConnectWork = work;
         work->mState = SCAN_CONNECT_STATE_IDLE;
-        MI_CpuCopy8(initData, gScanConnectWork->mUserInfo, 0x16);
+        MI_CpuCopy8(userInfo, gScanConnectWork->mUserInfo, 0x16);
         MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mBeaconRecvStatus);
         MB_InitRecvGameInfoStatus();
         MBi_SetScanLockFunc(SetScanBssid, ClearUseScanBssid);
@@ -361,10 +354,6 @@ void CloseScanConnect(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void FinishScanConnect(void) {
     gScanConnectInitialized = FALSE;
     gScanConnectWork->mEndRequested = FALSE;
@@ -378,14 +367,10 @@ u32 GetScanConnectWorkSize(void) {
 
 void SetScanConnectStateCallback(ScanConnectStateFunc callback) {
     u32 irqState = (OS_DisableInterrupts());
-    u32 restoredIrq;
+    u32 irqStateBeforeRestore;
     gScanConnectWork->mStateCallback = callback;
-    restoredIrq = (OS_RestoreInterrupts(irqState));
+    irqStateBeforeRestore = (OS_RestoreInterrupts(irqState));
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void SetScanConnectStateAndNotify(u32 state, void *info) {
     u32 irqState;
@@ -397,13 +382,9 @@ void SetScanConnectStateAndNotify(u32 state, void *info) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
-void StartRepeatedScan(ScanEventCallback callback, u32 param) {
+void StartRepeatedScan(ScanEventCallback callback, u32 ggid) {
     gScanConnectWork->mScanCallback = callback;
-    gScanConnectWork->mScanGgid = param;
+    gScanConnectWork->mScanGgid = ggid;
     gScanConnectWork->mScanParams.mChannel = 0;
     gScanConnectWork->mScanParams.mScanBuf = &gScanConnectWork->mScanBuffer;
     gScanConnectWork->mRepeatScan = TRUE;
@@ -411,10 +392,6 @@ void StartRepeatedScan(ScanEventCallback callback, u32 param) {
     gScanConnectWork->mUnk_05ee = 0;
     ScanConnectStartScan();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ScanConnectStartScan(void) {
     s32 wmResult;
@@ -433,7 +410,7 @@ void ScanConnectStartScan(void) {
         bssid[3] = defaultBssid[3];
         bssid[4] = defaultBssid[4];
         bssid[5] = defaultBssid[5];
-        gScanConnectWork->mScanParams.mMaxChannelTime = SCAN_CHANNEL_TIME_ANY;
+        gScanConnectWork->mScanParams.mMaxChannelTime = SCAN_CHANNEL_TIME_UNLOCKED;
         if (PickScanChannel() == 0) {
             ReportScanError(SCAN_ERROR_NO_CHANNEL, 0);
             return;
@@ -514,15 +491,9 @@ void SetScanBssid(const u8 *bssid) {
     dest[5] = bssid[5];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ClearUseScanBssid(void) {
     gScanConnectWork->mUseScanBssid = FALSE;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void EntryCallback(u32 event, void *entry, u32 entryIndex) {
     switch (event) {
@@ -531,10 +502,10 @@ void EntryCallback(u32 event, void *entry, u32 entryIndex) {
         case BEACON_ENTRY_EVENT_NO_FREE_SLOT:
             break;
         case BEACON_ENTRY_EVENT_COMPLETE:
-            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_NEW, entry, entryIndex);
+            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_COMPLETE, entry, entryIndex);
             break;
         case BEACON_ENTRY_EVENT_TIMED_OUT:
-            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_UPDATED, entry, entryIndex);
+            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_TIMED_OUT, entry, entryIndex);
             break;
     }
 }
@@ -560,15 +531,11 @@ void RequestEndScan(void) {
     gScanConnectWork->mEndScanRequested = TRUE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ScanConnectEndScan(void) {
-    u32 wmResult;
-    wmResult = WM_EndScan(ScanConnectEndScanCallback);
-    if (wmResult != WIRELESS_CALL_QUEUED) {
-        ReportScanError(SCAN_ERROR_END, wmResult & 0xffff);
+    u32 wirelessResult;
+    wirelessResult = WM_EndScan(ScanConnectEndScanCallback);
+    if (wirelessResult != WIRELESS_CALL_QUEUED) {
+        ReportScanError(SCAN_ERROR_END, wirelessResult & 0xffff);
     }
 }
 

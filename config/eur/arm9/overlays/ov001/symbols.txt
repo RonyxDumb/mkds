@@ -536,8 +536,8 @@ ShowKingTeresaAtEndReached kind:function(thumb,size=0x8c) addr:0x0218e5c4
 AdvanceKingTeresaEndReachedSound kind:function(thumb,size=0x40) addr:0x0218e650
 HideKingTeresaAtEndReached kind:function(thumb,size=0x80) addr:0x0218e690
 StartKingTeresaKartEliminatedHold kind:function(thumb,size=0x50) addr:0x0218e710
-StartKingTeresaHideThenStayHidden kind:function(thumb,size=0x50) addr:0x0218e760
-StartKingTeresaStayHidden kind:function(thumb,size=0x20) addr:0x0218e7b0
+StartKingTeresaHideThenWaitHidden kind:function(thumb,size=0x50) addr:0x0218e760
+StartKingTeresaWaitHidden kind:function(thumb,size=0x20) addr:0x0218e7b0
 HideKingTeresaWithoutEffects kind:function(thumb,size=0x90) addr:0x0218e7d0
 StartKingTeresaHideThenCoinsFadeIn kind:function(thumb,size=0x50) addr:0x0218e860
 StartKingTeresaCoinsFadeIn kind:function(thumb,size=0x28) addr:0x0218e8b0
@@ -567,7 +567,7 @@ SetKingTeresaVelocityWithKartTurn kind:function(thumb,size=0x12c) addr:0x0218f72
 HideKingTeresaWithEffects kind:function(thumb,size=0xb0) addr:0x0218f850
 ShowKingTeresaWithEffects kind:function(thumb,size=0xa8) addr:0x0218f900
 KingTeresaKartCollisionCallback kind:function(thumb,size=0x18) addr:0x0218f9a8
-IsIwanteWalkB kind:function(thumb,size=0x14) addr:0x0218f9c0
+IsIwanteHandShapeWalkB kind:function(thumb,size=0x14) addr:0x0218f9c0
 CreateIwanteHandsUpdateList kind:function(thumb,size=0x18) addr:0x0218f9d4
 CreateIwanteUpdateList kind:function(thumb,size=0x18) addr:0x0218f9ec
 CreateIwanteDrawList kind:function(thumb,size=0x1c) addr:0x0218fa04
@@ -636,8 +636,8 @@ StartIwanteHandMoveToPoints kind:function(thumb,size=0xb8) addr:0x021918c8
 StartIwanteHandReachMovePoint kind:function(thumb,size=0xbc) addr:0x02191980
 StartIwanteHandFall kind:function(thumb,size=0xa0) addr:0x02191a3c
 StartIwanteHandLand kind:function(thumb,size=0x64) addr:0x02191adc
-StartIwanteHandChangeToWalkA kind:function(thumb,size=0x80) addr:0x02191b40
-StartIwanteHandChangeToWalkB kind:function(thumb,size=0x54) addr:0x02191bc0
+StartIwanteHandChangeToWalkAHold kind:function(thumb,size=0x80) addr:0x02191b40
+StartIwanteHandChangeToWalkBHold kind:function(thumb,size=0x54) addr:0x02191bc0
 StartIwanteHandMoveVertical kind:function(thumb,size=0xe0) addr:0x02191c14
 StartIwanteHandMoveVerticalBack kind:function(thumb,size=0xd4) addr:0x02191cf4
 AdvanceIwanteHandVerticalSound kind:function(thumb,size=0x18) addr:0x02191dc8
@@ -650,12 +650,12 @@ StartIwanteHandWalkAWalk kind:function(thumb,size=0x98) addr:0x02191fe8
 StartIwanteHandWalkBWalk kind:function(thumb,size=0x5c) addr:0x02192080
 StartIwanteHandWalkWithEffects kind:function(thumb,size=0x98) addr:0x021920dc
 StartIwanteHandWalk kind:function(thumb,size=0x70) addr:0x02192174
-SetIwanteWalkAHitCollision kind:function(thumb,size=0x88) addr:0x021921e4
-SetIwanteHitReactionCollision kind:function(thumb,size=0x74) addr:0x0219226c
-SetIwanteWalkBCollision kind:function(thumb,size=0x78) addr:0x021922e0
-SetIwanteWalkACollision kind:function(thumb,size=0x88) addr:0x02192358
-SetIwanteNoChainCameraWalkA kind:function(thumb,size=0x8c) addr:0x021923e0
-SetIwanteNoneCollision kind:function(thumb,size=0x60) addr:0x0219246c
+SetIwanteHandShapeWalkAItemPush kind:function(thumb,size=0x88) addr:0x021921e4
+SetIwanteHandShapeHitReaction kind:function(thumb,size=0x74) addr:0x0219226c
+SetIwanteHandShapeWalkB kind:function(thumb,size=0x78) addr:0x021922e0
+SetIwanteHandShapeWalkA kind:function(thumb,size=0x88) addr:0x02192358
+SetIwanteHandShapeWalkAStartup kind:function(thumb,size=0x8c) addr:0x021923e0
+SetIwanteHandShapeNone kind:function(thumb,size=0x60) addr:0x0219246c
 SetIwanteHandsPoints kind:function(thumb,size=0x1c8) addr:0x021924cc
 SetIwanteHandsApproachPoint kind:function(thumb,size=0x100) addr:0x02192694
 IwanteKartResponse11Callback kind:function(thumb,size=0x2c) addr:0x02192794
@@ -723,7 +723,7 @@ ReleaseRecordGpx kind:function(thumb,size=0x60) addr:0x021946d0
 InitRecordGpx kind:function(thumb,size=0x27c) addr:0x02194730
 RequestRecordGpxBgSlideOut kind:function(thumb,size=0x14) addr:0x021949ac
 RequestRecordGpxCellsSlideOut kind:function(thumb,size=0x14) addr:0x021949c0
-RequestRecordGpxPageSlideInAndMoveIndex kind:function(thumb,size=0x38) addr:0x021949d4
+RequestRecordGpxPageSlideInAndMoveIndexAndSetup kind:function(thumb,size=0x38) addr:0x021949d4
 RequestRecordGpxPageSlideOut kind:function(thumb,size=0x14) addr:0x02194a0c
 RequestRecordGpxSelect kind:function(thumb,size=0x14) addr:0x02194a20
 RequestRecordGpxCellsSlideInAndSetup kind:function(thumb,size=0x1c) addr:0x02194a34
@@ -746,11 +746,11 @@ AdvanceRecordTAttWaitTimeTextClose kind:function(thumb,size=0x16) addr:0x021959c
 AdvanceRecordTAttWaitTimeTextInput kind:function(thumb,size=0x7c) addr:0x021959d8
 AdvanceRecordTAttWaitTimeTextOpen kind:function(thumb,size=0x16) addr:0x02195a54
 AdvanceRecordTAttSlideOutForTimeText kind:function(thumb,size=0x138) addr:0x02195a6c
-AdvanceRecordTAttSlideInAfterClearPrompt kind:function(thumb,size=0x1c0) addr:0x02195ba4
-AdvanceRecordTAttWaitClearPromptClose kind:function(thumb,size=0xd4) addr:0x02195d64
+AdvanceRecordTAttSlideInAfterAskClear kind:function(thumb,size=0x1c0) addr:0x02195ba4
+AdvanceRecordTAttWaitAskClearClose kind:function(thumb,size=0xd4) addr:0x02195d64
 AdvanceRecordTAttWaitClearAnswer kind:function(thumb,size=0x68) addr:0x02195e38
-AdvanceRecordTAttWaitClearPromptOpen kind:function(thumb,size=0x16) addr:0x02195ea0
-AdvanceRecordTAttSlideOutForClearPrompt kind:function(thumb,size=0x140) addr:0x02195eb8
+AdvanceRecordTAttWaitAskClearOpen kind:function(thumb,size=0x16) addr:0x02195ea0
+AdvanceRecordTAttSlideOutForAskClear kind:function(thumb,size=0x140) addr:0x02195eb8
 AdvanceRecordTAttPressButton kind:function(thumb,size=0x60) addr:0x02195ff8
 AdvanceRecordTAttSlideOutTop kind:function(thumb,size=0x4c) addr:0x02196058
 AdvanceRecordTAttSlideOutRight kind:function(thumb,size=0x198) addr:0x021960a4
@@ -763,20 +763,20 @@ ReleaseRecordTAtt kind:function(thumb,size=0x5c) addr:0x02196904
 InitRecordTAtt kind:function(thumb,size=0x2ec) addr:0x02196960
 AdvanceRecordTAttButtonSequence kind:function(thumb,size=0x84) addr:0x02196c4c
 AdvanceRecordTAttOffsetTimers kind:function(thumb,size=0xa8) addr:0x02196cd0
-RequestRecordTAttSlideInAfterTimeText kind:function(thumb,size=0x14) addr:0x02196d78
-RequestRecordTAttWaitTimeTextClose kind:function(thumb,size=0x1c) addr:0x02196d8c
-RequestRecordTAttWaitTimeTextInput kind:function(thumb,size=0x14) addr:0x02196da8
-RequestRecordTAttWaitTimeTextOpen kind:function(thumb,size=0x74) addr:0x02196dbc
-RequestRecordTAttSlideOutForTimeText kind:function(thumb,size=0x24) addr:0x02196e30
-RequestRecordTAttSlideInAfterClearPrompt kind:function(thumb,size=0x34) addr:0x02196e54
-RequestRecordTAttWaitClearPromptClose kind:function(thumb,size=0x28) addr:0x02196e88
+RequestRecordTAttSlideInAfterTimeRecordChars kind:function(thumb,size=0x14) addr:0x02196d78
+RequestRecordTAttWaitTimeRecordCharsClose kind:function(thumb,size=0x1c) addr:0x02196d8c
+RequestRecordTAttWaitTimeRecordCharsInput kind:function(thumb,size=0x14) addr:0x02196da8
+RequestRecordTAttWaitTimeRecordCharsOpen kind:function(thumb,size=0x74) addr:0x02196dbc
+RequestRecordTAttSlideOutForTimeRecordChars kind:function(thumb,size=0x24) addr:0x02196e30
+RequestRecordTAttSlideInAfterAskClearAndSetup kind:function(thumb,size=0x34) addr:0x02196e54
+RequestRecordTAttWaitAskClearClose kind:function(thumb,size=0x28) addr:0x02196e88
 RequestRecordTAttWaitClearAnswer kind:function(thumb,size=0x1c) addr:0x02196eb0
-RequestRecordTAttWaitClearPromptOpen kind:function(thumb,size=0x98) addr:0x02196ecc
-RequestRecordTAttSlideOutForClearPrompt kind:function(thumb,size=0x1c) addr:0x02196f64
+RequestRecordTAttWaitAskClearOpen kind:function(thumb,size=0x98) addr:0x02196ecc
+RequestRecordTAttSlideOutForAskClear kind:function(thumb,size=0x1c) addr:0x02196f64
 RequestRecordTAttPressButton kind:function(thumb,size=0x30) addr:0x02196f80
 RequestRecordTAttSlideOutTop kind:function(thumb,size=0x14) addr:0x02196fb0
 RequestRecordTAttSlideOutRight kind:function(thumb,size=0x14) addr:0x02196fc4
-RequestRecordTAttSlideInSideAndMoveIndex kind:function(thumb,size=0x38) addr:0x02196fd8
+RequestRecordTAttSlideInSideAndMoveIndexAndSetup kind:function(thumb,size=0x38) addr:0x02196fd8
 RequestRecordTAttSlideOutSide kind:function(thumb,size=0x14) addr:0x02197010
 RequestRecordTAttWaitInput kind:function(thumb,size=0x18) addr:0x02197024
 RequestRecordTAttSlideInRightAndSetup kind:function(thumb,size=0x1c) addr:0x0219703c
@@ -804,7 +804,7 @@ RequestTimeAttackTopMenuSlideOut kind:function(thumb,size=0x14) addr:0x021982d4
 RequestTimeAttackTopMenuPress kind:function(thumb,size=0x3c) addr:0x021982e8
 RequestTimeAttackTopMenuInput kind:function(thumb,size=0x14) addr:0x02198324
 RequestTimeAttackTopMenuWaitSelectReturn kind:function(thumb,size=0x1c) addr:0x02198338
-RequestTimeAttackTopMenuSettle kind:function(thumb,size=0x14) addr:0x02198354
+RequestTimeAttackTopMenuSlideInPressOffset kind:function(thumb,size=0x14) addr:0x02198354
 RequestTimeAttackTopMenuSlideIn kind:function(thumb,size=0x1c) addr:0x02198368
 LocateAndQueueTimeAttackTopMenu kind:function(thumb,size=0x128) addr:0x02198384
 LoadTimeAttackTopMenuData kind:function(thumb,size=0x90) addr:0x021984ac
@@ -863,7 +863,7 @@ AdvanceRecordTopMenuSlideOut kind:function(thumb,size=0x15c) addr:0x0219a3a0
 AdvanceRecordTopMenuRowPress kind:function(thumb,size=0xc0) addr:0x0219a4fc
 AdvanceRecordTopMenuInput kind:function(thumb,size=0x1a8) addr:0x0219a5bc
 AdvanceRecordTopMenuWaitSelectReturn kind:function(thumb,size=0x16) addr:0x0219a764
-AdvanceRecordTopMenuRowsSettle kind:function(thumb,size=0x90) addr:0x0219a77c
+AdvanceRecordTopMenuRowsPressOffsetAfterSlideIn kind:function(thumb,size=0x90) addr:0x0219a77c
 AdvanceRecordTopMenuSlideIn kind:function(thumb,size=0x12c) addr:0x0219a80c
 AdvanceRecordTopMenuWaitFade kind:function(thumb,size=0x16) addr:0x0219a938
 ReleaseRecordTopMenu kind:function(thumb,size=0x50) addr:0x0219a950
@@ -880,7 +880,7 @@ RequestRecordTopMenuSlideOut kind:function(thumb,size=0x14) addr:0x0219adfc
 RequestRecordTopMenuRowPress kind:function(thumb,size=0x20) addr:0x0219ae10
 RequestRecordTopMenuInput kind:function(thumb,size=0x14) addr:0x0219ae30
 RequestRecordTopMenuWaitSelectReturn kind:function(thumb,size=0x1c) addr:0x0219ae44
-RequestRecordTopMenuRowsSettle kind:function(thumb,size=0x14) addr:0x0219ae60
+RequestRecordTopMenuRowsPressOffsetAfterSlideIn kind:function(thumb,size=0x14) addr:0x0219ae60
 RequestRecordTopMenuSlideIn kind:function(thumb,size=0x14) addr:0x0219ae74
 ResetRecordTopMenu kind:function(thumb,size=0x108) addr:0x0219ae88
 SetRecordTopMenuRowOff kind:function(thumb,size=0x38) addr:0x0219af90
@@ -963,7 +963,7 @@ AdvanceOptionEmbremSelectSlideIn kind:function(thumb,size=0x84) addr:0x0219dd94
 AdvanceOptionEmbremSelectWaitFade kind:function(thumb,size=0x20) addr:0x0219de18
 IsBackupEmblemOff kind:function(thumb,size=0x20) addr:0x0219de38
 LocateAndQueueOptionEmbremSelect kind:function(thumb,size=0x10c) addr:0x0219de58
-ReleaseOptionEmbremSelect kind:function(thumb,size=0xc) addr:0x0219df64
+ClearOptionEmbremSelectPointer kind:function(thumb,size=0xc) addr:0x0219df64
 InitOptionEmbremSelect kind:function(thumb,size=0x138) addr:0x0219df70
 GetEndingSceneNextScene kind:function(thumb,size=0x10) addr:0x0219e0a8
 GetStaffRollEndedEarly kind:function(thumb,size=0xc) addr:0x0219e0b8
@@ -977,7 +977,7 @@ AdvanceEndingSceneFadeIn kind:function(thumb,size=0x20) addr:0x0219e294
 AdvanceEndingSceneHoldFaded kind:function(thumb,size=0x3c) addr:0x0219e2b4
 AdvanceEndingSceneFadeOut kind:function(thumb,size=0x20) addr:0x0219e2f0
 AdvanceEndingSceneShowLogo kind:function(thumb,size=0x3c) addr:0x0219e310
-AdvanceEndingSceneWaitFadeIn kind:function(thumb,size=0x40) addr:0x0219e34c
+AdvanceEndingSceneWaitFirstFadeIn kind:function(thumb,size=0x40) addr:0x0219e34c
 LoadAndQueueEndingSceneData kind:function(thumb,size=0x214) addr:0x0219e38c
 QueueEndingSceneIndex1Data kind:function(thumb,size=0x34) addr:0x0219e5a0
 QueueEndingSceneNcgrNscrNclr kind:function(thumb,size=0x8c) addr:0x0219e5d4
@@ -1065,7 +1065,7 @@ AdvanceSelectEngineSlideOut kind:function(thumb,size=0x12c) addr:0x021a126c
 AdvanceSelectEnginePress kind:function(thumb,size=0x40) addr:0x021a1398
 AdvanceSelectEngineInput kind:function(thumb,size=0x284) addr:0x021a13d8
 AdvanceSelectEngineWaitSelectReturn kind:function(thumb,size=0x16) addr:0x021a165c
-AdvanceSelectEngineSettle kind:function(thumb,size=0x70) addr:0x021a1674
+AdvanceSelectEnginePressOffsetAfterSlideIn kind:function(thumb,size=0x70) addr:0x021a1674
 AdvanceSelectEngineSlideIn kind:function(thumb,size=0x13c) addr:0x021a16e4
 AdvanceSelectEngineWaitFade kind:function(thumb,size=0x16) addr:0x021a1820
 ReleaseSelectEngine kind:function(thumb,size=0x20) addr:0x021a1838
@@ -1074,7 +1074,7 @@ RequestSelectEngineSlideOut kind:function(thumb,size=0x14) addr:0x021a1964
 RequestSelectEnginePress kind:function(thumb,size=0x34) addr:0x021a1978
 RequestSelectEngineInput kind:function(thumb,size=0x14) addr:0x021a19ac
 RequestSelectEngineWaitSelectReturn kind:function(thumb,size=0x1c) addr:0x021a19c0
-RequestSelectEngineSettle kind:function(thumb,size=0x14) addr:0x021a19dc
+RequestSelectEngineSlideInPressOffset kind:function(thumb,size=0x14) addr:0x021a19dc
 RequestSelectEngineSlideIn kind:function(thumb,size=0x14) addr:0x021a19f0
 ResetSelectEngineOffsets kind:function(thumb,size=0x104) addr:0x021a1a04
 AdvanceSelectEngineIndexChange kind:function(thumb,size=0x98) addr:0x021a1b08
@@ -1339,7 +1339,7 @@ gEmblemTemplateCursorVerticalMoves kind:data(byte[348]) addr:0x021a73ac
 gEmblemTemplateCursorHorizontalMoves kind:data(byte[348]) addr:0x021a7508
 gMissionRunBossIconCellIndices kind:data(byte[14]) addr:0x021a7664
 gMissionRunBossIconPaletteIndices kind:data(byte[14]) addr:0x021a7674
-gLogoCommonBmgFileName kind:data(byte[11]) addr:0x021a76a0 ambiguous
+gLogoAskResetBackupCommonBmgFileName kind:data(byte[11]) addr:0x021a76a0 ambiguous
 gLogoMainBgPaletteFileName kind:data(byte[25]) addr:0x021a76ac ambiguous
 gLogoMainBgCharsFileName kind:data(byte[25]) addr:0x021a76c8 ambiguous
 gLogoMainBgScreenMapFileName kind:data(byte[23]) addr:0x021a76e4 ambiguous
@@ -1525,15 +1525,15 @@ gTimeAttackTopMenuSONclrName kind:data(byte[4]) addr:0x021a8364
 gSelectGhostSBnclName kind:data(byte[4]) addr:0x021a8790
 gSelectGhostSNscrName kind:data(byte[4]) addr:0x021a8794
 gSelectGhostSONclrName kind:data(byte[4]) addr:0x021a8798
-gSelectCupCourseTaMBnclName kind:data(byte[4]) addr:0x021a879c
+gSelectGhostSelectCupCourseTaMBnclName kind:data(byte[4]) addr:0x021a879c
 gSelectGhostSBnblName kind:data(byte[4]) addr:0x021a87a0
 gSelectGhostSONcgrName kind:data(byte[4]) addr:0x021a87a4
 gSelectGhostSBNclrName kind:data(byte[4]) addr:0x021a87a8
 gSelectGhostSBnllName kind:data(byte[4]) addr:0x021a87ac
-gSelectCupCourseTaMBnllName kind:data(byte[4]) addr:0x021a87b0
+gSelectGhostSelectCupCourseTaMBnllName kind:data(byte[4]) addr:0x021a87b0
 gSelectGhostSONcerName kind:data(byte[4]) addr:0x021a87b4
 gSelectGhostSBNcgrName kind:data(byte[4]) addr:0x021a87b8
-gSelectCupCourseMNcerName kind:data(byte[4]) addr:0x021a87bc
+gSelectGhostSelectCupCourseMNcerName kind:data(byte[4]) addr:0x021a87bc
 @5568 kind:data(byte[23]) addr:0x021a87c0 local
 @5567 kind:data(byte[23]) addr:0x021a87d8 local
 @5562 kind:data(byte[23]) addr:0x021a87f0 local

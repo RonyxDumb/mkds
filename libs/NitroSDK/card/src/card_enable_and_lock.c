@@ -8,7 +8,6 @@ CARDiCommon gAccessState;
 CARDiCommandArg gRequestBlock;
 u32 gAccessEnabled[8];
 
-// Returns the enable flag.
 u32 CARD_IsEnabled(void) {
     return gAccessEnabled[0];
 }
@@ -33,16 +32,16 @@ int CARDi_WaitAsync(void) {
 
     common = (CARDiCommon *) (u32) &gAccessState;
     enabled = OS_DisableInterrupts();
-    while (common->mFlag & BACKUP_ACCESS_FLAG_BUSY) {
+    while (common->mFlag & ACCESS_FLAG_BUSY) {
         OS_SleepThread(&common->mBusyQ);
     }
     OS_RestoreInterrupts(enabled);
-    return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
+    return common->mCmd->mResult == ACCESS_RESULT_OK;
 }
 
 // Returns 1 when no transfer is running.
 int CARDi_TryWaitAsync(void) {
-    return (gAccessState.mFlag & BACKUP_ACCESS_FLAG_BUSY) == 0;
+    return (gAccessState.mFlag & ACCESS_FLAG_BUSY) == 0;
 }
 
 // Returns CARDiCommandArg.mResult of the last request, 0 when it succeeded.

@@ -1,5 +1,5 @@
 #include "Main/MapObjects/bakubaku.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "matrix_3x3_basic.h"
@@ -27,7 +27,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -36,8 +36,8 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "Main/Kart/karts.h"
@@ -104,7 +104,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
 
     switch (bakubaku->mState) {
         case BAKUBAKU_STATE_WAIT_FOR_KART:
-            if (GetCurrentCameraKind() != 2) {
+            if (GetCurrentCameraKind() != CAMERA_KIND_CHAIN) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 kartPos = &kart->mPos;
                 deltaX = kartPos->x - bakubaku->mDistanceCheckPos.x;

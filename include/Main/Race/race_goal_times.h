@@ -7,7 +7,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "sprite_animation_control.h"
 
-// RaceGoalTimes.mRecordCycleFrame counts this many frames; mCellIndexAdd steps through three cell sets, one per
+// RaceGoalTimes.mRecordCycleFrames counts this many frames; mCellIndexAdd steps through three cell sets, one per
 // quarter (the second set twice), while a new record is shown. The sets start at offsets 0, 0xd and 0x1a.
 #define RACE_GOAL_TIMES_CYCLE_FRAMES 16
 #define RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES 4
@@ -15,12 +15,12 @@
 #define RACE_GOAL_TIMES_CELL_SET_SECOND 0xd
 #define RACE_GOAL_TIMES_CELL_SET_THIRD 0x1a
 
-// The goal time display: the finish time and the five lap times, with the record flash frame and cell index.
+// The goal time display: the finish time, the five lap times, the new record cycle frame and the cell index add.
 typedef struct RaceGoalTimes {
     /* 00 */ TimeDigits mFinishTime;
     /* 1c */ TimeDigits mLapTimes[5];
 // Counts 0 to 15; picks mCellIndexAdd by quarters.
-    /* a8 */ s32 mRecordCycleFrame;
+    /* a8 */ s32 mRecordCycleFrames;
 // Added to the cell number of a time row: 0, 0xd or 0x1a.
     /* ac */ s32 mCellIndexAdd;
 } RaceGoalTimes;
@@ -48,7 +48,3 @@ extern struct RaceGoalTimes *gRaceGoalTimes;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
 
 extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
-
-// The fireball cells of the goal times count their frames up to this value and show the first half below the half.
-#define RACE_GOAL_TIMES_FIREBALL_CYCLE_FRAMES 0x14
-#define RACE_GOAL_TIMES_FIREBALL_HALF_FRAMES 10

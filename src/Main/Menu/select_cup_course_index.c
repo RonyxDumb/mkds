@@ -18,7 +18,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/select_race_rule.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/cup_mark.h"
@@ -86,9 +86,6 @@ u32 IsSelectCupCourseIndexChangeRunning(void) {
     return 0;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceSelectCupCourseIndexChange(void) {
     s32 taOrVsCellCount;
     s16 offsetY;
@@ -177,7 +174,7 @@ void RequestSelectCupCoursePickCourse(void) {
     gSelectCupCourse->mStateFrames = 0;
 }
 
-void RequestSelectCupCourseConfirmPick(void) {
+void RequestSelectCupCourseWaitPicked(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CONFIRM_PICK;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -208,27 +205,21 @@ void RequestSelectCupCourseWaitChoices(void) {
                         gSelectCupCourse->mGhostMessages,
                         gCupCourseGhostMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
                     GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
-                SetTxtSystemOpenSoundId(0x23);
+                SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
                 SetupTxtSystemMainText(messageText);
             }
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void RequestSelectCupCourseChoose(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CHOOSE;
     gSelectCupCourse->mStateFrames = 0;
-    SetSelectChoisesSoundId(0, 7);
-    SetSelectChoisesSoundId(1, 0x10);
-    SetSelectChoisesSoundId(0xffffffff, 0x10);
+    SetSelectChoisesSoundId(0, SELECT_CHOISES_FIRST_SOUND_ID);
+    SetSelectChoisesSoundId(1, SELECT_CHOISES_SECOND_SOUND_ID);
+    SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RequestSelectCupCourseCloseChoices(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CLOSE_CHOICES;
     gSelectCupCourse->mStateFrames = 0;
@@ -251,7 +242,7 @@ void RequestSelectCupCourseSlideOut(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_OUT;
     gSelectCupCourse->mStateFrames = 0;
     if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
-        if (gSelectCupCourse->mResult == 1) {
+        if (gSelectCupCourse->mResult == MENU_SCREEN_RESULT_NEXT) {
             if (HasNoSelectableGhost() != FALSE) {
                 RequestSelectReturnSlideOut();
             }
@@ -338,7 +329,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
 }
 
 void ReleaseSelectCupCourse(void) {
-    if (gSelectCupCourse->mResult == 1) {
+    if (gSelectCupCourse->mResult == MENU_SCREEN_RESULT_NEXT) {
         if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
             if (HasNoSelectableGhost() != FALSE) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
@@ -356,9 +347,6 @@ void ReleaseSelectCupCourse(void) {
     HeapDestroy(gSelectCupCourse->mHeap);
     gSelectCupCourse = NULL;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupCourseWaitFade(void) {
     int fadesClear;
@@ -368,9 +356,6 @@ void AdvanceSelectCupCourseWaitFade(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceSelectCupCourseSlideIn(void) {
     s16 offsetY;
     s32 taOrVsCellCount;
@@ -378,8 +363,9 @@ void AdvanceSelectCupCourseSlideIn(void) {
 
     gSelectCupCourse->mStateFrames++;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
-        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
+        InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gSelectCupCourse->mStateFrames,
+                       SELECT_CUP_COURSE_SLIDE_STEPS);
+        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, SELECT_CUP_COURSE_SLIDE_STEPS);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             gSelectCupCourse->mBg0Offset = offsetY;
@@ -419,9 +405,6 @@ void AdvanceSelectCupCourseSlideIn(void) {
         RequestSelectCupCourseWaitReturn();
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceSelectCupCourseWaitReturn(void) {
     int returnRequested;

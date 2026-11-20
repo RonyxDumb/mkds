@@ -6,7 +6,7 @@
 #include "Main/Menu/menu_new_bits.h"
 #include "Main/Menu/single_play_select_screen1_registers.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup.h"
@@ -31,11 +31,11 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
         } else if (MenuGetNewBits(value, PAD_KEY_B)) {
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT, 0x1b);
             RequestSelectReturnPressWithSound(1);
-        } else if (GetNewOrRepeatBits(value, PAD_KEY_UP)) {
+        } else if (GetNewOrRepeatBits(value, PAD_KEY_DIRECTION_UP)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
             StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(value, PAD_KEY_DOWN)) {
+        } else if (GetNewOrRepeatBits(value, PAD_KEY_DIRECTION_DOWN)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
             StartSoundOncePerFrame(0);
@@ -60,16 +60,12 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
     }
     DrawSinglePlaySelectCells();
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteSinglePlaySelect2Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }
-#pragma thumb off
 
-#pragma thumb on
 #pragma optimize_for_size on
 void UpdateSinglePlaySelectMenuScreen2(void) {
     s32 frame;
@@ -83,7 +79,7 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
     subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
         mainCells->mOffsetY = InterpolateS16(1, 0, -0x28, frame, 10);
-        offset = InterpolateS16(1, 0, 0xf0, frame, 10);
+        offset = InterpolateS16(1, 0, SINGLE_PLAY_SELECT_OFFSCREEN_X, frame, 10);
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = offset;
         }
@@ -92,20 +88,16 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = SINGLE_PLAY_SELECT_OFFSCREEN_X;
         }
-        SwitchMenuScreen(GetNextMenuScreenNumber(), 0x1f);
+        SwitchMenuScreen(GetNextMenuScreenNumber(), SCREEN_NONE);
     }
     DrawSinglePlaySelectCells();
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteSinglePlaySelect3Registers(void) {
     u32 unusedValue;
     SetupSinglePlaySelectGraphics();
 }
-#pragma thumb off
 
-#pragma thumb on
 #pragma optimize_for_size on
 void UpdateSinglePlaySelectMenuScreen3(void) {
     s32 nextScreenAndModeTable[5][2] = {{4, 0}, {0x14, 1}, {8, 3}, {0xe, 2}, {0x12, 4}};
@@ -113,7 +105,7 @@ void UpdateSinglePlaySelectMenuScreen3(void) {
 
     framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
     gMenuScene->mSinglePlaySelectModePressOffset = GetSelectedPressOffset(framesSinceSwitch);
-    if (framesSinceSwitch >= 10) {
+    if (framesSinceSwitch >= SELECTED_PRESS_FRAMES) {
         SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT,
                          nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][0]);
         ResetRaceSetupCopy();

@@ -32,7 +32,7 @@ s32 FSi_StrNICmp(const u8 *str1, const u8 *str2, u32 len) {
 void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len) {
     FSArchive *archive;
     s32 result;
-    u32 enabled;
+    u32 savedInterrupts;
 
     archive = param->mArc;
     archive->mFlag |= ARCHIVE_FLAG_SYNC_COMMAND;
@@ -43,13 +43,13 @@ void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len) {
             archive->mFlag &= ~ARCHIVE_FLAG_SYNC_COMMAND;
             break;
         case ARCHIVE_RESULT_RUNNING_IN_BACKGROUND:
-            enabled = OS_DisableInterrupts();
+            savedInterrupts = OS_DisableInterrupts();
             if (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND) {
                 do {
                     OS_SleepThread(&archive->mSyncQ);
                 } while (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND);
             }
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             break;
     }
     param->mPos += len;
@@ -95,10 +95,11 @@ s32 FSi_WriteFileCommand(FSFile *file) {
     return archive->mWrite(archive, src, pos, len);
 }
 
-// Directory seek command: reads the directory table entry for the directory in FSFile.mArg.
+// Directory seek command: copies FSFile.mArg to mProp, taking mProp's index and position from the directory table entry
+// only when both are 0, and sets mParentId from it.
 s32 FSi_SeekDirCommand(FSFile *dir) {
     FSArchive *archive;
-    FileLocation *arg;
+    FileCommandData *arg;
     FSArchiveFNT tableEntry;
     FSiSyncReadParam readParam;
 
@@ -112,8 +113,8 @@ s32 FSi_SeekDirCommand(FSFile *dir) {
         dir->mProp.h.mIndex = tableEntry.mIndex;
         dir->mProp.h.mPos = archive->mFnt + tableEntry.mStart;
     }
-    dir->mParentId = tableEntry.mParent & FILE_DIR_NUMBER_MASK;
-    return 0;
+    dir->mParentId = tableEntry.mParent & FILE_DIR_ID_MASK;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Directory read command: reads the next entry of the directory into the FSDirEntry in FSFile.mArg.
@@ -130,7 +131,7 @@ s32 FSi_ReadDirCommand(FSFile *dir) {
     entry->mNameLength = header & 0x7f;
     entry->mIsDirectory = (header >> 7) & 1;
     if (entry->mNameLength == 0) {
-        return 1;
+        return ARCHIVE_RESULT_FAILED;
     }
     if (dir->mArg.e.mSkipString != 0) {
         readParam.mPos += entry->mNameLength;
@@ -141,7 +142,7 @@ s32 FSi_ReadDirCommand(FSFile *dir) {
     if (entry->mIsDirectory != 0) {
         FSi_ReadTable(&readParam, &parent, 2);
         entry->mId.h.mArc = dir->mArc;
-        entry->mId.h.mOwnId = parent & 0xfff;
+        entry->mId.h.mOwnId = parent & FILE_DIR_ID_MASK;
         entry->mId.h.mIndex = 0;
         entry->mId.w.mUnk_08 = 0;
     } else {
@@ -150,7 +151,7 @@ s32 FSi_ReadDirCommand(FSFile *dir) {
         dir->mProp.h.mIndex++;
     }
     dir->mProp.w.mUnk_08 = readParam.mPos;
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 static inline int IsPathNameChar(u32 character) {
@@ -171,7 +172,7 @@ s32 FSi_FindPathCommand(FSFile *dir) {
     u32 isDirName;
     s32 nameLen;
     u32 ch;
-    FileLocation *result;
+    FileCommandData *result;
 
     wantsDir = dir->mFindDirectory;
     path = dir->mPath;
@@ -185,7 +186,7 @@ s32 FSi_FindPathCommand(FSFile *dir) {
                 isDirName = 1;
             }
             if (nameLen == 0) {
-                return 1;
+                return ARCHIVE_RESULT_FAILED;
             }
             if (ch == 0x2e) {
                 if (nameLen == 1) {
@@ -201,13 +202,13 @@ s32 FSi_FindPathCommand(FSFile *dir) {
                 }
             }
             if (nameLen > 0x7f) {
-                return 1;
+                return ARCHIVE_RESULT_FAILED;
             }
             dir->mArg.e.mEntry = &entry;
             dir->mArg.e.mSkipString = 0;
             do {
-                if (FSi_TranslateCommand(dir, ARCHIVE_COMMAND_LIST_DIR_ENTRY) != 0) {
-                    return 1;
+                if (FSi_TranslateCommand(dir, ARCHIVE_COMMAND_LIST_DIR_ENTRY) != ARCHIVE_RESULT_SUCCESS) {
+                    return ARCHIVE_RESULT_FAILED;
                 }
             } while (isDirName != entry.mIsDirectory || nameLen != entry.mNameLength ||
                      FSi_StrNICmp(path, entry.mName, nameLen) != 0);
@@ -217,11 +218,11 @@ s32 FSi_FindPathCommand(FSFile *dir) {
                 FSi_TranslateCommand(dir, ARCHIVE_COMMAND_MOVE_DIR_CURSOR);
             } else {
                 if (wantsDir != 0) {
-                    return 1;
+                    return ARCHIVE_RESULT_FAILED;
                 }
                 result = dir->mResult;
                 result->d.mId = entry.mId.d.mId;
-                return 0;
+                return ARCHIVE_RESULT_SUCCESS;
             }
         next:
             path += (*path != 0) ? 1 : 0;
@@ -229,10 +230,10 @@ s32 FSi_FindPathCommand(FSFile *dir) {
         } while (ch != 0);
     }
     if (wantsDir == 0) {
-        return 1;
+        return ARCHIVE_RESULT_FAILED;
     }
     *dir->mResult = dir->mProp;
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Path query command: sizes and writes the full path of a file or directory, starting with the archive name.
@@ -240,7 +241,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
     FSArchive *archive;
     FSDirEntry entry;
     FSFile searchFile;
-    FileLocation *arg;
+    FileCommandData *arg;
     u32 dirId;
     u32 fileId;
     u32 dirIndex;
@@ -274,13 +275,14 @@ s32 FSi_GetPathCommand(FSFile *file) {
                 }
                 searchFile.mArg.e.mEntry = &entry;
                 searchFile.mArg.e.mSkipString = 1;
-                if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0) {
+                if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == ARCHIVE_RESULT_SUCCESS) {
                     do {
                         if (entry.mIsDirectory == 0 && entry.mId.w.mUnk_04 == fileId) {
                             dirId = searchFile.mProp.h.mOwnId;
                             break;
                         }
-                    } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0);
+                    } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) ==
+                             ARCHIVE_RESULT_SUCCESS);
                 }
                 if (dirId != 0x10000) {
                     break;
@@ -291,7 +293,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     if (dirId == 0x10000) {
         arg->b.mTotalLen = 0;
-        return 1;
+        return ARCHIVE_RESULT_FAILED;
     }
     if (arg->b.mTotalLen == 0) {
         totalLen = 0;
@@ -313,13 +315,14 @@ s32 FSi_GetPathCommand(FSFile *file) {
                 FSi_SeekDirDirect(&searchFile, searchFile.mParentId);
                 searchFile.mArg.e.mEntry = &entry;
                 searchFile.mArg.e.mSkipString = 1;
-                if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0) {
+                if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == ARCHIVE_RESULT_SUCCESS) {
                     do {
                         if (entry.mIsDirectory != 0 && entry.mId.h.mOwnId == parent) {
                             totalLen += entry.mNameLength + 1;
                             break;
                         }
-                    } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0);
+                    } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) ==
+                             ARCHIVE_RESULT_SUCCESS);
                 }
                 parent = searchFile.mProp.h.mOwnId;
             } while (parent != 0);
@@ -329,11 +332,11 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     buf = arg->b.mBuf;
     if (buf == 0) {
-        return 0;
+        return ARCHIVE_RESULT_SUCCESS;
     }
     len = arg->b.mTotalLen;
     if (arg->b.mBufLen < len) {
-        return 1;
+        return ARCHIVE_RESULT_FAILED;
     }
     off = 0;
     if (archive->mName <= ARCHIVE_NAME_SINGLE_CHAR_MAX) {
@@ -350,12 +353,13 @@ s32 FSi_GetPathCommand(FSFile *file) {
     if (fileId != 0x10000) {
         searchFile.mArg.e.mEntry = &entry;
         searchFile.mArg.e.mSkipString = 0;
-        if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0) {
+        if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == ARCHIVE_RESULT_SUCCESS) {
             do {
                 if (entry.mIsDirectory == 0 && entry.mId.w.mUnk_04 == fileId) {
                     break;
                 }
-            } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0);
+            } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) ==
+                     ARCHIVE_RESULT_SUCCESS);
         }
         byteCount = entry.mNameLength + 1;
         MI_CpuCopy8(entry.mName, buf + len - byteCount, byteCount);
@@ -371,7 +375,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
             searchFile.mArg.e.mSkipString = 0;
             *(buf + len - 1) = 0x2f;
             len--;
-            if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0) {
+            if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == ARCHIVE_RESULT_SUCCESS) {
                 do {
                     if (entry.mIsDirectory != 0 && entry.mId.h.mOwnId == dirId) {
                         byteCount = entry.mNameLength;
@@ -379,12 +383,13 @@ s32 FSi_GetPathCommand(FSFile *file) {
                         len -= byteCount;
                         break;
                     }
-                } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0);
+                } while (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) ==
+                         ARCHIVE_RESULT_SUCCESS);
             }
             dirId = searchFile.mProp.h.mOwnId;
         } while (dirId != 0);
     }
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Open command by file number: reads the file range from the file table and opens it.
@@ -399,7 +404,7 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
     index = file->mArg.w.mUnk_04;
     offset = index << 3;
     if (offset >= archive->mFatSize) {
-        return 1;
+        return ARCHIVE_RESULT_FAILED;
     }
     readParam.mArc = archive;
     readParam.mPos = archive->mFat + offset;
@@ -407,7 +412,7 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
     file->mArg.w.mUnk_00 = range.mTop;
     file->mArg.w.mUnk_04 = range.mBottom;
     file->mArg.w.mUnk_08 = index;
-    return FSi_TranslateCommand(file, ARCHIVE_COMMAND_OPEN_BY_NUMBER);
+    return FSi_TranslateCommand(file, ARCHIVE_COMMAND_OPEN_BY_RANGE);
 }
 
 // Open command by byte range: sets the file range and position.
@@ -416,12 +421,12 @@ s32 FSi_OpenFileDirectCommand(FSFile *file) {
     file->mPosition = file->mArg.w.mUnk_00;
     file->mProp.w.mUnk_08 = file->mArg.w.mUnk_04;
     file->mProp.w.mUnk_00 = file->mArg.w.mUnk_08;
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Close command: nothing to do.
 s32 FSi_CloseFileCommand(FSFile *file) {
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Unlinks a finished command from its archive list, stores the result and wakes the waiting threads.

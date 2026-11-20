@@ -14,17 +14,20 @@ typedef struct JointScaleValues {
 // The node, parent and option flags of one joint scale command.
 typedef struct JointScaleCommand {
     /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mNodeId;
+    /* 01 */ u8 mNodeDescIndex;
     /* 02 */ u8 mParentId;
-    /* 03 */ u8 mOptionFlags;
+    /* 03 */ u8 mScaleCacheFlags;
 } JointScaleCommand;
 
-// Frames in the air after which the kart counts as airborne for a long time (KART_MOTION_AIRBORNE_LONG, the air tilt),
-// and collision step frames a kart that holds still needs before its tilt freezes.
+// Frames in the air (mAirborneFrames above this): UpdateKartAirborne sets KART_MOTION_AIRBORNE_LONG,
+// AdvanceKartOrientation uses the air tilt and AdvanceKartByVelocity caps the fall speed. KART_STILL_HOLD_STEP_FRAMES:
+// collision step frames after which a kart in KART_MOTION_STILL_HOLD with no hit object and no point motion gets
+// mQuaternionBlendFactor 0 (tilt no longer blends) when its ground normal is close to the previous one (dot at least
+// 0xe66).
 #define KART_AIRBORNE_LONG_FRAMES 5
 #define KART_STILL_HOLD_STEP_FRAMES 100
-// Tilt of the kart nose during a hop: the start value, the limit past which it falls back, and the value it falls back
-// to.
+// Values for Kart.mHopTiltAngle during a hop: the start value, the limit past which it falls back, and the value it
+// falls back to.
 #define KART_HOP_TILT_START 0x9c4
 #define KART_HOP_TILT_LIMIT 0x6a4
 #define KART_HOP_TILT_RESET 0x352

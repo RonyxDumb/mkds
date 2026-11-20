@@ -18,13 +18,13 @@
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/Item/item_f_box.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_link_following.h"
 #include "Main/Item/bouncing_item_box.h"
@@ -32,7 +32,13 @@
 #include "ITCM/collision_slots.h"
 
 const ItemInfo gItemInfoGesso = {
-    1, 1, 0xa, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) GessoMarkItemInUseAsActiveItem};
+    1,
+    1,
+    ITEM_OBJECT_KIND_GESSO,
+    1,
+    0,
+    ITEM_USE_KIND_ONE,
+    (void (*)(ItemInUse *, HeldItem *)) GessoMarkItemInUseAsActiveItem};
 const ItemKind gItemKindGesso = {0x1b4,
                                  1,
                                  1,
@@ -75,7 +81,7 @@ const ItemKind gItemKindGesso = {0x1b4,
                                  1,
                                  1,
                                  0};
-const ItemGessoStep gItemGessoSteps[17] = {
+const ItemGessoStep gItemGessoSteps[ITEM_GESSO_STEP_COUNT] = {
     {0, 0x3800, 0xccd, 0xeb8, 2, 0x10}, {0, -8192, 0x19a, 0xf85, 8, 0xa},    {0, 0x3800, 0x800, 0x1000, 0xa, 6},
     {0, 0, 0x1000, 0, 0, 0xa},          {0, -20480, 0x1000, 0x1000, 3, 0},   {0, -20480, 0x1000, 0xee1, 0, 0xa},
     {-6963, 0x19a, 0xe66, 0xe66, 2, 7}, {0x333, -9011, 0x2e1, 0xf33, 4, 5},  {0x3000, 0x1800, 0xccd, 0xe66, 3, 8},
@@ -90,11 +96,11 @@ void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
 }
 
 void ResetItemGesso(ItemGesso *gesso) {
-    s32 quadIndex;
+    s32 kartIndex;
 
     gesso->mKart = NULL;
-    for (quadIndex = 0; quadIndex < 8; quadIndex++) {
-        gesso->mOrthoQuadCounts[quadIndex] = 0;
+    for (kartIndex = 0; kartIndex < 8; kartIndex++) {
+        gesso->mOrthoQuadCounts[kartIndex] = 0;
     }
     gesso->mStepIndex = -1;
     gesso->mItemObject.mAlpha = ITEM_OBJECT_ALPHA_OPAQUE;
@@ -119,28 +125,28 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     gesso->mStepTimer = step->mApproachFrameCount;
     gesso->mDampFrameCount = step->mDampFrameCount;
     stepIndex = gesso->mStepIndex;
-    if (stepIndex != ITEM_GESSO_STEP_SPREAD && stepIndex != ITEM_GESSO_STEP_HALF_SCALE) {
+    if (stepIndex != ITEM_GESSO_STEP_WIDE_SCALE && stepIndex != ITEM_GESSO_STEP_HALF_SCALE) {
         if (gesso->mTargetVelocityY > 0) {
             gesso->mTargetScaleX = ITEM_GESSO_TALL_SCALE_X;
             gesso->mTargetScaleY = ITEM_GESSO_TALL_SCALE_Y;
-            gesso->mScaleYAndApproachRate.z = 0x4cd;
+            gesso->mScaleApproachRate = 0x4cd;
         } else if (stepIndex == ITEM_GESSO_STEP_PLAIN_SCALE) {
             gesso->mTargetScaleX = TO_FIXED12(1);
             gesso->mTargetScaleY = TO_FIXED12(1);
-            gesso->mScaleYAndApproachRate.z = 0x1000;
+            gesso->mScaleApproachRate = 0x1000;
         } else {
             gesso->mTargetScaleX = ITEM_GESSO_SQUAT_SCALE_X;
             gesso->mTargetScaleY = ITEM_GESSO_SQUAT_SCALE_Y;
-            gesso->mScaleYAndApproachRate.z = 0x28f;
+            gesso->mScaleApproachRate = 0x28f;
         }
-    } else if (stepIndex == ITEM_GESSO_STEP_SPREAD) {
-        gesso->mTargetScaleX = ITEM_GESSO_SPREAD_SCALE_X;
-        gesso->mTargetScaleY = ITEM_GESSO_SPREAD_SCALE_Y;
-        gesso->mScaleYAndApproachRate.z = 0x800;
+    } else if (stepIndex == ITEM_GESSO_STEP_WIDE_SCALE) {
+        gesso->mTargetScaleX = ITEM_GESSO_LARGE_SCALE_X;
+        gesso->mTargetScaleY = ITEM_GESSO_LARGE_SCALE_Y;
+        gesso->mScaleApproachRate = 0x800;
     } else {
         gesso->mTargetScaleX = ITEM_GESSO_HALF_SCALE;
         gesso->mTargetScaleY = ITEM_GESSO_HALF_SCALE;
-        gesso->mScaleYAndApproachRate.z = 0x99a;
+        gesso->mScaleApproachRate = 0x99a;
     }
     stepIndex = gesso->mStepIndex;
     fadesOut = TRUE;
@@ -188,7 +194,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     gesso->mVelocityX = gesso->mTargetVelocityX;
     gesso->mVelocityY = gesso->mTargetVelocityY;
     gesso->mScaleX = gesso->mTargetScaleX;
-    gesso->mScaleYAndApproachRate.x = gesso->mTargetScaleY;
+    gesso->mScaleY = gesso->mTargetScaleY;
     if ((gesso->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
@@ -318,11 +324,11 @@ void AdvanceItemGesso(ItemGesso *gesso) {
     } else if (gesso->mShear < -ITEM_GESSO_SHEAR_LIMIT) {
         gesso->mShear = -ITEM_GESSO_SHEAR_LIMIT;
     }
-    factor = gesso->mScaleYAndApproachRate.z;
+    factor = gesso->mScaleApproachRate;
     deltaX = gesso->mTargetScaleX - gesso->mScaleX;
-    deltaY = gesso->mTargetScaleY - gesso->mScaleYAndApproachRate.x;
+    deltaY = gesso->mTargetScaleY - gesso->mScaleY;
     gesso->mScaleX += MUL_FIXED12_NO_ROUND(factor, deltaX);
-    gesso->mScaleYAndApproachRate.x += MUL_FIXED12_NO_ROUND(factor, deltaY);
+    gesso->mScaleY += MUL_FIXED12_NO_ROUND(factor, deltaY);
     viewOffset = gesso->mViewOffset;
     value = MUL_FIXED12_NO_ROUND(gesso->mShear, 0x800);
     viewOffset.x -= MUL_FIXED12_NO_ROUND(value, viewOffset.x);
@@ -357,13 +363,13 @@ void DrawItemGesso(ItemGesso *gesso, s32 unusedSecond, NsbmdModel *model) {
     matrix.mRows[1].z = MUL_FIXED12_NO_ROUND(matrix.mRows[1].z, value);
     VEC_MultAdd(gesso->mShear, &matrix.mRows[0], &matrix.mRows[1], &matrix.mRows[1]);
     scale.x = MUL_FIXED12_NO_ROUND(gesso->mScaleX, gesso->mItemObject.mScale.x);
-    scale.y = MUL_FIXED12_NO_ROUND(gesso->mScaleYAndApproachRate.x, gesso->mItemObject.mScale.y);
+    scale.y = MUL_FIXED12_NO_ROUND(gesso->mScaleY, gesso->mItemObject.mScale.y);
     scale.z = gesso->mItemObject.mScale.z;
     scaleFactor = GetEntryRaceEnded() != 0 ? 0xccd : 0x119a;
     scale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleFactor);
     scale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleFactor);
     value = gesso->mItemObject.mAlpha;
-    if (value != 0x1f) {
+    if (value != ITEM_OBJECT_ALPHA_OPAQUE) {
         model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
         model->mPolygonAttributes = model->mPolygonAttributes | ((u16) value << POLYGON_ATTR_ALPHA_SHIFT);
     }
@@ -398,7 +404,7 @@ void ComputeItemGessoFrameCount(void) {
     const ItemGessoStep *step;
 
     gItemGessoFrameCount = 0xf;
-    for (stepIndex = 0, step = gItemGessoSteps; stepIndex < 0x11; stepIndex++) {
+    for (stepIndex = 0, step = gItemGessoSteps; stepIndex < ITEM_GESSO_STEP_COUNT; stepIndex++) {
         gItemGessoFrameCount += step->mApproachFrameCount + step->mDampFrameCount;
         step++;
     }

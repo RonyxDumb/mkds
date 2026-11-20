@@ -5,7 +5,8 @@
 typedef struct PackedGrandPrixRecord PackedGrandPrixRecord;
 typedef struct PackedCourseTimeRecord PackedCourseTimeRecord;
 
-// A saved record: the time, the name, the character and the kart; the Grand Prix kind also has a cup rank.
+// A saved record: mMillisecond, mMinute, mSecond, mName, mCharacterIndex and mKartIndex; the Grand Prix kind also has
+// mCupRank, mTotalPoints and mGrade.
 typedef struct TimeRecord {
     /* 00 */ u16 mMillisecond;
     /* 02 */ u8 mMinute;

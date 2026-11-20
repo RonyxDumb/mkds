@@ -64,8 +64,8 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
 void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source);
 u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source);
 
-// Kinds of load segment in MBi_defaultLoadSegList, as the range checks tell them apart: the two main RAM ranges of a
-// parent and the fixed area at 0x027ffe00.
+// Kinds of load segment in MBi_defaultLoadSegList: the range mMainRamRange gives, the range mSubRamRange gives, and the
+// fixed header area.
 enum {
     MULTIBOOT_SEGMENT_MAIN_RAM = 0,
     MULTIBOOT_SEGMENT_SUB_RAM = 1,

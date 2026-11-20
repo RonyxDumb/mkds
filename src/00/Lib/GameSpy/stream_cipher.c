@@ -75,14 +75,14 @@ void GOACryptInit(GOACryptState *state, const u8 *key, u32 keyBytesLen) {
 u8 GOADecryptByte(GOACryptState *state, u8 byte) {
     u8 rotor;
     u8 heldValue;
-    u8 frontByte;
+    u8 previousInputByte;
     u32 partial;
     rotor = state->mRegisterBytes[0];
     state->mRegisterBytes[0] = rotor + 1;
     state->mRegisterBytes[1] = state->mRegisterBytes[1] + state->mCards[rotor];
-    frontByte = state->mRegisterBytes[4];
-    heldValue = state->mCards[frontByte];
-    state->mCards[frontByte] = state->mCards[state->mRegisterBytes[1]];
+    previousInputByte = state->mRegisterBytes[4];
+    heldValue = state->mCards[previousInputByte];
+    state->mCards[previousInputByte] = state->mCards[state->mRegisterBytes[1]];
     state->mCards[state->mRegisterBytes[1]] = state->mCards[state->mRegisterBytes[3]];
     state->mCards[state->mRegisterBytes[3]] = state->mCards[state->mRegisterBytes[0]];
     state->mCards[state->mRegisterBytes[0]] = heldValue;

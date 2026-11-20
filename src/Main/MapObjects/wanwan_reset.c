@@ -36,13 +36,13 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/Race/race.h"
 #include "Main/MapObjects/segment_curve.h"
@@ -88,7 +88,7 @@ StateCallbacks gWanwanStateTable[] = {
     {EnterWanwanRest, UpdateWanwanRestNop}, {EnterWanwanFollowPath, UpdateWanwanFollowPath},
 };
 Quaternion gWanwanResetSurfaceOrientation = {{0, 0, 0, 0x1000}};
-SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, 2, 0};
+SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, SOUND_FALLOFF_SHORT_RANGE, 0};
 struct ShadowModel *gWanwanRockShadow;
 struct Nsbmd *gWanwan;
 
@@ -111,7 +111,7 @@ void UpdateWanwanFollowPath(void *stateObject) {
                    44),
             &wanwan->mYawQuaternion);
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_FOLLOW_PATH_FRAMES) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_FOLLOW_PATH_BLEND_FRAMES) {
         wanwan->mOrientationBlendAmount = wanwan->mOrientationBlendAmount + WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }
@@ -122,9 +122,7 @@ void CreateWanwanAndRockShadow(void) {
     CreateShadowModel(&gWanwanRockShadow, FindCourseMapObjFile("rock_shadow.nsbmd"), 0x3f);
     SetNsbmdPolygonIdLightEmiAll(gWanwan, 0x3f, 2, 0x294a);
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
     wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
@@ -142,12 +140,11 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 0);
     wanwan->mForward = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
-    wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
-    wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
+    wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius,
+                                                 COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE, wanwan);
+    wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared;
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
     wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
@@ -161,9 +158,7 @@ void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, gGroupFollowerSpeed, row->mSettings[0]);
     ResetWanwan(wanwan);
 }
-#pragma thumb off
 
-#pragma thumb on
 void ResetWanwan(Wanwan *wanwan) {
     wanwan->mMapObject.mPos = wanwan->mCenterPos;
     wanwan->mMapObject.mPosStep.x = 0;

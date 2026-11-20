@@ -22,7 +22,7 @@
 #include "sprite_animation_control.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "01/Menu/emblem_and_boss_icon_tables.h"
 #include "Main/MapObjects/map_object_model_frame.h"
@@ -31,15 +31,15 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 MissionRunData *gMissionRunData;
 
@@ -141,7 +141,7 @@ void UpdateMissionRunData(void) {
         if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
             if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex)) {
                 gMissionRunData->mSinceHitCallbackFrames += 1;
-                if (gMissionRunData->mSinceHitCallbackFrames > MISSION_RUN_SELF_HIT_CALLBACK_FRAMES) {
+                if (gMissionRunData->mSinceHitCallbackFrames > MISSION_RUN_SELF_HIT_CALLBACK_FRAME_LIMIT) {
                     gMissionRunData->mSinceHitCallbackFrames = 0;
                     CallKartHitCallbackForSelf(gRaceSetup->mEntryIndex);
                     return;

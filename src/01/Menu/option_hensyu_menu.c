@@ -5,7 +5,7 @@
 #include "01/Menu/nickname_scene.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/select_return.h"
 #include "01/Menu/option_nickname_scenes.h"
 #include "01/Menu/record_gpx_grade_text.h"
@@ -14,6 +14,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u8 gOptionHensyuMenuSTableIndices[2] = {4, 5};
 const u8 gOptionHensyuMenuXluCellIndices[2] = {0, 1};
@@ -145,7 +146,7 @@ void AdvanceOptionHensyuMenuSelect(void) {
     touchBegan = FALSE;
     recentlyLost = FALSE;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -159,7 +160,7 @@ void AdvanceOptionHensyuMenuSelect(void) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
         hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -211,14 +212,14 @@ void AdvanceOptionHensyuMenuSelect(void) {
         StartSoundOncePerFrame(5);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         if (gOptionHensyuMenu->mIndex > 0) {
             gOptionHensyuMenu->mIndex--;
             StartSoundOncePerFrame(0);
             return;
         }
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         if (gOptionHensyuMenu->mIndex < 1) {
             gOptionHensyuMenu->mIndex++;
             StartSoundOncePerFrame(0);
@@ -245,9 +246,9 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
     s32 offsetX;
     if (GetOptionNextScene() == -1) {
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_KEYBOARD) {
-            RequestOptionNextScene(0xe);
+            RequestOptionNextScene(SCENE_KEYBOARD);
         } else if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_EMBLEM) {
-            RequestOptionNextScene(3);
+            RequestOptionNextScene(SCENE_EMBLEM);
         }
     }
     gOptionHensyuMenu->mStateFrames++;
@@ -270,7 +271,7 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
     }
     if (gOptionHensyuMenu->mStateFrames >= OPTION_HENSYU_MENU_SLIDE_FRAMES) {
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_TOP_MENU ||
-            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT || IsSelectReturnHiddenNoRequest() != 0) {
+            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT || IsSelectReturnHiddenNoSlideInRequest() != 0) {
             if (GetOptionNextScene() == -1) {
                 RequestOptionState(gOptionHensyuMenu->mNextOptionState);
             }
@@ -323,11 +324,11 @@ void AdvanceOptionHensyuMenu(void) {
 }
 
 void WriteOptionHensyuMenuRegisters(void) {
-    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
 }
 
 void RegisterOptionHensyuMenuCallbacks(void) {
-    OptionStateCallbacks tbl = {InitOptionHensyuMenu, ReleaseOptionHensyuMenu, AdvanceOptionHensyuMenu,
+    OptionStateCallbacks callbacks = {InitOptionHensyuMenu, ReleaseOptionHensyuMenu, AdvanceOptionHensyuMenu,
                                 WriteOptionHensyuMenuRegisters};
-    SetOptionStateCallbacks(&tbl);
+    SetOptionStateCallbacks(&callbacks);
 }

@@ -22,36 +22,37 @@ void SetPollEntryForRead(s32 value, PollEntry *object);
 enum {
     VALUE_RECORDS_RESULT_OK,
     VALUE_RECORDS_RESULT_NO_ENTRY_FOUND,
-    VALUE_RECORDS_RESULT_ENTRY_REJECTED,
-    VALUE_RECORDS_RESULT_TIMEOUT_STEP0,
-    VALUE_RECORDS_RESULT_TIMEOUT_STEP1,
-    VALUE_RECORDS_RESULT_TIMEOUT_STEP2,
+    VALUE_RECORDS_RESULT_SEVERAL_ENTRIES_FOUND,
+    VALUE_RECORDS_RESULT_NO_VALID_REPLY_ITEM_CHAIN,
+    VALUE_RECORDS_RESULT_NO_VALID_REPLY_WANTED_MASK,
+    VALUE_RECORDS_RESULT_NO_VALID_REPLY_FINISH,
     VALUE_RECORDS_RESULT_BAD_RECORDS,
     VALUE_RECORDS_RESULT_REPLY_STATUS_FIRST,
     VALUE_RECORDS_RESULT_REPLY_STATUS_SECOND,
     VALUE_RECORDS_RESULT_FAILED = 0xf,
 };
 
-// Steps of the request (the mode of RunValueRecordsRequest): send the item chain, send the wanted mask, send the finish
-// packet.
+// Steps of the request (the mode of RunValueRecordsRequestSteps): send the item chain, send the wanted mask, send the
+// finish packet.
 #define ESSID_REQUEST_STEP_ITEM_CHAIN 0
 #define ESSID_REQUEST_STEP_WANTED_MASK 1
 #define ESSID_REQUEST_STEP_FINISH 2
 
-// Values of gErrorCode, what GetErrorCode reports after a request failed. The three NO_REPLY codes are the receive
-// timeouts of the three steps; 0x1000 plus the step is set when sending failed.
+// Values of gErrorCode, what GetErrorCode reports after a request failed. The three NO_VALID_REPLY codes are set when a
+// step has used up its attempts without an accepted reply (poll timeout or rejected replies); REPLY_STATUS_FIRST,
+// SECOND and OTHER are the status words -2, -3 and any other; 0x1000 plus the step is set when sending failed.
 #define ESSID_ERROR_NONE 1
-#define ESSID_ERROR_PACKET_BUFFER 2
+#define ESSID_ERROR_ALLOC_FAILED 2
 #define ESSID_ERROR_ITEM_CHAIN_BUILD 3
 #define ESSID_ERROR_SOCKET_OPTION 0xb
 #define ESSID_ERROR_START_SOCKETS 0xc
-#define ESSID_ERROR_NO_REPLY_ITEM_CHAIN 0xf
-#define ESSID_ERROR_NO_REPLY_WANTED_MASK 0x10
-#define ESSID_ERROR_NO_REPLY_FINISH 0x11
+#define ESSID_ERROR_NO_VALID_REPLY_ITEM_CHAIN 0xf
+#define ESSID_ERROR_NO_VALID_REPLY_WANTED_MASK 0x10
+#define ESSID_ERROR_NO_VALID_REPLY_FINISH 0x11
 #define ESSID_ERROR_FIRST_RECORD_NOT_WANTED 0x13
 #define ESSID_ERROR_REPLY_STATUS_FIRST 0x14
 #define ESSID_ERROR_REPLY_STATUS_SECOND 0x15
-#define ESSID_ERROR_ITEM_CHAIN_PARSE 0x16
+#define ESSID_ERROR_ITEM_CHAIN_BAD_COUNT 0x16
 #define ESSID_ERROR_REPLY_STATUS_OTHER 0x18
 #define ESSID_ERROR_SEND_FAILED_BASE 0x1000
 
@@ -62,17 +63,18 @@ enum {
 #define VALUE_RECORD_MASK_SINGLE_VALUE_SECOND 8
 #define VALUE_RECORD_MASK_ALL 0xf
 
-// Retry count and delay a request uses for a limit of -1, the address the device takes and the address it sends to
-// first, and the byte every packet header carries at 0x0f.
+// Retry count and delay a request uses for a limit of -1, the address this machine takes, the destination address a
+// request starts with, and the magic byte every packet header carries.
 #define ESSID_REQUEST_DEFAULT_COUNT 10
 #define ESSID_REQUEST_DEFAULT_DELAY_MS 100
 #define ESSID_REQUEST_OWN_ADDRESS 0xc0a80b65
-#define ESSID_REQUEST_FIRST_DESTINATION_ADDRESS 0xc0a80b01
+#define ESSID_REQUEST_DEFAULT_DESTINATION_ADDRESS 0xc0a80b01
 #define ESSID_PACKET_MAGIC_BYTE 0x11
 
 // A value records request: the wanted record mask, the item, retry and timeout settings and the found records.
 typedef struct ValueRecordsRequest {
-    /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
+    // input mask; replaced by the wanted records that were found once the reply was parsed, also when a record is bad
+    /* 000 */ u16 mWantedRecordMask;
     /* 002 */ ValueRecordsRequestItem mItem;
     /* 106 */ s16 mScanRetryLimit;
     /* 108 */ s16 mScanRetryDelayMs;
@@ -107,7 +109,9 @@ typedef struct EssidEntry {
     /* 28 */ u8 pad_28[8];
     /* 30 */ u8 mAddress[6];
     /* 38 */ u32 mCodeCount;
-    /* 3c */ u8 mCodes[0x10]; // bit 0x80 set when the record's second bit list has the same bit
+    // ESSID_RATE_CODE_BASIC is set when RawEntry.mBasicRateSet also has the bit; a code is listed only for the bits of
+    // mSupportRateSet
+    /* 3c */ u8 mCodes[0x10];
     /* 4c */ u32 mBeaconPeriod;
     /* 50 */ u32 mMode;
 } EssidEntry;
@@ -118,7 +122,8 @@ typedef struct EssidEntryList {
     /* 04 */ EssidEntry mEntries[1];
 } EssidEntryList;
 
-// A search request: the network name, whether to use a shared key and the bytes to search with.
+// A request to find a network by name and connect to it: the network name, whether to use a shared key and the key
+// bytes.
 typedef struct EssidMelcoRequest {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
@@ -140,12 +145,13 @@ typedef struct MaskCodeEntry {
 // The two low bits of RawEntry.mFlags that EssidEntry.mMode is made from.
 #define RAW_ENTRY_MODE_MASK 3
 
-// Values of MelcoBlock.mLengthKind: the length of the key bytes.
+// MelcoBlock.mLengthKind is 1, 2 or 3 for a key of 5, 13 or 16 bytes, the same numbers as AP_WEP_MODE_KEY_5_BYTES,
+// AP_WEP_MODE_KEY_13_BYTES and AP_WEP_MODE_KEY_16_BYTES.
 #define MELCO_LENGTH_KIND_WEP_KEY_5_BYTES 1
 #define MELCO_LENGTH_KIND_WEP_KEY_13_BYTES 2
 #define MELCO_LENGTH_KIND_WEP_KEY_16_BYTES 3
 
-// The key bytes of a search request and the kind of their length.
+// The key bytes of a connect request and the mode (key length) that goes with them.
 typedef struct MelcoBlock {
     /* 00 */ u8 mLengthKind;
     /* 01 */ u8 mUnk_01;
@@ -158,7 +164,7 @@ typedef struct RetryLimit {
     /* 2 */ s16 mDelayMs;
 } RetryLimit;
 
-// How long to wait: seconds and microseconds.
+// How long to wait: seconds and microseconds (PollSocketWithTimeout scales both by the same factor).
 typedef struct WaitTimeout {
     /* 0 */ s32 mSeconds;
     /* 4 */ s32 mMicroseconds;
@@ -170,14 +176,14 @@ typedef struct PacketTag {
     /* 6 */ u16 mSequence;
 } PacketTag;
 
-// The addresses used when sending a packet: the destination address and the own address.
+// The destination and own address a request writes before each send; nothing reads them.
 typedef struct SendPacketScratch {
     /* 00 */ u32 mDestinationAddress;
     /* 04 */ u8 pad_04[0xc];
     /* 10 */ u32 mOwnAddress;
 } SendPacketScratch;
 
-// A received packet buffer: the socket descriptor, the received length and the packet bytes.
+// A packet buffer: the socket descriptor, the received length and the packet bytes.
 typedef struct PacketBuffer {
     /* 00 */ s32 mDescriptor;
     /* 04 */ u32 mReceivedLength; // stored byte-swapped; never read
@@ -210,7 +216,7 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst);
 #include "03/Net/essid_packet_socket.h"
 #include "03/Net/essid_wcm.h"
 
-// Item whose payload starts with the chain of its sub-items.
+// A payload item seen as its type, length and first word, or as its first sub-item.
 typedef struct ItemContainerView {
     union {
         PacketItem mItem;
@@ -235,7 +241,7 @@ extern s32 gSocketDescriptor;
 extern RetryLimit gRetryLimitTemplate;
 extern s32 gRandomSeeded;
 extern EssidEntryList *gScannedEssidList;
-extern s32 gKeyStreamAccepted;
+extern s32 gUseKeyStream;
 extern EssidEntryList *gRequestedEssidList;
 extern PacketBuffer *gRequestPacketBuffer;
 extern s32 gErrorCode;

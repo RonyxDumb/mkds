@@ -13,5 +13,5 @@ void InitWiFiSelectKartNop(void);
 void ReleaseWiFiSelectKartState(void);
 void InitWiFiSelectKartState(void *heap);
 
-extern WiFiStateCallbacks gSelectKartCallbacks;
+extern WiFiStateCallbacks gWiFiSelectKartCallbacks;
 extern struct WiFiSelectHeapHolder *gWiFiSelectKartState;

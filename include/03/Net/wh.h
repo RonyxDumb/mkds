@@ -8,27 +8,29 @@ typedef void (*WhPrintFunction)(u32 flags, const char *format, ...);
 
 // Values of WhWork.mConnectMode, given to StartWhParentConnect: what runs on the link once it is up and what is closed
 // first on the way down. MP is plain MP communication, KEY_SHARING and ACTIVE_KEY_SHARING share keys, DATA_SHARING
-// starts the data sharing; END_MP_FIRST and END_MP_FIRST_ALTERNATE also end MP before the
-// disconnect; no caller passes them (bare case labels).
+// starts the data sharing; END_MP_BEFORE_DISCONNECT and END_MP_FIRST_ALSO also end MP before the disconnect.
+// StartWhParentConnect
+// accepts only MP, KEY_SHARING and DATA_SHARING and its only caller passes DATA_SHARING; the other values are only
+// cases in FinalizeWh.
 enum {
     WIRELESS_CONNECT_MODE_MP = 0,
-    WIRELESS_CONNECT_MODE_END_MP_FIRST = 1,
+    WIRELESS_CONNECT_MODE_END_MP_BEFORE_DISCONNECT = 1,
     WIRELESS_CONNECT_MODE_KEY_SHARING = 2,
-    WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING = 3,
+    WIRELESS_CONNECT_MODE_KEY_SHARING_END_CHECKED = 3,
     WIRELESS_CONNECT_MODE_DATA_SHARING = 4,
-    WIRELESS_CONNECT_MODE_END_MP_FIRST_ALTERNATE = 5,
+    WIRELESS_CONNECT_MODE_END_MP_FIRST_ALSO = 5,
 };
 
-// Buffer sizes and the largest parent and child data sizes StartWhParentConnect sets, and the busy ratio (a percentage
-// of 100 at most) that channel search starts from.
+// Buffer sizes and the largest parent and child data sizes StartWhParentConnect sets, and the value
+// StartWhChannelSearch starts mLowestBusyRatio from.
 #define WH_RECEIVE_BUFFER_SIZE 0x180
 #define WH_SEND_BUFFER_SIZE 0xe0
 #define WH_PARENT_MAX_SIZE 0xd0
 #define WH_CHILD_MAX_SIZE 0x44
-#define WH_BUSY_RATIO_NOT_MEASURED 0x65
+#define WH_LOWEST_BUSY_RATIO_START 0x65
 
-// Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when a call that
-// starts the next step fails.
+// Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when initialize,
+// reset start or end fails.
 enum {
     WH_STATE_STOP,
     WH_STATE_IDLE,
@@ -40,10 +42,11 @@ enum {
     WH_STATE_MEASURE_CHANNEL,
     WH_STATE_CONNECT_FAIL,
     WH_STATE_ERROR,
-    WH_STATE_FAILED,
+    WH_STATE_INIT_RESET_OR_END_FAILED,
 };
 
-// The Wi-Fi host work: its parent parameters, state, connect mode and callback, connected mask and channel choice.
+// The wireless link work (gWhWork): its parent parameters, state, connect mode and callback, connected mask and channel
+// choice.
 typedef struct WhWork {
     /* 0000 */ ParentParameter mParentParameter;
     /* 0038 */ u8 pad_38[8];
@@ -60,7 +63,7 @@ typedef struct WhWork {
     /* 0060 */ u16 mLowestBusyChannelMask;
     /* 0062 */ u8 pad_62[0x1e];
     /* 0080 */ u8 mWmSystemBuffer[0xf00];
-    /* 0f80 */ u8 mSendBuffer[0xe0];
+    /* 0f80 */ u8 mSendBuffer[WH_SEND_BUFFER_SIZE];
     /* 1060 */ u8 mReceiveBuffer[0x240];
     /* 12a0 */ u32 mSendBufferSize;
     /* 12a4 */ u32 mReceiveBufferSize;

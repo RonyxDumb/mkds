@@ -44,7 +44,7 @@
 #include "Main/System/input_slots.h"
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/System/interpolation.h"
@@ -53,6 +53,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Race/race_setup_block.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 const u16 gKeyTargets12RowsRow0[4] = {0xffff, 4, 1, 0xffff};
 const u16 gKeyTargets8RowsRow7[4] = {4, 0xffff, 0xffff, 6};
@@ -247,10 +248,6 @@ void SetKartMenuParamElementOffset(s32 elementIndex, s32 endCellIndex, s32 param
     parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mPosition - startCell->mPosition) / 100;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void RefreshKartMenuParamElements(void) {
     int result;
     CellFileSet *parts;
@@ -322,21 +319,21 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectKart->mTouchRect = -1;
     switch (GetRaceSetupCopy()->mEntryTransition) {
         case ENTRY_TRANSITION_FROM_CHARACTER:
-            SetupInterpolation(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
-            SetupInterpolation(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[0], INTERPOLATION_STATE_AT_END, 10, -0x80, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[2], INTERPOLATION_STATE_AT_END, 10, 0x60, 0);
             break;
         case ENTRY_TRANSITION_FRESH:
-            SetupInterpolation(&gSelectKart->mInterpolations[0], 0, 10, -0x80, 0);
-            SetupInterpolation(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x80, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, 0x60, 0);
             if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
                 StartKartModelMenuBg0Increase();
                 SetKartModelMenuSpinStopped(0);
             }
             break;
     }
-    SetupInterpolation(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
-    SetupInterpolation(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
-    SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
+    SetupInterpolation(&gSelectKart->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gSelectKart->mInterpolations[3], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
+    SetupInterpolation(&gSelectKart->mInterpolations[4], INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
     gSelectKart->mMainOam = mainOam;
     gSelectKart->mSubOam = subOam;
     if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||
@@ -451,7 +448,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         RequestSelectReturnSlideIn();
     }
-    if (SelectKartGetConnectionKind() == 2) {
+    if (SelectKartGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
         SetSelectReturnDisplayBitOn();
     }
     if (gSelectKart->mMode == SELECT_KART_MODE_NO_CONNECTION) {
@@ -479,7 +476,7 @@ u32 SelectKartGetPairHasPair(InputSlotPair *inputSlotPair) {
 
 BOOL SelectKartIsPairRecentlyLost(InputSlotPair *pair) {
     if (SelectKartGetPairHasPair(pair) == 0) {
-        if (pair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+        if (pair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             return 1;
         }
     }
@@ -580,7 +577,7 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_SEND_KART:
             SetDataSharingSendByteWhenSynced(selectKart->mKartIndex | 0x80);
-            gSelectKart->mResult = 1;
+            gSelectKart->mResult = MENU_SCREEN_RESULT_NEXT;
             gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
             break;
         case SELECT_KART_STATE_CHOOSE:
@@ -592,7 +589,7 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mTouchRect == SELECT_KART_TOUCH_RECT_CONFIRM ||
                 IsSelectKartModeAndTimerZero() != 0) {
                 gSelectKart->mStateFrames = 0;
-                gSelectKart->mResult = 1;
+                gSelectKart->mResult = MENU_SCREEN_RESULT_NEXT;
                 gSelectKart->mState = SELECT_KART_STATE_CONFIRM;
                 selectKartParts->mCellTable[18].mVisible = 0;
                 SetLabelPaletteIndex(gSelectKartSLabelCanvasEntries[6].mLabelIndex, 0, selectKartParts->mLabelLayout,
@@ -614,12 +611,12 @@ int AdvanceSelectKart(void) {
                     value = 0;
                 }
                 RequestSelectReturnPressWithSound(value);
-            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
+            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_DIRECTION_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
                 gSelectKart->mSlidingCellIndex = SELECT_KART_SLIDING_CELL_RIGHT;
                 selectKartParts->mCellTable[1].mVisible = 0;
                 selectKartParts->mCellTable[3].mVisible = 1;
-            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
+            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_DIRECTION_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
                 gSelectKart->mSlidingCellIndex = SELECT_KART_SLIDING_CELL_LEFT;
                 selectKartParts->mCellTable[0].mVisible = 0;
@@ -711,7 +708,8 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_SLIDE_OUT:
             if (selectKart->mInterpolations[4].mState == INTERPOLATION_STATE_AT_START) {
-                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
+                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored =
+                    selectKart->mResult == MENU_SCREEN_RESULT_NEXT;
                 gSelectKart->mState = SELECT_KART_STATE_DONE;
             }
             SetSelectKartSPartsOffsetY();
@@ -777,7 +775,7 @@ u32 SelectKartMB_IsMultiBootChildWrapper(void) {
 
 void ReleaseSelectKart(void) {
     int result;
-    if ((gSelectKart->mResult == 1) && (result = SelectKartGetConnectionKind(), result == 2)) {
+    if ((gSelectKart->mResult == MENU_SCREEN_RESULT_NEXT) && (result = SelectKartGetConnectionKind(), result == CONNECTION_KIND_WL_MENU)) {
         ClearSelectReturnDisplayBitOn();
     }
     result = SelectKartMB_IsMultiBootChildWrapper();
@@ -857,7 +855,7 @@ void WriteSelectKartRegisters(void) {
     SelectKartGXS_SetVisiblePlane(displayBits);
     SelectKartG2S_SetBG3Offset(0, -interpolatedValue);
     WriteSubBg3CntBits(2);
-    WriteSubBlendAlpha(0, 0x3f, 6, 10);
+    WriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     if (interpolatedValue != 0 && gSelectKart->mState != SELECT_KART_STATE_DONE) {
         WriteSubWinEnableBits(1);
         SelectKartG2S_SetWnd0InsidePlane(0x1f, 1);
@@ -870,9 +868,6 @@ void WriteSelectKartRegisters(void) {
         WritePlayerEntryListRegisters();
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadSelectKartData(void) {
     void *fileData;

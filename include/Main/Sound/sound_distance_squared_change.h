@@ -2,13 +2,12 @@
 
 #include "types.h"
 
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
-// Object of AdvanceSoundDistanceSquaredChange: a value at 0x00, the previous value at 0x04, their difference at 0x08
-// and a shift at 0x0c; 0x1c bytes in all.
-// SoundDistanceSquaredChange.mShift ResetSoundDistanceSquaredChange sets, and the largest change in mDifference
-// AdvanceSoundDistanceSquaredChange keeps (a larger one is dropped for the previous change).
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
+// SOUND_DISTANCE_CHANGE_SHIFT is the mShift that ResetSoundDistanceSquaredChange sets. SOUND_DISTANCE_CHANGE_LIMIT is
+// the largest absolute mDifference that AdvanceSoundDistanceSquaredChange keeps (a larger one is replaced by the
+// previous mDifference).
 #define SOUND_DISTANCE_CHANGE_SHIFT 6
 #define SOUND_DISTANCE_CHANGE_LIMIT 0x600
 
@@ -22,5 +21,5 @@ typedef struct SoundDistanceSquaredChange {
 } SoundDistanceSquaredChange;
 
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/kart_surface_sound.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"

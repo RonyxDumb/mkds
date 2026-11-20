@@ -7,7 +7,6 @@
 #include "01/MapObjects/map_object_model.h"
 
 #define FIREBALL2_KART_HIT_FRAMES 0xb
-#define FIREBALL2_ROW_ANGLE_SPACING 0x10000
 
 // One fireball of a Fireball2: its position and two angles.
 typedef struct Fireball2Element {
@@ -39,7 +38,7 @@ MapObjectList *CreateFireball2UpdateList(void);
 MapObjectList *CreateFireball2DrawList(void);
 MapObjectKindData *CreateFireball2KindData(void);
 void UpdateFireball2(void *mapObjectList,
-                     Fireball2 *fireball2); /* skipped for objects with mFlags & 4 (parked pool objects) */
+                     Fireball2 *fireball2); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitFireball2Objects(MapObjectList *mapObjectList);
 void DrawFireball2(void *mapObjectList, Fireball2 *fireball2);
 void SetupDrawFireball2(void *mapObjectList);

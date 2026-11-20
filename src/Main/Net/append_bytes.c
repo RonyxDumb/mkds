@@ -36,7 +36,7 @@ s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_FILLER;
+    header.mKind = XFER_PACKET_EMPTY;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
@@ -131,7 +131,7 @@ s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_LAYOUT_ASK;
+    header.mKind = XFER_PACKET_NODE_ASK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -149,7 +149,7 @@ s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_LAYOUT_ANSWER;
+    header.mKind = XFER_PACKET_NODE_CHUNK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -172,7 +172,7 @@ s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 block
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_ALL_HELD;
+    header.mKind = XFER_PACKET_NO_MISSING_CHUNK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -189,7 +189,7 @@ s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_ALL_HELD_ANSWER;
+    header.mKind = XFER_PACKET_NO_MISSING_CHUNK_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -206,7 +206,7 @@ s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 by
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_CUSTOM;
+    header.mKind = XFER_PACKET_USER_DATA;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -224,7 +224,7 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = XFER_PACKET_CUSTOM_ANSWER;
+    header.mKind = XFER_PACKET_USER_DATA_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
@@ -290,16 +290,16 @@ u32 WBTi_GetPacketBuffer(u32 blockIdOrPosition, u32 chunkIndex) {
     return 0;
 }
 
-void WBTi_InitBitmap(WBTPacketBitmap *state, s32 size, void *chunkBitmap, u32 buffer) {
+void WBTi_InitBitmap(WBTPacketBitmap *bitmap, s32 size, void *chunkBitmap, u32 buffer) {
     s32 chunkSize;
     chunkSize = WBT_GetPeerPacketLength();
-    state->mLength = size;
-    state->mPickedChunkIndex = 0;
-    state->mCurrent = 0;
-    state->mCount = 0;
-    state->mTotal = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
-    state->mBitmap = chunkBitmap;
-    state->mBuffer = (u8 *) buffer;
+    bitmap->mLength = size;
+    bitmap->mPickedChunkIndex = 0;
+    bitmap->mCurrent = 0;
+    bitmap->mCount = 0;
+    bitmap->mTotal = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
+    bitmap->mBitmap = chunkBitmap;
+    bitmap->mBuffer = (u8 *) buffer;
     MI_CpuFill8(chunkBitmap, 0, WBT_CalcPacketbitmapSize(size));
 }
 

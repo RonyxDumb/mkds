@@ -3,8 +3,9 @@
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/System/heap.h"
 #include "Main/Save/buddy_record_time.h"
+#include "Main/Race/race_goal_m.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "vram_bank_display_setup.h"
@@ -179,7 +180,7 @@ void RefreshMissionRunLVselLevelCells(void) {
                     ->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][minRecordValue + 3]]
                     .mVisible = 1;
             }
-        } else if (levelIndex != 6) {
+        } else if (levelIndex != MISSION_RUN_LVSEL_LAST_LEVEL_INDEX) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][0]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][6]].mVisible = 1;
@@ -206,33 +207,33 @@ void UpdateMissionRunLVselHighlight(void) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mVisible = 1;
         } else if (IsMissionRunLVselLevelReached(levelIndex)) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 1;
-        } else if (levelIndex != 6) {
+        } else if (levelIndex != MISSION_RUN_LVSEL_LAST_LEVEL_INDEX) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
         }
     }
 }
 
 void RefreshMissionRunLVselReachedLevel(void) {
-    BOOL all = TRUE;
+    BOOL allRecordsAtLeastFive = TRUE;
     s32 levelIndex = 0;
-    s32 ok;
+    s32 levelRecordsFilled;
     s32 columnIndex;
     s32 recordValue;
     u8 levelNumber;
     gMissionRunLVsel->mReachedLevel = 0;
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
-        ok = 1;
+        levelRecordsFilled = 1;
         columnIndex = 0;
         levelNumber = levelIndex + 1;
         for (; columnIndex < 9; columnIndex++) {
-            ok &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
-            if (!ok || recordValue < 5) {
-                all = FALSE;
+            levelRecordsFilled &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
+            if (!levelRecordsFilled || recordValue < MISSION_RECORD_VALUE_THIRD_BEST) {
+                allRecordsAtLeastFive = FALSE;
             }
         }
-        if (ok) {
+        if (levelRecordsFilled) {
             if (levelIndex == 5) {
-                if (all) {
+                if (allRecordsAtLeastFive) {
                     gMissionRunLVsel->mReachedLevel = levelIndex + 1;
                 }
             } else {
@@ -250,14 +251,14 @@ void SetMissionTableToSelectedLevel(void) {
 BOOL IsMissionRunLVselLastRecordMissing(void) {
     s32 columnIndex;
     s32 ok = 1;
-    s32 result;
+    s32 lastFilled;
     s32 recordValue;
 
     for (columnIndex = 0; columnIndex < 8; columnIndex++) {
         ok &= GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), (u8) (columnIndex + 1), &recordValue);
     }
-    result = GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
-    if (ok != 0 && result == 0) {
+    lastFilled = GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
+    if (ok != 0 && lastFilled == 0) {
         return TRUE;
     }
     return FALSE;
@@ -272,7 +273,7 @@ void ResetMissionRunLVsel(void) {
     levelIndex = 0;
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;
     gMissionRunLVsel->mStateFrames = 0;
-    gMissionRunLVsel->mBg0Offset = -192;
+    gMissionRunLVsel->mBg0Offset = -MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE;
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         for (cellIndex = 0; cellIndex < 11; cellIndex++) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][cellIndex]]
@@ -302,7 +303,7 @@ void RequestMissionRunLVselWaitSelectReturn(void) {
 // Requests the select state: stores mNextState and zeroes mStateFrames; the next AdvanceMissionRunLVsel call copies
 // it to mState and runs AdvanceMissionRunLVselSelect.
 void RequestMissionRunLVselSelect(void) {
-    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SELECT;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_INPUT;
     gMissionRunLVsel->mStateFrames = 0;
 }
 
@@ -355,7 +356,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
         StartMissionRunLVselSeq(2);
     } else {
         gMissionRunLVsel->mIndex = GetMissionTableRow() - 1;
-        if (GetPreviousMenuScreenNumber() == 0x1f) {
+        if (GetPreviousMenuScreenNumber() == SCREEN_NONE) {
             StartMissionRunLVselSeq(1);
         } else {
             StartMissionRunLVselSeq(0);
@@ -443,7 +444,7 @@ void AdvanceMissionRunLVselWaitSelectReturn(void) {
 }
 
 void AdvanceMissionRunLVselSelect(void) {
-    u32 touchedRect = -1;
+    u32 touchedRectIndex = -1;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL touchBegan;
     BOOL recentlyLost;
@@ -453,7 +454,7 @@ void AdvanceMissionRunLVselSelect(void) {
     touchBegan = FALSE;
     recentlyLost = FALSE;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -461,14 +462,14 @@ void AdvanceMissionRunLVselSelect(void) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchedRect = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl,
+        touchedRectIndex = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl,
                                               gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         BOOL touchBeganAgain = FALSE;
         BOOL recentlyLostAgain = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLostAgain = TRUE;
         }
         if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -481,15 +482,15 @@ void AdvanceMissionRunLVselSelect(void) {
             goto next;
         }
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestMissionRunLVselSlideOut();
     gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_BACK;
     RequestSelectReturnPressWithSound(0);
     return;
 next:
-    if (touchedRect <= 6) {
-        targetIndex = gMissionRunLVselTouchLevelIndices[touchedRect];
+    if (touchedRectIndex <= 6) {
+        targetIndex = gMissionRunLVselTouchLevelIndices[touchedRectIndex];
         if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
             gMissionRunLVsel->mIndex = targetIndex;
             gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;
@@ -504,7 +505,7 @@ next:
         RequestMissionRunLVselHoldChosen();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         if (gMissionRunLVselUpIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselUpIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -513,7 +514,7 @@ next:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         if (gMissionRunLVselDownIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselDownIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -522,7 +523,7 @@ next:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         if (gMissionRunLVselLeftIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselLeftIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -531,7 +532,7 @@ next:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (gMissionRunLVselRightIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselRightIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -587,7 +588,7 @@ s32 AdvanceMissionRunLVsel(void) {
         case MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN:
             AdvanceMissionRunLVselWaitSelectReturn();
             break;
-        case MISSION_RUN_LVSEL_STATE_SELECT:
+        case MISSION_RUN_LVSEL_STATE_INPUT:
             AdvanceMissionRunLVselSelect();
             break;
         case MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN:
@@ -605,7 +606,7 @@ s32 AdvanceMissionRunLVsel(void) {
         gMissionRunLVsel->mStateFrames >= MISSION_RUN_LVSEL_SLIDE_FRAMES) {
         return gMissionRunLVsel->mResult;
     }
-    return 0;
+    return MISSION_RUN_LVSEL_RESULT_NONE;
 }
 
 void WriteMissionRunLVselBg0Offset(void) {

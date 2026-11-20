@@ -21,19 +21,19 @@
 #include "Main/MapObjects/rock.h"
 #include "Main/Kart/kart_point_link_effects.h"
 #include "Main/Kart/kart_ai_battle.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -43,7 +43,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
@@ -64,15 +64,15 @@
 #include "Main/Graphics/disp_cap.h"
 #include "Main/Kart/kart_level.h"
 #include "Main/Graphics/stem_sets.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Sound/kart_request_sort.h"
-#include "Main/Sound/kart_sound_queue.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Sound/kart_sound.h"
 #include "Main/Sound/sound_source_init.h"
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/Graphics/animation_function_pointers.h"
 #include "Main/System/heap.h"
@@ -80,6 +80,8 @@
 #include "Main/Race/entry_race_ended.h"
 #include "linked_list_ops.h"
 #include "ITCM/kart_motion.h"
+#include "ITCM/kart_speed.h"
+#include "ITCM/kart_velocity.h"
 #include "Main/Course/course_map_shapes.h"
 #include "Main/Kart/kart_course_colors.h"
 #include "Main/Kart/kart_contact_effect_release.h"
@@ -91,7 +93,7 @@
 #include "Main/Item/bouncing_item_box.h"
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Sound/kart_track_params_reset.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/kart_items_collision_hits.h"
@@ -117,7 +119,7 @@ void AdvanceKartScaleFactor(Kart *kart) {
     }
     kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
     frameIndex = kart->mFramesSinceRemovalOrReset;
-    if (frameIndex >= 0x19) {
+    if (frameIndex >= KART_SCALE_TABLE_STEPS) {
         kart->mEntryFlags &= ~KART_ENTRY_SCALING_IN;
         return;
     }
@@ -136,7 +138,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     Vec3 respawnAngles;
     Vec3 sideDirection;
     MtxFx33 rotationMatrix;
-    PointLink *respawnLink;
+    BattlePointLink *respawnLink;
     s32 value;
     s32 forwardOffset;
     s32 index;
@@ -212,12 +214,12 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     flags = kart->mEffectFlags;
     finished = FALSE;
     if (flags & KART_EFFECT_WATER_FALL) {
-        if (kart->mRespawnWaitVelocityScale > KART_WATER_FALL_WAIT_MIN_SCALE) {
+        if (kart->mRespawnWaitVelocityScale > KART_WATER_FALL_WAIT_SHRINK_LIMIT) {
             kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
         *outVelocityScale = kart->mRespawnWaitVelocityScale;
     } else if (flags & KART_EFFECT_RESPAWN_WAIT_SET) {
-        if (kart->mRespawnWaitVelocityScale > KART_RESPAWN_WAIT_MIN_SCALE) {
+        if (kart->mRespawnWaitVelocityScale > KART_RESPAWN_WAIT_SHRINK_LIMIT) {
             kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
         *outVelocityScale = kart->mRespawnWaitVelocityScale;
@@ -239,7 +241,7 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     return finished;
 }
 
-void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, PointLink *link) {
+void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, BattlePointLink *link) {
     ParticipantKartRecordState *recordState;
     Vec3 axis;
 
@@ -338,7 +340,7 @@ void StopKartItemsAndEffects(Kart *kart) {
             }
         }
         StopKartKillerEffect(kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        StartSound(&kart->mSoundSource, 0xfd, SOUND_VOLUME_MAX, 0);
     }
     if (kart->mEntryFlags & KART_ENTRY_TERESA) {
         kart->mEntryFlags &= ~KART_ENTRY_TERESA;
@@ -347,7 +349,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
             ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            StartSound(&kart->mSoundSource, 0xf9, SOUND_VOLUME_MAX, 0);
         }
         SetTeresaSoundFlag(0, (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 1 : 0);
     }
@@ -378,7 +380,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     }
     if (kart->mSecondCollisionSlot == -1) {
         kart->mSecondCollisionSlot = CreateCollisionSlot(
-            &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+            &kart->mSecondCollisionCenter, SHIFT_LEFT_FROM_FIXED12(kart->mPhysicalParam->mRadius, 15), 0x800, kart);
     }
     kart->mEntryFlags |= KART_ENTRY_SCALING_IN;
     kart->mEntryFlags &= ~(KART_ENTRY_REMOVED | KART_ENTRY_HIDDEN);
@@ -615,7 +617,7 @@ void ResetKart(Kart *kart) {
     kart->mTireTurnAngle = 0;
 }
 
-// Free-list nodes of one kart's participant record state and the bytes of each.
+// The number of record nodes allocated for one kart's participant record state, and the bytes of each node.
 #define PARTICIPANT_RECORD_NODE_COUNT 0x1e
 #define PARTICIPANT_RECORD_NODE_SIZE 0x24
 
@@ -632,7 +634,7 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     recordState->mSmoothedPos = kart->mPos;
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
     recordState->mSmoothedHeadingAngle = kart->mHeadingAngle;
-    recordState->mHeadingAngleAtReset = recordState->mSmoothedHeadingAngle;
+    recordState->mHeadingAngleAtInit = recordState->mSmoothedHeadingAngle;
     recordState->mUnk_1c = 0;
     recordState->mLastSyncCount = 0;
     recordState->mPosBlendFactor = 0;
@@ -765,14 +767,14 @@ void InitKartSound(Kart *kart) {
     }
     kart->mKartIndexModThree = kart->mKartModelsEntry->mKartIndex % 3;
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-        if (!(kart->mSoundSource.mSourceFlags & 1)) {
+        if (!(kart->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED)) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
         if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
             ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
         }
     } else {
-        if (kart->mSoundSource.mSourceFlags & 1) {
+        if (kart->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
             SetSoundSourceFlagBit(&kart->mSoundSource, 2, 1);
         }
         ResetSoundDistanceSquaredChange(&kart->mSoundDistanceSquaredChange);
@@ -811,7 +813,7 @@ void InitKartSoundParams(Kart *kart) {
     kartSound->mWhileRequestedSoundId = -1;
     switch (kart->mKartModelsEntry->mKartIndex / 3) {
         case 0:
-            soundIndex = 4;
+            soundIndex = KART_SOUND_SET_MARIO;
             break;
         case CHARACTER_DONKEY:
             soundIndex = KART_SOUND_SET_DONKEY;
@@ -861,7 +863,7 @@ void InitKartSoundParams(Kart *kart) {
     lowRatioSoundId = *OFFSET_PTR(s32, &gKartSoundRowSoundIds[0][5], rowOffset);
     lastSoundColumn = *OFFSET_PTR(s32, &gKartSoundRowSoundIds[0][6], rowOffset);
     soundRow.mSoundRowIndex = soundRowIndex;
-    soundRow.mPitchedSoundId = firstSoundColumn;
+    soundRow.mRevSoundId = firstSoundColumn;
     soundRow.mSecondSoundColumn = secondSoundColumn;
     soundRow.mThirdSoundColumn = thirdSoundColumn;
     soundRow.mHighRatioSoundId = highRatioSoundId;
@@ -921,7 +923,7 @@ void KartStartSoundFullVolume(void *soundSource, int soundId) {
 }
 
 void StartKartSoundWhileRequested(void *kart, int soundId) {
-    if (StartSoundWhileRequested(kart, soundId, 0x7f, 0) != NULL) {
+    if (StartSoundWhileRequested(kart, soundId, SOUND_VOLUME_MAX, 0) != NULL) {
         ((Kart *) kart)->mSound.mWhileRequestedSoundId = soundId;
     }
 }
@@ -982,7 +984,7 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     fraction = kart->mOffsetCyclePhase & FIXED12_FRACTION_MASK;
     tableIndex = FROM_FIXED12(kart->mOffsetCyclePhase);
     nextTableIndex = tableIndex + 1;
-    if (nextTableIndex >= 8) {
+    if (nextTableIndex >= KART_OFFSET_CYCLE_COUNT) {
         nextTableIndex = 0;
     }
     kart->mOffsetCycleAmount.x =
@@ -1132,7 +1134,7 @@ void ResetKartMotionState(Kart *kart, s32 flag) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_AIRSHIP:
             StartTimedQuadFromTable(0);
-            playingSound = StartSound(&kart->mSoundSource, 0x15c, 0x7f, 0);
+            playingSound = StartSound(&kart->mSoundSource, 0x15c, SOUND_VOLUME_MAX, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }
@@ -1152,7 +1154,7 @@ void ResetKartMotionState(Kart *kart, s32 flag) {
             NNS_SndArcPlayerStartSeqArc(sndHandleSlot, 0, 0x1d2);
             break;
         case COURSE_ID_PINBALL:
-            playingSound = StartSound(&kart->mSoundSource, 0x15b, 0x7f, 0);
+            playingSound = StartSound(&kart->mSoundSource, 0x15b, SOUND_VOLUME_MAX, 0);
             if (playingSound != NULL) {
                 playingSound->mFlags |= PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH;
             }
@@ -1280,7 +1282,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                             0xa3);
         }
         itemEffectState->mAheadBoostFrames++;
-        if (itemEffectState->mAheadBoostFrames > KART_KILLER_RANK_END_FRAMES &&
+        if (itemEffectState->mAheadBoostFrames > KART_AHEAD_BOOST_MAX_FRAMES &&
             (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
             kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
             kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
@@ -1299,7 +1301,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         }
         itemEffectState->mStarFrames++;
-        if (itemEffectState->mStarFrames > KART_TERESA_MAX_FRAMES) {
+        if (itemEffectState->mStarFrames > KART_STAR_MAX_FRAMES) {
             kart->mEffectFlags &= ~KART_EFFECT_STAR;
             StopKartStarModels(kart);
             kart->mItemEffect = KART_ITEM_EFFECT_NONE;
@@ -1358,7 +1360,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         AdvanceKartOrientation(kart, &groundNormal);
     }
 
-    kart->mForwardSpeed = KART_RESPAWN_PLACEMENT_FORWARD_SPEED;
+    kart->mForwardSpeed = KART_ADVANCE_TO_KEYED_PLACEMENT_FORWARD_SPEED;
     speed = kart->mForwardSpeed;
     placementMatrix.mRows[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, speed);
     placementMatrix.mRows[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, speed);

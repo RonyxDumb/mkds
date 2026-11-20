@@ -23,10 +23,6 @@ u32 GetRequestId(void) {
     return gRequestId[0];
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRequestId(void) {
     gRequestId[0]++;
     if (gRequestId[0] == 0) {

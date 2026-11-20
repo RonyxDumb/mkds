@@ -18,7 +18,7 @@
 #include "Main/System/input_slots.h"
 #include "Main/Race/mission_table_value.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Sound/scene_sound_set.h"
+#include "Main/Sound/startup_sound_set_player_back_lights_and_random.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
@@ -26,7 +26,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
@@ -92,9 +92,9 @@ s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 duration
         return end;
     }
     switch (mode) {
-        case 0:
+        case INTERPOLATE_LINEAR:
             return start + elapsedFrames * (end - start) / durationFrames;
-        case 1:
+        case INTERPOLATE_COSINE:
             easeValue = InterpolateFX_CosIdx((elapsedFrames << 15) / durationFrames);
             difference = end - start;
             if (difference > 0) {
@@ -171,17 +171,13 @@ u32 NextRandomBelowByConnectionKind(u32 limit) {
     int connectionKind;
     RandomState64 *randomState;
     connectionKind = GetConnectionKind();
-    if (connectionKind == 0) {
+    if (connectionKind == CONNECTION_KIND_NONE) {
         randomState = GetRandomState();
     } else {
         randomState = GetConnectionWorkRandomState();
     }
     return NextRandomBelowU16(randomState, limit);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetCupCourseId(s32 cupIndex, s32 courseIndex) {
     return gCupCourseIds[cupIndex * 4 + courseIndex];
@@ -283,9 +279,9 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName) {
     u32 messageIndexes[13] = {20, 25, 24, 27, 22, 26, 23, 21, 29, 28, 30, 31, 32};
     u32 messageIndex;
 
-    if (fullName != 0 && characterIndex == 1) {
+    if (fullName != 0 && characterIndex == CHARACTER_DONKEY) {
         messageIndex = 0x21;
-    } else if (fullName != 0 && characterIndex == 8) {
+    } else if (fullName != 0 && characterIndex == CHARACTER_KARON) {
         messageIndex = 0x22;
     } else {
         messageIndex = messageIndexes[characterIndex];
@@ -400,10 +396,10 @@ void RenderKartEntryName(u32 entryIndex) {
     CopyKartEntryName(entryIndex, name, 0);
     for (offsetX = -1; offsetX < 2; offsetX++) {
         for (index = -1; index < 2; index++) {
-            DrawTextOnCanvas(&textCanvas, offsetX + 0x20, index + 8, 2, 0x412, name);
+            DrawTextOnCanvas(&textCanvas, offsetX + 0x20, index + 8, GLYPH_PIXEL_OUTLINE, 0x412, name);
         }
     }
-    DrawTextOnCanvas(&textCanvas, 0x20, 8, 1, 0x412, name);
+    DrawTextOnCanvas(&textCanvas, 0x20, 8, GLYPH_PIXEL_TEXT, 0x412, name);
     DC_FlushRange(GetMessageScreenCharBuffer(), 0x200);
 }
 

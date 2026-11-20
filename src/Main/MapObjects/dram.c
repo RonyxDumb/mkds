@@ -9,13 +9,13 @@
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "matrix_3x3_basic.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/map_objects_get.h"
@@ -89,8 +89,8 @@ void PickDramAngleChoices(MapObjectList *list) {
         }
     }
     random = GetMapObjectRandom();
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    rowIndex = ((u64) (u32) (random->mValue >> 32) * 6) >> 32;
+    RANDOM_ADVANCE(random);
+    rowIndex = RANDOM_BELOW_U64(random, 6);
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
         row = gDramAngleChoiceRows[rowIndex];
@@ -145,7 +145,7 @@ void UpdateDramSteady(void *stateObject) {
 
 void EnterDramRampDown(void *stateObject) {
     Dram *dram = stateObject;
-    dram->mRamp = 0x1000u;
+    dram->mRamp = DRAM_RAMP_FULL;
 }
 
 void UpdateDramRampDown(void *stateObject) {
@@ -172,7 +172,8 @@ void EnterDramAlign(void *stateObject) {
     dram->mAngleRemaining = DRAM_ALIGN_ANGLE - angle % DRAM_ALIGN_ANGLE;
 }
 
-// Asks for Idle once mAngleRemaining has run out.
+// Turns by DRAM_MIN_ANGLE_STEP a call until mAngleRemaining goes below 0, takes the overshoot off mAngleX and then asks
+// for Idle.
 void UpdateDramAlign(void *stateObject) {
     Dram *dram = stateObject;
     dram->mAngleX += DRAM_MIN_ANGLE_STEP;

@@ -4,7 +4,8 @@
 // double_add_and_to_float.s; floats are passed and returned in one register each.
 //
 // Kept as asm: DoubleSubReversed has no return and runs on into _dsub; _dsub and _dadd, and _fadd and _fsub, branch
-// into each other past their first instructions. All three also use tst.
+// into each other past their first instructions. _dsub and _fadd also use tst; DoubleSubReversed, the third routine in
+// the file, does not.
 
     .text
     .extern .L_dadd_same_sign

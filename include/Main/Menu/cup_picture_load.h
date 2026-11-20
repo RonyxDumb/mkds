@@ -6,7 +6,8 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// The picture of a cup: its palette, chars and screen map pointers, the cup index and the files they are loaded from.
+// The picture of a course of a cup: its palette, chars and screen map pointers, mCupPictureIndex (the course id the
+// picture is loaded for) and the buffers the three files are read into.
 typedef struct CupPicture {
     /* 0000 */ Nclr *mCupPictureNclr;
     /* 0004 */ Ncgr *mCupPictureNcgr;

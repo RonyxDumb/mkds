@@ -19,7 +19,8 @@ enum {
     FONT_BLOCK_GLYPHS = 0x43474c50,
 };
 
-// The body of a font file part: file offsets that NNSi_G2dUnpackNFT relocates to addresses.
+// The first words of a font file part's body, read as four words: NNSi_G2dUnpackNFT adds the file address to the ones
+// that are offsets (when not 0).
 typedef struct FontBlockData {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u32 mFileOffsets[4];

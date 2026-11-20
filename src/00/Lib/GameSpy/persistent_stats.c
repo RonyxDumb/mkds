@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/persistent_stats.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/md5_base64_encode.h"
 #include "00/Lib/GameSpy/socket_calls.h"
@@ -39,17 +40,18 @@ static u32 gSessKey = 0;
 static u32 gConnId = 0;
 static s32 gGamePort = 0;
 static s32 gRcvLen = 0;
-// Values of gStatsInitState: the connect to the stats server runs socket connect, challenge, session key.
+// Values of gStatsInitState: NONE before the start, then the connect to the stats server runs socket connect,
+// challenge, session key (COMPLETE); FAILED after an error.
 enum {
-    GSTATS_INIT_NONE,
-    GSTATS_INIT_FAILED,
-    GSTATS_INIT_CONNECTING,
-    GSTATS_INIT_AWAIT_CHALLENGE,
-    GSTATS_INIT_AWAIT_SESSION_KEY,
-    GSTATS_INIT_COMPLETE,
+    STATS_CONNECT_STATE_NONE,
+    STATS_CONNECT_STATE_FAILED,
+    STATS_CONNECT_STATE_CONNECTING,
+    STATS_CONNECT_STATE_WAIT_CHALLENGE,
+    STATS_CONNECT_STATE_WAIT_SESSION_KEY,
+    STATS_CONNECT_STATE_COMPLETE,
 };
 
-static s32 gStatsInitState = GSTATS_INIT_NONE;
+static s32 gStatsInitState = STATS_CONNECT_STATE_NONE;
 static u32 gInitTimeout = 20000;
 char gStatsServerHostname[64] = "gamestats.gs.nintendowifi.net";
 static u32 gInternalInit = 0;
@@ -71,7 +73,7 @@ char *GenerateAuthA(const char *challenge, const char *password, char *response)
     return response;
 }
 
-s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
+s32 InitStatsAsync(s32 theGamePort, s32 theInitTimeout) {
     u8 statsSockAddr[8];
     char statsHost[0x84];
     s32 ret;
@@ -80,15 +82,15 @@ s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
         gInitTimeout = theInitTimeout;
     }
     if (gGsiAcResult != 1) {
-        return 1;
+        return STATS_CONNECT_NOT_STARTED;
     }
     if (gInternalInit == 0) {
         InternalInit();
     }
     SocketStartUp();
-    gSessKey = GetElapsedMilliseconds();
+    gSessKey = current_time();
     if (gSock != -1) {
-        GstatsClose();
+        CloseStatsConnection();
     }
     gRcvLen = 0;
     if (inet_addr(gStatsServerHostname) == -1) {
@@ -99,133 +101,133 @@ s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
         strcpy(statsHost, gStatsServerHostname);
     }
     if (ResolveStatsHostAddress(statsHost, 0x74e0, statsSockAddr, NULL) == FALSE) {
-        return 2;
+        return STATS_CONNECT_HOST_LOOKUP;
     }
     gSock = OpenNetSocket(2, 1, 0);
     if (gSock == -1) {
-        return 1;
+        return STATS_CONNECT_NOT_STARTED;
     }
     SetSockBlocking(gSock, 0);
     ret = connect(gSock, statsSockAddr, 8);
     if (ret == -1) {
         ret = GOAGetLastError(gSock);
         if (ret != -6 && ret != -0x4c && ret != -0x1a) {
-            gStatsInitState = GSTATS_INIT_FAILED;
+            gStatsInitState = STATS_CONNECT_STATE_FAILED;
             closesocket(gSock);
-            return 3;
+            return STATS_CONNECT_CONNECT_FAILED;
         }
     }
     gRcvBuffer = DWCi_GsMalloc(0x40);
     if (gRcvBuffer == NULL) {
-        return 3;
+        return STATS_CONNECT_CONNECT_FAILED;
     }
     gRcvMax = 0x40;
     gRcvLen = 0;
-    gInitStart = GetElapsedMilliseconds();
-    gStatsInitState = GSTATS_INIT_CONNECTING;
-    return 6;
+    gInitStart = current_time();
+    gStatsInitState = STATS_CONNECT_STATE_CONNECTING;
+    return STATS_CONNECT_PENDING;
 }
 
-s32 GstatsUpdateConnect(void) {
+s32 InitStatsThink(void) {
     u32 socketFlags[2];
     s32 aResult;
     s32 ret;
     switch (gStatsInitState) {
-        case GSTATS_INIT_FAILED:
-            return 3;
-        case GSTATS_INIT_CONNECTING:
+        case STATS_CONNECT_STATE_FAILED:
+            return STATS_CONNECT_CONNECT_FAILED;
+        case STATS_CONNECT_STATE_CONNECTING:
             socketFlags[0] = 0;
             socketFlags[1] = 0;
             aResult = GSISocketSelect(gSock, NULL, &socketFlags[0], &socketFlags[1]);
             if (aResult == -1 || (aResult == 1 && socketFlags[1] == 1)) {
-                gStatsInitState = GSTATS_INIT_FAILED;
-                GstatsClose();
-                return 3;
+                gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                CloseStatsConnection();
+                return STATS_CONNECT_CONNECT_FAILED;
             }
             if (aResult == 0) {
-                if (GetElapsedMilliseconds() - gInitStart > gInitTimeout) {
-                    gStatsInitState = GSTATS_INIT_FAILED;
-                    GstatsClose();
-                    return 7;
+                if (current_time() - gInitStart > gInitTimeout) {
+                    gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                    CloseStatsConnection();
+                    return STATS_CONNECT_TIMED_OUT;
                 }
-                return 6;
+                return STATS_CONNECT_PENDING;
             }
             if (aResult != 1 || socketFlags[0] != 1) {
                 AssertionFailed("aResult == 1 && aWriteFlag == 1", "gstats.c", NULL, 0x145);
             }
-            gStatsInitState = GSTATS_INIT_AWAIT_CHALLENGE;
-        case GSTATS_INIT_AWAIT_CHALLENGE:
+            gStatsInitState = STATS_CONNECT_STATE_WAIT_CHALLENGE;
+        case STATS_CONNECT_STATE_WAIT_CHALLENGE:
             if (CanReceiveOnSocket(gSock) == 0) {
-                if (GetElapsedMilliseconds() - gInitStart > gInitTimeout) {
-                    gStatsInitState = GSTATS_INIT_FAILED;
-                    GstatsClose();
-                    return 7;
+                if (current_time() - gInitStart > gInitTimeout) {
+                    gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                    CloseStatsConnection();
+                    return STATS_CONNECT_TIMED_OUT;
                 }
-                return 6;
+                return STATS_CONNECT_PENDING;
             }
             aResult = recv(gSock, gRcvBuffer + gRcvLen, gRcvMax - gRcvLen, 0);
             if (aResult == -1) {
-                gStatsInitState = GSTATS_INIT_FAILED;
-                GstatsClose();
-                return 3;
+                gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                CloseStatsConnection();
+                return STATS_CONNECT_CONNECT_FAILED;
             }
             gRcvLen += aResult;
             gRcvMax -= aResult;
             if (gRcvLen < 0x26) {
-                return 6;
+                return STATS_CONNECT_PENDING;
             }
             gRcvBuffer[gRcvLen] = 0;
-            gStatsInitState = GSTATS_INIT_AWAIT_SESSION_KEY;
+            gStatsInitState = STATS_CONNECT_STATE_WAIT_SESSION_KEY;
             gEnc = gEnc1;
             xcode_buf(gRcvBuffer, gRcvLen);
             ret = SendChallengeResponse(gRcvBuffer, gGamePort);
             if (ret != 0) {
-                gStatsInitState = GSTATS_INIT_FAILED;
-                GstatsClose();
+                gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                CloseStatsConnection();
                 return ret;
             }
-            gStatsInitState = GSTATS_INIT_AWAIT_SESSION_KEY;
+            gStatsInitState = STATS_CONNECT_STATE_WAIT_SESSION_KEY;
             gRcvMax += gRcvLen;
             gRcvLen = 0;
             memset(gRcvBuffer, 0, gRcvMax);
-        case GSTATS_INIT_AWAIT_SESSION_KEY:
+        case STATS_CONNECT_STATE_WAIT_SESSION_KEY:
             if (CanReceiveOnSocket(gSock) == 0) {
-                if (GetElapsedMilliseconds() - gInitStart > gInitTimeout) {
-                    gStatsInitState = GSTATS_INIT_FAILED;
-                    GstatsClose();
-                    return 7;
+                if (current_time() - gInitStart > gInitTimeout) {
+                    gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                    CloseStatsConnection();
+                    return STATS_CONNECT_TIMED_OUT;
                 }
-                return 6;
+                return STATS_CONNECT_PENDING;
             }
             ret = RecvSessionKey();
             if (ret != 0) {
-                gStatsInitState = GSTATS_INIT_FAILED;
-                GstatsClose();
+                gStatsInitState = STATS_CONNECT_STATE_FAILED;
+                CloseStatsConnection();
                 return ret;
             }
             gRcvMax += gRcvLen;
             gRcvLen = 0;
             memset(gRcvBuffer, 0, gRcvMax);
-            gStatsInitState = GSTATS_INIT_COMPLETE;
-        case GSTATS_INIT_COMPLETE:
-            return 0;
+            gStatsInitState = STATS_CONNECT_STATE_COMPLETE;
+        case STATS_CONNECT_STATE_COMPLETE:
+            return STATS_CONNECT_OK;
         default:
-            return 3;
+            return STATS_CONNECT_CONNECT_FAILED;
     }
 }
 
-s32 GstatsConnect(s32 gameport) {
-    s32 aResult = GstatsStartConnect(gameport, 0);
-    if (aResult == 6) {
+s32 InitStatsConnection(s32 gameport) {
+    s32 aResult = InitStatsAsync(gameport, 0);
+    if (aResult == STATS_CONNECT_PENDING) {
         do {
-            aResult = GstatsUpdateConnect();
+            aResult = InitStatsThink();
             msleep(5);
-        } while (aResult == 6);
+        } while (aResult == STATS_CONNECT_PENDING);
     }
     return aResult;
 }
 
-void GstatsClose(void) {
+void CloseStatsConnection(void) {
     if (gSock != -1) {
         shutdown(gSock, 2);
         closesocket(gSock);
@@ -257,7 +259,7 @@ static char gUnusedOrderPad34[34] = {1};
 static char gUnusedOrderPad41[41] = {1};
 static char gUnusedOrderPad56[56] = {1};
 
-void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText,
+void PreAuthenticatePlayerPartner(s32 localId, const char *tokenText, const char *responseText,
                                   ServerReqAuthCallback callback, s32 instance) {
     char replyFormat[] = "\xC\x13\x1A\x1E\xD\x13\x28\x1D\x11\x1D\x11\x10\x24\x1D\x04\x0F\x0B\x3F\x51\x32\x2C\x1A\x00"
                          "\x0B\x20\x2E\x4A\x19\x39\x0F\x1D\x25\x2C\x4D\x01";
@@ -265,8 +267,8 @@ void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *
     s32 len;
     gEnc = gEnc3;
     xcode_buf((s8 *) replyFormat, sizeof(replyFormat) - 1);
-    len = sprintf((char *) data, replyFormat, tokenText, responseText, ownId);
-    SendPlayerAuthRequest(data, len, ownId, callback, instance);
+    len = sprintf((char *) data, replyFormat, tokenText, responseText, localId);
+    SendPlayerAuthRequest(data, len, localId, callback, instance);
 }
 
 static char gUnusedOrderPad30[30] = {1};
@@ -275,9 +277,9 @@ static char gUnusedOrderPad35[35] = {1};
 static char gUnusedOrderPad49[49] = {1};
 static char gUnusedOrderPad8[8] = {1};
 
-void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString,
+void SetPersistDataValuesA(u32 localId, u32 profileId, u32 type, u32 index, const char *valueString,
                            ServerReqSaveCallback callback, u32 instance) {
-    SetPersistDataHelper(ownId, profileId, type, index, valueString, strlen(valueString) + 1, callback, instance, 1);
+    SetPersistDataHelper(localId, profileId, type, index, valueString, strlen(valueString) + 1, callback, instance, 1);
 }
 
 BOOL PersistThink(void) {
@@ -286,7 +288,7 @@ BOOL PersistThink(void) {
     if (gSock == -1) {
         return FALSE;
     }
-    if (gStatsInitState != GSTATS_INIT_COMPLETE) {
+    if (gStatsInitState != STATS_CONNECT_STATE_COMPLETE) {
         return FALSE;
     }
     if (SocketReadable(gSock) != 0) {
@@ -304,7 +306,7 @@ BOOL PersistThink(void) {
             }
             len = recv(gSock, gRcvBuffer + gRcvLen, gRcvMax - gRcvLen, 0);
             if (len <= 0) {
-                GstatsClose();
+                CloseStatsConnection();
                 return FALSE;
             }
             gRcvLen += len;
@@ -336,24 +338,24 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
                          "\x3E\x1\xA\x36\x40\x10\x28\x31\x1F\x1A\x11\x24\x75\x16\x33\x3\x1\x3F\x45";
     const char *challengeText;
     s32 len;
-    s8 replyBuf[0x80];
+    s8 textBuf[0x80];
     gChallengeStr[0] = 'c';
     challengeText = value_for_key(indata, gChallengeStr);
     if (challengeText == NULL) {
         closesocket(gSock);
-        return 5;
+        return STATS_CONNECT_DATA_ERROR;
     }
     len = g_crc32((const s8 *) challengeText, strlen(challengeText));
-    len = sprintf((char *) replyBuf, "%d%s", len, gcd_secret_key);
-    MD5Digest((const char *) replyBuf, len, md5Text);
+    len = sprintf((char *) textBuf, "%d%s", len, gcd_secret_key);
+    MD5Digest((const char *) textBuf, len, md5Text);
     gEnc = gEnc3;
     xcode_buf((s8 *) replyFormat, sizeof(replyFormat) - 1);
-    len = sprintf((char *) replyBuf, replyFormat, gcd_gamename, md5Text, gameport);
-    if (DoSend(replyBuf, len) <= 0) {
+    len = sprintf((char *) textBuf, replyFormat, gcd_gamename, md5Text, gameport);
+    if (DoSend(textBuf, len) <= 0) {
         closesocket(gSock);
-        return 3;
+        return STATS_CONNECT_CONNECT_FAILED;
     }
-    return 0;
+    return STATS_CONNECT_OK;
 }
 
 s32 RecvSessionKey(void) {
@@ -365,7 +367,7 @@ s32 RecvSessionKey(void) {
         sockErrCode = GOAGetLastError(gSock);
         if (sockErrCode != -6 && sockErrCode != -0x4c && sockErrCode != -0x1a) {
             closesocket(gSock);
-            return 3;
+            return STATS_CONNECT_CONNECT_FAILED;
         }
     }
     replyBuf[len] = 0;
@@ -375,10 +377,10 @@ s32 RecvSessionKey(void) {
     sessionText = value_for_key(replyBuf, gSessKeyStr);
     if (sessionText == NULL) {
         closesocket(gSock);
-        return 5;
+        return STATS_CONNECT_DATA_ERROR;
     }
     gConnId = StrtolBase10(sessionText);
-    return 0;
+    return STATS_CONNECT_OK;
 }
 
 s32 DoSend(s8 *data, s32 len) {
@@ -445,7 +447,7 @@ void create_challenge(u32 challenge, s8 *chstr) {
 
 const char *value_for_key(const s8 *text, const char *key) {
     char searchPattern[256] = "\\";
-    static char gValueForKeyValues[2][256] = {0};
+    static char valueSlots[2][256] = {0};
     const s8 *pos;
     char *valuePos;
     char *valueSlot;
@@ -457,7 +459,7 @@ const char *value_for_key(const s8 *text, const char *key) {
         return NULL;
     }
     pos += strlen(searchPattern);
-    valueSlot = gValueForKeyValues[gValueIndex];
+    valueSlot = valueSlots[gValueIndex];
     valuePos = valueSlot;
     while (*pos != 0 && *pos != '\\') {
         *valuePos++ = *pos++;
@@ -475,7 +477,7 @@ const char *value_for_key_safe(const s8 *text, const char *key) {
 }
 
 BOOL ResolveStatsHostAddress(const char *host, u32 port, u8 *saddr, SOCHostEnt **savehent) {
-    SOCHostEnt *hent = NULL;
+    SOCHostEnt *hostEntry = NULL;
     u16 shortPort = port;
     saddr[0] = 0;
     saddr[1] = 0;
@@ -493,53 +495,53 @@ BOOL ResolveStatsHostAddress(const char *host, u32 port, u8 *saddr, SOCHostEnt *
         *OFFSET_PTR(u32, saddr, 4) = inet_addr(host);
     }
     if (*OFFSET_PTR(u32, saddr, 4) == -1) {
-        hent = SOC_GetHostByName(host);
-        if (hent == NULL) {
+        hostEntry = SOC_GetHostByName(host);
+        if (hostEntry == NULL) {
             return FALSE;
         }
-        *OFFSET_PTR(u32, saddr, 4) = **hent->mAddrList;
+        *OFFSET_PTR(u32, saddr, 4) = **hostEntry->mAddrList;
     }
     if (savehent != NULL) {
-        *savehent = hent;
+        *savehent = hostEntry;
     }
     return TRUE;
 }
 
-void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, void *callback,
+void AddRequestCallback(s32 reqType, s32 localId, s32 profileId, s32 dataType, s32 dataIndex, void *callback,
                         s32 instance) {
     ServerReq req;
     req.mCallback.mAuthCallback = callback;
     req.mInstance = instance;
-    req.mLocalId = ownId;
+    req.mLocalId = localId;
     req.mReqType = reqType;
     req.mProfileId = profileId;
-    req.mPdType = dataKind;
+    req.mPdType = dataType;
     req.mPdIndex = dataIndex;
     if (gServerReqs == NULL) {
-        gServerReqs = DarrayCreate(0x1c, 2, NULL);
+        gServerReqs = ArrayNew(0x1c, 2, NULL);
     }
-    DarrayAppend(gServerReqs, &req);
+    ArrayAppend(gServerReqs, &req);
 }
 
-void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, ServerReqAuthCallback callback, s32 instance) {
-    s32 sentBytes = 0;
+void SendPlayerAuthRequest(s8 *data, s32 len, s32 localId, ServerReqAuthCallback callback, s32 instance) {
+    s32 sendResult = 0;
     char errorBytes[] = "\x13\x1D\x1\x4\x0\x0\x0\x28\x1F\x6\x45\x34\x3F\x1\x1B";
     if (gSock != -1) {
-        sentBytes = DoSend(data, len);
+        sendResult = DoSend(data, len);
     }
-    if (sentBytes <= 0) {
-        GstatsClose();
+    if (sendResult <= 0) {
+        CloseStatsConnection();
         gEnc = gEnc3;
         xcode_buf((s8 *) errorBytes, sizeof(errorBytes) - 1);
         if (callback != NULL) {
-            callback(ownId, 0, 0, errorBytes, instance);
+            callback(localId, 0, 0, errorBytes, instance);
         }
     } else {
-        AddRequestCallback(0, ownId, 0, 0, 0, callback, instance);
+        AddRequestCallback(SERVER_REQ_TYPE_AUTH, localId, 0, 0, 0, callback, instance);
     }
 }
 
-void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len,
+void SetPersistDataHelper(s32 localId, s32 profileId, s32 type, s32 index, const void *data, s32 len,
                           ServerReqSaveCallback callback, s32 instance, s32 kvset) {
     char replyFormat[] = "\xC\x1\xA\x1E\x15\x7\x28\x1D\x0\x1\x1\x24\x75\x16\x33\x1A\x11\x1A\x4\x24\x2C\x4D\x1\x24\x34"
                          "\x1B\x1\xE\x0\x1B\x28\x64\x14\x34\xE\xE\xC\x57\xB\x36\x9\xA\x10\x1D\x55\xC\x39\x14\x35\x1C\x8"
@@ -552,11 +554,11 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const v
     xcode_buf((s8 *) replyFormat, sizeof(replyFormat) - 1);
     if (type == 0 || type == 2) {
         if (callback != NULL) {
-            callback(ownId, profileId, type, index, 0, 0, instance);
+            callback(localId, profileId, type, index, 0, 0, instance);
         }
         return;
     }
-    headLen = sprintf((char *) packetBuf, replyFormat, profileId, type, index, kvset, ownId, len);
+    headLen = sprintf((char *) packetBuf, replyFormat, profileId, type, index, kvset, localId, len);
     totalLength = headLen + len;
     if (totalLength < 0x1e0) {
         memcpy(packetBuf + headLen, data, len);
@@ -570,12 +572,12 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const v
         headLen = DoSend(packetData, totalLength);
     }
     if (headLen <= 0) {
-        GstatsClose();
+        CloseStatsConnection();
         if (callback != NULL) {
-            callback(ownId, profileId, type, index, 0, 0, instance);
+            callback(localId, profileId, type, index, 0, 0, instance);
         }
     } else {
-        AddRequestCallback(2, ownId, profileId, type, index, callback, instance);
+        AddRequestCallback(SERVER_REQ_TYPE_SAVE, localId, profileId, type, index, callback, instance);
     }
     if (packetData != packetBuf) {
         DWCi_GsFree(packetData);
@@ -584,8 +586,8 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const v
 
 u32 SocketReadable(u32 socket) {
     u32 readableResult = socket;
-    u32 receiveFunction;
-    receiveFunction = (u32) &CanReceiveOnSocket;
+    u32 canReceiveFunction;
+    canReceiveFunction = (u32) &CanReceiveOnSocket;
     readableResult = CanReceiveOnSocket(readableResult);
     return readableResult;
 }
@@ -605,21 +607,21 @@ const s8 *FindFinal(const s8 *buff, s32 len) {
     return NULL;
 }
 
-s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
+s32 FindRequest(s32 reqType, s32 localId, s32 profileId) {
     s32 index;
     ServerReq *req;
     if (gServerReqs == NULL) {
         return -1;
     }
     index = 0;
-    if (DarrayGetCount(gServerReqs) > 0) {
+    if (ArrayLength(gServerReqs) > 0) {
         do {
-            req = DarrayGetElement(gServerReqs, index);
-            if (req->mReqType == reqType && req->mLocalId == ownId && req->mProfileId == profileId) {
+            req = ArrayNth(gServerReqs, index);
+            if (req->mReqType == reqType && req->mLocalId == localId && req->mProfileId == profileId) {
                 return index;
             }
             index++;
-        } while (index < DarrayGetCount(gServerReqs));
+        } while (index < ArrayLength(gServerReqs));
     }
     return -1;
 }
@@ -627,12 +629,12 @@ s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
 void ProcessPlayerAuth(s8 *buf, s32 len) {
     s32 pid = StrtolBase10(value_for_key_safe(buf, "pauthr"));
     s32 lid = StrtolBase10(value_for_key_safe(buf, "lid"));
-    const char *failText = value_for_key_safe(buf, "errmsg");
-    s32 requestPos = FindRequest(0, lid, 0);
+    const char *errorMessage = value_for_key_safe(buf, "errmsg");
+    s32 requestPos = FindRequest(SERVER_REQ_TYPE_AUTH, lid, 0);
     if (requestPos != -1) {
-        ServerReq *req = DarrayGetElement(gServerReqs, requestPos);
+        ServerReq *req = ArrayNth(gServerReqs, requestPos);
         req->mProfileId = pid;
-        CallReqCallback(requestPos, pid > 0 ? 1 : 0, 0, (const u8 *) failText, 0);
+        CallReqCallback(requestPos, pid > 0 ? 1 : 0, 0, (const u8 *) errorMessage, 0);
     }
 }
 
@@ -644,29 +646,29 @@ void ProcessGetPid(s8 *buf, s32 len) {
 
     pid = StrtolBase10(value_for_key_safe(buf, "getpidr"));
     lid = StrtolBase10(value_for_key_safe(buf, "lid"));
-    requestPos = FindRequest(3, lid, 0);
+    requestPos = FindRequest(SERVER_REQ_TYPE_PROFILE, lid, 0);
     if (requestPos != -1) {
-        req = DarrayGetElement(gServerReqs, requestPos);
+        req = ArrayNth(gServerReqs, requestPos);
         req->mProfileId = pid;
         CallReqCallback(requestPos, (pid > 0) ? 1 : 0, 0, NULL, 0);
     }
 }
 
 void ProcessGetData(s8 *buf, s32 len) {
-    s32 okFlag;
+    s32 success;
     s32 lid;
     s32 pid;
-    s32 revisionStamp;
+    s32 modified;
     s32 requestPos;
     s32 length;
     u8 *marker;
     const u8 *data;
 
-    okFlag = StrtolBase10(value_for_key_safe(buf, "getpdr"));
+    success = StrtolBase10(value_for_key_safe(buf, "getpdr"));
     lid = StrtolBase10(value_for_key_safe(buf, "lid"));
     pid = StrtolBase10(value_for_key_safe(buf, "pid"));
-    revisionStamp = StrtolBase10(value_for_key_safe(buf, "mod"));
-    requestPos = FindRequest(1, lid, pid);
+    modified = StrtolBase10(value_for_key_safe(buf, "mod"));
+    requestPos = FindRequest(SERVER_REQ_TYPE_DATA, lid, pid);
     if (requestPos != -1) {
         length = StrtolBase10(value_for_key_safe(buf, "length"));
         marker = (u8 *) strstr((const char *) buf, "\\data\\");
@@ -676,24 +678,24 @@ void ProcessGetData(s8 *buf, s32 len) {
         } else {
             data = marker + 6;
         }
-        CallReqCallback(requestPos, okFlag, revisionStamp, data, length);
+        CallReqCallback(requestPos, success, modified, data, length);
     }
 }
 
 void ProcessSetData(s8 *buf, s32 len) {
-    s32 okFlag;
+    s32 success;
     s32 pid;
     s32 lid;
-    s32 revisionStamp;
+    s32 modified;
     s32 requestPos;
 
-    okFlag = StrtolBase10(value_for_key_safe(buf, "setpdr"));
+    success = StrtolBase10(value_for_key_safe(buf, "setpdr"));
     pid = StrtolBase10(value_for_key_safe(buf, "pid"));
     lid = StrtolBase10(value_for_key_safe(buf, "lid"));
-    revisionStamp = StrtolBase10(value_for_key_safe(buf, "mod"));
-    requestPos = FindRequest(2, lid, pid);
+    modified = StrtolBase10(value_for_key_safe(buf, "mod"));
+    requestPos = FindRequest(SERVER_REQ_TYPE_SAVE, lid, pid);
     if (requestPos != -1) {
-        CallReqCallback(requestPos, okFlag, revisionStamp, NULL, 0);
+        CallReqCallback(requestPos, success, modified, NULL, 0);
     }
 }
 
@@ -744,8 +746,8 @@ s32 ProcessInBuffer(s8 *buff, s32 len) {
 void CallReqCallback(s32 requestPos, s32 success, s32 modified, const u8 *data, s32 length) {
     ServerReq *req;
 
-    if (requestPos >= 0 && requestPos < DarrayGetCount(gServerReqs)) {
-        req = DarrayGetElement(gServerReqs, requestPos);
+    if (requestPos >= 0 && requestPos < ArrayLength(gServerReqs)) {
+        req = ArrayNth(gServerReqs, requestPos);
         if (req->mCallback.mAuthCallback != NULL) {
             switch (req->mReqType) {
                 case SERVER_REQ_TYPE_AUTH:
@@ -764,7 +766,7 @@ void CallReqCallback(s32 requestPos, s32 success, s32 modified, const u8 *data, 
                     break;
             }
         }
-        DarrayRemove(gServerReqs, requestPos);
+        ArrayDeleteAt(gServerReqs, requestPos);
     }
 }
 
@@ -772,13 +774,13 @@ void ClosePendingCallbacks(void) {
     s32 index;
 
     if (gServerReqs != NULL) {
-        for (index = DarrayGetCount(gServerReqs) - 1; index >= 0; index--) {
+        for (index = ArrayLength(gServerReqs) - 1; index >= 0; index--) {
             char errorBytes[] = "\x13\x1D\x1\x4\x0\x0\x0\x28\x1F\x6\x45\x34\x3F\x1\x1B";
             gEnc = gEnc3;
             xcode_buf((s8 *) errorBytes, sizeof(errorBytes) - 1);
             CallReqCallback(index, 0, 0, (u8 *) errorBytes, 0);
         }
-        DarrayDelete(gServerReqs);
+        ArrayFree(gServerReqs);
         gServerReqs = NULL;
     }
 }

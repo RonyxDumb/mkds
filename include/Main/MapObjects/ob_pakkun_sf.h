@@ -15,7 +15,8 @@
 #define OB_PAKKUN_SF_SOUND_ID 0x163
 
 // SecondHand.mMapObject.mStateMachine states, in the order of gSecondHandStateTable. The hand speeds up, turns at a
-// steady speed, slows down and turns around, then pauses before the next turn.
+// steady speed (for good when mSteadyFrameCount is 0), slows down and reverses its direction, then pauses before it
+// speeds up again.
 enum {
     SECOND_HAND_STATE_SPEED_UP,
     SECOND_HAND_STATE_STEADY,
@@ -23,7 +24,7 @@ enum {
     SECOND_HAND_STATE_PAUSE,
 };
 
-// A clock second hand map object that InitSecondHand sets up: its rotation, ramp, steady and pause frames and speed.
+// A second hand map object that InitSecondHand sets up: its rotation, ramp, steady and pause frames and speed.
 typedef struct SecondHand {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Quaternion mRotationQuaternion;

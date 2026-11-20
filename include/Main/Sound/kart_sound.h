@@ -6,10 +6,11 @@ typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
 typedef struct Kart Kart;
 typedef struct SoundSource SoundSource;
 
-// One row of sound ids for a kart engine: the pitched sound and the sounds chosen by speed ratio.
+// One row of sound ids of a kart: the table row index, the pitched and clamped pitch sounds, and the sounds chosen by
+// speed ratio and accelerator.
 typedef struct KartSoundRow {
     /* 00 */ s32 mSoundRowIndex;
-    /* 04 */ s32 mPitchedSoundId;
+    /* 04 */ s32 mRevSoundId;
     /* 08 */ s32 mSecondSoundColumn;
     /* 0c */ s32 mThirdSoundColumn;
     /* 10 */ s32 mHighRatioSoundId;
@@ -20,7 +21,8 @@ typedef struct KartSoundRow {
     /* 24 */ s32 mKeyALowRatioSoundId;
 } KartSoundRow;
 
-// KartSound.mSoundIndex values (also Kart.mSoundIndex): one voice set per character, set by InitKartSoundParams.
+// KartSound.mSoundIndex (set by InitKartSoundParams from the kart model) and Kart.mSoundIndex (set by InitKartSound
+// from the character) values: one sound set per character, 14 sounds each.
 enum {
     KART_SOUND_SET_DONKEY,
     KART_SOUND_SET_KINOPIO,
@@ -38,38 +40,40 @@ enum {
 };
 
 // KartSound.mWhileRequestedSoundId that StopKartSoundWhileRequested compares with and stores once the sound is stopped.
-#define KART_SOUND_NO_WHILE_REQUESTED_SOUND 0xffff
+#define KART_SOUND_WHILE_REQUESTED_STOPPED 0xffff
 
-// Values of KartSound.mVolume (volume scale 0 to 0x7f).
-#define KART_SOUND_VOLUME_MAX 0x7f
-#define KART_SOUND_VOLUME_PITCHED_NO_ACCEL 0x46
-#define KART_SOUND_VOLUME_LOW_REV 0x3c
+// Values of KartSound.mVolume below SOUND_VOLUME_MAX; KART_SOUND_VOLUME_COAST is also the lowest volume
+// StartSoundVolumeFromFractionIfTwo allows.
+#define KART_SOUND_VOLUME_KILLER 0x46
+#define KART_SOUND_VOLUME_REV_NO_ACCEL 0x46
+#define KART_SOUND_VOLUME_LOW_RATIO_BEFORE_START 0x3c
 #define KART_SOUND_VOLUME_COAST 0x32
-
-// Limits of Kart.mVelocityLengthRatio (1.0 is 0x1000) that UpdateKartSound picks the sound by: below the first the low
-// ratio sound, below the second the mid ratio sound, else the high ratio one; with the accelerator held only
-// KEY_A_LOW_RATIO_LIMIT separates the key A low and high ratio sounds.
+//  Limits of Kart.mVelocityLengthRatio (1.0 is 0x1000) that UpdateKartSound picks the sound by after the race start,
+// except with KART_EFFECT_KILLER and while braking forward on the ground. Without the accelerator: below
+// KART_SOUND_LOW_RATIO_LIMIT the low ratio sound, below KART_SOUND_MID_RATIO_LIMIT the mid ratio sound, else the high
+// ratio one. With the accelerator held (or the brake held while reversing) and mPrevKeyADown 0: below
+// KART_SOUND_KEY_A_LOW_RATIO_LIMIT the key A low ratio sound, else the key A high ratio one.
 #define KART_SOUND_LOW_RATIO_LIMIT 0x19a
 #define KART_SOUND_KEY_A_LOW_RATIO_LIMIT 0x333
 #define KART_SOUND_MID_RATIO_LIMIT 0x4cd
 
-// KartSound.mPitch and mTargetPitch while the kart is a bullet.
+// KartSound.mPitch and mTargetPitch while KART_EFFECT_KILLER is set.
 #define KART_SOUND_PITCH_KILLER 0x6c0000
 
-// Sound ids of the shine sprite: SHINE16_SOUND_BASE plus these offsets. GetShine16SoundId adds 4 for the entry kart and
-// 3 for a hit, else how far the kart's count is behind the highest.
+// Sound ids of a Shine16: SHINE16_SOUND_BASE plus these offsets. GetShine16SoundId adds 4 for the entry kart and 3 for
+// a hit, else 0, 1 or 2 by how far the kart's count is below the highest count.
 #define SHINE16_SOUND_BASE 0x130
 enum {
-    SHINE16_SOUND_OTHER_LEADS,
-    SHINE16_SOUND_OTHER_JUST_BEHIND,
-    SHINE16_SOUND_OTHER_FAR_BEHIND,
+    SHINE16_SOUND_OTHER_AT_HIGHEST,
+    SHINE16_SOUND_OTHER_ONE_BELOW_HIGHEST,
+    SHINE16_SOUND_OTHER_MORE_BELOW_HIGHEST,
     SHINE16_SOUND_OTHER_HIT,
-    SHINE16_SOUND_ENTRY_LEADS,
-    SHINE16_SOUND_ENTRY_JUST_BEHIND,
-    SHINE16_SOUND_ENTRY_FAR_BEHIND,
+    SHINE16_SOUND_ENTRY_AT_HIGHEST,
+    SHINE16_SOUND_ENTRY_ONE_BELOW_HIGHEST,
+    SHINE16_SOUND_ENTRY_MORE_BELOW_HIGHEST,
     SHINE16_SOUND_ENTRY_HIT,
     SHINE16_SOUND_SPAWNED,
-    SHINE16_SOUND_LANDED,
+    SHINE16_SOUND_BOUNCED,
 };
 
 // The sound state of a kart: mSoundId, volume, current and target pitch, pitch rates and the mSoundRow in use.

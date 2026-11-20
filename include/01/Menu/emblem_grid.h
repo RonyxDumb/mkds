@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Two-byte element; FillEmblemGridRegion copies it whole.
+// One cell position (mX, mY) in the emblem grid; mPointStack holds these.
 typedef struct EmblemGridPoint {
     /* 00 */ u8 mX;
     /* 01 */ u8 mY;

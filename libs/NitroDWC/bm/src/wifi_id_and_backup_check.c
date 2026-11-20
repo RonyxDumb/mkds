@@ -25,7 +25,8 @@ BOOL DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *info, u8 *work) {
     return 0;
 }
 
-// Like DWCi_AUTH_GetNewWiFiInfo, but always picks a new random history.
+// Like DWCi_AUTH_GetNewWiFiInfo, but it keeps mAttestedUserId and always picks a random history that differs from the
+// old one.
 BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     u8 vendor;
     u32 macLow;
@@ -42,7 +43,7 @@ BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = DateTimeToSeconds(&date, &time);
+    seconds = ConvertDateTimeToSeconds(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;
@@ -99,7 +100,7 @@ s32 DWC_BM_Init(u8 *work) {
     u32 dropped;
     u32 *validCheck;
     s32 validIndex;
-    u32 crc;
+    u32 crcOrBit;
     if (ReadNvramEntriesOffset((u16 *) work) == 0) {
         return -10001;
     }
@@ -113,8 +114,8 @@ s32 DWC_BM_Init(u8 *work) {
     apPage = work;
     validEntry = valid;
     do {
-        crc = Crc16(OFFSET_PTR(u16, work, 0x500), page, 0xfe);
-        if (crc == *OFFSET_PTR(u16, page, 0xfe)) {
+        crcOrBit = Crc16(OFFSET_PTR(u16, work, 0x500), page, 0xfe);
+        if (crcOrBit == *OFFSET_PTR(u16, page, 0xfe)) {
             if (checkAp(apPage) != 0) {
                 *validEntry = 1;
             }
@@ -124,8 +125,8 @@ s32 DWC_BM_Init(u8 *work) {
         validEntry++;
         pageIndex++;
     } while (pageIndex < 3);
-    crc = Crc16(OFFSET_PTR(u16, work, 0x500), work + 0x300, 0xfe);
-    if (crc == *OFFSET_PTR(u16, work, 0x3fe)) {
+    crcOrBit = Crc16(OFFSET_PTR(u16, work, 0x500), work + 0x300, 0xfe);
+    if (crcOrBit == *OFFSET_PTR(u16, work, 0x3fe)) {
         valid[3] = 1;
     }
     if (valid[0] != 0 && valid[1] != 0 && valid[2] != 0 && valid[3] != 0) {
@@ -175,9 +176,9 @@ s32 DWC_BM_Init(u8 *work) {
     validCheck = valid;
     for (; validIndex < 3; validCheck++, validIndex++) {
         if (*validCheck == 0) {
-            crc = 1 << validIndex;
-            if ((work[0xef] & crc) != 0) {
-                work[0xef] &= ~crc;
+            crcOrBit = 1 << validIndex;
+            if ((work[0xef] & crcOrBit) != 0) {
+                work[0xef] &= ~crcOrBit;
                 dropped = 1;
             }
         }

@@ -1,4 +1,5 @@
 #include "00/Lib/DWC/buddy_friends.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/presence_api.h"
@@ -24,9 +25,7 @@
 
 WiFiBuddySync *gWiFiBuddySync = NULL;
 
-// Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
-// object exists.
-void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param) {
+void DWC_SetBuddyFriendCallback(DWCBuddyFriendCallback callback, void *param) {
     if (gWiFiBuddySync != NULL) {
         gWiFiBuddySync->mBuddyChangedCallback = callback;
         gWiFiBuddySync->mBuddyChangedCallbackArg = param;
@@ -34,11 +33,11 @@ void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param) {
 }
 
 // Runs from DWC_InitFriendsMatch, per login.
-void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
+void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GPConnection *gpConnection, char *playerName,
                      DWCAccFriendData *friendList, s32 friendListLength) {
     WiFiBuddySync *loadedSync;
     gWiFiBuddySync = buddySync;
-    buddySync->mState = 0;
+    buddySync->mState = BUDDY_SYNC_STATE_NONE;
     gWiFiBuddySync->mGpConnection = gpConnection;
     gWiFiBuddySync->mPollCount = 0;
     loadedSync = gWiFiBuddySync;
@@ -64,8 +63,8 @@ void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection
     gWiFiBuddySync->mUnk_50 = 0;
 }
 
-// Also the only pump of the GP connection: every call in states 3 to 6 reaches DWCi_GPProcess, which calls
-// GpUpdate every 300 ms, whether or not a sync was started; the list part runs after more than 7 polls.
+// In connection states 3 to 6, unless mBuddies is NULL or an error is set, it calls DWCi_GPProcess (gpProcess at most
+// every 300 ms) while the GP connection exists; with mPollCount above 7 and the list update not done it also runs it.
 void DWCi_FriendProcess(void) {
     if (gWiFiBuddySync == NULL) {
         return;
@@ -122,11 +121,11 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
     if (((s8 *) gWiFiBuddySync->mPlayerName)[attemptIndex] != 0) {
         statsAttempt = attemptIndex;
         for (; attemptIndex < 5; attemptIndex++) {
-            statsResult = GstatsConnect(statsAttempt);
-            if (statsResult == 0) {
+            statsResult = InitStatsConnection(statsAttempt);
+            if (statsResult == STATS_CONNECT_OK) {
                 break;
             }
-            if (statsResult != 2 || attemptIndex == 4) {
+            if (statsResult != STATS_CONNECT_HOST_LOOKUP || attemptIndex == 4) {
                 DWCi_HandlePersError(statsResult);
                 return;
             }
@@ -139,9 +138,9 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
     }
 }
 
-// Records the (error kind, code) pair in the error store of the layer (DWCi_SetError), calls the result callback
-// with the code only while the sync runs (mState is 1) and closes the stats link. Not only the sync calls it: also the
-// connection's GP error mapper, the stats code and the matching code.
+// Does nothing when the sync object is NULL or error is 0. Otherwise stores (error, errorCode) with DWCi_SetError,
+// calls mResultCallback with error while mState is BUDDY_SYNC_STATE_UPDATING, and closes the stats link (mState back to
+// BUDDY_SYNC_STATE_NONE). Also called from the GP and stats error mappers and the matching code.
 void DWCi_StopFriendProcess(s32 error, s32 errorCode) {
     if (gWiFiBuddySync != NULL && error != 0) {
         DWCi_SetError(error, errorCode);
@@ -152,16 +151,17 @@ void DWCi_StopFriendProcess(s32 error, s32 errorCode) {
     }
 }
 
-// GP callback slot 1 (request): an incoming add-buddy request. The reply handler
-// DWCi_GPGetInfoCallback_RecvBuddyRequest authorizes it and adds the sender back (DWCi_GPSendBuddyRequest) when the
-// list holds an entry with that name or id; otherwise the request is dropped locally (no message is sent).
-void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg) {
+// GP callback slot 1 (request): an incoming add-buddy request. When the saved list exists it asks for the sender's
+// info, and DWCi_GPGetInfoCallback_RecvBuddyRequest authorizes the request and adds the sender back
+// (DWCi_GPSendBuddyRequest) when the list holds an entry with that name or id; otherwise the request is dropped locally
+// (no message is sent).
+void DWCi_GPRecvBuddyRequestCallback(GPConnection *connection, u32 *arg) {
     if (gWiFiBuddySync->mBuddies != NULL) {
         GpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
     }
 }
 
-u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
+u32 DWCi_GPRecvBuddyAuthCallback(GPConnection *connection, BuddyMessageData *arg, u32 param) {
     int compareResult;
     compareResult = strcmp(arg->mUnk_08, "I have authorized your request to add me to your list");
     if (compareResult == 0) {
@@ -171,15 +171,16 @@ u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, BuddyMessageData *arg
     return 0;
 }
 
-// GP callback slot 2 (status): looks up the list entry and calls mBuddyStatusCallback.
-void DWCi_GPRecvBuddyStatusCallback(struct GpConnection *connection, s32 *arg) {
+// GP callback slot 2 (status): when mBuddyStatusCallback is set and the profile is in the list, calls it with the list
+// index and the new status.
+void DWCi_GPRecvBuddyStatusCallback(struct GPConnection *connection, s32 *arg) {
     GpBuddyStatus status;
     u32 listIndex;
     WiFiBuddySync *wiFiBuddySync;
     if (gWiFiBuddySync->mBuddyStatusCallback != NULL) {
         listIndex = DWCi_GetFriendListIndex(arg[0]);
         if (listIndex != -1) {
-            GpGetBuddyStatus(connection, arg[2], &status);
+            gpGetBuddyStatus(connection, arg[2], &status);
             wiFiBuddySync = gWiFiBuddySync;
             wiFiBuddySync->mBuddyStatusCallback(listIndex, status.mStatus, status.mLocationString,
                                                 wiFiBuddySync->mBuddyStatusCallbackArg);
@@ -194,7 +195,7 @@ s32 DWCi_GetFriendListLen(void) {
     return 0;
 }
 
-// 0 when the entry holds no id.
+// 0 when the entry has no GP profile id (this includes an entry that holds only a login id).
 int DWCi_GetProfileIDFromList(int index) {
     DWCAccUserData *userData;
     u32 profileId;
@@ -240,7 +241,7 @@ u32 DWCi_SetGPStatus(s32 status, void *statusString, void *locationString) {
     if (locationString == NULL) {
         locationString = gWiFiBuddySync->mGpConnection->mGpiConnection->mLocationString;
     }
-    return GpSetStatus(gWiFiBuddySync->mGpConnection, status, statusString, locationString);
+    return gpSetStatusA(gWiFiBuddySync->mGpConnection, status, statusString, locationString);
 }
 
 void DWCi_CallBuddyFriendCallback(s32 index) {
@@ -265,7 +266,7 @@ int DWCi_GPProcess(void) {
     WiFiBuddySync *buddySync = gWiFiBuddySync;
     if ((OS_GetTick() - buddySync->mLastPollTime) * 64 / 0x82ea >= 300) {
         buddySync->mPollCount = buddySync->mPollCount + 1;
-        GpUpdate(gWiFiBuddySync->mGpConnection);
+        gpProcess(gWiFiBuddySync->mGpConnection);
         gWiFiBuddySync->mLastPollTime = OS_GetTick();
     }
     return 0;
@@ -273,7 +274,7 @@ int DWCi_GPProcess(void) {
 
 void CloseStatsAndResetBuddySync(void) {
     if (gWiFiBuddySync != NULL) {
-        GstatsClose();
+        CloseStatsConnection();
         gWiFiBuddySync->mState = BUDDY_SYNC_STATE_NONE;
     }
 }
@@ -283,16 +284,16 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
     s32 buddyIndex;
     s32 friendIndex;
     char searchName[0x18];
-    GpBuddyStatus buddyInfo;
+    GpBuddyStatus buddyStatus;
     s32 profileId;
     if (gWiFiBuddySync->mBuddyUpdateState == BUDDY_UPDATE_STATE_START) {
-        ReportBuddySyncGpResult(GpGetBuddyCount(gWiFiBuddySync->mGpConnection, &buddyCount));
+        ReportBuddySyncGpResult(gpGetNumBuddies(gWiFiBuddySync->mGpConnection, &buddyCount));
         for (buddyIndex = 0; buddyIndex < buddyCount; buddyIndex++) {
-            ReportBuddySyncGpResult(GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, &buddyInfo));
+            ReportBuddySyncGpResult(gpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, &buddyStatus));
             for (friendIndex = 0; friendIndex < friendListLength; friendIndex++) {
-                if (buddyInfo.mProfileId == DWCi_GetProfileIDFromList(friendIndex)) {
+                if (buddyStatus.mProfileId == DWCi_GetProfileIDFromList(friendIndex)) {
                     if (DWC_IsBuddyFriendData((DWCAccFriendData *) friendList + friendIndex) == 0) {
-                        InitFriendDataFromGsProfileId(&friendList[friendIndex], buddyInfo.mProfileId);
+                        InitFriendDataFromGsProfileId(&friendList[friendIndex], buddyStatus.mProfileId);
                         DWCi_SetBuddyFriendData(&friendList[friendIndex]);
                         gWiFiBuddySync->mBuddiesChanged = 1;
                     }
@@ -300,7 +301,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
                 }
             }
             if (friendIndex == friendListLength) {
-                ReportBuddySyncGpResult(GpDeleteBuddy(gWiFiBuddySync->mGpConnection, buddyInfo.mProfileId));
+                ReportBuddySyncGpResult(GpDeleteBuddy(gWiFiBuddySync->mGpConnection, buddyStatus.mProfileId));
                 buddyCount--;
                 buddyIndex--;
             }
@@ -312,7 +313,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
         if (profileId != 0) {
             if (DWCi_RefreshFriendListForth(friendList, gWiFiBuddySync->mSyncIndex, profileId) == FALSE &&
                 DWC_IsBuddyFriendData(&friendList[gWiFiBuddySync->mSyncIndex]) == 0) {
-                ReportBuddySyncGpResult(GpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex));
+                ReportBuddySyncGpResult(gpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex));
                 if (buddyIndex == -1) {
                     DWCi_GPSendBuddyRequest(profileId);
                 }
@@ -385,7 +386,8 @@ s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength
                     laterEntry = &friendList[laterIndex];
                     do {
                         if (currentProfileId == DWCi_GetProfileIDFromList(laterIndex)) {
-                            if (GetFriendDataType(typeCheckEntry) == 2 && GetFriendDataType(laterEntry) == 3) {
+                            if (GetFriendDataType(typeCheckEntry) == ACCOUNT_DATA_TYPE_FRIEND_KEY &&
+                                GetFriendDataType(laterEntry) == ACCOUNT_DATA_TYPE_GS_PROFILE_ID) {
                                 InitFriendDataFromGsProfileId(updatedEntry, currentProfileId);
                             }
                             if (DWC_IsBuddyFriendData(laterEntry) != 0) {
@@ -407,11 +409,11 @@ s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength
     return foundIndex;
 }
 
-// Sends the GP add-buddy request for a profile id (GpWriteAddbuddy with mUnk_28 as the reason text) and runs the
-// error check; the buddy exists only once the other side authorizes.
+// Sends the GP add-buddy request for a profile id (gpSendBuddyRequestA with mPlayerName as the reason text), runs the
+// error check and returns the send result.
 u32 DWCi_GPSendBuddyRequest(u32 profileId) {
     u32 sendResult;
-    sendResult = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, profileId, gWiFiBuddySync->mPlayerName);
+    sendResult = gpSendBuddyRequestA(gWiFiBuddySync->mGpConnection, profileId, gWiFiBuddySync->mPlayerName);
     ReportBuddySyncGpResult(sendResult);
     return sendResult;
 }

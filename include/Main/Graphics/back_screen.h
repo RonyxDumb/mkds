@@ -19,6 +19,6 @@ extern char gBackScreenMNcgr01Name[];
 extern char gBackScreenMNclr00Name[];
 extern char gBackScreenMNclr01Name[];
 
-void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void);
+void LoadTxtSystemAndSelectFiles(void);
 void InitBackScreenDisplay(void);
 s32 LoadBackScreen(s32 subCharOffset);

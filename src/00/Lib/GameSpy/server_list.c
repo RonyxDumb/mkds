@@ -43,12 +43,12 @@
 
 char *gSBOverrideMasterServer;
 
-s32 StrCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
+s32 StrCaseKeyCompare(SBServer **firstEntry, SBServer **secondEntry) {
     char *firstValue;
     char *secondValue;
     s32 result;
-    firstValue = SbServerGetValue(*firstEntry, gSortServerList->mSortKey, "");
-    secondValue = SbServerGetValue(*secondEntry, gSortServerList->mSortKey, "");
+    firstValue = SBServerGetStringValueA(*firstEntry, gSortServerList->mSortKey, "");
+    secondValue = SBServerGetStringValueA(*secondEntry, gSortServerList->mSortKey, "");
     result = strcmp(firstValue, secondValue);
     if (gSortServerList->mSortAscending == 0) {
         result = -result;
@@ -56,12 +56,12 @@ s32 StrCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
     return result;
 }
 
-s32 StrNoCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
+s32 StrNoCaseKeyCompare(SBServer **firstEntry, SBServer **secondEntry) {
     char *firstValue;
     char *secondValue;
     s32 result;
-    firstValue = SbServerGetValue(*firstEntry, gSortServerList->mSortKey, "");
-    secondValue = SbServerGetValue(*secondEntry, gSortServerList->mSortKey, "");
+    firstValue = SBServerGetStringValueA(*firstEntry, gSortServerList->mSortKey, "");
+    secondValue = SBServerGetStringValueA(*secondEntry, gSortServerList->mSortKey, "");
     result = CompareStringsMapped(firstValue, secondValue);
     if (gSortServerList->mSortAscending == 0) {
         result = -result;
@@ -69,45 +69,45 @@ s32 StrNoCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
     return result;
 }
 
-void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind) {
-    s32 (*comparator)(SbServer **, SbServer **);
+void SBServerListSort(SBServerList *serverList, s32 ascending, const char *sortKey, u32 compareKind) {
+    s32 (*comparator)(SBServer **, SBServer **);
     switch (compareKind) {
-        case sbcm_int:
+        case SORT_COMPARE_INT:
             comparator = IntKeyCompare;
             break;
-        case sbcm_float:
+        case SORT_COMPARE_FLOAT:
             comparator = FloatKeyCompare;
             break;
-        case sbcm_strcase:
+        case SORT_COMPARE_STRING:
             comparator = StrCaseKeyCompare;
             break;
-        case sbcm_stricase:
+        case SORT_COMPARE_STRING_IGNORE_CASE:
             comparator = StrNoCaseKeyCompare;
             break;
         default:
             comparator = StrNoCaseKeyCompare;
             break;
     }
-    serverList->mSortKey = sortField;
+    serverList->mSortKey = sortKey;
     serverList->mSortAscending = ascending;
     gSortServerList = serverList;
-    DarraySort(serverList->mServers, (u32) comparator);
+    ArraySort(serverList->mServers, (u32) comparator);
 }
 
-void SBServerListAppendServer(SbServerList *serverList, SbServer *server) {
-    DarrayAppend(serverList->mServers, &server);
-    serverList->mCallback(serverList, slc_serveradded, server, serverList->mInstance);
+void SBServerListAppendServer(SBServerList *serverList, SBServer *server) {
+    ArrayAppend(serverList->mServers, &server);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_SERVER_ADDED, server, serverList->mInstance);
 }
 
-int SBServerListFindServer(SbServerList *serverList, SbServer *server) {
+int SBServerListFindServer(SBServerList *serverList, SBServer *server) {
     int count;
-    SbServer **element;
+    SBServer **element;
     int index;
-    count = DarrayGetCount(serverList->mServers);
+    count = ArrayLength(serverList->mServers);
     index = 0;
     if (0 < count) {
         do {
-            element = DarrayGetElement(serverList->mServers, index);
+            element = ArrayNth(serverList->mServers, index);
             if (server == *element) {
                 return index;
             }
@@ -117,17 +117,17 @@ int SBServerListFindServer(SbServerList *serverList, SbServer *server) {
     return -1;
 }
 
-int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publicPort) {
-    SbServer *candidate;
+int SBServerListFindServerByIP(SBServerList *serverList, int publicIp, int publicPort) {
+    SBServer *candidate;
     int index;
     int comparedValue;
-    SbServer **entry;
+    SBServer **entry;
     int count;
-    count = DarrayGetCount(serverList->mServers);
+    count = ArrayLength(serverList->mServers);
     index = 0;
     if (0 < count) {
         do {
-            entry = DarrayGetElement(serverList->mServers, index);
+            entry = ArrayNth(serverList->mServers, index);
             candidate = *entry;
             comparedValue = SBServerGetPublicInetAddress(candidate);
             if ((publicIp == comparedValue) &&
@@ -140,7 +140,7 @@ int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publi
     return -1;
 }
 
-void AddServerToDeadlist(SbServerList *serverList, SbServer *server) {
+void AddServerToDeadlist(SBServerList *serverList, SBServer *server) {
     if (serverList->mDeadList == NULL) {
         SBServerSetNext(server, NULL);
     } else {
@@ -149,26 +149,26 @@ void AddServerToDeadlist(SbServerList *serverList, SbServer *server) {
     serverList->mDeadList = server;
 }
 
-void SBServerListRemoveAt(SbServerList *serverList, s32 index) {
-    SbServer *removedServer = *(SbServer **) DarrayGetElement(serverList->mServers, index);
-    serverList->mCallback(serverList, slc_serverdeleted, removedServer, serverList->mInstance);
-    DarrayRemove(serverList->mServers, index);
+void SBServerListRemoveAt(SBServerList *serverList, s32 index) {
+    SBServer *removedServer = *(SBServer **) ArrayNth(serverList->mServers, index);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_SERVER_DELETED, removedServer, serverList->mInstance);
+    ArrayDeleteAt(serverList->mServers, index);
     AddServerToDeadlist(serverList, removedServer);
 }
 
-s32 SBServerListCount(SbServerList *serverList) {
-    return DarrayGetCount(serverList->mServers);
+s32 SBServerListCount(SBServerList *serverList) {
+    return ArrayLength(serverList->mServers);
 }
 
-SbServer *SBServerListNth(SbServerList *serverList, u32 index) {
-    SbServer **element;
-    element = DarrayGetElement(serverList->mServers, index);
+SBServer *SBServerListNth(SBServerList *serverList, u32 index) {
+    SBServer **element;
+    element = ArrayNth(serverList->mServers, index);
     return *element;
 }
 
-void SBFreeDeadList(SbServerList *serverList) {
-    SbServer *deadServer;
-    SbServer *nextServer;
+void SBFreeDeadList(SBServerList *serverList) {
+    SBServer *deadServer;
+    SBServer *nextServer;
     if (serverList->mDeadList != NULL) {
         deadServer = serverList->mDeadList;
         while (deadServer != NULL) {
@@ -180,55 +180,55 @@ void SBFreeDeadList(SbServerList *serverList) {
     }
 }
 
-void SBServerListClear(SbServerList *serverList) {
+void SBServerListClear(SBServerList *serverList) {
     int count;
-    SbServer **element;
+    SBServer **element;
     int index;
-    count = DarrayGetCount(serverList->mServers);
+    count = ArrayLength(serverList->mServers);
     index = 0;
     if (0 < count) {
         do {
-            element = DarrayGetElement(serverList->mServers, index);
+            element = ArrayNth(serverList->mServers, index);
             AddServerToDeadlist(serverList, *element);
             index = index + 1;
         } while (index < count);
     }
-    DarrayRemoveAll(serverList->mServers);
+    ArrayClear(serverList->mServers);
     SBFreeDeadList(serverList);
 }
 
-void SBAllocateServerList(SbServerList *serverList) {
-    serverList->mServers = DarrayCreate(0x4u, 0x64u, 0x0u);
+void SBAllocateServerList(SBServerList *serverList) {
+    serverList->mServers = ArrayNew(0x4u, 0x64u, 0x0u);
     serverList->mDeadList = NULL;
 }
 
-void *SBRefStr(SbServerList *serverList, const char *text) {
+void *SBRefStr(SBServerList *serverList, const char *text) {
     s32 refString[2];
     s32 *entry;
     refString[0] = (s32) text;
-    entry = HashtableFind(SBRefStrHash(serverList), refString);
+    entry = TableLookup(SBRefStrHash(serverList), refString);
     if (entry != NULL) {
         entry[1] = entry[1] + 1;
         return (void *) entry[0];
     }
     refString[0] = (s32) goastrdup(text);
     refString[1] = 1;
-    HashtableSet(SBRefStrHash(serverList), refString);
+    TableEnter(SBRefStrHash(serverList), refString);
     return (void *) refString[0];
 }
 
-void SBReleaseStr(SbServerList *serverList, u32 text) {
+void SBReleaseStr(SBServerList *serverList, u32 text) {
     s32 refString[2];
     s32 *entry;
     refString[0] = text;
-    entry = HashtableFind(SBRefStrHash(serverList), refString);
+    entry = TableLookup(SBRefStrHash(serverList), refString);
     if (entry == NULL) {
         AssertionFailed("val != NULL", "sb_serverlist.c", NULL, 0xf4);
     }
     if (entry != NULL) {
         entry[1] = entry[1] - 1;
         if (entry[1] == 0) {
-            HashtableRemove(SBRefStrHash(serverList), refString);
+            TableRemove(SBRefStrHash(serverList), refString);
         }
     }
 }
@@ -257,8 +257,8 @@ static inline void CopyUnalignedWord(UnalignedWord *destination, UnalignedWord *
     destinationBytes[3] = sourceBytes[3];
 }
 
-void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
-                      u32 queryFromVersion, s32 lanBrowse, SbServerListCallback callback, void *instance) {
+void SBServerListInit(SBServerList *slist, const char *queryForGameName, const char *queryFromGameName, const char *queryFromKey,
+                      u32 queryFromVersion, s32 lanBrowse, SBListCallBackFn callback, void *instance) {
     if (slist == NULL) {
         AssertionFailed("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
     }
@@ -266,8 +266,8 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
         slist->mState = SERVER_LIST_STATE_NO_SOCKET;
         SBAllocateServerList(slist);
         SBRefStrHash(slist);
-        strcpy(slist->mQueryForGameName, targetName);
-        strcpy(slist->mQueryFromGameName, sourceName);
+        strcpy(slist->mQueryForGameName, queryForGameName);
+        strcpy(slist->mQueryFromGameName, queryFromGameName);
         strcpy(slist->mQueryFromKey, queryFromKey);
         slist->mCallback = callback;
         slist->mMaploopCallback = NULL;
@@ -287,12 +287,12 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
         slist->mFromGameVersion = queryFromVersion;
         SBSetLastListErrorPtr(slist, "");
         slist->mLanAdapterOverride = 0;
-        srand(GetElapsedMilliseconds());
+        srand(current_time());
         SocketStartUp();
     }
 }
 
-void ErrorDisconnect(SbServerList *serverList) {
+void ErrorDisconnect(SBServerList *serverList) {
     static const char *queryErrorPrefix = "Query Error: ";
     s32 length = serverList->mInBufferLength;
     const char *prefixForLength;
@@ -305,11 +305,11 @@ void ErrorDisconnect(SbServerList *serverList) {
             prefixForCompare = queryErrorPrefix;
             if (strncmp(buffer, prefixForCompare, strlen(prefixForCompare)) == 0) {
                 SBSetLastListErrorPtr(serverList, buffer + strlen(prefixForLength));
-                serverList->mCallback(serverList, slc_queryerror, gSBNullServer, serverList->mInstance);
+                serverList->mCallback(serverList, SERVER_LIST_REASON_QUERY_ERROR, gSBNullServer, serverList->mInstance);
             }
         }
     }
-    serverList->mCallback(serverList, slc_disconnected, gSBNullServer, serverList->mInstance);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_DISCONNECTED, gSBNullServer, serverList->mInstance);
     SBServerListDisconnect(serverList);
 }
 
@@ -327,7 +327,7 @@ u32 StringHash(const s8 *text, u32 modulus) {
     return hash % modulus;
 }
 
-s32 ServerListConnect(SbServerList *serverList) {
+s32 ServerListConnect(SBServerList *serverList) {
     SOCSockAddrIn masterAddress;
     char masterHost[0x80];
     u32 masterNumber;
@@ -396,7 +396,7 @@ void BufferAddData(u8 **buffer, const void *data, s32 dataLength, s32 *length) {
     *buffer = *buffer + dataLength;
 }
 
-void SetupListChallenge(SbServerList *serverList) {
+void SetupListChallenge(SBServerList *serverList) {
     s32 earlierLessTrue;
     s32 earlierLessFalse;
     s32 firstBelowLimitTrue;
@@ -406,10 +406,10 @@ void SetupListChallenge(SbServerList *serverList) {
     s32 oddModeMask;
     s32 evenModeMask;
     s32 parityTerm;
-    s32 altMode;
+    s32 modeBit;
     s32 index;
     serverList->mChallenge[0] = (s32) rand() % 0x5d + 0x21;
-    altMode = 0;
+    modeBit = 0;
     index = 1;
     earlierLessFalse = 0;
     earlierLessTrue = 1;
@@ -420,21 +420,21 @@ void SetupListChallenge(SbServerList *serverList) {
     oddModeMask = 1;
     evenModeMask = 1;
     for (; index < 8; index++) {
-        altMode =
+        modeBit =
             ((serverList->mChallenge[0] & firstParityMask) ^
-             (altMode ^ (parityTerm = index, parityTerm = (s32) (parityTerm ^ serverList->mChallenge[index - 1]),
+             (modeBit ^ (parityTerm = index, parityTerm = (s32) (parityTerm ^ serverList->mChallenge[index - 1]),
                          parityTerm &= pairParityMask, parityTerm))) ^
             ((serverList->mChallenge[0] < 0x4f) ? firstBelowLimitTrue : firstBelowLimitFalse) ^
             ((serverList->mChallenge[index - 1] < serverList->mChallenge[0]) ? earlierLessTrue : earlierLessFalse);
         serverList->mChallenge[index] = (s32) rand() % 0x5d + 0x21;
-        if ((altMode != 0 && (serverList->mChallenge[index] & oddModeMask) == 0) ||
-            (altMode == 0 && (serverList->mChallenge[index] & evenModeMask) == 1)) {
+        if ((modeBit != 0 && (serverList->mChallenge[index] & oddModeMask) == 0) ||
+            (modeBit == 0 && (serverList->mChallenge[index] & evenModeMask) == 1)) {
             serverList->mChallenge[index] += 1;
         }
     }
 }
 
-s32 SendWithRetry(SbServerList *serverList, void *data, s32 length) {
+s32 SendWithRetry(SBServerList *serverList, void *data, s32 length) {
     s32 retriesLeft = 1;
     s32 sentLength;
     s32 error;
@@ -460,7 +460,7 @@ s32 SendWithRetry(SbServerList *serverList, void *data, s32 length) {
     return 0;
 }
 
-s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList, const char *serverFilter, u32 options,
+s32 SBServerListConnectAndQuery(SBServerList *serverList, const char *fieldList, const char *serverFilter, u32 options,
                                 u32 maxServers) {
     u8 request[0x300];
     u16 networkLength;
@@ -505,10 +505,10 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
                  ((options << 24) & 0xff000000) |
                      (((options << 8) & 0xff0000) | (((options >> 24) & 0xff) | ((options >> 8) & 0xff00))),
                  &requestLength);
-    if ((serverList->mQueryOptions & ALTERNATE_SOURCE_IP) != 0) {
+    if ((serverList->mQueryOptions & LIST_OPTION_SEND_SOURCE_IP) != 0) {
         BufferAddInt(&requestCursor, serverList->mSrcIp, &requestLength);
     }
-    if ((serverList->mQueryOptions & LIMIT_RESULT_COUNT) != 0) {
+    if ((serverList->mQueryOptions & LIST_OPTION_SEND_MAX_SERVERS) != 0) {
         BufferAddInt(&requestCursor, maxServers, &requestLength);
     }
     networkLength = (((u16) requestLength >> 8) & 0xff) | (((u16) requestLength << 8) & 0xff00);
@@ -529,7 +529,7 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
     return 0;
 }
 
-void FreePopularValues(SbServerList *serverList) {
+void FreePopularValues(SBServerList *serverList) {
     int valueIndex;
     for (valueIndex = 0; valueIndex < serverList->mNumPopularValues; valueIndex++) {
         SBReleaseStr(serverList, (u32) serverList->mPopularValues[valueIndex]);
@@ -537,18 +537,18 @@ void FreePopularValues(SbServerList *serverList) {
     serverList->mNumPopularValues = 0;
 }
 
-void FreeKeyList(SbServerList *serverList) {
+void FreeKeyList(SBServerList *serverList) {
     int keyIndex;
     if (serverList->mKeyList != NULL) {
-        for (keyIndex = 0; keyIndex < DarrayGetCount(serverList->mKeyList); keyIndex++) {
-            SBReleaseStr(serverList, *(u32 *) DarrayGetElement(serverList->mKeyList, keyIndex));
+        for (keyIndex = 0; keyIndex < ArrayLength(serverList->mKeyList); keyIndex++) {
+            SBReleaseStr(serverList, *(u32 *) ArrayNth(serverList->mKeyList, keyIndex));
         }
-        DarrayDelete(serverList->mKeyList);
+        ArrayFree(serverList->mKeyList);
         serverList->mKeyList = NULL;
     }
 }
 
-void SBServerListDisconnect(SbServerList *serverList) {
+void SBServerListDisconnect(SBServerList *serverList) {
     if (serverList->mInBuffer != NULL) {
         DWCi_GsFree(serverList->mInBuffer);
     }
@@ -564,17 +564,17 @@ void SBServerListDisconnect(SbServerList *serverList) {
     FreePopularValues(serverList);
 }
 
-void SBServerListCleanup(SbServerList *serverList) {
+void SBServerListCleanup(SBServerList *serverList) {
     SBServerListDisconnect(serverList);
     SBServerListClear(serverList);
     SBRefStrHashCleanup(serverList);
     if (serverList->mServers != NULL) {
-        DarrayDelete(serverList->mServers);
+        ArrayFree(serverList->mServers);
     }
     serverList->mServers = NULL;
 }
 
-void InitCryptKey(SbServerList *serverList, s8 *serverBytes, s32 length) {
+void InitCryptKey(SBServerList *serverList, s8 *serverBytes, s32 length) {
     s32 keyLength;
     s8 *secretKey;
     s32 index;
@@ -594,16 +594,16 @@ void InitCryptKey(SbServerList *serverList, s8 *serverBytes, s32 length) {
 s32 ServerSizeForFlags(u32 flags) {
     s32 size;
     size = 5;
-    if ((flags & PRIVATE_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_PRIVATE_IP) != 0) {
         size += 4;
     }
-    if ((flags & ICMP_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_ICMP_IP) != 0) {
         size += 4;
     }
-    if ((flags & NONSTANDARD_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PORT) != 0) {
         size += 2;
     }
-    if ((flags & NONSTANDARD_PRIVATE_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PRIVATE_PORT) != 0) {
         size += 2;
     }
     return size;
@@ -631,16 +631,16 @@ BOOL FullRulesPresent(u8 *buffer, s32 length) {
     return *(s8 *) buffer == 0;
 }
 
-BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length) {
+BOOL AllKeysPresent(SBServerList *serverList, u8 *buffer, s32 length) {
     s32 keyCount;
     s32 keyIndex;
     s32 stringLength;
     s32 stringIndex;
-    keyCount = DarrayGetCount(serverList->mKeyList);
+    keyCount = ArrayLength(serverList->mKeyList);
     keyIndex = 0;
     if (keyCount > 0) {
         do {
-            switch (((KeyInfo *) DarrayGetElement(serverList->mKeyList, keyIndex))->mKeyType) {
+            switch (((KeyInfo *) ArrayNth(serverList->mKeyList, keyIndex))->mKeyType) {
                 case SERVER_KEY_STORED_AS_ONE_BYTE:
                     buffer += 1;
                     length -= 1;
@@ -649,7 +649,7 @@ BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length) {
                     buffer += 2;
                     length -= 2;
                     break;
-                case SERVER_KEY_STORED_AS_STRING_INDEX:
+                case SERVER_KEY_STORED_AS_STRING:
                     if (length < 1) {
                         return FALSE;
                     }
@@ -678,7 +678,7 @@ BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length) {
     return TRUE;
 }
 
-void ParseServerIPPort(SbServerList *serverList, u8 *buffer, s32 length, u8 *ipOut, u16 *portOut) {
+void ParseServerIPPort(SBServerList *serverList, u8 *buffer, s32 length, u8 *ipOut, u16 *portOut) {
     u8 flags;
     u8 *cursor;
     u8 *portBytes;
@@ -689,7 +689,7 @@ void ParseServerIPPort(SbServerList *serverList, u8 *buffer, s32 length, u8 *ipO
         ipOut[1] = cursor[1];
         ipOut[2] = cursor[2];
         ipOut[3] = cursor[3];
-        if ((flags & NONSTANDARD_PORT_FLAG) != 0) {
+        if ((flags & SERVER_FLAG_NOT_DEFAULT_PORT) != 0) {
             if (length - 5 < 2) {
                 return;
             }
@@ -703,7 +703,7 @@ void ParseServerIPPort(SbServerList *serverList, u8 *buffer, s32 length, u8 *ipO
     }
 }
 
-s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, s32 popularOnly) {
+s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, s32 usePopularValues) {
     s32 keyCount;
     s32 startLength;
     s32 flags;
@@ -711,7 +711,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
     u16 shortValue;
     u16 privatePort;
     u32 ipAddress;
-    s32 stringValue;
+    s32 stringIndexOrLength;
     u8 *ruleKey;
     u8 *unusedPointer;
     u8 *valueBytes;
@@ -721,11 +721,11 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
     SBServerSetFlags(server, flags);
     buffer += 5;
     length -= 5;
-    if ((flags & NONSTANDARD_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PORT) != 0) {
         buffer += 2;
         length -= 2;
     }
-    if ((flags & PRIVATE_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_PRIVATE_IP) != 0) {
         valueBytes = (u8 *) &ipAddress;
         valueBytes[0] = buffer[0];
         valueBytes[1] = buffer[1];
@@ -736,7 +736,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
     } else {
         ipAddress = 0;
     }
-    if ((flags & NONSTANDARD_PRIVATE_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PRIVATE_PORT) != 0) {
         valueBytes = (u8 *) &privatePort;
         valueBytes[0] = buffer[0];
         valueBytes[1] = buffer[1];
@@ -746,7 +746,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
         privatePort = serverList->mDefaultPort;
     }
     SBServerSetPrivateAddr(server, ipAddress, privatePort);
-    if ((flags & ICMP_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_ICMP_IP) != 0) {
         valueBytes = (u8 *) &ipAddress;
         valueBytes[0] = buffer[0];
         valueBytes[1] = buffer[1];
@@ -756,15 +756,15 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
         length -= 4;
         SBServerSetICMPIP(server, ipAddress);
     }
-    if ((flags & HAS_KEYS_FLAG) != 0) {
-        keyCount = DarrayGetCount(serverList->mKeyList);
+    if ((flags & SERVER_FLAG_HAS_KEY_VALUES) != 0) {
+        keyCount = ArrayLength(serverList->mKeyList);
         keyIndex = 0;
         if (keyCount > 0) {
             do {
-                keyInfo = DarrayGetElement(serverList->mKeyList, keyIndex);
+                keyInfo = ArrayNth(serverList->mKeyList, keyIndex);
                 switch (keyInfo->mKeyType) {
                     case SERVER_KEY_STORED_AS_ONE_BYTE:
-                        SbServerSetInt(server, keyInfo->mKeyName, buffer[0]);
+                        SBServerAddIntKeyValue(server, keyInfo->mKeyName, buffer[0]);
                         buffer += 1;
                         length -= 1;
                         break;
@@ -772,56 +772,56 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
                         valueBytes = (u8 *) &shortValue;
                         valueBytes[0] = buffer[0];
                         valueBytes[1] = buffer[1];
-                        SbServerSetInt(server, keyInfo->mKeyName,
+                        SBServerAddIntKeyValue(server, keyInfo->mKeyName,
                                        (u16) ((shortValue >> 8 & 0xff) | (shortValue << 8 & 0xff00)));
                         buffer += 2;
                         length -= 2;
                         break;
-                    case SERVER_KEY_STORED_AS_STRING_INDEX:
-                        if (popularOnly != 0) {
-                            stringValue = buffer[0];
+                    case SERVER_KEY_STORED_AS_STRING:
+                        if (usePopularValues != 0) {
+                            stringIndexOrLength = buffer[0];
                             buffer += 1;
                             length -= 1;
                         } else {
-                            stringValue = 0xff;
+                            stringIndexOrLength = 0xff;
                         }
-                        if (stringValue == 0xff) {
-                            SbServerSetValue(server, keyInfo->mKeyName, (const char *) buffer);
-                            stringValue = strlen((const char *) buffer) + 1;
-                            buffer += stringValue;
-                            length -= stringValue;
+                        if (stringIndexOrLength == 0xff) {
+                            SBServerAddKeyValue(server, keyInfo->mKeyName, (const char *) buffer);
+                            stringIndexOrLength = strlen((const char *) buffer) + 1;
+                            buffer += stringIndexOrLength;
+                            length -= stringIndexOrLength;
                         } else {
-                            SbServerSetValue(server, keyInfo->mKeyName, serverList->mPopularValues[stringValue]);
+                            SBServerAddKeyValue(server, keyInfo->mKeyName, serverList->mPopularValues[stringIndexOrLength]);
                         }
                         break;
                 }
                 keyIndex++;
             } while (keyIndex < keyCount);
         }
-        SBServerSetState(server, SBServerGetState(server) | STATE_BASICKEYS);
+        SBServerSetState(server, SBServerGetState(server) | SERVER_STATE_HAS_BASIC_KEYS);
     }
-    flags = flags & HAS_FULL_RULES_FLAG;
+    flags = flags & SERVER_FLAG_HAS_RULE_ENTRIES;
     if (flags != 0) {
         while ((s8) buffer[0] != 0 && length > 0) {
             ruleKey = buffer;
-            stringValue = strlen((const char *) buffer) + 1;
-            buffer += stringValue;
-            length -= stringValue;
-            SbServerSetValue(server, (const char *) ruleKey, (const char *) buffer);
-            stringValue = strlen((const char *) buffer) + 1;
-            buffer += stringValue;
-            length -= stringValue;
+            stringIndexOrLength = strlen((const char *) buffer) + 1;
+            buffer += stringIndexOrLength;
+            length -= stringIndexOrLength;
+            SBServerAddKeyValue(server, (const char *) ruleKey, (const char *) buffer);
+            stringIndexOrLength = strlen((const char *) buffer) + 1;
+            buffer += stringIndexOrLength;
+            length -= stringIndexOrLength;
         }
         length -= 1;
-        SBServerSetState(server, SBServerGetState(server) | STATE_FULLKEYS);
+        SBServerSetState(server, SBServerGetState(server) | SERVER_STATE_HAS_FULL_KEYS);
     }
     return startLength - length;
 }
 
-s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
+s32 IncomingListParseServer(SBServerList *serverList, u8 *buffer, s32 length) {
     s32 entrySize;
     s32 flags;
-    SbServer *parsedServer;
+    SBServer *parsedServer;
     u16 netPort;
     u32 ipAddress;
     s32 parsedLength;
@@ -833,12 +833,12 @@ s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
     if (length < entrySize) {
         return 0;
     }
-    if ((flags & HAS_KEYS_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_HAS_KEY_VALUES) != 0) {
         if (AllKeysPresent(serverList, buffer + entrySize, length - entrySize) == FALSE) {
             return 0;
         }
     }
-    flags = flags & HAS_FULL_RULES_FLAG;
+    flags = flags & SERVER_FLAG_HAS_RULE_ENTRIES;
     if (flags != 0) {
         if (FullRulesPresent(buffer + entrySize, length - entrySize) == FALSE) {
             return 0;
@@ -857,11 +857,11 @@ s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
     return parsedLength;
 }
 
-void SBSetLastListErrorPtr(SbServerList *serverList, char *errorText) {
+void SBSetLastListErrorPtr(SBServerList *serverList, char *errorText) {
     serverList->mLastError = errorText;
 }
 
-s32 ProcessMainListData(SbServerList *serverList) {
+s32 ProcessMainListData(SBServerList *serverList) {
     u8 *data;
     s32 length;
     s32 cryptHeaderLength;
@@ -901,25 +901,25 @@ s32 ProcessMainListData(SbServerList *serverList) {
             fieldBytes[1] = data[1];
             fieldBytes[2] = data[2];
             fieldBytes[3] = data[3];
-            serverList->mCallback(serverList, slc_publicipdetermined, gSBNullServer, serverList->mInstance);
+            serverList->mCallback(serverList, SERVER_LIST_REASON_PUBLIC_IP_RECEIVED, gSBNullServer, serverList->mInstance);
             fieldBytes = (u8 *) &serverList->mDefaultPort;
             portBytes = data + 4;
             fieldBytes[0] = portBytes[0];
             fieldBytes[1] = portBytes[1];
-            if (serverList->mDefaultPort == LIST_UNKNOWN_GAME_PORT) {
+            if (serverList->mDefaultPort == LIST_ERROR_PORT) {
                 if (NTSLengthSB(data + 6, length - 6) == -1) {
                     break;
                 }
                 SBSetLastListErrorPtr(serverList, (char *) (data + 6));
-                serverList->mCallback(serverList, slc_queryerror, gSBNullServer, serverList->mInstance);
+                serverList->mCallback(serverList, SERVER_LIST_REASON_QUERY_ERROR, gSBNullServer, serverList->mInstance);
                 if (serverList->mInBuffer == NULL) {
                     break;
                 }
             }
             data += 6;
             length -= 6;
-            if ((serverList->mQueryOptions & NO_SERVER_LIST) != 0 ||
-                serverList->mDefaultPort == LIST_UNKNOWN_GAME_PORT) {
+            if ((serverList->mQueryOptions & LIST_OPTION_SKIP_SERVER_TABLE) != 0 ||
+                serverList->mDefaultPort == LIST_ERROR_PORT) {
                 serverList->mParseState = SERVER_LIST_PARSE_DONE;
                 serverList->mState = SERVER_LIST_STATE_AD_HOC;
                 break;
@@ -932,14 +932,14 @@ s32 ProcessMainListData(SbServerList *serverList) {
                     break;
                 }
                 serverList->mExpectedElements = data[0];
-                serverList->mKeyList = DarrayCreate(8, serverList->mExpectedElements, NULL);
+                serverList->mKeyList = ArrayNew(8, serverList->mExpectedElements, NULL);
                 if (serverList->mKeyList == NULL) {
                     return 5;
                 }
                 data += 1;
                 length -= 1;
             }
-            while (serverList->mExpectedElements > DarrayGetCount(serverList->mKeyList)) {
+            while (serverList->mExpectedElements > ArrayLength(serverList->mKeyList)) {
                 if (length < 2) {
                     break;
                 }
@@ -949,12 +949,12 @@ s32 ProcessMainListData(SbServerList *serverList) {
                 }
                 keyInfo.mKeyType = data[0];
                 keyInfo.mKeyName = SBRefStr(serverList, (const char *) (data + 1));
-                DarrayAppend(serverList->mKeyList, &keyInfo);
+                ArrayAppend(serverList->mKeyList, &keyInfo);
                 consumed += 1;
                 data += consumed;
                 length -= consumed;
             }
-            if (serverList->mExpectedElements > DarrayGetCount(serverList->mKeyList)) {
+            if (serverList->mExpectedElements > ArrayLength(serverList->mKeyList)) {
                 break;
             }
             serverList->mParseState = SERVER_LIST_PARSE_POPULAR_VALUES;
@@ -996,7 +996,7 @@ s32 ProcessMainListData(SbServerList *serverList) {
                     data += 5;
                     serverList->mParseState = SERVER_LIST_PARSE_DONE;
                     serverList->mState = SERVER_LIST_STATE_AD_HOC;
-                    serverList->mCallback(serverList, slc_initiallistcomplete, gSBNullServer, serverList->mInstance);
+                    serverList->mCallback(serverList, SERVER_LIST_REASON_LIST_FINISHED, gSBNullServer, serverList->mInstance);
                     break;
                 }
                 data += consumed;
@@ -1020,7 +1020,7 @@ s32 ProcessMainListData(SbServerList *serverList) {
     return 0;
 }
 
-s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length) {
+s32 ProcessPushKeyList(SBServerList *serverList, u8 *buffer, s32 length) {
     s32 keyCount;
     s32 keyIndex;
     s32 nameLength;
@@ -1031,7 +1031,7 @@ s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length) {
     if (serverList->mKeyList != NULL) {
         FreeKeyList(serverList);
     }
-    serverList->mKeyList = DarrayCreate(8, keyCount, NULL);
+    serverList->mKeyList = ArrayNew(8, keyCount, NULL);
     if (serverList->mKeyList == NULL) {
         return 5;
     }
@@ -1047,7 +1047,7 @@ s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length) {
             }
             keyInfo.mKeyType = buffer[0];
             keyInfo.mKeyName = SBRefStr(serverList, (const char *) (buffer + 1));
-            DarrayAppend(serverList->mKeyList, &keyInfo);
+            ArrayAppend(serverList->mKeyList, &keyInfo);
             nameLength += 1;
             buffer += nameLength;
             length -= nameLength;
@@ -1057,8 +1057,8 @@ s32 ProcessPushKeyList(SbServerList *serverList, u8 *buffer, s32 length) {
     return 0;
 }
 
-s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
-    s32 isLastPage;
+s32 ProcessPlayerSearch(SBServerList *serverList, u8 *buffer, s32 length) {
+    s32 isLast;
     s32 resultIndex;
     s32 entryCount;
     s32 nameLength;
@@ -1072,7 +1072,7 @@ s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
     if (length < 2) {
         return 4;
     }
-    isLastPage = buffer[0];
+    isLast = buffer[0];
     entryCount = buffer[1];
     buffer += 2;
     length -= 2;
@@ -1121,19 +1121,19 @@ s32 ProcessPlayerSearch(SbServerList *serverList, u8 *buffer, s32 length) {
             resultIndex++;
         } while (resultIndex < entryCount);
     }
-    if (isLastPage != 0) {
+    if (isLast != 0) {
         serverList->mPlayerSearchCallback(serverList, 0, 0, 0, 0, 0, serverList->mInstance);
     }
     return 0;
 }
 
-s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
-    u32 rotationTime;
+s32 ProcessMaploop(SBServerList *serverList, u8 *buffer, s32 length) {
+    u32 maploopValue;
     u32 ipAddress;
     u16 netPort;
-    SbServer *foundServer;
+    SBServer *foundServer;
     s32 nameCount;
-    s32 index;
+    s32 callResult;
     s32 mapIndex;
     u8 *mapNames[16];
     u8 *source;
@@ -1152,19 +1152,19 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
     source = buffer + 4;
     destination[0] = source[0];
     destination[1] = source[1];
-    index = SBServerListFindServerByIP(serverList, ipAddress, netPort);
-    if (index == -1) {
+    callResult = SBServerListFindServerByIP(serverList, ipAddress, netPort);
+    if (callResult == -1) {
         return 0;
     }
-    foundServer = SBServerListNth(serverList, index);
-    destination = (u8 *) &rotationTime;
+    foundServer = SBServerListNth(serverList, callResult);
+    destination = (u8 *) &maploopValue;
     source = buffer + 6;
     destination[0] = source[0];
     destination[1] = source[1];
     destination[2] = source[2];
     destination[3] = source[3];
-    rotationTime = (rotationTime << 24 & 0xff000000) |
-                   ((rotationTime << 8 & 0xff0000) | ((rotationTime >> 24 & 0xff) | (rotationTime >> 8 & 0xff00)));
+    maploopValue = (maploopValue << 24 & 0xff000000) |
+                   ((maploopValue << 8 & 0xff0000) | ((maploopValue >> 24 & 0xff) | (maploopValue >> 8 & 0xff00)));
     nameCount = buffer[10];
     buffer += 11;
     length -= 11;
@@ -1172,23 +1172,23 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
         if (length < 1) {
             break;
         }
-        index = NTSLengthSB(buffer, length);
-        if (index == -1) {
+        callResult = NTSLengthSB(buffer, length);
+        if (callResult == -1) {
             return 4;
         }
         mapNames[mapIndex] = buffer;
-        buffer += index;
-        length -= index;
+        buffer += callResult;
+        length -= callResult;
         mapIndex++;
     }
     if (serverList->mMaploopCallback == NULL) {
         return 0;
     }
-    serverList->mMaploopCallback(serverList, foundServer, rotationTime, mapIndex, mapNames, serverList->mInstance);
+    serverList->mMaploopCallback(serverList, foundServer, maploopValue, mapIndex, mapNames, serverList->mInstance);
     return 0;
 }
 
-s32 ProcessDeleteServer(SbServerList *serverList, u8 *buffer, s32 length) {
+s32 ProcessDeleteServer(SBServerList *serverList, u8 *buffer, s32 length) {
     u32 ipAddress;
     u16 netPort;
     s32 serverIndex;
@@ -1215,9 +1215,9 @@ s32 ProcessDeleteServer(SbServerList *serverList, u8 *buffer, s32 length) {
     return 0;
 }
 
-s32 ProcessPushServer(SbServerList *serverList, u8 *buffer, s32 length) {
+s32 ProcessPushServer(SBServerList *serverList, u8 *buffer, s32 length) {
     s32 serverIndex;
-    SbServer *pushedServer;
+    SBServer *pushedServer;
     u16 netPort;
     u32 ipAddress;
     if (length < 5) {
@@ -1239,11 +1239,11 @@ s32 ProcessPushServer(SbServerList *serverList, u8 *buffer, s32 length) {
     if (serverIndex == -1) {
         SBServerListAppendServer(serverList, pushedServer);
     }
-    serverList->mCallback(serverList, slc_serverupdated, pushedServer, serverList->mInstance);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_SERVER_UPDATED, pushedServer, serverList->mInstance);
     return 0;
 }
 
-s32 ProcessAdHocData(SbServerList *slist) {
+s32 ProcessAdHocData(SBServerList *slist) {
     s32 error;
     u16 messageLength;
     u8 *lengthBytes;
@@ -1263,24 +1263,24 @@ s32 ProcessAdHocData(SbServerList *slist) {
             return 0;
         }
         switch ((s8) slist->mInBuffer[2]) {
-            case PUSH_KEYS_MESSAGE:
+            case LIST_MESSAGE_PUSH_KEY_LIST:
                 error = ProcessPushKeyList(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case PUSH_SERVER_MESSAGE:
+            case LIST_IN_ADD_SERVER:
                 error = ProcessPushServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case KEEPALIVE_MESSAGE:
+            case LIST_MESSAGE_ECHO:
                 if (send(slist->mSocket, slist->mInBuffer, messageLength, 0) <= 0) {
                     return 3;
                 }
                 break;
-            case DELETE_SERVER_MESSAGE:
+            case LIST_IN_REMOVE_SERVER:
                 error = ProcessDeleteServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case MAPLOOP_MESSAGE:
+            case LIST_IN_MAPLOOP:
                 error = ProcessMaploop(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case PLAYERSEARCH_MESSAGE:
+            case LIST_MESSAGE_PLAYER_SEARCH:
                 error = ProcessPlayerSearch(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
         }
@@ -1301,7 +1301,7 @@ s32 ProcessAdHocData(SbServerList *slist) {
     return error;
 }
 
-s32 ProcessIncomingData(SbServerList *serverList) {
+s32 ProcessIncomingData(SBServerList *serverList) {
     s32 oldLength;
     s32 received;
     s32 error;
@@ -1331,7 +1331,7 @@ s32 ProcessIncomingData(SbServerList *serverList) {
     return 0;
 }
 
-s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *data, s32 dataLength) {
+s32 SBSendMessageToServer(SBServerList *serverList, u32 publicIp, u16 port, u8 *data, s32 dataLength) {
     SendMessageRequest request;
     u16 messageLength;
     u8 *destination;
@@ -1349,7 +1349,7 @@ s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *
     source = (u8 *) &request.mNetLength;
     destination[0] = source[0];
     destination[1] = source[1];
-    request.mRequestType = SEND_MESSAGE_REQUEST;
+    request.mRequestType = LIST_REQUEST_RELAY_TO_SERVER;
     destination = request.mRequestIp;
     source = (u8 *) &publicIp;
     destination[0] = source[0];
@@ -1370,7 +1370,7 @@ s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *
     return 0;
 }
 
-s32 SBSendNatNegotiateCookieToServer(SbServerList *serverList, u32 publicIp, u16 port, u32 cookie) {
+s32 SBSendNatNegotiateCookieToServer(SBServerList *serverList, u32 publicIp, u16 port, u32 cookie) {
     u8 message[10];
     u8 *destination;
     u8 *source;
@@ -1391,11 +1391,11 @@ s32 SBSendNatNegotiateCookieToServer(SbServerList *serverList, u32 publicIp, u16
     return SBSendMessageToServer(serverList, publicIp, port, message, 10);
 }
 
-s32 ProcessLanData(SbServerList *serverList) {
+s32 ProcessLanData(SBServerList *serverList) {
     SocketAddress sender;
     s32 senderLength;
     u8 datagram[0x5e0];
-    SbServer *lanServer;
+    SBServer *lanServer;
     senderLength = 8;
     while (CanReceiveOnSocket(serverList->mSocket) != 0) {
         if (recvfrom(serverList->mSocket, datagram, 0x5db, 0, &sender, &senderLength) != -1) {
@@ -1404,21 +1404,21 @@ s32 ProcessLanData(SbServerList *serverList) {
                 if (SBIsNullServer(lanServer) != 0) {
                     return 5;
                 }
-                SBServerSetFlags(lanServer, UNSOLICITED_UDP_FLAG | NONSTANDARD_PORT_FLAG);
+                SBServerSetFlags(lanServer, SERVER_FLAG_UDP_QUERY | SERVER_FLAG_NOT_DEFAULT_PORT);
                 SBServerListAppendServer(serverList, lanServer);
             }
         }
     }
-    if (GetElapsedMilliseconds() - serverList->mLanStartTime > SL_LAN_SEARCH_TIME) {
+    if (current_time() - serverList->mLanStartTime > LOCAL_SCAN_DURATION_MSEC) {
         closesocket(serverList->mSocket);
         serverList->mSocket = -1;
         serverList->mState = SERVER_LIST_STATE_NO_SOCKET;
-        serverList->mCallback(serverList, slc_initiallistcomplete, gSBNullServer, serverList->mInstance);
+        serverList->mCallback(serverList, SERVER_LIST_REASON_LIST_FINISHED, gSBNullServer, serverList->mInstance);
     }
     return 0;
 }
 
-s32 SBListThink(SbServerList *serverList) {
+s32 SBListThink(SBServerList *serverList) {
     SBFreeDeadList(serverList);
     switch (serverList->mState) {
         case SERVER_LIST_STATE_AD_HOC:

@@ -109,27 +109,27 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *kart, s32 scale) {
 void AdvanceKartQuaternionFromVector(Kart *kart, Vec3 *target) {
     Vec4 fromUpQuaternion;
     Vec4 fromGroundQuaternion;
-    Vec4 *kartQuaternion = &kart->mAirTiltQuaternion;
+    Vec4 *airTiltQuaternion = &kart->mAirTiltQuaternion;
     s32 succeeded;
 
     succeeded = TryQuaternionFromVectors(&fromUpQuaternion, &gKartVec3UnitY, target);
     TryQuaternionFromVectors(&fromGroundQuaternion, &kart->mGroundNormal, target);
-    QuaternionMultiply(&fromGroundQuaternion, kartQuaternion, kartQuaternion);
+    QuaternionMultiply(&fromGroundQuaternion, airTiltQuaternion, airTiltQuaternion);
     if (succeeded != 0) {
-        if ((fromUpQuaternion.wComponent < 0 && kartQuaternion->wComponent > 0) ||
-            (fromUpQuaternion.wComponent > 0 && kartQuaternion->wComponent < 0)) {
-            kartQuaternion->x = -fromUpQuaternion.x;
-            kartQuaternion->y = 0;
-            kartQuaternion->z = -fromUpQuaternion.z;
-            kartQuaternion->wComponent = -fromUpQuaternion.wComponent;
+        if ((fromUpQuaternion.wComponent < 0 && airTiltQuaternion->wComponent > 0) ||
+            (fromUpQuaternion.wComponent > 0 && airTiltQuaternion->wComponent < 0)) {
+            airTiltQuaternion->x = -fromUpQuaternion.x;
+            airTiltQuaternion->y = 0;
+            airTiltQuaternion->z = -fromUpQuaternion.z;
+            airTiltQuaternion->wComponent = -fromUpQuaternion.wComponent;
             kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_QUATERNION_FLIPPED;
         } else {
-            kartQuaternion->x = fromUpQuaternion.x;
-            kartQuaternion->y = 0;
-            kartQuaternion->z = fromUpQuaternion.z;
-            kartQuaternion->wComponent = fromUpQuaternion.wComponent;
+            airTiltQuaternion->x = fromUpQuaternion.x;
+            airTiltQuaternion->y = 0;
+            airTiltQuaternion->z = fromUpQuaternion.z;
+            airTiltQuaternion->wComponent = fromUpQuaternion.wComponent;
             kart->mDriveFlags = kart->mDriveFlags & ~KART_DRIVE_QUATERNION_FLIPPED;
         }
     }
-    QuaternionNormalize(kartQuaternion, kartQuaternion);
+    QuaternionNormalize(airTiltQuaternion, airTiltQuaternion);
 }

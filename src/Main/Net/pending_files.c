@@ -1,4 +1,5 @@
 #include "Main/Net/pending_files.h"
+#include "Main/Net/packet_port.h"
 #include "Main/System/heap.h"
 #include "file_archive_access.h"
 #include "file_handle_setup.h"
@@ -34,7 +35,7 @@ BOOL LoadPendingFiles(void) {
     void *workOrPath;
     s32 size;
     u32 *buffer;
-    if (((file->mStat & FILE_RECORD_BUSY) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
         return FALSE;
     }
     if (previousIndex >= 0 && gConnectionWork->mBlockEntries[previousIndex].mUncompressPending != 0) {
@@ -49,7 +50,7 @@ BOOL LoadPendingFiles(void) {
         return TRUE;
     }
     workOrPath = gConnectionWork->mBlockEntries[nextIndex].mPath;
-    if (((file->mStat & FILE_RECORD_OPEN) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_IS_FILE) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     FS_InitFile(file);
@@ -66,10 +67,6 @@ BOOL LoadPendingFiles(void) {
     }
     return FALSE;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ResetPendingFiles(void) {
     int entryIndex;
@@ -93,10 +90,6 @@ void ResetPendingFiles(void) {
     } while (entryIndex < CONNECTION_BLOCK_ENTRY_COUNT);
     view->mNextLoadIndex = CONNECTION_BLOCK_ENTRY_COUNT;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, s32 uncompress) {
     u16 entryIndex;
@@ -126,7 +119,7 @@ void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, 
 void StartParentSideBlockTransfer(void) {
     gConnectionWork->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
     gConnectionWork->mRequestPending = 1;
-    WBT_InitParent(0x192, 0xe, ParentBlockTransferCallback);
+    WBT_InitParent(PACKET_PORT_PARENT_PACKET_SIZE, PACKET_PORT_CHILD_PACKET_SIZE, ParentBlockTransferCallback);
     gConnectionWork->mSendTimer = 0;
     gConnectionWork->mTransferFlags &= ~1;
     gConnectionWork->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
@@ -151,10 +144,11 @@ void AllocTransferBuffers(void *heap) {
     gConnectionWork->mMPReceiveBuffer =
         HeapAllocAligned(heap, gConnectionWork->mMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
     for (blockInfoIndex = 0; blockInfoIndex < 8; blockInfoIndex++) {
-        gConnectionWork->mBlockInfos[blockInfoIndex] = HeapAllocAligned(heap, 0x28, HEAP_ALIGN_CACHE_LINE);
+        gConnectionWork->mBlockInfos[blockInfoIndex] =
+            HeapAllocAligned(heap, BLOCK_TRANSFER_BLOCK_INFO_BYTES, HEAP_ALIGN_CACHE_LINE);
         gConnectionWork->mChunkBitmaps[blockInfoIndex] = HeapAllocAligned(heap, 4, HEAP_ALIGN_CACHE_LINE);
     }
-    gConnectionWork->mPacketBuffer = HeapAllocAligned(heap, 0x192, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mPacketBuffer = HeapAllocAligned(heap, PACKET_PORT_PARENT_PACKET_SIZE, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mScanGhostInfos = HeapAllocAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
 }
 

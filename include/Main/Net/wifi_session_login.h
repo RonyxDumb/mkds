@@ -7,6 +7,10 @@ void WriteChangedWiFiBuddies(void);
 void RequestWiFiSessionLogin(void);
 void ReleaseWiFiConnectionWrapper(void);
 BOOL UpdateWiFiSessionRelease(void);
+// Values GetWiFiSessionLoginResult returns: the login failed, is still in progress, or is done.
+#define WIFI_LOGIN_RESULT_ERROR -1
+#define WIFI_LOGIN_RESULT_PENDING 0
+#define WIFI_LOGIN_RESULT_LOGGED_IN 1
 s32 GetWiFiSessionLoginResult(void);
 void ReleaseWiFiSession(void);
 void SetupWiFiSessionLogin(void);

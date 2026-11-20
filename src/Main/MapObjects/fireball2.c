@@ -9,8 +9,8 @@
 #include "ITCM/model_draw_and_irq_handler.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_handle_slots.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/star_or_killer_hit_sound.h"
 #include "Main/MapObjects/map_object_sound.h"
@@ -23,13 +23,13 @@
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/Menu/keyboard_char_tables.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -39,7 +39,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "fixed_vector_math.h"
 #include "sound_archive_load_result.h"
 #include "Main/Kart/karts.h"
@@ -68,9 +68,9 @@ void InitFireball2(Fireball2 *fireball2) {
     fireball2->mRowCount = fireball2->mMapObject.mCourseMapRow->mSettings[0];
     fireball2->mRowElementCount = fireball2->mMapObject.mCourseMapRow->mSettings[3] + 1;
     CreateMapObjectSoundSourceFalloff2(&fireball2->mMapObject);
-    fireball2->mMapObject.mFlags &= ~1;
-    fireball2->mMapObject.mFlags &= ~2;
-    fireball2->mMapObject.mFlags &= ~8;
+    fireball2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    fireball2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    fireball2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     fireball2->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }
 
@@ -256,16 +256,15 @@ void InitFireball2Objects(MapObjectList *mapObjectList) {
         fireball2->mRowAngleSpacing = ANGLE_FULL_TURN / fireball2->mRowCount;
         fireball2->mElementRadiusSpacing = fireball2->mRadius / fireball2->mRowElementCount;
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        randomBits = mapObjectRandom->mValue >> 32;
-        fireball2->mCenterRotationAngle = (randomBits * 0x10000) >> 32;
+        RANDOM_ADVANCE(mapObjectRandom);
+        randomBits = RANDOM_HIGH32(mapObjectRandom);
+        fireball2->mCenterRotationAngle = (randomBits * ANGLE_FULL_TURN) >> 32;
         for (elementIndex = 0; elementIndex < fireball2->mRowElementCount; elementIndex++) {
             for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                randomBits = mapObjectRandom->mValue >> 32;
-                fireball2->mElements[rowIndex][elementIndex].mRotationAngle = (randomBits * 0x10000) >> 32;
+                RANDOM_ADVANCE(mapObjectRandom);
+                randomBits = RANDOM_HIGH32(mapObjectRandom);
+                fireball2->mElements[rowIndex][elementIndex].mRotationAngle = (randomBits * ANGLE_FULL_TURN) >> 32;
             }
         }
     }

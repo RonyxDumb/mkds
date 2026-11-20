@@ -11,8 +11,10 @@ void GXS_SetGraphicsMode(u32 bgMode);
 enum { GX_DISPMODE_GRAPHICS = 1 };
 typedef enum { GX_BGMODE_0, GX_BGMODE_1, GX_BGMODE_2, GX_BGMODE_3, GX_BGMODE_4, GX_BGMODE_5, GX_BGMODE_6 } GXBGMode;
 
-// One bit per VRAM bank (A to I) in the bank masks of GX_SetBankFor... and GX_ResetBankFor...
+// One bit per VRAM bank (A to I) in the bank masks, or VRAM_BANK_NONE for no bank: the argument of GX_SetBankFor..., the
+// value GX_ResetBankFor... and GX_DisableBankFor... return, and DisplaySettings.mBankFor... .
 enum {
+    VRAM_BANK_NONE = 0,
     VRAM_BANK_A = 0x1,
     VRAM_BANK_B = 0x2,
     VRAM_BANK_C = 0x4,

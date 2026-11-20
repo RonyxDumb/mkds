@@ -7,9 +7,10 @@
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/map_object_sound.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "01/MapObjects/donketu.h"
 
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
@@ -21,10 +22,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
                 velocityWhenBoosted.x = kart->mVelocity.x;
                 velocityWhenBoosted.z = kart->mVelocity.z;
-                if ((s64) velocityWhenBoosted.z * velocityWhenBoosted.z +
-                        ((s64) velocityWhenBoosted.x * velocityWhenBoosted.x +
-                         (s64) velocityWhenBoosted.y * velocityWhenBoosted.y) >=
-                    0x10) {
+                if (LENGTH_SQUARED_Z_FIRST(velocityWhenBoosted) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
@@ -32,7 +30,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
                 velocityWhenBoosted.y = donketu->mPrm->mDonketu.mHitBoostedVelocityY;
-                StartMapObjectState(donketu, 7, NULL);
+                StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitBoostedAnimationEntry,
                                             donketu->mPrm->mDonketu.mHitBoostedFrameStep);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitBoostedAnglePerCall, 0x270f000);
@@ -44,8 +42,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 effectPosition;
 
                 VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
-                if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
-                    0x10) {
+                if (LENGTH_SQUARED_Z_FIRST(effectPosition) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }
                 VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
@@ -70,16 +67,13 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 }
             }
         }
-    } else if (IsStateNumberBelow(donketu, 7)) {
+    } else if (IsStateNumberBelow(donketu, DONKETU_STATE_LAUNCH_FALL_LAND)) {
         if (donketu->mPrm->mDonketu.mHitNotBoostedVelocityY > 0 ||
             donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale > 0) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
             velocityWhenNotBoosted.x = kart->mVelocity.x;
             velocityWhenNotBoosted.z = kart->mVelocity.z;
-            if ((s64) velocityWhenNotBoosted.z * velocityWhenNotBoosted.z +
-                    ((s64) velocityWhenNotBoosted.x * velocityWhenNotBoosted.x +
-                     (s64) velocityWhenNotBoosted.y * velocityWhenNotBoosted.y) >=
-                0x10) {
+            if (LENGTH_SQUARED_Z_FIRST(velocityWhenNotBoosted) >= 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
@@ -87,7 +81,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
             velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mHitNotBoostedVelocityY;
-            StartMapObjectState(donketu, 7, NULL);
+            StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnimationEntry,
                                         donketu->mPrm->mDonketu.mHitNotBoostedFrameStep);
             SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnglePerCall, 0x270f000);

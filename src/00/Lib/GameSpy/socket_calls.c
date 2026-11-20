@@ -27,12 +27,12 @@
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "text_to_number.h"
 
-static char *aliases = NULL;
+static char *sAliases = NULL;
 static s32 GSINitroErrno;
 
 #pragma opt_propagation off
 
-u32 GetElapsedMilliseconds(void) {
+u32 current_time(void) {
     u64 ticks;
     if (OS_IsTickAvailable() != 1) {
         AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x109);
@@ -83,13 +83,13 @@ s8 *_strlwr(s8 *string) {
 
 BOOL SetSockBlocking(s32 sock, s32 isblocking) {
     s32 flags;
-    flags = SOC_Fcntl((SOCLSocket *) sock, SOC_F_GETFL, 0);
+    flags = SOC_Fcntl((SOCLSocket *) sock, SOCKET_FCNTL_GET_FLAGS, 0);
     if (isblocking != 0) {
-        flags = flags & ~SOC_O_NONBLOCK;
+        flags = flags & ~SOCKET_FLAG_NOT_BLOCKING;
     } else {
-        flags = flags | SOC_O_NONBLOCK;
+        flags = flags | SOCKET_FLAG_NOT_BLOCKING;
     }
-    return SOC_Fcntl((SOCLSocket *) sock, SOC_F_SETFL, flags) == 0;
+    return SOC_Fcntl((SOCLSocket *) sock, SOCKET_FCNTL_SET_FLAGS, flags) == 0;
 }
 
 s32 SetReceiveBufferSize(s32 sock, u32 size) {
@@ -120,10 +120,10 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
     pollEntry.mFd = theSocket;
     pollEntry.mEvents = 0;
     if (theReadFlag != NULL) {
-        pollEntry.mEvents |= SOC_POLLRDNORM;
+        pollEntry.mEvents |= POLL_EVENT_READABLE;
     }
     if (theWriteFlag != NULL) {
-        pollEntry.mEvents |= SOC_POLLWRNORM;
+        pollEntry.mEvents |= POLL_EVENT_WRITABLE;
     }
     pollEntry.mRevents = 0;
     pollResult = SOC_Poll(&pollEntry, 1, 0);
@@ -131,21 +131,21 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
         return -1;
     }
     if (theReadFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & (SOC_POLLRDNORM | SOC_POLLHUP)) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & (POLL_EVENT_READABLE | POLL_EVENT_NOT_CONNECTED)) != 0) {
             *theReadFlag = 1;
         } else {
             *theReadFlag = 0;
         }
     }
     if (theWriteFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & SOC_POLLWRNORM) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & POLL_EVENT_WRITABLE) != 0) {
             *theWriteFlag = 1;
         } else {
             *theWriteFlag = 0;
         }
     }
     if (theExceptFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & SOC_POLLERR) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & POLL_EVENT_ERROR) != 0) {
             *theExceptFlag = 1;
         } else {
             *theExceptFlag = 0;
@@ -177,24 +177,24 @@ u32 CanSendOnSocket(u32 sock) {
 }
 
 SOCHostEnt *getlocalhost(void) {
-    static SOCHostEnt loopbackEntry;
+    static SOCHostEnt localhostEntry;
     static u32 *addrList[6];
     static u32 ips[5];
 
-    loopbackEntry.mName = "localhost";
-    loopbackEntry.mAliases = (u8 *) &aliases;
-    loopbackEntry.mAddrType = SOCKET_FAMILY_IPV4;
-    loopbackEntry.mLength = 0;
-    loopbackEntry.mAddrList = addrList;
+    localhostEntry.mName = "localhost";
+    localhostEntry.mAliases = (u8 *) &sAliases;
+    localhostEntry.mAddrType = SOCKET_FAMILY_IPV4;
+    localhostEntry.mLength = 0;
+    localhostEntry.mAddrList = addrList;
     ips[0] = 0;
     SOC_U32to4U8(SOCL_GetHostID(), (u8 *) &ips[0]);
     if (ips[0] == 0) {
         return NULL;
     }
     addrList[0] = &ips[0];
-    loopbackEntry.mLength = SOCKET_ADDRESS_LENGTH_IPV4;
+    localhostEntry.mLength = SOCKET_ADDRESS_LENGTH_IPV4;
     addrList[1] = NULL;
-    return &loopbackEntry;
+    return &localhostEntry;
 }
 
 BOOL IsPrivateIP(u32 *addr) {
@@ -223,8 +223,8 @@ s32 CheckRcode(s32 result, s32 fallback) {
     return result;
 }
 
-s32 OpenNetSocket(s32 domain, s32 type, s32 protocol) {
-    return CheckRcode(SOC_Socket(domain, type, protocol), -1);
+s32 OpenNetSocket(s32 family, s32 type, s32 protocol) {
+    return CheckRcode(SOC_Socket(family, type, protocol), -1);
 }
 
 s32 closesocket(s32 descriptor) {
@@ -339,7 +339,7 @@ u32 GOAGetLastError(s32 sock) {
     return GSINitroErrno;
 }
 
-u32 GetUnixTime(u32 *timer) {
+u32 GetTickSeconds(u32 *timer) {
     u32 seconds;
     if (OS_IsTickAvailable() != 1) {
         AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x667);

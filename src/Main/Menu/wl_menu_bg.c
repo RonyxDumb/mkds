@@ -6,7 +6,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "cpu_copy_fill.h"
 
 void WLMenuMI_CpuFillFast(void *dest, u32 fillValue, u32 size) {

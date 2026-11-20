@@ -34,8 +34,8 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/shine_balloon.h"
 #include "Main/System/backup_net_camera_work.h"
@@ -91,7 +91,7 @@ void DrawSun(void *mapObjectList, Sun *sun) {
         NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &sun->mMapObject.mScale, 3);
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         QueueMapObjectModelMaterial(mapObjectList, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, sun->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gSun, sun);
@@ -106,8 +106,8 @@ void DrawSun(void *mapObjectList, Sun *sun) {
 }
 
 static inline u32 CollideKartWithBound_inline(RandomState64 *randomState64) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    return randomState64->mValue >> 32;
+    RANDOM_ADVANCE(randomState64);
+    return RANDOM_HIGH32(randomState64);
 }
 
 void InitSunObjects(MapObjectList *mapObjectList) {
@@ -183,7 +183,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                     mode = gRaceSetup->mMode;
                     if (mode == MODE_TIME_ATTACK) {
                         sun->mTimer = value;
-                    } else if (mode == 5) {
+                    } else if (mode == MODE_WIFI) {
                         sun->mTimer = sun->mFollower.mFromEntry->mExtraValue;
                     }
                 }
@@ -196,13 +196,13 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                 if (sun->mTimer-- <= 0) {
                     sun->mDrawOffsetAngle = 0;
                     sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
-                    sun->mTimer = SUN_WAIT_AT_PATH_POINT_FRAMES;
+                    sun->mTimer = SUN_FIRST_FIREBALL_DELAY_FRAMES;
                     sun->mState = SUN_STATE_SHOOT_FIREBALLS;
                 }
             } else if (UpdateSun_inline_b(sun)) {
                 sun->mDrawOffsetAngle = 0;
                 sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
-                sun->mTimer = SUN_WAIT_AT_PATH_POINT_FRAMES;
+                sun->mTimer = SUN_FIRST_FIREBALL_DELAY_FRAMES;
                 sun->mState = SUN_STATE_SHOOT_FIREBALLS;
             }
             break;
@@ -215,9 +215,9 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                 break;
             }
             if (sun->mFireballIndex == 0) {
-                sun->mFireballAngle = ((u64) CollideKartWithBound_inline(GetMapObjectRandom()) * 0x10000) >> 32;
+                sun->mFireballAngle = ((u64) CollideKartWithBound_inline(GetMapObjectRandom()) * ANGLE_FULL_TURN) >> 32;
             } else {
-                sun->mFireballAngle += 0x8000;
+                sun->mFireballAngle += ANGLE_HALF_TURN;
             }
             position.x = sun->mMapObject.mPos.x;
             position.y = sun->mMapObject.mPos.y - 0x1e000;
@@ -227,23 +227,23 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             direction.z = FX_CosIdx(sun->mFireballAngle);
             StartSunFireball(&position, &direction);
             sun->mFireballIndex += 1;
-            if (sun->mFireballIndex >= SUN_FIREBALLS_PER_VOLLEY) {
+            if (sun->mFireballIndex >= SUN_SHOOT_FIREBALL_COUNT) {
                 sun->mFireballIndex = 0;
                 sun->mState = SUN_STATE_SPIN_DOWN;
             } else {
-                sun->mTimer = SUN_SHOOT_FIREBALLS_FRAMES;
+                sun->mTimer = SUN_PAUSE_FRAMES;
             }
             break;
         case SUN_STATE_SPIN_DOWN:
             sun->mDrawOffsetAngle += 0xe39;
             sun->mDrawOffsetRadiusAngle += 0x222;
             if (sun->mDrawOffsetRadiusAngle > ANGLE_FULL_TURN) {
-                sun->mTimer = SUN_SHOOT_FIREBALLS_FRAMES;
+                sun->mTimer = SUN_PAUSE_FRAMES;
                 sun->mState = SUN_STATE_WAIT_TO_MOVE;
             }
             break;
     }
-    if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
+    if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >= 0x3d0900) {
         return;
     }
     if (sun->mState == SUN_STATE_SHOOT_FIREBALLS) {

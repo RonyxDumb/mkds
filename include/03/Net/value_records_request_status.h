@@ -9,11 +9,11 @@ typedef struct ValueRecordsRequestItem {
     /* 004 */ u8 mItemBytes[0x100];
 } ValueRecordsRequestItem;
 
-// Stack object of InitValueRecordsRequest.
-typedef struct ValueRecordsRequestView {
+// A clear value and an item built on the stack, then copied into the request's mItem.
+typedef struct ValueRecordsRequestStagedItem {
     /* 000 */ u16 mClearValue;
     /* 002 */ ValueRecordsRequestItem mItem;
-} ValueRecordsRequestView;
+} ValueRecordsRequestStagedItem;
 
 // Values RunValueRecordsRequestForStatus returns: try again later (no entry or a timeout), succeeded, failed.
 #define VALUE_RECORDS_STATUS_RETRY 0

@@ -19,7 +19,7 @@ enum {
 // One item use entry of the kart AI: the handler, which bits follow, and the timer base and random limit.
 typedef struct KartAiItemUseEntry {
     /* 00 */ void (*mHandler)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-// 0: item bits only; 1: then the bit 0x40 (ITEM_THROW_FORWARD_BIT); 2: then the bit 0x80.
+// 0: item bits only; 1: then PAD_KEY_DIRECTION_UP; 2: then PAD_KEY_DIRECTION_DOWN (middle places only).
     /* 04 */ s32 mThenBitKind;
     /* 08 */ u16 mTimerBase;
     /* 0a */ u16 mTimerRandomLimit;
@@ -34,11 +34,11 @@ typedef struct KartAiItemUse {
     /* 0c */ s32 mHeldItemSeen;
 // While non-zero, the item bits are requested on every call.
     /* 10 */ s32 mItemBitsEveryCall;
-// While set, AdvanceItemBitRequests sends ITEM_THROW_FORWARD_BIT on its calls that do not run the entry function;
-// mThrowForwardTimer (set to 2) counts those calls down.
+// While set, AdvanceItemBitRequests requests PAD_KEY_DIRECTION_UP on its calls that do not run the entry function;
+// mThrowForwardTimer (set to KART_AI_THROW_TIMER_FRAMES) counts those calls down.
     /* 14 */ s32 mThrowForwardPending;
-// While set, AdvanceItemBitRequests sends the item bit 0x80 on its calls that do not run the entry function and no
-// bit 0x40 is pending; mThrowBehindTimer (set to 2) counts those calls down.
+// While set, AdvanceItemBitRequests requests PAD_KEY_DIRECTION_DOWN on its calls that do not run the entry function and
+// no PAD_KEY_DIRECTION_UP is pending; mThrowBehindTimer (set to KART_AI_THROW_TIMER_FRAMES) counts those calls down.
     /* 18 */ s32 mThrowBehindPending;
     /* 1c */ s16 mThrowForwardTimer;
     /* 1e */ s16 mThrowBehindTimer;

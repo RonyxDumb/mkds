@@ -37,7 +37,7 @@ extern const Rect gOptMenuSelectionRects[3];
 extern const Rect gOptMenuRects[3];
 extern const u16 gOptMenuOamEntryPosition[2];
 extern const u8 gOptMenuPaletteRows[3];
-// Values of gOptMenuSelectedIndex when an entry is chosen.
+// Values of gOptMenuSelectedIndex, the highlighted entry; UpdateOptMenuRelease opens the screen of the chosen one.
 #define OPT_MENU_SELECTED_INFO 0
 #define OPT_MENU_SELECTED_MULTI 1
 #define OPT_MENU_SELECTED_MESSAGE 2

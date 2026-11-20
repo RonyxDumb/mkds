@@ -16,8 +16,8 @@
 
 #pragma opt_arithtransformation off
 
-// Absolute difference of two times (minutes, seconds, milliseconds) written to the out record (minutes capped to
-// 99:59.999 from 100 minutes); returns non-zero when first >= second.
+// Absolute difference of two times (each as minutes, seconds, milliseconds) written to difference; the whole result
+// becomes 99:59.999 when it is 100 minutes or more. Returns non-zero when first is not less than second.
 s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMillisecondTotal *second,
                           MinuteSecondMillisecondTime *difference) {
     s32 firstMs;
@@ -44,15 +44,15 @@ s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMilli
         difference->mSecond = seconds;
         difference->mMillisecond = milliseconds;
     } else {
-        difference->mMinute = RACE_HUD_LAP_TIME_MAX_MINUTE;
-        difference->mSecond = RACE_HUD_LAP_TIME_MAX_SECOND;
-        difference->mMillisecond = RACE_HUD_LAP_TIME_MAX_MILLISECOND;
+        difference->mMinute = RACE_HUD_TIME_DIFFERENCE_MAX_MINUTE;
+        difference->mSecond = RACE_HUD_TIME_DIFFERENCE_MAX_SECOND;
+        difference->mMillisecond = RACE_HUD_TIME_DIFFERENCE_MAX_MILLISECOND;
     }
     return firstNotLess;
 }
 
-// Called on a lap pass: starts the lap-time window in Grand Prix and Time Attack and, when the time difference is used,
-// fills it.
+// Called when the local entry's kart starts a new lap: sets mShowLapTime in Grand Prix and Time Attack and, when
+// mUseTimeDifference is set, fills the time difference sign and digits.
 void StartRaceHudLapTimeDisplay(void) {
     MinuteSecondMillisecondTime referenceLap;
     MinuteSecondMillisecondTime kartLap;

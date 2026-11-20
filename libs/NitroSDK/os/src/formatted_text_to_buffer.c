@@ -348,15 +348,15 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 if ((value >> 32) == 0) {
                     u32 low = value;
                     while (low != 0) {
-                        u32 quot = low / 10;
-                        int digit = low - quot * 10;
+                        u32 quot = low / PRINTF_RADIX_DECIMAL;
+                        int digit = low - quot * PRINTF_RADIX_DECIMAL;
                         low = quot;
                         digits[nBuf++] = digit + '0';
                     }
                 } else {
                     while (value != 0) {
-                        u64 quot = value / 10;
-                        digits[nBuf++] = (int) (value - quot * 10) + '0';
+                        u64 quot = value / PRINTF_RADIX_DECIMAL;
+                        digits[nBuf++] = (int) (value - quot * PRINTF_RADIX_DECIMAL) + '0';
                         value = quot;
                     }
                 }

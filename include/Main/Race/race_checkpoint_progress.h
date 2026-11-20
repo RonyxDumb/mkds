@@ -16,7 +16,7 @@
 void StoreRaceProgressKartLapTime(RaceProgressKart *raceProgressKart, s32 pastFinalLap);
 void AddLapTimes(const MinuteSecondMillisecondTime *augend, const MinuteSecondMillisecondTime *addend,
                  MinuteSecondMillisecondTime *result);
-// d is a sub-frame correction.
+// frameFraction is a part of a frame (0x1000 is one whole frame) added to the time of frames; 0 adds nothing.
 void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 frameFraction, u32 frames);
 s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                                u16 checkpointIndex, s32 depth);

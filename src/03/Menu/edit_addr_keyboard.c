@@ -51,7 +51,7 @@ struct EditAddrKeyboard *gEditAddrKeyboard;
 void CreateEditAddrKeyboard(void) {
     EditAddrKeyboardTextArgs textArgs;
     EditAddrKeyboard *keyboard;
-    int keyIndex;
+    int index;
     int textIndex;
     int column;
     textArgs.mTextRect[0] = gEditAddrKeyboardTextRectStart[0];
@@ -67,38 +67,41 @@ void CreateEditAddrKeyboard(void) {
     gEditAddrKeyboard->mRemoveCharEnabled = 1;
     gEditAddrKeyboard->mAddCharEnabled = 1;
     gEditAddrKeyboard->mNextGroupEnabled = 1;
-    for (keyIndex = 0; keyIndex < 10; keyIndex++) {
-        gEditAddrKeyboard->mDigitKeys[keyIndex] = CreateOamEntryFromNceImage(0, 0x36);
-        gEditAddrKeyboard->mDigitKeys[keyIndex]->mAttr01 =
-            (gEditAddrKeyboard->mDigitKeys[keyIndex]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
-        gEditAddrKeyboard->mDigitKeys[keyIndex]->mAttr2 =
-            (gEditAddrKeyboard->mDigitKeys[keyIndex]->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+    for (index = 0; index < 10; index++) {
+        gEditAddrKeyboard->mDigitKeys[index] = CreateOamEntryFromNceImage(0, 0x36);
+        gEditAddrKeyboard->mDigitKeys[index]->mAttr01 =
+            (gEditAddrKeyboard->mDigitKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
+        gEditAddrKeyboard->mDigitKeys[index]->mAttr2 =
+            (gEditAddrKeyboard->mDigitKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
-    for (keyIndex = 0; keyIndex < 2; keyIndex++) {
-        gEditAddrKeyboard->mExtraKeys[keyIndex] =
-            CreateOamEntryFromNceImage(0, gEditAddrKeyboardExtraKeyImages[keyIndex]);
-        gEditAddrKeyboard->mExtraKeys[keyIndex]->mAttr01 =
-            (gEditAddrKeyboard->mExtraKeys[keyIndex]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
-        gEditAddrKeyboard->mExtraKeys[keyIndex]->mAttr2 =
-            (gEditAddrKeyboard->mExtraKeys[keyIndex]->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+    for (index = 0; index < 2; index++) {
+        gEditAddrKeyboard->mExtraKeys[index] =
+            CreateOamEntryFromNceImage(0, gEditAddrKeyboardExtraKeyImages[index]);
+        gEditAddrKeyboard->mExtraKeys[index]->mAttr01 =
+            (gEditAddrKeyboard->mExtraKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
+        gEditAddrKeyboard->mExtraKeys[index]->mAttr2 =
+            (gEditAddrKeyboard->mExtraKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
-    for (keyIndex = 0; keyIndex < 2; keyIndex++) {
-        gEditAddrKeyboard->mRow4Keys[keyIndex] =
-            CreateOamRangeFromNceImage(0, gEditAddrKeyboardRow4KeyImages[keyIndex], 1);
-        SetOamRangeEffect(gEditAddrKeyboard->mRow4Keys[keyIndex], -1, 0x200, 0);
-        SetOamRangePriority(gEditAddrKeyboard->mRow4Keys[keyIndex], -1, 3);
+    for (index = 0; index < 2; index++) {
+        gEditAddrKeyboard->mRow4Keys[index] =
+            CreateOamRangeFromNceImage(0, gEditAddrKeyboardRow4KeyImages[index], 1);
+        SetOamRangeEffect(gEditAddrKeyboard->mRow4Keys[index], -1, 0x200, 0);
+        SetOamRangePriority(gEditAddrKeyboard->mRow4Keys[index], -1, 3);
     }
     textArgs.mText[1] = 0;
-    for (keyIndex = 0; keyIndex < 4; keyIndex++) {
-        gEditAddrKeyboard->mRowTexts[keyIndex] = CreateObjTextCanvas(
+    for (index = 0; index < 4; index++) {
+        gEditAddrKeyboard->mRowTexts[index] = CreateObjTextCanvas(
             0, gEditAddrKeyboardRowTextAreaSize[0], gEditAddrKeyboardRowTextAreaSize[1], 0, &textArgs.mEntryCount, 0);
-        textIndex = keyIndex * 3;
+        textIndex = index * 3;
         for (column = 0, textArgs.mTextRect[0] = 0; column < 3; column++, textIndex++, textArgs.mTextRect[0] += 0x20) {
             textArgs.mText[0] = gEditAddrKeyboardKeyTexts[textIndex];
-            DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[keyIndex], textArgs.mTextRect[0], textArgs.mTextRect[1],
-                               textArgs.mTextRect[2], textArgs.mTextRect[3], 2, 0x480, textArgs.mText);
+            DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[index], textArgs.mTextRect[0], textArgs.mTextRect[1],
+                               textArgs.mTextRect[2], textArgs.mTextRect[3], 2,
+                               TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, textArgs.mText);
         }
-        gEditAddrKeyboard->mRowTextRanges[keyIndex] = CreateOamRange(0, textArgs.mEntryCount, 0);
+        gEditAddrKeyboard->mRowTextRanges[index] = CreateOamRange(0, textArgs.mEntryCount, 0);
     }
     gEditAddrKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x44, 1);
     SetOamRangeEffect(gEditAddrKeyboard->mCursor, -1, 0x200, 0);
@@ -136,8 +139,8 @@ BOOL HasEditAddrKeyboard(void) {
 }
 
 static inline void EditAddrInG2_GetOBJPosition(OamEntry *oam, u32 *x, u32 *y) {
-    *x = (oam->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *y = oam->mAttr01 & OAM_ATTR01_Y_MASK;
+    *x = (oam->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = oam->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void AdvanceEditAddrKeyboardSlideInRow0(TaskEntry *task, void *arg) {
@@ -220,7 +223,7 @@ void AdvanceEditAddrKeyboardInput(TaskEntry *task, void *arg) {
 void AdvanceEditAddrKeyboardTouchPressed(void) {
     Rect keyRect;
     const u16 *extraKeyOrigin;
-    int secondaryKeyIndex;
+    int index;
     int keyIndex;
     const u16 *keyOrigin;
     if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
@@ -239,26 +242,26 @@ void AdvanceEditAddrKeyboardTouchPressed(void) {
             return;
         }
     }
-    for (secondaryKeyIndex = 0, extraKeyOrigin = gEditAddrKeyboardExtraKeyPositions[0]; secondaryKeyIndex < 2;
-         extraKeyOrigin += 2, secondaryKeyIndex++) {
+    for (index = 0, extraKeyOrigin = gEditAddrKeyboardExtraKeyPositions[0]; index < 2;
+         extraKeyOrigin += 2, index++) {
         ComputeRectFromOriginAndSize(extraKeyOrigin, gEditAddrKeyboardExtraKeySize, &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
-            if ((secondaryKeyIndex == 0 && gEditAddrKeyboard->mRemoveCharEnabled == 0) ||
-                (secondaryKeyIndex == 1 && gEditAddrKeyboard->mNextGroupEnabled == 0)) {
+            if ((index == 0 && gEditAddrKeyboard->mRemoveCharEnabled == 0) ||
+                (index == 1 && gEditAddrKeyboard->mNextGroupEnabled == 0)) {
                 StartSoundSeq(9);
                 return;
             }
             StartSoundSeq(0);
-            gEditAddrKeyboard->mPressedKeyIndex = secondaryKeyIndex + 10;
+            gEditAddrKeyboard->mPressedKeyIndex = index + EDIT_ADDR_KEY_REMOVE_CHAR;
             return;
         }
     }
-    for (secondaryKeyIndex = 0, keyOrigin = gEditAddrKeyboardRow4KeyPositions[0]; secondaryKeyIndex < 2;
-         keyOrigin += 2, secondaryKeyIndex++) {
+    for (index = 0, keyOrigin = gEditAddrKeyboardRow4KeyPositions[0]; index < 2;
+         keyOrigin += 2, index++) {
         ComputeRectFromOriginAndSize(keyOrigin, gEditAddrKeyboardRow4KeySize, &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             StartSoundSeq(0);
-            gEditAddrKeyboard->mPressedKeyIndex = secondaryKeyIndex + 12;
+            gEditAddrKeyboard->mPressedKeyIndex = index + EDIT_ADDR_KEY_CANCEL;
             return;
         }
     }
@@ -267,7 +270,7 @@ void AdvanceEditAddrKeyboardTouchPressed(void) {
 void AdvanceEditAddrKeyboardTouchReleased(void) {
     Rect keyRect;
     const u16 *extraKeyOrigin;
-    int secondaryKeyIndex;
+    int index;
     int keyIndex;
     const u16 *keyOrigin;
     gEditAddrKeyboard->mInput = EDIT_ADDR_KEYBOARD_INPUT_NONE;
@@ -286,28 +289,28 @@ void AdvanceEditAddrKeyboardTouchReleased(void) {
             return;
         }
     }
-    for (secondaryKeyIndex = 0, extraKeyOrigin = gEditAddrKeyboardExtraKeyPositions[0]; secondaryKeyIndex < 2;
-         extraKeyOrigin += 2, secondaryKeyIndex++) {
+    for (index = 0, extraKeyOrigin = gEditAddrKeyboardExtraKeyPositions[0]; index < 2;
+         extraKeyOrigin += 2, index++) {
         ComputeRectFromOriginAndSize(extraKeyOrigin, gEditAddrKeyboardExtraKeySize, &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
-            if (gEditAddrKeyboard->mPressedKeyIndex != secondaryKeyIndex + 10) {
+            if (gEditAddrKeyboard->mPressedKeyIndex != index + EDIT_ADDR_KEY_REMOVE_CHAR) {
                 return;
             }
-            gEditAddrKeyboard->mInput = gEditAddrKeyboardExtraKeyInputs[secondaryKeyIndex];
-            gEditAddrKeyboard->mCursorKeyIndex = secondaryKeyIndex + 10;
+            gEditAddrKeyboard->mInput = gEditAddrKeyboardExtraKeyInputs[index];
+            gEditAddrKeyboard->mCursorKeyIndex = index + EDIT_ADDR_KEY_REMOVE_CHAR;
             PlaceEditAddrKeyboardCursor();
             return;
         }
     }
-    for (secondaryKeyIndex = 0, keyOrigin = gEditAddrKeyboardRow4KeyPositions[0]; secondaryKeyIndex < 2;
-         keyOrigin += 2, secondaryKeyIndex++) {
+    for (index = 0, keyOrigin = gEditAddrKeyboardRow4KeyPositions[0]; index < 2;
+         keyOrigin += 2, index++) {
         ComputeRectFromOriginAndSize(keyOrigin, gEditAddrKeyboardRow4KeySize, &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
-            if (gEditAddrKeyboard->mPressedKeyIndex != secondaryKeyIndex + 12) {
+            if (gEditAddrKeyboard->mPressedKeyIndex != index + EDIT_ADDR_KEY_CANCEL) {
                 return;
             }
-            gEditAddrKeyboard->mInput = gEditAddrKeyboardRow4KeyInputs[secondaryKeyIndex];
-            gEditAddrKeyboard->mCursorKeyIndex = secondaryKeyIndex + 12;
+            gEditAddrKeyboard->mInput = gEditAddrKeyboardRow4KeyInputs[index];
+            gEditAddrKeyboard->mCursorKeyIndex = index + EDIT_ADDR_KEY_CANCEL;
             PlaceEditAddrKeyboardCursor();
             return;
         }
@@ -317,7 +320,7 @@ void AdvanceEditAddrKeyboardTouchReleased(void) {
 void AdvanceEditAddrKeyboardTouchDown(void) {
     Rect keyRect;
     const u16 *extraKeyOrigin;
-    int secondaryKeyIndex;
+    int index;
     int keyIndex;
     const u16 *keyOrigin;
     if (IsTouchDownInRect(&gTouchScreenRect) == 0) {
@@ -333,15 +336,15 @@ void AdvanceEditAddrKeyboardTouchDown(void) {
             goto label_2;
         }
     }
-    for (secondaryKeyIndex = 0, extraKeyOrigin = gEditAddrKeyboardExtraKeyPositions[0]; secondaryKeyIndex < 2;
-         extraKeyOrigin += 2, secondaryKeyIndex++) {
+    for (index = 0, extraKeyOrigin = gEditAddrKeyboardExtraKeyPositions[0]; index < 2;
+         extraKeyOrigin += 2, index++) {
         ComputeRectFromOriginAndSize(extraKeyOrigin, gEditAddrKeyboardExtraKeySize, &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
-            if (gEditAddrKeyboard->mPressedKeyIndex != secondaryKeyIndex + 10) {
+            if (gEditAddrKeyboard->mPressedKeyIndex != index + EDIT_ADDR_KEY_REMOVE_CHAR) {
                 goto label_1;
             }
-            ChangeEditAddrKeyboardHighlight(secondaryKeyIndex + 10);
-            if (secondaryKeyIndex != 0) {
+            ChangeEditAddrKeyboardHighlight(index + EDIT_ADDR_KEY_REMOVE_CHAR);
+            if (index != 0) {
                 goto label_2;
             }
             gEditAddrKeyboard->mRepeatCalls = gEditAddrKeyboard->mRepeatCalls + 1;
@@ -358,15 +361,15 @@ void AdvanceEditAddrKeyboardTouchDown(void) {
             return;
         }
     }
-    for (secondaryKeyIndex = 0, keyOrigin = gEditAddrKeyboardRow4KeyPositions[0]; secondaryKeyIndex < 2;
-         keyOrigin += 2, secondaryKeyIndex++) {
+    for (index = 0, keyOrigin = gEditAddrKeyboardRow4KeyPositions[0]; index < 2;
+         keyOrigin += 2, index++) {
         ComputeRectFromOriginAndSize(keyOrigin, gEditAddrKeyboardRow4KeySize, &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
-            secondaryKeyIndex += 12;
-            if (gEditAddrKeyboard->mPressedKeyIndex != secondaryKeyIndex) {
+            index += EDIT_ADDR_KEY_CANCEL;
+            if (gEditAddrKeyboard->mPressedKeyIndex != index) {
                 goto label_1;
             }
-            ChangeEditAddrKeyboardHighlight(secondaryKeyIndex);
+            ChangeEditAddrKeyboardHighlight(index);
             goto label_2;
         }
     }
@@ -385,8 +388,8 @@ void ChangeEditAddrKeyboardHighlight(int keyIndex) {
 }
 
 static inline void EditAddrOutG2_GetOBJPosition(OamEntry *oam, u32 *x, u32 *y) {
-    *x = (oam->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *y = oam->mAttr01 & OAM_ATTR01_Y_MASK;
+    *x = (oam->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = oam->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void AdvanceEditAddrKeyboardKeys(void) {
@@ -405,7 +408,7 @@ void AdvanceEditAddrKeyboardKeys(void) {
     }
     if (AreKeysPressed(1) != 0) {
         keyIndex = gEditAddrKeyboard->mCursorKeyIndex;
-        if (keyIndex < 10) {
+        if (keyIndex < EDIT_ADDR_KEY_REMOVE_CHAR) {
             if (gEditAddrKeyboard->mAddCharEnabled != 0) {
                 gEditAddrKeyboard->mInput = gEditAddrKeyboardDigitInputs[keyIndex];
                 return;
@@ -413,16 +416,16 @@ void AdvanceEditAddrKeyboardKeys(void) {
             StartSoundSeq(9);
             return;
         }
-        if (keyIndex - 10 < 2) {
-            if ((keyIndex - 10 == 0 && gEditAddrKeyboard->mRemoveCharEnabled == 0) ||
-                (keyIndex - 10 == 1 && gEditAddrKeyboard->mNextGroupEnabled == 0)) {
+        if (keyIndex - EDIT_ADDR_KEY_REMOVE_CHAR < 2) {
+            if ((keyIndex - EDIT_ADDR_KEY_REMOVE_CHAR == 0 && gEditAddrKeyboard->mRemoveCharEnabled == 0) ||
+                (keyIndex - EDIT_ADDR_KEY_REMOVE_CHAR == 1 && gEditAddrKeyboard->mNextGroupEnabled == 0)) {
                 StartSoundSeq(9);
                 return;
             }
-            gEditAddrKeyboard->mInput = gEditAddrKeyboardExtraKeyInputs[keyIndex - 10];
+            gEditAddrKeyboard->mInput = gEditAddrKeyboardExtraKeyInputs[keyIndex - EDIT_ADDR_KEY_REMOVE_CHAR];
             return;
         }
-        gEditAddrKeyboard->mInput = gEditAddrKeyboardRow4KeyInputs[keyIndex - 12];
+        gEditAddrKeyboard->mInput = gEditAddrKeyboardRow4KeyInputs[keyIndex - EDIT_ADDR_KEY_CANCEL];
     }
     if (AreKeysPressedOrRepeated(2) != 0) {
         if (gEditAddrKeyboard->mRemoveCharEnabled == 0) {
@@ -452,10 +455,10 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     keyIndex = row * 3;
     for (rowKeyIndex = 0; rowKeyIndex < digitKeyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
         key->mAttr01 = ((gEditAddrKeyboardDigitKeyPositions[keyIndex][0] & 0x1ff) << 16) |
-                       ((key->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
+                       ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditAddrKeyboard->mRowTexts[row], gEditAddrKeyboardDigitKeyPositions[row * 3][0],
@@ -463,10 +466,10 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     }
     for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditAddrKeyboard->mExtraKeys[rowKeyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditAddrKeyboard->mExtraKeys[rowKeyIndex];
         key->mAttr01 = ((gEditAddrKeyboardExtraKeyPositions[rowKeyIndex][0] & 0x1ff) << 16) |
-                       ((key->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
+                       ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
     }
     effectAndAffineIndex = FALSE;
     for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
@@ -482,20 +485,20 @@ void SetEditAddrKeyboardKeyHighlight(int keyIndex, int highlight) {
     if (keyIndex < 0) {
         return;
     }
-    if (keyIndex < 10) {
+    if (keyIndex < EDIT_ADDR_KEY_REMOVE_CHAR) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mAttr01 &= OAM_ATTR01_NOT_MODE_MASK;
-        key->mAttr2 = (key->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 &= OAM_ENTRY_NOT_MODE_MASK;
+        key->mAttr2 = (key->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
         return;
     }
-    extraKeyIndex = keyIndex - 10;
+    extraKeyIndex = keyIndex - EDIT_ADDR_KEY_REMOVE_CHAR;
     if (extraKeyIndex < 2) {
         key = gEditAddrKeyboard->mExtraKeys[extraKeyIndex];
-        key->mAttr01 &= OAM_ATTR01_NOT_MODE_MASK;
-        key->mAttr2 = (key->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 &= OAM_ENTRY_NOT_MODE_MASK;
+        key->mAttr2 = (key->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (gEditAddrKeyboardKeyPalettes[highlight] << 12);
         return;
     }
-    SetOamRangeMode(gEditAddrKeyboard->mRow4Keys[keyIndex - 12], -1, 0,
+    SetOamRangeMode(gEditAddrKeyboard->mRow4Keys[keyIndex - EDIT_ADDR_KEY_CANCEL], -1, 0,
                     gEditAddrKeyboardRow4HighlightValues[highlight]);
 }
 
@@ -523,14 +526,14 @@ void MoveEditAddrKeyboardCursor(u32 direction) {
         gEditAddrKeyboard->mPreviousKeyIndex = previousKeyIndex;
     } else if (nextKeyIndex == -1) {
         if (gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_TOP_MIDDLE ||
-            gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_REMOVE) {
-            gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_REMOVE;
+            gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_REMOVE_CHAR) {
+            gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_REMOVE_CHAR;
         } else {
             gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_NEXT_GROUP;
         }
     } else if (nextKeyIndex == -2) {
         if (gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_TOP_MIDDLE ||
-            gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_REMOVE) {
+            gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_REMOVE_CHAR) {
             gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_TOP_MIDDLE;
         } else {
             gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_TOP_RIGHT;

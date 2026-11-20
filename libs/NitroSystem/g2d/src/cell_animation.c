@@ -28,7 +28,7 @@ void ApplyCurrentAnimResult_(NNSG2dCellAnimation *pCellAnim) {
     animResult = NNS_G2dGetAnimCtrlCurrentElement(pCellAnim);
     cellBank = pCellAnim->mPCellDataBank;
     pCellAnim->mPCurrentCell = NNS_G2dGetCellDataByIdx(cellBank, animResult->mIndex);
-    animType = pCellAnim->mPAnimSequence->mAnimType & G2D_ANIM_TYPE_MASK;
+    animType = pCellAnim->mPAnimSequence->mAnimType & CELL_ANIM_TYPE_MASK;
     NNSi_G2dSrtcInitControl(&pCellAnim->mSrtCtrl, 1);
     if (animType != 0) {
         if (animType == 2) {
@@ -192,7 +192,7 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
 
 void NNSi_G2dSrtcSetTrans(NNSG2dSRTControl *pCtrl, s16 x, s16 y) {
     if (pCtrl->mType == 1) {
-        pCtrl->mSRTEnableFlag |= G2D_SRT_ENABLE_TRANS;
+        pCtrl->mSRTEnableFlag |= CELL_XFORM_SET_MOVE;
         pCtrl->mTransX = x;
         pCtrl->mTransY = y;
     }
@@ -200,14 +200,14 @@ void NNSi_G2dSrtcSetTrans(NNSG2dSRTControl *pCtrl, s16 x, s16 y) {
 
 void NNSi_G2dSrtcSetSRTRotZ(NNSG2dSRTControl *pCtrl, u16 rotZ) {
     if (pCtrl->mType == 1) {
-        pCtrl->mSRTEnableFlag |= G2D_SRT_ENABLE_ROT_Z;
+        pCtrl->mSRTEnableFlag |= CELL_XFORM_SET_ROT_Z;
         pCtrl->mRotZ = rotZ;
     }
 }
 
 void NNSi_G2dSrtcSetSRTScale(NNSG2dSRTControl *pCtrl, s32 x, s32 y) {
     if (pCtrl->mType == 1) {
-        pCtrl->mSRTEnableFlag |= G2D_SRT_ENABLE_SCALE;
+        pCtrl->mSRTEnableFlag |= CELL_XFORM_SET_SCALE;
         pCtrl->mScaleX = x;
         pCtrl->mScaleY = y;
     }
@@ -233,23 +233,23 @@ void SequenceEdgeHandle_(NNSG2dCellAnimation *pAnimCtrl) {
     NNSG2dAnimFrameData *last;
 
     playMode = pAnimCtrl->mOverriddenPlayMode;
-    if (playMode == G2D_PLAY_MODE_FROM_SEQUENCE) {
+    if (playMode == CELL_ANIM_PLAY_FROM_SEQUENCE) {
         playMode = pAnimCtrl->mPAnimSequence->mPlayMode;
     }
     switch (playMode) {
-        case G2D_PLAY_MODE_PING_PONG:
-        case G2D_PLAY_MODE_PING_PONG_LOOP:
+        case CELL_ANIM_PLAY_BOUNCE_ONCE:
+        case CELL_ANIM_PLAY_BOUNCE_REPEAT:
             pAnimCtrl->mReverse = pAnimCtrl->mReverse ^ 1;
             if (pAnimCtrl->mPCurrent <=
                 &pAnimCtrl->mPAnimSequence->mPAnmFrameArray[pAnimCtrl->mPAnimSequence->mLoopStartFrameIdx] - 1) {
-                if (pAnimCtrl->mCallbackFunctor.mType == G2D_CALLBACK_AT_SEQUENCE_END) {
+                if (pAnimCtrl->mCallbackFunctor.mType == CELL_ANIM_CALLBACK_ON_END) {
                     pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, pAnimCtrl->mCurrentTime);
                 }
                 playMode = pAnimCtrl->mOverriddenPlayMode;
-                if (playMode == G2D_PLAY_MODE_FROM_SEQUENCE) {
+                if (playMode == CELL_ANIM_PLAY_FROM_SEQUENCE) {
                     playMode = pAnimCtrl->mPAnimSequence->mPlayMode;
                 }
-                if (playMode != G2D_PLAY_MODE_FORWARD_LOOP && playMode != G2D_PLAY_MODE_PING_PONG_LOOP) {
+                if (playMode != CELL_ANIM_PLAY_REPEAT && playMode != CELL_ANIM_PLAY_BOUNCE_REPEAT) {
                     pAnimCtrl->mActive = 0;
                 } else {
                     NNS_G2dResetAnimCtrlState(pAnimCtrl);
@@ -257,14 +257,14 @@ void SequenceEdgeHandle_(NNSG2dCellAnimation *pAnimCtrl) {
             }
             break;
         default:
-            if (pAnimCtrl->mCallbackFunctor.mType == G2D_CALLBACK_AT_SEQUENCE_END) {
+            if (pAnimCtrl->mCallbackFunctor.mType == CELL_ANIM_CALLBACK_ON_END) {
                 pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, pAnimCtrl->mCurrentTime);
             }
             playMode = pAnimCtrl->mOverriddenPlayMode;
-            if (playMode == G2D_PLAY_MODE_FROM_SEQUENCE) {
+            if (playMode == CELL_ANIM_PLAY_FROM_SEQUENCE) {
                 playMode = pAnimCtrl->mPAnimSequence->mPlayMode;
             }
-            if (playMode != G2D_PLAY_MODE_FORWARD_LOOP && playMode != G2D_PLAY_MODE_PING_PONG_LOOP) {
+            if (playMode != CELL_ANIM_PLAY_REPEAT && playMode != CELL_ANIM_PLAY_BOUNCE_REPEAT) {
                 pAnimCtrl->mActive = 0;
             } else {
                 NNS_G2dResetAnimCtrlState(pAnimCtrl);

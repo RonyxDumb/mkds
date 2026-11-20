@@ -16,13 +16,9 @@ u8 prev_fid = 0xff;
 void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback) {
     u32 enabled = (OS_DisableInterrupts());
     u32 previousState;
-    mbc->mCallback = parentStateCallback;
+    mbc->mParentCallback = parentStateCallback;
     previousState = (OS_RestoreInterrupts(enabled));
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void *MB_CommGetChildUser(u32 child) {
     u32 savedInterrupts;
@@ -88,8 +84,8 @@ void MBi_CommChangeParentState(u32 child, u32 value, void *data) {
 void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data) {
     MB_CommPWork *work;
     work = mbc;
-    if (work->mCallback != NULL) {
-        work->mCallback(child, value, data);
+    if (work->mParentCallback != NULL) {
+        work->mParentCallback(child, value, data);
     }
 }
 
@@ -120,7 +116,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 MI_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
                 MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, sizeof(MBUserInfo));
                 MBi_ClearParentPieceBuffer(eventData->mLength);
-                value = 0;
+                value = MULTIBOOT_CHILD_REQUEST_NONE;
                 mbc->mReq2child[eventData->mLength - 1] = value;
                 aid = eventData->mLength;
                 childEntryIndex = mbc->mChildEntryIndex[(s32) aid - 1];
@@ -135,7 +131,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 }
                 if ((mbc->mChildEntryBmp & (1 << eventData->mLength)) != 0) {
                     mbc->mChildNum--;
-                    mbc->mChildEntryBmp &= ~(1 << eventData->mLength);
+                    BIT_CLEAR(mbc->mChildEntryBmp, eventData->mLength);
                 }
                 aid = eventData->mLength;
                 if (mbc->mPCommState[aid - 1] == MULTIBOOT_PARENT_BOOT_ACKED) {
@@ -153,7 +149,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
         case MULTIBOOT_PARENT_EVENT_MP_SEND_READY:
             MBi_CommParentSendData();
             break;
-        case MULTIBOOT_PARENT_EVENT_BEACON_DUE:
+        case MULTIBOOT_PARENT_EVENT_BEACON_INDICATION:
             slotIndex = 0;
             childBit = 0;
             do {
@@ -176,7 +172,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 MB_SendGameInfoBeacon(ggid, tgid, MBi_GetAttribute());
             }
             break;
-        case MULTIBOOT_PARENT_EVENT_ERROR:
+        case MULTIBOOT_PARENT_EVENT_CALL_ERROR:
             switch (eventData->mResultCode) {
                 case WIRELESS_RESULT_REFUSED:
                 case WIRELESS_RESULT_SWITCHED_OFF:
@@ -215,7 +211,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
             break;
     }
     if (eventCode == MULTIBOOT_PARENT_EVENT_ENDED) {
-        callback = mbc->mCallback;
+        callback = mbc->mParentCallback;
         MemFillWordsByBlock_inline(mbc, 0x7d00);
         mbc = NULL;
         if (callback != NULL) {
@@ -323,7 +319,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
             if (childValue == MULTIBOOT_PARENT_DOWNLOAD_STARTED) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
-                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~(1 << child);
+                    BIT_CLEAR((OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp, child);
                     MBi_CommChangeParentState(child, MULTIBOOT_PARENT_DOWNLOAD_DONE, NULL);
                 }
             } else if (childValue == MULTIBOOT_PARENT_DOWNLOAD_DONE) {
@@ -358,20 +354,12 @@ void MBi_CommParentRecvData(WMMpRecvHeader *header) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 int MBi_CommParentSendMsg(u8 messageKind, u32 childMask) {
     ParentMessage message;
     message.mKind = messageKind;
     MBi_MakeParentSendBuffer(&message, (u8 *) mbc);
     return MBi_BlockHeaderEnd(6, childMask, (u32) mbc);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 MBi_CommParentSendDLFileInfo(void) {
     ParentMessage message;
@@ -442,10 +430,6 @@ void MBi_ReloadCache(DataRangeLoadJob *job) {
         OS_Terminate();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 MBi_CommParentSendBlock(void) {
     ParentMessage message;
@@ -577,10 +561,6 @@ int MBi_CommParentSendData(void) {
     }
     return result;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void MBi_calc_sendblock(u32 entryIndex) {
     MB_CommPWork *entry;

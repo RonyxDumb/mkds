@@ -19,43 +19,49 @@ typedef enum KeyboardLayoutId {
 #define KEYBOARD_VALUE_FIRST_BUTTON 1
 #define KEYBOARD_VALUE_SECOND_BUTTON 2
 
-// Key ids of the fixed keys in front of the character keys (the id of a rect; the character keys follow them). The
-// mode keys are shift and caps in the ASCII layout, hiragana and katakana in the kana layout; the three convert keys
-// and the cycle key exist in the kana layout only.
+// Key ids of the fixed keys of a layout (the first rects; the character keys follow them), as GetKeyboardValueForKeyId
+// maps them: delete and space, two char map keys (hiragana and katakana in the HiraganaKatakanaLayoutCallback layout,
+// shift and caps in the others) and, in the HiraganaKatakanaLayoutCallback layout only, three convert keys.
+// KEYBOARD_KEY_ID_CYCLE is not a rect id: AdvanceKeyboardKeys makes it from the third input mask. Key id 2 (value 0xa)
+// has no constant.
 #define KEYBOARD_KEY_ID_DELETE 1
 #define KEYBOARD_KEY_ID_SPACE 3
-#define KEYBOARD_KEY_ID_MODE_FIRST 4
-#define KEYBOARD_KEY_ID_MODE_SECOND 5
+#define KEYBOARD_KEY_ID_CHAR_MAP_FIRST 4
+#define KEYBOARD_KEY_ID_CHAR_MAP_SECOND 5
 #define KEYBOARD_KEY_ID_CONVERT_FIRST 6
 #define KEYBOARD_KEY_ID_CONVERT_SECOND 7
 #define KEYBOARD_KEY_ID_CONVERT_THIRD 8
 #define KEYBOARD_KEY_ID_CYCLE 0xffff
-// Rect ids above this are not keys; SetKeyboardRect gives the rect KEYBOARD_RECT_ID_PLAIN.
-#define KEYBOARD_KEY_ID_LAST_KEY 0xff
+// Rect ids up to this are key rects, drawn with the keyboard offset; the button rects, which SetKeyboardRect gives
+// KEYBOARD_RECT_ID_PLAIN, are above it.
+#define KEYBOARD_RECT_ID_LAST_KEY 0xff
 #define KEYBOARD_RECT_ID_PLAIN 0xff00
 
-// Key values: what the key callback and the text entry get for a key. Values from KEYBOARD_VALUE_FIRST_CHARACTER up
-// are the characters typed; the lower ones act on the text or on the layout.
+// Key values: what the key callback and the text entry get for a key. Values from KEYBOARD_VALUE_FIRST_CHARACTER up are
+// the characters typed; the named lower ones are the other keys (the text entry acts on DELETE, the CONVERT values and
+// CYCLE_CHAR_TABLES; the callback only plays sounds for the rest). Key id 2 gives the unnamed value 0xa, which the text
+// entry ignores.
 #define KEYBOARD_VALUE_SHIFT 4
 #define KEYBOARD_VALUE_CAPS 5
 #define KEYBOARD_VALUE_HIRAGANA 6
 #define KEYBOARD_VALUE_KATAKANA 7
 #define KEYBOARD_VALUE_DELETE 8
-// Replace the last character through ConvertCharPair1, ConvertCharPair2 and ConvertCharPair3.
+// Replace the last character by ConvertCharPair1, ConvertCharPair2 or ConvertCharPair3 of it, when that gives another
+// character.
 #define KEYBOARD_VALUE_CONVERT_FIRST 0x10
 #define KEYBOARD_VALUE_CONVERT_SECOND 0x11
 #define KEYBOARD_VALUE_CONVERT_THIRD 0x12
-// Replace the last character through CycleCharTables.
+// Replace the last character by its CycleCharTables result when that differs from it.
 #define KEYBOARD_VALUE_CYCLE_CHAR_TABLES 0x13
 #define KEYBOARD_VALUE_SPACE 0x20
 #define KEYBOARD_VALUE_FIRST_CHARACTER 0x20
-#define KEYBOARD_VALUE_IDEOGRAPHIC_SPACE 0x3000
+#define KEYBOARD_VALUE_KANA_SPACE 0x3000
 
-// KeyboardInput.mTouchStatus: no touch, the touch just began, it goes on, it just ended.
+// KeyboardInput.mTouchStatus: no touch, the touch pressed this call, still pressed, released this call.
 #define KEYBOARD_TOUCH_IDLE 0
-#define KEYBOARD_TOUCH_BEGAN 1
+#define KEYBOARD_TOUCH_PRESSED 1
 #define KEYBOARD_TOUCH_HELD 2
-#define KEYBOARD_TOUCH_ENDED 3
+#define KEYBOARD_TOUCH_RELEASED 3
 
 // Positions of the first and third rect of a layout: the delete key and the space key.
 #define KEYBOARD_RECT_INDEX_DELETE 0

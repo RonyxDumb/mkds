@@ -90,7 +90,7 @@ u32 ScrollListGetSlotPairY(u32 slot) {
 
 u32 ScrollListIsPairRecentlyLost(InputSlotPair *pair) {
     u32 result = 0;
-    if (ScrollListGetPairHasPair(pair) == 0 && pair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (ScrollListGetPairHasPair(pair) == 0 && pair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         result = 1;
     }
     return result;
@@ -146,13 +146,13 @@ void AdvanceScrollListInput(void) {
             gScrollList->mTouchHeld = FALSE;
         }
     }
-    if (ScrollListGetDownBits(slotIndex, PAD_KEY_UP) != 0 ||
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0 ||
         gScrollList->mTouchRectIndex == gScrollList->mUpRectIndex) {
         gScrollList->mUpHeldFrames = gScrollList->mUpHeldFrames + 1;
     } else {
         gScrollList->mUpHeldFrames = 0;
     }
-    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DOWN) != 0 ||
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0 ||
         gScrollList->mTouchRectIndex == gScrollList->mDownRectIndex) {
         gScrollList->mDownHeldFrames = gScrollList->mDownHeldFrames + 1;
     } else {
@@ -167,9 +167,6 @@ void PlaceScrollListScrollEntry(void) {
             (gScrollList->mRowCount - 5);
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetScrollListHiddenBottomSlot(void) {
     u32 slot;
@@ -190,10 +187,6 @@ void SetScrollListSlotVisible(s32 slot, s32 visible) {
         scrollList->mEntries[slot + scrollList->mGroupFirstEntries[group]].mVisible = visible;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetScrollListPositionYDifference(u32 first, u32 second) {
     return (((gScrollList->mEntries[second].mPositionY)) - ((gScrollList->mEntries[first].mPositionY)));
@@ -321,7 +314,7 @@ void AdvanceScrollListIdle(void) {
         CallScrollListCallback(0, -1, -1, rowChanged != FALSE ? GetScrollListSelectedSlot() : -1);
         return;
     }
-    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_UP) != 0 ||
+    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0 ||
          gScrollList->mPressedRectIndex == gScrollList->mUpRectIndex ||
          gScrollList->mUpHeldFrames > gScrollList->mScrollFrameCount) &&
         gScrollList->mSelectedRow > 0) {
@@ -344,7 +337,7 @@ void AdvanceScrollListIdle(void) {
         ScrollListStartSeqArcWrapper(3);
         return;
     }
-    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DOWN) != 0 ||
+    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0 ||
          gScrollList->mPressedRectIndex == gScrollList->mDownRectIndex ||
          gScrollList->mDownHeldFrames > gScrollList->mScrollFrameCount) &&
         gScrollList->mSelectedRow < gScrollList->mRowCount - 1) {
@@ -370,7 +363,7 @@ void AdvanceScrollListIdle(void) {
         ScrollListStartSeqArcWrapper(3);
         return;
     }
-    if (ScrollListGetDownBits(slotIndex, PAD_KEY_UP | PAD_KEY_DOWN) == 0 &&
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DIRECTION_UP | PAD_KEY_DIRECTION_DOWN) == 0 &&
         gScrollList->mTouchRectIndex != gScrollList->mUpRectIndex &&
         gScrollList->mTouchRectIndex != gScrollList->mDownRectIndex) {
         gScrollList->mHeldMoveCount = 0;
@@ -582,10 +575,6 @@ void AdvanceScrollList(void) {
     }
     PlaceScrollListScrollEntry();
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetScrollListSelectedRow(void) {
     return (gScrollList->mSelectedRow);

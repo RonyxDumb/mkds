@@ -13,23 +13,23 @@
 #include "Main/Item/item_object.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_object_reset_collide.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "sound_archive_load.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/pooled_item_box_init.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/System/heap_call.h"
 #include "Main/Item/item_slot_tables.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Item/kart_items_collision_hits.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -52,7 +52,7 @@ struct CourseMapRow gPooledMapObjectRow;
 
 const u16 gBouncingItemBoxUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 
-const ItemInfo gItemInfoKiller = {1, 1, 0xd, 1, 0, 0, StartItemKiller};
+const ItemInfo gItemInfoKiller = {1, 1, ITEM_OBJECT_KIND_KILLER, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemKiller};
 
 const ItemKind gItemKindKiller = {
     0x12c, 1, 1,    -1,  -1,   {0}, NULL, NULL,     NULL, NULL,   NULL, NULL, ComputeViewTest, NULL,   NULL,  NULL,
@@ -96,7 +96,7 @@ void CreatePooledMapObjects(void) {
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
     StartKartKiller(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
-    SetActiveItem(itemInUse->mKartItems, 0xe);
+    SetActiveItem(itemInUse->mKartItems, ITEM_INFO_KILLER);
 }
 
 void ResetKartActiveItemAfterKiller(s32 kartIndex) {
@@ -229,12 +229,12 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StartSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
         box->mThrownForward = 1;
         return box->mThrownForward;
     } else {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
-        if (itemInUse->mKartVelocityLength < ITEM_THROW_STILL_KART_SPEED) {
+        if (itemInUse->mKartVelocityLength < ITEM_THROW_ZERO_VELOCITY_KART_SPEED) {
             box->mBouncingItemObject.mItemObject.mVelocity.x = 0;
             box->mBouncingItemObject.mItemObject.mVelocity.y = 0;
             box->mBouncingItemObject.mItemObject.mVelocity.z = 0;

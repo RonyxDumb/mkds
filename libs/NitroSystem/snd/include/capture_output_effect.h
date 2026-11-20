@@ -7,11 +7,7 @@ struct CallbackInfo;
 
 typedef void (*EffectFunc)(s16 *bufferL, s16 *bufferR, u32 len, struct CallbackInfo *info);
 
-// 0xd8-byte object (sCallbackInfo): EffectCallback calls mCbFunc, then mEffectFunc, then mCbPostFunc (the callbacks
-// only when not null) and flushes both buffers. NNS_SndCaptureChangeOutputEffect stores the effect type in mType, the
-// matching function in mEffectFunc and clears mBuffer. mBuffer holds two words for SurroundProc and 24 pairs of words
-// for HeadphoneProc.
-// Values of CallbackInfo.mType: which effect runs on the captured sound.
+// Values of CallbackInfo.mType (-1 until the first change): which effect runs on the captured sound.
 #define SOUND_OUTPUT_EFFECT_NONE 0
 #define SOUND_OUTPUT_EFFECT_SURROUND 1
 #define SOUND_OUTPUT_EFFECT_HEADPHONE 2

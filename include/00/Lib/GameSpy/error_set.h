@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct GpConnection GpConnection;
+typedef struct GPConnection GPConnection;
 
-void GpiSetError(GpConnection *connection, u32 errorNumber, const char *errorMessage);
+void gpiSetError(GPConnection *connection, u32 errorNumber, const char *errorMessage);

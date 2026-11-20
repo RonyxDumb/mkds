@@ -1,5 +1,5 @@
 #include "Main/MapObjects/water.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "Main/System/heap.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/view_frustum.h"
@@ -10,7 +10,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
@@ -25,8 +25,8 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "animation_lookup.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/distance_sound_volume.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/map_object_inverse_volume.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/MapObjects/choropu.h"
@@ -65,8 +65,8 @@ WaterEfct *gWaterEfct;
 // water_efct files into gWater; once per water map object.
 void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
     gWaterMapObject = mapObject;
-    mapObject->mFlags &= ~2;
-    mapObject->mFlags &= ~8;
+    mapObject->mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    mapObject->mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
     createWater();
     gWater->mEfctNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
@@ -355,23 +355,23 @@ void CreateWaterEfct(MapObject *mapObject) {
 #pragma thumb off
 
 void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3) {
-    s32 remaining = 0x1000000 - fraction;
+    s32 remaining = SEGMENT_PROGRESS_END - fraction;
     s32 square = MUL_FIXED24_NO_ROUND(remaining, remaining);
     *weight0 = MUL_FIXED24_NO_ROUND(remaining, square);
     *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
-    *weight2 = ((s64) *weight1 * fraction) >> 24;
+    *weight2 = MUL_FIXED24_NO_ROUND(*weight1, fraction);
     square = MUL_FIXED24_NO_ROUND(fraction, fraction);
     *weight3 = MUL_FIXED24_NO_ROUND(fraction, square);
-    *weight1 = ((s64) *weight1 * remaining) >> 24;
+    *weight1 = MUL_FIXED24_NO_ROUND(*weight1, remaining);
 }
 
 void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3) {
-    s32 remaining = 0x1000000 - fraction;
+    s32 remaining = SEGMENT_PROGRESS_END - fraction;
     *slopeWeight0 = MUL_FIXED24_NO_ROUND(remaining, remaining);
-    *weight0 = ((s64) *slopeWeight0 * remaining) >> 24;
+    *weight0 = MUL_FIXED24_NO_ROUND(*slopeWeight0, remaining);
     *slopeWeight3 = MUL_FIXED24_NO_ROUND(fraction, fraction);
-    *weight3 = ((s64) *slopeWeight3 * fraction) >> 24;
+    *weight3 = MUL_FIXED24_NO_ROUND(*slopeWeight3, fraction);
     *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
     *slopeWeight0 = *slopeWeight0 * 3;
     *slopeWeight3 = *slopeWeight3 * 3;
@@ -379,8 +379,8 @@ void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weig
     *slopeWeight1 = *slopeWeight0 - *slopeWeight2;
     *slopeWeight2 = *slopeWeight2 - *slopeWeight3;
     *slopeWeight0 = -*slopeWeight0;
-    *weight2 = ((s64) *weight1 * fraction) >> 24;
-    *weight1 = ((s64) *weight1 * remaining) >> 24;
+    *weight2 = MUL_FIXED24_NO_ROUND(*weight1, fraction);
+    *weight1 = MUL_FIXED24_NO_ROUND(*weight1, remaining);
 }
 
 void ComputeWeightedPoint(const Vec3 *points, Vec3 *result, s32 weight0, s32 weight1, s32 weight2, s32 weight3) {

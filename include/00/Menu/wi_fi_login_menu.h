@@ -4,18 +4,18 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-// Values of WiFiLoginMenu.mState and mNextState: which message sequence runs.
+// Values of WiFiLoginMenu.mState and mNextState: which handler AdvanceWiFiLoginMenu runs.
 enum {
-    WIFI_LOGIN_STATE_START,
-    WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO,
-    WIFI_LOGIN_STATE_SETUP_NOTICE,
-    WIFI_LOGIN_STATE_ASK_SETUP,
-    WIFI_LOGIN_STATE_CONFIRM_SETUP,
-    WIFI_LOGIN_STATE_SHOW_LOGGED_IN,
-    WIFI_LOGIN_STATE_ASK_LOGIN,
-    WIFI_LOGIN_STATE_WAIT_LOGIN,
-    WIFI_LOGIN_STATE_ERROR_MESSAGES,
-    WIFI_LOGIN_STATE_ERROR_CODE,
+    WIFI_LOGIN_MENU_STATE_START,
+    WIFI_LOGIN_MENU_STATE_NO_FRIEND_KEY_ASK_LOGIN,
+    WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_NOTICE,
+    WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_ASK,
+    WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_ASK_AGAIN,
+    WIFI_LOGIN_MENU_STATE_SHOW_LOGGED_IN,
+    WIFI_LOGIN_MENU_STATE_ASK_LOGIN,
+    WIFI_LOGIN_MENU_STATE_WAIT_LOGIN,
+    WIFI_LOGIN_MENU_STATE_ERROR_MESSAGES,
+    WIFI_LOGIN_MENU_STATE_ERROR_CODE,
 };
 
 // The Wi-Fi login screen: its state, error code, heap and messages.
@@ -45,9 +45,9 @@ void AdvanceWiFiLoginMenuErrorMessages(void);
 void AdvanceWiFiLoginMenuWaitLogin(void);
 void AdvanceWiFiLoginMenuAskLogin(void);
 void AdvanceWiFiLoginMenuShowLoggedIn(void);
-void AdvanceWiFiLoginMenuConfirmSetup(void);
-void AdvanceWiFiLoginMenuAskSetup(void);
-void AdvanceWiFiLoginMenuSetupNotice(void);
+void AdvanceWiFiLoginMenuInvalidConsoleConfirm(void);
+void AdvanceWiFiLoginMenuInvalidConsoleAsk(void);
+void AdvanceWiFiLoginMenuInvalidConsoleNotice(void);
 void AdvanceWiFiLoginMenuAskLoginAfterInfo(void);
 void AdvanceWiFiLoginMenuStart(void);
 s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCountOut);

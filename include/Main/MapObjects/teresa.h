@@ -6,9 +6,10 @@
 #include "01/MapObjects/map_object_model.h"
 
 #define TERESA_ALPHA_FIXED12_MIN 0x2000
-#define TERESA_NEVER_FRAMES 0xffff
+#define TERESA_FADE_OUT_TIMER_MAX 0xffff
 
-// A wobble of an angle and a value that swings around mMid by mAmplitude; Teresa, Crab and the trophy use it.
+// A wobble: mValue follows mMid plus a swing of mAmplitude driven by mAngle; mAmplitude and mAnglePerFrame step toward
+// zero. Teresa, Crab and the trophy use it.
 typedef struct TeresaWobble {
     /* 00 */ u16 mAngle;
     /* 02 */ u8 mUnk_02[2];
@@ -21,7 +22,7 @@ typedef struct TeresaWobble {
     /* 1c */ s32 mAnglePerFrameDelta;
 } TeresaWobble;
 
-// A Teresa map object that StartTeresa fills: start position, alpha fade, wobbles, radius; one state per mState value.
+// A Teresa map object: start position, fade delay timers, alpha fade, wobbles, radius and state.
 typedef struct Teresa {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ Vec3 mStartPos;
@@ -29,8 +30,8 @@ typedef struct Teresa {
     /* 0ae */ u16 mNsbtpFrameIndex;
     /* 0b0 */ u16 mMirror;
     /* 0b2 */ u8 mUnk_b2[2];
-    /* 0b4 */ s32 mFadeInDelayFrames;
-    /* 0b8 */ s32 mFadeOutDelayFrames;
+    /* 0b4 */ s32 mFadeInTimer;
+    /* 0b8 */ s32 mFadeOutTimer;
     /* 0bc */ TeresaWobble mAngleWobble;
     /* 0dc */ TeresaWobble mYWobble;
     /* 0fc */ s32 mAlphaFixed12;
@@ -48,7 +49,8 @@ void StartTeresa(Vec3 *startPos);
 void ClearTeresaTimers(void);
 MapObjectList *CreateTeresaUpdateList(void);
 MapObjectList *CreateTeresaDrawList(void);
-void UpdateTeresa(void *mapObjectList, Teresa *teresa); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateTeresa(void *mapObjectList,
+                  Teresa *teresa); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 s16 TeresaFX_CosIdx(s32 angle);
 s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier);
 s16 TeresaFX_SinIdx(s32 angle);

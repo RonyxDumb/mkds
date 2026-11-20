@@ -36,7 +36,7 @@
 #include "Main/MapObjects/koopa_block.h"
 #include "Main/System/heap_call.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/MapObjects/earthen_pipe.h"
@@ -64,7 +64,7 @@
 
 MapObjectKindRow gMapObjectKindRows[133] = {
     {101, (MapObjectKindDescriptor *) &gItemBoxKindDescriptor, NULL},
-    {201, (MapObjectKindDescriptor *) &gGroupItemBoxKindDescriptor, NULL},
+    {MAP_OBJECT_KIND_GROUP_ITEM_BOX, (MapObjectKindDescriptor *) &gGroupItemBoxKindDescriptor, NULL},
     {111, (MapObjectKindDescriptor *) &gPooledItemBoxKindDescriptor, NULL},
     {405, (MapObjectKindDescriptor *) &gBusAKindDescriptor, &gBusAKindInfo},
     {410, (MapObjectKindDescriptor *) &gCarAKindDescriptor, &gCarAKindInfo},
@@ -274,18 +274,18 @@ void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 d
     s32 cameraHeightAboveItem;
 
     if (distanceAndFlags & 4) {
-        if (itemObject->mSoundSource.mSourceFlags & 1) {
+        if (itemObject->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
         return;
     }
     cameraHeightAboveItem = gViewFrustum.mCameraPos.y - position->y;
     if (cameraHeightAboveItem > -0x12c000 && cameraHeightAboveItem < gItemSoundCameraHeightLimit) {
-        if (!(itemObject->mSoundSource.mSourceFlags & 1)) {
+        if (!(itemObject->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED)) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
     } else {
-        if (itemObject->mSoundSource.mSourceFlags & 1) {
+        if (itemObject->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) {
             SetSoundSourceFlagBit(&itemObject->mSoundSource, 2, 1);
         }
     }
@@ -319,7 +319,7 @@ BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceS
     if (heightAboveCamera < kindData->mHeightRangeMin || kindData->mHeightRangeMax < heightAboveCamera) {
         return TRUE;
     }
-    return (GetKartZoneMask() & mapObject->mDigitMask) != 0;
+    return (GetEntryKartZoneMask() & mapObject->mDigitMask) != 0;
 }
 
 void SetupMapObjectView(MtxFx43 *viewMatrix) {
@@ -348,8 +348,9 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
             mapObject = objects[objectIndex];
             if (!(mapObject->mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) && mapObject->mAlpha != 0) {
                 forEachObject(list, mapObject, viewMatrix, mapObject->mAlpha);
-                if (lastObject != NULL && (s32) (mapObject->mDistanceSquaredAndFlags & ~0xc000001f) >
-                                              (s32) (lastObject->mDistanceSquaredAndFlags & ~0xc000001f)) {
+                if (lastObject != NULL &&
+                    (s32) (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >
+                        (s32) (lastObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK)) {
                     objects[lastIndex] = mapObject;
                     objects[objectIndex] = lastObject;
                 } else {
@@ -380,9 +381,6 @@ void InitMapObjectViewState(void) {
     gItemSoundCameraHeightLimit = 0x12c000;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, s32 nearDistance, s32 farDistance) {
     gViewFrustumBeforeRotation.mNear = nearDistance << 4;
     gViewFrustum.mNear = nearDistance << 4;
@@ -392,10 +390,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mLeftPlaneNormal.x = nearDistance;
     gViewFrustumBeforeRotation.mLeftPlaneNormal.y = 0;
     gViewFrustumBeforeRotation.mLeftPlaneNormal.z = -left;
-    if ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.z * gViewFrustumBeforeRotation.mLeftPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.x * gViewFrustumBeforeRotation.mLeftPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.y * gViewFrustumBeforeRotation.mLeftPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mLeftPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mLeftPlaneNormal,
                                            &gViewFrustumBeforeRotation.mLeftPlaneNormal);
     }
@@ -408,10 +403,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mRightPlaneNormal.x = -nearDistance;
     gViewFrustumBeforeRotation.mRightPlaneNormal.y = 0;
     gViewFrustumBeforeRotation.mRightPlaneNormal.z = right;
-    if ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.z * gViewFrustumBeforeRotation.mRightPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.x * gViewFrustumBeforeRotation.mRightPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mRightPlaneNormal.y * gViewFrustumBeforeRotation.mRightPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mRightPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mRightPlaneNormal,
                                            &gViewFrustumBeforeRotation.mRightPlaneNormal);
     }
@@ -424,10 +416,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mTopPlaneNormal.x = 0;
     gViewFrustumBeforeRotation.mTopPlaneNormal.y = -nearDistance;
     gViewFrustumBeforeRotation.mTopPlaneNormal.z = top;
-    if ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.z * gViewFrustumBeforeRotation.mTopPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.x * gViewFrustumBeforeRotation.mTopPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mTopPlaneNormal.y * gViewFrustumBeforeRotation.mTopPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mTopPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mTopPlaneNormal,
                                            &gViewFrustumBeforeRotation.mTopPlaneNormal);
     }
@@ -435,55 +424,38 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mBottomPlaneNormal.x = 0;
     gViewFrustumBeforeRotation.mBottomPlaneNormal.y = nearDistance;
     gViewFrustumBeforeRotation.mBottomPlaneNormal.z = -bottom;
-    if ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.z * gViewFrustumBeforeRotation.mBottomPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.x * gViewFrustumBeforeRotation.mBottomPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.y * gViewFrustumBeforeRotation.mBottomPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mBottomPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mBottomPlaneNormal,
                                            &gViewFrustumBeforeRotation.mBottomPlaneNormal);
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearMapObjectList(MapObjectList *list) {
     list->mMapObjects = NULL;
     list->mMapObjectCount = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 void DrawListAddToMapObjectListCount(MapObjectList *list, s32 count) {
     list->mMapObjectCount += count;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 InitMapObjectDrawList(MapObjectList *list) {
     list->mMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount << 2);
     list->mMapObjectCount = 0;
     return 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 AddMapObjectToDrawList(MapObjectList *list, MapObject *mapObject) {
     u32 index = list->mMapObjectCount;
     list->mMapObjectCount = index + 1;
     list->mMapObjects[index] = mapObject;
     return index << 2;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void SetDrawListSlot(void *listSlot) {
     *(u32 *) ((u8 *) (u32) (((u32) * (const u32 *) ((u8 *) (u32) listSlot + 0))) + 40) = (u32) listSlot;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitMapObjectDrawOrder(MapObjectList *list) {
     s32 objectIndex;
 
@@ -518,7 +490,7 @@ void UpdateMapObjectViewTests(void) {
 
     mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;
-    shapeMask = GetKartZoneMask();
+    shapeMask = GetEntryKartZoneMask();
     frameSlot = GetRaceUpdateFrames() & 3;
     objectIndex = 0;
     if (mapObjectCount <= 0) {
@@ -528,7 +500,7 @@ void UpdateMapObjectViewTests(void) {
     extraViewFlags = gViewTestResultFlag;
     do {
         mapObject = mapObjects[objectIndex];
-        mapObject->mDistanceSquaredAndFlags &= ~8;
+        mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_VIEW_TESTED;
         if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST)) {
             if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE) {
                 if (mapObject->mAlpha != 0) {
@@ -542,17 +514,17 @@ void UpdateMapObjectViewTests(void) {
             if ((objectIndex & 3) == frameSlot) {
                 if (mapObject->mDigitMask & shapeMask) {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) | 0x5f592e7;
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) | 0x5f592e7;
                     mapObject->mFlags |= extraFlags;
                 } else {
                     if (mapObject->mUseTwoPlaneViewTest != 0) {
                         mapObject->mDistanceSquaredAndFlags =
-                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                             ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                     mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     } else {
                         mapObject->mDistanceSquaredAndFlags =
-                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                             ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                             mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     }
@@ -577,7 +549,7 @@ void RefreshMapObjectViewTests(void) {
     u16 extraFlags;
     u32 extraViewFlags;
 
-    shapeMask = GetKartZoneMask();
+    shapeMask = GetEntryKartZoneMask();
     objectIndex = 0;
     mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;
@@ -588,19 +560,19 @@ void RefreshMapObjectViewTests(void) {
     extraViewFlags = gViewTestResultFlag;
     do {
         mapObject = mapObjects[objectIndex];
-        mapObject->mDistanceSquaredAndFlags &= ~8;
+        mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_VIEW_TESTED;
         if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST)) {
             if (mapObject->mDigitMask & shapeMask) {
                 mapObject->mFlags |= extraFlags;
             } else {
                 if (mapObject->mUseTwoPlaneViewTest != 0) {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                         ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                 mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 } else {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                         ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                         mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 }
@@ -748,13 +720,13 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     foundCount = 0;
     hitOffset->x = hitOffset->y = hitOffset->z = 0;
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
-        if (gFoundCollisionSlotFlags[slotIndex] & 0x2000) {
+        if (gFoundCollisionSlotFlags[slotIndex] & COLLISION_SLOT_FLAG_MAP_OBJECT) {
             mapObject = gFoundCollisionSlotObjects[slotIndex];
-            if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT)) {
+            if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH)) {
                 continue;
             }
             if (IsSphereHittingMapObject(&centre, radius, mapObject, foundVector) != FALSE) {
-                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) &&
+                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_PUSH_OUT) &&
                     DoesKartRespondToMapObject(itemEffect, mapObject) != 0) {
                     lo.x = (foundVector->x < lo.x) ? foundVector->x : lo.x;
                     lo.y = (foundVector->y < lo.y) ? foundVector->y : lo.y;
@@ -766,8 +738,8 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
                 gFoundMapObjects[foundCount] = mapObject;
                 foundCount++;
                 foundVector = &gFoundMapObjectVectors[foundCount];
-                if (foundCount >= 0x20) {
-                    foundCount = 0x1f;
+                if (foundCount >= FOUND_MAP_OBJECT_CAPACITY) {
+                    foundCount = FOUND_MAP_OBJECT_CAPACITY - 1;
                 }
             }
         }
@@ -791,7 +763,7 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
     s32 slotIndex;
 
     foundCount = 0;
-    FindCollisionSlotsAroundPos(position, radius, 0x2000);
+    FindCollisionSlotsAroundPos(position, radius, COLLISION_SLOT_FLAG_MAP_OBJECT);
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
         mapObject = gFoundCollisionSlotObjects[slotIndex];
         if (mapObject->mKind == kind) {
@@ -824,7 +796,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
     s32 dz;
     BOOL isHit;
     s32 negatedRadius;
-    if (mapObject->mFlags & MAP_OBJECT_FLAG_INACTIVE) {
+    if (mapObject->mFlags & MAP_OBJECT_FLAG_DISABLED) {
         return FALSE;
     }
     switch (mapObject->mKindData->mShapeKind) {
@@ -904,7 +876,7 @@ BOOL IsWaterPresent(void) {
 // y minus mHeight of gCourseWater (negative below the water), 9999.0 (fx32) when the course has no water; asked by the
 // camera; it does not look at mIsHeightUsed or WaterEfct.
 s32 GetHeightAboveWater(s32 height) {
-    return gCourseWater != NULL ? height - gCourseWater->mHeight : 0x270f000;
+    return gCourseWater != NULL ? height - gCourseWater->mHeight : MAP_OBJECT_FAR_VALUE;
 }
 
 // mHeightFactor of gCourseWater, 0 when the course has no water; asked by the HUD gauge.
@@ -936,7 +908,7 @@ s32 GetHeightAboveWaterOrEfct(s32 height) {
     if (gCourseWater != NULL && gCourseWater->mIsHeightUsed != 0) {
         return height - gCourseWater->mHeight;
     }
-    return gCourseWaterEfct != NULL ? height - gCourseWaterEfct->mHeight : 0x270f000;
+    return gCourseWaterEfct != NULL ? height - gCourseWaterEfct->mHeight : MAP_OBJECT_FAR_VALUE;
 }
 
 s32 IsFarBelowWaterEfct(s32 height) {
@@ -1046,12 +1018,8 @@ void UnparkFlaggedMapObjects(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
-// Stores the mask of the nonzero decimal digits of a (bit d for digit d) in mDigitMask; a of 10000 or more first
-// sets flag 0x80 in mFlags and loses the 10000.
+// Stores the mask of the nonzero decimal digits of number (bit d for digit d) in mDigitMask; a number of 10000 or more
+// first sets MAP_OBJECT_FLAG_NUMBER_OVERFLOW in mFlags and has 10000 taken off.
 void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
     int limit;
     u32 digitMask;

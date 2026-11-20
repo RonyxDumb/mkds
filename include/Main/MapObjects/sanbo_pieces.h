@@ -5,6 +5,7 @@
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower
+#include "Main/MapObjects/sanbo.h"
 
 // One piece of a Sanbo: position, velocity, draw scale and the wobble and rotation that animate it.
 typedef struct SanboPiece {
@@ -32,15 +33,16 @@ typedef struct SanboPiece {
 #define SANBO_STATE_SCATTERED 2
 #define SANBO_STATE_REGROWING 3
 
-// A Sanbo map object (sanbo_h and sanbo_b models in one object): its pieces and the GroupFollower they move along.
+// A Sanbo map object (sanbo_h and sanbo_b models in one object): its pieces and the GroupFollower the object moves
+// along.
 typedef struct Sanbo {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mPathWaitTimer;
     // Wobble step is 0xb61 while above 0, else 0x2d8.
     /* 0a4 */ s32 mFastWobbleTimer;
-    /* 0a8 */ s32 mLaunchWaitFrames;
+    /* 0a8 */ s32 mLaunchWaitTimer;
     /* 0ac */ s32 mSoundTimer;
-    /* 0b0 */ SanboPiece mPieces[4];
+    /* 0b0 */ SanboPiece mPieces[SANBO_PIECE_COUNT];
     /* 1d0 */ u16 mPieceCount;
     /* 1d2 */ u8 mUnk_1d2[2];
     /* 1d4 */ s32 mPathSpeed;
@@ -50,5 +52,4 @@ typedef struct Sanbo {
     /* 1fc */ s32 mState;
 } Sanbo;
 
-#include "Main/MapObjects/sanbo.h"
 #include "Main/MapObjects/sanbo_collide.h"

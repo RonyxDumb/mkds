@@ -6,17 +6,17 @@
 
 // Values of MBiParam.mMode: the parent side is set up here, the child side is never entered in this build.
 enum {
-    MB_MODE_PARENT = 1,
-    MB_MODE_CHILD = 2,
+    MULTIBOOT_MODE_PARENT = 1,
+    MULTIBOOT_MODE_CHILD = 2,
 };
 
-// Parent set-up values: data bytes sent and received per MP exchange, children allowed, the beacon period base and
-// the longest time spent on a channel while scanning.
+// Parent set-up values: data bytes sent and received per MP exchange, children allowed and the beacon period base; and
+// the longest time per channel a scan falls back on when none is set (child scan only, not run in this build).
 #define MULTIBOOT_PARENT_SEND_DATA_SIZE 0x100
 #define MULTIBOOT_PARENT_RECEIVE_DATA_SIZE 8
 #define MULTIBOOT_MAX_CHILDREN 0xf
 #define MULTIBOOT_BEACON_PERIOD_BASE 0xc8
-#define MULTIBOOT_SCAN_MAX_CHANNEL_TIME 0xc8
+#define MULTIBOOT_SCAN_DEFAULT_MAX_CHANNEL_TIME 0xc8
 
 // Bytes of the game info the beacon of a multiboot parent carries.
 #define MULTIBOOT_BEACON_GAME_INFO_LENGTH 0x10
@@ -28,7 +28,7 @@ typedef struct ScanEntry {
     /* 178 */ u8 mUnk_178[8];
 } ScanEntry;
 
-// The multiboot wireless work: the game group id, entry and multiboot flags, the child limit and the key sharing flags.
+// The multiboot wireless work: the game group id, mEntryFlag, mMultiBootFlag, mMaxChildren, mKsFlag and mCsFlag.
 typedef struct MBiParam {
     /* 000 */ u8 mUnk_000[8];
     /* 008 */ u32 mGgid;

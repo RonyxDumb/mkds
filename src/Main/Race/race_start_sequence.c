@@ -5,18 +5,18 @@
 #include "Main/Graphics/stem_sets.h"
 
 #include "Main/System/backup_net_camera_work.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Menu/choises_s.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -52,7 +52,9 @@ void ResetRaceStartSequenceFrames(void) {
     gRaceStartSequence->mSequenceFrames = -0x78;
 }
 
-// Per-frame step from UpdateRaceHud: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
+// Per-frame step from UpdateRaceHud: waits for the start sync, then counts mSequenceFrames; at -1 it calls
+// StartRaceInput, at 180 StartRaceSounds and StartRace. The countdown sounds are in UpdateRaceStartSequenceSounds (from
+// DrawRaceHud).
 void UpdateRaceStartSequence(void) {
     RaceStartSequence *sequence = gRaceStartSequence;
     s32 frames;

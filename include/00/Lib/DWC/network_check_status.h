@@ -25,11 +25,12 @@ typedef struct DWCNetcheck {
     /* 118 */ void *mBodyWayport;
     /* 11c */ OSThread mThread;
     /* 1dc */ OSMutex mMutex;
-    /* 1f4 */ u8 pad_1f4[0x100c];
+    /* 1f4 */ u8 pad_1f4[0xc];
+    /* 200 */ u8 mThreadStackArea[0x1000];
     /* 1200 */ u8 mThreadStack[0x1000];
 } DWCNetcheck;
 
-// Object filled by DWC_Auth_GetResult.
+// Server login result: mReturnCode, mToken and mChallenge, filled by DWC_Auth_GetResult.
 typedef struct DWCAuthResult {
     /* 000 */ s32 mReturnCode;
     /* 004 */ u8 mUnk_004[0x46];

@@ -188,7 +188,8 @@ void DigitsMultiply(DigitRecord *out, const DigitRecord *firstRecord, const Digi
         *--resultPointer = carry;
         out->mExponent++;
     }
-    for (columnIndex = 0; columnIndex < 32 && resultPointer < end; columnIndex++, resultPointer++) {
+    for (columnIndex = 0; columnIndex < DIGIT_RECORD_MAX_DIGITS && resultPointer < end;
+         columnIndex++, resultPointer++) {
         out->mDigits[columnIndex] = *resultPointer;
     }
     out->mDigitCount = columnIndex;
@@ -220,7 +221,7 @@ void DigitsFromString(DigitRecord *out, const char *text, int exponent) {
 
     out->mExponent = exponent;
     out->mNegative = 0;
-    for (digitIndex = 0; digitIndex < 32 && *text != 0; digitIndex++) {
+    for (digitIndex = 0; digitIndex < DIGIT_RECORD_MAX_DIGITS && *text != 0; digitIndex++) {
         out->mDigits[digitIndex] = *text++ - '0';
     }
     out->mDigitCount = digitIndex;

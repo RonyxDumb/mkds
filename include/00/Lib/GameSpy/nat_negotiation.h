@@ -1,36 +1,41 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/negotiator_free.h" // NatTraversalEntry
+#include "00/Lib/GameSpy/negotiator_free.h" // NatNegotiator
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/query_reporting.h"
 
-// Six bytes at NNMagicData, written at the start of each buffer.
+// The six magic bytes (NNMagicData) at the start of every NAT negotiation message; received messages are checked
+// against them.
 typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
-// Sockets a negotiation sends from (NN_PT_*: the game port, then two others, each answered by its own acknowledgement),
-// how a negotiation ends (FINISHED_*, the mFinished byte of a connect message), the port of the matchup server, and
-// how often and how long (milliseconds) the init and ping messages are sent again.
-#define NN_PT_GP 0
-#define NN_PT_NN1 1
-#define NN_PT_NN2 2
-#define FINISHED_NOERROR 0
-#define FINISHED_ERROR_DEADBEAT_PARTNER 1
-#define FINISHED_ERROR_INIT_PACKETS_TIMEDOUT 2
-#define MATCHUP_PORT 0x6cfd
-#define INIT_RETRY_TIME 500
-#define INIT_RETRY_COUNT 30
-#define PING_RETRY_TIME 700
-#define PING_RETRY_COUNT 12
-#define FINISHED_IDLE_TIME 5000
+// Port types of an init message: NAT_PORT_TYPE_GAME_SOCKET is sent from the game socket to the first matchup
+// server, NAT_PORT_TYPE_MATCHUP1 from the negotiation socket to the first, NAT_PORT_TYPE_MATCHUP2 from the negotiation
+// socket to the second; each is answered by its own acknowledgement (mInitAckRecv).
+#define NAT_PORT_TYPE_GAME_SOCKET 0
+#define NAT_PORT_TYPE_MATCHUP1 1
+#define NAT_PORT_TYPE_MATCHUP2 2
 
-// Value of the mVersion byte of every message.
+// How a negotiation ends (NAT_CONNECT_FINISHED_*, the mFinished byte of a connect message), the port of the matchup
+// servers, how often and how long (milliseconds) the init and ping messages are sent again, and how long a pinged
+// entry waits before it is cancelled.
+#define NAT_CONNECT_FINISHED_NO_ERROR 0
+#define NAT_CONNECT_FINISHED_DEADBEAT_PARTNER 1
+#define NAT_CONNECT_FINISHED_INIT_TIMEOUT 2
+#define MATCHUP_SERVER_PORT 0x6cfd
+#define NAT_INIT_RETRY_MS 500
+#define NAT_INIT_MAX_RETRY_COUNT 30
+#define NAT_PING_RETRY_MS 700
+#define NAT_PING_MAX_RETRY_COUNT 12
+#define NAT_PINGED_CANCEL_DELAY_MS 5000
+
+// Value written to the mVersion byte of the messages this file builds; received messages are not checked for it.
 #define NAT_PACKET_VERSION 2
 
-// Values of the mPacketType byte (offset 7 of every message). Types 0 to 3 are InitPacket messages, 5 to 7 are
-// ConnectPacket messages (6 is an InitPacket sent back).
+// Values of the mPacketType byte. INIT, INIT_ACK, ECHO_REQUEST, ECHO_REPLY and CONNECT_ACK are read and written as
+// InitPacket (INIT as InitPacketWithGamename); CONNECT and PING as ConnectPacket.
 enum {
     NAT_PACKET_INIT = 0,
     NAT_PACKET_INIT_ACK = 1,
@@ -41,7 +46,7 @@ enum {
     NAT_PACKET_PING = 7,
 };
 
-// The NAT negotiation connect message: cookie, remote address and port, and the data received and finished flags.
+// The NAT negotiation connect message: cookie, remote address and port, the got-your-data flag and the finished code.
 typedef struct ConnectPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;
@@ -53,7 +58,8 @@ typedef struct ConnectPacket {
     /* 13 */ u8 mFinished;
 } ConnectPacket;
 
-// The NAT negotiation init message: cookie, port type and client index.
+// The short NAT negotiation message (init acknowledgement, echo request and reply, connect acknowledgement): cookie,
+// port type and client index.
 typedef struct InitPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;

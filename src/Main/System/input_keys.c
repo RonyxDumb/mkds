@@ -9,7 +9,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "model_texture_bind.h"
 #include "registers.h"
 
@@ -21,11 +21,11 @@ void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mBits = 0;
     gKeysInputSlot.mClearedBits = 0;
     gKeysInputSlot.mRepeatBits = 0;
-    gKeysInputSlot.mRepeatState = 0;
+    gKeysInputSlot.mRepeatState = INPUT_REPEAT_IDLE;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
-    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
+    gKeysInputSlot.mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
+    gKeysInputSlot.mRepeatIntervalLimit = INPUT_REPEAT_INTERVAL_FRAMES;
     gKeysInputSlot.mHoldLong = 0;
     gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
@@ -38,11 +38,11 @@ void ResetKeysInputSlot(void) {
     gKeysInputSlot.mBits = 0;
     gKeysInputSlot.mClearedBits = 0;
     gKeysInputSlot.mRepeatBits = 0;
-    gKeysInputSlot.mRepeatState = 0;
+    gKeysInputSlot.mRepeatState = INPUT_REPEAT_IDLE;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
-    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
+    gKeysInputSlot.mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
+    gKeysInputSlot.mRepeatIntervalLimit = INPUT_REPEAT_INTERVAL_FRAMES;
     gKeysInputSlot.mHoldLong = 0;
     gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
@@ -65,7 +65,7 @@ void SeekKeyStream(u32 count, u32 origin) {
     u8 *newPosition;
     u8 *start;
     switch (origin) {
-        case KEY_STREAM_SEEK_END:
+        case KEY_STREAM_SEEK_HIGHEST_WRITTEN:
             newPosition = gKeyStream.mHighestWritten - count * elementSize;
             break;
         case KEY_STREAM_SEEK_START:
@@ -117,7 +117,7 @@ void WriteKeyBitsToStream(u32 keys) {
     } else {
         *(u16 *) position = keys;
     }
-    SeekKeyStream(1, 1);
+    SeekKeyStream(1, KEY_STREAM_SEEK_CURRENT);
     if (gKeyStream.mPosition > gKeyStream.mHighestWritten) {
         gKeyStream.mHighestWritten = gKeyStream.mPosition;
     }
@@ -154,6 +154,6 @@ u32 ReadKeyBitsFromStream(void) {
     } else {
         keys = *(u16 *) gKeyStream.mPosition;
     }
-    SeekKeyStream(1, 1);
+    SeekKeyStream(1, KEY_STREAM_SEEK_CURRENT);
     return keys;
 }

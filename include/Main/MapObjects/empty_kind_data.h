@@ -4,7 +4,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
-#define MINI_DOKAN_SOUND_ID 0x84
+#define EMPTY_KIND_DATA_SOUND_ID 0x84
 
 extern void *gGardenTree1;
 extern void *gCrossTree1;

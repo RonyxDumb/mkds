@@ -10,7 +10,9 @@ enum {
     AP_WEP_MODE_KEY_16_BYTES,
 };
 
-// Values of ApEntry.mSetType: ENTERED is stored with the SSID by hand, EXCHANGED by the received settings.
+// Values of ApEntry.mSetType: ENTERED is stored by StoreApWorkSsid (an SSID typed in or picked from the scan list),
+// EXCHANGED by WriteApWorkFromExchangeResult, EMPTY marks an unused entry; value 1 is written by
+// WriteApWorkFromAossResult and has no name here.
 enum {
     AP_SET_TYPE_ENTERED,
     AP_SET_TYPE_EXCHANGED = 2,
@@ -47,7 +49,7 @@ typedef struct ApWorkCopy {
     /* f8 */ u16 mCrcTable;
 } ApWorkCopy;
 
-// Object at gApStore, as far as WriteApWorkFromExchangeResult through CopyApEntryToWorkCopy use it.
+// The saved access point settings: four pages of entry, packed WiFi info and CRC, then the working copy.
 typedef struct ApStore {
     /* 000 */ struct {
         ApEntry mEntry;

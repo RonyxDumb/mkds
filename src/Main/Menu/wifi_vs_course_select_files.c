@@ -53,7 +53,8 @@ struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 
 #pragma thumb on
 
-// Sets the digit cells for the place of the kart among the karts that appear for the character and for how many appear.
+// Sets the digit cells for the place of the kart among the karts that appear for the character and for how many appear;
+// a number under 10 shows only its ones digit.
 void WriteKartPositionAndCount(s32 position, s32 kartCount) {
     CellFileSet *fileSet;
     s32 tens;
@@ -75,7 +76,8 @@ void WriteKartPositionAndCount(s32 position, s32 kartCount) {
     }
 }
 
-// List callback: action 1 prints the label of a row, action 0 sets the highlight value of the seven slots.
+// List callback: action 1 prints the label of a row into a slot, action 0 sets the label palette index of the seven
+// slots (one index for the selected slot, another for the rest).
 void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     CellFileSet *fileSet;
     void *text;
@@ -118,7 +120,8 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
                                        fileSet->mCellLayout, gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex))[1]
                                        << 20 >>
                                    20),
-                           (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
+                           (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames,
+                           WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES);
         fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex].mOffsetY =
             InterpolateS16(
                 1, 0,
@@ -126,7 +129,8 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
                                                      gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex))[1]
                             << 20 >>
                         20),
-                (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
+                (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames,
+                WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES);
     }
 }
 
@@ -256,7 +260,8 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
     }
 }
 
-// Picks a course index at random that none of the stored course ids of the earlier races has.
+// Picks a random start in the course table and steps forward (at least one place, wrapping at 20) to the first course
+// whose id is none of the four stored course ids of the earlier races.
 s32 PickRandomCourseIndexNotRaced(void) {
     WiFiVSCourseSelect *courseSelect;
     RandomState64 *random;
@@ -269,7 +274,7 @@ s32 PickRandomCourseIndexNotRaced(void) {
 
     courseSelect = gWiFiVSCourseSelect;
     random = &courseSelect->mRandom;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     courseIndex = (u16) (random->mValue >> 32 >> 20) % 20;
     menuShared = gMenuShared;
     do {
@@ -325,11 +330,11 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     gWiFiVSCourseSelect->mSubOffsetY = -0xc0;
     for (index = 0; index < 4; index++) {
         gWiFiVSCourseSelect->mShownCourseIds[index] = 0;
-        SetupInterpolation(&gWiFiVSCourseSelect->mRowInterpolations[index], 3, 10, 0xfc, 0);
+        SetupInterpolation(&gWiFiVSCourseSelect->mRowInterpolations[index], INTERPOLATION_STATE_AT_START, 10, 0xfc, 0);
     }
-    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[1], 0, 10, -0x40, 0);
-    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], 0, 10, -0xc0, 0);
-    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
+    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
+    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xc00;
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR",
                                    "WiFi_VS_course_select_m_b.NCLR", "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);
@@ -439,7 +444,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
         case WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_HOLD_FRAMES) {
-                StartFadeToFadedPositiveOneScreen(0x3c, 1);
+                StartFadeToFadedPositiveOneScreen(WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES, 1);
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS;
                 gWiFiVSCourseSelect->mStateFrames = 0;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x209);
@@ -466,7 +471,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_FADE_IN:
             gWiFiVSCourseSelect->mStateFrames++;
-            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES) {
+            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_FADE_TO_FADED_FRAMES) {
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_DONE;
                 gWiFiVSCourseSelect->mStateFrames = 0;
             }
@@ -487,18 +492,10 @@ s32 AdvanceWiFiVSCourseSelect(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseWiFiVSCourseSelect(void) {
     HeapDestroy(gWiFiVSCourseSelect->mHeap);
     *&gWiFiVSCourseSelect = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteWiFiVSCourseSelectRegisters(void) {
     s32 window0V;
@@ -522,10 +519,6 @@ void WriteWiFiVSCourseSelectRegisters(void) {
                              ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadWiFiVSCourseSelectFiles(void) {
     void *file;

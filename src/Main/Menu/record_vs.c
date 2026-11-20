@@ -16,7 +16,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/scene_numbers.h"
 #include "Main/Menu/record_vs_erase.h"
 #include "Main/Graphics/scene_text.h"
@@ -86,10 +86,6 @@ void AdvanceRecordVSWaitFade(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceRecordVSSlideInMain(void) {
     u16 transientBase;
     u16 mainBase;
@@ -97,7 +93,7 @@ void AdvanceRecordVSSlideInMain(void) {
     s32 labelIndex;
     s16 offset;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
@@ -124,7 +120,7 @@ void AdvanceRecordVSSlideInMain(void) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
             offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSSlideInSubAndRefreshPage();
     }
 }
@@ -135,7 +131,7 @@ void AdvanceRecordVSSlideInSub(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -150,18 +146,14 @@ void AdvanceRecordVSSlideInSub(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSWaitReturnButton();
     }
-    if (gRecordVS->mStateFrames == RECORD_VS_SUB_SLIDE_IN_SWAP_STEP) {
+    if (gRecordVS->mStateFrames == RECORD_VS_SLIDE_IN_SUB_SWAP_STEP) {
         gRecordVS->mRecordVSSTable[24].mVisible = 1;
         gRecordVS->mRecordVSSTable[25].mVisible = 0;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSWaitReturnButton(void) {
     int selectReturnShownNoRequest;
@@ -170,10 +162,6 @@ void AdvanceRecordVSWaitReturnButton(void) {
         RequestRecordVSBrowse();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void AdvanceRecordVSBrowse(void) {
     s32 downRectIndex;
@@ -194,7 +182,7 @@ void AdvanceRecordVSBrowse(void) {
     releasedFlag = FALSE;
     touchSlot = &gInputHasPairs[inputSlotIndex];
     pressedBits = gInputHasPairs[inputSlotIndex].mHasPair;
-    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         releasedFlag = TRUE;
     }
     if (releasedFlag == FALSE && pressedBits == 0) {
@@ -207,7 +195,7 @@ void AdvanceRecordVSBrowse(void) {
     pressedFlag = FALSE;
     releasedFlag = FALSE;
     pressedBits = touchSlot->mHasPair;
-    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         releasedFlag = TRUE;
     }
     if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPrevHasPair == 0 && pressedBits != 0) {
@@ -228,7 +216,7 @@ void AdvanceRecordVSBrowse(void) {
         pressedFlag = FALSE;
         releasedFlag = FALSE;
         pressedBits = touchSlot->mHasPair;
-        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             releasedFlag = TRUE;
         }
         if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPrevHasPair == 0 && pressedBits != 0) {
@@ -237,14 +225,14 @@ void AdvanceRecordVSBrowse(void) {
         if (pressedFlag == FALSE ||
             IsSelectReturnShownNoRequestAndInRect(gInputPairXs[inputSlotIndex].mPairX,
                                                             gInputPairYs[inputSlotIndex].mPairY) == FALSE) {
-            goto handlePageButtons;
+            goto skipReturnPress;
         }
     }
     if (IsRecordVSIndexChangeRunning() != 0) {
         return;
     }
     RequestRecordVSSubSlideOut();
-    if (GetRecordPrevScene() == 12) {
+    if (GetRecordPrevScene() == SCENE_WIFI_MENU) {
         gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
         RequestSelectReturnPressWithSound(1);
         return;
@@ -252,10 +240,10 @@ void AdvanceRecordVSBrowse(void) {
     gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnPressWithSound(0);
     return;
-handlePageButtons:
+skipReturnPress:
     if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 10 && gRecordVS->mPageDecrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -263,7 +251,7 @@ handlePageButtons:
             return;
         }
         gRecordVS->mPageDecrement = RECORD_VS_PAGE_DECREMENT;
-        gRecordVS->mOffsetTimers[0] = RECORD_PAGE_ARROW_FRAMES;
+        gRecordVS->mOffsetTimers[0] = RECORD_VS_OFFSET_TIMER_FRAMES;
         gRecordVS->mPageDecrementRepeat = TRUE;
         RequestRecordVSPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -271,7 +259,7 @@ handlePageButtons:
     }
     if ((downRectIndex == 11 && gRecordVS->mPageIncrementRepeat != FALSE) ||
         (pressedRectIndex == 11 && gRecordVS->mPageIncrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -279,7 +267,7 @@ handlePageButtons:
             return;
         }
         gRecordVS->mPageDecrement = RECORD_VS_PAGE_INCREMENT;
-        gRecordVS->mOffsetTimers[1] = RECORD_PAGE_ARROW_FRAMES;
+        gRecordVS->mOffsetTimers[1] = RECORD_VS_OFFSET_TIMER_FRAMES;
         gRecordVS->mPageIncrementRepeat = TRUE;
         RequestRecordVSPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -316,11 +304,11 @@ handlePageButtons:
         ToggleRecordVSRowFlag(gRecordVS->mIndex);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         DecrementRecordVSIndex();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         IncrementRecordVSIndex();
     }
 }
@@ -338,17 +326,17 @@ void AdvanceRecordVSPageSlideOut(void) {
     AdvanceRecordVSOffsetTimers();
     switch (gRecordVS->mPageDecrement) {
         case RECORD_VS_PAGE_INCREMENT:
-            endOffset = -256;
+            endOffset = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
         case RECORD_VS_PAGE_DECREMENT:
-            endOffset = 0x100;
+            endOffset = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
-    offset = InterpolateS16(1, 0, endOffset, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, 0, endOffset, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetX = offset;
@@ -378,7 +366,7 @@ void AdvanceRecordVSPageSlideOut(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSPageSlideInAndChangePage();
     }
 }
@@ -396,17 +384,17 @@ void AdvanceRecordVSPageSlideIn(void) {
     AdvanceRecordVSOffsetTimers();
     switch (gRecordVS->mPageDecrement) {
         case RECORD_VS_PAGE_INCREMENT:
-            startOffset = 0x100;
+            startOffset = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
         case RECORD_VS_PAGE_DECREMENT:
-            startOffset = -256;
+            startOffset = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
-    offset = InterpolateS16(1, startOffset, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, startOffset, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetX = offset;
@@ -436,7 +424,7 @@ void AdvanceRecordVSPageSlideIn(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSBrowse();
     }
 }
@@ -446,7 +434,7 @@ void AdvanceRecordVSSubSlideOut(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, 0, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -461,7 +449,7 @@ void AdvanceRecordVSSubSlideOut(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSMainSlideOut();
     }
     if (gRecordVS->mStateFrames == RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP) {
@@ -477,10 +465,10 @@ void AdvanceRecordVSMainSlideOut(void) {
     s32 labelIndex;
     s16 offset;
     if (GetRecordNextScene() == -1 && gRecordVS->mNextScreen == RECORD_SCREEN_OUTSIDE) {
-        SetRecordNextScene(12);
+        SetRecordNextScene(SCENE_WIFI_MENU);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
@@ -507,7 +495,7 @@ void AdvanceRecordVSMainSlideOut(void) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
             offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS && gRecordVS->mNextScreen != RECORD_SCREEN_OUTSIDE) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS && gRecordVS->mNextScreen != RECORD_SCREEN_OUTSIDE) {
         RequestRecordScreen(gRecordVS->mNextScreen);
     }
 }
@@ -522,7 +510,7 @@ void AdvanceRecordVSPressButton(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSSubSlideOutRequestScreen();
     }
 }
@@ -532,7 +520,7 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, 0, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -547,7 +535,7 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordScreen(gRecordVS->mNextScreen);
     }
     if (gRecordVS->mStateFrames == RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP) {
@@ -556,13 +544,13 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     }
 }
 
-void AdvanceRecordVSSubSlideIn(void) {
+void AdvanceRecordVSSubSlideInFromErase(void) {
     s16 offset;
     s32 rowIndex;
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
+    offset = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gRecordVS->mStateFrames, RECORD_VS_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -577,7 +565,7 @@ void AdvanceRecordVSSubSlideIn(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
+    if (gRecordVS->mStateFrames >= RECORD_VS_SLIDE_STEPS) {
         RequestRecordVSBrowse();
     }
     if (gRecordVS->mStateFrames == RECORD_VS_SUB_RESLIDE_SWAP_STEP) {
@@ -624,7 +612,7 @@ void AdvanceRecordVS(void) {
             AdvanceRecordVSSubSlideOutRequestScreen();
             break;
         case RECORD_VS_STATE_SUB_SLIDE_IN:
-            AdvanceRecordVSSubSlideIn();
+            AdvanceRecordVSSubSlideInFromErase();
             break;
     }
     AdvanceRecordVSRowObjects();
@@ -644,23 +632,15 @@ void AdvanceRecordVS(void) {
                     recordVS->mRecordVSSTable);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WriteRecordVSBgOffsets(void) {
     reg_G2_BG0OFS = (-gRecordVS->mBg0OffsetX & 0x1ff) | ((-gRecordVS->mBg0OffsetY << 16) & 0x1ff0000);
     reg_G2_BG1OFS = (-gRecordVS->mBg1OffsetX & 0x1ff) | ((-gRecordVS->mBg1OffsetY << 16) & 0x1ff0000);
     AdvanceRecordSceneRegistersTimer();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WriteRecordVSRegisters(void) {
     u32 planeBits;
-    if (GetRecordPrevScene() == 12) {
+    if (GetRecordPrevScene() == SCENE_WIFI_MENU) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1b00;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
     } else {
@@ -683,10 +663,6 @@ void ClearRecordScreenCallbacksKeepRegisters(void) {
     gRecordScene->mScreenCallbacks.mAdvance = NULL;
     gRecordScene->mScreenCallbacks.mWriteOffsets = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void LoadRecordSceneData(void) {
     void *file;
@@ -798,10 +774,6 @@ void LoadRecordSceneData(void) {
     LoadCupMarkData();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitRecordSceneObject(void *heap, s16 previousScene) {
     SceneTextInitParams sceneTextInitParams;
     gRecordScene = HeapAlloc(heap, sizeof(*gRecordScene));
@@ -819,7 +791,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     sceneTextInitParams.mUseSelectReturn = TRUE;
     sceneTextInitParams.mUseBackScreen = TRUE;
     sceneTextInitParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextInitParams);
     CreateRecordList(gRecordScene->mHeap);
     BuildRecordList();
@@ -842,10 +814,6 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseRecordSceneObject(void) {
     ClearRecordListPointer();
     gRecordScene->mScreenCallbacks.mRelease();
@@ -854,10 +822,6 @@ void ReleaseRecordSceneObject(void) {
     ReleaseSceneText();
     *&gRecordScene = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 // Switches to the requested screen when there is one, then runs the running screen's step.
 void AdvanceRecordScene(void) {
@@ -897,34 +861,20 @@ void AdvanceRecordScene(void) {
     AdvanceLinkLevelIcons();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WriteRecordSceneRegisters(void) {
     gRecordScene->mScreenCallbacks.mWriteOffsets();
     WriteSceneTextRegisters();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void SetRecordScreenCallbacks(const RecordScreenCallbacks *callbacks) {
     gRecordScene->mScreenCallbacks = *callbacks;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void RequestRecordScreen(s32 screen) {
     u32 screenCopy = screen;
     u32 unused;
     gRecordScene->mNextScreen = screenCopy;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetRecordPrevScreen(void) {
     return (gRecordScene->mPrevScreen);
@@ -942,10 +892,6 @@ void SetRecordNextScene(u32 scene) {
     gRecordScene->mNextScene = (u16) scene;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Counts the registers timer down and calls the screen's register writer when it reaches 0.
 void AdvanceRecordSceneRegistersTimer(void) {
     if (gRecordScene->mRegistersTimer > 0) {
@@ -956,29 +902,20 @@ void AdvanceRecordSceneRegistersTimer(void) {
     }
 }
 
-#pragma thumb off
-
-#pragma thumb on
 u32 GetRecordScenePageIndex(void) {
     return gRecordScene->mPageIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetRecordSceneIndex(void) {
     return gRecordScene->mIndex;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetRecordScenePageIndex(u32 pageIndex) {
     u32 pageIndexCopy = pageIndex;
     u32 unused;
     gRecordScene->mPageIndex = (u16) pageIndexCopy;
 }
-#pragma thumb off
 
-#pragma thumb on
 void SetRecordSceneIndex(u32 index) {
     u32 indexCopy = index;
     u32 unused;

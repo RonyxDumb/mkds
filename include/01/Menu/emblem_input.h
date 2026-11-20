@@ -3,12 +3,14 @@
 #include "types.h"
 #include "01/MapObjects/mission_run_map_object.h"
 
-// Calls a key has been held at which it repeats (the held counts also count 1 for the first call), and calls a touch
-// must stay within one pixel of its previous point to count as pressed and released.
+// A held key repeats on its first call and again whenever its held count is EMBLEM_INPUT_REPEAT_CALLS (the count steps
+// back to it after 16); a touch that stays within 1 of its previous x and y for more than
+// EMBLEM_INPUT_STILL_PRESS_CALLS calls counts as pressed and released.
 #define EMBLEM_INPUT_REPEAT_CALLS 0xf
 #define EMBLEM_INPUT_STILL_PRESS_CALLS 0x3c
 
-// The emblem editor input: pointer position, press, release and down state and how long each button has been held.
+// The emblem editor input: the touch point with its press, release and down state, and for each button the number of
+// calls it has been held (the count cycles between 15 and 16 once held longer).
 typedef struct EmblemInput {
     /* 0x00 */ s32 mX;
     /* 0x04 */ s32 mY;
@@ -21,16 +23,16 @@ typedef struct EmblemInput {
     /* 0x20 */ s32 mPrevPressed;
     /* 0x24 */ s32 mPrevReleased;
     /* 0x28 */ s32 mPrevDown;
-    /* 0x2c */ s32 mLeftHeldCount;
-    /* 0x30 */ s32 mRightHeldCount;
-    /* 0x34 */ s32 mUpHeldCount;
-    /* 0x38 */ s32 mDownHeldCount;
-    /* 0x3c */ s32 mAHeldCount;
-    /* 0x40 */ s32 mBHeldCount;
-    /* 0x44 */ s32 mXHeldCount;
-    /* 0x48 */ s32 mYHeldCount;
-    /* 0x4c */ s32 mLHeldCount;
-    /* 0x50 */ s32 mRHeldCount;
+    /* 0x2c */ s32 mLeftKeyRepeatCount;
+    /* 0x30 */ s32 mRightKeyRepeatCount;
+    /* 0x34 */ s32 mUpKeyRepeatCount;
+    /* 0x38 */ s32 mDownKeyRepeatCount;
+    /* 0x3c */ s32 mAKeyRepeatCount;
+    /* 0x40 */ s32 mBKeyRepeatCount;
+    /* 0x44 */ s32 mXKeyRepeatCount;
+    /* 0x48 */ s32 mYKeyRepeatCount;
+    /* 0x4c */ s32 mLKeyRepeatCount;
+    /* 0x50 */ s32 mRKeyRepeatCount;
 } EmblemInput;
 
 #include "01/MapObjects/iwante.h"

@@ -43,10 +43,6 @@ WBTCommand *GetNextRequestAddress(void) {
     return &gBlockTransfer.mNextRequest;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 u32 TrySetNextRequest(const WBTCommand *request) {
     u32 savedInterrupts;
     WBTCommand *nextRequest;
@@ -65,10 +61,6 @@ u32 TrySetNextRequest(const WBTCommand *request) {
     return 1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 WBTBlockInfoList *GetBlockListHead(void) {
     return gBlockListHead;
 }
@@ -76,10 +68,6 @@ WBTBlockInfoList *GetBlockListHead(void) {
 void SetBlockListHead(WBTBlockInfoList *head) {
     gBlockListHead = head;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 WBTBlockInfoList *FindBlockById(u32 blockId) {
     WBTBlockInfoList *node;
@@ -91,10 +79,6 @@ WBTBlockInfoList *FindBlockById(u32 blockId) {
     return NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void WBT_SetOwnAid(u32 index) {
     gOwnIndex = index;
 }
@@ -102,10 +86,6 @@ void WBT_SetOwnAid(u32 index) {
 u32 WBT_GetOwnAid(void) {
     return gOwnIndex;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 s32 WBT_AidbitmapToAid(s32 mask) {
     s32 aid;
@@ -142,17 +122,13 @@ BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedCh
 u32 WBT_SetPacketSize(s32 sendSize, s32 receiveSize) {
     switch (GetBlockTransfer()->mCurrentRequest.mCommand) {
         case XFER_COMMAND_FETCH_DATA:
-        case XFER_COMMAND_FETCH_DETAILS:
+        case XFER_COMMAND_FETCH_NODE:
             return 0;
     }
     SetSendChunkSize(sendSize - 0xe);
     SetReceiveChunkSize(receiveSize - 0xe);
     return 1;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 int WBT_NumOfRegisteredBlock(void) {
     int count;
@@ -164,11 +140,7 @@ int WBT_NumOfRegisteredBlock(void) {
     return count;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
-s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 permissionBmp) {
+s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *userId, u8 *data, u32 size, u16 permissionBmp) {
     WBTBlockInfoList *lastNode;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
@@ -189,8 +161,8 @@ s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 
     node->mDataInfo.mId = blockId;
     node->mDataInfo.mBlockSize = size;
     node->mPermissionBmp = permissionBmp;
-    if (info != NULL) {
-        MI_CpuCopy8(info, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
+    if (userId != NULL) {
+        MI_CpuCopy8(userId, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
     } else {
         MI_CpuFill8(node->mDataInfo.mUserId, 0, sizeof(node->mDataInfo.mUserId));
     }
@@ -235,7 +207,7 @@ u32 WBT_RequestSync(u16 indexMask, void (*callback)(WBTCommand *)) {
 
 u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, void (*callback)(WBTCommand *)) {
     WBTCommand request;
-    request.mCommand = XFER_COMMAND_FETCH_DETAILS;
+    request.mCommand = XFER_COMMAND_FETCH_NODE;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockIdOrPosition;
@@ -253,17 +225,17 @@ u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize,
     request.mData.mGet.mBlockId = blockId;
     request.mData.mGet.mRecvDataSize = blockSize;
     MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
-    MIi_CpuCopy32(chunkBitmaps, request.mData.mGet.mPktBmp, 0x40);
+    MIi_CpuCopy32(chunkBitmaps, request.mData.mGet.mPacketBitmap, 0x40);
     return TrySetNextRequest(&request);
 }
 
 u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(WBTCommand *)) {
     WBTCommand request;
     WBTCommand *requestPointer;
-    if (byteCount < 0 || byteCount > 9) {
+    if (byteCount < 0 || byteCount > BLOCK_TRANSFER_USER_DATA_MAX_BYTES) {
         return 0;
     }
-    request.mCommand = XFER_COMMAND_SEND_CUSTOM;
+    request.mCommand = XFER_COMMAND_SEND_USER_DATA;
     requestPointer = &request;
     requestPointer->mTargetBmp = indexMask;
     requestPointer->mCallback = callback;
@@ -333,10 +305,6 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
     return WriteEmptyPacket(buffer, 0xfffe, 0);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReceivePacketFromIndex(u32 index, const u8 *packet, int size) {
     if (0 < size) {
         WBT_CallPacketRecvHook(GetBlockTransfer(), index, packet, size);
@@ -346,10 +314,6 @@ void ReceivePacketFromIndex(u32 index, const u8 *packet, int size) {
 void ReceiveParentPacket(const u8 *packet, u32 size) {
     WBT_CallPacketRecvHook(GetBlockTransfer(), 0, packet, size);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void BuildChildPacketUnchecked(u8 *buffer, s32 bufferSize) {
     BlockTransfer *transfer;

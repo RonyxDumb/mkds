@@ -10,7 +10,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "print_memory_multibyte_write.h"
 #include "Main/System/heap_call.h"
@@ -57,9 +57,7 @@ const CourseMapSectionLoader gCourseMapSectionLoaders[17] = {
 CourseMap *AllocCourseMap(void *heap) {
     return HeapAlloc(heap, sizeof(CourseMap));
 }
-#pragma thumb off
 
-#pragma thumb on
 u16 ReadCourseMapSectionCount(void **cursor) {
     u32 *countWord;
     u16 count;
@@ -178,17 +176,11 @@ void BuildCourseMapEntryGroupTable(void *heap) {
     }
     SetCourseMapCheckpointTotals();
 }
-#pragma thumb off
-
-#pragma thumb on
 
 CourseMapEntryGroupTableRow *GetCourseMapEntryGroupTableRow(u32 groupIndex) {
     return gCourseMap->mEntryGroupTable + groupIndex;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *route, u16 pointIndex) {
     CourseMapItemPoint *itemPoint;
     ItemPointLink *link;
@@ -326,7 +318,7 @@ void BuildCourseMapRacePointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapRoute *firstRoute;
     RacePointLink **linkPointers;
-    CourseMapRoute *lastRoute;
+    CourseMapRoute *route;
     s32 index;
     RacePointLink *link;
     s32 slotIndex;
@@ -349,14 +341,14 @@ void BuildCourseMapRacePointLinks(void *heap) {
         link->mValues = NULL;
         link->mRadius = 0;
     }
-    lastRoute = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
-    lastEntry = lastRoute->mFirstEntry + lastRoute->mEntryCount - 1;
+    route = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
+    lastEntry = route->mFirstEntry + route->mEntryCount - 1;
     linkPointers[2] = linkPointers[0] + lastEntry;
     BuildCourseMapRaceRouteLinks(linkPointers[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
     for (index = 0; index < gCourseMap->mRaceRouteCount; index++) {
-        lastRoute = gCourseMap->mRaceRoutes + (u16) index;
-        if (linkPointers[0][lastRoute->mFirstEntry].mNextCount == 0) {
-            BuildCourseMapRaceRouteLinks(NULL, lastRoute, lastRoute->mFirstEntry);
+        route = gCourseMap->mRaceRoutes + (u16) index;
+        if (linkPointers[0][route->mFirstEntry].mNextCount == 0) {
+            BuildCourseMapRaceRouteLinks(NULL, route, route->mFirstEntry);
         }
     }
 }
@@ -365,10 +357,10 @@ void BuildCourseMapBattlePointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapBattleRoute *route;
     CourseMapBattleRoute *routes;
-    PointLink **linkPointers;
+    BattlePointLink **linkPointers;
     s32 index;
-    PointLink *link;
-    PointLink *pointLink;
+    BattlePointLink *link;
+    BattlePointLink *pointLink;
     s32 pointIndex;
     s32 slotIndex;
     u16 routeIndex;
@@ -464,9 +456,7 @@ u32 LoadCourseMapSettingsData(CourseMapSettingsSection *section) {
     gCourseMap->mSettings = &section->mSettings;
     return 1;
 }
-#pragma thumb off
 
-#pragma thumb on
 s32 LoadCourseMapStartPlacementsData(void *section, ...) {
     gCourseMap->mStartPlacementCount = ReadCourseMapSectionCount(&section);
     gCourseMap->mStartPlacements = section;
@@ -516,12 +506,11 @@ static inline u16 CourseMapNextRandomBelowU16(RandomState64 *randomState64, u16 
     if (limit == 0) {
         value = 0;
     } else {
-        randomState64->mValue =
-            (s64) randomState64->mMultiplier * (s64) randomState64->mValue + randomState64->mIncrement;
+        RANDOM_ADVANCE_S64(randomState64);
         if (limit == 0) {
-            value = randomState64->mValue >> 32;
+            value = RANDOM_HIGH32(randomState64);
         } else {
-            value = ((s64) (randomState64->mValue >> 32) * (u32) limit) >> 32;
+            value = RANDOM_BELOW_S64(randomState64, (u32) limit);
         }
     }
     return value;
@@ -705,17 +694,11 @@ s32 LoadCourseMapBattleOrRaceRoutesData(void *section, ...) {
     }
     return 1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 CourseMapShape *GetCourseMapShape(u32 shapeIndex) {
     return &gCourseMap->mShapes[shapeIndex];
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void BuildCourseMapZoneShapeLists(void) {
     void *heap;
     CourseMapShape *shape;
@@ -731,7 +714,7 @@ void BuildCourseMapZoneShapeLists(void) {
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_ZONE) {
-            nodeSlot = &gCourseMap->mZoneShapeLists[(s16) shape->mKindValue];
+            nodeSlot = &gCourseMap->mZoneShapeLists[(s16) shape->mKindParam];
             while (*nodeSlot != NULL) {
                 nodeSlot = &(*nodeSlot)->mNext;
             }
@@ -741,9 +724,6 @@ void BuildCourseMapZoneShapeLists(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void CountCourseMapPointLinkShapes(void) {
     u16 count;
@@ -771,9 +751,6 @@ void CountCourseMapMissionEndShapes(void) {
     gCourseMap->mMissionEndShapeCount = count;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 s32 LoadCourseMapShapesData(void *section, ...) {
     gCourseMap->mShapeCount = ReadCourseMapSectionCount(&section);
     if (gCourseMap->mShapeCount == 0) {
@@ -935,8 +912,8 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     outRotation->z = placement->mRotation.z;
 }
 
-// Position and rotation of the start spot of kart c by mode: a staggered grid by rank in a race, by key
-// (kart + mStartPlacementOffset) % 8 in battle.
+// Start position and rotation of a kart: the first spot in staff roll and time attack, the spot of the kart's index in
+// mission run, key (start rank - 1 + mStartPlacementOffset) % 8 in battle, otherwise a staggered grid by start rank.
 void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex) {
     u16 lastKartIndex = gRaceSetup->mKartCount - 1;
     s32 rankIndex = (u16) (GetKartStartRank(kartIndex) - 1);
@@ -1077,7 +1054,7 @@ s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag) {
                     break;
             }
             if (inside != 0) {
-                if ((s16) shape->mKindValue == 0) {
+                if ((s16) shape->mKindParam == 0) {
                     *outFlag = 1;
                 } else {
                     *outFlag = 0;
@@ -1133,14 +1110,14 @@ void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
     return link;
 }
 
-PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
+BattlePointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
     s32 distanceX;
     s32 distanceZ;
     s32 radius;
-    PointLink *link = NULL;
+    BattlePointLink *link = NULL;
     s32 inside;
 
     if (gCourseMap->mPointLinkShapeCount == 0) {
@@ -1220,8 +1197,8 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
     return cameraIndex;
 }
 
-// Mode 2: returns mNextRespawnSlot and advances it modulo mRespawnCount (the argument is ignored); otherwise returns
-// mCheckpoints[a].mRespawnSlot, a = the kart's current entry.
+// In battle returns mNextRespawnSlot and advances it modulo mRespawnCount (checkpointIndex is ignored); otherwise
+// returns mCheckpoints[checkpointIndex].mRespawnSlot.
 u16 GetCourseMapRespawnSlot(u32 checkpointIndex) {
     u16 respawnSlot;
     CourseMap *courseMap;
@@ -1268,7 +1245,7 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
     return &gCourseMap->mRacePointLinks[pointIndex];
 }
 
-PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
+BattlePointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
     CourseMapRespawn *respawn;
     s32 pointIndex;
 

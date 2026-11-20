@@ -56,10 +56,6 @@ u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex) {
     return gCupCourseIdTable[cupCourseIndex / 4][cupCourseIndex % 4];
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 // Unpacks the Chars, Cells, Palette and ScreenMap files of the ghost scene in place; nothing is kept.
 void LoadGhostSceneFiles(void) {
     void *file;
@@ -122,10 +118,6 @@ void LoadGhostSceneFiles(void) {
     LoadKartIconData();
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void InitGhostScene(void *heap) {
     SceneTextInitParams arg;
     DisplaySettings *displaySettings;
@@ -152,7 +144,7 @@ void InitGhostScene(void *heap) {
     arg.mUseSelectReturn = 1;
     arg.mUseBackScreen = 1;
     arg.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &arg);
     SetTxtSystemMode(1);
     InitLinkLevelIcons(heap, gGhostScene);
@@ -193,11 +185,11 @@ void InitGhostScene(void *heap) {
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
         REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     switch (gMenuShared->mGhostSceneInitialCallbacksIndex) {
-        case 0:
-            gGhostScene->mRequestedCallbacksIndex = 0;
+        case GHOST_SCENE_CALLBACKS_SEND:
+            gGhostScene->mRequestedCallbacksIndex = GHOST_SCENE_CALLBACKS_SEND;
             break;
-        case 1:
-            gGhostScene->mRequestedCallbacksIndex = 1;
+        case GHOST_SCENE_CALLBACKS_GET_SCAN:
+            gGhostScene->mRequestedCallbacksIndex = GHOST_SCENE_CALLBACKS_GET_SCAN;
             break;
     }
     gGhostScene->mCurrentCallbacksIndex = gGhostScene->mRequestedCallbacksIndex;
@@ -247,10 +239,6 @@ void WriteGhostSceneRegisters(void) {
     UploadOamLists(gGhostScene, gGhostScene->mSubOam);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, const s16 (*labelRows)[4], void *name, s32 characterIndex,
                           s32 kartIndex, s32 courseId, MinuteSecondMillisecondTime *time) {
     u16 timeText[10];
@@ -275,10 +263,6 @@ void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, const s16 (*labelRows)[4]
         GetCellPaletteIndex(labelRows[1][3], fileSets->mCellFileSets[0].mCells, fileSets->mCellFileSets[0].mCellLayout),
         0);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 GhostRecord *GetCourseGhostBuffer(void) {
     return gGhostScene->mCourseGhostBuffer;

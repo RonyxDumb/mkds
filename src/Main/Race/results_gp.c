@@ -48,7 +48,7 @@
 #include "Main/System/init_after_startup.h"
 
 const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
-const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+const u16 gCupNameLeftCellIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const u16 gCupRankCellIndexTable[8] = {0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13};
 const u16 gResultsGpGradeCellIndices[8] = {0xb, 0xa, 9, 8, 7, 6, 5, 4};
 const u32 gResultsGpCupCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13},
@@ -115,7 +115,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mUseSelectReturn = 0;
     config.mUseBackScreen = 0;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &config);
     LoadAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, &mainScreenMapFileSet, "results_gp_m_b.NCGR", "results_gp_m_b.NCLR",
                                  "results_gp_m1.NSCR", 1, FindSceneFile);
@@ -216,7 +216,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     subFileSet = &gResultsGp->mCellFileSets[1];
     LoadCellFileSet(&cupNameFileSet, "cup_name_left.nce.ncgr", "cup_name_left.nce.ncer", NULL, "cup_name_left.bncl",
                     NULL, NULL, FindSceneFile);
-    QueueCellChars(gCupNameLeftCharIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
+    QueueCellChars(gCupNameLeftCellIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
     InitFrmVramManagers();
     InitTrophy(gResultsGp->mCupIndex, gResultsGp->mCupRankIndex);
@@ -244,8 +244,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     }
 }
 
-// Draws the Grand Prix results; after a delay and a button press or touch, shows each pending secret message, then
-// picks the next scene.
+// Draws the Grand Prix results; once mStateFrames reaches the frame limit, an A press or a new touch shows one pending
+// secret message, and when none is left it picks the next scene (title, or the staff roll race).
 void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;
@@ -263,7 +263,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
         DrawTrophy();
     }
     switch (gResultsGp->mState) {
-        case RESULTS_GP_STATE_TIMELINE: {
+        case RESULTS_GP_STATE_COUNTING_FRAMES: {
             s32 frameLimit;
             s32 frames;
             frameLimit = GetResultsGpFrameLimit(gResultsGp->mCupRankIndex);
@@ -280,7 +280,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                     recentlyUnpaired = FALSE;
                     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
                     if (hasPair == 0) {
-                        if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+                        if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                             recentlyUnpaired = TRUE;
                         }
                     }
@@ -366,7 +366,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
         case RESULTS_GP_STATE_TEXT_OPEN:
             if (GetTxtSystemDone()) {
                 RequestTxtSystemClose();
-                gResultsGp->mState = RESULTS_GP_STATE_TIMELINE;
+                gResultsGp->mState = RESULTS_GP_STATE_COUNTING_FRAMES;
             }
             break;
     }

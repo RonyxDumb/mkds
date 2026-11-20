@@ -5,7 +5,8 @@
 #include "particle_system.h"
 #include "Main/Graphics/emitters.h"
 
-// SPLManager.mMiscPolygonAttr of the race effects: polygon attribute bit 15, which turns fog on for the particles.
+// SPLManager.mMiscPolygonAttr of the race and mission run effects: polygon attribute bit 15, which turns fog on for the
+// particles (the race effects clear it on the rainbow course).
 #define EFFECT_POLYGON_ATTR_FOG 0x8000
 
 SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);
@@ -15,7 +16,7 @@ ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, const Vec3 *position);
 void StopEffectAndClearPointer(void **emitterSlot);
 void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot);
 void DeleteEffect(ParticleEmitter *emitter);
-// Starts effect a at the position b and returns the effect object (NULL when none is made).
+// Creates the emitter for effectId at position and returns it (NULL when none is made).
 void *StartEffect(u32 effectId, const Vec3 *position);
 void DrawEffects(MtxFx43 *viewMatrix);
 void UpdateEffects(void);
@@ -30,7 +31,7 @@ extern GetSPLManagerFunc *gGetSPLManagerFunction;
 
 extern Vec3 gStadiumEmitterDirectionOrigin;
 extern AwardFirstEffectIds gAwardFirstEffectIds;
-extern AwardEmitterEffectIds gAwardEmitterEffectIds;
+extern AwardSecondEffectIds gAwardSecondEffectIds;
 
 extern Vec3 gAwardEmitterPosition;
 

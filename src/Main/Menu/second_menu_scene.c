@@ -13,7 +13,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
@@ -127,7 +127,7 @@ void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int pla
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex =
         playerKind == PLAYER_KIND_GHOST ? GHOST_RECORD_INDEX_COURSE : GHOST_RECORD_INDEX_NONE;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags = 0;
-    if (listedCpuSlot != 3) {
+    if (listedCpuSlot != KART_ENTRY_LISTED_CPU_SLOT_NONE) {
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags |= KART_ENTRY_LISTED_CPU_FLAG;
     }
 }

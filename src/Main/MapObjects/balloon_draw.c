@@ -10,7 +10,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/view_frustum.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "matrix_3x3_basic.h"
@@ -96,7 +96,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     }
     drawCount = balloon->mDrawCount;
     if (drawCount == 1 && balloon->mDrawList == NULL) {
-        distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
+        distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
         if (distanceSquared < 0x2710) {
             balloon->mDrawPos.x = gBalloonCameraPosHalf.x + (balloon->mMapObject.mPos.x >> 1);
             balloon->mDrawPos.y = gBalloonCameraPosHalf.y + (balloon->mMapObject.mPos.y >> 1);
@@ -138,7 +138,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         SetMapObjectModelNsbtpFrameIndex(gBalloon, balloon->mNsbtpFrameIndex);
         DrawMapObjectModel(mapObjectList, gBalloon, balloon);
     } else if (drawCount > 0) {
-        distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
+        distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
         if (distanceSquared < 0x2710) {
             balloon->mDrawPos.x = gBalloonCameraPosHalf.x + (balloon->mTargetPos.x >> 1);
             balloon->mDrawPos.y = gBalloonCameraPosHalf.y + (balloon->mTargetPos.y >> 1);
@@ -265,7 +265,7 @@ u32 GetBalloonFlagBits(Balloon *balloon) {
 }
 
 u32 GetBalloonDistanceSquared(Balloon *balloon) {
-    return balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001fu;
+    return balloon->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
 }
 
 void UpdateBalloonAngle(Balloon *balloon) {
@@ -280,7 +280,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
     s32 sumTerms;
 
     currentCamera = GetCurrentCamera();
-    cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
+    cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - ANGLE_QUARTER_TURN;
     VEC_Subtract(&balloon->mMapObject.mPos, &currentCamera->mPos, &cameraOffset);
     pairFirst = SIN_OF_ANGLE(cameraAngle);
     pairSecond = COS_OF_ANGLE(cameraAngle);
@@ -301,7 +301,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 balloon->mScaleSwing = balloon->mScaleSwing + balloon->mScaleSwingPerFrame;
                 if (balloon->mScaleSwing >= 0) {
                     if (balloon->mScaleSwingPerFrame < 0) {
-                        balloon->mScaleSwingPerFrame = -50;
+                        balloon->mScaleSwingPerFrame = -BALLOON_SCALE_SWING_PER_FRAME;
                     } else {
                         balloon->mScaleSwingPerFrame = balloon->mScaleSwingPerFrame - 10;
                     }
@@ -395,7 +395,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mSwingAngle = balloon->mSwingAngle + balloon->mSwingAnglePerFrame;
             if (balloon->mSwingAngle >= 0) {
                 if (balloon->mSwingAnglePerFrame < 0) {
-                    balloon->mSwingAnglePerFrame = -0x640;
+                    balloon->mSwingAnglePerFrame = -BALLOON_SWING_ANGLE_PER_FRAME;
                 } else {
                     balloon->mSwingAnglePerFrame = balloon->mSwingAnglePerFrame - 200;
                 }
@@ -407,7 +407,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 }
             }
         }
-        balloon->mMapObject.mAngle = balloon->mSwingAngle + 0x4000;
+        balloon->mMapObject.mAngle = balloon->mSwingAngle + ANGLE_QUARTER_TURN;
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + 0x59a;
         balloon->mTargetVelocity.y = balloon->mTargetVelocity.y - 0x2000;
         balloon->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.x, 0xc00);

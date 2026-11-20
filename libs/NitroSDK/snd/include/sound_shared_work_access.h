@@ -7,7 +7,8 @@ typedef struct SoundSharedPlayer {
     /* 20 */ u32 mTickCounter;
 } SoundSharedPlayer;
 
-// The work area the sound processor fills in: the finished command tag, player, channel and capture status, variables.
+// The work area shared with the other processor: mFinishCommandTag, mPlayerStatus, mChannelStatus, mCaptureStatus,
+// mPlayer with a tick counter and variables each, and mGlobalVariable.
 typedef struct SNDSharedWork {
     /* 000 */ u32 mFinishCommandTag;
     /* 004 */ u32 mPlayerStatus;

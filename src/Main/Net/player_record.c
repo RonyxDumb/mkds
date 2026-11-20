@@ -89,11 +89,11 @@ void UpdateWiFiSessionLoginState(void *stateObject) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterWiFiSessionSearch(void *stateObject) {
+void EnterWiFiSessionMatching(void *stateObject) {
     RegisterKartKeysAndStart();
 }
 
-void UpdateWiFiSessionSearch(void *stateObject) {
+void UpdateWiFiSessionMatching(void *stateObject) {
     StateMachine *stateMachine;
 
     if (IsKartKeysStartStatus3() == FALSE) {

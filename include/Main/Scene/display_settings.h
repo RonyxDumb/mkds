@@ -3,8 +3,9 @@
 #include "types.h"
 #include "fixed_point_graphics_setup.h"
 
-// Values of Bg23Cnt.mMode, the kind of background 2 or 3: a tile map, an affine map, an affine map without a
-// character base, a 256-colour bitmap, a direct-colour bitmap. NONE leaves the register alone (large bitmap mode).
+// Values of Bg23Cnt.mMode, how ApplyBg2Cnt and ApplyBg3Cnt set up background 2 or 3: text, affine, affine without a
+// character base, 256 bitmap, DC bitmap. NONE is the start value and the value for BG mode 6; for it they leave the
+// control register alone.
 typedef enum {
     BG23_MODE_TEXT = 1,
     BG23_MODE_AFFINE,
@@ -29,7 +30,8 @@ typedef struct Bg23CntFields {
     /* 0a */ u16 mBgCntVal2;
 } Bg23CntFields;
 
-// Argument of ApplyBg3Cnt and ApplyBg2Cnt.
+// A background 2 or 3 control record: mMode and mFields; the argument of ApplyBg3Cnt and ApplyBg2Cnt, and what
+// DisplayBgRecords holds as mBg2 and mBg3.
 typedef struct Bg23Cnt {
     /* 00 */ s32 mMode;
     /* 04 */ Bg23CntFields mFields;
@@ -86,11 +88,13 @@ typedef struct DisplaySettingsDesc {
 // Values of BrightnessFade.mState: fully faded and still, fading toward clear, clear, fading toward faded.
 enum { BRIGHTNESS_FADE_FADED, BRIGHTNESS_FADE_TO_CLEAR, BRIGHTNESS_FADE_CLEAR, BRIGHTNESS_FADE_TO_FADED };
 
-// BrightnessFade.mBrightness when the screen is clear and when it is fully faded (the top of the 0 to 16 range).
+// BrightnessFade.mBrightness magnitude when the screen is clear and when it is fully faded (the top of the 0 to 16
+// range); mBrightness is negated while mPositive is FALSE.
 #define BRIGHTNESS_LEVEL_CLEAR 0
 #define BRIGHTNESS_LEVEL_FADED 0x10
 
-// Two of these sit at gSubBrightnessFade and gMainBrightnessFade; UpdateBrightnessFade steps one.
+// The brightness fade of one screen: mState, mPositive, mFadeFrames of mFadeFrameCount, and the resulting mBrightness.
+// gMainBrightnessFade and gSubBrightnessFade are two of them; UpdateBrightnessFade steps one.
 typedef struct BrightnessFade {
     /* 00 */ u16 mState;
     /* 02 */ u16 mPositive;

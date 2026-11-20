@@ -3,8 +3,7 @@
 #include "cpu_copy_fill.h"
 #include "thread_scheduler.h"
 
-s32 IsScanBlockGameInfoMatch(WMBssDesc *bssDesc) {
-    // volatile only so that userGameInfo[0] is read again for the second compare
+s32 IsScanGameInfoMatch(WMBssDesc *bssDesc) {
     volatile u16 userGameInfo[4];
 
     if (bssDesc == 0) {

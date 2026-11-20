@@ -11,7 +11,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
@@ -26,8 +26,8 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "animation_lookup.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/distance_sound_volume.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/map_object_inverse_volume.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/MapObjects/choropu.h"
@@ -64,7 +64,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         InitGroupFollower(&kuribo->mFollower, row, (row->mSettings[0] << 11) / 100);
         startEntry = GetCourseMapGroupEntry(row->mGroupIndex, row->mSettings[3]);
         kuribo->mStartY = startEntry->mPos.y;
-        kuribo->mOrientationBlendAmount = row->mSettings[0] * 0xb4 / 100;
+        kuribo->mOrientationBlendAmount = row->mSettings[0] * KURIBO_ORIENTATION_BLEND_AMOUNT_MAX / 100;
         kuribo->mReturnsAfterWait = row->mSettings[1] == 0;
         InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mSettings[3], 1);
@@ -75,11 +75,11 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         zeroedVector->y = 0;
         zeroedVector->z = 0;
         {
-            Quaternion identityA = {0, 0, 0, 0x1000};
+            Quaternion identityA = {0, 0, 0, FIXED12_UNIT};
             kuribo->mOrientation = identityA;
         }
         {
-            Quaternion identityB = {0, 0, 0, 0x1000};
+            Quaternion identityB = {0, 0, 0, FIXED12_UNIT};
             kuribo->mTargetOrientation = identityB;
         }
         kuribo->mFrameIndex = 0;
@@ -94,11 +94,11 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         kuribo->mOrientationBlendAmount = FIXED12_UNIT;
         {
-            Quaternion identityA = {0, 0, 0, 0x1000};
+            Quaternion identityA = {0, 0, 0, FIXED12_UNIT};
             kuribo->mOrientation = identityA;
         }
         {
-            Quaternion identityB = {0, 0, 0, 0x1000};
+            Quaternion identityB = {0, 0, 0, FIXED12_UNIT};
             kuribo->mTargetOrientation = identityB;
         }
         SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);

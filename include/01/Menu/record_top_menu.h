@@ -19,7 +19,8 @@ enum {
     RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN,
 };
 
-// Values of RecordTopMenu.mIndex: the rows, top to bottom, in the order of gRecordTopMenuRowRecordScreens.
+// Values of RecordTopMenu.mIndex: the rows in the order of gRecordTopMenuRowRecordScreens; the up key steps mIndex
+// back, the down key forward.
 enum {
     RECORD_TOP_ROW_GPX,
     RECORD_TOP_ROW_TIME_ATTACK,
@@ -27,14 +28,14 @@ enum {
     RECORD_TOP_ROW_COUNT,
 };
 
-// Frames of the slide in and the slide out; the rows travel RECORD_TOP_MENU_SLIDE_DISTANCE sideways, the BG0 layer
-// RECORD_TOP_MENU_BG0_SLIDE_DISTANCE vertically.
+// Frames of the slides in and out (the rows-only slides use them too); the rows travel RECORD_TOP_MENU_SLIDE_DISTANCE
+// sideways, the BG0 layer and the main screen cells RECORD_TOP_MENU_BG0_SLIDE_DISTANCE vertically.
 #define RECORD_TOP_MENU_SLIDE_FRAMES 10
 #define RECORD_TOP_MENU_SLIDE_DISTANCE 224
 #define RECORD_TOP_MENU_BG0_SLIDE_DISTANCE 192
 
-// Frames of the press animation of a row (GetSelectedPressOffset); the row is switched on at the fifth.
-#define RECORD_TOP_MENU_PRESS_FRAMES 10
+// The press animation (SELECTED_PRESS_FRAMES) runs on the pressed row, and on all rows after the slide in; the pressed
+// row is switched on at the fifth frame.
 #define RECORD_TOP_MENU_ROW_ON_FRAME 5
 
 // The record top menu screen: its layout tables, messages, heap, state, selected index and chosen record screen.
@@ -45,9 +46,10 @@ typedef struct RecordTopMenu {
     /* 0x0c */ struct NNSG2dCellDataBank *mRecordTopMenuSNcer;
     /* 0x10 */ struct LayoutEntryTable *mRecordTopMenuSBncl;
     /* 0x14 */ struct LayoutEntryTable *mRecordTopMenuSBnbl;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per entry of mRecordTopMenuMBncl, then one per entry of mRecordTopMenuMBnll, built by
+    // InitLayoutTable
     /* 0x18 */ LayoutTableEntry *mRecordTopMenuMTable;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 0x1c */ LayoutTableEntry *mRecordTopMenuSTable;
     /* 0x20 */ void *mCommonMessages;
     /* 0x24 */ struct Bmg *mRecordMessages;
@@ -84,7 +86,7 @@ void AdvanceRecordTopMenuSlideOut(void);
 void AdvanceRecordTopMenuRowPress(void);
 void AdvanceRecordTopMenuInput(void);
 void AdvanceRecordTopMenuWaitSelectReturn(void);
-void AdvanceRecordTopMenuRowsSettle(void);
+void AdvanceRecordTopMenuRowsPressOffsetAfterSlideIn(void);
 void AdvanceRecordTopMenuSlideIn(void);
 void AdvanceRecordTopMenuWaitFade(void);
 void ReleaseRecordTopMenu(void);
@@ -101,7 +103,7 @@ void RequestRecordTopMenuSlideOut(void);
 void RequestRecordTopMenuRowPress(void);
 void RequestRecordTopMenuInput(void);
 void RequestRecordTopMenuWaitSelectReturn(void);
-void RequestRecordTopMenuRowsSettle(void);
+void RequestRecordTopMenuRowsPressOffsetAfterSlideIn(void);
 void RequestRecordTopMenuSlideIn(void);
 void ResetRecordTopMenu(void);
 void SetRecordTopMenuRowOff(s32 row);
@@ -113,7 +115,7 @@ void LocateAndQueueRecordTopMenu(void);
 extern const u16 gRecordTopMenuGradeSTableIndices[3];
 extern const u16 gRecordTopMenuRowCellIndices[3];
 extern const u16 gRecordTopMenuLabelWidths[3][3];
-extern const s32 gRecordTopMenuTouchRowIndices[3];
+extern const s32 gRecordTopMenuTouchRowIndices[RECORD_TOP_ROW_COUNT];
 extern const u16 gRecordTopMenuLabelHeights[3][3];
 extern const s32 gRecordTopMenuRowRecordScreens[3];
 extern const u16 gRecordTopMenuRecordMessageIndices[3];

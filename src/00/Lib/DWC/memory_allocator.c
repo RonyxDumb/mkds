@@ -28,15 +28,15 @@ void *DWC_Realloc(u32 name, void *ptr, u32 oldsize, u32 newsize) {
     return DWC_ReallocEx(name, ptr, oldsize, newsize, 0x20);
 }
 
-void *DWC_ReallocEx(u32 name, void *ptr, u32 heldSize, u32 wantedSize, u32 align) {
+void *DWC_ReallocEx(u32 name, void *ptr, u32 oldsize, u32 newsize, u32 align) {
     void *moved;
-    moved = gAllocFunc(name, wantedSize, align);
+    moved = gAllocFunc(name, newsize, align);
     if (moved == NULL) {
         return NULL;
     }
     if (ptr != NULL) {
-        MI_CpuCopy8(ptr, moved, wantedSize);
-        gFreeFunc(name, ptr, heldSize);
+        MI_CpuCopy8(ptr, moved, newsize);
+        gFreeFunc(name, ptr, oldsize);
     }
     return moved;
 }

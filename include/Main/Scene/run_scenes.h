@@ -3,13 +3,14 @@
 #include "types.h"
 #include "Main/System/backup_net_camera_work.h"
 
-// Never returns: loops RunScenes, taking the group from gRunScenesState +4. First scene 9 (6 when the
-// word at 0x027ffc40 is 2). Body of the main thread (InitAndRunScenesForever).
+// Never returns: loops RunScenes, taking the kind from gRunScenesState->mNextKind. First scene SCENE_LOGO, or
+// SCENE_WL_MENU (with CONNECTION_KIND_WL_MENU) when booted as multiboot. Called by InitAndRunScenesForever.
 void RunScenesForever(void);
-// Runs the scenes of one group (gRunScenesState +0, 0 or 1) one after another until the group
-// changes: sets the group up (InitRunScenesKind), keeps gSceneNumbers (previous, current, next), runs
-// gSceneFuncs[number] inside a new heap (RunHeapCall), takes the next number or 9, tears the
-// group down. Reloads overlay 3 for gStartupWork.mConnectionKind == 4.
+// Runs the scenes of one kind (gRunScenesState->mKind: RUN_SCENES_KIND_CONNECTION or RUN_SCENES_KIND_WIFI_SESSION) one
+// after another until mNextKind names another kind: sets the kind up (InitRunScenesKind), keeps gSceneNumbers
+// (previous, current, next), runs gSceneFuncs[number] inside a new heap (RunHeapCall), takes the next number or
+// SCENE_LOGO, tears the kind down. For CONNECTION_KIND_WIFI_TOP_MENU it runs RunDWCUtility (overlay 3) and continues
+// with CONNECTION_KIND_WIFI_MENU.
 s32 RunScenes(s16 *sceneNumber);
 void RunDWCUtility(void);
 

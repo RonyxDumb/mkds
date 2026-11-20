@@ -14,14 +14,14 @@ const u8 DWCi_util_wifiid_ttable[16] = {5, 9, 1, 14, 12, 2, 10, 0, 11, 13, 3, 4,
 #pragma thumb on
 
 // Seconds since 2000-01-01, or -1 for a bad date.
-s64 DateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
+s64 ConvertDateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
     s32 day;
     s32 sec;
-    day = DateToDayCount(date);
+    day = ConvertDateToDays(date);
     if (day == -1) {
         return -1;
     }
-    sec = TimeToSeconds(time);
+    sec = ConvertTimeToSeconds(time);
     return (s64) sec + (s64) day * 0x15180;
 }
 
@@ -32,29 +32,29 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     } value;
     u8 copy[8];
     s32 byteIndex;
-    u8 *src;
-    u8 *dst;
+    u8 *valueByte;
+    u8 *copyByte;
     const u8 *order;
     value.bits = (((u64) rand & 0xffff) << 27) |
               ((((u64) mac & 0xffffff) << 3) | (((u64) mainunit & 3) | (((u64) vend & 1) << 2)));
-    src = value.bytes;
+    valueByte = value.bytes;
     for (byteIndex = 0; byteIndex < 6; byteIndex++) {
-        *src ^= 0xd6;
-        src++;
+        *valueByte ^= 0xd6;
+        valueByte++;
     }
     byteIndex = 0;
-    src = value.bytes;
+    valueByte = value.bytes;
     for (; byteIndex < 5; byteIndex++) {
-        *src = (DWCi_util_wifiid_ttable[(*src >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*src & 0xf];
-        src++;
+        *valueByte = (DWCi_util_wifiid_ttable[(*valueByte >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*valueByte & 0xf];
+        valueByte++;
     }
     MI_CpuCopy8(value.bytes, copy, 8);
     byteIndex = 0;
-    dst = copy;
+    copyByte = copy;
     order = DWCi_util_wifiid_exctable;
     for (; byteIndex < 5; byteIndex++) {
-        value.bytes[*order] = *dst;
-        dst++;
+        value.bytes[*order] = *copyByte;
+        copyByte++;
         order++;
     }
     value.bytes[7] = 0;
@@ -62,10 +62,10 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     value.bytes[5] &= 7;
     value.bits <<= 1;
     value.bytes[0] |= (value.bytes[5] >> 3) & 1;
-    src = value.bytes;
+    valueByte = value.bytes;
     for (byteIndex = 0; byteIndex < 6; byteIndex++) {
-        *src ^= 0x67;
-        src++;
+        *valueByte ^= 0x67;
+        valueByte++;
     }
     value.bytes[7] = 0;
     value.bytes[6] = 0;
@@ -89,7 +89,7 @@ BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {
     if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = DateTimeToSeconds(&date, &time);
+    seconds = ConvertDateTimeToSeconds(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;

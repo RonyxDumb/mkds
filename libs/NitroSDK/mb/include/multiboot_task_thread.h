@@ -4,7 +4,8 @@
 #include "thread_scheduler.h"
 #include "wireless_link_control.h"
 
-// A multiboot worker task: the link to the next task, an in-use flag and a priority; tasks are linked by priority.
+// A multiboot worker task: mNext link, mInUse flag, mPriority and the mRun and mDone functions; the queue keeps tasks
+// in order of mPriority, except mStopTask, which goes last.
 typedef struct WorkerTask {
     /* 00 */ struct WorkerTask *mNext;
     /* 04 */ union {

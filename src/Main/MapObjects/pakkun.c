@@ -24,13 +24,13 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "matrix_3x3_basic.h"
 #include "fixed_arctangent.h"
 #include "fixed_vector_math.h"
@@ -66,17 +66,18 @@ void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset) {
     if (pakkunSpit == NULL) {
         return;
     }
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~1;
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~8;
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~2;
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~8;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     pakkunSpit->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pakkunSpit->mFollower.mGroupIndex = groupFollower->mGroupIndex;
     pakkunSpit->mFollower.mPath = groupFollower->mPath;
     SetupGroupFollowerAtEntry(&pakkunSpit->mFollower, 0, 1);
-    pakkunSpit->mFollower.mSpeed = PAKKUN_PATH_SPEED;
+    pakkunSpit->mFollower.mSpeed = PAKKUN_SPIT_PATH_SPEED;
     pakkunSpit->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-        pakkunSpit->mFollower.mPath->mSegments[pakkunSpit->mFollower.mSegmentIndex].mInverseProgressLength, 0x7800);
+        pakkunSpit->mFollower.mPath->mSegments[pakkunSpit->mFollower.mSegmentIndex].mInverseProgressLength,
+        PAKKUN_SPIT_PATH_SPEED);
     pakkunSpit->mHeightOffset = heightOffset;
     pakkunSpit->mHeightSpeed = -0x5000;
     pakkunSpit->mState = 0;
@@ -122,8 +123,8 @@ void InitPakkun(Pakkun *pakkun) {
             InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], setting, 100);
             GetGroupFollowerLinearPosStep(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
             angleDelta = FX_Atan2Idx(step.x, step.z) - pakkun->mBaseYaw;
-            if (angleDelta > 0x8000) {
-                angleDelta -= 0x10000;
+            if (angleDelta > ANGLE_HALF_TURN) {
+                angleDelta -= ANGLE_FULL_TURN;
             }
             pakkun->mFollowerYawOffsets[pakkun->mFollowerCount] = angleDelta;
             pakkun->mHeightAboveFollowerPath = pakkun->mMapObject.mPos.y - position.y;
@@ -146,21 +147,19 @@ static inline u32 PakkunMapObjectRandomBelowU16(u32 limit) {
     u32 limitU16;
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue =
-            mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
-        return (u16) ((mapObjectRandom->mValue >> 32) * 0x10000 >> 32);
+        RANDOM_ADVANCE_INCREMENT_FIRST(mapObjectRandom);
+        return (u16) RANDOM_BELOW(mapObjectRandom, 0x10000);
     }
     mapObjectRandom = GetMapObjectRandom();
     limitU16 = (u16) limit;
     if (limitU16 == 0) {
         value = 0;
     } else {
-        mapObjectRandom->mValue =
-            mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
+        RANDOM_ADVANCE_INCREMENT_FIRST(mapObjectRandom);
         if (limitU16 == 0) {
-            value = mapObjectRandom->mValue >> 32;
+            value = RANDOM_HIGH32(mapObjectRandom);
         } else {
-            value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
+            value = RANDOM_BELOW(mapObjectRandom, limitU16);
         }
     }
     return (u16) value;
@@ -320,8 +319,9 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             }
             break;
         case PAKKUN_STATE_WAIT_BODY_SETTLE:
-            if (pakkun->mBodyStretchSpeed >= -4 && pakkun->mBodyStretchSpeed <= PAKKUN_BODY_STRETCH_SPEED_LIMIT) {
-                pakkun->mTimer = PAKKUN_WAIT_FRAMES;
+            if (pakkun->mBodyStretchSpeed >= -PAKKUN_BODY_STRETCH_SPEED_LIMIT &&
+                pakkun->mBodyStretchSpeed <= PAKKUN_BODY_STRETCH_SPEED_LIMIT) {
+                pakkun->mTimer = PAKKUN_LEAN_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_BACK;
             }
             break;
@@ -362,12 +362,14 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex],
                                 pakkun->mHeightAboveFollowerPath + PAKKUN_HEAD_HEIGHT);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-                    if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        falloffIndex = 2;
-                    } else if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        falloffIndex = 3;
+                    if (pakkun->mMapObject.mFarDistanceSquared ==
+                        gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+                    } else if (pakkun->mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
                     } else {
-                        falloffIndex = 4;
+                        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     }
                     soundParams.mSoundId = PAKKUN_SPIT_SOUND_ID;
                     soundParams.mPositionSource = &pakkun->mMapObject.mPos;
@@ -376,7 +378,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                     StartSoundFromParams(&soundParams);
                 }
             } else if (pakkun->mMouthFrame == 0) {
-                pakkun->mTimer = PAKKUN_WAIT_FRAMES;
+                pakkun->mTimer = PAKKUN_LEAN_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_FORWARD;
             }
             break;

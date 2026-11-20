@@ -42,13 +42,13 @@ enum {
 // The ghost select screen: its state, selected index, scroll offsets, layout tables, OAM lists and result.
 typedef struct SelectGhost {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
-    /* 04 */ LayoutEntryTable *mSelectCupCourseTaMBncl;
-    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaMBnll;
-    /* 0c */ struct NNSG2dCellDataBank *mSelectGhostSONcer;
-    /* 10 */ LayoutEntryTable *mSelectGhostSBncl;
-    /* 14 */ void *mSelectGhostSBnbl;
-    /* 18 */ struct LayoutEntryTable *mSelectGhostSBnll;
-    /* 1c */ Nclr *mSelectGhostSONclr;
+    /* 04 */ LayoutEntryTable *mSelectCupCourseTaMCellLayout;
+    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaMLabelLayout;
+    /* 0c */ struct NNSG2dCellDataBank *mSelectGhostSOCells;
+    /* 10 */ LayoutEntryTable *mSelectGhostSCellLayout;
+    /* 14 */ void *mSelectGhostSRects;
+    /* 18 */ struct LayoutEntryTable *mSelectGhostSLabelLayout;
+    /* 1c */ Nclr *mSelectGhostSOPalette;
     /* 20 */ void *mPlayerCharacterMNcgr;
     /* 24 */ struct NNSG2dCellDataBank *mPlayerCharacterMNcer;
     /* 28 */ Nclr *mPlayerCharacterMONclr;
@@ -66,7 +66,7 @@ typedef struct SelectGhost {
     /* 54 */ s16 mOffsetTimers[2];
     // Negated and shifted into the upper half-word of the BG0 offset register.
     /* 58 */ s32 mBg0Offset;
-    // Y half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; mBg0Offset is the main engine's
+    // Y half of reg_G2S_DB_BG3OFS (sub BG3), stored negated; mBg0Offset goes to the main reg_G2_BG0OFS
     /* 5c */ s32 mBg3Offset;
     /* 60 */ s32 mIndex;
     /* 64 */ void *mMainOamList;
@@ -88,7 +88,7 @@ typedef struct SelectGhost {
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 void WriteSelectGhostRegisters(void);
 int AdvanceSelectGhost(void);
@@ -138,9 +138,9 @@ extern const u16 gSelectGhostSLabelHeights[5];
 extern char *gSelectGhostSBNcgrName;
 extern const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT];
 extern const u16 gSelectGhostSLabelWidths[5];
-extern const u16 gSelectGhostMenuMessageIndices[4];
-extern char *gSelectCupCourseTaMBnclName;
-extern char *gSelectCupCourseTaMBnllName;
-extern char *gSelectCupCourseMNcerName;
+extern const u16 gSelectGhostMenuMessageIndices[SELECT_GHOST_KIND_COUNT];
+extern char *gSelectGhostSelectCupCourseTaMBnclName;
+extern char *gSelectGhostSelectCupCourseTaMBnllName;
+extern char *gSelectGhostSelectCupCourseMNcerName;
 extern char *gSelectGhostSBnclName;
 extern char *gSelectGhostSNscrName;

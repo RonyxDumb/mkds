@@ -48,11 +48,11 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
         while (objectIndex < objectList->mMapObjectCount && (object = objectList->mMapObjects[objectIndex]) != NULL) {
             raceProgress = gRaceProgress;
             localRandom = &raceProgress->mLocalRandom;
-            localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
+            RANDOM_ADVANCE_S64(localRandom);
             object->mEffectDelayFrames =
-                (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32);
-            object->mMapObject.mFlags &= ~2;
-            object->mMapObject.mFlags &= ~8;
+                (u16) RANDOM_BELOW_S64(localRandom, PERIODIC_EFFECT_DELAY_RANDOM_LIMIT);
+            object->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            object->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             object->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             objectIndex++;
         }
@@ -67,9 +67,9 @@ void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object) {
     if (object->mEffectDelayFrames < 0) {
         raceProgress = gRaceProgress;
         localRandom = &raceProgress->mLocalRandom;
-        localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
-        object->mEffectDelayFrames = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32) +
-                                     PERIODIC_EFFECT_DELAY_MIN;
+        RANDOM_ADVANCE_S64(localRandom);
+        object->mEffectDelayFrames = (u16) RANDOM_BELOW_S64(localRandom, PERIODIC_EFFECT_DELAY_RANDOM_LIMIT) +
+                                     PERIODIC_EFFECT_DELAY_BASE;
         if (!(object->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN)) {
             StartEffect(0x435, &object->mMapObject.mPos);
         }

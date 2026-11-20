@@ -15,16 +15,17 @@ typedef struct NNSG2dAnimFrameData {
     /* 06 */ u16 mPad16;
 } NNSG2dAnimFrameData;
 
-// Values of NNSG2dAnimSequenceData.mPlayMode and NNSG2dCellAnimation.mOverriddenPlayMode (0 there means use the
-// sequence's own mode). The ping-pong modes turn around at each end of the sequence.
-#define G2D_PLAY_MODE_FROM_SEQUENCE 0
-#define G2D_PLAY_MODE_FORWARD 1
-#define G2D_PLAY_MODE_FORWARD_LOOP 2
-#define G2D_PLAY_MODE_PING_PONG 3
-#define G2D_PLAY_MODE_PING_PONG_LOOP 4
+// Values of NNSG2dAnimSequenceData.mPlayMode and NNSG2dCellAnimation.mOverriddenPlayMode; 0 in mOverriddenPlayMode
+// means use the sequence's mPlayMode. The ping-pong modes turn around after the last frame and end or loop only back at
+// the loop start frame.
+#define CELL_ANIM_PLAY_FROM_SEQUENCE 0
+#define CELL_ANIM_PLAY_ONCE 1
+#define CELL_ANIM_PLAY_REPEAT 2
+#define CELL_ANIM_PLAY_BOUNCE_ONCE 3
+#define CELL_ANIM_PLAY_BOUNCE_REPEAT 4
 
 // Low byte of NNSG2dAnimSequenceData.mAnimType.
-#define G2D_ANIM_TYPE_MASK 0xff
+#define CELL_ANIM_TYPE_MASK 0xff
 
 // An animation sequence: its frame count, loop start frame, animation type, play mode and array of frames.
 typedef struct NNSG2dAnimSequenceData {
@@ -55,7 +56,8 @@ typedef struct NNSG2dVramTransferData {
 } NNSG2dVramTransferData;
 
 // A cell bank: its cell count and attributes, the array of cells, the mapping mode and the VRAM transfer data.
-// mPCellDataArrayHead and mPVramTransferData are offsets until NNS_G2dUnpackNCE turns them into addresses.
+// mPCellDataArrayHead is an offset and mPVramTransferData is an offset when not 0, until NNS_G2dUnpackNCE turns them
+// into addresses.
 typedef struct NNSG2dCellDataBank {
     /* 00 */ u16 mNumCells;
     /* 02 */ u16 mCellBankAttr;

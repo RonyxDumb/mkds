@@ -10,7 +10,7 @@
 #include "irq_wait_handler.h"
 #include "thread_scheduler.h"
 #include "multiboot_piece_buffers.h"
-#include "Main/Graphics/nsbmd_render_obj.h" // NNSG3dRenderObj
+#include "Main/Graphics/nsbmd_render_obj.h"
 #include "interrupt_control.h"
 #include "model_draw_state.h"
 #include "dma_copy_fill_wait.h"
@@ -36,7 +36,6 @@ GxCommandBuffer *NNS_G3dGeReleaseBuffer(void) {
     NNS_G3dGeBuffer = 0;
     return commandBuffer;
 }
-// clang-format on
 
 void NNS_G3dGeFlushBuffer(void) {
     if (NNS_G3dFlagGXDmaAsync != 0) {
@@ -120,7 +119,7 @@ void G3dDrawInternal_Loop_(NNSG3dRS *renderState) {
 void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
     MemFillWordsByBlock_inline(renderState, 0x188);
     renderState->mIsScaleCacheOne[0] = 1;
-    renderState->mFlag = 1;
+    renderState->mFlag = RENDER_STATE_NODE_VISIBLE;
     if (renderObj->mPtrUserSbc != 0) {
         renderState->mC = renderObj->mPtrUserSbc;
     } else {
@@ -135,7 +134,7 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
     renderState->mFuncTexMtx = NNS_G3dSendTexSRT_FuncArray[renderObj->mResMdl->mInfo.mTexMtxMode];
     renderState->mPosScale = renderObj->mResMdl->mInfo.mPosScale;
     renderState->mInvPosScale = renderObj->mResMdl->mInfo.mInvPosScale;
-    if (renderObj->mCbFunc != 0 && renderObj->mCbCmd < G3D_CALLBACK_VECTOR_COUNT) {
+    if (renderObj->mCbFunc != 0 && renderObj->mCbCmd < RENDER_CALLBACK_SLOT_COUNT) {
         renderState->mCbVecFunc[renderObj->mCbCmd] = renderObj->mCbFunc;
         renderState->mCbVecTiming[renderObj->mCbCmd] = renderObj->mCbTiming;
     }
@@ -323,8 +322,8 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     dictBase = resMat + 4;
     entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
     if (*(u16 *) (resMat + *(u32 *) (dictBase + *(u16 *) (resMat + 0xa) + entrySize * materialIndex + 4) + 0x1e) &
-        MAT_DATA_WIREFRAME) {
-        result->mFlag |= MAT_RESULT_WIREFRAME;
+        MATERIAL_DROP_ALPHA) {
+        result->mFlag |= MAT_RESULT_CLEAR_ALPHA;
     }
     matFlags = matData->mFlag;
     mask = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
@@ -336,23 +335,23 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     result->mPrmTexImage = matData->mTexImageParam;
     result->mPrmTexPltt = matData->mTexPlttBase;
     matFlags = matData->mFlag;
-    if (matFlags & MAT_DATA_TEX_MATRIX_USED) {
+    if (matFlags & MATERIAL_HAS_TEX_MATRIX) {
         texMtxData = (u32 *) matData->mTexMtxData;
-        if (!(matFlags & MAT_DATA_TEX_UNIT_SCALE)) {
+        if (!(matFlags & MATERIAL_TEX_SCALE_OMITTED)) {
             result->mScaleST[0] = texMtxData[0];
             result->mScaleST[1] = texMtxData[1];
             texMtxData += 2;
         } else {
             result->mFlag |= MAT_RESULT_TEX_UNIT_SCALE;
         }
-        if (!(matData->mFlag & MAT_DATA_TEX_NO_ROTATION)) {
+        if (!(matData->mFlag & MATERIAL_TEX_ROT_OMITTED)) {
             result->mSinCosR[0] = ((s16 *) texMtxData)[0];
             result->mSinCosR[1] = ((s16 *) texMtxData)[1];
             texMtxData = (u32 *) ((s16 *) texMtxData + 2);
         } else {
             result->mFlag |= MAT_RESULT_TEX_NO_ROTATION;
         }
-        if (!(matData->mFlag & MAT_DATA_TEX_NO_TRANSLATION)) {
+        if (!(matData->mFlag & MATERIAL_TEX_MOVE_OMITTED)) {
             result->mTransST[0] = texMtxData[0];
             result->mTransST[1] = texMtxData[1];
         } else {
@@ -373,9 +372,9 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
 done:
     renderState->mMatAnmResult = result;
     matAnm = renderState->mMatAnmResult;
-    if (matAnm->mPrmPolygonAttr & G3D_POLYGON_ATTR_ALPHA_MASK) {
-        if (matAnm->mFlag & MAT_RESULT_WIREFRAME) {
-            matAnm->mPrmPolygonAttr &= ~G3D_POLYGON_ATTR_ALPHA_MASK;
+    if (matAnm->mPrmPolygonAttr & MATERIAL_POLY_ALPHA_MASK) {
+        if (matAnm->mFlag & MAT_RESULT_CLEAR_ALPHA) {
+            matAnm->mPrmPolygonAttr &= ~MATERIAL_POLY_ALPHA_MASK;
         }
         renderState->mFlag &= ~RENDER_STATE_NO_ALPHA;
         if (!(renderState->mFlag & RENDER_STATE_NO_GE_COMMANDS)) {
@@ -409,9 +408,10 @@ void NNSi_G3dFuncSbc_MAT(NNSG3dRS *renderState, u32 option) {
     s32 entrySize;
 
     stateFlags = renderState->mFlag;
-    if (!(stateFlags & 0x200)) {
+    if (!(stateFlags & RENDER_STATE_SKIP_DRAW)) {
         materialIndex = renderState->mC[1];
-        if ((stateFlags & 1) || !(stateFlags & 8) || materialIndex != renderState->mCurrentMat) {
+        if ((stateFlags & RENDER_STATE_NODE_VISIBLE) || !(stateFlags & RENDER_STATE_MATERIAL_SET) ||
+            materialIndex != renderState->mCurrentMat) {
             resMat = (u8 *) renderState->mResMat;
             dictBase = resMat + 4;
             entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
@@ -443,15 +443,16 @@ void NNSi_G3dFuncSbc_SHP(NNSG3dRS *renderState, u32 option) {
     u32 stateFlags;
     NNSG3dResDict *resShp;
     u8 *shpData;
-    u8 *dictBase;
+    u8 *entries;
     u32 shapeIndex;
 
     stateFlags = renderState->mFlag;
-    if (!(stateFlags & 0x200) && (stateFlags & 1) && !(stateFlags & 2)) {
+    if (!(stateFlags & RENDER_STATE_SKIP_DRAW) && (stateFlags & RENDER_STATE_NODE_VISIBLE) &&
+        !(stateFlags & RENDER_STATE_NO_ALPHA)) {
         resShp = renderState->mResShp;
         shapeIndex = renderState->mC[1];
-        dictBase = (u8 *) resShp + resShp->mOfsEntry;
-        shpData = (u8 *) resShp + *(u32 *) (dictBase + *(u16 *) dictBase * shapeIndex + 4);
+        entries = (u8 *) resShp + resShp->mOfsEntry;
+        shpData = (u8 *) resShp + *(u32 *) (entries + *(u16 *) entries * shapeIndex + 4);
         NNS_G3dFuncSbcShpTable[*(u16 *) shpData](renderState, option, shpData, shapeIndex);
     }
     renderState->mC += 2;
@@ -484,13 +485,13 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
     renderState->mCurrentNodeDesc = nodeDescIndex;
     renderState->mFlag |= RENDER_STATE_NODE_DESC_SET;
     stateFlags = renderState->mFlag;
-    if (stateFlags & 0x400) {
+    if (stateFlags & RENDER_STATE_SKIP_MATRIX) {
         if (option == 0x40 || option == 0x60) {
             commandLength += 1;
         }
         if (option == 0x20 || option == 0x60) {
             commandLength += 1;
-            if (!(stateFlags & 0x100)) {
+            if (!(stateFlags & RENDER_STATE_NO_GE_COMMANDS)) {
                 restoreIndexSkip = renderState->mC[4];
                 NNS_G3dGeBufferOP_N(0x14, &restoreIndexSkip, 1);
             }
@@ -535,32 +536,32 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
         nodeData = resNodeInfo + *(u32 *) (resNodeInfo + *(u16 *) (resNodeInfo + 6) + entrySize * nodeDescIndex + 4);
         nodeHeader = (u16 *) nodeData;
         dataPointer = OFFSET_PTR(u16, nodeData, 4);
-        if (!(*nodeHeader & 1)) {
+        if (!(*nodeHeader & NODE_DATA_MOVE_OMITTED)) {
             jntAnmResult->mTrans.x = ((s32 *) dataPointer)[0];
             jntAnmResult->mTrans.y = ((s32 *) dataPointer)[1];
             jntAnmResult->mTrans.z = ((s32 *) dataPointer)[2];
             dataPointer += 6;
         } else {
-            jntAnmResult->mFlag |= JNT_RESULT_NO_TRANSLATION;
+            jntAnmResult->mFlag |= JOINT_RESULT_NO_MOVE;
         }
         flags = *nodeHeader;
-        if (flags & 2) {
-            jntAnmResult->mFlag |= JNT_RESULT_NO_ROTATION;
-        } else if (flags & 8) {
-            pivotIndex = (flags & 0xf0) >> 4;
+        if (flags & NODE_DATA_ROT_OMITTED) {
+            jntAnmResult->mFlag |= JOINT_RESULT_NO_ROT;
+        } else if (flags & NODE_DATA_ROT_TWO_VALUES) {
+            pivotIndex = (flags & NODE_DATA_ROT_FIXED_INDEX_MASK) >> 4;
             secondValue = ((s16 *) dataPointer)[1];
             firstValue = ((s16 *) dataPointer)[0];
             MI_Zero36B(&jntAnmResult->mRot);
             dataPointer += 2;
-            pivotValue = (*nodeHeader & 0x100) ? -0x1000 : 0x1000;
+            pivotValue = (*nodeHeader & NODE_DATA_ROT_FIXED_NEGATIVE) ? -0x1000 : 0x1000;
             jntAnmResult->mRot.mElements[pivotIndex] = pivotValue;
             jntAnmResult->mRot.mElements[pivotUtil_[pivotIndex][0]] = firstValue;
             jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][1])[pivotIndex][0]] = secondValue;
-            if (*nodeHeader & 0x200) {
+            if (*nodeHeader & NODE_DATA_ROT_FLIP_SECOND) {
                 secondValue = -secondValue;
             }
             jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][2])[pivotIndex][0]] = secondValue;
-            if (*nodeHeader & 0x400) {
+            if (*nodeHeader & NODE_DATA_ROT_FLIP_FIRST) {
                 firstValue = -firstValue;
             }
             jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][3])[pivotIndex][0]] = firstValue;
@@ -622,9 +623,10 @@ void NNSi_G3dFuncSbc_POSSCALE(NNSG3dRS *renderState, u32 option) {
 }
 
 // clang-format off
-// Interrupt dispatch: reads the interrupt flag and enable registers (0x04000210), takes the highest set bit with clz,
-// acknowledges it, and runs the function in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch.
-// Not compiled code: it jumps with a set return address instead of a call (ldr lr, bx).
+// Interrupt dispatch: returns at once if reg_OS_IME is zero or no enabled interrupt is pending; otherwise takes the
+// lowest pending bit of reg_OS_IE and reg_OS_IF (found with clz), acknowledges it in reg_OS_IF, and runs the function
+// in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch; the function is entered by bx after
+// ldr lr, not by a call.
 asm void OS_IrqHandler(void) {
     stmdb sp!, {lr}
     mov ip, #0x4000000
@@ -651,10 +653,10 @@ L_loop:
 // clang-format on
 
 // clang-format off
-// OSThread switch after an interrupt: clears the pending flags of the thread list at OSi_IrqThreadQueue, then saves the
-// registers of the running thread in its context and loads those of the first runnable thread.
-// Not compiled code: it switches processor modes and moves the whole register set with the user-bank forms of stm and
-// ldm (msr, mrs, ^).
+// OSThread switch after an interrupt: makes the threads queued at OSi_IrqThreadQueue runnable and empties the queue,
+// then, if a reschedule is asked for and the first runnable thread is a different one, saves the registers of the
+// running thread in its context and loads those of that thread; it switches processor modes (msr, mrs) and moves the
+// whole register set with the user-bank forms of stm and ldm (^).
 asm void OS_IrqHandler_ThreadSwitch(void) {
     mov r2, #0x1
     mov r3, #0x0

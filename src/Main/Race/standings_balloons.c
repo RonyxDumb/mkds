@@ -4,10 +4,10 @@
 #include "Main/System/heap.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_drift.h"
@@ -18,14 +18,14 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/System/input_slots.h"
-#include "Main/Sound/sound_request_queue.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -73,12 +73,10 @@ void SetStandingsKartHitCallback(s32 (*callback)(u16 kartIndex, u16 hitByKartInd
     gStandings->mKartHitCallback = callback;
 }
 
-// Stores the kart-eliminated callback.
 void SetStandingsKartEliminatedCallback(void (*callback)(u16 kartIndex)) {
     gStandings->mKartEliminatedCallback = callback;
 }
 
-// Stores the end callback.
 void SetStandingsEndCallback(void (*callback)(void)) {
     gStandings->mEndCallback = callback;
 }
@@ -98,7 +96,7 @@ void StartKartMicInflate(u16 kartIndex) {
 }
 
 void StopKartMicInflate(int kartIndex) {
-    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_NONE;
+    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_STOPPED;
 }
 
 s32 GetKartMicInflateTimer(u16 kartIndex) {
@@ -236,21 +234,21 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
         return;
     }
     ownerKartIndexAndFlags = itemObject->mOwnerKartIndexAndFlags;
-    if ((ownerKartIndexAndFlags & 0x8000) != 0) {
+    if ((ownerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) != 0) {
         return;
     }
-    gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~0xff00;
+    gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK;
 }
 
 void StandingsNop(s32 entryIndex) {}
 
 void ClearStandingsHitSeenFromKart(s32 kartIndex) {
-    s32 otherKartIndex;
+    s32 i;
     s32 kartCount;
 
     kartCount = gRaceSetup->mKartCount;
-    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
-        gStandings->mKarts[otherKartIndex].mHitSeenFromKart[kartIndex] = 0;
+    for (i = 0; i < kartCount; i++) {
+        gStandings->mKarts[i].mHitSeenFromKart[kartIndex] = 0;
     }
 }
 
@@ -267,7 +265,7 @@ static inline u16 FindStandingsKartIndexByRankIndex(Standings *standings, s32 ra
 
 u16 GetBattleItemRank(s32 kartIndex) {
     s32 rank;
-    s32 otherKartIndex;
+    s32 i;
     s32 highestCount;
 
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -276,9 +274,9 @@ u16 GetBattleItemRank(s32 kartIndex) {
             rank += 1;
         } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
             highestCount = 1;
-            for (otherKartIndex = 0; otherKartIndex < gRaceSetup->mKartCount; otherKartIndex++) {
-                if (gStandings->mKarts[otherKartIndex].mBalloonOrShineCount > highestCount) {
-                    highestCount = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+            for (i = 0; i < gRaceSetup->mKartCount; i++) {
+                if (gStandings->mKarts[i].mBalloonOrShineCount > highestCount) {
+                    highestCount = gStandings->mKarts[i].mBalloonOrShineCount;
                 }
             }
             rank = (highestCount + 1 - gStandings->mKarts[kartIndex].mBalloonOrShineCount) / 2 + 1;
@@ -299,7 +297,7 @@ u16 GetBattleItemRank(s32 kartIndex) {
 
 void MoveKartTowardFirstRank(u16 kartIndex) {
     s32 rankIndex;
-    s32 otherKartIndex;
+    s32 i;
     s32 kartCount;
     s32 count;
     KartStanding *ownStanding;
@@ -324,12 +322,12 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
     kartCount = gRaceSetup->mKartCount;
     gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
-    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+    for (i = 0; i < kartCount; i++) {
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mLowestBalloonOrShineCount = (count < gStandings->mLowestBalloonOrShineCount && count >= 0)
                                                      ? count
                                                      : gStandings->mLowestBalloonOrShineCount;
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mHighestBalloonOrShineCount =
             (count > gStandings->mHighestBalloonOrShineCount) ? count : gStandings->mHighestBalloonOrShineCount;
     }
@@ -337,7 +335,7 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
 
 void MoveKartTowardLastRank(u16 kartIndex) {
     s32 rankIndex;
-    s32 otherKartIndex;
+    s32 i;
     s32 kartCount;
     s32 count;
     KartStanding *ownStanding;
@@ -362,20 +360,21 @@ void MoveKartTowardLastRank(u16 kartIndex) {
     kartCount = gRaceSetup->mKartCount;
     gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
-    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+    for (i = 0; i < kartCount; i++) {
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mLowestBalloonOrShineCount = (count < gStandings->mLowestBalloonOrShineCount && count >= 0)
                                                      ? count
                                                      : gStandings->mLowestBalloonOrShineCount;
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mHighestBalloonOrShineCount =
             (count > gStandings->mHighestBalloonOrShineCount) ? count : gStandings->mHighestBalloonOrShineCount;
     }
 }
 
-// Takes one kart out of play: runs the kart-eliminated callback, sets its status to 1, in mode 2 sets its count to -1,
-// re-sorts the ranks and starts the mode's out handling of the kart (mode 2: a kart handler call; mode 4: two bits in
-// the kart's words).
+// Takes one kart out of play: calls the kart-eliminated callback and sets its status to KART_STANDING_JUST_ELIMINATED;
+// in MODE_BATTLE it also sets mBalloonOrShineCount to -1 and mBalloonsLeftToMake to 0. For a kart below mKartCount it
+// then moves the kart toward the last rank, and calls StartBattleKartRemoval in MODE_BATTLE or sets
+// KART_DRIVE_SLOWING_STOP and KART_ENTRY_ENDED in MODE_MISSION_RUN.
 void EliminateKart(u16 kartIndex) {
     Kart *kart;
 
@@ -563,11 +562,11 @@ void EliminateKartsUntilWinnerDecided(void) {
                 if ((u16) kartCount == 0) {
                     randomKartIndex = 0;
                 } else {
-                    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+                    RANDOM_ADVANCE(randomState);
                     if (randomLimit == 0) {
-                        randomKartIndex = (u32) (randomState->mValue >> 32);
+                        randomKartIndex = (u32) RANDOM_HIGH32(randomState);
                     } else {
-                        randomKartIndex = (u32) (((u64) (u32) (randomState->mValue >> 32) * (u64) randomLimit) >> 32);
+                        randomKartIndex = (u32) RANDOM_BELOW_U64(randomState, (u64) randomLimit);
                     }
                 }
                 kartIndex = randomKartIndex;
@@ -616,12 +615,10 @@ BOOL IsWinnerDecided(void) {
     return FALSE;
 }
 
-// Returns the kart's mRankIndex.
 u16 GetKartStandingRankIndex(int kartIndex) {
     return gStandings->mKarts[kartIndex].mRankIndex;
 }
 
-// Returns mShineCount.
 u32 GetShineCount(void) {
     return (gStandings->mShineCount);
 }
@@ -642,7 +639,7 @@ u16 GetTotalBalloonOrShineCount(void) {
     total = 0;
     kartCount = gRaceSetup->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
-        count = GetStandingsKart(kartIndex)->mBalloonOrShineCount;
+        count = GetKartStanding(kartIndex)->mBalloonOrShineCount;
         if (count <= 0) {
             count = 0;
         }
@@ -683,7 +680,7 @@ void AddBalloonsLeftToMake(u16 kartIndex, s32 amount) {
     gStandings->mKarts[kartIndex].mBalloonsLeftToMake += amount;
 }
 
-// TRUE when the kart's elimination status is not 0.
+// TRUE when the kart's mEliminationStatus is not KART_STANDING_IN_PLAY.
 BOOL IsKartEliminated(int kartIndex) {
     if (gStandings->mKarts[kartIndex].mEliminationStatus != KART_STANDING_IN_PLAY) {
         return TRUE;
@@ -722,7 +719,7 @@ BOOL IsKartOnWinningTeamAtEnd(s32 kartIndex) {
     return result;
 }
 
-// Returns the address of the kart's saved position (mKarts[i].mPos), not its rank.
+// Returns the address of the position Standings keeps for the kart (mKarts[kartIndex].mPos).
 Vec3 *GetKartStandingPos(int kartIndex) {
     return &gStandings->mKarts[kartIndex].mPos;
 }
@@ -733,8 +730,8 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
     s32 pointIndex;
 
     randomState = &gRaceProgress->mRandom;
-    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-    pointStep = (u16) (((u64) (u32) (randomState->mValue >> 32) * 5) >> 32) + 1;
+    RANDOM_ADVANCE(randomState);
+    pointStep = (u16) RANDOM_BELOW_U64(randomState, 5) + 1;
     pointIndex = gStandings->mBattlePointIndex + pointStep;
     if (pointIndex >= gCourseMap->mBattlePointCount) {
         pointIndex = 0;
@@ -743,8 +740,9 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
     return &gCourseMap->mBattlePoints[gStandings->mBattlePointIndex];
 }
 
-// Allocates the Standings object and fills every entry (rank = own index, side id, status, count; the real karts first,
-// then the unused slots) and sets the winner to -1. Called from InitRace in modes 2 and 4.
+// Allocates the Standings object and sets every entry (rank = own index, team id, elimination status, counts; the real
+// karts first, then the unused slots, which start eliminated) and the winner to -1. Called from InitRace in MODE_BATTLE
+// and MODE_MISSION_RUN.
 void InitStandings(void) {
     s32 kartIndex;
     KartStanding *kartStanding;
@@ -758,10 +756,10 @@ void InitStandings(void) {
         kartStanding->mRankIndex = kartIndex;
         if (kartIndex < gRaceSetup->mKartCount) {
             switch (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex) {
-                case 0:
+                case RACE_TEAM_INDEX_FIRST:
                     kartStanding->mTeamId = STANDINGS_TEAM_ID_FIRST_TEAM;
                     break;
-                case 1:
+                case RACE_TEAM_INDEX_SECOND:
                     kartStanding->mTeamId = STANDINGS_TEAM_ID_SECOND_TEAM;
                     break;
                 default:
@@ -836,7 +834,7 @@ void UpdateStandings(void) {
             if (IsKartNotNormalOrFlagged(kart) != FALSE ||
                 (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
                 gStandings->mKarts[kartIndex].mSelectKeyInflate = -1;
-                gStandings->mKarts[kartIndex].mMicInflateTimer = -1;
+                gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_STOPPED;
             } else if (IsRaceStarted() == 1) {
                 if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & PAD_KEY_SELECT) != 0) {
                     gStandings->mKarts[kartIndex].mSelectKeyInflate = 1;
@@ -958,12 +956,12 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
             mapObject->mDistanceLevelInverted = FALSE;
         }
         randomState = &gRaceProgress->mLocalRandom;
-        randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-        mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x258;
+        RANDOM_ADVANCE(randomState);
+        mapObject->mSoundTimer = (u16) RANDOM_BELOW_U64(randomState, 0x3c) + 0x258;
         mapObject->mDistanceVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
         randomState = &gRaceProgress->mLocalRandom;
-        randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-        mapObject->mDistanceLevelTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0xf) >> 32);
+        RANDOM_ADVANCE(randomState);
+        mapObject->mDistanceLevelTimer = (u16) RANDOM_BELOW_U64(randomState, 0xf);
     }
 }
 
@@ -1019,19 +1017,19 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 mapObject->mSoundVolumeFixed12 =
                     mapObject->mSoundVolumeFixed12 - MUL_FIXED12_NO_ROUND(kart->mVelocityLengthRatio, TO_FIXED12(1));
-                if (mapObject->mSoundVolumeFixed12 < DISTANCE_SOUND_VOLUME_MIN) {
-                    mapObject->mSoundVolumeFixed12 = DISTANCE_SOUND_VOLUME_MIN;
+                if (mapObject->mSoundVolumeFixed12 < DISTANCE_SOUND_SOUND_VOLUME_MIN) {
+                    mapObject->mSoundVolumeFixed12 = DISTANCE_SOUND_SOUND_VOLUME_MIN;
                 }
             } else if (mapObject->mSoundTimer-- <= 0) {
                 sndHandleSlot = GetSndHandleSlot(8);
                 slot8Request.mSoundId = mapObject->mSoundId;
                 slot8Request.mPositionSource = NULL;
-                slot8Request.mFalloffIndex = 4;
+                slot8Request.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
                 slot8Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                 StartSndHandleSound(&slot8Request, sndHandleSlot);
                 randomState = &gRaceProgress->mLocalRandom;
-                randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-                mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
+                RANDOM_ADVANCE(randomState);
+                mapObject->mSoundTimer = (u16) RANDOM_BELOW_U64(randomState, 0x3c) + 0x78;
                 mapObject->mSoundVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
             }
         } else if (mapObject->mSoundTimer > 0) {
@@ -1052,7 +1050,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
             sndHandleSlot = GetSndHandleSlot(9);
             slot9Request.mSoundId = mapObject->mSecondSoundId;
             slot9Request.mPositionSource = NULL;
-            slot9Request.mFalloffIndex = 4;
+            slot9Request.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
             slot9Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
             StartSndHandleSound(&slot9Request, sndHandleSlot);
         }

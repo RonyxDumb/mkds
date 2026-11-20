@@ -40,7 +40,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/model_effect_kinds.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
@@ -152,7 +152,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     value = (s16) (u16) (kartAiRandom->mValue >> 52);
     boostChanceLimit = 0x333;
     switch (gRaceSetup->mCpuDifficulty) {
@@ -240,7 +240,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
         kartAiParams = gBattleKartAiParams;
         balloonCountGoal = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         for (goalIndex = 0; goalIndex < 3; goalIndex++) {
             if (kartAiParams->mSetupBalloonCountGoalLimits[goalIndex] > 0 &&
@@ -255,7 +255,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     }
 }
 
-void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
+void ResetBattleKartAiAtPointLink(KartAi *kartAi, BattlePointLink *pointLink) {
     ResetBattlePointLinkCursorTo(&kartAi->mBattleLinkCursor, pointLink);
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
@@ -280,7 +280,7 @@ void AdvanceBattleKartAi(KartAi *kartAi) {
 void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
     LinkCursor *linkCursor;
     Kart *kart;
-    PointLink *requestedLink;
+    BattlePointLink *requestedLink;
     Vec3 *kartForward;
     Vec3 *headingPos;
     Vec3 kartPos;
@@ -367,10 +367,10 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
     if (kartAi->mSideOffsetFrames > kartAi->mSideOffsetFrameLimit) {
         kartAi->mSideOffsetFrames = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         kartAi->mSideOffsetFrameLimit = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         centeredRandom = MUL_FIXED12_ROUNDED(randomValue, 0x2000) - 0x1000;
         ratioChange = MUL_FIXED12_ROUNDED(centeredRandom, 0x4ce);
@@ -568,7 +568,7 @@ void PickKartAiBalloonCountGoal(KartAi *kartAi) {
     s16 balloonCountGoal = 0;
 
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     for (goalIndex = 0; goalIndex < 3; goalIndex++) {
         if (randomLimits[goalIndex] > 0 && randomValue <= randomLimits[goalIndex]) {
@@ -597,7 +597,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
 
     targetShine = kartAi->mTargetShine;
     if (targetShine != NULL) {
-        if (!(targetShine->mFlags & 1)) {
+        if (!(targetShine->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             mapObjectPos = &targetShine->mPos;
             kartPos = &kartAi->mKart->mPos;
             distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, mapObjectPos);
@@ -678,7 +678,7 @@ BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDiffer
         if (listIndex >= listCount) {
             listIndex = 0;
         }
-        if (!(shine->mFlags & 1)) {
+        if (!(shine->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             checkedCount++;
             shinePos = &shine->mPos;
             kartPos = &kartAi->mKart->mPos;

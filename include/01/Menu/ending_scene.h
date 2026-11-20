@@ -14,7 +14,7 @@ void AdvanceEndingSceneFadeIn(void);
 void AdvanceEndingSceneHoldFaded(void);
 void AdvanceEndingSceneFadeOut(void);
 void AdvanceEndingSceneShowLogo(void);
-void AdvanceEndingSceneWaitFadeIn(void);
+void AdvanceEndingSceneWaitFirstFadeIn(void);
 void LoadAndQueueEndingSceneData(void);
 void QueueEndingSceneIndex1Data(void);
 void QueueEndingSceneNcgrNscrNclr(int i);

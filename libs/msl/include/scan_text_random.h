@@ -24,7 +24,8 @@ enum {
 // ScanSpec.mSpecChar value for a conversion that cannot be scanned.
 #define SCAN_SPEC_INVALID 0xff
 
-// A parsed scan conversion: the star and max length flags, argument kind, spec character and the character set.
+// A parsed scan conversion: the star flag, the max length flag and value, argument kind, spec character and the
+// character set.
 typedef struct ScanSpec {
     /* 00 */ u8 mStar;
     /* 01 */ u8 mHasMaxLength;

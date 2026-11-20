@@ -46,7 +46,7 @@ u32 GetExchangeOutcome(void) {
                 exchangeResult.mKind <= EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES && exchangeResult.mItem205Value == 1) {
                 return EXCHANGE_OUTCOME_RESULT_USABLE;
             }
-            return EXCHANGE_OUTCOME_BAD_RESULT;
+            return EXCHANGE_OUTCOME_UNUSABLE_RESULT;
         case EXCHANGE_STATUS_ENDED_WITHOUT_RESULT:
             return EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT;
     }

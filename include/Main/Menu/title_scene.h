@@ -4,7 +4,7 @@
 #include "clock_chip_access.h" // RTCTime
 #include "Main/Scene/scene_display_archive_work.h"
 
-// A replay race ends once the race clock reaches this minute.
+// A replay race also ends once the race clock reaches this minute.
 #define REPLAY_END_CLOCK_MINUTE 7
 
 typedef struct Vec3 Vec3;

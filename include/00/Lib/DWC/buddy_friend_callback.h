@@ -4,7 +4,7 @@
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-struct GpConnection;
+struct GPConnection;
 
 // Values of WiFiBuddySync.mState: no update is running, the buddy update is running, it has finished.
 enum {
@@ -22,24 +22,21 @@ enum {
     BUDDY_UPDATE_STATE_DONE,
 };
 
-// Buddy layer of the online link, embedded in WiFiConnection at 0x2e8 (gWiFiBuddySync). Given the GP connection and
-// the saved list (mBuddies, mBuddyEntryCount entries of 12 bytes), it makes the GP buddy list and the saved list
-// agree: GP buddies the list lacks are deleted, list entries GP lacks are added (DWCi_GPSendBuddyRequest), entries that
-// hold only a name are looked up by a GP profile search, entries with the same profile id are merged; when a name is
-// given it also talks to the stats server first. The end is reported through mResultCallback (mBuddiesChanged: the list
-// was rewritten and must be saved). DWCi_FriendProcess also pumps GpUpdate every 300 ms in connection states 3 to 6,
-// and the object answers the GP buddy request and buddy status callbacks.
-typedef void (*DWCBuddyChangedCallback)(s32 index, void *arg);
+typedef void (*DWCBuddyFriendCallback)(s32 index, void *arg);
 
+// Buddy layer of the online connection: it makes the GP buddy list and the saved list (mBuddies) agree and reports the
+// end through mResultCallback (mBuddiesChanged says the list must be saved).
 typedef struct WiFiBuddySync {
-    // 0 idle, 1 running, 2 finished; only compared (the per-frame step does not switch on it). mUnk_1e (0..3) is the
-    // phase inside state 1 and stays address-based.
+    // Values BUDDY_SYNC_STATE_*: set by DWCi_FriendInit and CloseStatsAndResetBuddySync (NONE), StartBuddySync
+    // (UPDATING) and DWCi_EndUpdateServers (FINISHED); only compared elsewhere.
+    // CloseStatsAndResetBuddySync (NONE); only compared elsewhere.
     /* 00 */ s32 mState;
-    /* 04 */ struct GpConnection *mGpConnection;
-    // GpUpdate calls since the last restart (DWCi_InitGPProcessCount, at login success); the list part starts after
+    /* 04 */ struct GPConnection *mGpConnection;
+    // gpProcess calls since the last restart (DWCi_InitGPProcessCount, at login success); the list part starts after
     // more than 7.
     /* 08 */ u32 mPollCount;
-    // OS_GetTick reading at the last GpUpdate; the next one is allowed after 300 ms.
+    // OS_GetTick reading at the last gpProcess (also set by DWCi_InitGPProcessCount); the next gpProcess is allowed
+    // once 300 ms have passed.
     /* 0c */ u64 mLastPollTime;
     // Capacity of the list at mBuddies (0x3c entries), not the number of entries in use (DWC_GetNumFriend counts
     // those).
@@ -49,8 +46,9 @@ typedef struct WiFiBuddySync {
     // Entry of the list the sync step is on; advanced by the step loop and by the profile-search reply
     // (DWCi_GPProfileSearchCallback).
     /* 1c */ u8 mSyncIndex;
-    // 1 when the sync rewrote or merged an entry; given to the result callback, whose receiver sets
-    // WiFiSession.mBuddiesChanged so the list is saved (buddy_changed_callback.c). Set early in the reply handler
+    // 1 when the sync rewrote or merged an entry; given to the result callback, whose receiver
+    // WiFiSessionBuddySyncCallback sets WiFiSession.mBuddiesChanged from it on result 0, so the list is saved. Set
+    // early in
     // DWCi_GPProfileSearchCallback, so it can be 1 without a change.
     /* 1d */ u8 mBuddiesChanged;
     /* 1e */ u8 mBuddyUpdateState;
@@ -58,18 +56,19 @@ typedef struct WiFiBuddySync {
     // the name part (only run when a name was given: the one caller passes NULL, so it is counted at once); part 2 is
     // the list part.
     /* 1f */ u8 mCompletedParts;
-    // Stats-server requests in flight (++ before a request, -- in its reply); an error when it would wrap or while it
-    // is nonzero and the stats link is gone (DWCi_FriendProcess). Only live when a name was given to StartBuddySync
-    // (the one caller passes NULL).
+    // Stats-server requests in flight (++ for each request sent, -- in its reply); an error when it would wrap or fall
+    // below 0, and while it is nonzero when PersistThink returns FALSE (DWCi_FriendProcess). Only used when a name was
+    // given to StartBuddySync (the one caller passes NULL).
     /* 20 */ u32 mPendingStatsRequestCount;
     /* 24 */ s32 mProfileId;
     /* 28 */ char *mPlayerName;
-    // Set by StartBuddySync (the owner passes DWCi_UpdateServersCallback); called with (code, mBuddiesChanged, arg) by
-    // the finish step DWCi_EndUpdateServers (code 0) and the error reporter DWCi_StopFriendProcess (error).
+    // Set by StartBuddySync (DWC_UpdateServersAsync passes DWCi_UpdateServersCallback); called with (code,
+    // mBuddiesChanged, arg) by DWCi_EndUpdateServers (code 0) and, only while the sync is running (mState
+    // BUDDY_SYNC_STATE_UPDATING), by DWCi_StopFriendProcess (the error).
     /* 2c */ void (*mResultCallback)(s32, u8, void *);
     /* 30 */ void *mResultCallbackArg;
-    // Called with (list index, status, status text, arg) from DWCi_GPRecvBuddyStatusCallback and from the change
-    // notifier DWCi_CallBuddyFriendCallback.
+    // Called with (list index, status, location string, arg) from DWCi_GPRecvBuddyStatusCallback and from
+    // DWCi_CallBuddyFriendCallback.
     /* 34 */ void (*mBuddyStatusCallback)(s32, u8, void *, void *);
     /* 38 */ void *mBuddyStatusCallbackArg;
     // Set by StartBuddySync (seventh parameter; the owner passes WiFiSessionEntryMergedCallback). Called by
@@ -77,16 +76,16 @@ typedef struct WiFiBuddySync {
     // saved list hold the same profile id.
     /* 3c */ void (*mEntryMergedCallback)(s32, s32, void *);
     /* 40 */ void *mEntryMergedCallbackArg;
-    // Set by DWC_SetBuddyFriendCallback (declared void *, called as void (*)(s32, void *)). Called by
-    // DWCi_CallBuddyFriendCallback with (list index, arg) after a GP reply set an entry's profile id, unless a sync is
-    // running (mState 1). The one caller passes BuddyChangedCallback.
-    /* 44 */ DWCBuddyChangedCallback mBuddyChangedCallback;
+    // Set by DWC_SetBuddyFriendCallback. Called by DWCi_CallBuddyFriendCallback with (list index, arg) after a GP reply
+    // set an entry's profile id, except while mState is BUDDY_SYNC_STATE_UPDATING. The one caller passes
+    // BuddyChangedCallback.
+    /* 44 */ DWCBuddyFriendCallback mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
     /* 4c */ void (*mSaveCallback)(s32 success, s32 isPublicData, u32 instance);
     /* 50 */ u32 mUnk_50;
 } WiFiBuddySync;
 
-// Written by DWCi_FriendInit and cleared by DWCi_ShutdownFriend, the release half.
+// Set by DWCi_FriendInit to the buddy object inside the connection; NULL again after DWCi_ShutdownFriend.
 extern WiFiBuddySync *gWiFiBuddySync;
 
-void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param);
+void DWC_SetBuddyFriendCallback(DWCBuddyFriendCallback callback, void *param);

@@ -35,7 +35,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -44,8 +44,8 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/results_gp.h"
 #include "01/Menu/record_time_attack.h"
@@ -60,7 +60,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
 
-const KartAiItemUseEntry gBattleEasyHeldItemEntries[18] = {{ThrowItemRandomAfterHeld, 1, 0x20, 0x1b},
+const KartAiItemUseEntry gBattleEasyHeldItemEntries[ITEM_INFO_COUNT] = {{ThrowItemRandomAfterHeld, 1, 0x20, 0x1b},
                                                            {ThrowItemRandomAfterHeld, 1, 0x20, 0x1b},
                                                            {ThrowItemRandomMoreForwardAfterHeld, 2, 0x20, 0x1b},
                                                            {ThrowItemRandomAfterHeld, 2, 0x20, 0x1b},
@@ -78,7 +78,7 @@ const KartAiItemUseEntry gBattleEasyHeldItemEntries[18] = {{ThrowItemRandomAfter
                                                            {EasyUseItemAfterHeld, 0, 0xa, 0xa},
                                                            {EasyUseItemAfterHeld, 0, 0xa, 0xa},
                                                            {EasyUseItemAfterHeld, 2, 0xa, 0xa}};
-const KartAiItemUseEntry gBattleEasyItemInUseEntries[14] = {
+const KartAiItemUseEntry gBattleEasyItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {
     {ThrowItemByCircleKind, 1, 0x20, 0x1b},
     {UseItemByCircleKind, 1, 0x20, 0x1b},
     {ThrowItemByTrailKind, 2, 0x20, 0x1b},
@@ -93,7 +93,7 @@ const KartAiItemUseEntry gBattleEasyItemInUseEntries[14] = {
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa}};
-const KartAiItemUseEntry gBattleHardItemInUseEntries[14] = {
+const KartAiItemUseEntry gBattleHardItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {
     {ThrowItemByCircleKind, 1, 5, 3},
     {UseItemByCircleKind, 1, 5, 3},
     {ThrowItemByTrailKind, 2, 1, 0},
@@ -108,7 +108,7 @@ const KartAiItemUseEntry gBattleHardItemInUseEntries[14] = {
     {BattleItemInUseNop, 0, 1, 3},
     {BattleItemInUseNop, 0, 1, 3},
     {BattleItemInUseNop, 0, 3, 0xa}};
-const KartAiItemUseEntry gBattleNormalHeldItemEntries[18] = {
+const KartAiItemUseEntry gBattleNormalHeldItemEntries[ITEM_INFO_COUNT] = {
     {ThrowItemRandomAfterHeldOrAtNearTarget, 1, 0x20, 0x1b},
     {ThrowItemRandomAfterHeldOrAtNearTarget, 1, 0x20, 0x1b},
     {ThrowItemRandomAfterHeldOrBehindNearTarget, 2, 0x20, 0x1b},
@@ -127,7 +127,7 @@ const KartAiItemUseEntry gBattleNormalHeldItemEntries[18] = {
     {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa},
     {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa},
     {UseItemAfterHeldOrOnTarget, 2, 0xa, 0xa}};
-const KartAiItemUseEntry gBattleNormalItemInUseEntries[14] = {
+const KartAiItemUseEntry gBattleNormalItemInUseEntries[ITEM_OBJECT_KIND_COUNT] = {
     {ThrowItemByCircleKind, 1, 0x20, 0x1b},
     {UseItemByCircleKind, 1, 0x20, 0x1b},
     {ThrowItemByTrailKind, 2, 0x20, 0x1b},
@@ -142,7 +142,7 @@ const KartAiItemUseEntry gBattleNormalItemInUseEntries[14] = {
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa},
     {BattleItemInUseNop, 0, 5, 0xa}};
-const KartAiItemUseEntry gBattleHardHeldItemEntries[18] = {{HardSetItemBitsEveryCall, 1, 1, 0},
+const KartAiItemUseEntry gBattleHardHeldItemEntries[ITEM_INFO_COUNT] = {{HardSetItemBitsEveryCall, 1, 1, 0},
                                                            {HardSetItemBitsEveryCall, 1, 1, 0},
                                                            {SetItemBitsEveryCall, 2, 1, 0},
                                                            {ThrowItemRandomAfterHeldOrAtNearTarget, 2, 1, 0},
@@ -199,7 +199,7 @@ static inline BOOL IsGrandPrixRecordFilledTopRank(s32 cup, s32 engineClass) {
 u32 SetAndWriteSecretMessageFlags(void) {
     u32 setFlagBits;
     setFlagBits = 0;
-    if (GetCurrentSceneNumber() == 10) {
+    if (GetCurrentSceneNumber() == SCENE_RESULT) {
         setFlagBits = SetSecretMessageFlags();
         WriteBackupFirstBlockWrapper();
         WaitThreadFunctionsDone();
@@ -278,9 +278,9 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
     u32 setFlagBits;
     u32 lastGroupBit;
     u32 newBit;
-    s32 firstFlag;
-    s32 secondFlag;
-    s32 thirdFlag;
+    s32 cup2Flag;
+    s32 cups4And5Flag;
+    s32 cup6Flag;
     setFlagBits = 0;
     for (engineClass = 0; engineClass < 4; engineClass++) {
         newBit = 0;
@@ -293,29 +293,29 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        firstFlag = engineClass + 4;
-        if (IsBackupFlagSet(firstFlag) == 0) {
+        cup2Flag = engineClass + 4;
+        if (IsBackupFlagSet(cup2Flag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(2, engineClass) != FALSE) {
-                SetBackupFlag(firstFlag);
+                SetBackupFlag(cup2Flag);
                 newBit = 2;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        secondFlag = engineClass + 8;
-        if (IsBackupFlagSet(secondFlag) == 0) {
+        cups4And5Flag = engineClass + 8;
+        if (IsBackupFlagSet(cups4And5Flag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(4, engineClass) != FALSE &&
                 IsGrandPrixRecordFilledTopRank(5, engineClass) != FALSE) {
-                SetBackupFlag(secondFlag);
+                SetBackupFlag(cups4And5Flag);
                 newBit = 4;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        thirdFlag = engineClass + 12;
-        if (IsBackupFlagSet(thirdFlag) == 0) {
+        cup6Flag = engineClass + 12;
+        if (IsBackupFlagSet(cup6Flag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(6, engineClass) != FALSE) {
-                SetBackupFlag(thirdFlag);
+                SetBackupFlag(cup6Flag);
                 newBit = 8;
             }
         }
@@ -401,7 +401,7 @@ s32 GetStaffRollKindAfterGp(void) {
     s32 engineClass;
     BOOL conditionMet;
     BOOL flag;
-    result = 0;
+    result = STAFF_ROLL_AFTER_GP_NONE;
     menuShared = gMenuShared;
     engineClass = menuShared->mEngineIndex;
     cupIndex = menuShared->mCupIndex;
@@ -418,7 +418,7 @@ s32 GetStaffRollKindAfterGp(void) {
         }
     }
     if (conditionMet != FALSE) {
-        result = 2;
+        result = STAFF_ROLL_AFTER_GP_TRUE;
     } else {
         conditionMet = FALSE;
         if (cupIndex == 3 || cupIndex == 7) {
@@ -440,7 +440,7 @@ s32 GetStaffRollKindAfterGp(void) {
             }
         }
         if (conditionMet != FALSE) {
-            result = 1;
+            result = STAFF_ROLL_AFTER_GP_NORMAL;
         }
     }
     return result;
@@ -454,7 +454,7 @@ void LoadStaffGhostTime(void *heap) {
     LoadFileIntoHeap("/data/Ghost/staff_ghost_time.bin", heap, (void **) &gStaffGhostTime);
 }
 
-// TRUE when the time is smaller than entry a - 1 of the staff ghost times.
+// TRUE when the time in milliseconds is below staff ghost time entryNumber - 1.
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time) {
     return TIME_TO_MS(time->mMinute, time->mSecond, time->mMillisecond) < gStaffGhostTime[entryNumber - 1];
 }
@@ -483,8 +483,9 @@ BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor) {
     return AdvanceKartKillerEndCount(kartKillerCursor);
 }
 
-// Holds the kart at a fixed speed, steers it toward the point link ahead, and moves the cursor on once the kart is past
-// that link or close to it.
+// Holds the kart at KART_KILLER_FORWARD_SPEED; when it is past the point link ahead (or, except with
+// KART_DRIVE_BOOST_SURFACE_HELD on surface variant 1, within its distance) it moves the cursor on, otherwise it steers
+// toward the link.
 void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     Kart *kart;
     Vec3 position;
@@ -501,7 +502,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
             isPastOrNearLink = IsWithinPointLinkDistance(&kartKillerCursor->mPointLinkCursor, &position);
         }
     }
-    kart->mForwardSpeed = KART_KILLER_STAFF_FORWARD_SPEED;
+    kart->mForwardSpeed = KART_KILLER_FORWARD_SPEED;
     kart->mSpeedLimitGoal = kart->mForwardSpeed;
     kart->mSpeedLimit = kart->mSpeedLimitGoal;
     if (isPastOrNearLink != 0) {
@@ -531,15 +532,15 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     targetHeadingAngle = kart->mHeadingAngle + (s16) MUL_FIXED12_ROUNDED(angleToLinkDegrees, 0xb6);
     entryIndex = *(volatile s32 *) &kart->mEntryIndex;
     padBits = gInputSlots[entryIndex].mBits;
-    if ((u16) (padBits & PAD_KEY_LEFT) != 0) {
+    if ((u16) (padBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         kart->mHeadingAngle = kart->mHeadingAngle + 0xa0;
-    } else if ((u16) (padBits & PAD_KEY_RIGHT) != 0) {
+    } else if ((u16) (padBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         kart->mHeadingAngle = kart->mHeadingAngle - 0xa0;
     }
     angleDifference = targetHeadingAngle - kart->mHeadingAngle;
     angleDifferenceAbs = angleDifference;
-    angleDifferenceAbs = (angleDifferenceAbs < 0) ? -angleDifferenceAbs : angleDifferenceAbs;
-    if (angleDifferenceAbs > 0x7fff) {
+    angleDifferenceAbs = ABS(angleDifferenceAbs);
+    if (angleDifferenceAbs > ANGLE_HALF_TURN - 1) {
         if (angleDifference > 0) {
             angleDifference = -(0xffff - angleDifference);
         } else {
@@ -578,7 +579,8 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
     return limitReached;
 }
 
-// Stores one of three sets of battle item entry tables and callbacks; any value other than 1 or 2 takes the third set.
+// Stores the battle item entry tables and item callbacks for RaceSetup.mCpuDifficulty: easy and normal each have their
+// own, every other value gets the hard set.
 void SetupBattleItemEntries(void) {
     switch (gRaceSetup->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:

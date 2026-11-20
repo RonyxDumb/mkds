@@ -11,7 +11,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Graphics/text_canvas.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "char_canvas_text_draw.h"
 #include "bg_screen_char_pointers.h"
 #include "vram_transfer_queue.h"
@@ -51,15 +51,11 @@ void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
         gPaletteBlend->mBlendTo[colorIndex].mBits10To14 = (color & 0x7c00) >> 10;
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearPaletteBlendPointer(void) {
     gPaletteBlend = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void BlendPaletteColors(s32 weight) {
     s32 colorIndex;
     PaletteBlend *paletteBlend;
@@ -168,7 +164,7 @@ void ClearStaffRollTextPointer(void) {
     gStaffRollText = NULL;
 }
 
-void AdvanceStaffRollTextScrolling(void) {
+void ScrollAndDrawStaffRollTextLine(void) {
     s32 tagSize;
     s32 value;
     s32 charCount;
@@ -214,7 +210,7 @@ void AdvanceStaffRollTextScrolling(void) {
             variant = tag->mVariant;
             if (value == 1) {
                 argument = 0;
-                if (variant != 0x63) {
+                if (variant != STAFF_ROLL_TAG_END) {
                     argument = tag->mArgument;
                 }
                 switch (variant) {
@@ -297,7 +293,7 @@ void AdvanceStaffRollText(void) {
         case STAFF_ROLL_TEXT_IDLE:
             break;
         case STAFF_ROLL_TEXT_SCROLLING:
-            AdvanceStaffRollTextScrolling();
+            ScrollAndDrawStaffRollTextLine();
             break;
         case STAFF_ROLL_TEXT_SCROLL_DONE:
             break;

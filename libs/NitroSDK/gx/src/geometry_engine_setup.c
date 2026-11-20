@@ -284,7 +284,7 @@ void G3X_Init(void) {
     G3X_InitTable();
     reg_G3_POLYGON_ATTR = 0x1f0080;
     reg_G3_TEXIMAGE_PARAM = 0;
-    reg_G3_PLTT_BASE = 0;
+    reg_G3_TEXPLTT_BASE = 0;
 }
 
 // Waits for the geometry engine, resets the matrix stacks and sets the default polygon attributes, texture
@@ -298,7 +298,7 @@ void G3X_Reset(void) {
     G3X_ResetMtxStack();
     reg_G3_POLYGON_ATTR = 0x1f0080;
     reg_G3_TEXIMAGE_PARAM = 0;
-    reg_G3_PLTT_BASE = 0;
+    reg_G3_TEXPLTT_BASE = 0;
 }
 
 // Writes 128 zero words to the geometry FIFO, then waits for the geometry engine.

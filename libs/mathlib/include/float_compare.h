@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-u32 FloatCompare3Way(u32 left, u32 right);
+u32 FloatDoubleCompare(u32 left, u32 right);
 u32 _fls(u32 left, u32 right);
 u32 _fgr(u32 left, u32 right);
 u32 _fgeq(u32 left, u32 right);

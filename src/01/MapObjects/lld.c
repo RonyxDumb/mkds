@@ -105,10 +105,10 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
 
                     mtx.mElements[0] = FX_Div(0x1000, entry->mScale);
                     mtx.mElements[3] = FX_Div(0x1000, entry->mScale);
-                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPA = mtx.mElements[0] >> 4;
-                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPB = mtx.mElements[1] >> 4;
-                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPC = mtx.mElements[2] >> 4;
-                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPD = mtx.mElements[3] >> 4;
+                    ((GXOamAffine *) oamBuffer->mOams)[idx].mPA = mtx.mElements[0] >> 4;
+                    ((GXOamAffine *) oamBuffer->mOams)[idx].mPB = mtx.mElements[1] >> 4;
+                    ((GXOamAffine *) oamBuffer->mOams)[idx].mPC = mtx.mElements[2] >> 4;
+                    ((GXOamAffine *) oamBuffer->mOams)[idx].mPD = mtx.mElements[3] >> 4;
                     mtx.mElements[0] = entry->mScale;
                     mtx.mElements[3] = entry->mScale;
                     cell = entry->mCellAnim.mPCurrentCell;
@@ -116,14 +116,14 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     scaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, cell, &mtx, scaledPos, idx, 1);
+                                              RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell, &mtx, scaledPos, idx, 1);
                 } else {
                     cell = entry->mCellAnim.mPCurrentCell;
                     unscaledPos[0] = TO_FIXED12(screenX);
                     unscaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, cell, NULL, unscaledPos, 0, 0);
+                                              RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell, NULL, unscaledPos, 0, 0);
                 }
             }
         }
@@ -167,11 +167,11 @@ void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
     NNSG2dCellAnimation *cellAnim = &entry->mCellAnim;
 
     if (frameOrCommand == -1) {
-        cellAnim->mOverriddenPlayMode = NNS_G2D_ANIMATIONPLAYMODE_FORWARD_LOOP;
+        cellAnim->mOverriddenPlayMode = CELL_ANIM_PLAY_REPEAT;
         entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -2) {
         NNS_G2dResetAnimCtrlState(cellAnim);
-        cellAnim->mOverriddenPlayMode = NNS_G2D_ANIMATIONPLAYMODE_FORWARD;
+        cellAnim->mOverriddenPlayMode = CELL_ANIM_PLAY_ONCE;
         entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -3) {
         entry->mCellAnim.mActive = FALSE;

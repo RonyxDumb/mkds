@@ -16,5 +16,5 @@ void StartChildWaitFadeIn(void);
 void LoadChildWaitFileAndSetBgCnt(void);
 void SetupChildWait(void);
 
-extern u8 gYb5MultiNscName7[19];
+extern u8 gChildWaitYb5MultiNscName[19];
 extern u8 gChildWaitResult;

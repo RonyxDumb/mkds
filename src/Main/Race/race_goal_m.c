@@ -41,7 +41,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "sound_player_control.h"
 #include "Main/Net/wifi_session.h"
@@ -112,7 +112,7 @@ void UpdateRaceGoalM(void) {
 
     frame = gRaceGoalM->mUpdateFrames;
     followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mKarts[followedKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED ||
+    if (gRaceProgress->mKarts[followedKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM ||
         gRaceProgress->mRaceDone != 0) {
         gRaceGoalM->mReady = 0;
     }
@@ -121,7 +121,7 @@ void UpdateRaceGoalM(void) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
-                                                             : RACE_END_KIND_NOT_ENDED) != 0 &&
+                                                             : RACE_END_KIND_NOT_ENDED) != RACE_END_KIND_GOAL &&
             IsEntryKartNormalOrNotMissionRun() == 0 && frame == 0) {
             return;
         }
@@ -168,7 +168,7 @@ void UpdateRaceGoalM(void) {
                 gRaceGoalM->mComputedMissionRecordValue = ComputeMissionRecordValue();
             }
             if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
-                                                                 : RACE_END_KIND_NOT_ENDED) == 0) {
+                                                                 : RACE_END_KIND_NOT_ENDED) == RACE_END_KIND_GOAL) {
                 if (frame == 1) {
                     switch (gRaceGoalM->mComputedMissionRecordValue) {
                         case 0:
@@ -223,8 +223,8 @@ void DrawRaceGoalM(RaceHudOamBuffer *oamBuffer) {
             position[0] = 0x18000;
             position[1] = TO_FIXED12(offsetY + 0xa8);
             oamIndex = oamBuffer->mOamCount;
-            oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                          cell, NULL, position, 0, 1);
             break;
         case MODE_MISSION_RUN:
             DrawRaceGoalMMissionRun(oamBuffer);
@@ -248,36 +248,36 @@ void DrawRaceGoalMGrandPrix(RaceHudOamBuffer *oamBuffer) {
     rankPosition[0] = 0x18000;
     rankPosition[1] = TO_FIXED12(offsetY + 0xa8);
     oamIndex = oamBuffer->mOamCount;
-    oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, rankPosition, 0, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                  NULL, rankPosition, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(gRaceGoalM->mPointsGained + 8);
     pointsPosition[0] = 0x48000;
     pointsPosition[1] = TO_FIXED12(offsetY + 0xb0);
     oamIndex = oamBuffer->mOamCount;
-    oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, pointsPosition, 0, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                  NULL, pointsPosition, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(IsPointsLabelPlural(gRaceGoalM->mPointsGained) != FALSE ? 0x13 : 0x14);
     cell13Or14Position[0] = 0x48000;
     cell13Or14Position[1] = TO_FIXED12(offsetY + 0xb0);
     oamIndex = oamBuffer->mOamCount;
-    oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell13Or14Position, 0, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                  NULL, cell13Or14Position, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(0x40);
     cell40Position[0] = 0xda000;
     cell40Position[1] = TO_FIXED12(offsetY + 0xa6);
     oamIndex = oamBuffer->mOamCount;
-    oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell40Position, 0, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                  NULL, cell40Position, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(0x41);
     cell41Position[0] = 0xda000;
     cell41Position[1] = TO_FIXED12(offsetY + 0xa6);
     oamIndex = oamBuffer->mOamCount;
-    oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell41Position, 0, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                  NULL, cell41Position, 0, 1);
 }
 
 void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
@@ -335,7 +335,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
     position[1] = 0x60000;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, position, 0, 1);
 }
 
 void InitRaceLinkLevel(void) {
@@ -420,8 +420,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         firstPosition[0] = 0xf8000;
         firstPosition[1] = 0xb8000;
         oam = &oamBuffer->mOamBits[oamIndex];
-        oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, levelCell, NULL, firstPosition, 0, 1);
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                      levelCell, NULL, firstPosition, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
             oam->mObjMode = RACE_HUD_OBJ_MODE_WINDOW;
             oam->mPriority = 1;
@@ -429,8 +429,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         secondPosition[0] = 0xf8000;
         secondPosition[1] = 0xb8000;
         oamIndex = oamBuffer->mOamCount;
-        oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, levelCell, NULL, secondPosition, 0, 1);
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                      levelCell, NULL, secondPosition, 0, 1);
     }
     if (extraCell != NULL) {
         s32 firstPosition[2];
@@ -442,8 +442,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         firstPosition[0] = 0xf8000;
         firstPosition[1] = 0xa7000;
         oam = &oamBuffer->mOamBits[oamIndex];
-        oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, extraCell, NULL, firstPosition, 0, 1);
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                      extraCell, NULL, firstPosition, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
             oam->mObjMode = RACE_HUD_OBJ_MODE_WINDOW;
             oam->mPriority = 1;
@@ -451,8 +451,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         secondPosition[0] = 0xf8000;
         secondPosition[1] = 0xa7000;
         oamIndex = oamBuffer->mOamCount;
-        oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, extraCell, NULL, secondPosition, 0, 1);
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                      extraCell, NULL, secondPosition, 0, 1);
     }
 }
 
@@ -483,9 +483,9 @@ void InitRaceStartGp(void) {
     s32 index;
 
     gRaceStartGp = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceStartGp));
-    for (index = 0; index < 0x80; index++) {
+    for (index = 0; index < RACE_HUD_OAM_COUNT; index++) {
         RaceHudOamBits *oamBits = &gRaceStartGp->mMainOam.mOamBits[index];
-        oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
+        oamBits->mObjMode = 3;
     }
     gRaceStartGp->mUpdateFrames = 0;
     LoadNclrData(&gRaceStartGp->mRaceStartGpMONclr, FindSceneFileWrapper("race_start_gp_m_o.NCLR"));
@@ -537,11 +537,11 @@ void DrawRaceStartGp(void) {
     oamBuffer = &gRaceStartGp->mMainOam;
     position[0] = 0x80000;
     position[1] = 0x60000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
-                                                  cell, NULL, position, 0, 1);
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+        &oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell, NULL, position, 0, 1);
     DC_FlushRange(&gRaceStartGp->mMainOam, 0x400);
     MI_DmaFill32(3, &gRaceStartGp->mMainOam.mOams[gRaceStartGp->mMainOam.mOamCount], 0xc0,
-                 (0x80 - gRaceStartGp->mMainOam.mOamCount) * 8);
+                 (RACE_HUD_OAM_COUNT - gRaceStartGp->mMainOam.mOamCount) * 8);
 }
 
 void HideRaceTaKartPositions(s32 kartIndex) {
@@ -568,7 +568,7 @@ void ResetRaceTaKartPositions(s32 kartIndex) {
 
 void InitRaceTaPositions(void) {
     s32 index;
-    s32 sampleIndex;
+    s32 j;
     Vec3 position;
 
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
@@ -583,11 +583,11 @@ void InitRaceTaPositions(void) {
     for (index = 0; index < gRaceSetup->mKartCount; index++) {
         u16 angle = (u32) GetRaceHudSubScreenKartAngle(index);
         GetKartPosFromPosSourceCopy(&position, index);
-        for (sampleIndex = 0; sampleIndex < RACE_TA_SAMPLE_COUNT; sampleIndex++) {
-            gRaceTaPositions->mSamples[index][sampleIndex].mPos = position;
-            gRaceTaPositions->mSamples[index][sampleIndex].mAngle = angle;
-            gRaceTaPositions->mSamples[index][sampleIndex].mKind = RACE_TA_SAMPLE_KIND_NONE;
-            gRaceTaPositions->mSamples[index][sampleIndex].mPriority = RACE_HUD_PRIORITY_BACK;
+        for (j = 0; j < RACE_TA_SAMPLE_COUNT; j++) {
+            gRaceTaPositions->mSamples[index][j].mPos = position;
+            gRaceTaPositions->mSamples[index][j].mAngle = angle;
+            gRaceTaPositions->mSamples[index][j].mKind = RACE_TA_SAMPLE_KIND_NONE;
+            gRaceTaPositions->mSamples[index][j].mPriority = RACE_HUD_PRIORITY_3;
         }
     }
     index = 0;
@@ -595,17 +595,17 @@ void InitRaceTaPositions(void) {
         Vec3 zeroVector = gVec3Zero;
         do {
             gRaceTaPositions->mKinokoBoostPoints[index].mPointCount = 0;
-            for (sampleIndex = 0; sampleIndex < 3; sampleIndex++) {
-                gRaceTaPositions->mKinokoBoostPoints[index].mPositions[sampleIndex] = zeroVector;
-                gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[sampleIndex] = -1;
-                gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[sampleIndex] = RACE_HUD_PRIORITY_BACK;
+            for (j = 0; j < 3; j++) {
+                gRaceTaPositions->mKinokoBoostPoints[index].mPositions[j] = zeroVector;
+                gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[j] = -1;
+                gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[j] = RACE_HUD_PRIORITY_3;
             }
             index++;
         } while (index < gRaceSetup->mKartCount);
     }
     for (index = 0; index < 16; index++) {
-        s32 pairFirst = SIN_OF_ANGLE((u16) (index * 0x10000 / 16));
-        s32 pairSecond = COS_OF_ANGLE((u16) (index * 0x10000 / 16));
+        s32 pairFirst = SIN_OF_ANGLE((u16) (index * ANGLE_FULL_TURN / 16));
+        s32 pairSecond = COS_OF_ANGLE((u16) (index * ANGLE_FULL_TURN / 16));
         gRaceTaPositions->mRotations[index].mElements[0] = pairSecond;
         gRaceTaPositions->mRotations[index].mElements[1] = pairFirst;
         gRaceTaPositions->mRotations[index].mElements[2] = -pairFirst;
@@ -620,7 +620,7 @@ void ClearRaceTaPositionsPointer(void) {
 void UpdateRaceTaPositions(void) {
     Kart *kart;
     RaceTaPositions *positions;
-    u16 sampleIndex;
+    u16 j;
     s32 count;
     u32 kartIndex;
 
@@ -641,18 +641,18 @@ void UpdateRaceTaPositions(void) {
                 &gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPositions[count], kartIndex);
             gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPriorities[count] =
                 IsPositionOutsideBox(&gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPositions[count]) != 0
-                    ? RACE_HUD_PRIORITY_MIDDLE
-                    : RACE_HUD_PRIORITY_BACK;
+                    ? RACE_HUD_PRIORITY_2
+                    : RACE_HUD_PRIORITY_3;
         }
     }
     gRaceTaPositions->mSampleFrames++;
-    if (gRaceTaPositions->mSampleFrames > RACE_TA_AGE_INTERVAL_FRAMES) {
+    if (gRaceTaPositions->mSampleFrames > RACE_TA_SAMPLE_FRAME_COUNT) {
         gRaceTaPositions->mSampleFrames = 0;
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            for (sampleIndex = 0; sampleIndex < gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPointCount;
-                 sampleIndex = sampleIndex + 1) {
-                if (gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[sampleIndex] < RACE_TA_SAMPLE_COUNT) {
-                    gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[sampleIndex]++;
+            for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPointCount;
+                 j = j + 1) {
+                if (gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[j] < RACE_TA_SAMPLE_COUNT) {
+                    gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[j]++;
                 }
             }
         }
@@ -661,13 +661,13 @@ void UpdateRaceTaPositions(void) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             kart = GetKart(kartIndex);
             positions = gRaceTaPositions;
-            for (sampleIndex = 0x27; sampleIndex != 0; sampleIndex--) {
-                positions->mSamples[kartIndex][sampleIndex] = positions->mSamples[kartIndex][sampleIndex - 1];
+            for (j = RACE_TA_SAMPLE_COUNT - 1; j != 0; j--) {
+                positions->mSamples[kartIndex][j] = positions->mSamples[kartIndex][j - 1];
             }
             GetKartPosFromPosSourceCopy(&gRaceTaPositions->mSamples[kartIndex][0].mPos, kartIndex);
             gRaceTaPositions->mSamples[kartIndex][0].mPriority =
-                IsPositionOutsideBox(&gRaceTaPositions->mSamples[kartIndex][0].mPos) != 0 ? RACE_HUD_PRIORITY_MIDDLE
-                                                                                          : RACE_HUD_PRIORITY_BACK;
+                IsPositionOutsideBox(&gRaceTaPositions->mSamples[kartIndex][0].mPos) != 0 ? RACE_HUD_PRIORITY_2
+                                                                                          : RACE_HUD_PRIORITY_3;
             gRaceTaPositions->mSamples[kartIndex][0].mAngle = GetRaceHudSubScreenKartAngle(kartIndex);
             if ((kart->mMotionFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)) != 0) {
                 gRaceTaPositions->mSamples[kartIndex][0].mKind = RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING;
@@ -695,7 +695,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     s32 roundedProduct;
     s32 scale;
     s32 index;
-    s32 sampleIndex;
+    s32 j;
     u32 trailPriority;
     s32 trailOamIndex;
     RaceHudOamBits *trailOam;
@@ -724,21 +724,21 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     for (index = 0; index < gRaceSetup->mKartCount; index++) {
         if (gRaceTaPositions->mKartVisible[index] != 0) {
             if (gRaceProgress->mRaceDone == 0) {
-                for (sampleIndex = 0; sampleIndex < gRaceTaPositions->mKinokoBoostPoints[index].mPointCount;
-                     sampleIndex++) {
-                    if (gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[sampleIndex] < RACE_TA_SAMPLE_COUNT) {
+                for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[index].mPointCount;
+                     j++) {
+                    if (gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[j] < RACE_TA_SAMPLE_COUNT) {
                         if (ComputeRaceHudSubScreenPosition(
-                                &gRaceTaPositions->mKinokoBoostPoints[index].mPositions[sampleIndex], &trailPosition,
+                                &gRaceTaPositions->mKinokoBoostPoints[index].mPositions[j], &trailPosition,
                                 scale, 1, 1) != FALSE) {
-                            trailPriority = gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[sampleIndex];
+                            trailPriority = gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[j];
                             trailCell = GetRaceSNcerEntry(0x4f);
                             trailOamIndex = oamBuffer->mOamCount;
                             trailCellPosition[0] = TO_FIXED12(trailPosition.mFirst);
                             trailCellPosition[1] = TO_FIXED12(trailPosition.mSecond);
                             trailOam = &oamBuffer->mOamBits[trailOamIndex];
-                            oamBuffer->mOamCount +=
-                                NNS_G2dMakeCellToOams(&oamBuffer->mOams[trailOamIndex], 0x80 - trailOamIndex, trailCell,
-                                                      NULL, trailCellPosition, 0, 1);
+                            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[trailOamIndex],
+                                                                          RACE_HUD_OAM_COUNT - trailOamIndex, trailCell,
+                                                                          NULL, trailCellPosition, 0, 1);
                             for (; trailOamIndex < oamBuffer->mOamCount; trailOamIndex++, trailOam++) {
                                 if (trailPriority != -1) {
                                     trailOam->mPriority = trailPriority;
@@ -748,14 +748,14 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                     }
                 }
             }
-            for (sampleIndex = 0; sampleIndex < RACE_TA_SAMPLE_COUNT; sampleIndex++) {
-                u16 angle = (u16) (gRaceTaPositions->mSamples[index][sampleIndex].mAngle +
+            for (j = 0; j < RACE_TA_SAMPLE_COUNT; j++) {
+                u16 angle = (u16) (gRaceTaPositions->mSamples[index][j].mAngle +
                                    GetSubScreenAngleAndClearScrollTimer()) +
                             0x800;
-                u16 rotationIndex = ((angle << 4) / 0x10000) % 16;
-                if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[index][sampleIndex].mPos,
+                u16 rotationIndex = ((angle << 4) / ANGLE_FULL_TURN) % 16;
+                if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[index][j].mPos,
                                                     &samplePosition, scale, 1, 1) != FALSE) {
-                    switch (gRaceTaPositions->mSamples[index][sampleIndex].mKind) {
+                    switch (gRaceTaPositions->mSamples[index][j].mKind) {
                         case RACE_TA_SAMPLE_KIND_NONE:
                             sampleCell = NULL;
                             break;
@@ -770,15 +770,15 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                             break;
                     }
                     if (sampleCell != NULL) {
-                        priority = gRaceTaPositions->mSamples[index][sampleIndex].mPriority;
+                        priority = gRaceTaPositions->mSamples[index][j].mPriority;
                         sampleOamIndex = oamBuffer->mOamCount;
                         sampleCellPosition[0] = TO_FIXED12(samplePosition.mFirst);
                         sampleCellPosition[1] = TO_FIXED12(samplePosition.mSecond);
                         sampleOam = &oamBuffer->mOamBits[sampleOamIndex];
-                        oamBuffer->mOamCount +=
-                            NNS_G2dMakeCellToOams(&oamBuffer->mOams[sampleOamIndex], 0x80 - sampleOamIndex, sampleCell,
-                                                  &gRaceTaPositions->mRotations[rotationIndex], sampleCellPosition,
-                                                  rotationIndex + firstRotationSlot, 1);
+                        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
+                            &oamBuffer->mOams[sampleOamIndex], RACE_HUD_OAM_COUNT - sampleOamIndex, sampleCell,
+                            &gRaceTaPositions->mRotations[rotationIndex], sampleCellPosition,
+                            rotationIndex + firstRotationSlot, 1);
                         for (; sampleOamIndex < oamBuffer->mOamCount; sampleOamIndex++, sampleOam++) {
                             if ((index != 0 ? 1 : -1) != -1) {
                                 sampleOam->mObjMode = index != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1;

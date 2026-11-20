@@ -60,7 +60,8 @@ typedef struct CollisionHitRecord {
     /* 1c */ Vec3 mDeepestNormal;
 } CollisionHitRecord;
 
-// The draw list of the vehicle map objects: the shared list and how the kart link is culled.
+// The draw list of the vehicle map objects: the shared list and the entry kart's link direction that vehicles are
+// culled by.
 typedef struct VehicleDrawList {
     /* 000 */ MapObjectList mMapObjectList;
     /* 028 */ u8 mUnk_028[0x4];
@@ -161,7 +162,8 @@ typedef struct RotaryKindInfo {
     /* 18 */ s32 mSoundId;
 } RotaryKindInfo;
 
-// A rotary map object: a collision object with the frame counts of its speed ramp, its gear radius, model and sound.
+// A rotary map object: a collision object with the frame counts of its ramp, steady and pause phases, its gear radius,
+// model and sound.
 typedef struct Rotary {
     /* 000 */ CollisionMapObject mCollisionMapObject;
     /* 144 */ u16 mRampFrameCount;

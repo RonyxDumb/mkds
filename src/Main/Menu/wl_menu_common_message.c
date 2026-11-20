@@ -26,7 +26,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "vram_load_2d_graphics.h"
 #include "Main/Menu/time_attack_ghost_get_scan.h"
@@ -50,7 +50,7 @@ void SetupWLMenuCommonMessage(void *heap) {
     text = GetBmgEntry(gWLMenuMessage->mCommonMessages, 0x79);
     NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (void *) (charBase + 0x400), 0x20, 4, 4);
     WLMenuInitTextCanvas(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
-    WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 8, 0, 3, 0x209, text);
+    WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 8, 0, 3, TEXT_CANVAS_FLAG_LEFT | 0x9, text);
     for (row = 0x16; row < 0x18; row++) {
         for (column = 0; column < 0x20; column++) {
             entry = (((column + row + 1) & 1) << 12) | 1;

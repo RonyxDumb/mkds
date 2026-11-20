@@ -94,14 +94,14 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     itemBox->mMapObject.mPos.y += 0xc000;
     itemBox->mPositionSource = &itemBox->mMapObject.mPos;
     random = GetMapObjectRandom();
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    itemBox->mBoxRotationIndex = ((u64) (u32) (random->mValue >> 32) * ITEM_BOX_BOX_ROTATION_STEPS) >> 32;
+    RANDOM_ADVANCE(random);
+    itemBox->mBoxRotationIndex = RANDOM_BELOW_U64(random, BOX_ROTATION_COUNT);
     random = GetMapObjectRandom();
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * ITEM_BOX_QUESTION_ROTATION_STEPS) >> 32;
+    RANDOM_ADVANCE(random);
+    itemBox->mQuestionRotationIndex = RANDOM_BELOW_U64(random, QUESTION_ROTATION_COUNT);
     itemBox->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
     if (row != NULL) {
-        if (itemBox->mMapObject.mKind == MAP_OBJECT_KIND_ITEM_BOX_GROUP_SHADOW && row->mGroupIndex >= 0) {
+        if (itemBox->mMapObject.mKind == MAP_OBJECT_KIND_GROUP_ITEM_BOX && row->mGroupIndex >= 0) {
             usesGroupShadow = TRUE;
         } else {
             usesGroupShadow = FALSE;
@@ -123,16 +123,16 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mForcedRowCpu = row->mSettings[2];
     }
     if (itemBox->mNoCourseRow != 0) {
-        itemBox->mShadowMode = 1;
+        itemBox->mShadowMode = ITEM_BOX_SHADOW_AT_POSITION;
     } else {
         itemBox->mShadowMode = row->mSettings[3];
-        if (itemBox->mShadowMode == 0) {
+        if (itemBox->mShadowMode == ITEM_BOX_SHADOW_MATRIX) {
             shadowPos = row->mPosition;
             if (itemBox->mUsesGroupShadow != 0) {
                 shadowPos.y += 0x800;
             }
             if (RefreshShadowMatrix(&itemBox->mShadowMatrix, &shadowPos, 0x14000, 0xd) == 0) {
-                itemBox->mShadowMode = ITEM_BOX_SHADOW_MODE_REFRESH_FAILED;
+                itemBox->mShadowMode = ITEM_BOX_SHADOW_NONE;
             }
         }
     }

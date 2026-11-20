@@ -33,22 +33,17 @@ enum {
     RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT,
 };
 
-// Frames of each slide of the screen (cells and BG layers); the cells travel RECORD_TATT_SLIDE_DISTANCE sideways, the
-// top layer RECORD_TATT_TOP_SLIDE_DISTANCE.
+// Frames of each slide of the screen (cells and BG layers); the cells and the BG1 and BG3 layers travel
+// RECORD_TATT_SLIDE_DISTANCE sideways, BG0, the BG1 Y offset and main table cell 0 RECORD_TATT_TOP_SLIDE_DISTANCE
+// vertically.
 #define RECORD_TATT_SLIDE_FRAMES 10
 #define RECORD_TATT_SLIDE_DISTANCE 256
 #define RECORD_TATT_TOP_SLIDE_DISTANCE 192
 
-// Frames of the press animation of a row (GetSelectedPressOffset).
-#define RECORD_TATT_PRESS_FRAMES 10
-
 // Frames into the slide out that hides the cells 12 and 13 of the sub layout table, and into the slide in that shows
-// cell 12 again, when the clear prompt or the time text opens or closes.
+// cell 12 again, when the clear question or the time record characters open or close.
 #define RECORD_TATT_HIDE_CELLS_FRAME 7
 #define RECORD_TATT_SHOW_CELL_FRAME 2
-
-// Frames the cells of a row shift after a left or right press (RecordTAtt.mOffsetTimers count them down).
-#define RECORD_TATT_OFFSET_TIMER_FRAMES 6
 
 // Entries of gRecordTAttCourseIds, the courses RecordTAtt.mIndex walks through.
 #define RECORD_TATT_COURSE_COUNT 32
@@ -72,7 +67,8 @@ typedef struct RecordTAtt {
     /* 2c */ struct NNSG2dCellDataBank *mPlayerCharacterCells;
     /* 30 */ Nclr *mPlayerCharacterPalette;
     /* 34 */ struct LayoutEntryTable *mPlayerCharacterCellLayout;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per entry of mRecordTAttMBncl, then one per entry of mRecordTAttMBnll, built by
+    // InitLayoutTable
     /* 38 */ LayoutTableEntry *mRecordTAttMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 3c */ LayoutTableEntry *mRecordTAttSTable;
@@ -84,11 +80,11 @@ typedef struct RecordTAtt {
     /* 54 */ s32 mNextState;
     /* 58 */ s32 mStateFrames; /* counted only in states 0, 1, 3-8, 11, 12, 13, 17 */
     /* 5c */ s32 mBg0Offset;
-    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // X half of reg_G2_BG1OFS (main BG1), stored negated
     /* 60 */ s32 mBg1OffsetX;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // Y half of reg_G2_BG1OFS (main BG1), stored negated
     /* 64 */ s32 mBg1OffsetY;
-    // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; Y is not written
+    // X half of reg_G2S_DB_BG3OFS (sub BG3), stored negated; the Y half is always written as 0
     /* 68 */ s32 mBg3OffsetX;
     /* 6c */ s32 mIndex;
     /* 70 */ s32 mIndexMoveDirection;
@@ -104,7 +100,7 @@ typedef struct RecordTAtt {
 
 // Values of BackupAccess.mStatus. No code sets the second writing value; EndBackupAccessWithError treats it as writing.
 enum {
-    BACKUP_STATUS_IDLE,
+    BACKUP_STATUS_CLEARED,
     BACKUP_STATUS_WRITING,
     BACKUP_STATUS_WRITING_UNUSED,
     BACKUP_STATUS_READING,
@@ -124,7 +120,8 @@ enum {
 // Values of BackupAccess.mCopyPass: one copy, or the first or second of the two copies of a block.
 enum { BACKUP_COPY_PASS_SINGLE, BACKUP_COPY_PASS_FIRST, BACKUP_COPY_PASS_SECOND };
 
-// The state of save memory access: status, error, lock, the read and write requests with their buffers, the ghost slot.
+// The backup access: mStatus, mErrorCode, mLockId, the read and write requests with their addresses and buffers, and
+// mSlotGhostIndex.
 typedef struct BackupAccess {
     /* 00 */ s32 mStatus;
     /* 04 */ s32 mErrorCode;
@@ -177,11 +174,11 @@ void AdvanceRecordTAttWaitTimeTextClose(void);
 void AdvanceRecordTAttWaitTimeTextInput(void);
 void AdvanceRecordTAttWaitTimeTextOpen(void);
 void AdvanceRecordTAttSlideOutForTimeText(void);
-void AdvanceRecordTAttSlideInAfterClearPrompt(void);
-void AdvanceRecordTAttWaitClearPromptClose(void);
+void AdvanceRecordTAttSlideInAfterAskClear(void);
+void AdvanceRecordTAttWaitAskClearClose(void);
 void AdvanceRecordTAttWaitClearAnswer(void);
-void AdvanceRecordTAttWaitClearPromptOpen(void);
-void AdvanceRecordTAttSlideOutForClearPrompt(void);
+void AdvanceRecordTAttWaitAskClearOpen(void);
+void AdvanceRecordTAttSlideOutForAskClear(void);
 void AdvanceRecordTAttPressButton(void);
 void AdvanceRecordTAttSlideOutTop(void);
 void AdvanceRecordTAttSlideOutRight(void);

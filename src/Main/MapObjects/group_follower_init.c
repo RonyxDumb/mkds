@@ -94,7 +94,7 @@ const u8 gKartFirstResponsesHundreds5Effect3[16] = {5, 1, 1, 1, 1, 1, 1, 1, 1, 1
 const u8 gItemObjectFirstResponsesHundreds0Item5[20] = {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const u8 gKartResponsesHundreds4Effect2[40] = {0xf, 0, 0, 0, 0,   0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0,   0,   0, 2,
                                                0,   0, 0, 0, 0xc, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0xc, 0xc, 0, 0};
-const u8 *gItemObjectResponsesByKind[6][14] = {
+const u8 *gItemObjectResponsesByKind[6][ITEM_OBJECT_KIND_COUNT] = {
     {gItemObjectResponsesHundreds0Item0, gItemObjectResponsesHundreds0Item1, gItemObjectResponsesHundreds0Item2,
      gItemObjectResponsesHundreds0Item3, gItemObjectResponsesHundreds0Item4, gItemObjectResponsesHundreds0Item5,
      gItemObjectResponsesHundreds0Item6, gItemObjectResponsesHundreds0Item7, gItemObjectResponsesHundreds0Item8,
@@ -334,7 +334,7 @@ const u8 gItemObjectResponsesHundreds2Item10[12] = {3, 0, 2, 2, 2, 0, 2, 2, 2, 2
 const u8 gKartFirstResponsesHundreds3Effect3[48] = {5, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-const u8 *gItemObjectFirstResponsesByKind[6][14] = {
+const u8 *gItemObjectFirstResponsesByKind[6][ITEM_OBJECT_KIND_COUNT] = {
     {gItemObjectFirstResponsesHundreds0Item0, gItemObjectFirstResponsesHundreds0Item1,
      gItemObjectFirstResponsesHundreds0Item2, gItemObjectFirstResponsesHundreds0Item3,
      gItemObjectFirstResponsesHundreds0Item4, gItemObjectFirstResponsesHundreds0Item5,

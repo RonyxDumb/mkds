@@ -2,6 +2,6 @@
 
 #pragma thumb on
 
-void MenuScreen27Nop(void) {}
+void RequestTitleSceneRegistersNop(void) {}
 
 #pragma thumb off

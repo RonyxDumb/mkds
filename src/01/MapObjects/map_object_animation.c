@@ -96,20 +96,20 @@ MapObjectKindDescriptor gEmptyMapObjectKindDescriptor = {0,
                                                          {NULL, NULL, NULL, NULL}};
 u16 gShadowScaleToggle;
 
-void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, MapObjectCallback callback) {
+void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, MissionRunMapObjectCallback callback) {
     mapObject->mAnimationFrameCallbackFrameIndex = frameIndex;
     mapObject->mAnimationFrameCallback = callback;
 }
 
-void SetTwoAnimationFrameCallbacks(MissionRunMapObject *mapObject, s32 firstFrameIndex, MapObjectCallback firstCallback,
-                                   s32 secondFrameIndex, MapObjectCallback secondCallback) {
+void SetTwoAnimationFrameCallbacks(MissionRunMapObject *mapObject, s32 firstFrameIndex, MissionRunMapObjectCallback firstCallback,
+                                   s32 secondFrameIndex, MissionRunMapObjectCallback secondCallback) {
     mapObject->mFirstCallbackFrameIndex = firstFrameIndex;
     mapObject->mFirstFrameCallback = firstCallback;
     mapObject->mSecondCallbackFrameIndex = secondFrameIndex;
     mapObject->mSecondFrameCallback = secondCallback;
 }
 
-void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount, MapObjectCallback callback) {
+void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount, MissionRunMapObjectCallback callback) {
     mapObject->mStateFrameCount = frameCount;
     mapObject->mStateFrames = 0;
     if (callback == NULL) {
@@ -119,8 +119,8 @@ void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount
 }
 
 void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
-                             MapObjectCallback callback) {
-    MapObjectCallback storedCallback;
+                             MissionRunMapObjectCallback callback) {
+    MissionRunMapObjectCallback storedCallback;
 
     mapObject->mPointRadius = pointRadius;
     mapObject->mPointHalfAngle = pointHalfAngle;
@@ -134,21 +134,21 @@ void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s3
     mapObject->mPointInRangeCallback = storedCallback;
 }
 
-void SetStoppedCallback(MissionRunMapObject *mapObject, MapObjectCallback callback) {
+void SetStoppedCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback) {
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
     mapObject->mStoppedCallback = callback;
 }
 
-void SetCourseCollisionCallback(MissionRunMapObject *mapObject, MapObjectCallback callback) {
+void SetCourseCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback) {
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
     mapObject->mCourseCollisionCallback = callback;
 }
 
-void SetUnusedCallback(MissionRunMapObject *mapObject, MapObjectCallback callback) {
+void SetUnusedCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback) {
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
@@ -167,7 +167,7 @@ void StartAnimationNoEndCallback(MissionRunMapObject *mapObject, s32 animationEn
 }
 
 void StartAnimationWithEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep,
-                                   MapObjectCallback endCallback) {
+                                   MissionRunMapObjectCallback endCallback) {
     StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
     if (endCallback == NULL) {
         endCallback = StopMapObjectState;
@@ -253,7 +253,7 @@ void TurnSidewaysMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCa
     mapObject->mAngleState = MAP_OBJECT_ANGLE_TURN_SIDEWAYS;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = angleOffset;
+    mapObject->mAngleOffset = angleOffset;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_FOLLOW_ANGLE;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
@@ -273,10 +273,10 @@ void TurnToPointMoveSideways(MissionRunMapObject *mapObject, s32 anglePerCallTar
 }
 
 void SpinAngleStopMoveAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
-    mapObject->mAngleState = MAP_OBJECT_ANGLE_SPIN;
+    mapObject->mAngleState = MAP_OBJECT_ANGLE_SPIN_ADD;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = 0;
+    mapObject->mAngleOffset = 0;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_KEEP;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
@@ -297,7 +297,7 @@ void SpinTowardPointMoveToPoint(MissionRunMapObject *mapObject, s32 anglePerCall
     mapObject->mAngleState = angleState;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = 0;
+    mapObject->mAngleOffset = 0;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_TURN_TO_POINT;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
@@ -308,7 +308,7 @@ void TurnAndMoveToPointOwnRates(MissionRunMapObject *mapObject, s32 anglePerCall
     mapObject->mAngleState = MAP_OBJECT_ANGLE_TURN_TO_POINT;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = 0;
+    mapObject->mAngleOffset = 0;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_TURN_TO_POINT;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
@@ -348,7 +348,7 @@ void SetVelocity(MissionRunMapObject *mapObject, Vec3 *velocity) {
 
 void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 scaleXZ) {
     if (offsetY == 0) {
-        mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO;
     } else {
         mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_OBJECT;
     }
@@ -365,7 +365,7 @@ void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 s
 void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
                                     u32 scalePerCall) {
     if (offsetY == 0) {
-        mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO;
     } else {
         mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_OBJECT;
     }
@@ -418,14 +418,14 @@ void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offse
 void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX,
                              u32 unusedScaleY, u32 scaleZ) {
     int *shadowTargetPtr;
-    int *shadowTargetXPtr;
-    mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
+    int *shadowOffsetTargetXPtr;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_OFFSETS;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
-    shadowTargetXPtr = &mapObject->mShadowOffsetTargetX;
-    *shadowTargetXPtr = offsetX;
-    mapObject->mShadowOffsetX = *shadowTargetXPtr;
+    shadowOffsetTargetXPtr = &mapObject->mShadowOffsetTargetX;
+    *shadowOffsetTargetXPtr = offsetX;
+    mapObject->mShadowOffsetX = *shadowOffsetTargetXPtr;
     shadowTargetPtr = &mapObject->mShadowOffsetTargetY;
     *shadowTargetPtr = offsetY;
     mapObject->mShadowOffsetY = *shadowTargetPtr;
@@ -447,7 +447,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
 
 void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                    u32 offsetPerCall, u32 scaleX, u32 unusedScaleY, u32 scaleZ, u32 scalePerCall) {
-    mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_ON_COURSE_OFFSETS;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -599,11 +599,11 @@ u16 GetRepeatsRemaining(MissionRunMapObject *mapObject) {
     return mapObject->mRepeatsRemaining;
 }
 
-void SetKartCollisionCallback(MissionRunMapObject *mapObject, MapObjectKartCollisionCallback kartCollisionCallback) {
+void SetKartCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectKartCollisionCallback kartCollisionCallback) {
     mapObject->mKartCollisionCallback = kartCollisionCallback;
 }
 
-void SetItemCollisionCallback(MissionRunMapObject *mapObject, MapObjectItemCollisionCallback itemCollisionCallback) {
+void SetItemCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectItemCollisionCallback itemCollisionCallback) {
     mapObject->mItemCollisionCallback = itemCollisionCallback;
 }
 
@@ -669,7 +669,8 @@ Kart *GetEntryKartFacingObject(MissionRunMapObject *mapObject, s32 radius, s32 h
     if (kart != NULL && (kart->mDriveFlags & KART_DRIVE_SINKING) == 0 && (radius != 0 || halfAngle != 0)) {
         if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
             if (halfAngle == 0 ||
-                IsDirectionToPointWithinAngle(mapObject, kart->mHeadingAngle + 0x8000, &kart->mPos, halfAngle) != 0) {
+                IsDirectionToPointWithinAngle(mapObject, kart->mHeadingAngle + ANGLE_HALF_TURN, &kart->mPos,
+                    halfAngle) != 0) {
                 return kart;
             }
         }
@@ -758,7 +759,7 @@ void IncrementEntryGroupIndex(MissionRunMapObject *mapObject, s32 groupSpan) {
 void *StartItemBombWithParkedItemBox(u16 forcedRow) {
     ItemBox *parkedMapObject;
 
-    parkedMapObject = FindParkedMapObject(0xc9);
+    parkedMapObject = FindParkedMapObject(MAP_OBJECT_KIND_GROUP_ITEM_BOX);
     if (parkedMapObject != NULL) {
         SetItemBoxFramesSinceHitMax(parkedMapObject);
         parkedMapObject->mForcedRowHumanGhostPeer = forcedRow;
@@ -935,7 +936,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
                                                       FX_SinIdx((u16) mapObject->mAngle)));
             break;
         case MAP_OBJECT_EFFECT_ROTATED_OFFSET_CAMERA:
-            // As case 1 with mUnk_024 of the object from GetCurrentCamera added, then halved.
+            // Like MAP_OBJECT_EFFECT_ROTATED_OFFSET with the current camera's mPos added, then x, y and z halved.
             camera = GetCurrentCamera();
             position->x = mapObject->mMapObject.mPos.x + camera->mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
@@ -1159,7 +1160,7 @@ u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit) {
 }
 
 BOOL IsNotRisingWithBelowZeroBit(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & COURSE_HIT_NOT_RISING_BIT) != 0 && mapObject->mVelocity.y <= 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_BELOW_ZERO_BIT) != 0 && mapObject->mVelocity.y <= 0) {
         return TRUE;
     }
     return FALSE;
@@ -1232,8 +1233,8 @@ u16 StepAngleTowardDirection(Vec3 *target, Vec3 *origin, s32 maxStep, s32 angle)
     if (maxStep < 0) {
         maxStep = -maxStep;
     }
-    if (angleDifference > 0x8000) {
-        angleDifference -= 0x10000;
+    if (angleDifference > ANGLE_HALF_TURN) {
+        angleDifference -= ANGLE_FULL_TURN;
     }
     turn = -maxStep;
     if (angleDifference >= turn) {
@@ -1256,15 +1257,15 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
     } else {
         maxTurn = signedMaxStep;
     }
-    if (angleDifference > 0x8000) {
-        angleDifference -= 0x10000;
+    if (angleDifference > ANGLE_HALF_TURN) {
+        angleDifference -= ANGLE_FULL_TURN;
     }
     if (signedMaxStep < 0) {
         angleDifference += angleOffset;
-        targetDifference = angleDifference - 0x4000;
+        targetDifference = angleDifference - ANGLE_QUARTER_TURN;
     } else {
         angleDifference -= angleOffset;
-        targetDifference = angleDifference + 0x4000;
+        targetDifference = angleDifference + ANGLE_QUARTER_TURN;
     }
     turn = -maxTurn;
     if (targetDifference >= turn) {
@@ -1279,14 +1280,14 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
 void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     Vec3 probePosition;
     Vec3 pushOut;
-    Vec3 courseNormal;
+    Vec3 groundNormal;
     Vec3 wallNormal;
     Vec3 pushDirection;
     Vec3 effectPosition;
     s32 velocityScale;
-    s32 dx;
-    s32 dy;
-    s32 dz;
+    s32 moveX;
+    s32 moveY;
+    s32 moveZ;
     s32 currentFrame;
     s32 previousFrame;
     s32 effectIndex;
@@ -1335,11 +1336,11 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             }
             if (mapObject->mAnglePerCall > 0) {
                 mapObject->mAngle = StepAngleSidewaysToPoint(&mapObject->mAnglePoint, &mapObject->mMapObject.mPos,
-                                                             mapObject->mAnglePerCall, mapObject->mSidewaysAngleOffset,
+                                                             mapObject->mAnglePerCall, mapObject->mAngleOffset,
                                                              mapObject->mAngle);
             }
             break;
-        case MAP_OBJECT_ANGLE_SPIN:
+        case MAP_OBJECT_ANGLE_SPIN_ADD:
             if (mapObject->mAnglePerCallIncrement > 0) {
                 mapObject->mAnglePerCall = StepIntTowardTarget(
                     mapObject->mAnglePerCallTarget, mapObject->mAnglePerCallIncrement, mapObject->mAnglePerCall);
@@ -1461,12 +1462,12 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         mapObject->mVelocity.x = 0;
         mapObject->mVelocity.z = 0;
     } else if (mapObject->mCollisionBits & COURSE_HIT_GROUND) {
-        velocityScale = mapObject->mPrm->mHead.mCourseHitVelocityScale;
+        velocityScale = mapObject->mPrm->mHead.mGroundHitVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
         mapObject->mVelocity.z = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.z, velocityScale);
     } else {
-        velocityScale = mapObject->mPrm->mHead.mFreeVelocityScale;
+        velocityScale = mapObject->mPrm->mHead.mNoGroundHitVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
         mapObject->mVelocity.z = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.z, velocityScale);
@@ -1474,22 +1475,24 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
 
     pairWordIndex = ((u16) mapObject->mMoveAngle >> 4) * 2;
     speed = mapObject->mSpeed;
-    dy = mapObject->mVelocity.y;
-    dz = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
-    dx = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
-    mapObject->mMapObject.mPos.x += dx;
-    mapObject->mMapObject.mPos.y += dy;
-    mapObject->mMapObject.mPos.z += dz;
+    moveY = mapObject->mVelocity.y;
+    moveZ = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
+    moveX = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
+    mapObject->mMapObject.mPos.x += moveX;
+    mapObject->mMapObject.mPos.y += moveY;
+    mapObject->mMapObject.mPos.z += moveZ;
 
     probePosition.x = mapObject->mMapObject.mPos.x;
     probePosition.y = mapObject->mMapObject.mPos.y + 0x14000;
     probePosition.z = mapObject->mMapObject.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (CollideSphereWithCourse(
-            &probePosition, NULL, 0, 0x14000,
-            mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4 : (u16) 1, -2, &pushOut,
-            &courseNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
-        if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS ||
+    if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000,
+                                mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER
+                                    ? (u16) COURSE_QUERY_SKIP_HIT_VALUE_2000
+                                    : (u16) 1,
+                                -2, &pushOut, &groundNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL,
+                                NULL)) {
+        if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL ||
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY) {
             mapObject->mMapObject.mPos.y += pushOut.y;
         } else {
@@ -1498,7 +1501,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             mapObject->mMapObject.mPos.z += pushOut.z;
         }
     }
-    if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS &&
+    if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL &&
         (mapObject->mCollisionBits & COURSE_HIT_WALL)) {
         if (LENGTH_SQUARED(wallNormal) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&wallNormal, &pushDirection);
@@ -1654,7 +1657,7 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
         if (alpha >= 0x1f) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
-        } else if (mapObject->mShadowMode <= MAP_OBJECT_SHADOW_COURSE) {
+        } else if (mapObject->mShadowMode <= MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
         } else {
@@ -1680,11 +1683,11 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
 }
 
 void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *mapObject, s32 invertDepth) {
-    s32 depth;
+    s32 shadowAlpha;
     s32 value;
     Vec3 shadowPosition;
 
-    depth = FROM_FIXED12(mapObject->mAlphaLimit);
+    shadowAlpha = FROM_FIXED12(mapObject->mAlphaLimit);
     if (mapObject->mShadowMode == MAP_OBJECT_SHADOW_AT_OBJECT) {
         shadowPosition.x = mapObject->mMapObject.mPos.x;
         shadowPosition.y = mapObject->mMapObject.mPos.y;
@@ -1694,26 +1697,26 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
         shadowPosition.y = mapObject->mMapObject.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mNodePosition.z;
     } else {
-        if (depth >= 4) {
+        if (shadowAlpha >= 4) {
             s32 adjustedDepth =
-                depth - ((mapObject->mMapObject.mPos.y - mapObject->mMapObject.mCourseMapRow->mPosition.y) >> 15);
+                shadowAlpha - ((mapObject->mMapObject.mPos.y - mapObject->mMapObject.mCourseMapRow->mPosition.y) >> 15);
 
             if (adjustedDepth <= 4) {
                 adjustedDepth = 4;
             }
-            depth = (u16) adjustedDepth;
+            shadowAlpha = (u16) adjustedDepth;
         }
         shadowPosition.x = mapObject->mMapObject.mPos.x;
         shadowPosition.y = mapObject->mMapObject.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mMapObject.mPos.z;
     }
-    if (depth > 0x10) {
-        depth = 0x10;
+    if (shadowAlpha > 0x10) {
+        shadowAlpha = 0x10;
     }
     if (invertDepth != 0) {
-        depth = 0x14 - depth;
+        shadowAlpha = 0x14 - shadowAlpha;
     }
-    if (depth > 0) {
+    if (shadowAlpha > 0) {
         MtxFx33 rotationMatrix;
         Vec3 shadowOffset;
         Vec3 shadowScale;
@@ -1741,7 +1744,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
             NNS_G3dGeBufferOP_N(0x1b, &shadowScale, 3);
         }
         SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 3);
-        SetMapObjectModelAlpha(mapObject->mShadowNsbmd, depth);
+        SetMapObjectModelAlpha(mapObject->mShadowNsbmd, shadowAlpha);
         DrawMapObjectModel(mapObjectList, mapObject->mShadowNsbmd, mapObject);
     }
 }
@@ -1782,7 +1785,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
     Vec3 awayDirection;
     s64 pushStrength;
     u32 mode;
-    MapObjectKartCollisionCallback collisionCallback;
+    MissionRunMapObjectKartCollisionCallback collisionCallback;
 
     mode = *firstResponsePointer;
     mapObject->mKartResponse = *responsePointer;
@@ -1793,7 +1796,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
         awayDirection.x = mapObject->mMapObject.mPos.x - kart->mPos.x;
         awayDirection.y = 0;
         awayDirection.z = mapObject->mMapObject.mPos.z - kart->mPos.z;
-        if ((s64) awayDirection.z * awayDirection.z + SQUARE_SUM2(awayDirection.x, awayDirection.y) >= 16) {
+        if (LENGTH_SQUARED_Z_FIRST(awayDirection) >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
             pushStrength = -mapObject->mPrm->mHead.mKartPushPosStep;
             mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(awayDirection.x, pushStrength);
@@ -1817,13 +1820,13 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
 s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
                                        u8 *responsePointer) {
     Vec3 awayDirection;
-    MapObjectItemCollisionCallback collisionCallback;
+    MissionRunMapObjectItemCollisionCallback collisionCallback;
 
     mapObject->mItemResponse = *responsePointer;
     awayDirection.x = mapObject->mMapObject.mPos.x - itemObject->mPos.x;
     awayDirection.y = 0;
     awayDirection.z = mapObject->mMapObject.mPos.z - itemObject->mPos.z;
-    if ((s64) awayDirection.z * awayDirection.z + SQUARE_SUM2(awayDirection.x, awayDirection.y) >= 16) {
+    if (LENGTH_SQUARED_Z_FIRST(awayDirection) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
         VEC_MultAdd(mapObject->mPrm->mHead.mItemPushVelocity, &awayDirection, &mapObject->mVelocity,
                     &mapObject->mVelocity);
@@ -1840,4 +1843,4 @@ MapObjectList *CreateEmptyMapObjectUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, NULL, NULL);
 }
 
-const u32 gMapObjectBelowZeroCollisionBit = 0x800;
+const u32 gMapObjectBelowZeroCollisionBit = COURSE_HIT_BELOW_ZERO_BIT;

@@ -8,12 +8,14 @@
 #include "Main/MapObjects/shine16.h" // KartBalloons
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-// A map object that plays a sound by distance: its centre, radius, volumes and the timers of its distance level.
+// A map object that plays a sound by distance: its sound ids, centre and radius, the distance level (and whether it is
+// inverted), the volumes, and the timers of the distance level check and of the sound start.
 typedef struct DistanceSound {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mSoundVolumeFixed12;
     /* a4 */ s32 mDistanceVolumeFixed12;
-    // Radius in whole units; the inner half-radius test uses w / 2 without the << 12.
+    // Radius in whole units: the outer distance test squares TO_FIXED12(mRadius), the inner test squares mRadius / 2
+    // without TO_FIXED12.
     /* a8 */ s32 mRadius;
     /* ac */ s32 mCenterX;
     /* b0 */ s32 mCenterY;
@@ -41,11 +43,13 @@ extern MapObjectKindDescriptor gDistanceSoundKindDescriptor;
 void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject);
 void InitDistanceSoundObjects(MapObjectList *mapObjectList);
 void InitDistanceSound(DistanceSound *mapObject);
-// Steps Standings once per UpdateRace call in battle and mission run: the end timer and end callback, the hand- over of
-// eliminated karts, the hit tracking, and the copy of each kart's position.
+// Called once per UpdateRace in battle and mission run. While no winner is set, for each kart it marks a
+// just-eliminated kart eliminated (and queues its own sound) and, for a kart with a count above 0, updates the
+// select-key and mic inflate state, the hit callbacks and mPos. Once mWinnerTeamId is set it only counts mEndTimer down
+// to the end callback and marks just-eliminated karts.
 void UpdateStandings(void);
-// Ends the Standings end timer (mEndTimer = -1) and runs mEndCallback when it is set; the mode 4 end step of the race
-// progress calls it.
+// Sets Standings.mEndTimer to -1 and calls mEndCallback when it is set; AdvanceMissionRunEnd calls it in mission run
+// once the goal or failure wait is over.
 void FinishStandings(void);
 void InitStandings(void);
 CourseMapPoint *MoveToRandomForwardBattlePoint(void);
@@ -113,20 +117,22 @@ KartBalloons *GetStandingsKartBalloons(void);
 void SetStandingsKartBalloons(KartBalloons *kartBalloons);
 
 extern const u32 gShineBattleTimeLimits[4];
-// The Standings object, allocated by InitStandings in modes 2 and 4.
+// The Standings object, allocated by InitStandings in battle and mission run.
 extern Standings *gStandings;
 
-// Frames Standings.mKarts[].mMicInflateTimer is set to, and its value while the kart does not inflate (all bits set).
+// Standings.mKarts[].mMicInflateTimer: the frames it is set to when an inflate starts, and the value (all bits set)
+// that StopKartMicInflate, and a not normal kart or an A or B press, store to cancel it; otherwise it counts down to 0.
 #define STANDINGS_MIC_INFLATE_FRAMES 10
-#define STANDINGS_MIC_INFLATE_NONE 0xffffffff
+#define STANDINGS_MIC_INFLATE_STOPPED 0xffffffff
 // Standings.mLowestBalloonOrShineCount before any kart was counted, and the frames mEndTimer waits when a battle ends.
 #define STANDINGS_LOWEST_COUNT_START 0xffff
 #define STANDINGS_END_FRAMES 0x5a
 // KartStanding.mTeamId of the first and the second battle team (a kart without a team uses its kart index).
 #define STANDINGS_TEAM_ID_FIRST_TEAM 1
 #define STANDINGS_TEAM_ID_SECOND_TEAM 3
-// Distance sound of a course: the sound ids and the radius of the area it covers, the frames between distance level
-// checks, and the volume limits (fixed-point volume 0 to SOUND_VOLUME_MAX).
+// Distance sound of a course: the sound ids, the radius of the area it covers, the value mDistanceLevelTimer is set to
+// after a distance level check (the next check is 16 calls later), and the lowest mSoundVolumeFixed12 while the sound
+// plays.
 #define DISTANCE_SOUND_ID_MANSION 0x121
 #define DISTANCE_SOUND_ID_BEACH 0x111
 #define DISTANCE_SOUND_ID_BEACH_SECOND 0x10a
@@ -134,4 +140,4 @@ extern Standings *gStandings;
 #define DISTANCE_SOUND_RADIUS_WIDE 0xa28
 #define DISTANCE_SOUND_RADIUS_BEACH 0x546
 #define DISTANCE_SOUND_LEVEL_FRAMES 0xf
-#define DISTANCE_SOUND_VOLUME_MIN 0xc000
+#define DISTANCE_SOUND_SOUND_VOLUME_MIN 0xc000

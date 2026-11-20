@@ -10,8 +10,8 @@ typedef struct MissionRunPrmHead {
     /* 004 */ s32 mScale;
     /* 008 */ s32 mCollisionOffsetY;
     /* 00c */ s32 mCollisionExtentXZ;
-    /* 010 */ s32 mCourseHitVelocityScale;
-    /* 014 */ s32 mFreeVelocityScale;
+    /* 010 */ s32 mGroundHitVelocityScale;
+    /* 014 */ s32 mNoGroundHitVelocityScale;
     /* 018 */ s32 mStopSpeedLimit;
     /* 01c */ s32 mGravity;
     /* 020 */ s32 mBounceScale;
@@ -30,13 +30,14 @@ typedef struct MissionRunPrmHead {
     /* 054 */ s32 mStartupFirstFrameCount;
     /* 058 */ s32 mStartupSecondAnimationEntry;
     /* 05c */ s32 mStartupSecondFrameStep;
-    /* 060 */ s32 mWaitForRaceStartDelayFrames;
+    /* 060 */ s32 mWaitForRaceStartDelayFrameCount;
     /* 064 */ s32 mWaitForRaceStartAnimationEntry;
     /* 068 */ s32 mWaitForRaceStartFrameStep;
     /* 06c */ s32 mUnk_06c;
 } MissionRunPrmHead;
 
-// The parameters of a Bomb King mission run map object: animation entries, speeds and angles for its walk and chase.
+// The parameters of a Bomb King mission run map object: animation entries, speeds, angles and timers for its walk,
+// chase, bomb throws, jumps, bounce and stop.
 typedef struct BombKingPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mStoppedAfterHitsAnimationEntry;
@@ -85,8 +86,8 @@ typedef struct BombKingPrm {
     /* 140 */ s32 mThrowBombsAnimationEntry;
     /* 144 */ s32 mThrowBombsFrameStep;
     /* 148 */ s32 mThrowBombsFrameIndex;
-    /* 14c */ s32 mRingRadius;
-    /* 150 */ s32 mRingOffsetY;
+    /* 14c */ s32 mRingRadiusCounterZero;
+    /* 150 */ s32 mRingOffsetYCounterZero;
     /* 154 */ s32 mRingRadiusCounterNonZero;
     /* 158 */ s32 mRingOffsetYCounterNonZero;
     /* 15c */ s32 mRingBombTimer;
@@ -125,7 +126,7 @@ typedef struct BombKingPrm {
     /* 1e0 */ s32 mJumpThrowBombsFrameStep;
     /* 1e4 */ s32 mJumpRingRadius;
     /* 1e8 */ s32 mJumpRingBombTimer;
-    /* 1ec */ u32 mJumpRingParkedBombTimer;
+    /* 1ec */ u32 mJumpCenterParkedBombTimer;
     /* 1f0 */ s32 mJumpThrowBombsFrameCount;
     /* 1f4 */ s32 mJumpFallAnimationEntry;
     /* 1f8 */ s32 mJumpFallFrameStep;
@@ -136,7 +137,8 @@ typedef struct BombKingPrm {
     /* 20c */ s32 mCollisionExtentY;
 } BombKingPrm;
 
-// The parameters of a Donketu mission run map object: animation entries, start chase run and walking on.
+// The parameters of a Donketu mission run map object: animation entries, speeds and angles for its walk, chase, jumps,
+// kart hits and its water sink, walk and jump.
 typedef struct DonketuPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
@@ -179,6 +181,7 @@ typedef struct DonketuPrm {
     /* 108 */ s32 mChaseStopCollisionSpeed;
     /* 10c */ s32 mChaseStopAnimationEntry;
     /* 110 */ s32 mChaseStopFrameStep;
+    // Also the speed below which the normal kart collision callback is set.
     /* 114 */ s32 mChaseStopSpeedPerCall;
     /* 118 */ s32 mChaseStopAnglePerCall;
     /* 11c */ s32 mRepeatJumpAnimationEntry;
@@ -257,7 +260,8 @@ typedef struct DonketuPrm {
     /* 240 */ s32 mWaterLandFrameStep;
 } DonketuPrm;
 
-// The parameters of a Hanachan mission run map object: animation entries and the speed and angle steps of its move.
+// The parameters of a Hanachan mission run map object: animation entries, its move speed and angle steps, speed
+// reductions by balloon count, its four followers and its two kart ranges.
 typedef struct HanachanPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
@@ -274,7 +278,7 @@ typedef struct HanachanPrm {
     /* 0a0 */ s32 mMoveRangeRadius;
     /* 0a4 */ u8 mUnk_0a4[0x4];
     /* 0a8 */ s32 mTwoBalloonSpeedReduction;
-    /* 0ac */ s32 mOneBalloonSpeedReduction;
+    /* 0ac */ s32 mOneOrNoBalloonSpeedReduction;
     /* 0b0 */ u8 mUnk_0b0[0x10];
     /* 0c0 */ s32 mFollowerFirstDistance;
     /* 0c4 */ s32 mFollowerSecondDistance;
@@ -291,7 +295,7 @@ typedef struct HanachanPrm {
     /* 0f0 */ u8 mUnk_0f0[0x4];
     /* 0f4 */ s32 mFollowerFourthCollisionOffsetY;
     /* 0f8 */ u8 mUnk_0f8[0x4];
-    /* 0fc */ s32 mStarHitSideSpeed;
+    /* 0fc */ s32 mStarHitSidePosStep;
     /* 100 */ s32 mCollisionRadius;
     /* 104 */ s32 mSecondKartRangeAnimationEntry;
     /* 108 */ s32 mSecondKartRangeFrameStep;
@@ -307,7 +311,8 @@ typedef struct HanachanPrm {
     /* 130 */ s32 mKartRangeSpeedPercentReduction;
 } HanachanPrm;
 
-// The parameters of an Iwante mission run map object: animation entries, chain camera, item hit and kart turn.
+// The parameters of an Iwante mission run map object: animation entries, speeds and frame counts for its moves, falls
+// and landings, the chain camera offset, its hands and item hit reactions.
 typedef struct IwantePrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mHideAtEndReachedAnimationEntry;
@@ -317,13 +322,13 @@ typedef struct IwantePrm {
     /* 080 */ s32 mChainCameraPosYOffset;
     /* 084 */ u8 mUnk_084[0x4];
     /* 088 */ s32 mItemHitHalfAngle;
-    /* 08c */ s32 mTurnToKartAnimationEntry;
-    /* 090 */ s32 mTurnToKartFrameStep;
-    /* 094 */ s32 mTurnToKartSpeedTarget;
-    /* 098 */ s32 mTurnToKartSpeedPerCall;
+    /* 08c */ s32 mBeforeMoveToKartAnimationEntry;
+    /* 090 */ s32 mBeforeMoveToKartFrameStep;
+    /* 094 */ s32 mBeforeMoveToKartSpeedTarget;
+    /* 098 */ s32 mBeforeMoveToKartSpeedPerCall;
     /* 09c */ u8 mUnk_09c[0x8];
-    /* 0a4 */ s32 mTurnToKartVelocityY;
-    /* 0a8 */ s32 mTurnToKartFrameCount;
+    /* 0a4 */ s32 mBeforeMoveToKartVelocityY;
+    /* 0a8 */ s32 mBeforeMoveToKartFrameCount;
     /* 0ac */ u8 mUnk_0ac[0x24];
     /* 0d0 */ s32 mMoveToKartAnimationEntry;
     /* 0d4 */ s32 mMoveToKartFrameStep;
@@ -351,7 +356,7 @@ typedef struct IwantePrm {
     /* 134 */ s32 mMoveSidewaysSpeedPerCall;
     /* 138 */ u8 mUnk_138[0x8];
     /* 140 */ s32 mMoveSidewaysFrameCount;
-    /* 144 */ s32 mKartHitCarryVelocity;
+    /* 144 */ s32 mKartHitCarryPosStep;
     /* 148 */ s32 mSidewaysStopAnimationEntry;
     /* 14c */ s32 mSidewaysStopFrameStep;
     /* 150 */ s32 mSidewaysStopSpeedTarget;
@@ -431,14 +436,16 @@ typedef struct IwantePrm {
     /* 2b0 */ s32 mChangeToWalkBFrameStep;
     /* 2b4 */ s32 mChangeToWalkAAnimationEntry;
     /* 2b8 */ s32 mChangeToWalkAFrameStep;
-    /* 2bc */ u32 mApproachKartObjectRadius;
+    /* 2bc */ u32 mApproachKartObjectHalfAngle;
     /* 2c0 */ u32 mApproachKartHandRadius;
     /* 2c4 */ u32 mHandsTurnPerCallTarget;
     /* 2c8 */ s32 mWalkTurnPerCallTarget;
     /* 2cc */ s32 mWalkSpeedTarget;
 } IwantePrm;
 
-// The parameters of a King Teresa mission run map object: animation entries, sink offsets and waiting to approach.
+// The parameters of a King Teresa mission run map object: animation entries, speeds and alpha limits for waiting,
+// approaching, moving to a forward point and group entry, hit reaction, boss coins, show and hide, and its mission run
+// timer values.
 typedef struct KingTeresaPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mWinnerDecidedAnimationEntry;
@@ -447,7 +454,7 @@ typedef struct KingTeresaPrm {
     /* 07c */ s32 mKartEliminatedFrameStep;
     /* 080 */ s32 mPosOffsetY;
     /* 084 */ s32 mSinkMinOffsetY;
-    /* 088 */ s32 mSinkStepY;
+    /* 088 */ s32 mSinkYPerCall;
     /* 08c */ u8 mUnk_08c[0x4];
     /* 090 */ s32 mWaitToApproachAnimationEntry;
     /* 094 */ s32 mWaitToApproachFrameStep;
@@ -493,7 +500,7 @@ typedef struct KingTeresaPrm {
     /* 134 */ s32 mMoveToGroupEntryStage1AnglePerCallIncrement;
     /* 138 */ s32 mMoveToGroupEntryPointRadius;
     /* 13c */ s32 mMoveToGroupEntryPointHalfAngle;
-    /* 140 */ s32 mNextGroupSpan;
+    /* 140 */ s32 mEntryGroupSpan;
     /* 144 */ s32 mHitReactionAnimationEntry;
     /* 148 */ s32 mHitReactionFrameStep;
     /* 14c */ s32 mHitReactionAlphaLimitTarget;
@@ -509,9 +516,9 @@ typedef struct KingTeresaPrm {
     /* 174 */ s32 mShowBossCoinsFrameStep;
     /* 178 */ s32 mShowBossCoinsAlphaLimitTarget;
     /* 17c */ s32 mShowBossCoinsAlphaLimitPerCall;
-    /* 180 */ s32 mStopKartFacingHalfAngle;
-    /* 184 */ s32 mStopKartInRangeHalfAngle;
-    /* 188 */ s32 mStopKartInRangeRadius;
+    /* 180 */ s32 mStopForBossCoinsKartFacingHalfAngle;
+    /* 184 */ s32 mStopForBossCoinsKartInRangeHalfAngle;
+    /* 188 */ s32 mStopForBossCoinsKartInRangeRadius;
     /* 18c */ s32 mShowBossCoinsShownCountMax;
     /* 190 */ s32 mParkBossCoinCount;
     /* 194 */ s32 mShowBossCoinsFrameCount;
@@ -528,7 +535,7 @@ typedef struct KingTeresaPrm {
     /* 1c0 */ s32 mTimerCountUpAdd;
     /* 1c4 */ s32 mTimerBossTransferAdd;
     /* 1c8 */ s32 mShowNearKartTimerLimit;
-    /* 1cc */ s32 mWaitToApproachEndTimer;
+    /* 1cc */ s32 mWaitToApproachEndTimerLimit;
     /* 1d0 */ s32 mApproachTimerLimit;
     /* 1d4 */ s32 mWaitToApproachAlphaLimitDivisor;
     /* 1d8 */ s32 mTurnTowardKartAnimationEntry;
@@ -560,7 +567,8 @@ typedef struct KingTeresaPrm {
     /* 240 */ s32 mCollisionExtentY;
 } KingTeresaPrm;
 
-// The parameters of a Kuriking mission run map object: animation entries and speeds for start, chase and walk.
+// The parameters of a Kuriking mission run map object: animation entries, speeds and angles for its walk, grow, chase,
+// face kart, turn to entry and row, bomb and kinoko throws, and jump.
 typedef struct KurikingPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
@@ -667,8 +675,8 @@ typedef struct KurikingPrm {
     /* 214 */ s32 mCollisionExtentY;
 } KurikingPrm;
 
-// Parameter table of a map object (the .prm file): mPrm of MissionRunMapObject points to it and each object reads its
-// own member. Object behind StopTurningMoveFollowsAngle and the per-state functions around StartIwanteHandsHitReaction.
+// Parameter table loaded from an object's .prm file: mPrm of MissionRunMapObject points to it and each kind of object
+// reads its own member.
 typedef union MissionRunPrm {
     MissionRunPrmHead mHead;
     BombKingPrm mBombKing;
@@ -679,9 +687,9 @@ typedef union MissionRunPrm {
     KurikingPrm mKuriking;
 } MissionRunPrm;
 
-// Values of MissionRunMapObjectEffect.mKind: where ComputeEffectPosition puts the effect. Offsets are turned by the
-// angle of the object; MODEL is the effect of a model started at the water height; the camera position is added in
-// ROTATED_OFFSET_CAMERA (never set).
+// Values of MissionRunMapObjectEffect.mKind, switched on in ComputeEffectPosition: every kind except MODEL turns the
+// offset by the angle of the object; MODEL has no case there and is set only by StartModelEffectAtWaterHeight;
+// ROTATED_OFFSET_CAMERA (never set) adds the camera position and halves the result.
 enum {
     MAP_OBJECT_EFFECT_MODEL,
     MAP_OBJECT_EFFECT_ROTATED_OFFSET,
@@ -695,6 +703,7 @@ enum {
 typedef struct MissionRunMapObjectEffect {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mTimer;
+    // Offset from the object; for kind MODEL the position of the model effect.
     /* 08 */ Vec3 mOffset;
     /* 14 */ void *mEffect;
 } MissionRunMapObjectEffect;
@@ -705,7 +714,7 @@ enum {
     MAP_OBJECT_ANGLE_TURN_TO_POINT,
     MAP_OBJECT_ANGLE_TURN_FROM_POINT,
     MAP_OBJECT_ANGLE_TURN_SIDEWAYS,
-    MAP_OBJECT_ANGLE_SPIN,
+    MAP_OBJECT_ANGLE_SPIN_ADD,
     MAP_OBJECT_ANGLE_SPIN_CHOOSE_DIRECTION,
     MAP_OBJECT_ANGLE_SPIN_NEGATIVE,
     MAP_OBJECT_ANGLE_SPIN_POSITIVE,
@@ -725,8 +734,8 @@ enum {
 // the object (the second when no height offset was given), AT_OBJECT at the position of the object, AT_NODE under the
 // node position.
 enum {
-    MAP_OBJECT_SHADOW_COURSE_OFFSET,
-    MAP_OBJECT_SHADOW_COURSE,
+    MAP_OBJECT_SHADOW_ON_COURSE_OFFSETS,
+    MAP_OBJECT_SHADOW_ON_COURSE_Y_ZERO,
     MAP_OBJECT_SHADOW_AT_OBJECT,
     MAP_OBJECT_SHADOW_AT_NODE,
 };
@@ -739,12 +748,12 @@ enum {
 };
 
 // Values of MissionRunMapObject.mCourseCollisionMode: how the object is moved out of the course. ALT_FILTER uses the
-// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_BITS also skips the checks of
-// the collision bits.
+// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_WALL also skips the wall-hit
+// push.
 enum {
     MAP_OBJECT_COURSE_COLLISION_PUSH_OUT,
     MAP_OBJECT_COURSE_COLLISION_ALT_FILTER,
-    MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS,
+    MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL,
     MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY,
 };
 
@@ -752,40 +761,31 @@ enum {
 enum {
     KART_MAP_OBJECT_RESPONSE_NONE = 0,
     KART_MAP_OBJECT_RESPONSE_BUMP = 2,
-    KART_MAP_OBJECT_RESPONSE_FLIP_DOUBLE = 10,
+    KART_MAP_OBJECT_RESPONSE_PUSH_DOUBLE_FLIP = 10,
     KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT = 11,
     KART_MAP_OBJECT_RESPONSE_CARRY = 12,
     KART_MAP_OBJECT_RESPONSE_CARRY_HALT = 13,
     KART_MAP_OBJECT_RESPONSE_CARRY_SPIN = 14,
 };
 
-// Values of mItemResponse, which CollideItemWithMissionRunMapObject returns as the hit type of ApplyItemObjectHitType:
-// the item bounces off the object, or is pushed away and fades out.
-enum {
-    ITEM_MAP_OBJECT_RESPONSE_BOUNCE = 1,
-    ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT = 2,
-};
-
-// Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct MissionRunMapObject MissionRunMapObject;
 #include "01/MapObjects/mission_run_motion_setters.h"
 typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 
-typedef void (*MapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
-typedef void (*MapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
+typedef void (*MissionRunMapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
+typedef void (*MissionRunMapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
 
-// Groups of bits in MissionRunMapObject.mCollisionBits, the bits CollideSphereWithCourse stores: floor hits and wall
-// hits, and the bit IsNotRisingWithBelowZeroBit tests with a velocity that is not upward.
-#define COURSE_HIT_GROUND 0x1e34ef
-#define COURSE_HIT_WALL 0x214300
-#define COURSE_HIT_NOT_RISING_BIT 0x800
+// Set in mCollisionBits by the update when mPos.y was clamped from below zero; IsNotRisingWithBelowZeroBit also needs
+// mVelocity.y <= 0.
+#define COURSE_HIT_BELOW_ZERO_BIT 0x800
 
-// A mission run map object: the shared map object, its parameter block, state counters and five effects.
+// A mission run map object: the shared map object, its parameter block, state, speed, angle, callback, collision,
+// shadow and timer members and five effects.
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MissionRunPrm *mPrm;
-    /* 0a4 */ struct MissionRunMapObject *mPreviousObject;
+    /* 0a4 */ struct MissionRunMapObject *mFollowedObject;
     /* 0a8 */ union {
         s32 mHandShape;
         s32 mHandOrder;
@@ -800,7 +800,7 @@ typedef struct MissionRunMapObject {
     /* 0bc */ MissionRunMapObjectEffect mEffects[5];
     /* 134 */ s32 mModelAnimationFrameIndex;
     /* 138 */ s32 mThrowCount;
-    /* 13c */ s32 mTurnDelayFrames;
+    /* 13c */ s32 mTurnDelayTimer;
     /* 140 */ s32 mEffectStepCounter;
     /* 144 */ s32 mSoundStepCounter;
     /* 148 */ s32 mEntryGroupIndex;
@@ -823,7 +823,7 @@ typedef struct MissionRunMapObject {
     /* 194 */ s32 mAnglePerCall;
     /* 198 */ s32 mAnglePerCallTarget;
     /* 19c */ s32 mAnglePerCallIncrement;
-    /* 1a0 */ s32 mSidewaysAngleOffset;
+    /* 1a0 */ s32 mAngleOffset;
     /* 1a4 */ s32 mMoveAngleMode;
     /* 1a8 */ s32 mMoveAngle;
     /* 1ac */ Vec3 mMoveAnglePoint;
@@ -832,26 +832,26 @@ typedef struct MissionRunMapObject {
     /* 1c0 */ s32 mMoveAnglePerCallIncrement;
     /* 1c4 */ s32 mMoveAngleOffset;
     /* 1c8 */ Vec3 mVelocity;
-    /* 1d4 */ MapObjectCallback mAnimationEndCallback;
+    /* 1d4 */ MissionRunMapObjectCallback mAnimationEndCallback;
     /* 1d8 */ s32 mAnimationFrameCallbackFrameIndex;
-    /* 1dc */ MapObjectCallback mAnimationFrameCallback;
+    /* 1dc */ MissionRunMapObjectCallback mAnimationFrameCallback;
     /* 1e0 */ s32 mFirstCallbackFrameIndex;
     /* 1e4 */ void (*mFirstFrameCallback)(struct MissionRunMapObject *);
     /* 1e8 */ s32 mSecondCallbackFrameIndex;
     /* 1ec */ void (*mSecondFrameCallback)(struct MissionRunMapObject *);
     /* 1f0 */ s32 mStateFrameCount;
-    /* 1f4 */ MapObjectCallback mStateFrameCountCallback;
+    /* 1f4 */ MissionRunMapObjectCallback mStateFrameCountCallback;
     /* 1f8 */ s32 mPointRadius;
     /* 1fc */ s32 mPointHalfAngle;
     /* 200 */ Vec3 mPoint;
-    /* 20c */ MapObjectCallback mPointInRangeCallback;
+    /* 20c */ MissionRunMapObjectCallback mPointInRangeCallback;
     /* 210 */ s32 mOutOfRangeRadius;
     /* 214 */ s32 mOutOfRangeHalfAngle;
     /* 218 */ Vec3 mOutOfRangePoint;
-    /* 224 */ MapObjectCallback mOutOfRangeCallback;
-    /* 228 */ MapObjectCallback mStoppedCallback;
-    /* 22c */ MapObjectCallback mCourseCollisionCallback;
-    /* 230 */ MapObjectCallback mUnusedCallback;
+    /* 224 */ MissionRunMapObjectCallback mOutOfRangeCallback;
+    /* 228 */ MissionRunMapObjectCallback mStoppedCallback;
+    /* 22c */ MissionRunMapObjectCallback mCourseCollisionCallback;
+    /* 230 */ MissionRunMapObjectCallback mUnusedCallback;
     /* 234 */ s32 mCollisionShape;
     /* 238 */ Vec3 mPosWithOffset;
     /* 244 */ Vec3 mOffset;
@@ -882,13 +882,15 @@ typedef struct MissionRunMapObject {
     /* 2b8 */ s32 mCourseCollisionMode;
     /* 2bc */ BOOL mBounceEnabled;
     /* 2c0 */ BOOL mGravityEnabled;
+    // While non-zero, StartMapObjectState keeps the callbacks and does not release the effects.
     /* 2c4 */ BOOL mKeepCallbacks;
     /* 2c8 */ u32 mCollisionBits;
     /* 2cc */ u8 mUnk_2cc[0x4];
     /* 2d0 */ s32 mTimer;
-    /* 2d4 */ MapObjectKartCollisionCallback mKartCollisionCallback;
+    /* 2d4 */ MissionRunMapObjectKartCollisionCallback mKartCollisionCallback;
     /* 2d8 */ s32 mKartResponse;
-    /* 2dc */ MapObjectItemCollisionCallback mItemCollisionCallback;
+    /* 2dc */ MissionRunMapObjectItemCollisionCallback mItemCollisionCallback;
+    // ITEM_HIT_TYPE_BOUNCE, ITEM_HIT_TYPE_FADE_OUT or 0 (no hit type), returned by CollideItemWithMissionRunMapObject
     /* 2e0 */ s32 mItemResponse;
     /* 2e4 */ s32 mNodeMatchValue;
     /* 2e8 */ Vec3 mNodePosition;

@@ -23,7 +23,7 @@ void UploadEndingStaffRollOam(void) {
         StartFadeToFadedNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
         return;
     }
-    if (gEndingStaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_END) {
+    if (gEndingStaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_TO_CLEAR_START) {
         return;
     }
     StartFadeToClearNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
@@ -35,9 +35,9 @@ void InitEndingStaffRoll(void) {
     RaceHudOamBits *oamBits;
 
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEndingStaffRoll));
-    for (oamIndex = 0; oamIndex < 0x80; oamIndex++) {
+    for (oamIndex = 0; oamIndex < RACE_HUD_OAM_COUNT; oamIndex++) {
         oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
-        oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
+        oamBits->mObjMode = 3;
     }
     gEndingStaffRoll->mStaffRollFrames = 0;
     LoadNclrData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, FindSceneFileWrapper("ending_staffRoll_m_o_00.NCLR"));
@@ -84,8 +84,8 @@ void DrawEndingStaffRoll(void) {
         position[0] = 0x80000;
         position[1] = 0x60000;
         oamBits = &oamBuffer->mOamBits[oamIndex];
-        oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                      NULL, position, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
             oamBits->mObjMode = RACE_HUD_OBJ_MODE_TRANSLUCENT;
             oamBits->mPriority = 1;
@@ -94,5 +94,5 @@ void DrawEndingStaffRoll(void) {
     }
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
     MI_DmaFill32(3, &gEndingStaffRoll->mOamBuffer.mOams[gEndingStaffRoll->mOamBuffer.mOamCount], 0xc0,
-                 (0x80 - gEndingStaffRoll->mOamBuffer.mOamCount) << 3);
+                 (RACE_HUD_OAM_COUNT - gEndingStaffRoll->mOamBuffer.mOamCount) << 3);
 }

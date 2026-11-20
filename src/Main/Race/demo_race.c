@@ -73,9 +73,9 @@ u32 PickRandomCupIndex(RandomState64 *random) {
     } else {
         random->mValue = _ll_mul(random->mMultiplier, random->mValue) + random->mIncrement;
         if (passingCupCount == 0) {
-            randomPosition = random->mValue >> 32;
+            randomPosition = RANDOM_HIGH32(random);
         } else {
-            randomPosition = (u64) (u32) (random->mValue >> 32) * (u32) passingCupCount >> 32;
+            randomPosition = RANDOM_BELOW_U64(random, (u32) passingCupCount);
         }
     }
     pickedPosition = randomPosition;
@@ -121,7 +121,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
-    gRaceSetup->mNextHeader.mCourseListMode = 0;
+    gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mMirrorMode = 0;
     gRaceSetup->mNextHeader.mLapCount = -1;
     gRaceSetup->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;

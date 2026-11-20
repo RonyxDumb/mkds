@@ -10,19 +10,19 @@
 #include "03/Graphics/text_canvas.h"
 
 const u8 gEditKeyboardRow4KeyImages[2] = {0x3c, 0x3d};
-const u8 gEditKeyboardRow4Inputs[2] = {0x82, 0x83};
+const u8 gEditKeyboardRow4Inputs[2] = {EDIT_KEYBOARD_INPUT_CANCEL, EDIT_KEYBOARD_INPUT_OK};
 const u8 gEditKeyboardKeyPalettes[2] = {2, 3};
 const u8 gEditKeyboardRow4HighlightValues[2] = {4, 5};
 const u8 gEditKeyboardExtraKeyImages[4] = {0x3a, 0x3b, 0x35, 0x39};
 const u16 gEditKeyboardRow4KeySize[1][2] = {{0x78, 0x12}};
 const u16 gEditKeyboardKeySize[1][2] = {{0x11, 0x12}};
 const u16 gEditKeyboardRowTextAreaSize[2] = {0x1c, 2};
-const u8 gEditKeyboardExtraKeyInputs[5] = {0xff, 0xff, 0x20, 0x80, 0};
+const u8 gEditKeyboardExtraKeyInputs[5] = {0xff, 0xff, 0x20, EDIT_KEYBOARD_INPUT_REMOVE_CHAR, 0};
 const u16 gEditKeyboardRow4KeyPositions[2][2] = {{4, 0xaa}, {0x84, 0xaa}};
 
 static inline void EditKeyboardOutG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *y = object->mAttr01 & OAM_ATTR01_Y_MASK;
+    *x = (object->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = object->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task, void *arg) {
@@ -98,7 +98,7 @@ void ReleaseEditKeyboard(TaskEntry *task, void *arg) {
     for (index = 0; index < 4; index++) {
         DeleteOamEntry(gEditKeyboard->mExtraKeys[index]);
     }
-    for (index = 0; index < 0x2f; index++) {
+    for (index = 0; index < EDIT_KEY_MAIN_COUNT; index++) {
         DeleteOamEntry(gEditKeyboard->mKeys[index]);
     }
     FreeExpHeapBlockAndClearPointer(&gEditKeyboard);

@@ -13,11 +13,11 @@
 
 #pragma thumb on
 
-CTRDGWork gCartridgeState;
+CTRDGWork gCartridgeWork;
 s32 gCartridgeInitStarted;
-s32 gHeaderCopyStarted;
+s32 gModuleInfoInitStarted;
 CartridgeHeaderCopy gCartridgeHeaderCopy;
-s32 (*gCartridgeRemovalCallback)(void);
+s32 (*gCartridgePulledOutCallback)(void);
 s32 gCartridgeUnusedWord0;
 s32 gCartridgeUnusedWord1;
 s32 gCartridgeUnusedWord2;
@@ -33,63 +33,64 @@ void CTRDG_Init(void) {
         CTRDGi_InitModuleInfo();
         PXI_SetFifoRecvCallback(13, 0);
         PXI_SetFifoRecvCallback(13, CTRDGi_PulledOutCallback);
-        gCartridgeRemovalCallback = 0;
+        gCartridgePulledOutCallback = 0;
     }
 }
 
-// Runs once. Copies the cartridge header under the cartridge lock, fills the module info record from it, and sends the
-// address of the header buffer on tag 13, then waits for the reply.
+// Runs once, and only when bit 0 of reg_04000300 is set. Copies the cartridge header bytes under the cartridge lock,
+// fills the module info record from them, and sends the address of the header buffer on tag 13, then waits for the
+// reply.
 void CTRDGi_InitModuleInfo(void) {
     u32 savedIrqMask;
-    u16 savedMasterEnable;
-    CartridgeAccessSave procLock;
-    CartridgeAccessSave romCycle;
-    s32 priority;
+    u16 savedIme;
+    CTRDGLockByProc procLock;
+    CTRDGLockByProc savedAccessCycle;
+    s32 savedBit15;
     s32 infoIndex;
     CTRDGModuleInfo *idInfo;
-    CartridgeHeaderCopy *chb;
+    CartridgeHeaderCopy *headerCopy;
 
-    if (gHeaderCopyStarted != 0) {
+    if (gModuleInfoInitStarted != 0) {
         return;
     }
-    gHeaderCopyStarted = 1;
-    if ((reg_GX_POSTFLG & 1) == 0) {
+    gModuleInfoInitStarted = 1;
+    if ((reg_04000300 & 1) == 0) {
         return;
     }
     savedIrqMask = OS_SetIrqMask(0x40000);
-    savedMasterEnable = reg_OS_IME;
+    savedIme = reg_OS_IME;
     reg_OS_IME = 1;
-    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
-    priority = (reg_MI_EXMEMCNT & 0x8000) >> 15;
-    CTRDGi_ChangeLatestAccessCycle(&romCycle);
+    CTRDGi_LockByProcessor(gCartridgeWork.mLockId, &procLock);
+    savedBit15 = (reg_MI_EXMEMCNT & 0x8000) >> 15;
+    CTRDGi_ChangeLatestAccessCycle(&savedAccessCycle);
     reg_MI_EXMEMCNT = reg_MI_EXMEMCNT & ~0x8000;
     DC_InvalidateRange(OFFSET_PTR(CartridgeHeaderTail, &gCartridgeHeaderCopy, 0x80), 0x40);
     MI_DmaCopy16(1, (const void *) 0x08000080, OFFSET_PTR(CartridgeHeaderTail, &gCartridgeHeaderCopy, 0x80), 0x40);
-    reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x8000) | (priority << 15);
-    CTRDGi_RestoreAccessCycle(&romCycle);
-    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &procLock);
-    chb = &gCartridgeHeaderCopy;
+    reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x8000) | (savedBit15 << 15);
+    CTRDGi_RestoreAccessCycle(&savedAccessCycle);
+    CTRDGi_UnlockByProcessor(gCartridgeWork.mLockId, &procLock);
+    headerCopy = &gCartridgeHeaderCopy;
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
     idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mModuleId;
     for (infoIndex = 0; infoIndex < 3; infoIndex++) {
-        idInfo->mExLsiId[infoIndex] = chb->mHeaderTailCopy.mExLsiId[infoIndex];
+        idInfo->mExLsiId[infoIndex] = headerCopy->mHeaderTailCopy.mExLsiId[infoIndex];
     }
-    idInfo->mMakerCode = chb->mHeaderTailCopy.mMakerCode;
-    idInfo->mIdWord = chb->mHeaderTailCopy.mGameCode;
+    idInfo->mMakerCode = headerCopy->mHeaderTailCopy.mMakerCode;
+    idInfo->mIdWord = headerCopy->mHeaderTailCopy.mGameCode;
     MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mBiosBytes, 0x9c);
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);
-    while (gCartridgeState.mReplyReceived != 1) {
-        WaitByLoop(1);
+    while (gCartridgeWork.mReplyReceived != 1) {
+        SVC_WaitByLoop(1);
     }
     reg_OS_IME;
-    reg_OS_IME = savedMasterEnable;
+    reg_OS_IME = savedIme;
     OS_SetIrqMask(savedIrqMask);
 }
 
 void CTRDGi_CallbackForInitModuleInfo(u32 tag, u32 data) {
     if ((data & 0x3f) == 1) {
-        gCartridgeState.mReplyReceived = 1;
+        gCartridgeWork.mReplyReceived = 1;
     } else {
         OS_Terminate();
     }
@@ -100,8 +101,8 @@ void CTRDGi_PulledOutCallback(u32 tag, u32 data) {
 
     if ((data & 0x3f) == 0x11) {
         terminateNow = 0;
-        if (gCartridgeRemovalCallback != 0) {
-            terminateNow = gCartridgeRemovalCallback();
+        if (gCartridgePulledOutCallback != 0) {
+            terminateNow = gCartridgePulledOutCallback();
         }
         if (terminateNow != 0) {
             CTRDG_TerminateForPulledOut();
@@ -121,19 +122,19 @@ void CTRDGi_InitCommon(void) {
     u32 zero;
 
     zero = 0;
-    CpuSet(&zero, &gCartridgeState, 0x05000001);
-    gCartridgeState.mLockId = OS_GetLockID();
+    SVC_CpuSet(&zero, &gCartridgeWork, 0x05000001);
+    gCartridgeWork.mLockId = OS_GetLockID();
 }
 
 s32 CTRDG_IsExisting(void) {
     s32 exists;
-    CartridgeAccessSave procLock;
-    CartridgeAccessSave romCycle;
+    CTRDGLockByProc procLock;
+    CTRDGLockByProc savedAccessCycle;
     CTRDGModuleInfo *idInfo;
-    CTRDGHeader *romHeader;
+    CTRDGHeader *cartridgeHeader;
 
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
-    romHeader = (CTRDGHeader *) 0x08000000;
+    cartridgeHeader = (CTRDGHeader *) 0x08000000;
     exists = 1;
     if (idInfo->mIdHalfword == CARTRIDGE_NO_ID_HALFWORD) {
         return 0;
@@ -141,39 +142,39 @@ s32 CTRDG_IsExisting(void) {
     if (idInfo->mDetectPullOut == 1) {
         return 0;
     }
-    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
-    CTRDGi_ChangeLatestAccessCycle(&romCycle);
-    if ((romHeader->mIdSelector == CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
-         idInfo->mIdHalfword != romHeader->mIdHalfword) ||
-        (romHeader->mIdSelector != CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
+    CTRDGi_LockByProcessor(gCartridgeWork.mLockId, &procLock);
+    CTRDGi_ChangeLatestAccessCycle(&savedAccessCycle);
+    if ((cartridgeHeader->mIdSelector == CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
+         idInfo->mIdHalfword != cartridgeHeader->mIdHalfword) ||
+        (cartridgeHeader->mIdSelector != CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
          idInfo->mIdHalfword != *(u16 *) 0x0801fffe) ||
-        (idInfo->mIdWord != romHeader->mIdWord && idInfo->mIsAgbCartridge)) {
+        (idInfo->mIdWord != cartridgeHeader->mIdWord && idInfo->mIsAgbCartridge)) {
         idInfo->mDetectPullOut = 1;
         exists = 0;
     }
-    CTRDGi_RestoreAccessCycle(&romCycle);
-    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &procLock);
+    CTRDGi_RestoreAccessCycle(&savedAccessCycle);
+    CTRDGi_UnlockByProcessor(gCartridgeWork.mLockId, &procLock);
     return exists;
 }
 
-void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo) {
-    cycleInfo->mCycle1 = (reg_MI_EXMEMCNT & 0xc) >> 2;
-    cycleInfo->mCycle2 = (reg_MI_EXMEMCNT & 0x10) >> 4;
+void CTRDGi_ChangeLatestAccessCycle(CTRDGLockByProc *r) {
+    r->mCycle1 = (reg_MI_EXMEMCNT & 0xc) >> 2;
+    r->mCycle2 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
     reg_MI_EXMEMCNT &= ~0x10;
 }
 
-void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *cycleInfo) {
+void CTRDGi_RestoreAccessCycle(CTRDGLockByProc *r) {
     u32 cycle1;
     u32 cycle2;
 
-    cycle1 = cycleInfo->mCycle1;
+    cycle1 = r->mCycle1;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | (cycle1 << 2);
-    cycle2 = cycleInfo->mCycle2;
+    cycle2 = r->mCycle2;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x10) | (cycle2 << 4);
 }
 
-void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
+void CTRDGi_LockByProcessor(u16 lockID, CTRDGLockByProc *info) {
     for (;;) {
         info->mSavedIrq = OS_DisableInterrupts();
         info->mOwnerFlag = OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40;
@@ -184,11 +185,11 @@ void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
             break;
         }
         OS_RestoreInterrupts(info->mSavedIrq);
-        WaitByLoop(1);
+        SVC_WaitByLoop(1);
     }
 }
 
-void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info) {
+void CTRDGi_UnlockByProcessor(u16 lockID, CTRDGLockByProc *info) {
     if (info->mOwnerFlag == 0) {
         OS_UnLockCartridge(lockID);
     }

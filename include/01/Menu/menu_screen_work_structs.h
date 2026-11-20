@@ -13,7 +13,8 @@ enum {
     ENDING_KIND_STAFFROLL_TRUE,
 };
 
-// Values of EndingScene.mState and mNextState; gEndingSceneStateTable holds how long each lasts.
+// Values of EndingScene.mState and mNextState; gEndingSceneStateTable holds a frame count per state: the hold length,
+// the fade length passed to the fade call, or the frames before input is read.
 enum {
     ENDING_SCENE_STATE_WAIT_FADE_IN,
     ENDING_SCENE_STATE_SHOW_LOGO,
@@ -37,17 +38,17 @@ typedef struct EndingScene {
     /* 018 */ BOOL mIndex1Queued;
     /* 01c */ void *mSceneDisplaySettings;
     /* 020 */ LayoutTableEntry *mEndingThanksTable;
-    /* 024 */ struct NNSG2dCellDataBank *mThanksYouMNcer;
+    /* 024 */ struct NNSG2dCellDataBank *mThanksYouMCells;
     /* 028 */ u8 mUnk_028[0x4];
-    /* 02c */ Nclr *mThanksYouMO00Nclr;
-    /* 030 */ struct LayoutEntryTable *mEndingThanksBncl;
-    /* 034 */ struct LayoutEntryTable *mEndingThanksBnll;
-    /* 038 */ Ncgr *mLogoEndMarioKartMBAndThanksYouMBNcgrs[2];
-    /* 040 */ Nscr *mLogoEndMarioKartMBgAndThanksYouMBgNscrs[2];
-    /* 048 */ Nclr *mLogoEndMarioKartMBAndThanksYouMBNclrs[2];
-    /* 050 */ Ncgr *mEndAllRightsReservedSBAndLogoEndNintendoSBNcgrs[2];
-    /* 058 */ Nscr *mEndAllRightsReservedSBgAndLogoEndNintendoSBgNscrs[2];
-    /* 060 */ Nclr *mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[2];
+    /* 02c */ Nclr *mThanksYouMO00Palette;
+    /* 030 */ struct LayoutEntryTable *mEndingThanksCellLayout;
+    /* 034 */ struct LayoutEntryTable *mEndingThanksLabelLayout;
+    /* 038 */ Ncgr *mLogoAndThanksYouMBChars[2];
+    /* 040 */ Nscr *mLogoAndThanksYouMBgScreenMaps[2];
+    /* 048 */ Nclr *mLogoAndThanksYouMBPalettes[2];
+    /* 050 */ Ncgr *mAllRightsAndNintendoSBChars[2];
+    /* 058 */ Nscr *mAllRightsAndNintendoSBgScreenMaps[2];
+    /* 060 */ Nclr *mAllRightsAndNintendoSBPalettes[2];
     /* 068 */ u8 mMainOam[0x404];
     /* 46c */ struct Bmg *mCommonMessages;
 } EndingScene;
@@ -57,7 +58,7 @@ enum {
     MISSION_RUN_LVSEL_STATE_WAIT_FADE,
     MISSION_RUN_LVSEL_STATE_SLIDE_IN,
     MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN,
-    MISSION_RUN_LVSEL_STATE_SELECT,
+    MISSION_RUN_LVSEL_STATE_INPUT,
     MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN,
     MISSION_RUN_LVSEL_STATE_SLIDE_OUT,
 };
@@ -69,8 +70,8 @@ enum {
     MISSION_RUN_LVSEL_RESULT_BACK,
 };
 
-// Index of the last level (MissionRunLVsel.mIndex is the level number minus one); a reached level of this index selects
-// the layout with seven levels.
+// Index of the last level (MissionRunLVsel.mIndex is the level number minus one); the layout with seven levels is used
+// once MissionRunLVsel.mReachedLevel is at least this.
 #define MISSION_RUN_LVSEL_LAST_LEVEL_INDEX 6
 
 // Frames of the slide in and the slide out (the BG0 layer travels MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE), of the hold
@@ -118,27 +119,27 @@ enum {
 
 // Values of MissionRunMSsel.mState and mNextState.
 enum {
-    MSSEL_STATE_WAIT_FADE,
-    MSSEL_STATE_SLIDE_IN,
-    MSSEL_STATE_WAIT_SELECT_RETURN,
-    MSSEL_STATE_INPUT,
-    MSSEL_STATE_PRESS_MISSION,
-    MSSEL_STATE_CHOISES_OPEN,
-    MSSEL_STATE_CHOISES_INPUT,
-    MSSEL_STATE_CHOISES_CLOSE,
-    MSSEL_STATE_SLIDE_OUT,
+    MISSION_RUN_MSSEL_STATE_WAIT_FADE,
+    MISSION_RUN_MSSEL_STATE_SLIDE_IN,
+    MISSION_RUN_MSSEL_STATE_WAIT_SELECT_RETURN,
+    MISSION_RUN_MSSEL_STATE_INPUT,
+    MISSION_RUN_MSSEL_STATE_PRESS_MISSION,
+    MISSION_RUN_MSSEL_STATE_CHOISES_OPEN,
+    MISSION_RUN_MSSEL_STATE_CHOISES_INPUT,
+    MISSION_RUN_MSSEL_STATE_CHOISES_CLOSE,
+    MISSION_RUN_MSSEL_STATE_SLIDE_OUT,
 };
 
-// MissionRunMSsel.mIndex of the boss entry, which is shown differently until the boss was recorded and cannot be
-// picked before all missions are recorded.
+// MissionRunMSsel.mIndex of the boss entry (the ninth): it cannot be picked until all the other missions are recorded,
+// and its cells differ until then; once they are, its palette blends until the boss itself is recorded.
 #define MISSION_RUN_MSSEL_BOSS_INDEX 8
 
-// Frames of the slide in and the slide out, of the hold before the choices open, of the index change animation, and of
-// the highlight timer of a picked or moved-to entry; the palette blend of the boss entry repeats every
-// MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES, and the VRAM transfer queued during the slide in starts at its fifth frame.
+// Frames of the slide in and the slide out, of the hold before the choices open, of the highlight timer of a picked or
+// moved-to entry, and of the palette blend of the boss entry (a period of MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES); the
+// VRAM transfer queued during the slide out starts at its fifth frame. The index change animation takes
+// MENU_INDEX_CHANGE_FRAMES.
 #define MISSION_RUN_MSSEL_SLIDE_FRAMES 10
 #define MISSION_RUN_MSSEL_HOLD_FRAMES 5
-#define MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES 7
 #define MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES 5
 #define MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES 100
 #define MISSION_RUN_MSSEL_VRAM_TRANSFER_FRAME 5
@@ -159,7 +160,8 @@ typedef struct MissionRunMSsel {
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 44 */ LayoutTableEntry *mMissionRunMSselSTable;
     /* 48 */ void *mVramTransferBuffer;
-    // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
+    // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the cell value, which minus 1 indexes
+    // mMissionFileRows
     /* 4c */ MissionTable *mMissionTableMtbl;
     /* 50 */ MissionFileRow *mMissionFileRows;
     /* 54 */ struct Bmg *mCommonMessages;
@@ -169,11 +171,11 @@ typedef struct MissionRunMSsel {
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames; /* counted only in states 1, 4, 8; zeroed by the next-state setter */
     /* 6c */ s32 mIndexCellTimers[9];
-    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // X half of reg_G2_BG0OFS, stored negated (the low half)
     /* 90 */ s32 mBg0OffsetX;
-    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // Y half of reg_G2_BG0OFS, stored negated (the high half)
     /* 94 */ s32 mBg0OffsetY;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated; X is not written
+    // Y half of reg_G2_BG1OFS, stored negated; the X half is written as 0
     /* 98 */ s32 mBg1Offset;
     /* 9c */ s16 mExitOffsetX;
     /* 9e */ s16 mIndex; /* mission number - 1, 8 = ninth mission */
@@ -208,20 +210,17 @@ enum {
     SELECT_ENGINE_ENTRY_MIRROR,
 };
 
-// Values of SelectEngine.mResult, returned by AdvanceSelectEngine: an entry was pressed, or the return button.
-enum {
-    SELECT_ENGINE_RESULT_NONE,
-    SELECT_ENGINE_RESULT_CHOSEN,
-    SELECT_ENGINE_RESULT_RETURN,
-};
+// SelectEngine.mResult before a choice; it then holds MENU_SCREEN_RESULT_NEXT (an entry was pressed) or
+// MENU_SCREEN_RESULT_BACK (the return button), which AdvanceSelectEngine returns once the slide out is done.
+#define SELECT_ENGINE_RESULT_NONE 0
 
-// Frames of the slide in and the slide out, of the press and settle animation (GetSelectedPressOffset) with its
-// highlight at the fifth, and of an index change (SelectEngine.mIndexChangeFramesRemaining counts them down). The
-// cells slide in from SELECT_ENGINE_SLIDE_IN_DISTANCE_X, out to SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, and vertically by
-// SELECT_ENGINE_SLIDE_DISTANCE_Y.
+// Frames of the slide in and the slide out, of the settle animation (GetSelectedPressOffset) and of the press state
+// that follows a choice (it shows the highlight again when mStateFrames is 5), and of an index change
+// (MENU_INDEX_CHANGE_FRAMES). The cells slide in from SELECT_ENGINE_SLIDE_IN_DISTANCE_X, out to
+// SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, and vertically by SELECT_ENGINE_SLIDE_DISTANCE_Y.
 #define SELECT_ENGINE_SLIDE_FRAMES 10
 #define SELECT_ENGINE_PRESS_FRAMES 10
-#define SELECT_ENGINE_HIGHLIGHT_FRAME 5
+#define SELECT_ENGINE_ALTERNATE_CELL_SHOWN_FRAME 5
 #define SELECT_ENGINE_INDEX_CHANGE_FRAMES 7
 #define SELECT_ENGINE_SLIDE_IN_DISTANCE_X 224
 #define SELECT_ENGINE_SLIDE_OUT_DISTANCE_X 192
@@ -238,7 +237,7 @@ typedef struct SelectEngine {
     /* 0c */ struct LayoutEntryTable *mSelectEngineAOrBSBncl;
     // same variant as mSelectEngineAOrBSBncl (.bnbl)
     /* 10 */ void *mSelectEngineAOrBSBnbl;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 14 */ LayoutTableEntry *mSelectEngineMTable;
     // cell records of mSelectEngineAOrBSBncl (variant chosen by IsBackupFlagSet(0x10))
     /* 18 */ LayoutTableEntry *mSelectEngineAOrBSTable;
@@ -258,7 +257,8 @@ typedef struct SelectEngine {
     /* 4c */ s32 mResult;
 } SelectEngine;
 
-// Values of EmblemCursor.mMode: what the cell under the cursor does when pressed.
+// Values of EmblemCursor.mMode: what a press at the cursor does (write the cell value, write 0, fill a region, or read
+// the cell value from the grid).
 enum {
     EMBLEM_CURSOR_MODE_DRAW,
     EMBLEM_CURSOR_MODE_ERASE,
@@ -266,17 +266,18 @@ enum {
     EMBLEM_CURSOR_MODE_PICK_VALUE,
 };
 
-// Values of EmblemCursor.mSizeIndex: the square of cells one press writes.
+// Values of EmblemCursor.mSizeIndex: the side of the square of cells that a draw or erase press writes; fill and pick
+// value keep EMBLEM_BRUSH_1X1.
 enum {
     EMBLEM_BRUSH_1X1,
     EMBLEM_BRUSH_2X2,
     EMBLEM_BRUSH_3X3,
 };
 
-// Entries of the emblem screen's sub layout (the entryIndex of ActivateEmblemEntry and the entries of
-// gEmblemColorLldEntries): the draw and erase brushes of three sizes each, the fill and pick value modes, the template,
-// swap, camera and choices buttons, the colors and the button that toggles the frame of entry
-// EMBLEM_ENTRY_TOGGLED_BY_BUTTON.
+// Entries of the emblem screen's sub layout (the entryIndex of ActivateEmblemEntry in the grid state and the entries
+// of gEmblemColorLldEntries): the draw and erase brushes of three sizes each, the fill and pick value modes, the
+// template, swap, camera and choices buttons, the colors and the button that shows or hides entry
+// EMBLEM_ENTRY_TOGGLE_TARGET.
 enum {
     EMBLEM_ENTRY_DRAW_BRUSH_FIRST = 0xe,
     EMBLEM_ENTRY_ERASE_BRUSH_FIRST = 0x11,
@@ -284,17 +285,18 @@ enum {
     EMBLEM_ENTRY_PICK_VALUE = 0x15,
     EMBLEM_ENTRY_TEMPLATE_BUTTON = 0x16,
     EMBLEM_ENTRY_SWAP_CELLS = 0x17,
-    EMBLEM_ENTRY_TOGGLED_BY_BUTTON = 0x18,
+    EMBLEM_ENTRY_TOGGLE_TARGET = 0x18,
     EMBLEM_ENTRY_CAMERA = 0x19,
     EMBLEM_ENTRY_CHOISES = 0x1a,
     EMBLEM_ENTRY_COLOR_FIRST = 0x1b,
     EMBLEM_ENTRY_TOGGLE_BUTTON = 0x2a,
 };
 
-// Calls of the callbacks that animate an emblem entry (LldEntry.mCallbackCallCount): the first phase (shrink) and the
-// second phase (grow, or hold) each take EMBLEM_BUTTON_PHASE_CALLS, together EMBLEM_BUTTON_BOUNCE_CALLS; the color
-// cursor grow runs the pending transition at EMBLEM_BUTTON_TRANSITION_CALL and ends after EMBLEM_BUTTON_FINISH_CALLS.
-// Each call of the shrink or grow changes the scale by EMBLEM_BUTTON_SCALE_STEP.
+// Calls of the entry callbacks (LldEntry.mCallbackCallCount): a shrink and a grow take EMBLEM_BUTTON_PHASE_CALLS each,
+// together EMBLEM_BUTTON_BOUNCE_CALLS; the color cursor callbacks wait through the half they do not animate, and the
+// button hold lasts EMBLEM_BUTTON_BOUNCE_CALLS. The bounce-then-wait callback runs the pending transition at
+// EMBLEM_BUTTON_TRANSITION_CALL and ends after EMBLEM_BUTTON_FINISH_CALLS; a shrink or grow call changes the scale by
+// EMBLEM_BUTTON_SCALE_STEP.
 #define EMBLEM_BUTTON_PHASE_CALLS 5
 #define EMBLEM_BUTTON_BOUNCE_CALLS 10
 #define EMBLEM_BUTTON_TRANSITION_CALL 11
@@ -305,13 +307,15 @@ enum {
 // button).
 #define EMBLEM_COLOR_COUNT 15
 
-// Entries of the template screen: the back button, then one entry per template from EMBLEM_TEMPLATE_ENTRY_FIRST on.
+// Entries of the template screen: the entry that leaves it (B activates it too), then one entry per template from / //
+// EMBLEM_TEMPLATE_ENTRY_FIRST on.
 enum {
     EMBLEM_TEMPLATE_ENTRY_BACK = 0,
     EMBLEM_TEMPLATE_ENTRY_FIRST = 3,
 };
 
-// Emblem.mCursorSizeIndex while the grid is pressed: no brush frame is shown.
+// Emblem.mCursorSizeIndex while the grid is pressed: no size index; the cursor frame is hidden and the brush frames are
+// left as they were.
 #define EMBLEM_BRUSH_NONE (-1)
 
 // The emblem editor cursor: its mode and size, the origin, the current and previous cell and the side.

@@ -34,13 +34,13 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/camera.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/Race/race.h"
 #include "Main/MapObjects/segment_curve.h"
@@ -139,12 +139,12 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
         gKuribo->mFrameIndex = kuribo->mFrameIndex;
     } else {
         scale.x = -scale.x;
-        gKuribo->mFrameIndex = kuribo->mFrameIndex - 0x14;
+        gKuribo->mFrameIndex = kuribo->mFrameIndex - KURIBO_WALK_HALF_FRAMES;
     }
     modelAlpha = kuribo->mModelAlpha;
     model = gKuribo;
-    model->mPolygonAttributes &= ~0x1f0000;
-    model->mPolygonAttributes |= modelAlpha << 16;
+    model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+    model->mPolygonAttributes |= modelAlpha << POLYGON_ATTR_ALPHA_SHIFT;
     DrawNsbmdModelWithMatrixAndMaxAlpha(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, maxAlpha);
 }
 
@@ -155,12 +155,14 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
     kuribo->mFrameIndex++;
     if (kuribo->mFrameIndex == KURIBO_WALK_HALF_FRAMES || kuribo->mFrameIndex == KURIBO_WALK_CYCLE_FRAMES) {
         if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (kuribo->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (kuribo->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             soundRequest.mSoundId = KURIBO_STEP_SOUND_ID;
             soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
@@ -174,8 +176,8 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
             kuribo->mFrameIndex = 0;
         } else {
             random = &gRaceProgress->mRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            kuribo->mFrameIndex = ((u64) (u32) (random->mValue >> 32) * 0x28) >> 32;
+            RANDOM_ADVANCE(random);
+            kuribo->mFrameIndex = RANDOM_BELOW_U64(random, KURIBO_WALK_CYCLE_FRAMES);
             kuribo->mFrameRandomized = 1;
         }
     }

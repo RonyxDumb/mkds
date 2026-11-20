@@ -15,7 +15,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "arena_cache_init.h"
@@ -25,7 +25,7 @@
 StateCallbacks gMPStateTable[MP_STATE_COUNT] = {{EnterMPFillOwnRecord, UpdateMPFillOwnRecord},
                                                 {NULL, UpdateMPWaitRomArchive},
                                                 {EnterMPLoadOverlay, UpdateMPLoadOverlay},
-                                                {EnterMPLoadDlArchives, UpdateMPLoadDlArchives},
+                                                {EnterMPLoadDlArchives, UpdateMPLoadDLArchives},
                                                 {EnterMPLoadSoundData, UpdateMPLoadSoundData},
                                                 {EnterMPSendParticipantMask, UpdateMPSendParticipantMask},
                                                 {NULL, UpdateMPSendGroupSendMask},
@@ -133,7 +133,7 @@ void ProcessMPChunk(u8 *chunk) {
             finished = 1;
             break;
         default:
-            MI_CpuCopy8(chunk + 4, entry->mName + byteOffset, *(u16 *) (chunk + 2));
+            MI_CpuCopy8(chunk + MP_CHUNK_HEADER_SIZE, entry->mName + byteOffset, *(u16 *) (chunk + 2));
             gConnectionWork->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
             if (IsAllMPChunksReceived(chunk[0]) != 0) {
                 finished = 1;

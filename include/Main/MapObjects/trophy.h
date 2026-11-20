@@ -28,8 +28,8 @@ extern struct Trophy *gTrophy;
 
 extern Vec3 gTrophyCameraPos;
 extern Vec3 gTrophyCameraUp;
-extern char *gTKinoNsbmdName[9];
-extern char *gTKinoNsbtpName[9];
+extern char *gTrophyModelNsbmdNames[9];
+extern char *gTrophyModelNsbtpNames[9];
 extern char gTrophyTKinoNsbmd[];
 extern char gTrophyTFlowNsbmd[];
 extern char gTrophyTStarNsbmd[];

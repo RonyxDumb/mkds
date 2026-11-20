@@ -16,8 +16,9 @@
 #include "friend_user_data.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/Menu/keyboard_buttons.h"
 
-u32 gSecondTotalLimitBase = 0xf4240;
+u32 gGhostFileRecordsResultTotalMax = 0xf4240;
 
 #pragma opt_loop_invariants off
 
@@ -52,7 +53,7 @@ void AddOtherKartCountToSecondTotal(void) {
     gWiFiSession->mKartCountCopy = gWiFiSession->mKartCount;
     firstBlock = gBackupBuffers->mFirstBlock;
     total = firstBlock->mTotals[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
-    limit = gSecondTotalLimitBase + 3;
+    limit = gGhostFileRecordsResultTotalMax + 3;
     if (total > limit) {
         total = limit;
     }
@@ -96,15 +97,15 @@ s32 CheckFriendKeyString(const void *keyString) {
 
     friendKey = DWC_StringToFriendKey(keyString);
     if (DWC_Acc_CheckFriendKey(friendKey, 0x414d434a) == 0) {
-        return 1;
+        return FRIEND_KEY_CHECK_INCORRECT;
     }
     if (friendKey == DWC_CreateFriendKey(&gBackupBuffers->mFirstBlock->mUserData)) {
-        return 1;
+        return FRIEND_KEY_CHECK_INCORRECT;
     }
     InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+    for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
         DWCAccFriendData *entry;
 
         GetBuddyRecord(buddyIndex, &buddyRecord);
@@ -117,7 +118,7 @@ s32 CheckFriendKeyString(const void *keyString) {
         }
     }
     if (foundIndex != -1) {
-        return 2;
+        return FRIEND_KEY_CHECK_ALREADY_REGISTERED;
     }
     return 0;
 }
@@ -130,7 +131,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
 
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+    for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
         DWCAccFriendData *entry;
 
         GetBuddyRecord(buddyIndex, &buddyRecord);
@@ -168,7 +169,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     month = today[1];
     day = today[2];
     entry = friendDataList;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++, entry++) {
+    for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++, entry++) {
         GetBuddyRecord((u8) buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && IsFriendDataTypeNonZeroWrapper(friendData) != 0 &&
             IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
@@ -184,7 +185,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         return -1;
     }
     if (slotIndex == -1) {
-        for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+        for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             if (buddyRecord.mFilled == 0) {
                 slotIndex = buddyIndex;
@@ -194,10 +195,10 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     }
     oldestIndex = -1;
     if (slotIndex == -1) {
-        oldestDate.mYear = BUDDY_RECORD_LATEST_YEAR;
-        oldestDate.mMonth = BUDDY_RECORD_LATEST_MONTH;
-        oldestDate.mDay = BUDDY_RECORD_LATEST_DAY;
-        for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+        oldestDate.mYear = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_YEAR;
+        oldestDate.mMonth = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_MONTH;
+        oldestDate.mDay = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_DAY;
+        for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;
             recordDate.mMonth = buddyRecord.mMonth;

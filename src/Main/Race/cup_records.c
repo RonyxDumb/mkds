@@ -2,6 +2,7 @@
 #include "Main/System/heap.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_setup_block.h"
+#include "Main/Race/race_goal_m.h"
 #include "touch_panel_sampling.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
@@ -10,7 +11,8 @@ void CreateCupRecords(void *heap) {
     gCupRecords = HeapAlloc(heap, sizeof(CupRecords));
 }
 
-// Zeroes the ten-byte records of the eight karts in the four courses and the team points and win counts.
+// Zeroes every kart's course result and each team's total points and win count in the four courses, zeroes mScore, and
+// sets mConnectionActive from whether a connection is active.
 void ResetCupRecords(void) {
     CupRecords *cupRecords;
     s32 course;
@@ -53,10 +55,12 @@ void ResetCupRecords(void) {
 }
 
 u8 GetCourseIndexInCup(void) {
-    return (gRaceSetup->mCourseNumber - 1) % 4;
+    return (gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP;
 }
 
-// Stores rank and points; the total adds the previous course's (max 9999), rank 1 raises the win count (max 99).
+// Stores rank and points; the total is the previous course's total plus the points (max 9999), and the win count is the
+// previous course's plus one for rank 1 (max 99). Battle, VS and WiFi take the fourth course as previous on the first
+// course; the other modes start from 0.
 void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     RaceSetup *raceSetup;
     s8 totalsCourse, winsCourse;
@@ -66,7 +70,7 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     KartCourseResult *record;
 
     raceSetup = gRaceSetup;
-    course = (raceSetup->mCourseNumber - 1) % 4;
+    course = (raceSetup->mCourseNumber - 1) % COURSES_PER_CUP;
     mode = raceSetup->mMode;
     previousCourse = (u8) course - 1;
     totalsCourse = previousCourse;
@@ -108,7 +112,7 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
 }
 
 void ClearKartCourseTotalPoints(u32 kart) {
-    GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % 4, kart)->mTotalPoints = 0;
+    GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP, kart)->mTotalPoints = 0;
 }
 
 void SetBattleKartCourseResult(u32 kart, s32 isAlive) {
@@ -119,7 +123,7 @@ void SetBattleKartCourseResult(u32 kart, s32 isAlive) {
     KartCourseResult *record;
 
     raceSetup = gRaceSetup;
-    course = (raceSetup->mCourseNumber - 1) % 4;
+    course = (raceSetup->mCourseNumber - 1) % COURSES_PER_CUP;
     mode = raceSetup->mMode;
     courseMinusOne = (u8) course - 1;
     previousCourse = courseMinusOne;
@@ -150,7 +154,7 @@ void SetKartCourseFinishTime(u32 kart, MinuteSecondMillisecondTime *finishTime) 
     KartCourseResult *record;
     MinuteSecondMillisecondTime *recordTime;
 
-    record = GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % 4, kart);
+    record = GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP, kart);
     recordTime = &record->mFinishTime;
     recordTime->mMinute = finishTime->mMinute;
     recordTime->mSecond = finishTime->mSecond;
@@ -168,26 +172,27 @@ void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u16 kart, 
     finishTime->mMillisecond = recordTime->mMillisecond;
 }
 
-void SetKartCupRank(s32 kart, u8 rank) {
-    GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % 4, kart)->mCupRank = rank;
+void SetKartCupRank(s32 kart, u8 cupRank) {
+    GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP, kart)->mCupRank = cupRank;
 }
 
 // Flags the team as winning this course and clears the flag of the other team.
 void SetCupWinningTeam(s32 team) {
     s32 otherTeam;
-    CourseTeamResult *winningTeams, *otherTeams;
+    CourseTeamResult *courseTeams, *teamsForClear;
 
     otherTeam = 0;
     if (team == 0) {
         otherTeam = 1;
     }
-    winningTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4)->mTeams;
-    winningTeams[team].mWinning = 1;
-    otherTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4)->mTeams;
-    otherTeams[otherTeam].mWinning = 0;
+    courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP)->mTeams;
+    courseTeams[team].mWinning = 1;
+    teamsForClear = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP)->mTeams;
+    teamsForClear[otherTeam].mWinning = 0;
 }
 
-// Stores each team's win count (the winning team gains one, max 99) and its karts' total points (max 9999).
+// Stores each team's win count (the previous course's, plus one for the winning team, max 99) and the sum of its karts'
+// total points in this course (max 9999).
 void SetTeamWinCountsAndPoints(s32 winningTeam) {
     s32 team;
     u16 kart, points;
@@ -198,9 +203,9 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
 
     for (team = 0; team < 2; team++) {
         points = 0;
-        courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4);
+        courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP);
         teamRecord = GetCupCourseTeamResult(courseTeams, team);
-        previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % 4) - 1;
+        previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP) - 1;
         if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
             if (previousCourse < 0) {
                 previousCourse = previousCourse + 4;
@@ -220,26 +225,27 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
         teamRecord->mWinCount = winCount;
         for (kart = 0; kart < (u32) gRaceSetup->mKartCount; kart++) {
             if (team == gRaceSetup->mCurrentEntries[kart].mPlayer.mTeamIndex) {
-                points =
-                    points + gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) (s32) (u8) kart]
-                                 .mTotalPoints;
+                points = points + gCupRecords
+                                      ->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP)]
+                                                    [(u8) (s32) (u8) kart]
+                                      .mTotalPoints;
             }
         }
-        if (points > 9999) {
-            points = 9999;
+        if (points > CUP_RECORD_TOTAL_POINTS_MAX) {
+            points = CUP_RECORD_TOTAL_POINTS_MAX;
         }
         teamRecord->mTotalPoints = points;
     }
 }
 
-// Zero outside Grand Prix, VS and mode 5.
+// The kart's mCupRank in this course in Grand Prix, VS and WiFi; zero in the other modes.
 s32 GetKartCupRank(u16 kart) {
     s32 mode;
     KartCourseResult *record;
 
     mode = gRaceSetup->mMode;
     if (mode == MODE_GRAND_PRIX || mode == MODE_VS || mode == MODE_WIFI) {
-        record = GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % 4, kart);
+        record = GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP, kart);
         return record->mCupRank;
     }
     return 0;
@@ -250,7 +256,7 @@ s32 GetCupWinningTeam(void) {
     CourseTeamResults *courseTeams;
 
     winningTeam = -1;
-    courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4);
+    courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP);
     for (team = 0; team < 2; team++) {
         if (GetCupCourseTeamResult(courseTeams, team)->mWinning) {
             winningTeam = team;
@@ -260,13 +266,13 @@ s32 GetCupWinningTeam(void) {
     return winningTeam;
 }
 
-// 0 for the first course; battle, VS and mode 5 wrap to the fourth course.
+// The previous course's total points; 0 on the first course, except that battle, VS and WiFi use the fourth course.
 u16 GetKartPreviousTotalPoints(u32 kart) {
     s32 mode;
     s8 previousCourse;
 
     mode = gRaceSetup->mMode;
-    previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % 4) - 1;
+    previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP) - 1;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == MODE_WIFI) {
         if (previousCourse < 0) {
             previousCourse = previousCourse + 4;
@@ -278,13 +284,13 @@ u16 GetKartPreviousTotalPoints(u32 kart) {
     return gCupRecords->mKartResults[previousCourse][(u8) kart].mTotalPoints;
 }
 
-// 0 for the first course; battle, VS and mode 5 wrap to the fourth course.
+// 0 on the first course, except battle, VS and Wi-Fi, which read the fourth course's result.
 u8 GetKartPreviousWinCount(u32 kart) {
     s32 mode;
     s8 previousCourse;
 
     mode = gRaceSetup->mMode;
-    previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % 4) - 1;
+    previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % COURSES_PER_CUP) - 1;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == MODE_WIFI) {
         if (previousCourse < 0) {
             previousCourse = previousCourse + 4;
@@ -296,7 +302,8 @@ u8 GetKartPreviousWinCount(u32 kart) {
     return gCupRecords->mKartResults[previousCourse][(u8) kart].mWinCount;
 }
 
-// The previous course's rank in Grand Prix, VS and mode 5 (VS and mode 5 wrap); else the kart count minus the index.
+// The previous course's rank in Grand Prix, VS and WiFi (VS and WiFi wrap to the fourth course); the kart count minus
+// the index in the other modes, on the first Grand Prix course, or when that rank is 0.
 u8 GetKartStartRank(u32 kart) {
     RaceSetup *raceSetup;
     s32 mode;
@@ -305,7 +312,7 @@ u8 GetKartStartRank(u32 kart) {
 
     raceSetup = gRaceSetup;
     mode = raceSetup->mMode;
-    previousCourse = (u8) ((raceSetup->mCourseNumber - 1) % 4) - 1;
+    previousCourse = (u8) ((raceSetup->mCourseNumber - 1) % COURSES_PER_CUP) - 1;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == MODE_WIFI) {
         if (previousCourse < 0) {
             previousCourse = previousCourse + 4;
@@ -339,7 +346,7 @@ s32 ComputeGrandPrixRecordValue(void) {
     entryIndex = raceSetup->mEntryIndex;
     score = cupRecords->mScore;
     entryKartIndex = (u8) entryIndex;
-    totalPoints = GetKartCourseResult((raceSetup->mCourseNumber - 1) % 4, entryKartIndex)->mTotalPoints;
+    totalPoints = GetKartCourseResult((raceSetup->mCourseNumber - 1) % COURSES_PER_CUP, entryKartIndex)->mTotalPoints;
     if (score >= 1000) {
         scoreBucket = 0;
     } else if (score >= 700) {
@@ -377,13 +384,13 @@ s32 ComputeMissionRecordValue(void) {
 
     score = gCupRecords->mScore;
     if (score >= 100) {
-        return 7;
+        return MISSION_RECORD_VALUE_BEST;
     }
     if (score >= 90) {
-        return 6;
+        return MISSION_RECORD_VALUE_SECOND_BEST;
     }
     if (score >= 70) {
-        return 5;
+        return MISSION_RECORD_VALUE_THIRD_BEST;
     }
     if (score >= 50) {
         return 4;

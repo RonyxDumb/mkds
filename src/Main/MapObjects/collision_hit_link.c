@@ -17,13 +17,13 @@
 #include "Main/MapObjects/bridge.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/koopa_block.h"
 
 const MapObjectList gKoopaBlockUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateKoopaBlock, NULL, 0, NULL, 0, NULL};
@@ -143,13 +143,13 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
              MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) != 0) {
             return;
         }
-        falloffIndex =
-            koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared
-                ? 2
-                : (koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared ==
-                           gSoundFalloffs[3].mFarDistanceSquared
-                       ? 3
-                       : 4);
+        falloffIndex = koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared ==
+                               gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared
+                           ? SOUND_FALLOFF_SHORT_RANGE
+                           : (koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared ==
+                                      gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared
+                                  ? SOUND_FALLOFF_MEDIUM_RANGE
+                                  : SOUND_FALLOFF_LONG_RANGE);
         soundRequest.mSoundId = KOOPA_BLOCK_SOUND_ID;
         soundRequest.mPositionSource = &koopaBlock->mCollisionMapObject.mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
@@ -183,7 +183,7 @@ void UpdateKoopaBlockAccelerate(void *stateObject) {
     KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower = &koopaBlock->mFollower;
     s32 progress = GetGroupFollowerProgress(follower);
-    s32 angle = (u16) (((s64) progress << 18) >> 12);
+    s32 angle = (u16) SHIFT_LEFT_FROM_FIXED12(progress, 18);
     s16 sine = FX_SinIdx(angle);
     s32 speed = MUL_FIXED12_NO_ROUND(sine, koopaBlock->mFollowSpeed);
     s32 inverseProgressLength;

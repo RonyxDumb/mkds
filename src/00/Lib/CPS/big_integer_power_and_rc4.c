@@ -29,37 +29,37 @@ void CPSi_big_mult_small(u16 *result, const u16 *value, u16 factor, s32 digitCou
 
 void CPSi_big_sqr(u16 *result, const u16 *value, s32 digitCount) {
     s32 valueDigits;
-    s32 outerIndex;
-    s32 innerIndex;
-    s32 resultIndex;
+    s32 i;
+    s32 j;
+    s32 k;
     u32 square;
     u32 product;
     valueDigits = count_digits(value, digitCount);
-    outerIndex = valueDigits * 2;
-    if (outerIndex < digitCount) {
-        MI_CpuFill8(result + outerIndex, 0, (digitCount - outerIndex) * 2);
+    i = valueDigits * 2;
+    if (i < digitCount) {
+        MI_CpuFill8(result + i, 0, (digitCount - i) * 2);
     }
-    for (resultIndex = 0; resultIndex < valueDigits; resultIndex++) {
-        innerIndex = resultIndex * 2;
-        if (innerIndex >= digitCount) {
+    for (k = 0; k < valueDigits; k++) {
+        j = k * 2;
+        if (j >= digitCount) {
             break;
         }
-        square = value[resultIndex] * value[resultIndex];
-        result[innerIndex] = square;
-        if (innerIndex == digitCount - 1) {
+        square = value[k] * value[k];
+        result[j] = square;
+        if (j == digitCount - 1) {
             break;
         }
-        result[innerIndex + 1] = square >> 16;
+        result[j + 1] = square >> 16;
     }
-    for (outerIndex = 0; outerIndex < valueDigits; outerIndex++) {
-        for (innerIndex = outerIndex + 1;
-             innerIndex < valueDigits && (resultIndex = outerIndex + innerIndex) < digitCount; innerIndex++) {
-            product = value[innerIndex] * value[outerIndex];
+    for (i = 0; i < valueDigits; i++) {
+        for (j = i + 1;
+             j < valueDigits && (k = i + j) < digitCount; j++) {
+            product = value[j] * value[i];
             if (product <= 0x7fff8000) {
-                CPSi_big_add_part(result, product * 2, resultIndex, digitCount);
+                CPSi_big_add_part(result, product * 2, k, digitCount);
             } else {
-                CPSi_big_add_part(result, product, resultIndex, digitCount);
-                CPSi_big_add_part(result, product, resultIndex, digitCount);
+                CPSi_big_add_part(result, product, k, digitCount);
+                CPSi_big_add_part(result, product, k, digitCount);
             }
         }
     }
@@ -164,7 +164,7 @@ void CPSi_big_power(u16 *result, u16 *base, u16 *exponent, s32 digitCount, u16 *
 
 void CPSi_big_modinv(u16 *inverse, u16 *value, u16 *modulus, s32 digitCount, u16 *work) {
     u16 *quotientBlock;
-    u16 *remainderBlock;
+    u16 *previousRemainderBlock;
     u16 *coefficientBlock;
     u16 *previousCoefficientBlock;
     u16 *tempBlock;
@@ -172,17 +172,17 @@ void CPSi_big_modinv(u16 *inverse, u16 *value, u16 *modulus, s32 digitCount, u16
     s32 byteCount;
     byteCount = digitCount * 2;
     quotientBlock = work + digitCount;
-    remainderBlock = quotientBlock + digitCount;
-    coefficientBlock = remainderBlock + digitCount;
+    previousRemainderBlock = quotientBlock + digitCount;
+    coefficientBlock = previousRemainderBlock + digitCount;
     previousCoefficientBlock = coefficientBlock + digitCount;
     tempBlock = previousCoefficientBlock + digitCount;
     divisionWork = tempBlock + digitCount;
     MI_CpuCopy8(value, work, byteCount);
-    MI_CpuCopy8(modulus, remainderBlock, byteCount);
-    remainderBlock[digitCount] = 1;
+    MI_CpuCopy8(modulus, previousRemainderBlock, byteCount);
+    previousRemainderBlock[digitCount] = 1;
     while (CPSi_big_sign(work, digitCount) > 0) {
-        CPSi_big_div(quotientBlock, remainderBlock, work, tempBlock, digitCount, divisionWork);
-        MI_CpuCopy8(work, remainderBlock, byteCount);
+        CPSi_big_div(quotientBlock, previousRemainderBlock, work, tempBlock, digitCount, divisionWork);
+        MI_CpuCopy8(work, previousRemainderBlock, byteCount);
         MI_CpuCopy8(tempBlock, work, byteCount);
         CPSi_big_mult(tempBlock, quotientBlock, coefficientBlock, digitCount);
         CPSi_big_sub(tempBlock, previousCoefficientBlock, tempBlock, digitCount);
@@ -234,12 +234,12 @@ void CPSi_big_montpower(u16 *result, u16 *base, u16 *exponent, s32 digitCount, u
     u16 *accumulatorCopy;
     u16 *divisionWork;
     s32 modulusDigits;
-    s32 count;
+    s32 bitIndex;
     u32 exponentBitCount;
-    count = digitCount * 0x16;
-    workBlock = (u16 *) CPSiAlloc(count);
+    bitIndex = digitCount * 0x16;
+    workBlock = (u16 *) CPSiAlloc(bitIndex);
     if (workBlock != NULL) {
-        MI_CpuFill8(workBlock, 0, count);
+        MI_CpuFill8(workBlock, 0, bitIndex);
         primeBlock = workBlock + digitCount;
         baseMontBlock = primeBlock + digitCount;
         reduceFactorBlock = baseMontBlock + digitCount;
@@ -255,12 +255,12 @@ void CPSi_big_montpower(u16 *result, u16 *base, u16 *exponent, s32 digitCount, u
         CPSi_big_mult(baseMontBlock, base, workBlock, digitCount);
         CPSi_big_div(NULL, baseMontBlock, modulus, baseMontBlock, digitCount, divisionWork);
         CPSi_big_div(NULL, workBlock, modulus, result, digitCount, divisionWork);
-        count = 0;
+        bitIndex = 0;
         exponentBitCount = modulusDigits << 4;
-        for (; count < exponentBitCount; count++) {
+        for (; bitIndex < exponentBitCount; bitIndex++) {
             CPSi_big_montmult(result, accumulatorCopy, (u16 *) 1, digitCount, modulusDigits, modulus, primeBlock,
                               reduceFactorBlock, reduceProductBlock);
-            if (((0x8000u >> (count & 0xf)) & exponent[modulusDigits - (count >> 4) - 1]) != 0) {
+            if (((0x8000u >> (bitIndex & 0xf)) & exponent[modulusDigits - (bitIndex >> 4) - 1]) != 0) {
                 CPSi_big_montmult(result, accumulatorCopy, baseMontBlock, digitCount, modulusDigits, modulus,
                                   primeBlock, reduceFactorBlock, reduceProductBlock);
             }

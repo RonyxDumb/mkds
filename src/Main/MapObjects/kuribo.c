@@ -27,13 +27,13 @@
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "ITCM/sphere_collision.h"
 #include "Main/MapObjects/group_follower_advance.h"
@@ -48,8 +48,8 @@ StateCallbacks gKuriboStateTable[6] = {{EnterKuriboWalkPath, UpdateKuriboWalkPat
                                        {EnterKuriboFlatWait, UpdateKuriboFlatWait},
                                        {EnterKuriboSpringBack, UpdateKuriboSpringBack}};
 
-const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
-const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
+const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, FIXED12_UNIT}};
+const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, FIXED12_UNIT}};
 
 void EnterKuriboWalkPath(void *stateObject) {
     Kuribo *kuribo = stateObject;
@@ -100,7 +100,7 @@ void UpdateKuriboFallToSurface(void *stateObject) {
             kuribo->mToggleCountdown--;
             if (kuribo->mToggleCountdown < 0) {
                 kuribo->mToggleCountdown = KURIBO_TOGGLE_COUNTDOWN_START;
-                kuribo->mToggleState = kuribo->mToggleState == 0;
+                kuribo->mUnk_104 = kuribo->mUnk_104 == 0;
             }
         }
     }
@@ -112,9 +112,9 @@ void UpdateKuriboFallToSurface(void *stateObject) {
                                 NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&kuribo->mMapObject.mPos, &correction, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPosStep.y = 0;
-        if ((surfaceFlags & 0x1e34ef) != 0) {
+        if ((surfaceFlags & COURSE_HIT_GROUND) != 0) {
             QuaternionFromYAxisToVec3(&surfaceNormal, &kuribo->mTargetOrientation);
-            kuribo->mMapObject.mFlags &= ~1;
+            kuribo->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         }
     }
     QuaternionBlendTowardNearerSign(&kuribo->mOrientation, &kuribo->mTargetOrientation, &kuribo->mOrientation,
@@ -132,7 +132,7 @@ void EnterKuriboStretch(void *stateObject) {
 void UpdateKuriboStretch(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
-    if (kuribo->mScaleFactorY > KURIBO_STRETCH_SCALE_Y_MAX) {
+    if (kuribo->mScaleFactorY > KURIBO_STRETCH_SCALE_Y_LIMIT) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SHRINK;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -143,7 +143,7 @@ void EnterKuriboShrink(void *stateObject) {}
 void UpdateKuriboShrink(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, KURIBO_SCALE_SHRINK_FACTOR);
-    if (kuribo->mScaleFactorY < KURIBO_SHRINK_SCALE_Y_MIN) {
+    if (kuribo->mScaleFactorY < KURIBO_SHRINK_SCALE_Y_LIMIT) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_FLAT_WAIT;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -171,12 +171,13 @@ void EnterKuriboSpringBack(void *stateObject) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
     if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-        if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-            falloffIndex = 2;
-        } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-            falloffIndex = 3;
+        if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+        } else if (kuribo->mMapObject.mFarDistanceSquared ==
+                   gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+            falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
         } else {
-            falloffIndex = 4;
+            falloffIndex = SOUND_FALLOFF_LONG_RANGE;
         }
         soundRequest.mSoundId = KURIBO_SPRING_BACK_SOUND_ID;
         soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
@@ -184,7 +185,7 @@ void EnterKuriboSpringBack(void *stateObject) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);
         StartSoundFromParams(&soundRequest);
     }
-    kuribo->mMapObject.mFlags &= ~1;
+    kuribo->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     kuribo->mScaleFactorYSpeed = 0;
 }
 

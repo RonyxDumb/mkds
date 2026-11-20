@@ -1,7 +1,7 @@
 #include "Main/Menu/logo_backup_read_and_reset.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Save/backup_reset.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/txt_system.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
@@ -25,7 +25,7 @@ void UpdateLogoWaitBackupRead(void *stateObject) {
         return;
     }
     readStatus = gBackupBuffers->mReadStatus;
-    if (readStatus != 0) {
+    if (readStatus != BACKUP_READ_STATUS_OK) {
         if (readStatus == BACKUP_READ_STATUS_BLOCKS_FAILED) {
             gLogoScene->mUnk_2c_1 = 1;
             stateMachine = &gLogoScene->mStateMachine;
@@ -122,7 +122,7 @@ void EnterLogoResetFailedBlocksDone(void *stateObject) {
 void UpdateLogoResetFailedBlocksDone(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
-        SetTxtSystemOpenSoundId(35);
+        SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
         RequestTxtSystemClose();
         return;
     }
@@ -139,7 +139,7 @@ void EnterLogoAskResetBackup(void *stateObject) {
     void *message;
     void *firstButtonMessage;
     void *secondButtonMessage;
-    commonMessages = FindFileInLoadedArchives(gLogoCommonBmgFileName);
+    commonMessages = FindFileInLoadedArchives(gLogoAskResetBackupCommonBmgFileName);
     message = GetBmgEntry(commonMessages, 124);
     firstButtonMessage = GetBmgEntry(commonMessages, 0);
     secondButtonMessage = GetBmgEntry(commonMessages, 1);
@@ -235,7 +235,7 @@ void EnterLogoResetBackupDone(void *stateObject) {
 void UpdateLogoResetBackupDone(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
-        SetTxtSystemOpenSoundId(35);
+        SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
         RequestTxtSystemClose();
         return;
     }

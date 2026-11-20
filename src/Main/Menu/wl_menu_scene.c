@@ -70,14 +70,14 @@ void InitWLMenuScene(void *heap) {
         sceneTextInitParams.mUseSelectChoises = 0;
         sceneTextInitParams.mSelectChoisesFont = NULL;
         sceneTextInitParams.mUseSelectReturn = 1;
-        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == 0;
+        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == WL_MENU_KIND_MEMBER_GROUP;
         sceneTextInitParams.mBackScreenKind = 0;
-        LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+        LoadTxtSystemAndSelectFiles();
         InitSceneText(heap, &sceneTextInitParams);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (GetWLMenuKind()) {
-        case WL_MENU_KIND_JOIN_GROUP:
+        case WL_MENU_KIND_MEMBER_GROUP:
             gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0
                                                          ? WL_MENU_CALLBACKS_MB_CHILD_MESSAGE
                                                          : WL_MENU_CALLBACKS_MEMBER_GROUP;
@@ -86,7 +86,7 @@ void InitWLMenuScene(void *heap) {
             break;
         case WL_MENU_KIND_TO_RACE:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RACE;
-            InitWLMenuRequestMPWaitRaceArchives(heap);
+            InitWLMenuRequestMPWaitRaceArchivesForNextRace(heap);
             break;
         case WL_MENU_KIND_TO_RESULT:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RESULT;
@@ -132,10 +132,6 @@ void AdvanceWLMenuScene(void *sceneNumbers) {
         AdvanceSceneText();
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void ReleaseWLMenuScene(void) {
     int isMultiBootChild;

@@ -38,7 +38,7 @@ void InitWiFiVSCourseSelectState(void *heap) {
     firstOamList = GetWiFiMenuMainOamList();
     secondOamList = GetWiFiMenuSubOamList();
     InitWiFiVSCourseSelect(heap, firstOamList, secondOamList);
-    SetLinkLevelIconEnabled(1, 1);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 1);
 }
 
 void ReleaseWiFiVSCourseSelectState(void) {
@@ -67,7 +67,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
             gMenuShared->mOtherKartCountAdded = TRUE;
         }
         CopyRaceSetupCopyToEntries();
-        SetWiFiNextScene(2);
+        SetWiFiNextScene(SCENE_RACE);
         PackWiFiSessionIndicesWrapper();
     }
 }

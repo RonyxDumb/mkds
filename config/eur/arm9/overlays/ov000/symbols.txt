@@ -32,9 +32,9 @@ AdvanceWiFiLoginMenuErrorMessages kind:function(thumb,size=0xc4) addr:0x02180d94
 AdvanceWiFiLoginMenuWaitLogin kind:function(thumb,size=0x128) addr:0x02180e58
 AdvanceWiFiLoginMenuAskLogin kind:function(thumb,size=0x7c) addr:0x02180f80
 AdvanceWiFiLoginMenuShowLoggedIn kind:function(thumb,size=0xe0) addr:0x02180ffc
-AdvanceWiFiLoginMenuConfirmSetup kind:function(thumb,size=0x110) addr:0x021810dc
-AdvanceWiFiLoginMenuAskSetup kind:function(thumb,size=0x108) addr:0x021811ec
-AdvanceWiFiLoginMenuSetupNotice kind:function(thumb,size=0x58) addr:0x021812f4
+AdvanceWiFiLoginMenuInvalidConsoleConfirm kind:function(thumb,size=0x110) addr:0x021810dc
+AdvanceWiFiLoginMenuInvalidConsoleAsk kind:function(thumb,size=0x108) addr:0x021811ec
+AdvanceWiFiLoginMenuInvalidConsoleNotice kind:function(thumb,size=0x58) addr:0x021812f4
 AdvanceWiFiLoginMenuAskLoginAfterInfo kind:function(thumb,size=0x10c) addr:0x0218134c
 AdvanceWiFiLoginMenuStart kind:function(thumb,size=0xc4) addr:0x02181458
 LookupWiFiLoginErrorMessageIndex kind:function(thumb,size=0x158) addr:0x0218151c
@@ -53,7 +53,7 @@ AdvanceWiFiTopMenuWaitNextScene kind:function(thumb,size=0x3c) addr:0x02181904
 AdvanceWiFiTopMenuWaitChoice kind:function(thumb,size=0x4c) addr:0x02181940
 AdvanceWiFiTopMenuSlideOut kind:function(thumb,size=0x12c) addr:0x0218198c
 AdvanceWiFiTopMenuPressItem kind:function(thumb,size=0x94) addr:0x02181ab8
-AdvanceWiFiTopMenuBrowse kind:function(thumb,size=0x1d4) addr:0x02181b4c
+AdvanceWiFiTopMenuWaitInput kind:function(thumb,size=0x1d4) addr:0x02181b4c
 AdvanceWiFiTopMenuWaitReturnButton kind:function(thumb,size=0x24) addr:0x02181d20
 AdvanceWiFiTopMenuSlideIn kind:function(thumb,size=0x8c) addr:0x02181d44
 AdvanceWiFiTopMenuWaitFade kind:function(thumb,size=0x20) addr:0x02181dd0
@@ -68,7 +68,7 @@ AdvanceWiFiVSSettingIndexTimers kind:function(thumb,size=0x90) addr:0x02182150
 UpdateWiFiVSSettingHighlight kind:function(thumb,size=0x90) addr:0x021821e0
 UpdateWiFiVSSettingOffsets kind:function(thumb,size=0x140) addr:0x02182270
 AdvanceWiFiVSSettingWaitDisconnectedText kind:function(thumb,size=0x34) addr:0x021823b0
-AdvanceWiFiVSSettingWaitDisconnectText kind:function(thumb,size=0x90) addr:0x021823e4
+AdvanceWiFiVSSettingWaitDisconnectingText kind:function(thumb,size=0x90) addr:0x021823e4
 AdvanceWiFiVSSettingWaitDisconnectAnswer kind:function(thumb,size=0x74) addr:0x02182474
 AdvanceWiFiVSSettingWaitNoBuddySettingText kind:function(thumb,size=0xd0) addr:0x021824e8
 AdvanceWiFiVSSettingWaitNoBuddyListText kind:function(thumb,size=0xd0) addr:0x021825b8
@@ -96,8 +96,8 @@ AdvanceWiFiVSMatchingWaitNoOpponentsBack kind:function(thumb,size=0xc4) addr:0x0
 AdvanceWiFiVSMatchingWaitResultShown kind:function(thumb,size=0x64) addr:0x021837b8
 AdvanceWiFiVSMatchingPauseBetweenOthers kind:function(thumb,size=0x3c) addr:0x0218381c
 AdvanceWiFiVSMatchingScaleInOther kind:function(thumb,size=0x178) addr:0x02183858
-AdvanceWiFiVSMatchingWaitPlayerListText kind:function(thumb,size=0x3c) addr:0x021839d0
-AdvanceWiFiVSMatchingEmblemScaleIn kind:function(thumb,size=0x174) addr:0x02183a0c
+AdvanceWiFiVSMatchingPauseBeforeOthers kind:function(thumb,size=0x3c) addr:0x021839d0
+AdvanceWiFiVSMatchingEmblemShrink kind:function(thumb,size=0x174) addr:0x02183a0c
 AdvanceWiFiVSMatchingWaitMatching kind:function(thumb,size=0x49c) addr:0x02183b80
 AdvanceWiFiVSMatchingSlideIn kind:function(thumb,size=0xac) addr:0x0218401c
 PrintWiFiVSMatchingNoOpponents kind:function(thumb,size=0x68) addr:0x021840c8
@@ -238,7 +238,7 @@ GetConnectType kind:function(thumb,size=0x150) addr:0x02188ee0
 ConnectAP kind:function(thumb,size=0x104) addr:0x02189030
 ConnectStart kind:function(thumb,size=0xf8) addr:0x02189134
 DWCi_AC_ConnectAP kind:function(thumb,size=0x2e) addr:0x0218922c
-CloseAutoConnectSocket kind:function(thumb,size=0x24) addr:0x0218925c
+CleanupSocketApi kind:function(thumb,size=0x24) addr:0x0218925c
 DisConnectAP kind:function(thumb,size=0x72) addr:0x02189280
 DWCi_AC_CloseNetwork kind:function(thumb,size=0x5c) addr:0x021892f4
 GetNotFoundInet kind:function(thumb,size=0xd0) addr:0x02189350
@@ -338,11 +338,11 @@ SBServerHasPrivateAddress kind:function(thumb,size=0x12) addr:0x0218b248
 SBServerGetPublicQueryPortNBO kind:function(thumb,size=0x4) addr:0x0218b25c
 SBServerGetPublicQueryPort kind:function(thumb,size=0x1c) addr:0x0218b260
 SBServerGetPublicInetAddress kind:function(thumb,size=0x4) addr:0x0218b27c
-SbServerGetDouble kind:function(thumb,size=0x26) addr:0x0218b280
-SbServerGetInt kind:function(thumb,size=0x64) addr:0x0218b2a8
-SbServerGetValue kind:function(thumb,size=0x4c) addr:0x0218b30c
-SbServerSetInt kind:function(thumb,size=0x28) addr:0x0218b358
-SbServerSetValue kind:function(thumb,size=0x2a) addr:0x0218b380
+SBServerGetFloatValueA kind:function(thumb,size=0x26) addr:0x0218b280
+SBServerGetIntValueA kind:function(thumb,size=0x64) addr:0x0218b2a8
+SBServerGetStringValueA kind:function(thumb,size=0x4c) addr:0x0218b30c
+SBServerAddIntKeyValue kind:function(thumb,size=0x28) addr:0x0218b358
+SBServerAddKeyValue kind:function(thumb,size=0x2a) addr:0x0218b380
 SBServerFree kind:function(thumb,size=0x1a) addr:0x0218b3ac
 SBRefStrHashCleanup kind:function(thumb,size=0x2c) addr:0x0218b3c8
 SBRefStrHash kind:function(thumb,size=0x40) addr:0x0218b3f4
@@ -399,7 +399,7 @@ BufferAddNTS kind:function(thumb,size=0x3c) addr:0x0218cdd8
 ServerListConnect kind:function(thumb,size=0xe0) addr:0x0218ce14
 StringHash kind:function(thumb,size=0x3c) addr:0x0218cef4
 ErrorDisconnect kind:function(thumb,size=0x88) addr:0x0218cf30
-SbServerListInit kind:function(thumb,size=0x110) addr:0x0218cfb8
+SBServerListInit kind:function(thumb,size=0x110) addr:0x0218cfb8
 NTSLengthSB kind:function(thumb,size=0x1c) addr:0x0218d0c8
 SBReleaseStr kind:function(thumb,size=0x50) addr:0x0218d0e4
 SBRefStr kind:function(thumb,size=0x4a) addr:0x0218d134
@@ -423,33 +423,33 @@ HandlePacket kind:function(thumb,size=0xa0) addr:0x0218d644
 GSIStartAvailableCheckA kind:function(thumb,size=0xa4) addr:0x0218d6e4
 AvailableSendPacket kind:function(thumb,size=0x34) addr:0x0218d788
 get_sockaddrin kind:function(thumb,size=0x5c) addr:0x0218d7bc
-DarraySearchSorted kind:function(thumb,size=0x54) addr:0x0218d818
-DarraySearchLinear kind:function(thumb,size=0x46) addr:0x0218d86c
-DarrayRemoveAll kind:function(thumb,size=0x26) addr:0x0218d8b4
-DarrayFindByFnReverse kind:function(thumb,size=0x5c) addr:0x0218d8dc
-DarrayForEachReverse kind:function(thumb,size=0x48) addr:0x0218d938
-DarrayFindIndex kind:function(thumb,size=0x82) addr:0x0218d980
-DarraySort kind:function(thumb,size=0x18) addr:0x0218da04
-DarrayReplace kind:function(thumb,size=0x40) addr:0x0218da1c
-DarrayRemove kind:function(thumb,size=0x40) addr:0x0218da5c
-DarrayRemoveWithoutCallback kind:function(thumb,size=0x5c) addr:0x0218da9c
-DarrayInsertSorted kind:function(thumb,size=0x50) addr:0x0218daf8
-DarrayInsert kind:function(thumb,size=0x78) addr:0x0218db48
-DarrayAppend kind:function(thumb,size=0x38) addr:0x0218dbc0
-DarrayGetElement kind:function(thumb,size=0x4c) addr:0x0218dbf8
-DarrayGetCount kind:function(thumb,size=0x4) addr:0x0218dc44
-DarrayDelete kind:function(thumb,size=0x4c) addr:0x0218dc48
-DarrayCreate kind:function(thumb,size=0x84) addr:0x0218dc94
-DarraySetElement kind:function(thumb,size=0x1e) addr:0x0218dd18
-DarrayGrow kind:function(thumb,size=0x3c) addr:0x0218dd38
-DarrayCallElemCallback kind:function(thumb,size=0x18) addr:0x0218dd74
-HashtableFindByFn kind:function(thumb,size=0x50) addr:0x0218dd8c
-HashtableForEach kind:function(thumb,size=0x4c) addr:0x0218dddc
-HashtableFind kind:function(thumb,size=0x64) addr:0x0218de28
-HashtableRemove kind:function(thumb,size=0x64) addr:0x0218de8c
-HashtableSet kind:function(thumb,size=0x6c) addr:0x0218def0
-HashtableGetCount kind:function(thumb,size=0x58) addr:0x0218df5c
-HashtableDelete kind:function(thumb,size=0x50) addr:0x0218dfb4
+mybsearch kind:function(thumb,size=0x54) addr:0x0218d818
+mylsearch kind:function(thumb,size=0x46) addr:0x0218d86c
+ArrayClear kind:function(thumb,size=0x26) addr:0x0218d8b4
+ArrayMapBackwards2 kind:function(thumb,size=0x5c) addr:0x0218d8dc
+ArrayMapBackwards kind:function(thumb,size=0x48) addr:0x0218d938
+ArraySearch kind:function(thumb,size=0x82) addr:0x0218d980
+ArraySort kind:function(thumb,size=0x18) addr:0x0218da04
+ArrayReplaceAt kind:function(thumb,size=0x40) addr:0x0218da1c
+ArrayDeleteAt kind:function(thumb,size=0x40) addr:0x0218da5c
+ArrayRemoveAt kind:function(thumb,size=0x5c) addr:0x0218da9c
+ArrayInsertSorted kind:function(thumb,size=0x50) addr:0x0218daf8
+ArrayInsertAt kind:function(thumb,size=0x78) addr:0x0218db48
+ArrayAppend kind:function(thumb,size=0x38) addr:0x0218dbc0
+ArrayNth kind:function(thumb,size=0x4c) addr:0x0218dbf8
+ArrayLength kind:function(thumb,size=0x4) addr:0x0218dc44
+ArrayFree kind:function(thumb,size=0x4c) addr:0x0218dc48
+ArrayNew kind:function(thumb,size=0x84) addr:0x0218dc94
+SetElement kind:function(thumb,size=0x1e) addr:0x0218dd18
+ArrayGrow kind:function(thumb,size=0x3c) addr:0x0218dd38
+FreeElement kind:function(thumb,size=0x18) addr:0x0218dd74
+TableMapSafe2 kind:function(thumb,size=0x50) addr:0x0218dd8c
+TableMapSafe kind:function(thumb,size=0x4c) addr:0x0218dddc
+TableLookup kind:function(thumb,size=0x64) addr:0x0218de28
+TableRemove kind:function(thumb,size=0x64) addr:0x0218de8c
+TableEnter kind:function(thumb,size=0x6c) addr:0x0218def0
+TableCount kind:function(thumb,size=0x58) addr:0x0218df5c
+TableFree kind:function(thumb,size=0x50) addr:0x0218dfb4
 HashtableCreate kind:function(thumb,size=0xdc) addr:0x0218e004
 TableNew kind:function(thumb,size=0x1c) addr:0x0218e0e0
 MD5Digest kind:function(thumb,size=0x32) addr:0x0218e0fc
@@ -460,7 +460,7 @@ Util_RandInt kind:function(thumb,size=0x20) addr:0x0218e284
 Util_RandSeed kind:function(thumb,size=0x1c) addr:0x0218e2a4
 longrand kind:function(thumb,size=0x1c) addr:0x0218e2c0
 nextlongrand kind:function(thumb,size=0x44) addr:0x0218e2dc
-GetUnixTime kind:function(thumb,size=0x48) addr:0x0218e320
+GetTickSeconds kind:function(thumb,size=0x48) addr:0x0218e320
 GOAGetLastError kind:function(thumb,size=0xc) addr:0x0218e368
 inet_addr kind:function(thumb,size=0x20) addr:0x0218e374
 getsockname kind:function(thumb,size=0x24) addr:0x0218e394
@@ -493,34 +493,34 @@ goastrdup kind:function(thumb,size=0x34) addr:0x0218e880
 SocketShutDown kind:function(thumb,size=0x2) addr:0x0218e8b4
 SocketStartUp kind:function(thumb,size=0x2) addr:0x0218e8b8
 msleep kind:function(thumb,size=0x8) addr:0x0218e8bc
-GetElapsedMilliseconds kind:function(thumb,size=0x44) addr:0x0218e8c4
-GpSendMessage kind:function(thumb,size=0x6c) addr:0x0218e908
-GpSetStatus kind:function(thumb,size=0x1d0) addr:0x0218e974
+current_time kind:function(thumb,size=0x44) addr:0x0218e8c4
+gpSendBuddyMessageA kind:function(thumb,size=0x6c) addr:0x0218e908
+gpSetStatusA kind:function(thumb,size=0x1d0) addr:0x0218e974
 GpDeleteBuddy kind:function(thumb,size=0x58) addr:0x0218eb44
-GpIsBuddy kind:function(thumb,size=0x4c) addr:0x0218eb9c
-GpGetBuddyIndex kind:function(thumb,size=0x5c) addr:0x0218ebe8
-GpGetBuddyStatus kind:function(thumb,size=0x100) addr:0x0218ec44
-GpGetBuddyCount kind:function(thumb,size=0x30) addr:0x0218ed44
+gpIsBuddy kind:function(thumb,size=0x4c) addr:0x0218eb9c
+gpGetBuddyIndex kind:function(thumb,size=0x5c) addr:0x0218ebe8
+gpGetBuddyStatus kind:function(thumb,size=0x100) addr:0x0218ec44
+gpGetNumBuddies kind:function(thumb,size=0x30) addr:0x0218ed44
 GpDenyBuddyRequest kind:function(thumb,size=0xa8) addr:0x0218ed74
 GpAuthBuddyRequest kind:function(thumb,size=0x54) addr:0x0218ee1c
-GpWriteAddbuddy kind:function(thumb,size=0x138) addr:0x0218ee70
+gpSendBuddyRequestA kind:function(thumb,size=0x138) addr:0x0218ee70
 GpSetInfosA kind:function(thumb,size=0x50) addr:0x0218efa8
 GpGetInfo kind:function(thumb,size=0xb0) addr:0x0218eff8
 GpProfileSearchA kind:function(thumb,size=0x88) addr:0x0218f0a8
-GpDisconnect kind:function(thumb,size=0x2c) addr:0x0218f130
+gpDisconnect kind:function(thumb,size=0x2c) addr:0x0218f130
 GpConnectPreAuthenticatedA kind:function(thumb,size=0xc0) addr:0x0218f15c
 GpSetCallback kind:function(thumb,size=0x4c) addr:0x0218f21c
-GpUpdate kind:function(thumb,size=0x38) addr:0x0218f268
+gpProcess kind:function(thumb,size=0x38) addr:0x0218f268
 GpDestroy kind:function(thumb,size=0x18) addr:0x0218f2a0
-GpInitialize kind:function(thumb,size=0x30) addr:0x0218f2b8
-GpiUpdateConnection kind:function(thumb,size=0x120) addr:0x0218f2e8
+gpInitialize kind:function(thumb,size=0x30) addr:0x0218f2b8
+gpiProcess kind:function(thumb,size=0x120) addr:0x0218f2e8
 gpiProcessConnectionManager kind:function(thumb,size=0x24c) addr:0x0218f408
-GpiResetConnection kind:function(thumb,size=0x1a4) addr:0x0218f654
+gpiReset kind:function(thumb,size=0x1a4) addr:0x0218f654
 gpiResetProfile kind:function(thumb,size=0xe) addr:0x0218f7f8
 gpiDestroy kind:function(thumb,size=0x40) addr:0x0218f808
-GpiInitialize kind:function(thumb,size=0x118) addr:0x0218f848
-GpiWriteDelbuddyAndRemoveBuddy kind:function(thumb,size=0x138) addr:0x0218f960
-GpiDecrementBuddyIndexAbove kind:function(thumb,size=0x14) addr:0x0218fa98
+gpiInitialize kind:function(thumb,size=0x118) addr:0x0218f848
+gpiDeleteBuddy kind:function(thumb,size=0x138) addr:0x0218f960
+gpiFixBuddyIndices kind:function(thumb,size=0x14) addr:0x0218fa98
 gpiAuthBuddyRequest kind:function(thumb,size=0x90) addr:0x0218faac
 gpiSendBuddyMessage kind:function(thumb,size=0xa2) addr:0x0218fb3c
 gpiSendServerBuddyMessage kind:function(thumb,size=0xc8) addr:0x0218fbe0
@@ -528,28 +528,28 @@ gpiProcessRecvBuddyMessage kind:function(thumb,size=0x8a0) addr:0x0218fca8
 gpiSendAuthBuddyRequest kind:function(thumb,size=0x8c) addr:0x02190548
 gpiClipBufferToPosition kind:function(thumb,size=0x42) addr:0x021905d4
 gpiReadMessageFromBuffer kind:function(thumb,size=0xcc) addr:0x02190618
-GpiSendBuffer kind:function(thumb,size=0x104) addr:0x021906e4
-GpiReceiveBuffer kind:function(thumb,size=0x180) addr:0x021907e8
-GpiPeerSendString kind:function(thumb,size=0x20) addr:0x02190968
-GpiPeerSendBytes kind:function(thumb,size=0x9c) addr:0x02190988
-GpiPeerSendByte kind:function(thumb,size=0x84) addr:0x02190a24
-GpiSendBytes kind:function(thumb,size=0xb0) addr:0x02190aa8
-GpiAppendBufferNumber kind:function(thumb,size=0x28) addr:0x02190b58
-GpiAppendBufferString kind:function(thumb,size=0x20) addr:0x02190b80
-GpiAppendBufferBytes kind:function(thumb,size=0xc4) addr:0x02190ba0
-GpiAppendBufferByte kind:function(thumb,size=0x70) addr:0x02190c64
-GpiCallQueuedCallbacks kind:function(thumb,size=0xcc) addr:0x02190cd4
-GpiCallAndFreeCallback kind:function(thumb,size=0x134) addr:0x02190da0
-GpiQueueCallback kind:function(thumb,size=0x78) addr:0x02190ed4
-GpiQueueErrorCallback kind:function(thumb,size=0xac) addr:0x02190f4c
-GpiCloseConnection kind:function(thumb,size=0x188) addr:0x02190ff8
+gpiSendFromBuffer kind:function(thumb,size=0x104) addr:0x021906e4
+gpiRecvToBuffer kind:function(thumb,size=0x180) addr:0x021907e8
+gpiSendOrBufferString kind:function(thumb,size=0x20) addr:0x02190968
+gpiSendOrBufferStringLen kind:function(thumb,size=0x9c) addr:0x02190988
+gpiSendOrBufferChar kind:function(thumb,size=0x84) addr:0x02190a24
+gpiSendData kind:function(thumb,size=0xb0) addr:0x02190aa8
+gpiAppendIntToBuffer kind:function(thumb,size=0x28) addr:0x02190b58
+gpiAppendStringToBuffer kind:function(thumb,size=0x20) addr:0x02190b80
+gpiAppendStringToBufferLen kind:function(thumb,size=0xc4) addr:0x02190ba0
+gpiAppendCharToBuffer kind:function(thumb,size=0x70) addr:0x02190c64
+gpiProcessCallbacks kind:function(thumb,size=0xcc) addr:0x02190cd4
+gpiCallCallback kind:function(thumb,size=0x134) addr:0x02190da0
+gpiAddCallback kind:function(thumb,size=0x78) addr:0x02190ed4
+gpiCallErrorCallback kind:function(thumb,size=0xac) addr:0x02190f4c
+gpiDisconnect kind:function(thumb,size=0x188) addr:0x02190ff8
 gpiDisconnectCleanupProfile kind:function(thumb,size=0x80) addr:0x02191180
 gpiCheckConnect kind:function(thumb,size=0x84) addr:0x02191200
-GpiProcessConnectOperation kind:function(thumb,size=0x52c) addr:0x02191284
-GpiWriteNewuser kind:function(thumb,size=0x1fc) addr:0x021917b0
-GpiWriteLogin kind:function(thumb,size=0x304) addr:0x021919ac
+gpiProcessConnect kind:function(thumb,size=0x52c) addr:0x02191284
+gpiSendNewuser kind:function(thumb,size=0x1fc) addr:0x021917b0
+gpiSendLogin kind:function(thumb,size=0x304) addr:0x021919ac
 GpiStartConnect kind:function(thumb,size=0x1a8) addr:0x02191cb0
-GpiOpenSockets kind:function(thumb,size=0x280) addr:0x02191e58
+gpiStartConnect kind:function(thumb,size=0x280) addr:0x02191e58
 randomString kind:function(thumb,size=0x34) addr:0x021920d8
 gpiFreeInfoCache kind:function(thumb,size=0x7e) addr:0x0219210c
 gpiSetInfoCache kind:function(thumb,size=0xa0) addr:0x0219218c
@@ -559,72 +559,72 @@ gpiSetInfos kind:function(thumb,size=0x5b8) addr:0x021923b4
 gpiSetInfoi kind:function(thumb,size=0x390) addr:0x0219296c
 gpiSendUserInfo kind:function(thumb,size=0x34) addr:0x02192cfc
 gpiSendLocalInfo kind:function(thumb,size=0x34) addr:0x02192d30
-GpiWriteUpdateBuffers kind:function(thumb,size=0xa0) addr:0x02192d64
-GpiProcessInfoOperation kind:function(thumb,size=0x588) addr:0x02192e04
+gpiAddLocalInfo kind:function(thumb,size=0xa0) addr:0x02192d64
+gpiProcessGetInfo kind:function(thumb,size=0x588) addr:0x02192e04
 gpiInfoCacheToArg kind:function(thumb,size=0x230) addr:0x0219338c
-GpiUnpackDate kind:function(thumb,size=0x78) addr:0x021935bc
+gpiIntToDate kind:function(thumb,size=0x78) addr:0x021935bc
 GpiIsValidDate kind:function(thumb,size=0x114) addr:0x02193634
 GpiProcessOperation kind:function(thumb,size=0x78) addr:0x02193748
 gpiOperationsAreBlocking kind:function(thumb,size=0x28) addr:0x021937c0
-GpiFindOperation kind:function(thumb,size=0x30) addr:0x021937e8
-GpiRemoveOperation kind:function(thumb,size=0x40) addr:0x02193818
-GpiDeleteOperation kind:function(thumb,size=0x74) addr:0x02193858
-GpiCreateOperation kind:function(thumb,size=0x88) addr:0x021938cc
-GpiQueueOperationCallback kind:function(thumb,size=0x234) addr:0x02193954
-GpiPeerSendLenMsg kind:function(thumb,size=0x98) addr:0x02193b88
-GpiPeerSendXfer kind:function(thumb,size=0x54) addr:0x02193c20
-GpiPeerQueueMessage kind:function(thumb,size=0xf0) addr:0x02193c74
-GpiPeerConnect kind:function(thumb,size=0x10c) addr:0x02193d64
+gpiFindOperationByID kind:function(thumb,size=0x30) addr:0x021937e8
+gpiRemoveOperation kind:function(thumb,size=0x40) addr:0x02193818
+gpiDestroyOperation kind:function(thumb,size=0x74) addr:0x02193858
+gpiAddOperation kind:function(thumb,size=0x88) addr:0x021938cc
+gpiFailedOpCallback kind:function(thumb,size=0x234) addr:0x02193954
+gpiPeerFinishTransferMessage kind:function(thumb,size=0x98) addr:0x02193b88
+gpiPeerStartTransferMessage kind:function(thumb,size=0x54) addr:0x02193c20
+gpiPeerAddMessage kind:function(thumb,size=0xf0) addr:0x02193c74
+gpiPeerStartConnect kind:function(thumb,size=0x10c) addr:0x02193d64
 gpiPeerGetSig kind:function(thumb,size=0x3a) addr:0x02193e70
-GpiPeerCreate kind:function(thumb,size=0x6c) addr:0x02193eac
+gpiAddPeer kind:function(thumb,size=0x6c) addr:0x02193eac
 gpiFreeMessage kind:function(thumb,size=0x14) addr:0x02193f18
 gpiGetConnectedPeer kind:function(thumb,size=0x24) addr:0x02193f2c
-GpiUpdatePeers kind:function(thumb,size=0xa4) addr:0x02193f50
+gpiProcessPeers kind:function(thumb,size=0xa4) addr:0x02193f50
 gpiSetPeerSocketSizes kind:function(thumb,size=0x68) addr:0x02193ff4
-GpiPeerRemoveAndWriteQueuedMessages kind:function(thumb,size=0xc4) addr:0x0219405c
-GpiPeerDelete kind:function(thumb,size=0x40) addr:0x02194120
-GpiPeerUpdate kind:function(thumb,size=0x64) addr:0x02194160
+gpiRemovePeer kind:function(thumb,size=0xc4) addr:0x0219405c
+gpiDestroyPeer kind:function(thumb,size=0x40) addr:0x02194120
+gpiProcessPeer kind:function(thumb,size=0x64) addr:0x02194160
 gpiProcessPeerConnected kind:function(thumb,size=0x1ac) addr:0x021941c4
 gpiPeerSendMessages kind:function(thumb,size=0x80) addr:0x02194370
-GpiPeerUpdateWaiting kind:function(thumb,size=0x1a0) addr:0x021943f0
+gpiProcessPeerAcceptingConnection kind:function(thumb,size=0x1a0) addr:0x021943f0
 gpiProcessPeerInitiatingConnection kind:function(thumb,size=0x254) addr:0x02194590
-GpiIsProfileEmpty kind:function(thumb,size=0x24) addr:0x021947e4
-GpiFindProfileByBuddyIndex kind:function(thumb,size=0x20) addr:0x02194808
+gpiCanFreeProfile kind:function(thumb,size=0x24) addr:0x021947e4
+gpiFindBuddy kind:function(thumb,size=0x20) addr:0x02194808
 gpiCheckForBuddy kind:function(thumb,size=0x18) addr:0x02194828
-GpiForEachProfileWhileNonZero kind:function(thumb,size=0x34) addr:0x02194840
+gpiProfileMap kind:function(thumb,size=0x34) addr:0x02194840
 gpiProfileMapCallback kind:function(thumb,size=0x18) addr:0x02194874
 gpiFindProfileByUser kind:function(thumb,size=0x30) addr:0x0219488c
 gpiCheckProfileForUser kind:function(thumb,size=0x3c) addr:0x021948bc
-GpiRemoveProfile kind:function(thumb,size=0x14) addr:0x021948f8
-GpiRemoveProfileById kind:function(thumb,size=0x28) addr:0x0219490c
-GpiFindProfile kind:function(thumb,size=0x38) addr:0x02194934
-GpiFindOrAddProfile kind:function(thumb,size=0xa0) addr:0x0219496c
+gpiRemoveProfile kind:function(thumb,size=0x14) addr:0x021948f8
+gpiRemoveProfileByID kind:function(thumb,size=0x28) addr:0x0219490c
+gpiGetProfile kind:function(thumb,size=0x38) addr:0x02194934
+gpiProfileListAdd kind:function(thumb,size=0xa0) addr:0x0219496c
 gpiProcessNewProfile kind:function(thumb,size=0xe8) addr:0x02194a0c
-GpiInitProfileList kind:function(thumb,size=0x58) addr:0x02194af4
-GpiReleaseProfile kind:function(thumb,size=0x4e) addr:0x02194b4c
-GpiCompareProfiles kind:function(thumb,size=0x8) addr:0x02194b9c
-GpiHashProfile kind:function(thumb,size=0x12) addr:0x02194ba4
-GpiUpdateSearches kind:function(thumb,size=0xf4) addr:0x02194bb8
-GpiUpdateSearch kind:function(thumb,size=0x13f8) addr:0x02194cac
+gpiInitProfiles kind:function(thumb,size=0x58) addr:0x02194af4
+gpiProfilesTableFree kind:function(thumb,size=0x4e) addr:0x02194b4c
+gpiProfilesTableCompare kind:function(thumb,size=0x8) addr:0x02194b9c
+gpiProfilesTableHash kind:function(thumb,size=0x12) addr:0x02194ba4
+gpiProcessSearches kind:function(thumb,size=0xf4) addr:0x02194bb8
+gpiProcessSearch kind:function(thumb,size=0x13f8) addr:0x02194cac
 .L_02194c98 kind:label(thumb) addr:0x02194ccc local
 .L_02196004 kind:label(thumb) addr:0x02196038 local
 .L_0219600c kind:label(thumb) addr:0x02196040
 .L_02196020 kind:label(thumb) addr:0x02196054 local
 gpiProfileSearch kind:function(thumb,size=0x144) addr:0x021960a4
-GpiStartSearchOperation kind:function(thumb,size=0x58) addr:0x021961e8
-GpiCreateSearch kind:function(thumb,size=0x94) addr:0x02196240
-GpiOpenSearchSocket kind:function(thumb,size=0x160) addr:0x021962d4
+gpiStartSearch kind:function(thumb,size=0x58) addr:0x021961e8
+gpiInitSearchData kind:function(thumb,size=0x94) addr:0x02196240
+gpiStartProfileSearch kind:function(thumb,size=0x160) addr:0x021962d4
 gpiHandleTransferMessage kind:function(thumb,size=0x4c) addr:0x02196434
 gpiSendTransferReply kind:function(thumb,size=0x64) addr:0x02196480
 gpiProcessRegisterUniqueNick kind:function(thumb,size=0xac) addr:0x021964e4
-GpiSetErrorMessage kind:function(thumb,size=0x10) addr:0x02196590
-GpiSetError kind:function(thumb,size=0x28) addr:0x021965a0
-GpiReadKeyValue kind:function(thumb,size=0x14c) addr:0x021965c8
-GpiCheckConnectComplete kind:function(thumb,size=0xa0) addr:0x02196714
-GpiGetValue kind:function(thumb,size=0xbc) addr:0x021967b4
-GpiReadError kind:function(thumb,size=0x9c) addr:0x02196870
+gpiSetErrorString kind:function(thumb,size=0x10) addr:0x02196590
+gpiSetError kind:function(thumb,size=0x28) addr:0x021965a0
+gpiReadKeyAndValue kind:function(thumb,size=0x14c) addr:0x021965c8
+gpiCheckSocketConnect kind:function(thumb,size=0xa0) addr:0x02196714
+gpiValueForKey kind:function(thumb,size=0xbc) addr:0x021967b4
+gpiCheckForError kind:function(thumb,size=0x9c) addr:0x02196870
 gpiDebug kind:function(thumb,size=0x6) addr:0x0219690c
-GpiCopyString kind:function(thumb,size=0x4c) addr:0x02196914
+CopyStringWithTerminator kind:function(thumb,size=0x4c) addr:0x02196914
 ClosePendingCallbacks kind:function(thumb,size=0x78) addr:0x02196960
 CallReqCallback kind:function(thumb,size=0xac) addr:0x021969d8
 ProcessInBuffer kind:function(thumb,size=0x5c) addr:0x02196a84
@@ -653,29 +653,29 @@ PersistThink kind:function(thumb,size=0xec) addr:0x0219746c
 SetPersistDataValuesA kind:function(thumb,size=0x3a) addr:0x02197558
 PreAuthenticatePlayerPartner kind:function(thumb,size=0x60) addr:0x02197594
 GetChallenge kind:function(thumb,size=0x40) addr:0x021975f4
-GstatsClose kind:function(thumb,size=0x5c) addr:0x02197634
-GstatsConnect kind:function(thumb,size=0x2c) addr:0x02197690
-GstatsUpdateConnect kind:function(thumb,size=0x268) addr:0x021976bc
-GstatsStartConnect kind:function(thumb,size=0x178) addr:0x02197924
+CloseStatsConnection kind:function(thumb,size=0x5c) addr:0x02197634
+InitStatsConnection kind:function(thumb,size=0x2c) addr:0x02197690
+InitStatsThink kind:function(thumb,size=0x268) addr:0x021976bc
+InitStatsAsync kind:function(thumb,size=0x178) addr:0x02197924
 GenerateAuthA kind:function(thumb,size=0x6c) addr:0x02197a9c
 gti2CheckResponse kind:function(thumb,size=0x2c) addr:0x02197b08
 gti2GetResponse kind:function(thumb,size=0xac) addr:0x02197b34
 gti2GetChallenge kind:function(thumb,size=0xc0) addr:0x02197be0
 gti2VerifyChallenge kind:function(thumb,size=0x80) addr:0x02197ca0
-RemoveBufferBytes kind:function(thumb,size=0x64) addr:0x02197d20
-AppendBufferBytes kind:function(thumb,size=0x58) addr:0x02197d84
-AppendBufferU16 kind:function(thumb,size=0x44) addr:0x02197ddc
-AppendBufferByte kind:function(thumb,size=0x38) addr:0x02197e20
-GetBufferUnusedSize kind:function(thumb,size=0x8) addr:0x02197e58
-InitBuffer kind:function(thumb,size=0x2c) addr:0x02197e60
-CallUnmatchedDataCallback kind:function(thumb,size=0x9c) addr:0x02197e8c
+gti2BufferShorten kind:function(thumb,size=0x64) addr:0x02197d20
+gti2BufferWriteData kind:function(thumb,size=0x58) addr:0x02197d84
+gti2BufferWriteUShort kind:function(thumb,size=0x44) addr:0x02197ddc
+gti2BufferWriteByte kind:function(thumb,size=0x38) addr:0x02197e20
+gti2GetBufferFreeSpace kind:function(thumb,size=0x8) addr:0x02197e58
+gti2AllocateBuffer kind:function(thumb,size=0x2c) addr:0x02197e60
+gti2UnrecognizedMessageCallback kind:function(thumb,size=0x9c) addr:0x02197e8c
 gti2DumpCallback kind:function(thumb,size=0xc0) addr:0x02197f28
 gti2ReceiveFilterCallback kind:function(thumb,size=0xb0) addr:0x02197fe8
 gti2SendFilterCallback kind:function(thumb,size=0xb0) addr:0x02198098
-Gt2CallElapsedTimeCallback kind:function(thumb,size=0x88) addr:0x02198148
+gti2PingCallback kind:function(thumb,size=0x88) addr:0x02198148
 gti2ClosedCallback kind:function(thumb,size=0x88) addr:0x021981d0
-Gt2CallDataCallback kind:function(thumb,size=0x9c) addr:0x02198258
-Gt2SetResultAndCallResultCallback kind:function(thumb,size=0xa0) addr:0x021982f4
+gti2ReceivedCallback kind:function(thumb,size=0x9c) addr:0x02198258
+gti2ConnectedCallback kind:function(thumb,size=0xa0) addr:0x021982f4
 CallIncomingConnectionCallback kind:function(thumb,size=0xb4) addr:0x02198394
 gti2SocketErrorCallback kind:function(thumb,size=0x6c) addr:0x02198448
 gti2ConnectionCleanup kind:function(thumb,size=0x5e) addr:0x021984b4
@@ -686,7 +686,7 @@ gti2CheckKeepAlive kind:function(thumb,size=0x30) addr:0x021985ec
 gti2CheckPendingAck kind:function(thumb,size=0x3a) addr:0x0219861c
 gti2SendRetries kind:function(thumb,size=0x54) addr:0x02198658
 gti2CheckTimeout kind:function(thumb,size=0x68) addr:0x021986ac
-SendConnectionBytes kind:function(thumb,size=0x34) addr:0x02198714
+gti2ConnectionSendData kind:function(thumb,size=0x34) addr:0x02198714
 gti2RejectConnection kind:function(thumb,size=0x2e) addr:0x02198748
 gti2AcceptConnection kind:function(thumb,size=0x4e) addr:0x02198778
 gti2StartConnectionAttempt kind:function(thumb,size=0x72) addr:0x021987c8
@@ -694,10 +694,10 @@ gti2NewIncomingConnection kind:function(thumb,size=0x1e) addr:0x0219883c
 gti2NewOutgoingConnection kind:function(thumb,size=0x1e) addr:0x0219885c
 gt2GetConnectionData kind:function(thumb,size=0x28) addr:0x0219887c
 gt2SetConnectionData kind:function(thumb,size=0x30) addr:0x021988a4
-SetUnmatchedDataCallback kind:function(thumb,size=0x4) addr:0x021988d4
-GetSocketDescriptor kind:function(thumb,size=0x4) addr:0x021988d8
+gt2SetUnrecognizedMessageCallback kind:function(thumb,size=0x4) addr:0x021988d4
+gt2GetSocketSOCKET kind:function(thumb,size=0x4) addr:0x021988d8
 gt2GetOutgoingBufferFreeSpace kind:function(thumb,size=0x8) addr:0x021988dc
-GetSocketPort kind:function(thumb,size=0x4) addr:0x021988e4
+gt2GetLocalPort kind:function(thumb,size=0x4) addr:0x021988e4
 gt2CloseAllConnectionsHard kind:function(thumb,size=0x14) addr:0x021988e8
 gti2CloseAllConnectionsHardMap kind:function(thumb,size=0xc) addr:0x021988fc
 gt2CloseConnectionHard kind:function(thumb,size=0xc) addr:0x02198908
@@ -1254,14 +1254,14 @@ ReadHttpsRecordIfBufferedAndGetUnreadByteCount kind:function(thumb,size=0x3c) ad
 SkipHttpsReceivedBytes kind:function(thumb,size=0x4c) addr:0x021a9394
 ReadHttpsRecordsUntilBytesReceived kind:function(thumb,size=0x5c) addr:0x021a93e0
 CPSi_SslConnect kind:function(thumb,size=0x58) addr:0x021a943c
-RunSetupAfterSendingOfferRecord kind:function(thumb,size=0xa0) addr:0x021a9494
-RunSetupAfterReadingOfferRecordUntilDone kind:function(thumb,size=0x6c) addr:0x021a9534
-RunSetupAfterReadingOfferRecord kind:function(thumb,size=0x6e) addr:0x021a95a0
+RunSetupBySendingOfferRecord kind:function(thumb,size=0xa0) addr:0x021a9494
+RunSetupByReadingOfferRecordUntilDone kind:function(thumb,size=0x6c) addr:0x021a9534
+RunSetupByReadingOfferRecord kind:function(thumb,size=0x6e) addr:0x021a95a0
 ReadRecordsExpectingStates7And6 kind:function(thumb,size=0x2e) addr:0x021a9610
 send_client_key_exchange kind:function(thumb,size=0x228) addr:0x021a9640
 SendOfferRecord kind:function(thumb,size=0x124) addr:0x021a9868
 SendOneByteRecordAndMessageDigests kind:function(thumb,size=0x114) addr:0x021a998c
-SendAnswerRecord kind:function(thumb,size=0x1bc) addr:0x021a9aa0
+SendReplyRecord kind:function(thumb,size=0x1bc) addr:0x021a9aa0
 MixBytesIntoRandomState kind:function(thumb,size=0x4c) addr:0x021a9c5c
 FillNonzeroRandomBytes kind:function(thumb,size=0xc0) addr:0x021a9ca8
 ReadHttpsRecordAndSetState kind:function(thumb,size=0x29c) addr:0x021a9d68
@@ -1565,8 +1565,8 @@ gWiFiVSMatchingEmblemScalePercents kind:data(byte[40]) addr:0x021b0d04
 @4018 kind:data(byte[26]) addr:0x021b0dfc local
 @6252 kind:data(byte[9]) addr:0x021b0e18 local
 @6253 kind:data(byte[11]) addr:0x021b0e24 local
-gSelectCharacterCallbacks kind:data(byte[16]) addr:0x021b0e30
-gSelectKartCallbacks kind:data(byte[16]) addr:0x021b0e40
+gWiFiSelectCharacterCallbacks kind:data(byte[16]) addr:0x021b0e30
+gWiFiSelectKartCallbacks kind:data(byte[16]) addr:0x021b0e40
 gWiFiVSCourseSelectCallbacks kind:data(byte[16]) addr:0x021b0e50
 gWiFiAikotobaCallbacks kind:data(byte[16]) addr:0x021b0e60
 @5469 kind:data(byte[19]) addr:0x021b0e70 local
@@ -2283,18 +2283,18 @@ gStaticQr2Rec kind:data(byte[272]) addr:0x021b4278
 @3016 kind:data(byte[3]) addr:0x021b4428 local
 @3017 kind:data(byte[56]) addr:0x021b442c local
 @3018 kind:data(byte[30]) addr:0x021b4464 local
-gQr2KeyReserved kind:data(byte[1]) addr:0x021b4484
-gQr2KeyPidPrefix kind:data(byte[5]) addr:0x021b4488
-gQr2KeyTeamPrefix kind:data(byte[6]) addr:0x021b4490
-gQr2KeyPingPrefix kind:data(byte[6]) addr:0x021b4498
-gQr2KeyScorePrefix kind:data(byte[7]) addr:0x021b44a0
-gQr2KeyTeamTeam kind:data(byte[7]) addr:0x021b44a8
-gQr2KeySkillPrefix kind:data(byte[7]) addr:0x021b44b0
+gQr2KeyEmpty kind:data(byte[1]) addr:0x021b4484
+gQr2KeyPidUnderscore kind:data(byte[5]) addr:0x021b4488
+gQr2KeyTeamUnderscore kind:data(byte[6]) addr:0x021b4490
+gQr2KeyPingUnderscore kind:data(byte[6]) addr:0x021b4498
+gQr2KeyScoreUnderscore kind:data(byte[7]) addr:0x021b44a0
+gQr2KeyTeamUnderscoreT kind:data(byte[7]) addr:0x021b44a8
+gQr2KeySkillUnderscore kind:data(byte[7]) addr:0x021b44b0
 gQr2KeyMapname kind:data(byte[8]) addr:0x021b44b8
-gQr2KeyDeathsPrefix kind:data(byte[8]) addr:0x021b44c0
+gQr2KeyDeathsUnderscore kind:data(byte[8]) addr:0x021b44c0
 gQr2KeyGamever kind:data(byte[8]) addr:0x021b44c8
-gQr2KeyPlayerPrefix kind:data(byte[8]) addr:0x021b44d0
-gQr2KeyScoreTeam kind:data(byte[8]) addr:0x021b44d8
+gQr2KeyPlayerUnderscore kind:data(byte[8]) addr:0x021b44d0
+gQr2KeyScoreUnderscoreT kind:data(byte[8]) addr:0x021b44d8
 gQr2KeyGroupid kind:data(byte[8]) addr:0x021b44e0
 gQr2KeyGamename kind:data(byte[9]) addr:0x021b44e8
 gQr2KeyHostport kind:data(byte[9]) addr:0x021b44f4
@@ -2320,12 +2320,12 @@ SOCLSocketParamUDPSend kind:data(byte[24]) addr:0x021b49d0
 @2098 kind:data(byte[12]) addr:0x021b49e8 local
 gSslLowThreadPriority kind:data(byte[4]) addr:0x021b49f4
 sPrefixNone kind:data(byte[4]) addr:0x021b49f8 local
-sPrefixCommonName kind:data(byte[4]) addr:0x021b49fc local
+sPrefixHostPattern kind:data(byte[4]) addr:0x021b49fc local
 gOfferedValues kind:data(byte[4]) addr:0x021b4a00
-sPrefixRsaAlgorithm kind:data(byte[5]) addr:0x021b4a04 local
-sPrefixRsaEncryption kind:data(byte[10]) addr:0x021b4a0c local
-sPrefixMd5WithRsa kind:data(byte[10]) addr:0x021b4a18 local
-sPrefixSha1WithRsa kind:data(byte[10]) addr:0x021b4a24 local
+sPrefixKeyValuesShort kind:data(byte[5]) addr:0x021b4a04 local
+sPrefixKeyValuesLong kind:data(byte[10]) addr:0x021b4a0c local
+sPrefixMd5Digest kind:data(byte[10]) addr:0x021b4a18 local
+sPrefixSha1Digest kind:data(byte[10]) addr:0x021b4a24 local
 gTaggedItemPrefixes kind:data(byte[24]) addr:0x021b4a30
 @3422 kind:data(byte[5]) addr:0x021b4a48 local
 @3423 kind:data(byte[5]) addr:0x021b4a50 local
@@ -2356,7 +2356,7 @@ gWiFiConnectionLost kind:bss(size=0x4) addr:0x021b4c8c
 gAuth kind:bss(size=0x4) addr:0x021b4c90
 gAuthWiFiInfo kind:bss(size=0x14) addr:0x021b4c94
 DWChttpignoreca kind:bss(size=0x4) addr:0x021b4ca8
-gHttp kind:bss(size=0x4) addr:0x021b4cac
+gNetcheckHttp kind:bss(size=0x4) addr:0x021b4cac
 gNetcheck kind:bss(size=0x4) addr:0x021b4cb0
 gHttpParam kind:bss(size=0x20) addr:0x021b4cb4
 gAuthParam kind:bss(size=0x2c) addr:0x021b4cd4
@@ -2374,9 +2374,9 @@ gGsiAcResult kind:bss(size=0x4) addr:0x021b4d28
 gGsiAcHostname kind:bss(size=0x40) addr:0x021b4d2c
 gGsiAcGamename kind:bss(size=0x40) addr:0x021b4d6c
 gGsiAvailableCheck kind:bss(size=0x58) addr:0x021b4dac
-aliases kind:bss(size=0x4) addr:0x021b4e04 local
+sAliases kind:bss(size=0x4) addr:0x021b4e04 local
 GSINitroErrno kind:bss(size=0x4) addr:0x021b4e08 local
-loopbackEntry$2011 kind:bss(size=0x10) addr:0x021b4e0c local
+localhostEntry$2277 kind:bss(size=0x10) addr:0x021b4e0c local
 ips$2006 kind:bss(size=0x14) addr:0x021b4e1c local
 addrList$2012 kind:bss(size=0x18) addr:0x021b4e30 local
 gInitStart kind:bss(size=0x4) addr:0x021b4e48 local
@@ -2394,7 +2394,7 @@ gRcvMax kind:bss(size=0x4) addr:0x021b4e74 local
 challengeBytes$1807 kind:bss(size=0x9) addr:0x021b4e78 local
 gcd_gamename kind:bss(size=0x100) addr:0x021b4e84
 gcd_secret_key kind:bss(size=0x100) addr:0x021b4f84
-gValueForKeyValues$1694 kind:bss(size=0x200) addr:0x021b5084 local
+valueSlots$1973 kind:bss(size=0x200) addr:0x021b5084 local
 slotIndex$1297 kind:bss(size=0x4) addr:0x021b5284 local
 strAddressArray$1289 kind:bss(size=0x2c) addr:0x021b5288 local
 Matchup2Hostname kind:bss(size=0x4) addr:0x021b52b4
@@ -2486,7 +2486,7 @@ gWlanGetPnt kind:bss(size=0x4) addr:0x021b63cc
 CPSMyMac kind:bss(size=0x6) addr:0x021b63d0
 CPSDnsIp kind:bss(size=0x8) addr:0x021b63d8
 CPSiRand32ctx kind:bss(size=0x18) addr:0x021b63e0
-gTmpBuf kind:bss(size=0x3a) addr:0x021b63f8
+gTcpipThreadHeaderBuffer kind:bss(size=0x3a) addr:0x021b63f8
 gArpCache kind:bss(size=0x60) addr:0x021b6434
 gScavengerSoc kind:bss(size=0x64) addr:0x021b6494
 gTmpSoc kind:bss(size=0x64) addr:0x021b64f8
@@ -2496,4 +2496,4 @@ gScavengerSendBuffer kind:bss(size=0x180) addr:0x021b66dc
 gScavengerReceiveBuffer kind:bss(size=0x180) addr:0x021b685c
 gFragTable kind:bss(size=0x1c0) addr:0x021b69dc
 gScavengerStack kind:bss(size=0x800) addr:0x021b6ba0
-gTcpipStack kind:bss(size=0x800) addr:0x021b73a0
+gUnusedStackBuffer kind:bss(size=0x800) addr:0x021b73a0

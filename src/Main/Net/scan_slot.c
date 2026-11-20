@@ -10,6 +10,7 @@
 #include "arena_cache_init.h"
 #include "cpu_copy_fill.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/System/scene_numbers.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -80,14 +81,14 @@ void RefreshParticipantTables(void) {
             gConnectionWork->mParticipantIndices[participantCount] = index;
             participantCount++;
         } else {
-            gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = PARTICIPANT_POSITION_NONE;
+            gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = PARTICIPANT_NONE;
         }
     }
     for (; participantCount < 8; participantCount++) {
-        gConnectionWork->mParticipantIndexByPos[participantCount] = PARTICIPANT_POSITION_NONE;
-        gConnectionWork->mParticipantIndices[participantCount] = PARTICIPANT_POSITION_NONE;
+        gConnectionWork->mParticipantIndexByPos[participantCount] = PARTICIPANT_NONE;
+        gConnectionWork->mParticipantIndices[participantCount] = PARTICIPANT_NONE;
     }
-    if (GetCurrentSceneNumber() == 2) {
+    if (GetCurrentSceneNumber() == SCENE_RACE) {
         ResetInputSlotsFromRaceSetup();
     } else {
         ResetInputSlotsFromParticipants();

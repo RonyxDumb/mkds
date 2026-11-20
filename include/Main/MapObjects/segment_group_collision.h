@@ -25,7 +25,8 @@ typedef struct GroupPath {
 // GroupFollower.mGroupIndex of a follower that is not on a group.
 #define GROUP_FOLLOWER_NO_GROUP 0xffff
 
-// GroupFollower.mProgress along one segment runs from 0 to this value (1.0 in 24-bit fixed point).
+// GroupFollower.mProgress along one segment runs between 0 and this value (1.0 in 24-bit fixed point): from 0 up while
+// mForward is set, from this value down to 0 otherwise.
 #define SEGMENT_PROGRESS_END 0x1000000
 
 // Something that moves along a GroupPath: its segment, progress and speed, and the group entries it moves between.

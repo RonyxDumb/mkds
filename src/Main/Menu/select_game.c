@@ -24,7 +24,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "sound_player_control.h"
 #include "00/Menu/wi_fi_vs_setting.h"
@@ -35,6 +35,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 
@@ -56,10 +57,10 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         GetRaceSetupCopy()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 0:
-                battleKind = FALSE;
+                battleKind = BATTLE_KIND_BALLOON;
                 break;
             default:
-                battleKind = TRUE;
+                battleKind = BATTLE_KIND_SHINE;
                 break;
         }
         GetRaceSetupCopy()->mBattleKind = battleKind;
@@ -69,15 +70,15 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         GetRaceSetupCopy()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 1:
-                battleKind = FALSE;
+                battleKind = BATTLE_KIND_BALLOON;
                 break;
             default:
-                battleKind = TRUE;
+                battleKind = BATTLE_KIND_SHINE;
                 break;
         }
         GetRaceSetupCopy()->mBattleKind = battleKind;
     }
-    gSelectGame->mResult = 1;
+    gSelectGame->mResult = MENU_SCREEN_RESULT_NEXT;
     gSelectGame->mState = SELECT_GAME_STATE_WAIT_PRESS;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -243,14 +244,14 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         SetSelectReturnSoundId(-1);
     } else {
-        SetSelectReturnSoundId(0xe);
+        SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     }
     RequestSelectReturnSlideIn();
     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
     }
-    gMenuShared->mMenuEntryKind = 0;
+    gMenuShared->mMenuEntryKind = MENU_ENTRY_SINGLE_PLAY_SELECT;
     FrmHeapShrinkInParent(gSelectGame->mHeap);
 }
 
@@ -301,7 +302,7 @@ s32 AdvanceSelectGame(void) {
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                 pairRecentlyGone = TRUE;
             }
             if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -341,7 +342,7 @@ s32 AdvanceSelectGame(void) {
                     SetSelectGameRowCellsVisible(0);
                 }
                 RequestSelectReturnPressWithSound(0);
-            } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
                 if (gSelectGame->mSelectedIndex == 0) {
                     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
                         gSelectGame->mSelectedIndex = gSelectGame->mTableCount - 1;
@@ -349,7 +350,7 @@ s32 AdvanceSelectGame(void) {
                 } else {
                     gSelectGame->mSelectedIndex = gSelectGame->mSelectedIndex - 1;
                 }
-            } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
                 if (gSelectGame->mSelectedIndex == gSelectGame->mTableCount - 1) {
                     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
                         gSelectGame->mSelectedIndex = 0;

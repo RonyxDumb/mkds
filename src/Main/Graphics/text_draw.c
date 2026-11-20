@@ -10,7 +10,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "01/Scene/test_scene.h"
 #include "01/Menu/emblem_state_and_lld.h"
 #include "cpu_copy_fill.h"
@@ -117,7 +117,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                                 break;
-                            case TEXT_TAG_NAME_PLAYER_FIT:
+                            case TEXT_TAG_NAME_PLAYER_WITHIN_WIDTH:
                                 playerNameCharCount = CopyTextWithinWidth(
                                     gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
                                 for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
@@ -155,7 +155,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                                 break;
-                            case TEXT_TAG_NAME_OWNER_TEXT_FIT:
+                            case TEXT_TAG_NAME_OWNER_TEXT_WITHIN_WIDTH:
                                 ownerTextCharCount =
                                     CopyTextWithinWidth(gStartupWork->mOwnerText, ownerTextChars);
                                 for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
@@ -222,9 +222,9 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
     s32 offset;
 
     offset = 0;
-    if (alignFlags & 0x400) {
+    if (alignFlags & TEXT_CANVAS_FLAG_CENTER) {
         offset += (rectWidth - textWidth) >> 1;
-    } else if (alignFlags & 0x800) {
+    } else if (alignFlags & TEXT_CANVAS_FLAG_RIGHT) {
         offset += rectWidth - textWidth;
     }
     if (lineAlign == 1) {
@@ -264,9 +264,9 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     if (cursorX < 0) {
         return;
     }
-    if (alignFlags & 0x80) {
+    if (alignFlags & TEXT_CANVAS_FLAG_MIDDLE) {
         cursorY += (height - textHeight) >> 1;
-    } else if (alignFlags & 0x100) {
+    } else if (alignFlags & TEXT_CANVAS_FLAG_BOTTOM) {
         cursorY += height - textHeight;
     }
     if (cursorY < 0) {
@@ -283,7 +283,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             tagSize = ((TextTag *) readPointer)->mSize;
             variant = ((TextTag *) readPointer)->mVariant;
             kind = ((TextTag *) readPointer)->mKind;
-            if (kind == 0xff && variant == 0) {
+            if (kind == TEXT_TAG_KIND_KEEP && variant == 0) {
                 colorValue = ((TextTag *) readPointer)->mColorValue;
                 if (colorZeroIsTwo != 0) {
                     if (colorValue == 0) {
@@ -337,7 +337,7 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
 
     length = 0;
     while (*message != 0x1a || ((TextTagWithCharCode *) message)->mKind != TEXT_TAG_KIND_NAME ||
-           ((TextTagWithCharCode *) message)->mVariant != TEXT_TAG_VARIANT_INSERT) {
+           ((TextTagWithCharCode *) message)->mVariant != TEXT_TAG_NAME_INSERT) {
         formattedText[length] = *message;
         length++;
         message++;

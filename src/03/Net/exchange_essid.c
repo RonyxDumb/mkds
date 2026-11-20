@@ -1,5 +1,6 @@
 #include "03/Net/exchange_essid.h"
 #include "03/Net/exchange_wcm_state.h"
+#include "03/Net/ap_scan_callback.h"
 #include "03/Menu/slide_buttons.h"
 #include "03/Graphics/nce_oam.h"
 #include "03/Graphics/oam_range_set.h"
@@ -359,7 +360,7 @@ const u32 gReversedTableByte2[256] = {
 u32 gThreadStackSize = 0x800;
 s32 gStartEntryCount = 0x40;
 s32 gTimeoutAtMs = -1;
-ExchangeIndexBytes gFirstReplyIndexBytes = {{6, 0, 1, 2, 3, 4, 5}};
+ExchangeItem3Bytes gFirstReplyItem3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
 char gSixAsterisksString[7] = "******";
 u8 gHashPadding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -379,9 +380,9 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
         return;
     }
     switch (message->mNotify) {
-        case WIFI_NOTIFY_ENABLE_REQUEST:
-            if (message->mResult == 0) {
-                if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+        case WIFI_NOTIFY_STARTUP_REQUEST:
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
                         gExchangeEventCallback(EXCHANGE_EVENT_STARTUP_DONE, 0);
@@ -392,7 +393,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
@@ -400,18 +401,18 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 }
             } else {
                 gExchangeWcmState = EXCHANGE_WCM_STATE_INITIALIZED;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_SCAN_START_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCHING;
                     if (gExchangeEventCallback != NULL) {
@@ -426,7 +427,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_CONNECT_REQUEST:
-            if (message->mResult == 0) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECTED;
                     if (gExchangeEventCallback != NULL) {
@@ -441,8 +442,8 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_SCAN_STOP_REQUEST:
-            if (message->mResult == 0) {
-                if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
                         gExchangeEventCallback(EXCHANGE_EVENT_SEARCH_STOPPED, 0);
@@ -453,7 +454,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     if (WCM_CleanupAsync() == 3) {
@@ -461,7 +462,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
@@ -469,7 +470,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 }
             } else {
@@ -480,8 +481,8 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             }
             break;
         case WIFI_NOTIFY_DISCONNECT_REQUEST:
-            if (message->mResult == 0) {
-                if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
                         gExchangeEventCallback(EXCHANGE_EVENT_DISCONNECTED, 0);
@@ -492,7 +493,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     if (WCM_CleanupAsync() == 3) {
@@ -500,7 +501,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
@@ -508,7 +509,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                     }
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                     }
                 } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
@@ -520,8 +521,8 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case WIFI_NOTIFY_POWER_OFF_REQUEST:
-            if (message->mResult == 0) {
+        case WIFI_NOTIFY_CLEANUP_REQUEST:
+            if (message->mResult == WIFI_REPORT_SUCCEEDED) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     WCM_Finish();
                     gExchangeWcmState = EXCHANGE_WCM_STATE_STOPPED;
@@ -532,7 +533,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
             } else {
                 gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                 }
             }
             break;
@@ -548,15 +549,15 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 gExchangeEventCallback(EXCHANGE_EVENT_SCAN_ROUND, 0);
             }
             break;
-        case WIFI_NOTIFY_LINK_TERMINATING:
+        case WIFI_NOTIFY_TERMINATE_REQUEST:
             gExchangeWcmState = EXCHANGE_WCM_STATE_STOPPED;
             if (gExchangeEventCallback != NULL) {
-                gExchangeEventCallback(EXCHANGE_EVENT_LINK_TERMINATED, 0);
+                gExchangeEventCallback(EXCHANGE_EVENT_LINK_TERMINATING, 0);
             }
             break;
         default:
             if (gExchangeEventCallback != NULL) {
-                gExchangeEventCallback(EXCHANGE_EVENT_UNEXPECTED_NOTICE, 0);
+                gExchangeEventCallback(EXCHANGE_EVENT_OTHER_NOTICE, 0);
             }
             break;
     }
@@ -582,7 +583,7 @@ BOOL StartExchangeReturnToIdle(void) {
         case EXCHANGE_WCM_STATE_STOPPED:
         case EXCHANGE_WCM_STATE_CLEANING_UP:
         case EXCHANGE_WCM_STATE_IDLE:
-        case EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING:
+        case EXCHANGE_WCM_STATE_RETURNING_TO_IDLE:
         case EXCHANGE_WCM_STATE_SEARCH_PENDING:
         case EXCHANGE_WCM_STATE_CONNECT_PENDING:
         default:
@@ -671,7 +672,7 @@ BOOL DisconnectExchange(void) {
 
     if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
         if (WCM_DisconnectAsync() == 3) {
-            gExchangeWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
+            gExchangeWcmState = EXCHANGE_WCM_STATE_RETURNING_TO_IDLE;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
         }
@@ -757,7 +758,7 @@ BOOL InitExchangeWcm(ExchangeEventCallback callback, void *buffer, u32 size) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        gExchangeWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_RETURNING_TO_IDLE;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
     }
@@ -837,8 +838,8 @@ void EnqueueEventEx(u32 event, u32 unused) {
     }
 }
 
-void EnqueueEvent(u32 value) {
-    EnqueueEventEx(value, 0);
+void EnqueueEvent(u32 event) {
+    EnqueueEventEx(event, 0);
 }
 
 s32 InitExchangeWiFi(u32 entryCount) {
@@ -1010,13 +1011,14 @@ void DisconnectExchangeAndStopSockets(void) {
     }
 }
 
-// Finds an entry of current that is not secured and was secured in previous, else a six-asterisk entry that is clear
-// in current but not in previous; stores its index.
-s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
+// Finds an entry of current with mBit4Set 0 that matches a previous entry (same name prefix, same first four address
+// bytes) with a different mBit4Set, else an unencrypted six-asterisk entry in current when previous has none; stores
+// its index.
+s32 FindEntryWithBit4NewlyCleared(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
     BOOL result;
-    BOOL currentHasAsterisks;
-    BOOL previousHasAsterisks;
+    BOOL currentHasUnencryptedSixAsterisks;
+    BOOL previousHasUnencryptedSixAsterisks;
     EntrySummary *currentEntry;
     EntrySummary *previousEntry;
     u32 previousCount;
@@ -1041,12 +1043,12 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
                     break;
                 }
                 if (nameLength == 1 &&
-                    (currentEntry->mSsid[0] == 0 || currentEntry->mSsid[0] == EXCHANGE_SSID_BLANK_CHAR)) {
+                    (currentEntry->mSsid[0] == 0 || currentEntry->mSsid[0] == EXCHANGE_SSID_SPACE_CHAR)) {
                     break;
                 }
                 if (memcmp(currentName, previousEntry->mSsid, strlen(currentName)) == 0 &&
                     memcmp(currentEntry->mAddress.mBytes, previousEntry->mAddress.mBytes, 4) == 0 &&
-                    currentEntry->mEncrypted != previousEntry->mEncrypted && currentEntry->mEncrypted == 0) {
+                    currentEntry->mBit4Set != previousEntry->mBit4Set && currentEntry->mBit4Set == 0) {
                     found = TRUE;
                     break;
                 }
@@ -1062,8 +1064,8 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
     }
     if (found == FALSE) {
         char entryName[0x22] = {0};
-        currentHasAsterisks = FALSE;
-        previousHasAsterisks = FALSE;
+        currentHasUnencryptedSixAsterisks = FALSE;
+        previousHasUnencryptedSixAsterisks = FALSE;
         currentEntry = current->mEntries;
         previousEntry = previous->mEntries;
         previousIndex = 0;
@@ -1071,8 +1073,8 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             memcpy(entryName, previousEntry->mSsid, sizeof(previousEntry->mSsid));
             entryName[previousEntry->mSsidLength] = 0;
             if (memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
-                previousEntry->mEncrypted == 0) {
-                previousHasAsterisks = TRUE;
+                previousEntry->mBit4Set == 0) {
+                previousHasUnencryptedSixAsterisks = TRUE;
                 break;
             }
             previousEntry++;
@@ -1083,13 +1085,13 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             entryName[currentEntry->mSsidLength] = 0;
             if (strlen(entryName) == strlen(gSixAsterisksString) &&
                 memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
-                currentEntry->mEncrypted == 0) {
-                currentHasAsterisks = TRUE;
+                currentEntry->mBit4Set == 0) {
+                currentHasUnencryptedSixAsterisks = TRUE;
                 break;
             }
             currentEntry++;
         }
-        if (currentHasAsterisks != FALSE && previousHasAsterisks == FALSE) {
+        if (currentHasUnencryptedSixAsterisks != FALSE && previousHasUnencryptedSixAsterisks == FALSE) {
             found = TRUE;
         }
     }
@@ -1100,9 +1102,11 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
     return result;
 }
 
-// Repeats the entry search up to 30 times until FindEntryWithEncryptionRemoved reports one; stores its index, name and
-// address.
-s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
+// Searches up to 30 rounds, comparing each round's entry list with the previous round's, until
+// FindEntryWithBit4NewlyCleared reports an entry (not asked while gExchangeStatus is EXCHANGE_STATUS_STARTED) or the
+// timeout or a stop request ends it; stores its index, name and address in gSelectedEntryIndex, gSelectedEntryName and
+// gSelectedEntryAddress.
+s32 SearchEntriesAndStoreEntryWithBit4NewlyCleared(void) {
     s32 result;
     s32 round;
     s32 copied;
@@ -1174,9 +1178,9 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
                     case EXCHANGE_EVENT_CONNECT_TIMEOUT:
                         break;
                     case 0:
-                    case EXCHANGE_EVENT_UNEXPECTED_NOTICE:
-                    case EXCHANGE_EVENT_CHAINED_REQUEST_FAILED:
-                    case EXCHANGE_EVENT_LINK_TERMINATED:
+                    case EXCHANGE_EVENT_OTHER_NOTICE:
+                    case EXCHANGE_EVENT_REQUEST_FAILED:
+                    case EXCHANGE_EVENT_LINK_TERMINATING:
                     case EXCHANGE_EVENT_STARTUP_DONE:
                     case EXCHANGE_EVENT_UNUSED_AFTER_STARTUP_DONE:
                     case EXCHANGE_EVENT_SEARCH_START_FAILED:
@@ -1211,7 +1215,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
                 memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, sizeof(currentList->mEntries[index].mSsid));
                 currentList->mEntries[index].mSsidLength = rawEntry->mSsidLength;
                 currentList->mEntries[index].mSsid[rawEntry->mSsidLength] = 0;
-                currentList->mEntries[index].mEncrypted = (rawEntry->mFlags & RAW_ENTRY_FLAG_ENCRYPTED) ? 1 : 0;
+                currentList->mEntries[index].mBit4Set = (rawEntry->mFlags & AP_SCAN_CAPA_INFO_ENCRYPTED) ? 1 : 0;
                 source = (u8 *) &rawEntry->mAddress;
                 target = (u8 *) &currentList->mEntries[index].mAddress;
                 target[0] = source[0];
@@ -1227,7 +1231,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
         }
         currentList->mCount = result;
         if (gExchangeStatus != EXCHANGE_STATUS_STARTED) {
-            index = FindEntryWithEncryptionRemoved(currentList, previousList, &changedIndex);
+            index = FindEntryWithBit4NewlyCleared(currentList, previousList, &changedIndex);
             if (index != 0) {
                 entry = &currentList->mEntries[changedIndex];
                 gSelectedEntryIndex = changedIndex;
@@ -1328,7 +1332,9 @@ u8 *ReadFirstItem(const u8 *body, u32 *type, s32 *length) {
     return ReadNextItem(&cursor, cursor + SwapBytes16_inline(*(u16 *) body), type, length);
 }
 
-// Frames a body: six header bytes, the body (copied or transformed with the key), then the byte sum.
+// Writes the body's length minus 8 into its first two bytes, then frames it: six header bytes, the body (copied, or
+// transformed with the key when there is one, which makes it 8 bytes longer), then the byte sum; returns the total
+// size.
 s32 BuildExchangePacket(u8 *packet, u32 kind, u8 *body, u32 length, const void *key) {
     u8 *end;
     u8 *cursor;
@@ -1399,7 +1405,7 @@ s32 BuildSingleItemBody(u8 *out, u32 type, const void *value, u32 length) {
 
 typedef struct FirstReplyValues {
     /* 0 */ u16 mHalfword;
-    /* 2 */ ExchangeIndexBytes mSevenBytes;
+    /* 2 */ ExchangeItem3Bytes mSevenBytes;
 } FirstReplyValues;
 
 BOOL ParseAndCheckFirstExchangePacket(const u8 *packet, u32 *item5Flag) {
@@ -1477,7 +1483,7 @@ s32 BuildFirstReplyPacket(u8 *packet) {
     FirstReplyValues values;
     u8 *cursor;
     values.mHalfword = 0x100;
-    values.mSevenBytes = gFirstReplyIndexBytes;
+    values.mSevenBytes = gFirstReplyItem3Bytes;
     cursor = AppendItem(gFirstReplyItemBuffer, 1, &values, 2);
     cursor = AppendItem(cursor, 2, &values, 2);
     if (gReplyIncludesMacAddress != 0) {
@@ -1659,8 +1665,9 @@ BOOL ParseHexText(u8 *output, const s8 *text, s32 length) {
     return TRUE;
 }
 
-// Builds gExchangeResult from the result packet items; returns 1, or -7 for a value text of the wrong length, a zero
-// item 0x205 value or an unknown item 0x202 value.
+// Builds gExchangeResult from gExchangeResultItems; returns 1, or -7 for an unknown item 0x202 value; for the
+// value-texts one also for a zero item 0x205 value or a value text that is not empty, a WEP key size or twice one
+// (hex).
 s32 FillExchangeResultFromItems(void) {
     s32 result;
     s32 valueIndex;
@@ -1671,10 +1678,10 @@ s32 FillExchangeResultFromItems(void) {
     result = 1;
     strcpy(gExchangeResult.mText, gExchangeResultItems.mRecord.mText);
     switch (gExchangeResultItems.mRecord.mItem202Value) {
-        case KIND5_ITEM202_NONE:
+        case RESULT_ITEM202_NONE:
             gExchangeResult.mKind = EXCHANGE_RESULT_KIND_NONE;
             break;
-        case KIND5_ITEM202_VALUE_TEXTS:
+        case RESULT_ITEM202_VALUE_TEXTS:
             if (gExchangeResultItems.mRecord.mItem205Value == 0) {
                 result = -7;
                 break;
@@ -1722,12 +1729,12 @@ s32 FillExchangeResultFromItems(void) {
                 resultBytes += 0x20;
             }
             break;
-        case KIND5_ITEM202_WORDS_A:
+        case RESULT_ITEM202_WORDS_A:
             gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WORDS_A;
             __memcpy(&gExchangeResult.mItem20aWords, &gExchangeResultItems.mItem20a.mBytes,
                      sizeof(gExchangeResult.mItem20aWords));
             break;
-        case KIND5_ITEM202_WORDS_B:
+        case RESULT_ITEM202_WORDS_B:
             gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WORDS_B;
             __memcpy(&gExchangeResult.mItem20aWords, &gExchangeResultItems.mItem20a.mBytes,
                      sizeof(gExchangeResult.mItem20aWords));
@@ -1763,7 +1770,7 @@ s32 RunExchange(void) {
         OS_Sleep(500);
         switch (gExchangeState) {
             case EXCHANGE_STEP_SEARCH_ENTRY:
-                result = SearchEntriesAndStoreEntryWithEncryptionRemoved();
+                result = SearchEntriesAndStoreEntryWithBit4NewlyCleared();
                 if (result != 1) {
                     done = TRUE;
                 } else {
@@ -1839,7 +1846,7 @@ s32 RunExchange(void) {
                         gSecondKeyReceivedPart = *(SecondKeyPart *) value;
                         ComputeHash(gSecondKeyHashedPart, (const u8 *) &now, 4);
                         retryCount = 0;
-                        gExchangeState = EXCHANGE_STEP_SEND_KEY_HASH;
+                        gExchangeState = EXCHANGE_STEP_SEND_HASHED_KEY_PART;
                         gExchangeStatus = EXCHANGE_STATUS_SECOND_KEY_RECEIVED;
                         gTimeoutAtMs = -1;
                         CallStatusCallback();
@@ -1848,7 +1855,7 @@ s32 RunExchange(void) {
                     gExchangeState = EXCHANGE_STEP_SEND_FIRST_REPLY;
                 }
                 break;
-            case EXCHANGE_STEP_SEND_KEY_HASH:
+            case EXCHANGE_STEP_SEND_HASHED_KEY_PART:
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x102, gSecondKeyHashedPart, 8);
                 gPacketLength = BuildExchangePacket(gPacketBuffer, 4, gBodyBuffer, gBodyLength, gFirstKey);
                 SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
@@ -1867,7 +1874,7 @@ s32 RunExchange(void) {
                             gReceivedTextNonEmpty = 0;
                         }
                         retryCount = 0;
-                        gExchangeState = EXCHANGE_STEP_SEND_RESULT_ACK;
+                        gExchangeState = EXCHANGE_STEP_SEND_RESULT_REPLY;
                         break;
                     }
                 }
@@ -1878,32 +1885,32 @@ s32 RunExchange(void) {
                         result = -2;
                         done = TRUE;
                     } else {
-                        gExchangeState = EXCHANGE_STEP_SEND_KEY_HASH;
+                        gExchangeState = EXCHANGE_STEP_SEND_HASHED_KEY_PART;
                     }
                 }
                 break;
-            case EXCHANGE_STEP_SEND_RESULT_ACK:
+            case EXCHANGE_STEP_SEND_RESULT_REPLY:
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x301, &gReceivedTextNonEmpty, 1);
                 gPacketLength =
                     BuildExchangePacket(gPacketBuffer, 6, gBodyBuffer, gBodyLength, &gSecondKeyReceivedPart);
-                if (GetExchangeWcmState() != 7) {
+                if (GetExchangeWcmState() != EXCHANGE_WCM_STATE_CONNECTED) {
                     stamp = GetTickMilliseconds() + 1000;
                     retryCount = 10;
-                    gExchangeState = EXCHANGE_STEP_WAIT_ACK_RESEND;
+                    gExchangeState = EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY;
                 } else {
                     SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                     stamp = GetTickMilliseconds();
-                    gExchangeState = EXCHANGE_STEP_WAIT_ACK_RESEND;
+                    gExchangeState = EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY;
                 }
                 break;
-            case EXCHANGE_STEP_WAIT_ACK_RESEND:
+            case EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY:
                 if (GetTickMilliseconds() >= stamp + 1000) {
                     retryCount++;
                     if (retryCount >= 10) {
                         done = TRUE;
                         result = FillExchangeResultFromItems();
                     } else {
-                        gExchangeState = EXCHANGE_STEP_SEND_RESULT_ACK;
+                        gExchangeState = EXCHANGE_STEP_SEND_RESULT_REPLY;
                     }
                 }
                 break;
@@ -2063,7 +2070,8 @@ void XorEightBytes(u8 *first, u8 *second, u8 *output) {
     output[7] = first[7] ^ second[7];
 }
 
-// Expands the key into 4 * (n + 1) words and returns n: 10, 12 or 14 for 128, 192 or 256 bits.
+// Expands the key into 4 * (n + 1) words and returns n: 10, 12 or 14 for 128, 192 or 256 bits; any other bit count
+// returns 0.
 int ExpandKey(u32 *words, u8 *key, int keyBits) {
     int roundIndex = 0;
     u32 lastWord;
@@ -2139,25 +2147,25 @@ int ExpandKey(u32 *words, u8 *key, int keyBits) {
 
 // Expands the key, reverses the order of its four-word groups and passes the inner ones through tables.
 int ExpandKeyReversedWithTables(u32 *words, u8 *key, int keyBits) {
-    int lowIndex, highIndex, lastGroup;
+    int i, highIndex, lastGroup;
     u32 swapWord;
 
     lastGroup = ExpandKey(words, key, keyBits);
-    for (lowIndex = 0, highIndex = 4 * lastGroup; lowIndex < highIndex; lowIndex += 4, highIndex -= 4) {
-        swapWord = words[lowIndex];
-        words[lowIndex] = words[highIndex];
+    for (i = 0, highIndex = 4 * lastGroup; i < highIndex; i += 4, highIndex -= 4) {
+        swapWord = words[i];
+        words[i] = words[highIndex];
         words[highIndex] = swapWord;
-        swapWord = words[lowIndex + 1];
-        words[lowIndex + 1] = words[highIndex + 1];
+        swapWord = words[i + 1];
+        words[i + 1] = words[highIndex + 1];
         words[highIndex + 1] = swapWord;
-        swapWord = words[lowIndex + 2];
-        words[lowIndex + 2] = words[highIndex + 2];
+        swapWord = words[i + 2];
+        words[i + 2] = words[highIndex + 2];
         words[highIndex + 2] = swapWord;
-        swapWord = words[lowIndex + 3];
-        words[lowIndex + 3] = words[highIndex + 3];
+        swapWord = words[i + 3];
+        words[i + 3] = words[highIndex + 3];
         words[highIndex + 3] = swapWord;
     }
-    for (lowIndex = 1; lowIndex < lastGroup; lowIndex++) {
+    for (i = 1; i < lastGroup; i++) {
         words += 4;
         words[0] = gReversedTableByte3[gSubstitutionTable[words[0] >> 24] & 0xff] ^
                    gReversedTableByte2[gSubstitutionTable[(words[0] >> 16) & 0xff] & 0xff] ^
@@ -2663,20 +2671,21 @@ s32 FormatMacAddress(u8 *output, const s8 *address) {
     return cursor - output;
 }
 
-// Starts the thread that runs RunExchange; returns 1, or -10 while a run is under way.
-s32 StartExchange(u32 priority, s32 count, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
+// Starts the thread that runs RunExchangeThread; returns 1, -10 while a run is under way, or another negative value
+// when set-up, the stack allocation or the thread check fails.
+s32 StartExchange(u32 priority, s32 entryCount, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
                   ExchangeFreeFunc freeFunction, u32 stackSize) {
     s32 result;
     if (gExchangeStatus >= EXCHANGE_STATUS_STARTED && gExchangeStatus <= EXCHANGE_STATUS_SECOND_KEY_RECEIVED) {
         return -10;
     }
-    gStartEntryCount = count;
+    gStartEntryCount = entryCount;
     gExchangeStatus = EXCHANGE_STATUS_ENDED_WITHOUT_RESULT;
     gStatusCallback = callback;
     gAllocFunction = allocFunction;
     gFreeFunction = freeFunction;
     gThreadStackSize = stackSize;
-    result = InitExchangeWiFi(count);
+    result = InitExchangeWiFi(entryCount);
     gExchangeWiFiInitCalled = 1;
     if (result < 0) {
         gExchangeResultCode = result;

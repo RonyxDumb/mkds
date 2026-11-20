@@ -8,7 +8,7 @@
 #include "01/Menu/record_time_attack_requests.h"
 #include "Main/Net/led_pattern.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/wifi_session_login.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Graphics/text_draw.h"
@@ -26,15 +26,15 @@
 void InitWiFiLoginMenu(void *heap) {
     gWiFiLoginMenu = HeapAlloc(heap, sizeof(WiFiLoginMenu));
     gWiFiLoginMenu->mHeap = heap;
-    gWiFiLoginMenu->mState = WIFI_LOGIN_STATE_START;
-    gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_START;
+    gWiFiLoginMenu->mState = WIFI_LOGIN_MENU_STATE_START;
+    gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_START;
     gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiLoginMenu->mUnk_08 = 0;
     gWiFiLoginMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiLoginMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     InitWiFiLoginMenuNop();
-    SetLinkLevelIconEnabled(1, 1);
-    SetSelectReturnSoundId(0xe);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 1);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     SendLedPatternWireless();
 }
 
@@ -84,7 +84,7 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
                                    {0x2a, 0x2b}, {0x2c, 0},    {0x2d, 0x2e}, {0x2f, 0x2e}};
     s32 rowIndex = 0;
     s32 rowPageCount;
-    if (errorCode == 0x4e8c) {
+    if (errorCode == AUTH_RETURN_WRITE_NEW_ID) {
         rowIndex = 1;
     } else if (errorCode == 0x4e8e) {
         rowIndex = 2;
@@ -98,7 +98,8 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
         rowIndex = 5;
     } else if (errorCode >= 0xc350 && errorCode <= 0xc3b3) {
         rowIndex = 6;
-    } else if (errorCode == 0x4e85 || (errorCode >= 0x59d8 && errorCode <= 0x5dbf)) {
+    } else if (errorCode == AUTH_RETURN_BAD_RESPONSE ||
+               (errorCode >= AUTH_RETURN_HTTP_STATUS_BASE && errorCode <= 0x5dbf)) {
         rowIndex = 7;
     } else if (errorCode >= 0xc800 && errorCode <= 0xc863) {
         rowIndex = 8;
@@ -113,20 +114,20 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
 
 void AdvanceWiFiLoginMenuStart(void) {
     if (IsUserDataFriendKeyZero() != FALSE) {
-        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_NO_FRIEND_KEY_ASK_LOGIN;
         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1c),
                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
         gWiFiLoginMenu->mMessageTableIndex = 0;
         return;
     }
     if (CheckUserDataValidConsoleWrapper() != 0) {
-        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_ASK_LOGIN;
         SetupTxtSystemMainTextTwoButtons(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x13),
                                          GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0),
                                          GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 1), 0);
         return;
     }
-    gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SETUP_NOTICE;
+    gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_NOTICE;
     SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x20),
                                  GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
 }
@@ -156,7 +157,7 @@ void AdvanceWiFiLoginMenuAskLoginAfterInfo(void) {
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mShowLoggedInMessage = TRUE;
@@ -168,20 +169,20 @@ void AdvanceWiFiLoginMenuAskLoginAfterInfo(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuSetupNotice(void) {
+void AdvanceWiFiLoginMenuInvalidConsoleNotice(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemClosedNoOpenRequest() != 0) {
-        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_SETUP;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_ASK;
         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x21),
                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
         gWiFiLoginMenu->mMessageTableIndex = 0;
     }
 }
 
-void AdvanceWiFiLoginMenuAskSetup(void) {
+void AdvanceWiFiLoginMenuInvalidConsoleAsk(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -206,7 +207,7 @@ void AdvanceWiFiLoginMenuAskSetup(void) {
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_CONFIRM_SETUP;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_ASK_AGAIN;
             SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x23),
                                          GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
             gWiFiLoginMenu->mMessageTableIndex = 0;
@@ -217,7 +218,7 @@ void AdvanceWiFiLoginMenuAskSetup(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuConfirmSetup(void) {
+void AdvanceWiFiLoginMenuInvalidConsoleConfirm(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -242,7 +243,7 @@ void AdvanceWiFiLoginMenuConfirmSetup(void) {
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mShowLoggedInMessage = TRUE;
@@ -292,7 +293,7 @@ void AdvanceWiFiLoginMenuAskLogin(void) {
     }
     if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mShowLoggedInMessage = FALSE;
@@ -315,24 +316,24 @@ void AdvanceWiFiLoginMenuWaitLogin(void) {
     }
     if (IsTxtSystemOpenNoCloseRequest() != 0) {
         switch (GetWiFiSessionLoginResult()) {
-            case -1:
+            case WIFI_LOGIN_RESULT_ERROR:
                 gWiFiLoginMenu->mErrorCode = GetWiFiSessionErrorCodeNegatedWrapper();
                 if (gWiFiLoginMenu->mErrorCode < 0) {
                     gWiFiLoginMenu->mErrorCode = -gWiFiLoginMenu->mErrorCode;
                 }
                 messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, 0, &pageCount);
-                gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_MESSAGES;
+                gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_ERROR_MESSAGES;
                 SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, messageIndex),
                                              GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
                 gWiFiLoginMenu->mMessageTableIndex = 0;
                 StartWiFiLoginErrorSeq();
                 break;
-            case 0:
+            case WIFI_LOGIN_RESULT_PENDING:
                 break;
-            case 1:
+            case WIFI_LOGIN_RESULT_LOGGED_IN:
                 if (IsWiFiStatesCounterNotNegative() != 0) {
                     if (gWiFiLoginMenu->mShowLoggedInMessage != FALSE) {
-                        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SHOW_LOGGED_IN;
+                        gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_SHOW_LOGGED_IN;
                         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1e),
                                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
                         gWiFiLoginMenu->mMessageTableIndex = 0;
@@ -370,7 +371,7 @@ void AdvanceWiFiLoginMenuErrorMessages(void) {
         MIi_CpuClear16(zero, errorCodeText, 0x14);
         FormatAsciiNumber(gWiFiLoginMenu->mErrorCode, errorCodeText);
         FormatMessageWithText(errorCodeText, GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x30), messageText, 0x258);
-        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_CODE;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_ERROR_CODE;
         SetupTxtSystemMainText(messageText);
         RequestSelectReturnSlideIn();
     }
@@ -385,7 +386,7 @@ void AdvanceWiFiLoginMenuErrorCode(void) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                 pairRecentlyLost = 1;
             }
             if (pairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -411,34 +412,34 @@ next:
 void AdvanceWiFiLoginMenu(void) {
     gWiFiLoginMenu->mState = gWiFiLoginMenu->mNextState;
     switch (gWiFiLoginMenu->mState) {
-        case WIFI_LOGIN_STATE_START:
+        case WIFI_LOGIN_MENU_STATE_START:
             AdvanceWiFiLoginMenuStart();
             break;
-        case WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO:
+        case WIFI_LOGIN_MENU_STATE_NO_FRIEND_KEY_ASK_LOGIN:
             AdvanceWiFiLoginMenuAskLoginAfterInfo();
             break;
-        case WIFI_LOGIN_STATE_SETUP_NOTICE:
-            AdvanceWiFiLoginMenuSetupNotice();
+        case WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_NOTICE:
+            AdvanceWiFiLoginMenuInvalidConsoleNotice();
             break;
-        case WIFI_LOGIN_STATE_ASK_SETUP:
-            AdvanceWiFiLoginMenuAskSetup();
+        case WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_ASK:
+            AdvanceWiFiLoginMenuInvalidConsoleAsk();
             break;
-        case WIFI_LOGIN_STATE_CONFIRM_SETUP:
-            AdvanceWiFiLoginMenuConfirmSetup();
+        case WIFI_LOGIN_MENU_STATE_INVALID_CONSOLE_ASK_AGAIN:
+            AdvanceWiFiLoginMenuInvalidConsoleConfirm();
             break;
-        case WIFI_LOGIN_STATE_SHOW_LOGGED_IN:
+        case WIFI_LOGIN_MENU_STATE_SHOW_LOGGED_IN:
             AdvanceWiFiLoginMenuShowLoggedIn();
             break;
-        case WIFI_LOGIN_STATE_ASK_LOGIN:
+        case WIFI_LOGIN_MENU_STATE_ASK_LOGIN:
             AdvanceWiFiLoginMenuAskLogin();
             break;
-        case WIFI_LOGIN_STATE_WAIT_LOGIN:
+        case WIFI_LOGIN_MENU_STATE_WAIT_LOGIN:
             AdvanceWiFiLoginMenuWaitLogin();
             break;
-        case WIFI_LOGIN_STATE_ERROR_MESSAGES:
+        case WIFI_LOGIN_MENU_STATE_ERROR_MESSAGES:
             AdvanceWiFiLoginMenuErrorMessages();
             break;
-        case WIFI_LOGIN_STATE_ERROR_CODE:
+        case WIFI_LOGIN_MENU_STATE_ERROR_CODE:
             AdvanceWiFiLoginMenuErrorCode();
             break;
     }

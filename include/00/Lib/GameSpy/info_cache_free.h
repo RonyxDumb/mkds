@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct GpiProfile GpiProfile;
+typedef struct GPIProfile GPIProfile;
 
-void gpiFreeInfoCache(GpiProfile *profile);
+void gpiFreeInfoCache(GPIProfile *profile);

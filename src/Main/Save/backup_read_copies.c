@@ -10,7 +10,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "file_command_handlers.h"
 #include "file_archive_access.h"
 #include "arena_cache_init.h"
@@ -26,7 +26,7 @@ FileReadThread gFileReadThread;
 void RunFileReadThread(void *unused) {
     FSArchive *archive;
     RomArchiveTransfer *romArchiveTransfer;
-    RomArchiveParentView *archiveState;
+    RomArchiveParentView *parentView;
     s32 chunkIndex;
     RomArchiveFileNode *node;
     u32 waitIrqState;
@@ -37,20 +37,20 @@ void RunFileReadThread(void *unused) {
     romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
         waitIrqState = OS_DisableInterrupts();
-        archiveState = &gRomArchiveTransfer.mParentView;
-        node = archiveState->mPendingHead;
+        parentView = &gRomArchiveTransfer.mParentOrChildView;
+        node = parentView->mPendingHead;
         if (node == NULL) {
             do {
-                if (romArchiveTransfer->mState == 0) {
+                if (romArchiveTransfer->mState == ROM_ARCHIVE_STOPPED) {
                     OS_RestoreInterrupts(waitIrqState);
                     return;
                 }
                 OS_SleepThread(NULL);
-                node = archiveState->mPendingHead;
+                node = parentView->mPendingHead;
             } while (node == NULL);
         }
         OS_RestoreInterrupts(waitIrqState);
-        if (node->mState == 1) {
+        if (node->mState == ROM_ARCHIVE_NODE_QUEUED) {
             FS_OpenFileDirect(&node->mFile, archive, node->mFileStart, node->mFileStart + node->mFileLength,
                               node->mBlockId);
             chunkIndex = 0;
@@ -66,12 +66,12 @@ void RunFileReadThread(void *unused) {
             node->mLastLoadedBufferIndex = 1;
             node->mLoadingBufferIndex = ROM_ARCHIVE_NODE_NO_BUFFER;
             updateIrqState = OS_DisableInterrupts();
-            ActivateRomArchiveNode(&gRomArchiveTransfer.mParentView, node, 1);
+            ActivateRomArchiveNode(&gRomArchiveTransfer.mParentOrChildView, node, 1);
             OS_RestoreInterrupts(updateIrqState);
         } else {
             FS_CloseFile(&node->mFile);
             updateIrqState = OS_DisableInterrupts();
-            FreeRomArchiveNode(&gRomArchiveTransfer.mParentView, node);
+            FreeRomArchiveNode(&gRomArchiveTransfer.mParentOrChildView, node);
             OS_RestoreInterrupts(updateIrqState);
         }
     }
@@ -102,7 +102,7 @@ void StopFileReadThread(void) {
 #pragma thumb on
 
 void ClearBackupAccessStatus(void) {
-    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
+    gBackupAccess->mStatus = BACKUP_STATUS_CLEARED;
 }
 
 void CreateBackupAccess(void *heap) {
@@ -123,7 +123,7 @@ void InitBackupAccess(void) {
     TryLockBackup();
     CARD_IdentifyBackup(0x1202);
     UnlockBackup();
-    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
+    gBackupAccess->mStatus = BACKUP_STATUS_CLEARED;
     gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
     gBackupAccess->mLockId = -3;
     gBackupAccess->mCommandRunning = 0;
@@ -166,7 +166,7 @@ void FinishBackupRead(void *arg) {
     UnlockBackup();
     gBackupAccess->mCommandRunning = 0;
     switch (resultCode) {
-        case BACKUP_RESULT_OK:
+        case ACCESS_RESULT_OK:
             DC_StoreRange(gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
             if (gBackupAccess->mReadHasPrefix != 0) {
                 readWords = gBackupAccess->mReadDestination + 2;
@@ -189,15 +189,15 @@ void FinishBackupRead(void *arg) {
                 }
             }
             break;
-        case BACKUP_RESULT_FAILED:
-        case BACKUP_RESULT_TIMED_OUT:
-        case BACKUP_RESULT_NO_REPLY:
+        case ACCESS_RESULT_1:
+        case ACCESS_RESULT_AGAIN:
+        case ACCESS_RESULT_6:
             result = BACKUP_ERROR_UNAVAILABLE;
             break;
-        case BACKUP_RESULT_BAD_ARGUMENT:
-        case BACKUP_RESULT_NOT_SUPPORTED:
-        case BACKUP_RESULT_ERROR:
-        case BACKUP_RESULT_CANCELED:
+        case ACCESS_RESULT_2:
+        case ROM_ACCESS_UNSUPPORTED_TYPE:
+        case ACCESS_RESULT_5:
+        case ACCESS_RESULT_STOPPED:
         default:
             result = BACKUP_ERROR_ACCESS_FAILED;
             break;
@@ -287,9 +287,6 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
     CARDi_RequestStreamCommand(address, (u32) destination, byteCount, FinishBackupRead, callback, 1, 6, 1, 0);
     return 1;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void StartBackupReadOneCopy(u32 address, void *destination, u32 byteCount, void (*callback)(u32 *, u32),
                             u32 expectedFirstWord) {

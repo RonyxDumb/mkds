@@ -25,14 +25,15 @@ enum {
     WIFI_STATE_AIKOTOBA,
     WIFI_STATE_AIKOTOBA_CHECK,
     // Not screens: the WiFi menu scene is leaving for the named scene (or was entered from it); gSceneNames has the
-    // scene numbers 0, 14, 12 and 8.
+    // scene numbers 0, 14, 12 and 8. Scene 12 is this scene itself: the top menu sets CONNECTION_KIND_WIFI_TOP_MENU
+    // first, so RunScenes runs the DWC utility before entering it again.
     WIFI_STATE_SCENE_TITLE,
     WIFI_STATE_SCENE_KEYBOARD,
     WIFI_STATE_SCENE_WIFI_MENU = 13,
     WIFI_STATE_SCENE_RECORD,
 };
 
-// The WiFi menu state machine: its heaps, current, next and previous state, step counter and requested scene.
+// The WiFi menu state machine: its heaps, current, next and previous state, requested scene and callbacks.
 typedef struct WiFiStates {
     /* 00 */ void *mHeap;
     /* 04 */ void *mStateHeap;

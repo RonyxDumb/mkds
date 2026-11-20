@@ -32,7 +32,7 @@ void InitNicknameSceneObject(void *heap, s16 previousScene) {
     textParams.mUseSelectReturn = TRUE;
     textParams.mUseBackScreen = TRUE;
     textParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &textParams);
     gNicknameScene->mPreviousScene = previousScene;
     gNicknameScene->mNextScene = NICKNAME_SCENE_NEXT_NONE;

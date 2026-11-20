@@ -23,7 +23,7 @@ extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(s32 szByte, s32 is4pltt, s32 opt);
 
 
 
-// Three rows of seven sound ids (0x1c bytes each), selected by the result of GetKartSoundTableRow.
+// Three rows of seven sound ids; GetKartSoundTableRow picks the row (0x1c bytes per row).
 extern s32 gKartSoundRowSoundIds[3][7];
 
 extern u32 NNS_G3dAnmFmtNum;

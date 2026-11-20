@@ -10,7 +10,8 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_koura_w.h"
 
-// BouncingItemBox.mScaleRatio at reset and once full; it grows by the step each frame while the kart is the entry.
+// BouncingItemBox.mScaleRatio starts at the start value on reset; while its owner kart is the entry kart and it is
+// below the full value, AdvanceBouncingItemBox adds the step each call.
 #define BOUNCING_ITEM_BOX_START_SCALE_RATIO 0x666
 #define BOUNCING_ITEM_BOX_FULL_SCALE_RATIO 0x1000
 #define BOUNCING_ITEM_BOX_SCALE_RATIO_STEP 0xcd
@@ -28,7 +29,7 @@ typedef struct BouncingItemBox {
 
 extern const u16 gBouncingItemBoxUntilCourseHitBit;
 extern const ItemInfo gItemInfoKiller;
-// Default record: its only function pointer is the shared ComputeViewTest hook.
+// Record with no callbacks except the shared ComputeViewTest view test.
 extern const ItemKind gItemKindKiller;
 
 void CreatePooledMapObjects(void);

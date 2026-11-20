@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// How many keys each of the five keyboard rows has.
+// How many keys of one kind (grid, extra or bottom-row keys) each of the five keyboard rows has.
 typedef struct EditKeyboardRowCounts {
     /* 0 */ u8 mCounts[5];
 } EditKeyboardRowCounts;

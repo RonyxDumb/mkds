@@ -107,7 +107,7 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
             itemBox->mFollower.mGroupFollower.mToEntry->mFlagBitOn != 0) {
             itemBox->mMapObject.mFlags |= gGroupItemBoxEntryFlag;
         } else {
-            itemBox->mMapObject.mFlags &= ~0x20;
+            itemBox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
         }
         itemBox->mMapObject.mPos.y += gGroupItemBoxHeightOffset;
         itemBox->mMapObject.mPos.y += 0x10000;

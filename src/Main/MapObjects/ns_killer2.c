@@ -17,11 +17,11 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/MapObjects/map_objects_get.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/kart_surface_sound.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
@@ -34,7 +34,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -62,11 +62,11 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
     flag = *flagPtr;
     result = *resultPtr;
     if (flag == 1) {
-        nsKiller2->mParkTimer = NS_KILLER2_PARK_WAIT_FRAMES;
+        nsKiller2->mParkTimer = NS_KILLER2_HIT_PARK_FRAMES;
         nsKiller2->mMode = 1;
-        nsKiller2->mMapObject.mPosStep.x = ((s64) nsKiller2->mMapObject.mPosStep.x << 10) >> 12;
-        nsKiller2->mMapObject.mPosStep.y = ((s64) nsKiller2->mMapObject.mPosStep.y << 10) >> 12;
-        nsKiller2->mMapObject.mPosStep.z = ((s64) nsKiller2->mMapObject.mPosStep.z << 10) >> 12;
+        nsKiller2->mMapObject.mPosStep.x = SHIFT_LEFT_FROM_FIXED12(nsKiller2->mMapObject.mPosStep.x, 10);
+        nsKiller2->mMapObject.mPosStep.y = SHIFT_LEFT_FROM_FIXED12(nsKiller2->mMapObject.mPosStep.y, 10);
+        nsKiller2->mMapObject.mPosStep.z = SHIFT_LEFT_FROM_FIXED12(nsKiller2->mMapObject.mPosStep.z, 10);
         nsKiller2->mMapObject.mPosStep.y = 0x4000;
         nsKiller2->mMapObject.mFlags |= gNsKiller2DisabledFlag;
         if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {
@@ -102,10 +102,10 @@ void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
 }
 
 void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
-    if ((GetKartZoneMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
+    if ((GetEntryKartZoneMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
         nsKiller2->mMapObject.mFlags |= gNsKiller2SkipViewTestFlag;
     } else {
-        nsKiller2->mMapObject.mFlags &= ~2;
+        nsKiller2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
     }
     switch (nsKiller2->mMode) {
         case 0:
@@ -113,13 +113,14 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
                 if ((nsKiller2->mMapObject.mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0 &&
                     (nsKiller2->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_TESTED) != 0) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
-                                                      nsKiller2->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f);
+                                                      nsKiller2->mMapObject.mDistanceSquaredAndFlags &
+                                                          MAP_OBJECT_VIEW_DISTANCE_MASK);
                 } else {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
                                                       GetHorizontalCameraDistanceSquared(&nsKiller2->mMapObject.mPos));
                 }
                 VEC_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
-                if (nsKiller2->mParkTimer < NS_KILLER2_PARK_TIMER_LIMIT) {
+                if (nsKiller2->mParkTimer < NS_KILLER2_SOUND_START_PARK_TIMER) {
                     StartMapObjectSoundWhileRequested(&nsKiller2->mMapObject, 0x17d);
                 }
             } else {

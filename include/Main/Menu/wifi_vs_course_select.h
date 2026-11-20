@@ -27,12 +27,12 @@ enum {
     WIFI_VS_COURSE_SELECT_STATE_DONE = 7,
 };
 
-// Frames the course select runs before it picks by itself, frames the picks and the chosen course are held, frames the
-// rows fade out, frames the fade in runs.
+// Frame counts of the course select: the countdown before it picks by itself, the waits on the other picks and on the
+// chosen course, the row fade out and the fade in. A wait ends on the first call past its count.
 #define WIFI_VS_COURSE_SELECT_TIMER_FRAMES 0x4b0
 #define WIFI_VS_COURSE_SELECT_HOLD_FRAMES 0x3c
 #define WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES 0x3c
-#define WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES 10
+#define WIFI_VS_COURSE_SELECT_FADE_TO_FADED_FRAMES 10
 
 // The Wi-Fi VS course select screen: its file sets, messages, random state, interpolations and the courses shown.
 typedef struct WiFiVSCourseSelect {

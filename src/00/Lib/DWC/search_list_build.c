@@ -5,6 +5,7 @@
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "cpu_copy_fill.h"
 #include "narrow_string_functions.h"
+#include "03/Net/ap_entries.h"
 
 const u8 gWayportSsid[8] = {0x57, 0x61, 0x79, 0x70, 0x6f, 0x72, 0x74, 0x32};
 const char gFreespotSsid[8] = {'F', 'R', 'E', 'E', 'S', 'P', 'O', 'T'};
@@ -15,7 +16,7 @@ u32 DWCi_AC_CheckFreespot(WMBssDesc *bssDesc) {
     int compare;
     compare = strncmp((const char *) bssDesc->mSsid, gFreespotSsid, 8);
     if (compare == 0) {
-        return 8;
+        return AUTO_CONNECT_AP_TYPE_FREESPOT_SSID;
     }
     return 0;
 }
@@ -80,7 +81,7 @@ u8 MakeUserList(ACWORK *work) {
     for (apIndex = 0; apIndex < 3; info++, apIndex++) {
         if (work->mConnectType == AUTO_CONNECT_TYPE_ANY ||
             work->mConnectType == AUTO_CONNECT_TYPE_USER_FIRST + apIndex) {
-            if (info->mSetType != 0xff) {
+            if (info->mSetType != AP_SET_TYPE_EMPTY) {
                 for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
                     if (info->mSsids[0][ssidIndex] == 0) {
                         break;

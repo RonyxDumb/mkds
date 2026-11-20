@@ -10,7 +10,7 @@
 #include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
-#include "Main/Race/race_hud_sub_screen_projection.h" // RaceHudSubScreenBgAffine
+#include "Main/Race/race_hud_sub_screen_projection.h"
 
 unsigned int GetRaceHudKartRemoved(unsigned int kartIndex);
 BOOL IsRaceHudGoalMEnabled(void);

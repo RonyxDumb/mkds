@@ -13,16 +13,13 @@
 u32 TitleSelectPressReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateTitleSelectPress(void) {
     s32 titleStateFrames;
 
     titleStateFrames = GetTitleStateFrames();
     gTitleScene->mSelectedOffset = GetSelectedPressOffset(titleStateFrames);
-    if (titleStateFrames >= 10) {
+    if (titleStateFrames >= SELECTED_PRESS_FRAMES) {
         SetTitleState(TITLE_STATE_SLIDE_OUT, TITLE_STATE_LEAVE);
     }
     SetupAndDrawTitleTable();

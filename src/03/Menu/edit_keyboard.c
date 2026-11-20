@@ -103,7 +103,7 @@ void UpdateEditKeyboardPad(void) {
             }
             gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][cursorKeyIndex];
             if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
-                ChangeEditKeyboardPage(0);
+                ChangeEditKeyboardPage(EDIT_KEYBOARD_PAGE0);
             }
             return;
         }
@@ -129,7 +129,7 @@ void UpdateEditKeyboardPad(void) {
                     break;
             }
             if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
-                ChangeEditKeyboardPage(0);
+                ChangeEditKeyboardPage(EDIT_KEYBOARD_PAGE0);
             }
             gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[cursorKeyIndex - EDIT_KEY_MAIN_COUNT];
             return;
@@ -171,10 +171,10 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     keyIndex = row * 12;
     for (rowKeyIndex = 0; rowKeyIndex < keyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditKeyboard->mKeys[keyIndex];
         key->mAttr01 = ((gEditKeyboardKeyPositions[keyIndex][0] & 0x1ff) << 16) |
-                       ((key->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
+                       ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditKeyboard->mRowTexts[page][row], gEditKeyboardKeyPositions[row * 12][0], yPos,
@@ -183,10 +183,10 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     extraKeyIndex = FX_ModS32(row + 3, 4);
     for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = ((gEditKeyboardExtraKeyPositions[extraKeyIndex][0] & 0x1ff) << 16) |
-                       ((key->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
+                       ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
     }
     for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         SetOamRangeEffect(gEditKeyboard->mRow4Keys[rowKeyIndex], -1, 0, 0);
@@ -212,9 +212,9 @@ void ChangeEditKeyboardPage(int page) {
             rowIndex++;
         } while (rowIndex < 4);
     }
-    if (page == 2) {
+    if (page == EDIT_KEYBOARD_PAGE2) {
         page2Selected = TRUE;
-    } else if (page == 1) {
+    } else if (page == EDIT_KEYBOARD_PAGE1) {
         page1Selected = TRUE;
     }
     SetEditKeyboardKeyHighlight(EDIT_KEY_PAGE2_TOGGLE, page2Selected);
@@ -229,15 +229,15 @@ void SetEditKeyboardKeyHighlight(int keyIndex, int highlight) {
     }
     if (keyIndex < EDIT_KEY_MAIN_COUNT) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_MODE_MASK;
-        key->mAttr2 = (key->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gEditKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_MODE_MASK;
+        key->mAttr2 = (key->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
     extraKeyIndex = keyIndex - EDIT_KEY_MAIN_COUNT;
     if (extraKeyIndex < 4) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_MODE_MASK;
-        key->mAttr2 = (key->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gEditKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_MODE_MASK;
+        key->mAttr2 = (key->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
     SetOamRangeMode(gEditKeyboard->mRow4Keys[keyIndex - EDIT_KEY_BOTTOM_LEFT], -1, 0,

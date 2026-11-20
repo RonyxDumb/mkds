@@ -57,6 +57,6 @@ void CARD_TerminateForPulledOut(void) {
 // Sends the word on tag 14, waiting and trying again until it is accepted.
 void CARDi_SendtoPxi(u32 data, s32 wait) {
     while (PXI_SendWordByFifo(14, data, 0) != 0) {
-        WaitByLoop(wait);
+        SVC_WaitByLoop(wait);
     }
 }

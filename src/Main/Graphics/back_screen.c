@@ -13,7 +13,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "vram_transfer_queue.h"
 #include "registers.h"
 #include "Main/Graphics/scene_text_init.h"
@@ -40,7 +40,7 @@ char gBackScreenMNclr00Name[] = "back_screen_m_b_00.nclr";
 char gBackScreenSNscrBg00Name[] = "back_screen_s_bg_00.nscr";
 char gBackScreenMNclr01Name[] = "back_screen_m_b_01.nclr";
 
-void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
+void LoadTxtSystemAndSelectFiles(void) {
     LoadedPartPointer loadedPartPointer;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {

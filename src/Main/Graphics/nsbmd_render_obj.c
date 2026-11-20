@@ -16,7 +16,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
@@ -30,11 +30,13 @@
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/Graphics/res_file_entries_reset.h"
 #include "frame_texture_vram_alloc.h"
+#include "Main/System/scene_numbers.h"
 
 const Vec3 gKartEffectVec3UnitY = {0, 0x1000, 0};
 const Vec3 gKartEffectVec3Zero = {0, 0, 0};
 
-// Appends the entry for file b, uploads the texture of file c, and binds the model set of b to it when there is one.
+// Appends entry to gResFileEntries for modelFile; when textureFile has a texture it uploads it and, if modelFile holds
+// a model set, binds the model set to it.
 void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
@@ -117,12 +119,13 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
     return result;
 }
 
-// With c non-zero and scene number 2 it swaps cull modes 1 and 2 when byte 0x57 of the game record is set.
+// With allowCullSwap non-zero and scene number 2, it swaps cull modes 1 and 2 of every material when
+// RaceSetup.mMirrorMode is set.
 void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     u32 materialIndex;
     NNSG3dResMdl *objResMdl;
 
-    if (allowCullSwap != 0 && GetCurrentSceneNumber() == 2) {
+    if (allowCullSwap != 0 && GetCurrentSceneNumber() == SCENE_RACE) {
         nsbmd->mCullModesSwapped = gRaceSetup->mMirrorMode;
     } else {
         nsbmd->mCullModesSwapped = 0;
@@ -262,7 +265,8 @@ NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) 
     return nsbmd->mResMdl;
 }
 
-// Fills the object from model file c and texture file d, then keeps a heap copy of the texture block's header part.
+// Fills nsbmd from modelFile and textureFile; when it has a texture, copies the part of the texture block before its
+// texture data into a block from heap.
 NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
                                            NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdlSet *modelSet;
@@ -336,7 +340,7 @@ void SetNsbmdSecondDrawMaterial(Nsbmd *nsbmd, u8 alpha, u8 polygonId) {
     NNS_G3dMdlSetMdlAlpha(resMdl, 0, alpha);
 }
 
-// Draws with matrix b; when c is not NULL its three words (a scale, 0x1000 = 1.0) are sent first.
+// Sends matrix, then scale when it is not NULL, then draws object with the draw function of its mDrawKind.
 void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, const Vec3 *scale) {
     s32 commandParam = 30;
     u32 scaleCopy[3];
@@ -387,7 +391,8 @@ void SetNsbmdCullModeAll(Nsbmd *nsbmd, u32 cullMode) {
     NNS_G3dMdlSetMdlCullModeAll(nsbmd->mResMdl, cullMode);
 }
 
-// Frees the texture and palette memory of the file of every entry of gResFileEntries; the entries stay in the list.
+// Frees the texture and palette memory of the file of every entry of gResFileEntries that has a file; the entries stay
+// in the list.
 void ReleaseAllResFiles(void) {
     ResFileEntry *entry;
 
@@ -421,7 +426,7 @@ void InitKartEffectTables(void *heap) {
             gKartEffectIdSetIndex[kartIndex] = 1;
         }
     }
-    gKartEffectColor = 0x7fff;
+    gKartEffectColor = COLOR15_WHITE;
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_MANSION:
         case COURSE_ID_KOOPA:

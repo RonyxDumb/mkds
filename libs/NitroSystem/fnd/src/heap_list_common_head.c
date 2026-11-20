@@ -43,8 +43,8 @@ void NNSi_FndInitHeapHead(NNSiFndHeapHead *heap, u32 signature, void *heapStart,
     heap->mHeapStart = heapStart;
     heap->mHeapEnd = heapEnd;
     heap->mAttribute = 0;
-    heap->mAttribute &= ~0xff;
-    heap->mAttribute |= optFlag & 0xff;
+    heap->mAttribute &= ~HEAP_OPTION_FLAG_MASK;
+    heap->mAttribute |= optFlag & HEAP_OPTION_FLAG_MASK;
     NNS_FndInitList(&heap->mChildList, 4);
     if (gHeapListInitialized == 0) {
         NNS_FndInitList(&gHeapList, 4);

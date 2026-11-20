@@ -23,10 +23,11 @@ extern MapObjectKindRow gMapObjectKindRows[];
 // Kind numbers (the mKind member of MapObjectKindRow) of rows whose class the tree names: the Init function in the
 // row's descriptor (CreateCream and CreateBerry, the model loaders, for the last two rows) carries the class name; for
 // RainStar, Rock, Rock2, ObPakkunSf and Pendulum it is a function of the lists the row builds. Other rows stay
-// literals. CarA, BusA and TruckA share one Init: their CreateCarAKindData, CreateBusAKindData and CreateTruckAKindData
-// functions carry it. The class ItemBox also has kind 0xc9 (own Init and update list), which InitItemBox compares to
-// pick the group shadow.
-#define MAP_OBJECT_KIND_ITEM_BOX_GROUP_SHADOW 0xc9
+// literals. CarA, BusA and TruckA share one Init (InitVehicle): their CreateCarAKindData, CreateBusAKindData and
+// CreateTruckAKindData functions carry it. The kind 0xc9 is the group item box (gGroupItemBoxKindDescriptor, own Init
+// and update list); InitItemBox compares the object kind with it, and the row group index with 0, to pick the group
+// shadow.
+#define MAP_OBJECT_KIND_GROUP_ITEM_BOX 0xc9
 #define MAP_OBJECT_KIND_ITEM_BOX 0x65
 #define MAP_OBJECT_KIND_WOODBOX1 0x67
 #define MAP_OBJECT_KIND_SHINE16 0x6a
@@ -34,7 +35,8 @@ extern MapObjectKindRow gMapObjectKindRows[];
 // Course map row that starts a resting item object (its setting 0 is the item kind).
 #define MAP_OBJECT_KIND_ITEM_PLACEMENT 0x6d
 #define MAP_OBJECT_KIND_MISSION_GATE 0x6e
-// Kind of the pooled map objects that item boxes of thrown or bouncing items use.
+// Kind of the pooled map objects that bouncing item boxes, item bombs and F boxes take from the pool
+// (CreatePooledMapObjects).
 #define MAP_OBJECT_KIND_POOLED_ITEM_BOX 0x6f
 #define MAP_OBJECT_KIND_SHINE_BALLOON 0x70
 #define MAP_OBJECT_KIND_KOOPA_BLOCK 0xca

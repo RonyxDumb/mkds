@@ -175,8 +175,8 @@ Vec3 *GetViewTransposeMatrixAxis2(void) {
 void SetNsbmdModelFixedAttributes(NsbmdModel *model) {
     model->mSpecEmi = (u32) ((((model->mSpecEmi)) & (0x8000ffffu)));
     model->mSpecEmi = (u32) ((((model->mSpecEmi)) | (0x294a0000u)));
-    model->mPolygonAttributes = (model->mPolygonAttributes & ~(0x3f000000u));
-    model->mPolygonAttributes = (model->mPolygonAttributes | (0x3f000000u));
+    model->mPolygonAttributes = (model->mPolygonAttributes & ~POLYGON_ATTR_ID_MASK);
+    model->mPolygonAttributes = (model->mPolygonAttributes | POLYGON_ATTR_ID_MASK);
     model->mPolygonAttributes = (model->mPolygonAttributes & ~(0xfu));
     model->mPolygonAttributes = (model->mPolygonAttributes | (0x2u));
 }
@@ -221,13 +221,13 @@ void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePositi
     scale[2] = scale[0];
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     attributes = model->mPolygonAttributes;
-    currentAlpha = (attributes & 0x1f0000) >> 16;
+    currentAlpha = (attributes & POLYGON_ATTR_ALPHA_MASK) >> POLYGON_ATTR_ALPHA_SHIFT;
     if (maxAlpha < currentAlpha) {
-        attributes &= ~0x1f0000;
-        attributes |= maxAlpha << 16;
+        attributes &= ~POLYGON_ATTR_ALPHA_MASK;
+        attributes |= maxAlpha << POLYGON_ATTR_ALPHA_SHIFT;
         polygonId = AllocPolygonIdWrapping();
-        attributes &= 0xc0ffffff;
-        attributes |= polygonId << 24;
+        attributes &= ~POLYGON_ATTR_ID_MASK;
+        attributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
     } else if (usePosition != 0) {
         viewMatrix = gViewMatrix;
         zDot = (s64) position->x * viewMatrix->mRows[0].z + (s64) position->y * viewMatrix->mRows[1].z +
@@ -237,11 +237,11 @@ void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePositi
             if (depthAlpha == 0) {
                 depthAlpha = 1;
             }
-            attributes &= ~0x1f0000;
-            attributes |= depthAlpha << 16;
+            attributes &= ~POLYGON_ATTR_ALPHA_MASK;
+            attributes |= depthAlpha << POLYGON_ATTR_ALPHA_SHIFT;
             polygonId = AllocPolygonIdWrapping();
-            attributes &= 0xc0ffffff;
-            attributes |= polygonId << 24;
+            attributes &= ~POLYGON_ATTR_ID_MASK;
+            attributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
         }
     }
     NNS_G3dGeBufferOP_N(0x29, &attributes, 1);

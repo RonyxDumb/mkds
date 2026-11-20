@@ -13,7 +13,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -66,7 +66,7 @@ void ThrowItemRandomAfterHeldOrAtNearTarget(KartAiItemUse *itemUse, KartAi *kart
 
     if (DecrementHeldItemTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue < 0xb33) {
             UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -96,7 +96,7 @@ void ThrowItemRandomAfterHeld(KartAiItemUse *itemUse, KartAi *kartAi) {
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue < 0xb33) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -115,7 +115,7 @@ void ThrowItemRandomAfterHeldOrBehindNearTarget(KartAiItemUse *itemUse, struct K
 
     if (DecrementHeldItemTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue > 0xccd) {
             UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -141,7 +141,7 @@ void ThrowItemRandomMoreForwardAfterHeld(KartAiItemUse *itemUse, struct KartAi *
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue > 0xccd) {
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -205,7 +205,7 @@ void ThrowItemRandomAfterInUseOrAtNearTarget(KartAiItemUse *itemUse, struct Kart
 
     if (DecrementItemInUseTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue < 0xb33) {
             UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -235,7 +235,7 @@ void EasyThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue < 0xb33) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -270,7 +270,7 @@ void ThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue < 0xb33) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -398,7 +398,7 @@ void ThrowItemRandomAfterInUseOrBehindNearTarget(KartAiItemUse *itemUse, struct 
 
     if (DecrementItemInUseTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue > 0xb33) {
             UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -539,14 +539,14 @@ void DrawPosStrips(const MtxFx43 *matrix) {
             reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
             reg_G3_SPE_EMI = 0x7c004210;
             reg_G3_DIF_AMB = 0x42100000;
-            reg_G3_MTX_MODE = 3;
+            reg_G3_MTX_MODE = TARGET_MATRIX_TEXTURE;
             reg_G3_MTX_IDENTITY = 0;
-            reg_G3_MTX_MODE = 2;
+            reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
             reg_G3_TEXIMAGE_PARAM = gPosStripTexture.mTexImageParam;
-            reg_G3_PLTT_BASE = gPosStripTexture.mPlttBase >> (4 - ((gPosStripTexture.mTexImageParam >> 26 & 7) == 2));
+            reg_G3_TEXPLTT_BASE = gPosStripTexture.mPlttBase >> (4 - ((gPosStripTexture.mTexImageParam >> 26 & 7) == 2));
             isDrawStateSet = TRUE;
         }
-        reg_G3_COLOR = 0x7fff;
+        reg_G3_COLOR = COLOR15_WHITE;
         point = NNS_FndGetNextListObject(&strip->mPoints, NULL);
         if (point != NULL && gPosStripDrawEnabled != 0) {
             nextPoint = NNS_FndGetNextListObject(&strip->mPoints, NULL);

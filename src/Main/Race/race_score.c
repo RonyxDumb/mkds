@@ -12,7 +12,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 
-PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
+BattlePointLink *GetKeyedPlacementBattlePointLink(u32 key) {
     return &gCourseMap->mBattlePointLinks[gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]]
                                               .mPointIndex];
 }
@@ -49,14 +49,14 @@ BOOL IsEntryRaceEnded(void) {
         case MODE_MISSION_RUN:
             ended = FALSE;
             switch (GetRaceProgressKart(entryIndex)->mStatus) {
-                case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                     ended = TRUE;
                     break;
             }
             if (ended == FALSE) {
-                if (gRaceProgress->mEntryEndKind != 0) {
+                if (gRaceProgress->mEntryEndKind != RACE_END_KIND_GOAL) {
                     return result;
                 }
             }
@@ -69,7 +69,7 @@ BOOL IsEntryRaceEnded(void) {
         default:
             ended = FALSE;
             switch (GetRaceProgressKart(entryIndex)->mStatus) {
-                case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
+                case RACE_PROGRESS_KART_STATUS_GOAL_OR_WINNING_TEAM:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                     ended = TRUE;
@@ -116,8 +116,8 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mRespawnPoints;
 }
 
-// Sum of the nine score terms (also saved in gRaceProgress.mScoreTerms), clamped to -9999..9999; 0 unless kart a is the
-// local entry in Grand Prix or Mission Run.
+// Sum of the nine score terms (also saved in gRaceProgress.mScoreTerms), clamped to -9999..9999; 0 unless kartIndex is
+// the local entry in Grand Prix or Mission Run.
 s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     RaceProgressScoreTerms scoreTerms;
     EntryKartCounters *entryKartCounters;
@@ -241,8 +241,8 @@ static inline s32 Fixed12AddOneThenDivideByIntOrZero(s32 value, s32 divisor) {
 }
 
 static inline u32 RaceProgressNextRandomBelow(RandomState64 *randomState64, u32 limit) {
-    randomState64->mValue = (s64) randomState64->mMultiplier * (s64) randomState64->mValue + randomState64->mIncrement;
-    return ((s64) (randomState64->mValue >> 32) * limit) >> 32;
+    RANDOM_ADVANCE_S64(randomState64);
+    return RANDOM_BELOW_S64(randomState64, limit);
 }
 
 void InitRaceProgress(void) {
@@ -250,9 +250,9 @@ void InitRaceProgress(void) {
     s32 index;
     u32 seed;
     s32 checkpointNumber;
-    u64 tickSeed1;
-    u64 tickSeed2;
-    u64 tickSeed3;
+    u64 firstTickSeed;
+    u64 secondTickSeed;
+    u64 thirdTickSeed;
     u16 routeIndex;
     u16 entryInRoute;
     u16 checkpointIndex;
@@ -327,7 +327,7 @@ void InitRaceProgress(void) {
                 default:
                     connectionWork = gConnectionWork;
                     value = 0;
-                    if (RaceProgressGetWorkConnectionMode(connectionWork) != 0) {
+                    if (RaceProgressGetWorkConnectionMode(connectionWork) != CONNECTION_MODE_NONE) {
                         if (connectionWork->mState != CONNECTION_STATE_ENDED) {
                             value = 1;
                         }
@@ -335,8 +335,8 @@ void InitRaceProgress(void) {
                     if (value != 0) {
                         seed = connectionWork->mRaceSeed;
                     } else {
-                        tickSeed1 = OS_GetTick();
-                        seed = (tickSeed1 << 16) + OS_GetTick();
+                        firstTickSeed = OS_GetTick();
+                        seed = (firstTickSeed << 16) + OS_GetTick();
                     }
                     break;
             }
@@ -345,10 +345,10 @@ void InitRaceProgress(void) {
     RaceProgressInitRandomState(&gRaceProgress->mRandom, seed);
     gRaceProgress->mSeed = seed;
     gRaceSetup->mNextHeader.mSeed = seed;
-    tickSeed1 = OS_GetTick();
-    tickSeed2 = OS_GetTick();
-    tickSeed3 = OS_GetTick();
-    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, tickSeed1 + ((tickSeed2 << 24) + (tickSeed3 << 8)));
+    firstTickSeed = OS_GetTick();
+    secondTickSeed = OS_GetTick();
+    thirdTickSeed = OS_GetTick();
+    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, firstTickSeed + ((secondTickSeed << 24) + (thirdTickSeed << 8)));
     RaceProgressInitRandomState(&gRaceProgress->mFixedSeedRandom, 0xa094a2f);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         ShuffleCourseMapRespawnSlots(&gRaceProgress->mRandom);

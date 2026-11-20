@@ -19,7 +19,8 @@ typedef struct DWCHttpParseResult {
 #include "00/Lib/CPS/socket_status_resolve.h"
 #include "00/Lib/CPS/https_setup_types.h"
 
-// Growing buffer: mStart is its start, mCursor the write position, mEnd the end and mSize the size.
+// Text buffer: mStart is its start, mCursor the current position, mEnd the end and mSize the size; the send buffer
+// grows through GrowHttpBuffer.
 typedef struct HttpBuffer {
     /* 00 */ char *mStart;
     /* 04 */ char *mCursor;
@@ -27,14 +28,14 @@ typedef struct HttpBuffer {
     /* 0c */ s32 mSize;
 } HttpBuffer;
 
-// Values of Http.mResult, set by the thread that sends the request and reads the reply.
+// Values of Http.mResult: set when the Http is created and by the thread that sends the request and reads the reply.
 typedef enum HttpResult {
     HTTP_RESULT_OK,
     HTTP_RESULT_NO_MEMORY,
     HTTP_RESULT_RESOLVE_FAILED,
     HTTP_RESULT_CONNECT_FAILED,
     HTTP_RESULT_SEND_TIMEOUT,
-    HTTP_RESULT_SEND_FAILED,
+    HTTP_RESULT_TRANSFER_FAILED,
     HTTP_RESULT_RECEIVE_TIMEOUT,
     HTTP_RESULT_ABORTED,
     HTTP_RESULT_DONE
@@ -62,7 +63,8 @@ typedef struct Http {
     /* 968 */ OSThread mThread;
     /* a28 */ OSMutex mAbortMutex;
     /* a40 */ BOOL mAbort;
-    /* a44 */ u8 pad_a44[0x101c];
+    /* a44 */ u8 pad_a44[0x1c];
+    /* a60 */ u8 mThreadStack[0x1000];
     /* 1a60 */ u8 mThreadStackBottom[];
 } Http;
 
@@ -72,7 +74,7 @@ u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 
 #include "00/Lib/DWC/http_transfer.h"
 
-// The allocator, free function and ids a DWCAuth object is created with.
+// The ingamesn and gsbrcd strings and the allocator and free function a DWCAuth object is created with.
 typedef struct AuthCreateParams {
     /* 00 */ char mIngamesn[0x15];
     /* 15 */ char mGsbrcd[0xc];
@@ -80,10 +82,10 @@ typedef struct AuthCreateParams {
     /* 28 */ void (*mFree)(const void *, void *, u32);
 } AuthCreateParams;
 
-// Values of DWCAuth.mReturncode: the server's result code plus SERVER_BASE (UPDATE_ID is its code 2), the HTTP status
-// plus HTTP_STATUS_BASE when the status is not 200, or one of the local results below. The code is negated once the
-// retries have run out, and starts at -1. DWC_Auth_GetResult reports OUT_OF_RANGE (negated) for a code outside
-// SERVER_BASE up to SERVER_LIMIT.
+// Values of DWCAuth.mReturncode: the server's code plus SERVER_BASE (UPDATE_ID is 2, REMAKE_ID 104, WRITE_NEW_ID 108),
+// the HTTP status plus HTTP_STATUS_BASE when it is not 200, or FAILED or BAD_RESPONSE set locally. It starts at -1 and
+// is stored negated when a request fails or is aborted and after the retries run out. DWC_Auth_GetResult reports
+// OUT_OF_RANGE (negated) for a code whose size is outside SERVER_BASE up to SERVER_LIMIT.
 enum {
     AUTH_RETURN_SERVER_BASE = 0x4e20,
     AUTH_RETURN_SERVER_LIMIT = 0x7530,
@@ -96,13 +98,16 @@ enum {
     AUTH_RETURN_HTTP_STATUS_BASE = 0x59d8,
 };
 
-// Bytes of the result block that DWC_Auth_GetResult copies out: DWCAuth.mReturncode up to mCreateParams.
+// Bytes of DWCAuth from mReturncode up to mCreateParams: DWC_Auth_Create clears them and DWC_Auth_GetResult copies them
+// out (or zeroes the caller's block).
 #define AUTH_RESULT_BYTES 0x1c4
 
-// Size of the block DWCi_Auth allocates under the name "bmwork" for the update id and new id results.
+// Size of the block ParseAuthHttpResult allocates under the name "bmwork" for the update id and new id results; the
+// block is used from the next 32-byte boundary.
 #define AUTH_BMWORK_BYTES 0x71f
 
-// The server login: reply strings (token, challenge, cookie), HTTP labels, its Http connection, thread and abort flag.
+// The server authentication: error, return code, reply strings (retcode, datetime, locator, token, challenge, cookie),
+// the create parameters, HTTP labels, its Http connection, thread, mutex and abort flag.
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
     /* 004 */ s32 mError;
@@ -124,7 +129,8 @@ typedef struct DWCAuth {
     /* 3e0 */ u8 mStack[0x1000];
 } DWCAuth;
 
-// Some of the locals of DWCi_Auth_Prepare_FirstPost.
+// The values gathered for the first post to the server: mMacAddress, mBssid, mGameCode, mMakerCode, mBirthday and
+// mPassword, and mEssidLength, the length of the access point name read for the post (not posted itself).
 typedef struct AuthFirstPostValues {
     /* 00 */ u16 mEssidLength;
     /* 02 */ u8 mMacAddress[6];

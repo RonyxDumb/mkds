@@ -18,11 +18,11 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/MapObjects/map_objects_get.h"
-#include "Main/Sound/sound_handle_pool.h"
-#include "Main/Sound/kart_surface_sound.h"
-#include "Main/Sound/sound_handle_start.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Kart/kart_ai_item_use.h"
@@ -33,7 +33,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -104,13 +104,13 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
             break;
         case NS_KILLER1_STATE_FOLLOW_PATH:
             if (AdvanceGroupFollower(&nsKiller1->mFollower) != FALSE) {
-                nsKiller1->mStateTimer = NS_KILLER1_STATE_FRAMES;
+                nsKiller1->mStateTimer = NS_KILLER1_PAUSE_FRAMES;
                 nsKiller1->mState = NS_KILLER1_STATE_PAUSE;
             }
             GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mMapObject.mPos);
             break;
         case NS_KILLER1_STATE_PAUSE:
-            if (nsKiller1->mStateTimer == NS_KILLER1_STATE_FRAMES) {
+            if (nsKiller1->mStateTimer == NS_KILLER1_PAUSE_FRAMES) {
                 if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
                     soundParams = gNsKiller1SoundStartParams;
@@ -132,7 +132,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
                 StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4d, &nsKiller1->mMapObject.mPos);
             }
-            nsKiller1->mStateTimer = NS_KILLER1_LONG_STATE_FRAMES;
+            nsKiller1->mStateTimer = NS_KILLER1_WAIT_FRAMES;
             nsKiller1->mState = NS_KILLER1_STATE_WAIT;
             break;
     }

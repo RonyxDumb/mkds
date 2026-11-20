@@ -14,14 +14,17 @@ typedef struct NNSG3dVisAnmResult {
     /* 00 */ BOOL mIsVisible;
 } NNSG3dVisAnmResult;
 
-// Bits of NNSG3dJntAnmResult.mFlag (also set in the first byte of a node's flags in the resource).
-#define G3D_JNT_ANM_SCALE_IS_IDENTITY 0x1
-#define G3D_JNT_ANM_ROT_IS_IDENTITY 0x2
-#define G3D_JNT_ANM_TRANS_IS_IDENTITY 0x4
-#define G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY 0x8
-#define G3D_JNT_ANM_SCALE_EX1_IS_IDENTITY 0x10
-#define G3D_JNT_ANM_SCALE_EX_ARE_IDENTITY 0x18
-#define G3D_JNT_ANM_ALL_IDENTITY 0x7
+// Bits of NNSG3dJntAnmResult.mFlag: a set bit says that part is at its identity value (scale one, rotation unit,
+// translation zero, the two extra scales one); JOINT_RESULT_EX0_PARENT_INVERSE says mScaleEx0 holds the inverse scale of
+// the parent node.
+#define JOINT_RESULT_NO_SCALE 0x1
+#define JOINT_RESULT_NO_ROT 0x2
+#define JOINT_RESULT_NO_MOVE 0x4
+#define JOINT_RESULT_NO_SCALE_EX0 0x8
+#define JOINT_RESULT_NO_SCALE_EX1 0x10
+#define JOINT_RESULT_NO_SCALE_BOTH_EX 0x18
+#define JOINT_RESULT_NO_SRT 0x7
+#define JOINT_RESULT_EX0_PARENT_INVERSE 0x20
 
 // Result of a joint animation for one node. Bit 0 of mFlag says the scale is one, bit 1 that the rotation is zero,
 // bit 2 that the translation is zero, bits 3 and 4 that mScaleEx0 and mScaleEx1 are one.
@@ -33,12 +36,6 @@ typedef struct NNSG3dJntAnmResult {
     /* 28 */ MtxFx33 mRot;
     /* 4c */ Vec3 mTrans;
 } NNSG3dJntAnmResult;
-
-// Bits of NNSG3dMatAnmResult.mFlag: the texture matrix parts that are left out, and whether the matrix is used.
-#define G3D_MAT_ANM_SCALE_IS_IDENTITY 0x1
-#define G3D_MAT_ANM_ROT_IS_IDENTITY 0x2
-#define G3D_MAT_ANM_TRANS_IS_IDENTITY 0x4
-#define G3D_MAT_ANM_TEX_MTX_SET 0x8
 
 // Result of a material animation: the colors, polygon attributes and texture parameters of one material.
 struct NNSG3dMatAnmResult {
@@ -77,11 +74,7 @@ struct NNSG3dAnmObj {
     /* 1a */ u16 mMapData[1];
 };
 
-// Bit of NNSG3dRenderObj.mFlag: an animation object was added or removed, so the hint bit sets are rebuilt.
-#define G3D_RENDER_OBJ_FLAG_ANM_CHANGED 0x10
-
-// Default priority of an animation object.
-#define G3D_ANM_PRIORITY_DEFAULT 0x7f
+#define MODEL_ANIM_PRIORITY_INITIAL 0x7f
 
 // Render object: the model and the animation objects drawn with it.
 typedef struct NNSG3dRenderObj {
@@ -106,17 +99,6 @@ typedef struct NNSG3dRenderObj {
     /* 44 */ u32 mHintJntAnmExist[2];
     /* 4c */ u32 mHintVisAnmExist[2];
 } NNSG3dRenderObj;
-
-// NNSG3dRS.mFlag bit: mCurrentNodeDesc is valid.
-#define NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID 0x10
-
-// More NNSG3dRS.mFlag bits: bit 0 is set while the current node is visible; a callback sets bit 6 to say it did the
-// work of the command itself; bit 8 stops the commands from being sent to the geometry engine; bit 9 makes the
-// interpreter only step over the commands.
-#define G3D_RS_FLAG_NODE_VISIBLE 0x1
-#define G3D_RS_FLAG_CALLBACK_HANDLED 0x40
-#define G3D_RS_FLAG_NO_COMMANDS 0x100
-#define G3D_RS_FLAG_SKIP_ALL 0x200
 
 // Render state of the SBC interpreter. mC points into the byte sequence that the SBC functions advance.
 // NNSG3dRS.mFlag bits.
@@ -143,30 +125,16 @@ typedef struct NNSG3dRenderObj {
 #define MAT_RESULT_TEX_NO_TRANSLATION 0x4
 #define MAT_RESULT_TEX_MATRIX_SET 0x8
 #define MAT_RESULT_TEX_MATRIX_MULTIPLY 0x10
-#define MAT_RESULT_WIREFRAME 0x20
-// NNSG3dJntAnmResult.mFlag bits.
-#define JNT_RESULT_NO_ROTATION 0x2
-#define JNT_RESULT_NO_TRANSLATION 0x4
-#define JNT_RESULT_FIRST_EXTRA_SCALE_UNIT 0x8
-#define JNT_RESULT_SECOND_EXTRA_SCALE_UNIT 0x10
-#define JNT_RESULT_SEGMENT_SCALE_COMPENSATE 0x20
-// Material data flag bits.
-#define MAT_DATA_TEX_MATRIX_USED 0x1
-#define MAT_DATA_TEX_UNIT_SCALE 0x2
-#define MAT_DATA_TEX_NO_ROTATION 0x4
-#define MAT_DATA_TEX_NO_TRANSLATION 0x8
-#define MAT_DATA_WIREFRAME 0x20
-// Polygon attribute bits 16 to 20, the alpha of the polygon.
-#define G3D_POLYGON_ATTR_ALPHA_MASK 0x1f0000
+#define MAT_RESULT_CLEAR_ALPHA 0x20
 // Entries of the callback vectors of NNSG3dRS (one per SBC command number).
-#define G3D_CALLBACK_VECTOR_COUNT 0x20
+#define RENDER_CALLBACK_SLOT_COUNT 0x20
 
 struct NNSG3dRS {
     /* 00 */ u8 *mC;
     /* 04 */ NNSG3dRenderObj *mRenderObj;
     /* 08 */ u32 mFlag; // bit 0, bit 6, bit 8 and bit 9 are tested
-    /* 0c */ NNSG3dSbcCallBackFunc mCbVecFunc[G3D_CALLBACK_VECTOR_COUNT];
-    /* 8c */ u8 mCbVecTiming[G3D_CALLBACK_VECTOR_COUNT];
+    /* 0c */ NNSG3dSbcCallBackFunc mCbVecFunc[RENDER_CALLBACK_SLOT_COUNT];
+    /* 8c */ u8 mCbVecTiming[RENDER_CALLBACK_SLOT_COUNT];
     /* ac */ u8 mCurrentNode;
     /* ad */ u8 mCurrentMat;
     /* ae */ u8 mCurrentNodeDesc;
@@ -223,17 +191,18 @@ typedef struct NNSG3dResAnmHeader {
 #define VIEWPORT_WHOLE_SCREEN 0xbfff0000
 
 // Matrix modes of the geometry engine that the interpreter sets: position and vector matrices together, texture matrix.
-#define G3D_MTX_MODE_POS_VEC 2
-#define G3D_MTX_MODE_TEXTURE 3
+#define TARGET_MATRIX_POS_VEC 2
+#define TARGET_MATRIX_TEXTURE 3
 
-// Bits of NNSG3dGlb.mFlag. The first two are tested by the billboard and environment map commands to pick the camera
-// matrices they multiply in (both are cleared by NNS_G3dGlbFlushP). The valid bits say that the cached inverse is up
-// to date; G3D_GLB_BASE_DEPENDENT_CACHES are the bits of the caches that depend on the base transform.
-#define G3D_GLB_FLAG_USE_BASE_SRT_CAMERA 0x1
-#define G3D_GLB_FLAG_USE_CAMERA 0x2
-#define G3D_GLB_FLAG_INV_CAMERA_VALID 0x8
-#define G3D_GLB_FLAG_SRT_CAMERA_VALID 0x80
-#define G3D_GLB_BASE_DEPENDENT_CACHES 0xa4
+// Bits of NNSG3dGlb.mFlag. The first two are tested by the billboard, billboard Y, environment map and projection map
+// commands to pick the camera matrices they multiply in (both are cleared by NNS_G3dGlbFlushP). INV_CAMERA_VALID says
+// mInvCameraMtx is up to date and SRT_CAMERA_VALID says mSrtCameraMtx and mInvSrtCameraMtx are;
+// RENDER_GLOBALS_BASE_CACHE_BITS are the bits that setting the base translation or scale clears.
+#define RENDER_GLOBALS_APPLY_BASE_CAMERA 0x1
+#define RENDER_GLOBALS_APPLY_CAMERA 0x2
+#define RENDER_GLOBALS_INV_CAMERA_CACHED 0x8
+#define RENDER_GLOBALS_SRT_CAMERA_CACHED 0x80
+#define RENDER_GLOBALS_BASE_CACHE_BITS 0xa4
 
 // Global state of the G3D library; the leading part is sent to the geometry engine as one command block.
 typedef struct NNSG3dGlb {

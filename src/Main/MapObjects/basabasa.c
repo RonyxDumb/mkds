@@ -31,7 +31,7 @@
 #include "heap_frame_allocator.h"
 #include "thread_scheduler.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
@@ -140,9 +140,9 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             if (basabasa->mDelayTimer-- > 0) {
                 break;
             }
-            basabasa->mMapObject.mFlags &= ~1;
-            basabasa->mMapObject.mFlags &= ~2;
-            basabasa->mMapObject.mFlags &= ~8;
+            basabasa->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+            basabasa->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            basabasa->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             basabasa->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x19a);
             basabasa->mVelocity.y += -0x19a;
@@ -203,20 +203,19 @@ static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
 
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
+        RANDOM_ADVANCE(mapObjectRandom);
+        return RANDOM_BELOW(mapObjectRandom, 0x10000);
     } else {
         mapObjectRandom = GetMapObjectRandom();
         limitU16 = (u16) limit;
         if (limitU16 == 0) {
             value = 0;
         } else {
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            RANDOM_ADVANCE(mapObjectRandom);
             if (limitU16 == 0) {
-                value = mapObjectRandom->mValue >> 32;
+                value = RANDOM_HIGH32(mapObjectRandom);
             } else {
-                value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
+                value = RANDOM_BELOW(mapObjectRandom, limitU16);
             }
         }
     }
@@ -248,8 +247,8 @@ void StartBasabasa(u32 glideTimerBase, const Vec3 *startPos, const Vec3 *velocit
     basabasa->mSoundRequested = soundRequested;
     basabasa->mRaceHudSubScreenCellKind = subScreenCellKind;
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
+    RANDOM_ADVANCE(mapObjectRandom);
+    basabasa->mDelayTimer = (u16) RANDOM_BELOW(mapObjectRandom, 30);
     timerRange = TO_FIXED12(fallTimerBase) >> 16;
     randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
     basabasa->mFallTimer = fallTimerBase + randomOffset;

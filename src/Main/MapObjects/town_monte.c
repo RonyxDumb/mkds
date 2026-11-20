@@ -11,18 +11,18 @@
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "fixed_arctangent.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
@@ -39,20 +39,19 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
 
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
+        RANDOM_ADVANCE(mapObjectRandom);
+        return RANDOM_BELOW(mapObjectRandom, 0x10000);
     } else {
         mapObjectRandom = GetMapObjectRandom();
         limitU16 = (u16) limit;
         if (limitU16 == 0) {
             value = 0;
         } else {
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            RANDOM_ADVANCE(mapObjectRandom);
             if (limitU16 == 0) {
-                value = mapObjectRandom->mValue >> 32;
+                value = RANDOM_HIGH32(mapObjectRandom);
             } else {
-                value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
+                value = RANDOM_BELOW(mapObjectRandom, limitU16);
             }
         }
     }
@@ -61,12 +60,12 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
 
 static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
     townMonte->mBounceOffset += townMonte->mBounceSpeed;
-    townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_STEP;
+    townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_PER_FRAME;
     if (townMonte->mBounceOffset == 0) {
         townMonte->mBounceOffset += townMonte->mBounceSpeed;
-        townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_STEP;
+        townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_PER_FRAME;
     } else if (townMonte->mBounceOffset >= TOWN_MONTE_BOUNCE_OFFSET_MAX) {
-        townMonte->mBounceSpeed = TOWN_MONTE_BOUNCE_SPEED_STEP - townMonte->mBounceSpeed;
+        townMonte->mBounceSpeed = TOWN_MONTE_BOUNCE_SPEED_PER_FRAME - townMonte->mBounceSpeed;
         townMonte->mMirror = townMonte->mMirror == 0 ? 1 : 0;
     }
 }
@@ -237,8 +236,8 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
         townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        count = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;
+        RANDOM_ADVANCE(mapObjectRandom);
+        count = RANDOM_BELOW(mapObjectRandom, 0x1a);
         for (index = 0; index < count; index++) {
             AdvanceTownMonteBounce(townMonte);
         }
@@ -249,9 +248,8 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
                 townMonte->mSoundId = TOWN_MONTE_SOUND_SECOND;
             } else if (townMonte->mNsbtpFrameIndex == 2) {
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                townMonte->mSoundId = (u16) (((mapObjectRandom->mValue >> 32) * 2) >> 32) != 0
+                RANDOM_ADVANCE(mapObjectRandom);
+                townMonte->mSoundId = (u16) RANDOM_BELOW(mapObjectRandom, 2) != 0
                                           ? TOWN_MONTE_SOUND_FIRST
                                           : TOWN_MONTE_SOUND_SECOND;
             }
@@ -275,12 +273,13 @@ void UpdateTownMonte(void *mapObjectList, TownMonte *townMonte) {
     if (townMonte->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
-    if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        falloffIndex = 2;
-    } else if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        falloffIndex = 3;
+    if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+    } else if (townMonte->mMapObject.mFarDistanceSquared ==
+               gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+        falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
     } else {
-        falloffIndex = 4;
+        falloffIndex = SOUND_FALLOFF_LONG_RANGE;
     }
     soundStartParams.mSoundId = soundId;
     soundStartParams.mPositionSource = &townMonte->mMapObject.mPos;

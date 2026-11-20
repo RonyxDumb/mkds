@@ -10,7 +10,8 @@ typedef struct Jb2MenuPaletteRows {
     /* 0 */ u8 mRowIndices[2];
 } Jb2MenuPaletteRows;
 
-// The text of a file path the menu loads, passed to BuildFilePathWithLanguage.
+// The text of the file path char/ybBgStep11.ncl.l that the Jb2 menu and the Ap screen pass to
+// BuildFilePathWithLanguage.
 typedef struct YbBgStep11NclName {
     /* 00 */ u8 mText[0x16];
 } YbBgStep11NclName;

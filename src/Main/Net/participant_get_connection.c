@@ -11,9 +11,10 @@
 #include "Main/Race/race_setup_block.h"
 #include "Main/MapObjects/map_object_park.h"
 
-const u8 gDefaultParentParameter[64] = {0, 0, 0,    0, 0, 0, 0, 0, 0x25, 0, 0,    0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0,
-                                        0, 0, 0xc8, 0, 0, 0, 0, 0, 0,    0, 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                        0, 0, 0,    0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const u8 gDefaultParentParameter[64] = {
+    0, 0, 0, 0, 0, 0, 0, 0, CONNECTION_GAME_GROUP_ID, 0, 0, 0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0xc8, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
 
 #pragma opt_rebuildconditionals off
 
@@ -69,7 +70,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
 
     connectionWork = gConnectionWork;
     result = FALSE;
-    if (ParticipantGetWorkConnectionMode(connectionWork) != 2) {
+    if (ParticipantGetWorkConnectionMode(connectionWork) != CONNECTION_MODE_CHILD) {
         return FALSE;
     }
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -197,7 +198,7 @@ void FillParentParameter(s32 flag) {
     parentParameter->mChannel = gConnectionWork->mParentChannel;
     parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
     parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
+    parentParameter->mUserGameInfoLength = USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = CHILD_LIST_MAX_CHILDREN;
     parentParameter->mEntryFlag = flag != 0 ? 1 : 0;
 }
@@ -235,7 +236,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     parentParameter->mChannel = gConnectionWork->mParentChannel;
     parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
     parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
+    parentParameter->mUserGameInfoLength = USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = 1;
     parentParameter->mParentMaxSize = CONNECTION_PARENT_MAX_SIZE;
     parentParameter->mChildMaxSize = CONNECTION_CHILD_MAX_SIZE;

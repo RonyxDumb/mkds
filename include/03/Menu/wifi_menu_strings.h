@@ -3,12 +3,12 @@
 #include "types.h"
 #include "03/Menu/jb2_menu.h"
 
-// Four bytes moved as one value.
+// Palette row of the selected way, by way index: mRowIndices.
 typedef struct WayPaletteRows {
     /* 0 */ u8 mRowIndices[4];
 } WayPaletteRows;
 
-// Three words moved as one value.
+// Message index of the connect message box, by the second secondary menu pair value: mMessageIndices.
 typedef struct ConnectMessageIds {
     /* 00 */ u32 mMessageIndices[3];
 } ConnectMessageIds;

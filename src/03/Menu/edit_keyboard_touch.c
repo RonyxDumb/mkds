@@ -35,7 +35,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
     }
     keyIndex = 0;
     gEditKeyboard->mPressedKeyIndex = -1;
-    for (; keyIndex < 0x2f; keyIndex++) {
+    for (; keyIndex < EDIT_KEY_MAIN_COUNT; keyIndex++) {
         ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[keyIndex], gEditKeyboardKeySize[0], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             if (gEditKeyboard->mAddCharEnabled == 0) {
@@ -57,7 +57,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
                 return;
             }
             StartSoundSeq(gEditKeyboardExtraKeySoundSeqs[extraKeyIndex]);
-            gEditKeyboard->mPressedKeyIndex = extraKeyIndex + 0x2f;
+            gEditKeyboard->mPressedKeyIndex = extraKeyIndex + EDIT_KEY_MAIN_COUNT;
             return;
         }
     }
@@ -65,7 +65,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
         ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[keyIndex], gEditKeyboardRow4KeySize[0], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             StartSoundSeq(0);
-            gEditKeyboard->mPressedKeyIndex = keyIndex + 0x33;
+            gEditKeyboard->mPressedKeyIndex = keyIndex + EDIT_KEY_BOTTOM_LEFT;
             return;
         }
     }
@@ -81,7 +81,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
     if (IsTouchReleasedInRect(&gTouchScreenRect) == 0) {
         return;
     }
-    for (keyIndex = 0; keyIndex < 0x2f; keyIndex++) {
+    for (keyIndex = 0; keyIndex < EDIT_KEY_MAIN_COUNT; keyIndex++) {
         ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[keyIndex], gEditKeyboardKeySize[0], &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != keyIndex) {
@@ -89,7 +89,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
             }
             gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][keyIndex];
             if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
-                ChangeEditKeyboardPage(0);
+                ChangeEditKeyboardPage(EDIT_KEYBOARD_PAGE0);
             }
             gEditKeyboard->mCursorKeyIndex = keyIndex;
             PlaceEditKeyboardCursor();
@@ -102,14 +102,14 @@ void AdvanceEditKeyboardTouchReleased(void) {
     for (; extraKeyIndex < 4; extraKeySizes++, extraKeyOrigins++, extraKeyIndex++) {
         ComputeRectFromOriginAndSize(*extraKeyOrigins, *extraKeySizes, &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != extraKeyIndex + 0x2f) {
+            if (gEditKeyboard->mPressedKeyIndex != extraKeyIndex + EDIT_KEY_MAIN_COUNT) {
                 return;
             }
             gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[extraKeyIndex];
             if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
-                ChangeEditKeyboardPage(0);
+                ChangeEditKeyboardPage(EDIT_KEYBOARD_PAGE0);
             }
-            gEditKeyboard->mCursorKeyIndex = extraKeyIndex + 0x2f;
+            gEditKeyboard->mCursorKeyIndex = extraKeyIndex + EDIT_KEY_MAIN_COUNT;
             PlaceEditKeyboardCursor();
             return;
         }
@@ -117,11 +117,11 @@ void AdvanceEditKeyboardTouchReleased(void) {
     for (keyIndex = 0; keyIndex < 2; keyIndex++) {
         ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[keyIndex], gEditKeyboardRow4KeySize[0], &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != keyIndex + 0x33) {
+            if (gEditKeyboard->mPressedKeyIndex != keyIndex + EDIT_KEY_BOTTOM_LEFT) {
                 return;
             }
             gEditKeyboard->mInput = gEditKeyboardRow4Inputs[keyIndex];
-            gEditKeyboard->mCursorKeyIndex = keyIndex + 0x33;
+            gEditKeyboard->mCursorKeyIndex = keyIndex + EDIT_KEY_BOTTOM_LEFT;
             PlaceEditKeyboardCursor();
             return;
         }
@@ -150,7 +150,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
 void ToggleEditKeyboardPage2(void) {
     u32 page;
     if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE2) {
-        page = EDIT_KEYBOARD_PAGE_MAIN;
+        page = EDIT_KEYBOARD_PAGE0;
     } else {
         page = EDIT_KEYBOARD_PAGE2;
     }
@@ -159,7 +159,7 @@ void ToggleEditKeyboardPage2(void) {
 }
 
 void ToggleEditKeyboardPage1(void) {
-    ChangeEditKeyboardPage((gEditKeyboard->mPage != 1));
+    ChangeEditKeyboardPage((gEditKeyboard->mPage != EDIT_KEYBOARD_PAGE1));
     StartSoundSeq(1);
 }
 
@@ -171,7 +171,7 @@ void AdvanceEditKeyboardTouchDown(void) {
     if (IsTouchDownInRect(&gTouchScreenRect) == 0) {
         goto fail;
     }
-    for (keyIndex = 0; keyIndex < 0x2f; keyIndex++) {
+    for (keyIndex = 0; keyIndex < EDIT_KEY_MAIN_COUNT; keyIndex++) {
         ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[keyIndex], gEditKeyboardKeySize[0], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != keyIndex) {
@@ -185,10 +185,10 @@ void AdvanceEditKeyboardTouchDown(void) {
         ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[extraKeyIndex],
                                      gEditKeyboardExtraKeySizes[extraKeyIndex], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != extraKeyIndex + 0x2f) {
+            if (gEditKeyboard->mPressedKeyIndex != extraKeyIndex + EDIT_KEY_MAIN_COUNT) {
                 goto fail;
             }
-            ChangeEditKeyboardHighlight(extraKeyIndex + 0x2f);
+            ChangeEditKeyboardHighlight(extraKeyIndex + EDIT_KEY_MAIN_COUNT);
             if (extraKeyIndex == 3) {
                 gEditKeyboard->mRepeatCalls++;
                 if (gEditKeyboard->mRepeatCalls >= EDIT_KEYBOARD_REPEAT_DELAY_CALLS) {
@@ -208,10 +208,10 @@ void AdvanceEditKeyboardTouchDown(void) {
     for (keyIndex = 0; keyIndex < 2; keyIndex++) {
         ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[keyIndex], gEditKeyboardRow4KeySize[0], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != keyIndex + 0x33) {
+            if (gEditKeyboard->mPressedKeyIndex != keyIndex + EDIT_KEY_BOTTOM_LEFT) {
                 goto fail;
             }
-            ChangeEditKeyboardHighlight(keyIndex + 0x33);
+            ChangeEditKeyboardHighlight(keyIndex + EDIT_KEY_BOTTOM_LEFT);
             goto done;
         }
     }

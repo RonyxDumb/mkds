@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
@@ -35,8 +35,8 @@ extern s32 gSceneSeqVolume;
 extern u32 gSoundFadeSteps;
 
 extern void *gSoundOutputEffectBuffer;
-// Passed by address to NNS_SndArcPlayerStartSeqArc, SetSndHandleTrackVolume and NNS_SndHandleInit; UpdateSeqQueue tests
-// it for null.
+// The one sequence handle that menus and the seq queue start sequences on; UpdateSeqQueue and StartSeqPair test it for
+// null.
 extern NNSSndSeqPlayer *gSharedSeqHandle;
 extern u32 gFileSndArcOpen;
 

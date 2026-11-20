@@ -7,24 +7,25 @@
 #include "Main/Kart/camera_entry.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "registers.h"
-#include "Main/Sound/sound_handle_slots.h"
+#include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
+#include "Main/System/scene_numbers.h"
 
 void StopKartSoundWhileRequested(Kart *kart) {
-    if (kart->mSound.mWhileRequestedSoundId == KART_SOUND_NO_WHILE_REQUESTED_SOUND) {
+    if (kart->mSound.mWhileRequestedSoundId == KART_SOUND_WHILE_REQUESTED_STOPPED) {
         return;
     }
     StopSoundEx(&kart->mSoundSource, 0, kart->mSound.mWhileRequestedSoundId, 0);
-    kart->mSound.mWhileRequestedSoundId = KART_SOUND_NO_WHILE_REQUESTED_SOUND;
+    kart->mSound.mWhileRequestedSoundId = KART_SOUND_WHILE_REQUESTED_STOPPED;
 }
 
 void InitSoundFalloffs(void) {
@@ -74,7 +75,7 @@ void InitSoundFalloffs(void) {
     static SoundFalloffSettings defaultSettings0 = {800, 500, 47, 150, 127};
     static SoundFalloffSettings defaultSettings1 = {800, 500, 47, 150, 95};
 
-    if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
+    if (GetCurrentSceneNumber() == SCENE_RACE && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
         isReplayScene = TRUE;
     } else {
         isReplayScene = FALSE;
@@ -160,17 +161,20 @@ void InitSoundFalloffs(void) {
         workSettings3 = replaySettings3;
     }
     copiedSettings3 = workSettings3;
-    gSoundFalloffs[2].mMaxVolume = copiedSettings3.mMaxVolume;
-    gSoundFalloffs[2].mOuterDistance = copiedSettings3.mOuterDistance;
-    gSoundFalloffs[2].mMidDistance = copiedSettings3.mMidDistance;
-    gSoundFalloffs[2].mMidVolume = copiedSettings3.mMidVolume;
-    gSoundFalloffs[2].mInnerDistance = copiedSettings3.mInnerDistance;
-    gSoundFalloffs[2].mInnerToMidSlope = FX_Div(TO_FIXED12(copiedSettings3.mMidVolume - copiedSettings3.mMaxVolume),
-                                       TO_FIXED12(copiedSettings3.mMidDistance - copiedSettings3.mInnerDistance));
-    gSoundFalloffs[2].mMidToOuterSlope = FX_Div(TO_FIXED12(copiedSettings3.mMidVolume),
-                                       TO_FIXED12(copiedSettings3.mMidDistance - copiedSettings3.mOuterDistance));
-    gSoundFalloffs[2].mForwardDistanceSlope = FX_Div(0x666, TO_FIXED12(gSoundFalloffs[2].mInnerDistance) + 0x36000);
-    gSoundFalloffs[2].mFarDistanceSquared =
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mMaxVolume = copiedSettings3.mMaxVolume;
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mOuterDistance = copiedSettings3.mOuterDistance;
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mMidDistance = copiedSettings3.mMidDistance;
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mMidVolume = copiedSettings3.mMidVolume;
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mInnerDistance = copiedSettings3.mInnerDistance;
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mInnerToMidSlope =
+        FX_Div(TO_FIXED12(copiedSettings3.mMidVolume - copiedSettings3.mMaxVolume),
+               TO_FIXED12(copiedSettings3.mMidDistance - copiedSettings3.mInnerDistance));
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mMidToOuterSlope =
+        FX_Div(TO_FIXED12(copiedSettings3.mMidVolume),
+               TO_FIXED12(copiedSettings3.mMidDistance - copiedSettings3.mOuterDistance));
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mForwardDistanceSlope =
+        FX_Div(0x666, TO_FIXED12(gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mInnerDistance) + 0x36000);
+    gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared =
         FROM_FIXED12(MUL_FIXED12_ROUNDED(TO_FIXED12(copiedSettings3.mOuterDistance), 0x16a1)) *
         FROM_FIXED12(MUL_FIXED12_ROUNDED(TO_FIXED12(copiedSettings3.mOuterDistance), 0x16a1));
     workSettings4 = defaultSettings4;
@@ -183,31 +187,37 @@ void InitSoundFalloffs(void) {
         workSettings4 = replaySettings4;
     }
     copiedSettings4 = workSettings4;
-    gSoundFalloffs[3].mMaxVolume = copiedSettings4.mMaxVolume;
-    gSoundFalloffs[3].mOuterDistance = copiedSettings4.mOuterDistance;
-    gSoundFalloffs[3].mMidDistance = copiedSettings4.mMidDistance;
-    gSoundFalloffs[3].mMidVolume = copiedSettings4.mMidVolume;
-    gSoundFalloffs[3].mInnerDistance = copiedSettings4.mInnerDistance;
-    gSoundFalloffs[3].mInnerToMidSlope = FX_Div(TO_FIXED12(copiedSettings4.mMidVolume - copiedSettings4.mMaxVolume),
-                                       TO_FIXED12(copiedSettings4.mMidDistance - copiedSettings4.mInnerDistance));
-    gSoundFalloffs[3].mMidToOuterSlope = FX_Div(TO_FIXED12(copiedSettings4.mMidVolume),
-                                       TO_FIXED12(copiedSettings4.mMidDistance - copiedSettings4.mOuterDistance));
-    gSoundFalloffs[3].mForwardDistanceSlope = FX_Div(0x666, TO_FIXED12(gSoundFalloffs[3].mInnerDistance) + 0x36000);
-    gSoundFalloffs[3].mFarDistanceSquared =
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mMaxVolume = copiedSettings4.mMaxVolume;
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mOuterDistance = copiedSettings4.mOuterDistance;
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mMidDistance = copiedSettings4.mMidDistance;
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mMidVolume = copiedSettings4.mMidVolume;
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mInnerDistance = copiedSettings4.mInnerDistance;
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mInnerToMidSlope =
+        FX_Div(TO_FIXED12(copiedSettings4.mMidVolume - copiedSettings4.mMaxVolume),
+               TO_FIXED12(copiedSettings4.mMidDistance - copiedSettings4.mInnerDistance));
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mMidToOuterSlope =
+        FX_Div(TO_FIXED12(copiedSettings4.mMidVolume),
+               TO_FIXED12(copiedSettings4.mMidDistance - copiedSettings4.mOuterDistance));
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mForwardDistanceSlope =
+        FX_Div(0x666, TO_FIXED12(gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mInnerDistance) + 0x36000);
+    gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared =
         FROM_FIXED12(MUL_FIXED12_ROUNDED(TO_FIXED12(copiedSettings4.mOuterDistance), 0x16a1)) *
         FROM_FIXED12(MUL_FIXED12_ROUNDED(TO_FIXED12(copiedSettings4.mOuterDistance), 0x16a1));
     copiedSettings5 = defaultSettings5;
-    gSoundFalloffs[4].mMaxVolume = copiedSettings5.mMaxVolume;
-    gSoundFalloffs[4].mOuterDistance = copiedSettings5.mOuterDistance;
-    gSoundFalloffs[4].mMidDistance = copiedSettings5.mMidDistance;
-    gSoundFalloffs[4].mMidVolume = copiedSettings5.mMidVolume;
-    gSoundFalloffs[4].mInnerDistance = copiedSettings5.mInnerDistance;
-    gSoundFalloffs[4].mInnerToMidSlope = FX_Div(TO_FIXED12(copiedSettings5.mMidVolume - copiedSettings5.mMaxVolume),
-                                       TO_FIXED12(copiedSettings5.mMidDistance - copiedSettings5.mInnerDistance));
-    gSoundFalloffs[4].mMidToOuterSlope = FX_Div(TO_FIXED12(copiedSettings5.mMidVolume),
-                                       TO_FIXED12(copiedSettings5.mMidDistance - copiedSettings5.mOuterDistance));
-    gSoundFalloffs[4].mForwardDistanceSlope = FX_Div(0x666, TO_FIXED12(gSoundFalloffs[4].mInnerDistance) + 0x36000);
-    gSoundFalloffs[4].mFarDistanceSquared =
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mMaxVolume = copiedSettings5.mMaxVolume;
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mOuterDistance = copiedSettings5.mOuterDistance;
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mMidDistance = copiedSettings5.mMidDistance;
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mMidVolume = copiedSettings5.mMidVolume;
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mInnerDistance = copiedSettings5.mInnerDistance;
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mInnerToMidSlope =
+        FX_Div(TO_FIXED12(copiedSettings5.mMidVolume - copiedSettings5.mMaxVolume),
+               TO_FIXED12(copiedSettings5.mMidDistance - copiedSettings5.mInnerDistance));
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mMidToOuterSlope =
+        FX_Div(TO_FIXED12(copiedSettings5.mMidVolume),
+               TO_FIXED12(copiedSettings5.mMidDistance - copiedSettings5.mOuterDistance));
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mForwardDistanceSlope =
+        FX_Div(0x666, TO_FIXED12(gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mInnerDistance) + 0x36000);
+    gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared =
         FROM_FIXED12(MUL_FIXED12_ROUNDED(TO_FIXED12(copiedSettings5.mOuterDistance), 0x16a1)) *
         FROM_FIXED12(MUL_FIXED12_ROUNDED(TO_FIXED12(copiedSettings5.mOuterDistance), 0x16a1));
     copiedSettings6 = defaultSettings6;
@@ -367,18 +377,18 @@ void InitSoundFalloffs(void) {
 }
 
 s32 ComputeSoundVolume(SoundParams *soundParams) {
-    Kart *kart;
+    Kart *source;
     SoundFalloff *falloff;
     s32 volume;
     s32 value;
 
-    kart = (Kart *) soundParams->mSource;
+    source = (Kart *) soundParams->mSource;
     volume = 0;
-    if (kart != NULL) {
-        if (kart != NULL && kart->mSoundSource.mFalloffIndex == 0 && kart->mIndex != gRaceSetup->mEntryIndex) {
+    if (source != NULL) {
+        if (source != NULL && source->mSoundSource.mFalloffIndex == 0 && source->mIndex != gRaceSetup->mEntryIndex) {
             falloff = &gOtherKartSoundFalloff;
         } else {
-            falloff = &gSoundFalloffs[kart->mSoundSource.mFalloffIndex];
+            falloff = &gSoundFalloffs[source->mSoundSource.mFalloffIndex];
         }
     } else {
         falloff = &gSoundFalloffs[soundParams->mStartParams->mFalloffIndex];
@@ -417,7 +427,7 @@ s32 ComputeSoundPan(SoundParams *soundParams) {
     s32 pan;
 
     angle = FX_Atan2Idx(TO_FIXED12(soundParams->mCameraForwardDistance), -soundParams->mCameraSideDistance << 12);
-    if (angle > 0x7fff) {
+    if (angle > ANGLE_HALF_TURN - 1) {
         angle = (u16) (0xffff - angle);
     }
     pan = FROM_FIXED12(MUL_FIXED12_ROUNDED((s32) TO_FIXED12(angle), -32));

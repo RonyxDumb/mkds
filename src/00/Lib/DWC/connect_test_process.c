@@ -13,14 +13,14 @@ u32 ConnectTestProcess(ACWORK *work) {
     error = DWC_Netcheck_GetError();
     if (error != 0) {
         if (hold->mEndType == DWCi_ConvConnectAPType(work->mConnectApType)) {
-            hold->mErrorTest = DWC_Netcheck_GetReturnCode();
+            hold->mNetcheckReturnCode = DWC_Netcheck_GetReturnCode();
         }
         DWC_Netcheck_Destroy();
         if (error != 0xb) {
-            work->mFindList[work->mConnectNo].mState = 1;
-            return 0xb;
+            work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_FAILED;
+            return AC_PHASE_TEST_RETRY;
         }
-        return 0xf;
+        return AC_PHASE_TEST_END;
     }
-    return 0xe;
+    return AC_PHASE_TEST_PROCESS;
 }

@@ -5,29 +5,30 @@
 #include "alarm_timer.h"
 
 // Result of a notification: WcmNotify and WcmNotifyEx take it, WCMNotice.mResult holds it.
-typedef enum WifiReportResult {
+enum {
     WIFI_REPORT_SUCCEEDED = 0,
     WIFI_REPORT_DECLINED = 1,
     WIFI_REPORT_UNRECOVERABLE = 7
-} WifiReportResult;
+};
 
-// Values of WCMWork.mNotifyId: the request whose answer is reported next (named by the wireless call that starts it).
-// WcmNotify sends it and clears it.
-// SEARCH_FOUND and SCAN_ROUND are also sent on their own while searching.
+// Values of WCMWork.mNotifyId: the request whose answer is reported next, set by the Async call that starts it
+// (WCM_StartupAsync, WCM_CleanupAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync,
+// WCM_TerminateAsync). WcmNotify sends it and clears it. SEARCH_FOUND and SCAN_ROUND are also sent on their own while
+// searching (SCAN_ROUND once per round, when the round-scan option is set).
 enum {
     WIFI_NOTIFY_NONE = 0,
-    WIFI_NOTIFY_ENABLE_REQUEST = 1,
-    WIFI_NOTIFY_POWER_OFF_REQUEST = 2,
+    WIFI_NOTIFY_STARTUP_REQUEST = 1,
+    WIFI_NOTIFY_CLEANUP_REQUEST = 2,
     WIFI_NOTIFY_SCAN_START_REQUEST = 3,
     WIFI_NOTIFY_SCAN_STOP_REQUEST = 4,
     WIFI_NOTIFY_CONNECT_REQUEST = 5,
     WIFI_NOTIFY_DISCONNECT_REQUEST = 6,
     WIFI_NOTIFY_SEARCH_FOUND = 7,
     WIFI_NOTIFY_SCAN_ROUND = 8,
-    WIFI_NOTIFY_LINK_TERMINATING = 9,
+    WIFI_NOTIFY_TERMINATE_REQUEST = 9,
 };
 
-// Event the function at mNotify is called with; built by WcmNotifyEx.
+// Notice WcmNotifyEx builds and passes to the function at WCMWork.mNotify.
 typedef struct WCMNotice {
     /* 00 */ u16 mNotify;
     /* 02 */ u16 mResult;
@@ -54,41 +55,41 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
-// Values of the mode member of a WEP key: the key length (5, 13 and 16 bytes).
 #define WCM_WEPMODE_NONE 0
-#define WEP_KEY_MODE_SHORT 1
-#define WEP_KEY_MODE_LONG 2
-#define WEP_KEY_MODE_LONGEST 3
 
-// Bits of WCMWork.mOption: TEST bits say a setting is made, the FILTER bit next to it gives its value (channel bits
-// are numbered from channel 1).
-#define WCM_OPTION_TEST_CHANNEL 0x00008000
-#define WCM_OPTION_CHANNEL_1 (WCM_OPTION_TEST_CHANNEL | 0x00000002)
-#define WCM_OPTION_CHANNEL_7 (WCM_OPTION_TEST_CHANNEL | 0x00000080)
-#define CHANNEL_OPTION_LAST (WCM_OPTION_TEST_CHANNEL | 0x00002000)
-#define WCM_OPTION_CHANNEL_RDC (WCM_OPTION_CHANNEL_1 | WCM_OPTION_CHANNEL_7 | CHANNEL_OPTION_LAST)
-#define WCM_OPTION_TEST_POWER 0x00020000
-#define WCM_OPTION_FILTER_POWER 0x00010000
-#define WCM_OPTION_MASK_POWER (WCM_OPTION_TEST_POWER | WCM_OPTION_FILTER_POWER)
-#define WCM_OPTION_POWER_SAVE (WCM_OPTION_TEST_POWER | 0x00000000)
-#define WCM_OPTION_TEST_AUTH 0x00080000
-#define WCM_OPTION_FILTER_AUTH 0x00040000
-#define WCM_OPTION_MASK_AUTH (WCM_OPTION_TEST_AUTH | WCM_OPTION_FILTER_AUTH)
-#define WCM_OPTION_AUTH_OPENSYSTEM (WCM_OPTION_TEST_AUTH | 0x00000000)
-#define WCM_OPTION_TEST_SCANTYPE 0x00200000
-#define WCM_OPTION_FILTER_SCANTYPE 0x00100000
-#define WCM_OPTION_MASK_SCANTYPE (WCM_OPTION_TEST_SCANTYPE | WCM_OPTION_FILTER_SCANTYPE)
-#define WCM_OPTION_SCANTYPE_PASSIVE (WCM_OPTION_TEST_SCANTYPE | 0x00000000)
-#define WCM_OPTION_TEST_ROUNDSCAN 0x00800000
-#define WCM_OPTION_ROUNDSCAN_IGNORE (WCM_OPTION_TEST_ROUNDSCAN | 0x00000000)
+// Bits of WCMWork.mOption and of the option argument of WCM_UpdateOption: a TEST bit in the argument replaces that
+// setting, the FILTER bit next to it holds its value; channel bit n is channel n (no channel given selects channels 1,
+// 7 and 13).
+#define WIFI_LINK_OPTION_SETS_CHANNELS 0x00008000
+#define WIFI_LINK_OPTION_CHANNEL_1 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00000002)
+#define WIFI_LINK_OPTION_CHANNEL_7 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00000080)
+#define WIFI_LINK_OPTION_CHANNEL_13 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00002000)
+#define WIFI_LINK_OPTION_CHANNELS_1_7_13 \
+    (WIFI_LINK_OPTION_CHANNEL_1 | WIFI_LINK_OPTION_CHANNEL_7 | WIFI_LINK_OPTION_CHANNEL_13)
+#define WIFI_LINK_OPTION_SETS_POWER 0x00020000
+#define WIFI_LINK_OPTION_POWER_SAVE_OFF_BIT 0x00010000
+#define WIFI_LINK_OPTION_POWER_SAVE_OFF (WIFI_LINK_OPTION_SETS_POWER | WIFI_LINK_OPTION_POWER_SAVE_OFF_BIT)
+#define WIFI_LINK_OPTION_POWER_SAVE_ON (WIFI_LINK_OPTION_SETS_POWER | 0x00000000)
+#define WIFI_LINK_OPTION_SETS_AUTH 0x00080000
+#define WIFI_LINK_OPTION_AUTH_SHARED_KEY_BIT 0x00040000
+#define WIFI_LINK_OPTION_AUTH_SHARED_KEY (WIFI_LINK_OPTION_SETS_AUTH | WIFI_LINK_OPTION_AUTH_SHARED_KEY_BIT)
+#define WIFI_LINK_OPTION_AUTH_NOT_SHARED_KEY (WIFI_LINK_OPTION_SETS_AUTH | 0x00000000)
+#define WIFI_LINK_OPTION_SETS_SCAN_TYPE 0x00200000
+#define WIFI_LINK_OPTION_SCAN_TYPE_0_BIT 0x00100000
+#define WIFI_LINK_OPTION_SCAN_TYPE_0 (WIFI_LINK_OPTION_SETS_SCAN_TYPE | WIFI_LINK_OPTION_SCAN_TYPE_0_BIT)
+#define WIFI_LINK_OPTION_SCAN_TYPE_1 (WIFI_LINK_OPTION_SETS_SCAN_TYPE | 0x00000000)
+#define WIFI_LINK_OPTION_SETS_SCAN_ROUND 0x00800000
+#define WIFI_LINK_OPTION_SCAN_ROUND_NO_NOTICE (WIFI_LINK_OPTION_SETS_SCAN_ROUND | 0x00000000)
 
-// Rates that the connect adds to the support set of an access point it could not join.
-#define WCM_CAMOUFLAGE_RATESET 0x0024
+// Rates added to the support set of the access point when a connect fails with status 0x12; the connect is then tried
+// once more.
+#define WIFI_LINK_RETRY_RATE_SET 0x0024
 
 // Values of WCMWork.mPhase, which WCM_GetPhase returns (NONE before the work area is set up). Each Async call moves the
 // phase to the pending one (STARTING, STOPPING, SEARCH_STARTING, SEARCH_STOPPING, CONNECTING, DISCONNECTING,
-// TERMINATING) and its callback settles it. FAILED is final: WcmSetPhase no longer changes it. A refused request leaves
-// ABORT_PENDING, where the running step ends by resetting.
+// TERMINATING) and its callback settles it. FAILED is final: WcmSetPhase no longer changes it. A request the unit
+// refuses in the common callback, a call that fails with the pipe error, or a fatal pipe event while connecting or
+// disconnecting leaves ABORT_PENDING; the next callback of the running step then resets.
 enum {
     WIFI_LINK_PHASE_NONE = 0,
     WIFI_LINK_PHASE_STOPPED = 1,
@@ -140,7 +141,7 @@ typedef struct WCMWork {
 typedef struct WMStartConnectCallback {
     /* 00 */ u16 mApiId;
     /* 02 */ u16 mErrCode;
-    /* 04 */ u16 mWlCmdId;
+    /* 04 */ u16 mWlCmdID;
     /* 06 */ u16 mWlResult;
     /* 08 */ u16 mState;
     /* 0a */ u16 mAid;

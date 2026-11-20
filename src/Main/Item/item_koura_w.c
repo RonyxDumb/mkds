@@ -1,4 +1,5 @@
 #include "Main/Item/item_koura_w.h"
+#include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "model_material_set.h"
 
 #include "Main/System/heap.h"
@@ -37,20 +38,20 @@
 #include "Main/Race/standings_balloons.h"
 #include "Main/Item/item_koura_w_kart_items.h"
 #include "Main/Item/item_f_box.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "ITCM/kart_motion.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -60,7 +61,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "ITCM/kart_items_update.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Race/race.h"
@@ -72,13 +73,13 @@
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_object.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load_result.h"
 #include "fixed_vector_math.h"
 #include "Main/Course/course_color_blend.h"
-#include "Main/Sound/kart_surface_sound.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 #include "matrix_4x3_basic.h"
@@ -91,7 +92,14 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 const u16 gItemObjectNoOwnerBit = ITEM_OWNER_NO_OWNER;
-const ItemInfo gItemInfoKouraW = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
+const ItemInfo gItemInfoKouraW = {
+    1,
+    1,
+    ITEM_OBJECT_KIND_KOURA_W,
+    1,
+    0,
+    ITEM_USE_KIND_ONE,
+    (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
 const ItemKind gItemKindKouraW = {0x31c,
                                   1,
                                   1,
@@ -105,7 +113,7 @@ const ItemKind gItemKindKouraW = {0x31c,
                                   (void (*)(ItemObject *)) AdvanceItemKouraW,
                                   (void (*)(void *, void *, void *)) DrawItemKouraW,
                                   ComputeTwoPlaneViewTest,
-                                  (s32(*)(void *)) RequestItemKouraWBurst,
+                                  (s32(*)(void *)) RequestItemKouraWGrow,
                                   NULL,
                                   NULL,
                                   0,
@@ -143,12 +151,12 @@ StateCallbacks gItemKouraWStateTable[ITEM_KOURA_W_STATE_COUNT] = {
     {EnterItemKouraWCircleTarget, UpdateItemKouraWCircleTarget},
     {EnterItemKouraWRise, UpdateItemKouraWRise},
     {EnterItemKouraWFall, UpdateItemKouraWFall},
-    {EnterItemKouraWBurst, UpdateItemKouraWBurst}};
+    {EnterItemKouraWGrow, UpdateItemKouraWGrow}};
 Nsbmd *gKouraW;
-s32 gKouraWBurstScaleStep;
+s32 gKouraWGrowScaleStep;
 s32 gKouraWBurstInverseLimit;
-s32 gKouraWBurstScaleLimit;
-volatile s32 gKouraWBurstMaxRadiusSquared;
+s32 gKouraWGrowScaleLimit;
+volatile s32 gKouraWGrowMaxRadiusSquared;
 struct ItemObject **gCollidedItemObjects;
 
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
@@ -418,17 +426,17 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
     if (item->mRankTargetSkipped == 0) {
         if (gRaceProgress->mRaceDone != 0) {
             item->mRank = 1;
-            item->mRankKartIndex = GetKartAtRank(item->mRank);
+            item->mRankKartIndex = GetRaceProgressKartIndexAtRank(item->mRank);
         } else {
-            item->mRankKartIndex = GetKartAtRank(item->mRank);
+            item->mRankKartIndex = GetRaceProgressKartIndexAtRank(item->mRank);
             while (IsKartEnded(item->mRankKartIndex) != 0 && (u32) item->mRank < gRaceSetup->mKartCount) {
                 (item->mRank)++;
-                item->mRankKartIndex = GetKartAtRank(item->mRank);
+                item->mRankKartIndex = GetRaceProgressKartIndexAtRank(item->mRank);
             }
         }
         if (item->mRankKartIndex ==
                 (u16) (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
-                         0x8000)
+                         ITEM_OWNER_NO_OWNER)
                            ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject
                                         .mOwnerKartIndexAndFlags &
                                     ~ITEM_OWNER_FLAGS_MASK)
@@ -443,7 +451,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
         u32 kartCount;
         kartCount = (u8) gRaceSetup->mKartCount;
         for (rank = 1; rank <= kartCount; rank++) {
-            item->mRankKartIndex = GetKartAtRank(rank);
+            item->mRankKartIndex = GetRaceProgressKartIndexAtRank(rank);
             if (IsKartRemoved(GetKart(item->mRankKartIndex)) == 0) {
                 break;
             }
@@ -524,7 +532,7 @@ void UpdateItemKouraWSteerToTarget(void *stateObject) {
         (kart->mEntryFlags & KART_ENTRY_SELECTED)) {
         gain += 0x19a;
     }
-    if (item->mSpeed > ITEM_KOURA_W_CRUISE_SPEED) {
+    if (item->mSpeed > ITEM_KOURA_W_TARGET_SPEED) {
         item->mSpeed -= ITEM_KOURA_W_SPEED_STEP;
     } else {
         item->mSpeed += ITEM_KOURA_W_SPEED_STEP;
@@ -555,7 +563,7 @@ void UpdateItemKouraWFollowLink(void *stateObject) {
     void *normal;
     ItemPointLink *link;
 
-    if (item->mSpeed > ITEM_KOURA_W_CRUISE_SPEED) {
+    if (item->mSpeed > ITEM_KOURA_W_TARGET_SPEED) {
         item->mSpeed -= ITEM_KOURA_W_SPEED_STEP;
     } else {
         item->mSpeed += ITEM_KOURA_W_SPEED_STEP;
@@ -607,7 +615,7 @@ void UpdateItemKouraWCircleTarget(void *stateObject) {
     Vec3 direction;
     void *normal;
 
-    if (item->mSpeed > ITEM_KOURA_W_CRUISE_SPEED) {
+    if (item->mSpeed > ITEM_KOURA_W_TARGET_SPEED) {
         item->mSpeed -= ITEM_KOURA_W_SPEED_STEP;
     } else {
         item->mSpeed += ITEM_KOURA_W_SPEED_STEP;
@@ -630,7 +638,7 @@ void UpdateItemKouraWCircleTarget(void *stateObject) {
         }
     }
     UpdateItemKouraWDrawPos(item);
-    if ((u32) item->mAngle < ITEM_KOURA_W_CIRCLE_NORMAL_END_ANGLE) {
+    if ((u32) item->mAngle < ITEM_KOURA_W_CIRCLE_END_ANGLE) {
         normal = GetItemKouraWNormalOrNull(item);
         if (normal != NULL) {
             direction.x = item->mAnglePointOffset.x * 2;
@@ -664,7 +672,7 @@ void EnterItemKouraWRise(void *stateObject) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer =
             &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     }
-    item->mLift = ITEM_KOURA_W_HOVER_LIFT;
+    item->mLift = ITEM_KOURA_W_RISE_FALL_START_LIFT;
     item->mBobAmplitudeOrGain = FIXED12_RATIO(1, 5);
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
@@ -716,7 +724,7 @@ void EnterItemKouraWFall(void *stateObject) {
     ItemKouraW *item = stateObject;
     enum { KIND_FIRST } kind;
 
-    item->mLift = ITEM_KOURA_W_HOVER_LIFT;
+    item->mLift = ITEM_KOURA_W_RISE_FALL_START_LIFT;
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed += 0x800;
@@ -741,7 +749,8 @@ void UpdateItemKouraWFall(void *stateObject) {
 
         position = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
         if (CollideSphereWithCourse(position, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos,
-                                    0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                    0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                    COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                     &hitOffset, NULL, NULL,
                                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits,
@@ -766,7 +775,7 @@ void UpdateItemKouraWFall(void *stateObject) {
     }
 }
 
-void EnterItemKouraWBurst(void *stateObject) {
+void EnterItemKouraWGrow(void *stateObject) {
     ItemKouraW *item = stateObject;
     NNSSndSeqPlayer **sndHandle;
     struct ModelEffect *effect;
@@ -774,7 +783,7 @@ void EnterItemKouraWBurst(void *stateObject) {
 
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_FIXED_SCALE;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = 0;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWBurstStartScale;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWGrowStartScale;
     item->mModelEffect = StartModelEffect(
         MODEL_EFFECT_BOMBCORE2, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
         IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
@@ -802,13 +811,13 @@ void EnterItemKouraWBurst(void *stateObject) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemKouraWBurst(void *stateObject) {
+void UpdateItemKouraWGrow(void *stateObject) {
     ItemKouraW *item = stateObject;
     u32 stateFrames;
 
     stateFrames = item->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWBurstScaleLimit,
-                            gKouraWBurstScaleStep)) {
+    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWGrowScaleLimit,
+                            gKouraWGrowScaleStep)) {
         RefreshItemObjectScaleExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -940,7 +949,7 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[3].z = position->z >> 4;
         matrix = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx;
     }
-    DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, 0x1f);
+    DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, ITEM_OBJECT_ALPHA_OPAQUE);
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAlpha == MAP_OBJECT_ALPHA_MAX) {
         return;
     }
@@ -971,7 +980,7 @@ void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
 }
 
 // Asks for state 7 unless the object is already in it; returns 1.
-s32 RequestItemKouraWBurst(ItemKouraW *item) {
+s32 RequestItemKouraWGrow(ItemKouraW *item) {
     if (item->mStateMachine.mState != ITEM_KOURA_W_STATE_BURST) {
         InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
         item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_BURST;
@@ -988,11 +997,11 @@ s32 RequestItemKouraWBurst(ItemKouraW *item) {
     return 1;
 }
 
-BOOL IsItemKouraWBurst(ItemKouraW *item) {
+BOOL IsItemKouraWGrowing(ItemKouraW *item) {
     return item->mStateMachine.mState == ITEM_KOURA_W_STATE_BURST;
 }
 
-Vec3 *GetItemKouraWBurstInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
+Vec3 *GetItemKouraWGrowInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
     *stateFrames = item->mStateMachine.mStateFrames;
     *scaleRatio = MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.z,
                                        gKouraWBurstInverseLimit);
@@ -1006,16 +1015,16 @@ void SetupItemKouraWKind(void) {
     s32 radiusRatio;
     s32 maxRadius;
 
-    gKouraWBurstScaleLimit = 0x1e000;
-    gKouraWBurstInverseLimit = FX_Div(0x1000, gKouraWBurstScaleLimit);
-    gKouraWBurstScaleStep = 0x299a;
-    scaleLimit = gKouraWBurstScaleLimit;
-    radiusRatio = gItemKinds[5].mRadius;
+    gKouraWGrowScaleLimit = 0x1e000;
+    gKouraWBurstInverseLimit = FX_Div(0x1000, gKouraWGrowScaleLimit);
+    gKouraWGrowScaleStep = 0x299a;
+    scaleLimit = gKouraWGrowScaleLimit;
+    radiusRatio = gItemKinds[ITEM_OBJECT_KIND_KOURA_W].mRadius;
     maxRadius = MUL_FIXED12_NO_ROUND(scaleLimit, radiusRatio);
-    gKouraWBurstMaxRadiusSquared = maxRadius;
+    gKouraWGrowMaxRadiusSquared = maxRadius;
     maxRadius >>= 12;
-    gKouraWBurstMaxRadiusSquared = maxRadius;
-    gKouraWBurstMaxRadiusSquared = maxRadius * maxRadius;
+    gKouraWGrowMaxRadiusSquared = maxRadius;
+    gKouraWGrowMaxRadiusSquared = maxRadius * maxRadius;
     gKouraW = CreateItemNsbmd("koura_w.nsbmd", "koura_w.nsbtx");
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
         NNS_G3dMdlSetMdlFogEnableFlagAll(gKouraW->mResMdl, 0);
@@ -1067,7 +1076,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         }
     }
 done:
-    *itemInfoIndexPointer = gRaceSetup->mMode == MODE_WIFI ? 4 : 2;
+    *itemInfoIndexPointer = gRaceSetup->mMode == MODE_WIFI ? ITEM_INFO_KINOKO : ITEM_INFO_BANANA;
     return TRUE;
 }
 
@@ -1151,7 +1160,7 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
         isHumanGhostOrPeer = FALSE;
-        if ((u32) playerKind > 3) {
+        if ((u32) playerKind > PLAYER_KIND_PEER) {
         } else if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -1159,7 +1168,7 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
                       shortSpin);
     } else {
         isHumanGhostOrPeer = FALSE;
-        if ((u32) playerKind > 3) {
+        if ((u32) playerKind > PLAYER_KIND_PEER) {
         } else if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -1204,6 +1213,9 @@ static inline s32 IsItemObjectHitKart(ItemObject *item, Kart *kart) {
     return fullDistanceSquared < (s64) radius * radius ? 1 : 0;
 }
 
+// Slots of gCollidedItemObjects; one hit check reports at most 15 objects.
+#define COLLIDED_ITEM_OBJECT_CAPACITY 0x10
+
 // Returns how many item objects hit the kart; GetCollidedItemObject reads them.
 s32 CollideKartWithItemObjects(Kart *kart) {
     s32 overlapIndex;
@@ -1216,9 +1228,9 @@ s32 CollideKartWithItemObjects(Kart *kart) {
 
     hitCount = 0;
     isFarFromEntryKart = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
-    hitCountCap = 0xf;
+    hitCountCap = COLLIDED_ITEM_OBJECT_CAPACITY - 1;
     for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
-        if (!(gFoundCollisionSlotFlags[overlapIndex] & 0x4000)) {
+        if (!(gFoundCollisionSlotFlags[overlapIndex] & COLLISION_SLOT_FLAG_ITEM_OBJECT)) {
             continue;
         }
         item = gFoundCollisionSlotObjects[overlapIndex];
@@ -1249,7 +1261,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
                 StartItemObjectReleaseSynced(item, 1);
             }
         }
-        if (hitCount >= 0x10) {
+        if (hitCount >= COLLIDED_ITEM_OBJECT_CAPACITY) {
             hitCount = hitCountCap;
         }
     }
@@ -1339,9 +1351,6 @@ void StartCourseMapItemObjects(void) {
         }
     }
 }
-
-// Most item objects that one hit check can collect.
-#define COLLIDED_ITEM_OBJECT_CAPACITY 0x10
 
 void InitItems(void) {
     void *heap;
@@ -1476,10 +1485,10 @@ BOOL SwingItemObjectScale(ItemObject *item) {
     enum { KIND_FIRST } kind;
     s32 radiusRatio;
 
-    if (item->mScaleTargetOrSpeed <= -ITEM_OBJECT_SCALE_SWING_REST ||
-        item->mScaleTargetOrSpeed >= ITEM_OBJECT_SCALE_SWING_REST ||
-        item->mScale.x - item->mScale.y <= -ITEM_OBJECT_SCALE_SWING_REST ||
-        item->mScale.x - item->mScale.y >= ITEM_OBJECT_SCALE_SWING_REST) {
+    if (item->mScaleTargetOrSpeed <= -ITEM_OBJECT_SCALE_SWING_STOP_LIMIT ||
+        item->mScaleTargetOrSpeed >= ITEM_OBJECT_SCALE_SWING_STOP_LIMIT ||
+        item->mScale.x - item->mScale.y <= -ITEM_OBJECT_SCALE_SWING_STOP_LIMIT ||
+        item->mScale.x - item->mScale.y >= ITEM_OBJECT_SCALE_SWING_STOP_LIMIT) {
         kind = item->mKind;
         item->mFlags |= ITEM_OBJECT_FLAG_SCALE_CHANGED;
         item->mScale.y += item->mScaleTargetOrSpeed;

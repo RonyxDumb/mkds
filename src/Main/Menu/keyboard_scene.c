@@ -15,7 +15,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/heap_call.h"
 
 KeyboardScene *gKeyboardScene;
@@ -27,9 +27,7 @@ void InitKeyboardScene(s16 *sceneNumbers) {
     gKeyboardScene = HeapAlloc(heap, sizeof(*gKeyboardScene));
     InitKeyboard(heap, sceneNumbers[0]);
 }
-#pragma thumb off
 
-#pragma thumb on
 void ReleaseKeyboardScene(void) {
     ReleaseKeyboard();
     gKeyboardScene = NULL;
@@ -61,9 +59,6 @@ s32 RunKeyboardScene(void *sceneNumbers) {
     RunScene(sceneNumbers, &callbacks);
     return 0;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 RaceHudOamBuffer *GetKeyboardFirstBuffer(void) {
     return &gKeyboardScene->mMainOam;

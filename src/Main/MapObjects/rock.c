@@ -12,7 +12,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Course/course_map_group_entry.h"
 #include "Main/Kart/kart_drift.h"
@@ -81,8 +81,8 @@ void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
 
     distanceAndFlags = rock->mMapObject.mDistanceSquaredAndFlags;
     scaleY = rock->mMapObject.mScale.y;
-    if (!(distanceAndFlags & 1)) {
-        if (wasHit != 0 || !(distanceAndFlags & 3)) {
+    if (!(distanceAndFlags & MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE)) {
+        if (wasHit != 0 || !(distanceAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT)) {
             if (scaleY > 0x1000) {
                 scaledRow = 1;
                 baseRow = 0;
@@ -137,8 +137,8 @@ void UpdateRock(void *mapObjectList, RockObject *rock) {
         if (rock->mDelayFramesLeft != 0) {
             return;
         }
-        rock->mMapObject.mFlags &= ~2;
-        rock->mMapObject.mFlags &= ~8;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
         rock->mMapObject.mAlpha = 1;
         return;
     }
@@ -186,7 +186,7 @@ void UpdateRock(void *mapObjectList, RockObject *rock) {
     } else {
         rock->mSinceGroundFrames += 1;
     }
-    if (rock->mSinceGroundFrames < ROCK_GROUND_GRACE_FRAMES) {
+    if (rock->mSinceGroundFrames < ROCK_SOUND_AFTER_GROUND_FRAMES) {
         StartMapObjectSoundWhileRequested(&rock->mMapObject, 0x179);
     }
     rock->mMapObject.mPosStep.y = rock->mMapObject.mPosStep.y - 0x400;
@@ -279,21 +279,15 @@ void CreateNsbmdAndShadowNsbmd(void *mapObjectList, const char *name, const char
     SetNsbmdPolygonIdLightEmiAll(gRock, 0x3f, 2, 0x294a);
     SetNsbmdPolygonIdAll(gRock, 7);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateRock(void *mapObjectList) {
     CreateNsbmdAndShadowNsbmd(mapObjectList, "rock.nsbmd", "rock_shadow.nsbmd");
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateRock2(void *mapObjectList) {
     CreateNsbmdAndShadowNsbmd(mapObjectList, "rock2.nsbmd", "rock2_shadow.nsbmd");
 }
-#pragma thumb off
 
-#pragma thumb on
 // Fills a Rock from its course map row; both Rock kinds use it.
 void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     CourseMapGroupEntry *startEntry;
@@ -327,8 +321,8 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
         rock->mMapObject.mFlags |= gRockFirstFlag;
         rock->mMapObject.mFlags |= gRockSecondFlag;
     } else {
-        rock->mMapObject.mFlags &= ~2;
-        rock->mMapObject.mFlags &= ~8;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
         rock->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     }
     rock->mBounceRatio = TO_FIXED12(courseRow->mSettings[2]) / 100;
@@ -339,9 +333,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     }
     rock->mMapObject.mFlags |= gRockThirdFlag;
 }
-#pragma thumb off
 
-#pragma thumb on
 // Turns the stored offsets of the loaded collision file into pointers.
 void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) {
     *collision = *file;
@@ -351,9 +343,7 @@ void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) 
     collision->mTree = OFFSET_PTR(u8, file, (u32) collision->mTree);
     gSearchCollisionSlots = 0;
 }
-#pragma thumb off
 
-#pragma thumb on
 void InitCourseCollision(void) {
     LoadCourseCollisionData(&gCourseCollision, FindCourseFile("course_collision.kcl"));
 }
@@ -457,7 +447,7 @@ void InitCollisionSlots(void) {
     } while (slotIndex < COLLISION_SLOT_COUNT);
 }
 
-// Returns the new slot index, or -1 when all 0x100 slots are in use.
+// Returns the new slot index, or -1 when all COLLISION_SLOT_COUNT slots are in use.
 s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     CollisionSlot *slot;
     s16 hi;
@@ -577,7 +567,7 @@ u32 FreeCollisionSlot(s32 slotIndex) {
     CollisionSlotEnd *endEntry;
     CollisionSlotEnd *otherEnd;
 
-    if (slotIndex < 0 || slotIndex >= 0x100) {
+    if (slotIndex < 0 || slotIndex >= COLLISION_SLOT_COUNT) {
         return -1;
     }
     slot = &gCollisionSlots[slotIndex];
@@ -690,7 +680,7 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
                 gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = slotFlags;
                 gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = slot->mObject;
                 gFoundCollisionSlotCount++;
-                if (gFoundCollisionSlotCount == 0x80) {
+                if (gFoundCollisionSlotCount == FOUND_COLLISION_SLOT_CAPACITY) {
                     return;
                 }
             } else {

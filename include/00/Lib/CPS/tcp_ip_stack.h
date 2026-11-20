@@ -2,64 +2,63 @@
 
 #include "types.h"
 
-// Constants of the network stack: frame types, the ARP and TCP bits, ICMP types, the DHCP and DNS values. The values
-// with SWAPPED are the ones as the members hold them when the bytes are read as a halfword.
-#define ETHERTYPE_IPV4 0x800
-#define ETHERTYPE_ARP 0x806
-#define ETHERTYPE_ARP_SWAPPED 0x608
+// Constants of the network stack: frame types, the ARP field values, the TCP flag bits, ICMP types, the DHCP and DNS
+// values. The values with SWAPPED (and the ARP address lengths) are the ones as the members hold them when the bytes
+// are read as a halfword.
+#define FRAME_TYPE_IPV4 0x800
+#define FRAME_TYPE_ARP 0x806
+#define FRAME_TYPE_ARP_SWAPPED 0x608
 #define ARP_HARDWARE_TYPE_ETHERNET_SWAPPED 0x100
 #define ARP_OPERATION_REPLY_SWAPPED 0x200
-#define ARP_ADDRESS_LENGTHS_ETHERNET_IPV4 0x406
+#define ARP_ADDRESS_LENGTHS_ETHERNET_IPV4_SWAPPED 0x406
 #define IP_BROADCAST_ADDRESS 0xffffffff
 #define TCP_DEFAULT_MSS 0x218
-#define TCP_DATA_OFFSET_MASK 0xF0
-#define IHL_MASK 0xF
-#define CPS_MAX_IPSIZE 4096
-#define CPS_MAX_IPFRAG 8
+#define DATA_OFFSET_FIELD_MASK 0xf0
+#define IP_HEADER_LENGTH_MASK 0xf
+#define FRAG_MAX_SIZE 0x1000
+#define FRAG_MAX_COUNT 8
 
 enum {
-    ICMP_ECHO_REPLY = 0,
-    ICMP_ECHO_REQUEST = 8,
+    PING_TYPE_REPLY = 0,
+    PING_TYPE_REQUEST = 8,
 };
 
 enum {
-    TCP_FLAG_FIN = 1 << 0,
-    TCP_FLAG_SYN = 1 << 1,
-    TCP_FLAG_RST = 1 << 2,
-    TCP_FLAG_PSH = 1 << 3,
-    TCP_FLAG_ACK = 1 << 4,
-    TCP_FLAG_URG = 1 << 5,
+    SEGMENT_FLAG_FIN = 1,
+    SEGMENT_FLAG_SYN = 2,
+    SEGMENT_FLAG_RST = 4,
+    SEGMENT_FLAG_ACK = 0x10,
 };
 
 enum {
-    DHCP_OPTION_SUBNET_MASK = 1,
-    DHCP_OPTION_ROUTER = 3,
-    DHCP_OPTION_DNS_SERVER = 6,
-    DHCP_OPTION_LEASE_TIME = 51,
-    DHCP_OPTION_MESSAGE_TYPE = 53,
-    DHCP_OPTION_SERVER_ID = 54,
+    MESSAGE_OPTION_NET_MASK = 1,
+    MESSAGE_OPTION_GATEWAY = 3,
+    MESSAGE_OPTION_DNS_SERVER = 6,
+    MESSAGE_OPTION_LEASE_TIME = 0x33,
+    MESSAGE_OPTION_MESSAGE_TYPE = 0x35,
+    MESSAGE_OPTION_SERVER_IP = 0x36,
 };
 
 enum {
-    DHCPOFFER = 2,
-    DHCPACK = 5,
+    MESSAGE_TYPE_OFFERED_ADDRESS = 2,
+    MESSAGE_TYPE_MY_ADDRESS = 5,
 };
 
 enum {
-    DHCP_STATE_INIT,
-    DHCP_STATE_BOUND,
-    DHCP_STATE_REBINDING,
-    DHCP_STATE_FIXED_IP,
+    ADDRESS_STATE_NONE,
+    ADDRESS_STATE_HELD,
+    ADDRESS_STATE_REBINDING,
+    ADDRESS_STATE_FIXED_AFTER_FAIL,
 };
 
 enum {
-    DHCP_MODE_REQUEST_IP,
-    DHCP_MODE_RENEW,
-    DHCP_MODE_REBIND,
+    ADDRESS_REQUEST_NEW,
+    ADDRESS_REQUEST_RENEW,
+    ADDRESS_REQUEST_REBIND,
 };
 
-#define DNS_RCODE_MASK 0xF
-#define DNS_RCODE_NXDOMAIN 3
+#define RESPONSE_CODE_MASK 0xf
+#define RESPONSE_CODE_FAIL 3
 
 u32 CPS_Resolve(const char *name);
 
@@ -86,7 +85,7 @@ typedef struct OSThread OSThread;
 
 typedef struct IpHeader {
     /* 00 */ u8 mVersionIhl;
-    /* 01 */ u8 mTypeOfService;
+    /* 01 */ u8 mTos;
     /* 02 */ u16 mTotalLength;
     union {
         /* 04 */ u16 mIdentifier;
@@ -96,7 +95,7 @@ typedef struct IpHeader {
         };
     };
     /* 06 */ u16 mFragOffset;
-    /* 08 */ u8 mTimeToLive;
+    /* 08 */ u8 mTtl;
     /* 09 */ u8 mProtocol;
     /* 0a */ u16 mChecksum;
     /* 0c */ u16 mSourceAddressHigh;
@@ -150,10 +149,10 @@ typedef struct DhcpMessage {
     /* 04 */ u16 mTransactionIdHigh;
     /* 06 */ u16 mTransactionIdLow;
     /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u16 mClientAddressHigh;
-    /* 0e */ u16 mClientAddressLow;
+    /* 0c */ u16 mMyAddressHigh;
+    /* 0e */ u16 mMyAddressLow;
     /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ u16 mClientHardwareAddress[3];
+    /* 1c */ u16 mMyMac[3];
 } DhcpMessage;
 
 typedef struct ArpPacket {
@@ -204,7 +203,6 @@ typedef struct ArpRequestFrame {
 
 extern void (*gDhcpCallback)(void);
 
-// OSThread entry functions (not lifted yet).
 
 #include "thread_scheduler.h"
 
@@ -231,7 +229,7 @@ extern OSThread *gReceiverThread;
 extern u8 *gWlanBuf;
 extern u32 gWlanBufLen;
 extern u32 gWlanGetPnt;
-extern u8 gTmpBuf[58];
+extern u8 gTcpipThreadHeaderBuffer[58];
 extern CPSSoc gTmpSoc;
 extern OSThread gScavengerThread;
 extern OSThread gTcpipThread;

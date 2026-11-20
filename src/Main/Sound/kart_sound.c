@@ -3,10 +3,11 @@
 #include "Main/Race/race.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Sound/playing_sounds.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Menu/menu_label_cell_rows.h"
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
@@ -30,7 +31,7 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Graphics/animation_function_pointers.h"
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "fixed_vector_math.h"
 
 u32 gPitchRiseAboveLimitDivisor = 0x19000;
@@ -40,7 +41,7 @@ s32 gKartSoundRowSoundIds[3][7] = {{0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2},
                                    {0xb3, 0xb4, 0xb5, 0xb6, 0xb7, 0xb8, 0xb9},
                                    {0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf, 0xc0}};
 const u8 gSurfaceSoundVolumeByRatio[20] = {0,    0,    0x1e, 0x28, 0x32, 0x3c, 0x46, 0x50, 0x5a, 0x64,
-                                           0x6e, 0x78, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0,    0,    0};
+                                           0x6e, 0x78, SOUND_VOLUME_MAX, SOUND_VOLUME_MAX, SOUND_VOLUME_MAX, SOUND_VOLUME_MAX, SOUND_VOLUME_MAX, 0,    0,    0};
 s32 gPitchFallFactor;
 s32 gPitchRiseFactor;
 s32 gPitchRiseFactorAboveLimit;
@@ -168,8 +169,8 @@ void UpdateKartSound(Kart *kart) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
         soundRecord->mPrevKeyADown = accelHeld;
-        soundRecord->mVolume = KART_SOUND_VOLUME_PITCHED_NO_ACCEL;
-        StartSoundWhileRequested(&kart->mSoundSource, 0xfc, KART_SOUND_VOLUME_MAX, 0);
+        soundRecord->mVolume = KART_SOUND_VOLUME_KILLER;
+        StartSoundWhileRequested(&kart->mSoundSource, 0xfc, SOUND_VOLUME_MAX, 0);
         return;
     }
     if ((s32) GetRaceUpdateFrames() < 5) {
@@ -185,22 +186,22 @@ void UpdateKartSound(Kart *kart) {
                     targetPitch = MUL_FIXED12_ROUNDED(value, 0x580000);
                 }
                 pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
-                soundRecord->mVolume = KART_SOUND_VOLUME_MAX;
-                soundRecord->mSoundId = soundRecord->mSoundRow.mPitchedSoundId;
+                soundRecord->mVolume = SOUND_VOLUME_MAX;
+                soundRecord->mSoundId = soundRecord->mSoundRow.mRevSoundId;
                 AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             } else {
                 targetPitch = MUL_FIXED12_ROUNDED(value, 0x480000);
                 pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
-                soundRecord->mVolume = KART_SOUND_VOLUME_PITCHED_NO_ACCEL;
-                soundRecord->mSoundId = soundRecord->mSoundRow.mPitchedSoundId;
+                soundRecord->mVolume = KART_SOUND_VOLUME_REV_NO_ACCEL;
+                soundRecord->mSoundId = soundRecord->mSoundRow.mRevSoundId;
                 AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             }
         } else {
             soundRecord->mTargetPitch = 0;
             soundRecord->mPitchPerCall = 0;
-            soundRecord->mVolume = KART_SOUND_VOLUME_LOW_REV;
+            soundRecord->mVolume = KART_SOUND_VOLUME_LOW_RATIO_BEFORE_START;
             AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                             (void (*)(void *, int)) StartKartLowRatioSound, kart, (s32) soundRecord);
             pitch = -1;
@@ -228,7 +229,7 @@ void UpdateKartSound(Kart *kart) {
             targetPitch = MUL_FIXED12_ROUNDED(soundRecord->mPitchPerSpeedKeyA, velocityLength);
         }
         pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, aboveSpeedLimit);
-        soundRecord->mVolume = KART_SOUND_VOLUME_MAX;
+        soundRecord->mVolume = SOUND_VOLUME_MAX;
         if (soundRecord->mPrevKeyADown == 0) {
             soundRecord->mSoundId = kart->mVelocityLengthRatio < KART_SOUND_KEY_A_LOW_RATIO_LIMIT
                                         ? soundRecord->mSoundRow.mKeyALowRatioSoundId
@@ -265,13 +266,13 @@ void StartSoundVolumeFromFractionIfTwo(SoundSource *soundSource, u16 soundId, s3
     if (value == 2) {
         scaledVolume = (fraction << 7) >> 12;
         volume = scaledVolume + 0x14;
-        if (volume > KART_SOUND_VOLUME_MAX) {
-            volume = KART_SOUND_VOLUME_MAX;
+        if (volume > SOUND_VOLUME_MAX) {
+            volume = SOUND_VOLUME_MAX;
         } else if (volume < KART_SOUND_VOLUME_COAST) {
             volume = KART_SOUND_VOLUME_COAST;
         }
     } else {
-        volume = KART_SOUND_VOLUME_MAX;
+        volume = SOUND_VOLUME_MAX;
     }
     StartSoundEx(soundSource, 0, soundId, volume, 0);
 }
@@ -291,8 +292,8 @@ void StartBalloonScaleSound(Kart *kart, s32 scale, s32 scalePerFrame) {
     if (pitch > 0x400) {
         pitch = 0x400;
     }
-    if (volume > KART_SOUND_VOLUME_MAX) {
-        volume = KART_SOUND_VOLUME_MAX;
+    if (volume > SOUND_VOLUME_MAX) {
+        volume = SOUND_VOLUME_MAX;
     }
     StartSoundWhileRequested(&kart->mSoundSource, scalePerFrame > 0 ? 0x150 : 0x151, volume, pitch);
 }

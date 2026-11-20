@@ -358,10 +358,10 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
             if (randomLimit == 0) {
                 listPosition = 0;
             } else {
-                random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+                RANDOM_ADVANCE_S64(random);
                 randomLimitCopy = (u16) listCount - 1;
                 if (randomLimitCopy == 0) {
-                    listPosition = random->mValue >> 32;
+                    listPosition = RANDOM_HIGH32(random);
                 } else {
                     listPosition = (s64) (u32) (random->mValue >> 32) * (s64) (u32) randomLimitCopy >> 32;
                 }

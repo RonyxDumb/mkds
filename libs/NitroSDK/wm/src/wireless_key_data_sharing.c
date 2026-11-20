@@ -183,7 +183,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
                 WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, &dsInfo->mDs[previous],
                                      dsInfo->mDataSetLength, dsInfo->mMemberMask & readyMembers, dsInfo->mPort, 1);
             if (sendResult == 7) {
-                dsInfo->mSeqNum[previous] = 0xffff;
+                dsInfo->mSeqNum[previous] = WIRELESS_SEQ_NO_NONE;
                 dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
             } else if (sendResult != 0) {
                 if (sendResult != 2) {
@@ -456,7 +456,7 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
         result = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, &dsInfo->mDs[done], dsInfo->mDataSetLength,
                                       dsInfo->mMemberMask & ready, dsInfo->mPort, 1);
         if (result == 7) {
-            dsInfo->mSeqNum[done] = 0xffff;
+            dsInfo->mSeqNum[done] = WIRELESS_SEQ_NO_NONE;
             dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
         } else if (result != 0) {
             if (result != 2) {

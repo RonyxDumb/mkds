@@ -1,5 +1,5 @@
 #include "Main/Item/item_kinoko.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_f_box.h"
@@ -27,28 +27,28 @@
 #include "Main/Item/pooled_item_box.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_koura_r_kart_items.h"
 #include "Main/Item/item_object_bouncing.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Item/item_link_following.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -57,7 +57,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
@@ -65,7 +65,7 @@
 #include "ITCM/collision_slots.h"
 #include "Main/Item/item_star.h"
 
-const ItemInfo gItemInfoStar = {1, 1, 4, 1, 0, 0, StartItemStar};
+const ItemInfo gItemInfoStar = {1, 1, ITEM_OBJECT_KIND_STAR, 1, 0, ITEM_USE_KIND_HOOK_ONLY, StartItemStar};
 
 const ItemKind gItemKindStar = {
     0x12c, 3, 8, -1, -1, {0}, NULL, NULL, NULL, NULL, NULL, NULL, ComputeViewTest, NULL, NULL, NULL,
@@ -78,5 +78,5 @@ void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
-    AddItemDataFrameOnly(4);
+    AddItemDataFrameOnly(ITEM_OBJECT_KIND_STAR);
 }

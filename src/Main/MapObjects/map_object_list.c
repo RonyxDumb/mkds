@@ -55,16 +55,12 @@ void ClearMapObjectListSlots(void) {
     } while (index < 0x10);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind,
                                 Vec3 *hitOffset) {
     s32 bestResponse;
     s32 foundIndex;
     bestResponse = 0;
-    FindCollisionSlotsOverlappingSlot(collisionSlotIndex, 0x2000);
+    FindCollisionSlotsOverlappingSlot(collisionSlotIndex, COLLISION_SLOT_FLAG_MAP_OBJECT);
     foundIndex = 0;
     if (gFoundCollisionSlotCount != 0) {
         Vec3 overlapOffset;
@@ -86,7 +82,7 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
         for (; foundIndex < gFoundCollisionSlotCount; foundIndex++) {
             mapObject = gFoundCollisionSlotObjects[foundIndex];
             if (IsSphereHittingMapObject(position, radius, mapObject, &overlapOffset) != FALSE) {
-                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) &&
+                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_PUSH_OUT) &&
                     DoesItemObjectRespondToMapObject(itemKind, mapObject) != 0) {
                     overlapX = overlapOffset.x;
                     lowest.x = ((const Vec3 *) &overlapOffset)->x < lowest.x ? overlapX : lowest.x;
@@ -116,10 +112,6 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
     }
     return bestResponse;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetMapObjectKindCount(void) {
     return (gMapObjectKindCount);

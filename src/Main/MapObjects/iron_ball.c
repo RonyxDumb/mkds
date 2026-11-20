@@ -19,7 +19,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/kart_highest_lap.h"
 #include "Main/Kart/karts.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/cover_poo_hole_cover_height.h"
@@ -151,9 +151,9 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             if (ironBall->mStartDelayFrames > 0) {
                 return;
             }
-            ironBall->mMapObject.mFlags &= ~1;
-            ironBall->mMapObject.mFlags &= ~2;
-            ironBall->mMapObject.mFlags &= ~8;
+            ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+            ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             ironBall->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             ironBall->mState = IRON_BALL_STATE_ROLL;
             return;
@@ -162,7 +162,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         default:
             return;
     }
-    if (!(GetKartZoneMask() & ironBall->mSoundOffZoneMask) &&
+    if (!(GetEntryKartZoneMask() & ironBall->mSoundOffDigitMask) &&
         !(ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
         StartIronBallSpeedSound(ironBall->mMapObject.mSound, ironBall->mPathSpeed);
     }
@@ -189,9 +189,8 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             }
         } else if (fromEntry->mExtraValue >= 0) {
             mapObjectRandom = GetMapObjectRandom();
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-            randomNumber = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 5) >> 32;
+            RANDOM_ADVANCE(mapObjectRandom);
+            randomNumber = RANDOM_BELOW_U64(mapObjectRandom, 5);
             if (randomNumber != 0) {
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mExtraValue, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
@@ -246,16 +245,16 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
     if (ironBall->mFollower.mFromEntry->mFlagBitOn != 0 && ironBall->mFollower.mToEntry->mFlagBitOn != 0) {
         ironBall->mMapObject.mFlags |= gIronBallPathEntryFlag;
     } else {
-        ironBall->mMapObject.mFlags &= ~0x20;
+        ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
     }
     if (ironBall->mHeightOffset > 0 || ironBall->mHeightSpeed != 0) {
         ironBall->mHeightSpeed -= 0x1000;
         ironBall->mHeightOffset = ironBall->mHeightOffset + ironBall->mHeightSpeed;
         if (ironBall->mHeightOffset <= 0) {
             ironBall->mHeightSpeed = MUL_FIXED12_NO_ROUND(ironBall->mHeightSpeed, -0x800);
-            if (ironBall->mHeightSpeed < IRON_BALL_ROLL_HEIGHT_SPEED_LIMIT) {
+            if (ironBall->mHeightSpeed < IRON_BALL_BOUNCE_MIN_HEIGHT_SPEED) {
                 ironBall->mHeightSpeed = 0;
-            } else if (!(GetKartZoneMask() & ironBall->mSoundOffZoneMask) &&
+            } else if (!(GetEntryKartZoneMask() & ironBall->mSoundOffDigitMask) &&
                        !(ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
                 StartIronBallBounceSound(ironBall->mMapObject.mSound, ironBall->mHeightSpeed);
             }
@@ -316,7 +315,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mShadowMatrix.mAlphaCap = value;
             SetShadowPositionRaised(&ironBall->mShadowMatrix, &ironBall->mPathPos);
         }
-        ironBall->mMapObject.mFlags &= ~1;
+        ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     } else {
         ironBall->mMapObject.mFlags |= gIronBallInitFirstFlag;
     }
@@ -327,7 +326,7 @@ MapObjectKindData *CreateIronBallKindData(void) {
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
     mapObjectKindData->mHeightRangeMax = IRON_BALL_HEIGHT_RANGE_MAX;
-    mapObjectKindData->mHeightRangeMin = -0x1f4000;
+    mapObjectKindData->mHeightRangeMin = IRON_BALL_HEIGHT_RANGE_MIN;
     return mapObjectKindData;
 }
 

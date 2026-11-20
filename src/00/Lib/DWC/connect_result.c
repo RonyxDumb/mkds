@@ -11,9 +11,9 @@ u8 DWCi_AC_Error(void) {
     hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
     status = DWCi_AC_CloseNetwork(&hold->mErrorPhase);
     if (status == 1) {
-        return 0x12;
+        return AC_PHASE_END;
     }
-    return 0x11;
+    return AC_PHASE_ERROR;
 }
 
 u32 DWCi_AC_GetResult(void) {

@@ -195,8 +195,8 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
         return;
     }
     raceRandom = GetRaceRandom();
-    raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
-    if (woodbox->mItemChancePercent <= (u16) (((u64) (u32) (raceRandom->mValue >> 32) * 100) >> 32)) {
+    RANDOM_ADVANCE(raceRandom);
+    if (woodbox->mItemChancePercent <= (u16) RANDOM_BELOW_U64(raceRandom, 100)) {
         return;
     }
     if (woodbox->mItemRowHandle == 0) {
@@ -213,11 +213,11 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     }
     Vec3CrossUnrounded(&woodbox->mGroundUp, &direction, &sideDirection);
     raceRandom = GetRaceRandom();
-    raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
+    RANDOM_ADVANCE(raceRandom);
     spawnDistance =
-        ((s64) (s32) ((u32) (((u64) (u32) (raceRandom->mValue >> 32) * 0x1800) >> 32) + 0x119a) << 12) >> 12;
+        ((s64) (s32) ((u32) RANDOM_BELOW_U64(raceRandom, 0x1800) + 0x119a) << 12) >> 12;
     raceRandom = GetRaceRandom();
-    raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
+    RANDOM_ADVANCE(raceRandom);
     itemObject->mVelocity = *velocity;
     VEC_MultAdd(spawnDistance, &direction, &woodbox->mMapObject.mPos, &itemObject->mPos);
     VEC_MultAdd(0, &sideDirection, &itemObject->mPos, &itemObject->mPos);
@@ -238,7 +238,7 @@ void EnterWoodbox1Broken(void *stateObject) {
 
 void UpdateWoodbox1Broken(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
-    if (woodbox->mMapObject.mStateMachine.mStateFrames < WOODBOX1_BROKEN_FRAMES) {
+    if (woodbox->mMapObject.mStateMachine.mStateFrames < WOODBOX1_BROKEN_MIN_FRAMES) {
         return;
     }
     if (woodbox->mMapObject.mCourseMapRow->mSettings[2] != 0) {
@@ -305,15 +305,15 @@ void EnterWoodbox1Fall(void *stateObject) {
     u16 headingOffset;
 
     frameCount = GetRaceUpdateFrames();
-    woodbox->mMapObject.mFlags &= ~1;
-    woodbox->mMapObject.mFlags &= ~2;
-    woodbox->mMapObject.mFlags &= ~8;
+    woodbox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    woodbox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    woodbox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     woodbox->mMapObject.mAlpha = 1;
     woodbox->mTiltOffset = *((frameCount & 1) ? &woodbox->mTiltOffsetOnOddFrame : &woodbox->mTiltOffsetOnEvenFrame);
     if (frameCount & 2) {
         headingOffset = woodbox->mStoredHeadingAngleOffset;
     } else {
-        headingOffset = 0x10000 - woodbox->mHeadingAngleOffset;
+        headingOffset = ANGLE_FULL_TURN - woodbox->mHeadingAngleOffset;
     }
     woodbox->mHeadingAngleOffset = headingOffset;
     woodbox->mTiltOffsetPerFrame.x = 0;
@@ -352,10 +352,10 @@ void UpdateWoodbox1Settle(void *stateObject) {
     woodbox->mPosOffset.z -= MUL_FIXED12_NO_ROUND(woodbox->mPosOffset.z, 164);
     VEC_Add(&woodbox->mTiltOffset, &woodbox->mTiltOffsetPerFrame, &woodbox->mTiltOffset);
     headingOffset = woodbox->mHeadingAngleOffset;
-    if ((u32) headingOffset < 0x8000) {
+    if ((u32) headingOffset < ANGLE_HALF_TURN) {
         woodbox->mHeadingAngleOffset = headingOffset - MUL_FIXED12_NO_ROUND(headingOffset, 246);
     } else {
-        woodbox->mHeadingAngleOffset = headingOffset + MUL_FIXED12_NO_ROUND(0x10000 - headingOffset, 246);
+        woodbox->mHeadingAngleOffset = headingOffset + MUL_FIXED12_NO_ROUND(ANGLE_FULL_TURN - headingOffset, 246);
     }
     woodbox->mMapObject.mPosStep.y -= 655;
     VEC_Add(&woodbox->mPosOffset, &woodbox->mMapObject.mPosStep, &woodbox->mPosOffset);
@@ -378,7 +378,7 @@ void UpdateWoodbox1Settle(void *stateObject) {
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 3) {
         if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > WOODBOX1_SMASH_VELOCITY) {
+            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > WOODBOX1_BREAK_MIN_SPEED) {
                 StartWoodbox1ItemObject(woodbox, &kart->mVelocity);
                 if (gBouncingWoodbox1 == woodbox) {
                     gBouncingWoodbox1 = NULL;

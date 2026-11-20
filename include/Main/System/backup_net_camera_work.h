@@ -8,7 +8,7 @@
 #include "wireless_link_control.h" // ScanExParam, ScanParam, ParentParameter
 #include "wireless_key_data_sharing.h" // WMDataSharingInfo, WMDataSet
 #include "fixed_vector_math.h" // Vec3s16
-#include "geometry_engine_setup.h" // MtxFx44
+#include "geometry_engine_setup.h"
 #include "model_material_set.h" // MtxFx43
 #include "Main/Net/wireless_block_requests.h"
 #include "Main/Kart/point_link_cursor.h" // PosCurve
@@ -22,6 +22,12 @@
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "touch_panel_sampling.h"
 #include "Main/Net/wifi_race_sync_advance.h" // WiFiRaceSyncPacket
+
+// Bytes of the pixels of one emblem, and of its converted tiles.
+#define EMBLEM_PIXEL_BYTES 0x200
+
+// Bytes of a player name: ten 16-bit characters.
+#define PLAYER_NAME_BYTES 0x14
 
 // Values of BackupFirstBlock.mSoundMode.
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
@@ -58,11 +64,12 @@ typedef struct EmblemRecord {
     /* 000 */ u8 mUnk_000[0x4];
     /* 004 */ u8 mFilled : 1;
     /* 005 */ u8 mUnk_005[0x3];
-    /* 008 */ u8 mEmblemData[0x200];
+    /* 008 */ u8 mEmblemData[EMBLEM_PIXEL_BYTES];
     /* 208 */ u8 mUnk_208[0xf8];
 } EmblemRecord;
 
-// One Grand Prix record as saved: the time and the character in bit fields, the name whole.
+// One Grand Prix record as saved: the character, kart, grade, total points and cup rank, the time in bit fields, the
+// name whole.
 typedef struct PackedGrandPrixRecord {
     /* 00 */ union {
         u32 mUnk_00;
@@ -87,7 +94,7 @@ typedef struct PackedGrandPrixRecord {
             u32 mMillisecond : 10;
         };
     };
-    /* 08 */ u8 mName[0x14];
+    /* 08 */ u8 mName[PLAYER_NAME_BYTES];
 } PackedGrandPrixRecord;
 
 // The saved Grand Prix records: entries by engine class and cup.
@@ -97,7 +104,7 @@ typedef struct GrandPrixRecordBlock {
     /* e4 */ u8 mUnk_e4[0x31c];
 } GrandPrixRecordBlock;
 
-// One course time record as saved: the time and the character in bit fields, the name whole.
+// One course time record as saved: the character and the time in bit fields, the kart index and the name whole.
 typedef struct PackedCourseTimeRecord {
     /* 00 */ union {
         u32 mUnk_00;
@@ -111,7 +118,7 @@ typedef struct PackedCourseTimeRecord {
     };
     /* 04 */ u8 mKartIndex;
     /* 05 */ u8 mUnk_05[3];
-    /* 08 */ u8 mName[0x14];
+    /* 08 */ u8 mName[PLAYER_NAME_BYTES];
 } PackedCourseTimeRecord;
 
 // The saved course time records: the best times and the best lap, by course.
@@ -132,15 +139,14 @@ typedef struct MissionRecord {
     };
 } MissionRecord;
 
-// The saved mission record block: its mRecords.
+// The saved mission records: one MissionRecord in mRecords for each mission, by row and column.
 typedef struct MissionRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ MissionRecord mRecords[1];
     /* 05 */ u8 mUnk_05[0xfb];
 } MissionRecordBlock;
 
-// The first 0x30 bytes of a ghost record.
-// Bits of GhostRecordHead.mUnk_08 (the members mFilled and mHasEmblem as masks).
+// Masks of the mFilled and mHasEmblem bits that share the first word of GhostRecordHead.mUnk_08.
 #define GHOST_HEAD_FILLED_BIT 1
 #define GHOST_HEAD_EMBLEM_BIT 2
 
@@ -170,7 +176,7 @@ typedef struct GhostRecordHead {
             u32 mMillisecond : 10;
         };
     };
-    /* 0c */ u8 mName[0x14];
+    /* 0c */ u8 mName[PLAYER_NAME_BYTES];
     /* 20 */ u8 mLapTimes[0xf];
     /* 2f */ union {
         u8 mUnk_2f;
@@ -183,7 +189,7 @@ typedef struct GhostRecordHead {
 // One entry of the slot ghost list and of the ghost file list: a ghost record head and its emblem.
 typedef struct GhostListEntry {
     /* 000 */ GhostRecordHead mHead;
-    /* 030 */ u8 mEmblem[0x200];
+    /* 030 */ u8 mEmblem[EMBLEM_PIXEL_BYTES];
 } GhostListEntry;
 
 // A ghost record: its head and the key recording buffer.
@@ -195,15 +201,16 @@ typedef struct GhostRecord {
 // A slot ghost record: its head, emblem and key recording buffer.
 typedef struct SlotGhostRecord {
     /* 000 */ GhostRecordHead mHead;
-    /* 030 */ u8 mEmblem[0x200];
+    /* 030 */ u8 mEmblem[EMBLEM_PIXEL_BYTES];
     /* 230 */ u8 mKeyRecordingBuffer[0xdcc];
     /* ffc */ u8 mUnk_ffc[4];
 } SlotGhostRecord;
 
-// One buddy in the save: result counts per kind of match, the date of the last result, the name and some flags.
+// One buddy in the save: result counts per kind of match, the date of the last result or of adding the buddy, the name
+// and some flags.
 typedef struct BuddyRecord {
-// Two counters for each of three kinds of match (VS, Battle and a third kind), each raised by one at the end of a
-// race.
+// A win count and a loss count for each of three kinds of match (VS, Battle, WiFi race): at the end of a race with the
+// buddy one of the two goes up by one, to at most 0xffff.
     /* 00 */ u16 mResultCounts[3][2];
     /* 0c */ union {
         u16 mDate;
@@ -213,7 +220,7 @@ typedef struct BuddyRecord {
             u16 mDay : 5;
         };
     };
-    /* 0e */ u8 mName[0x14];
+    /* 0e */ u8 mName[PLAYER_NAME_BYTES];
     /* 22 */ union {
         u8 mUnk_22;
         struct {
@@ -242,7 +249,7 @@ typedef struct EmblemBlockData {
     /* 000 */ u8 mUnk_000[4];
     /* 004 */ u8 mFilledBits;
     /* 005 */ u8 mUnk_005[3];
-    /* 008 */ u8 mEmblems[5][0x200];
+    /* 008 */ u8 mEmblems[5][EMBLEM_PIXEL_BYTES];
     /* a08 */ u8 mUnk_a08[0xf8];
 } EmblemBlockData;
 
@@ -257,12 +264,14 @@ typedef struct EmblemBlockData {
 #define BACKUP_FAILED_ALL 0xffff
 // BackupFirstBlock.mElo of a fresh save.
 #define BACKUP_ELO_INITIAL 0x1388
-// BackupBuffers.mReadStatus: every block read, some block failed, the save has no valid prefix.
+// BackupBuffers.mReadStatus: every block read without an error (also the value before and during the read), some block
+// failed, the save has no valid prefix.
 #define BACKUP_READ_STATUS_OK 0
 #define BACKUP_READ_STATUS_BLOCKS_FAILED 3
 #define BACKUP_READ_STATUS_BAD_PREFIX 4
 
-// The backup save buffers: a pointer to each record block, the read status and the failed block bits.
+// The backup save buffers: a pointer to each record block, the busy flag, the read status and failed block bits, and
+// the participant bit sets and limits.
 typedef struct BackupBuffers {
     /* 00 */ BackupFirstBlock *mFirstBlock;
     /* 04 */ EmblemRecord *mEmblemRecord;
@@ -337,7 +346,7 @@ typedef struct ChildList {
     /* 43 */ u8 mChildMask;
 } ChildList;
 
-// A ghost seen in a scan: its kart, character, course and finish time.
+// A ghost seen in a scan: its kart, character, course and time.
 typedef struct ScanGhostInfo {
     /* 00 */ u8 mKartIndex;
     /* 01 */ u8 mCharacterIndex;
@@ -368,7 +377,8 @@ typedef struct MPStateMachine {
 // One file slot of the connection: a block to offer to the other consoles, or a file path to read in.
 typedef struct BlockEntry {
     /* 00 */ WBTBlockInfoList mNode;
-// The 0x40-byte path; a first byte of 0 means the entry is free.
+// The 0x40-byte path of a pending file; a first byte of 0 means no file (AddPendingFile takes the first such entry,
+// LoadPendingFiles stops at it).
     /* 34 */ u8 mPath[0x40];
     /* 74 */ u32 *mBuffer;
 // Where the uncompressed bytes go; nothing sets it, so a block is allocated for them.
@@ -386,7 +396,7 @@ typedef struct BlockEntry {
     };
 } BlockEntry;
 
-// Files a parent can hold pending for transfer (BlockEntry elements of mBlockEntries).
+// Number of BlockEntry elements in mBlockEntries: each holds a pending file to load or a ghost block to offer.
 #define CONNECTION_BLOCK_ENTRY_COUNT 12
 
 // The block transfer state of a connection: mBlockEntries, mMode, mNextLoadIndex, mCompressedBuffer, ghost count.
@@ -411,13 +421,10 @@ typedef struct BlockTransferView {
     /* 7a7 */ u8 mUnk_7a7[1];
 } BlockTransferView;
 
-// Bytes of a player name: ten 16-bit characters.
-#define PLAYER_NAME_BYTES 0x14
-
-// What a console tells the others about its player: name, emblem, rating, friend data and region and language.
+// What a console tells the others about its player: name, emblem, Elo, friend data and region and language.
 typedef struct PlayerRecord {
     /* 000 */ u8 mName[PLAYER_NAME_BYTES];
-    /* 014 */ u8 mEmblem[0x200];
+    /* 014 */ u8 mEmblem[EMBLEM_PIXEL_BYTES];
     /* 214 */ u8 mHasEmblem;
     /* 215 */ u8 mUnk_215;
     /* 216 */ s16 mElo;
@@ -434,7 +441,7 @@ typedef struct PlayerRecord {
     /* 22a */ u8 mUnk_22a[2];
 } PlayerRecord;
 
-// Six bytes, compared and assigned as one object.
+// Six bytes of a scanned parent's address: compared one byte at a time and assigned as one object.
 typedef struct ScanMacAddress {
     /* 00 */ u8 mBytes[6];
 } ScanMacAddress;
@@ -443,7 +450,7 @@ typedef struct ScanMacAddress {
 typedef struct ScanSlot {
     /* 00 */ WMBssDesc mUnk_00;
     /* c0 */ ScanMacAddress mKey;
-    /* c6 */ u8 mName[0x14];
+    /* c6 */ u8 mName[PLAYER_NAME_BYTES];
     /* da */ u8 mChildCount;
     /* db */ u8 mAge;
     /* dc */ union {
@@ -472,10 +479,11 @@ typedef struct ScanStateView {
     /* 390 */ u8 mUnk_390[0x20];
 } ScanStateView;
 
-// SharingReceiveRecord.mFlags bits: the sync phase bit of the record sender (the first or the second, by
-// ConnectionWork.mSyncToggle), and the fade flag a parent copies from DispCap.mFlags (connection.c send).
-#define SHARING_RECORD_FLAG_SYNC_PHASE_A 1
-#define SHARING_RECORD_FLAG_SYNC_PHASE_B 2
+// SharingReceiveRecord.mFlags bits (SharingSendRecord.mFlags when sent): the sync toggle bit of the sender (the first
+// when ConnectionWork.mSyncToggle is 0, else the second; a parent sets one only once CONNECTION_STATUS_SHARING_SYNCED
+// is set), and the fade flag a parent sets in the synced race state from DispCap.mFlags.
+#define SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO 1
+#define SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE 2
 #define SHARING_RECORD_FLAG_DISP_CAP_FADE 4
 
 // A received sharing record: the pad keys, touch point, left participant mask, send byte and flags.
@@ -494,7 +502,8 @@ typedef struct SharingReceiveRecord {
     /* 07 */ u8 mUnk_07;
 } SharingReceiveRecord;
 
-// DataSharing.mSharingPhase: the cleared value, and the value ResetDataSharing sets that UpdateDataSharing waits on.
+// DataSharing.mSharingPhase: ResetDataSharing sets AFTER_RESET, and UpdateDataSharing returns FALSE in the synced
+// states while it holds that value; no code stores the other value, 0.
 #define DATA_SHARING_PHASE_INITIAL 0
 #define DATA_SHARING_PHASE_AFTER_RESET 5
 
@@ -516,7 +525,7 @@ typedef struct DataSharing {
     /* 4b */ u8 mUnk_4b[1];
 } DataSharing;
 
-// One row of the participant position table: the mUnk_00 halfwords and mUnk_06.
+// One row of the participant position table (the same eight bytes as ParticipantPosition).
 typedef struct ParticipantPositionRow {
     /* 00 */ u16 mUnk_00[3];
     /* 06 */ u16 mUnk_06;
@@ -532,7 +541,8 @@ typedef struct ParticipantTablesView {
     /* 69 */ u8 mUnk_69[0x1b];
 } ParticipantTablesView;
 
-// Seed, multiplier and increment of a multiply-add generator, each as a low word and a high word.
+// The state, multiplier and increment of a random number generator, each as a low word and a high word (the halves of a
+// RandomState64).
 typedef struct RandomState {
     /* 00 */ s32 mStateLow;
     /* 04 */ s32 mStateHigh;
@@ -580,18 +590,22 @@ typedef struct MultiBootStateView {
 #define CONNECTION_FLAG_RACE 8
 // ConnectionWork.mFlags: the connection is being ended; cleared when the end finishes.
 #define CONNECTION_FLAG_ENDING 0x80
-// ConnectionWork.mOperationFlags: a disconnect is running.
-#define CONNECTION_OPERATION_DISCONNECTING 2
-// ConnectionWork.mOperationFlags: a scan is running.
+// ConnectionWork.mOperationFlags: set by a child's Disconnect when WM_Disconnect answers WIRELESS_RESULT_OCCUPIED;
+// DisconnectCallback clears it; while it is set, a refused result resets the connection data instead of stopping.
+#define CONNECTION_OPERATION_DISCONNECT_OCCUPIED 2
+// ConnectionWork.mOperationFlags: scan results are being recorded into the scan slots; set when StartScan starts a scan
+// and when a child presses a member row, cleared by EndScan, a failed start and when an entry is chosen.
 #define CONNECTION_OPERATION_SCANNING 1
-// ConnectionWork.mStatusFlags: data sharing sync finished.
+// ConnectionWork.mStatusFlags: set on a parent once every child's record has the sync toggle bit its own lacks; cleared
+// when a sync starts or the sharing is reset.
 #define CONNECTION_STATUS_SHARING_SYNCED 1
 // ConnectionWork.mStatusFlags: the child set changed since the game info was last refreshed.
 #define CONNECTION_STATUS_CHILDREN_CHANGED 8
-// ConnectionWork.mStatusFlags: refuse a multiboot child that has no player number yet, i.e. announces 0 (cleared at
-// parent start, never set).
+// ConnectionWork.mStatusFlags: refuse a multiboot child whose MBUserInfo.mPlayerNo is 0 (cleared at parent start, never
+// set).
 #define CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD 4
-// ConnectionWork.mMultiBootRequestFlags: the send request, and the boot request, are in flight to the children.
+// ConnectionWork.mMultiBootRequestFlags: set when the send request, and the boot request, were sent to the children;
+// the send one is cleared only when no child took it, the boot one then or by StartEndToIdle.
 #define CONNECTION_MULTIBOOT_REQUEST_SEND 1
 #define CONNECTION_MULTIBOOT_REQUEST_BOOT 2
 // ConnectionWork.mTransferFlags: the parent transfer callback finished its sequence.
@@ -600,28 +614,29 @@ typedef struct MultiBootStateView {
 #define CONNECTION_TRANSFER_SYNC_DONE 2
 // Game group id the game puts in every beacon it sends and accepts (WMGameInfo.mGgid).
 #define CONNECTION_GAME_GROUP_ID 0x25
-// WMGameInfo.mGameInfoLength that covers the group id, and the exact mUserGameInfoLength of this game's beacons.
+// WMBssDesc.mGameInfoLength that covers WMGameInfo.mGgid, and the exact mUserGameInfoLength of this game's beacons.
 #define SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID 8
-#define SCAN_USER_GAME_INFO_BYTES 0x1c
-// WMGameInfo.mAttribute bits: the parent accepts entries, and it is a multiboot parent.
-#define BEACON_ATTRIBUTE_ENTRY_OPEN 1
-#define BEACON_ATTRIBUTE_MULTIBOOT 2
-// Bit 15 of every parent TGID this game creates; scans keep only beacons that carry it.
+#define USER_GAME_INFO_BYTES 0x1c
+// Bit 15 of the parent TGID the non-multiboot-setup parents create; the scan that fills ScanSlot entries keeps only
+// beacons that carry it.
 #define PARENT_TGID_FLAG 0x8000
 // UserGameInfo.mKind of a multiboot parent beacon: carries the parent's name info, carries the member count.
 #define USER_GAME_INFO_KIND_NAME_INFO 5
 #define USER_GAME_INFO_KIND_MEMBER_COUNT 9
-// ConnectionWork.mOtherHostKind: a host of this game that is not the one searched for is multiboot, or is not.
+// ConnectionWork.mOtherHostKind: while the state is ended, a host of this game that accepts entries and is not the one
+// searched for is multiboot, or is not (written only, never read).
 #define OTHER_HOST_KIND_MULTIBOOT 2
 #define OTHER_HOST_KIND_NON_MULTIBOOT 3
-// ScanSlot.mAge: only slots younger than this are replaced by a new beacon; older than the second value are dropped.
+// ScanSlot.mAge, counted per scan callback: when a new beacon matches no slot key and no slot is free, it replaces the
+// oldest slot younger than the first value; a slot older than the second value is dropped.
 #define SCAN_SLOT_REPLACE_AGE_LIMIT 5
 #define SCAN_SLOT_EXPIRE_AGE 0xc8
 // ConnectionWork.mRememberedScanKeyHeld while a remembered beacon key is held.
 #define SCAN_REMEMBERED_KEY_HELD 0xf
-// Frames a multiboot join may take (ConnectionWork.mStepWaitFrames) before it fails; frames the close step waits;
-// frames the parent waits for the children it expects.
-#define CONNECTION_JOIN_TIMEOUT_FRAMES 0x4b0
+// Calls of AdvanceScanConnect the joining step or the find entry step may wait (ConnectionWork.mStepWaitFrames) before
+// CONNECTION_ERROR_CONNECT_FAILED; calls the close step waits; calls the parent waits for the children it expects (the
+// connect failed callback tests the same count, written as 0x708).
+#define CONNECTION_CONNECT_TIMEOUT_FRAMES 0x4b0
 #define CONNECTION_CLOSE_WAIT_FRAMES 0x3c
 #define CONNECTION_CHILDREN_WAIT_FRAMES 0x708
 // Frames a child waits before its record exchange: fixed, and for a multiboot child the shortest wait and the spread
@@ -629,19 +644,18 @@ typedef struct MultiBootStateView {
 #define MP_CHILD_DELAY_FRAMES 0xb4
 #define MP_CHILD_DELAY_RANDOM_MIN_FRAMES 0x78
 #define MP_CHILD_DELAY_RANDOM_SPREAD_FRAMES 0xb4
-// MBUserInfo.mNameLength of the names the multiboot parent and the scan connect child send, and the player numbers
-// they announce.
-#define MULTIBOOT_USER_NAME_LENGTH 10
+// The player numbers the multiboot parent and the scan connect child announce.
 #define MULTIBOOT_PARENT_PLAYER_NUMBER 8
 #define SCAN_CONNECT_PLAYER_NUMBER 9
-// WMParentParam.mParentMaxSize and mChildMaxSize of this game's connections.
+// ParentParameter.mParentMaxSize and mChildMaxSize of this game's connections.
 #define CONNECTION_PARENT_MAX_SIZE 0x1b6
 #define CONNECTION_CHILD_MAX_SIZE 0x2e
-// A participant position that no entry holds (ConnectionWork.mParticipantPosByIndex, mParticipantIndexByPos).
-#define PARTICIPANT_POSITION_NONE 0xffff
+// Table value for no participant: stored in mParticipantPosByIndex[].mEntryIndex for an absent participant and in
+// mParticipantIndexByPos and mParticipantIndices behind the last participant.
+#define PARTICIPANT_NONE 0xffff
 // Value of every byte of a scan BSSID filter that matches any host.
 #define CONNECTION_BSSID_ANY_BYTE 0xff
-// ConnectionWork.mOwnIndex before the parent has handed out an index.
+// ConnectionWork.mOwnIndex until the link callback stores mOwnAid in it.
 #define CONNECTION_OWN_INDEX_NONE 0xffff
 // Sizes of the scan result buffer (mScanExBuffer) and the MP send and receive buffers.
 #define CONNECTION_SCAN_BUFFER_SIZE 0x400
@@ -654,33 +668,35 @@ typedef struct MultiBootStateView {
 #define CONNECTION_RANDOM_MULTIPLIER_LOW 0x6c078965
 #define CONNECTION_RANDOM_MULTIPLIER_HIGH 0x5d588b65
 #define CONNECTION_RANDOM_INCREMENT_LOW 0x269ec3
-// ConnectionWork.mParentTransferStep: the callback waits for the handshake, then for all chunks held twice.
+// ConnectionWork.mParentTransferStep: ParentBlockTransferCallback waits for the handshake request, then twice for all
+// chunks held; after the second it sets CONNECTION_TRANSFER_SEQUENCE_DONE and starts over at the handshake.
 #define PARENT_TRANSFER_WAIT_HANDSHAKE 0
 #define PARENT_TRANSFER_WAIT_FIRST_CHUNKS 1
 #define PARENT_TRANSFER_WAIT_SECOND_CHUNKS 2
-// ConnectionWork.mStep: the operation in flight, named after the call that starts it.
+// ConnectionWork.mStep: the operation last started, named after the call that starts it; it is still running while
+// mRequestPending is nonzero.
 typedef enum ConnectionStep {
-    CONNECTION_STEP_NOTHING = 0, // nothing in flight
+    CONNECTION_STEP_NOTHING = 0, // no operation started
     CONNECTION_STEP_STARTING_UP = 1,
-    CONNECTION_STEP_RESTARTING = 2,
-    CONNECTION_STEP_SETTING_TIMEOUT = 3,
+    CONNECTION_STEP_RESETTING = 2,
+    CONNECTION_STEP_SETTING_LIFE_TIME = 3,
     CONNECTION_STEP_CHECKING_CHANNELS = 4,
-    CONNECTION_STEP_CONFIGURING_HOST = 5,
-    CONNECTION_STEP_OPENING_HOST = 6,
+    CONNECTION_STEP_SETTING_PARENT_PARAMETER = 5,
+    CONNECTION_STEP_STARTING_PARENT = 6,
     CONNECTION_STEP_SEARCHING = 7,
     CONNECTION_STEP_SEARCHING_UNUSED = 8, // never set
     CONNECTION_STEP_STOPPING_SEARCH = 9,
     CONNECTION_STEP_JOINING = 10,
-    CONNECTION_STEP_STARTING_EXCHANGE = 11,
-    CONNECTION_STEP_SETTING_EXCHANGE_RATE = 12,
-    CONNECTION_STEP_REGISTERING_ENTRY = 13,
+    CONNECTION_STEP_STARTING_MP = 11,
+    CONNECTION_STEP_SETTING_MP_FREQUENCY = 12,
+    CONNECTION_STEP_SETTING_ENTRY = 13,
     CONNECTION_STEP_STARTING_SHARING = 14,
-    CONNECTION_STEP_PUBLISHING_GAME_INFO = 15,
-    CONNECTION_STEP_DROPPING_CHILDREN = 16,
+    CONNECTION_STEP_SETTING_GAME_INFO = 15,
+    CONNECTION_STEP_DISCONNECTING_CHILDREN = 16,
     CONNECTION_STEP_STOPPING_SHARING = 17,
-    CONNECTION_STEP_STOPPING_EXCHANGE = 18,
-    CONNECTION_STEP_CLOSING_HOST = 19,
-    CONNECTION_STEP_LEAVING = 20,
+    CONNECTION_STEP_STOPPING_MP = 18,
+    CONNECTION_STEP_ENDING_PARENT = 19,
+    CONNECTION_STEP_DISCONNECTING = 20,
     CONNECTION_STEP_SHUTTING_DOWN = 21,
     CONNECTION_STEP_MULTIBOOT_START_PARENT = 22,
     CONNECTION_STEP_MULTIBOOT_UNUSED = 23, // never set
@@ -709,22 +725,21 @@ typedef enum ConnectionStep {
     CONNECTION_STEP_SEND_WORD_REQUEST = 46,
 } ConnectionStep;
 
-// ConnectionWork.mState.
 typedef enum ConnectionState {
     CONNECTION_STATE_IDLE = 0,
     CONNECTION_STATE_STARTING = 1,
     CONNECTION_STATE_MULTIBOOT_PARENT_READY = 2,
     CONNECTION_STATE_MULTIBOOT_SCAN_READY = 3,
-    CONNECTION_STATE_SETUP_SPARE = 4, // never set
+    CONNECTION_STATE_UNUSED = 4, // never set
     CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE = 5,
     CONNECTION_STATE_CONNECTED = 6,
     CONNECTION_STATE_SYNC_WAIT = 7,
     CONNECTION_STATE_SYNCED = 8,
     CONNECTION_STATE_SYNCED_RACE = 9,
     CONNECTION_STATE_ENTRY_EXCHANGE = 10,
-    CONNECTION_STATE_GATHERING = 11,
+    CONNECTION_STATE_SETUP = 11,
     CONNECTION_STATE_MP_ENDING = 12,
-    CONNECTION_STATE_ENDED = 13,
+    CONNECTION_STATE_ENDED = 13, // never set; the connection-active tests compare against it
 } ConnectionState;
 
 // ConnectionWork.mErrorCode; CONNECTION_ERROR_NONE means no error is pending.
@@ -734,20 +749,19 @@ typedef enum ConnectionError {
     CONNECTION_ERROR_MP_FAILED = 2,
     CONNECTION_ERROR_NO_CHANNEL = 3,
     CONNECTION_ERROR_CONNECT_FAILED = 5,
-    CONNECTION_ERROR_COMMUNICATION_LOST = 7,
+    CONNECTION_ERROR_COMMUNICATION_LOST = 7, // also set when the local sound-load callback fails
     CONNECTION_ERROR_OPERATION_FAILED = 8,
     CONNECTION_ERROR_NONE = 9,
 } ConnectionError;
 
-// ConnectionWork.mConnectionMode.
 typedef enum ConnectionMode {
     CONNECTION_MODE_NONE = 0,
     CONNECTION_MODE_PARENT = 1,
     CONNECTION_MODE_CHILD = 2,
 } ConnectionMode;
 
-// ConnectionWork.mSyncState values: the handshake that ends when parent and children have finished a shared step.
-// The parent goes START, WAIT_CHILDREN, ANNOUNCE, DONE; a child goes START, LOAD, LOAD_WAIT, REPORT, DONE.
+// ConnectionWork.mSyncState values. A parent goes START, PARENT_WAIT_CHILDREN, PARENT_ANNOUNCE, DONE; a child goes
+// START, CHILD_LOAD, CHILD_LOAD_WAIT, CHILD_REPORT, DONE, and skips CHILD_LOAD_WAIT when not a multiboot boot.
 enum {
     CONNECTION_SYNC_START,
     CONNECTION_SYNC_DONE,
@@ -759,11 +773,12 @@ enum {
 };
 
 // Bytes of the packet buffer behind ConnectionWork.mChunkBuffer (4 header bytes, then the chunk data), and the
-// received-chunk flag bytes of one slot (a child slot only uses 2).
+// received-chunk flag bytes of each slot (a child uses only the first 2 of each).
 #define MP_CHUNK_PACKET_BYTES 0x16c
 #define MP_CHUNK_FLAGS_PER_SLOT 0x12
 
-// The wireless connection work: its mode, state, scan and parent parameters, buffers and child list.
+// The wireless connection work: mConnectionMode, mState, mStep, scan and parent parameters, buffers, mChildren, scan
+// slots, player records, data sharing, the MP state machine, multiboot state and block transfer state.
 typedef struct ConnectionWork {
     /* 0000 */ u32 mConnectionMode;
     /* 0004 */ s32 mState;
@@ -803,7 +818,7 @@ typedef struct ConnectionWork {
             /* 0434 */ u16 mUnk_0434;
             /* 0436 */ u16 mOperationFlags;
             /* 0438 */ u8 mRememberedScanKeyHeld;
-            /* 0439 */ u8 mScanMissCount;
+            /* 0439 */ u8 mUnk_0439;
             /* 043a */ u8 mExpectedRecordMask;
             /* 043b */ s8 mKeepScanning;
             /* 043c */ u8 mLanguageIndex;
@@ -985,14 +1000,15 @@ struct NNSiFndHeapHead;
 #define OVERLAY_SLOT_OV002 2
 #define OVERLAY_SLOT_NONE 4
 
-// OverlayLoader.mLoadState: nothing loaded, the image is being read, the overlay is started. Nothing sets the last,
-// which the loader handles like the second.
+// OverlayLoader.mLoadState: nothing loaded, the image is being read, the overlay is started. Nothing sets the last;
+// StartLoadOverlay handles it like the third.
 #define OVERLAY_LOAD_IDLE 0
 #define OVERLAY_LOAD_READING 1
 #define OVERLAY_LOAD_STARTED 2
 #define OVERLAY_LOAD_UNUSED 3
 
-// The overlay loader: current overlay and load state, three entries, the FSOverlayInfo, the FSFile and the heaps.
+// The overlay loader: current overlay and load state, three entries, the FSOverlayInfo, the FSFile, the two heaps and
+// the lowest start and highest end of the loaded entries.
 typedef struct OverlayLoader {
     /* 00 */ s32 mCurrentOverlay;
     /* 04 */ s32 mLoadState;
@@ -1006,28 +1022,26 @@ typedef struct OverlayLoader {
 } OverlayLoader;
 
 #define WIFI_RACE_SYNC_PARTICIPANT_COUNT 4
-// WiFiRaceSyncPeer.mEmptyPacketPhase counts up to this value, then restarts at 0 (an empty packet goes out at 0).
+// WiFiRaceSyncPeer.mEmptyPacketPhase: in the probe state, for a peer that already has WIFI_RACE_SYNC_SAMPLE_COUNT
+// samples, it counts up to this value on each visit of that peer, then restarts at 0 (an empty packet goes out at 0).
 #define WIFI_RACE_SYNC_EMPTY_PHASE_LAST 4
 // Probe replies are collected until a peer has this many samples.
 #define WIFI_RACE_SYNC_SAMPLE_COUNT 12
-// Bytes of the record that is sent, of a probe packet body, and of the send buffer with its 4-byte packet header.
+// Bytes of a full record, of a probe packet body, and of the send buffer with its 4-byte packet header; the record that
+// goes out is shorter by mUnusedItemDataBytes.
 #define WIFI_RACE_SYNC_RECORD_SIZE 0x68
 #define WIFI_RACE_SYNC_PROBE_SIZE 0x28
 #define WIFI_RACE_SYNC_SEND_BUFFER_SIZE 0x6c
-// Bits of WiFiRaceSync.mFlags.
-// Set when the sync enters its race state (EnterWiFiRaceSyncRace) and cleared when it enters the latency check state.
-#define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
-#define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A 0x1
+// Bits of WiFiRaceSync.mFlags. IN_RACE is set by EnterWiFiRaceSyncRace and cleared by EnterWiFiRaceSyncProbe.
 #define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
 #define WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE 0x10
-#define WIFI_RACE_SYNC_FLAG_CLEARED_UNREAD 0x20
-#define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B 0x40
 #define WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED 0x80
 #define WIFI_RACE_SYNC_FLAG_SENDING 0x4
-#define WIFI_RACE_SYNC_FLAG_PEERS_SYNCED 0x100
+#define WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN 0x100
 #define WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT 0x200
-// Frames without pad input before the idle disconnect, calls without a packet before a peer counts as dropped (600
-// while it has no sample), and rejected probe replies before a peer is dropped.
+// Limits that are exceeded: frames without pad input (counted only while the own kart has not ended) before the idle
+// disconnect, calls without a packet before a peer counts as dropped (600 while it has no sample), and rejected probe
+// replies before a peer is dropped.
 #define WIFI_RACE_SYNC_IDLE_FRAMES 0x708
 #define WIFI_RACE_SYNC_TIMEOUT_FRAMES 300
 #define WIFI_RACE_SYNC_FIRST_TIMEOUT_FRAMES 600
@@ -1035,8 +1049,9 @@ typedef struct OverlayLoader {
 // Start values of WiFiRaceSync.mCountdownTimer: while the peers are probed and made ready, and for the countdown.
 #define WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME 0x7f
 #define WIFI_RACE_SYNC_COUNTDOWN_TIME 0xf0
-// Kart progress word of a participant: bits 0 to 18 time or start rank, 19 to 21 lap count, 22 still racing, 23 to 26
-// mask of the participants that finished, and the value a dropped participant gets in the high bits.
+// Kart progress word of a participant: bits 0 to 18 time or start rank, 19 to 21 six minus the highest lap (0 at the
+// goal), 22 still racing, 23 to 26 mask of the participants that finished; a participant with no progress word gets
+// WIFI_RACE_SYNC_PROGRESS_DROPPED ORed onto its start rank.
 #define WIFI_RACE_SYNC_PROGRESS_TIME_MASK 0x7ffff
 #define WIFI_RACE_SYNC_PROGRESS_DID_NOT_FINISH 0x7ffff
 #define WIFI_RACE_SYNC_PROGRESS_SORT_KEY_MASK 0x3fffff
@@ -1049,37 +1064,38 @@ typedef struct OverlayLoader {
 #define WIFI_RACE_SYNC_PROGRESS_DROPPED 0x700000
 
 #define ITEM_DATA_SLOT_COUNT 16
-// Bytes of ItemDataSlot.mData, and of all item data in one record.
+// Bytes of ItemDataSlot.mData, and of the item data bytes after the headers in one record.
 #define ITEM_DATA_SLOT_BUFFER_SIZE 20
 #define ITEM_DATA_BYTES 0x30
-// Values of ItemDataSlot.mState: free, its data goes out in every record, no longer sent but not yet free.
+// Values of ItemDataSlot.mState: free, its data goes out in every record while it fits, no longer sent but not yet
+// free.
 #define ITEM_DATA_SLOT_STATE_FREE 0
 #define ITEM_DATA_SLOT_STATE_SENDING 1
 #define ITEM_DATA_SLOT_STATE_SENT 2
 // Sync frames a slot is sent for, and kept after that.
 #define ITEM_DATA_SLOT_SEND_FRAMES 0x28
 #define ITEM_DATA_SLOT_KEEP_FRAMES 30
-// ItemDataSlot.mItemKind of a slot that holds nothing; also the header byte sent for it.
+// ItemDataSlot.mItemKind of a slot that holds nothing; also the header byte sent for a slot that is free, no longer
+// sent or holds nothing.
 #define ITEM_DATA_KIND_NONE 15
 // Header byte of a slot in a record: item kind in bits 0 to 4, message kind in bits 5 to 7.
 #define ITEM_DATA_HEADER_KIND_MASK 0x1f
 #define ITEM_DATA_HEADER_MESSAGE_KIND_MASK 0xe0
 #define ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT 5
 
-// Item info index meaning no item, in SlotResultSyncState.
-#define SLOT_RESULT_SYNC_NO_ITEM 0x13
-// Values of SlotResultSyncState.mState and SlotResultSyncHalfword.mState.
+// Values of SlotResultSyncState.mState; SlotResultSyncHalfword.mState only holds IDLE or SENDING.
 #define SLOT_RESULT_SYNC_STATE_IDLE 0
 #define SLOT_RESULT_SYNC_STATE_SENDING 2
 #define SLOT_RESULT_SYNC_STATE_COPY_TO_PENDING 3
 #define SLOT_RESULT_SYNC_STATE_WAIT_FOR_END 4
-// Sync frames a result is sent for, the sends counted before only the frame count decides, and the frames left below
-// which the sending stops.
+// Sync frames a result is sent for, the sends counted before only the frame count decides, and the frames left at or
+// below which the sending stops.
 #define SLOT_RESULT_SYNC_SEND_FRAMES 0x78
-#define SLOT_RESULT_SYNC_MAX_SENDS 100
+#define SLOT_RESULT_SYNC_SEND_COUNT_LIMIT 100
 #define SLOT_RESULT_SYNC_CLEAR_FRAMES 20
 
-// The clock sync state of one peer: request and reply send and receive ticks, round trip total and sample counts.
+// The sync state of one peer: probe and reply send and receive ticks, mRoundTripTotal, mProbePending, the sample counts
+// and mEmptyPacketPhase.
 typedef struct WiFiRaceSyncPeer {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mProbeSentTickLow;
@@ -1123,7 +1139,8 @@ typedef struct SlotResultSyncState {
     /* 16 */ u8 mUnk_16[0xa];
 } SlotResultSyncState;
 
-// The sync entry of one participant: header and progress words, kart record, slot results, item data, round trip.
+// The sync entry of one participant: mHeaderWord, mProgressWord, mKartRecord, slot results (mSlotResultSyncs and the
+// sync state), mItemData, mLastProgressWord, mRoundTripAverage, mRecordReceived and mRank.
 typedef struct WiFiRaceSyncEntry {
     /* 00 */ union {
         s32 mHeaderWord;
@@ -1146,8 +1163,8 @@ typedef struct WiFiRaceSyncEntry {
             /* 7c */ u16 mUnk_7c;
             /* 7e */ u8 mUnk_7e[2];
             /* 80 */ s32 mLastProgressWord;
-// Average round trip time to this peer in the unit of mCountdownTimer: mean ticks times 64 / 0x82ea,
-// divided by 33 and rounded; 0 without samples.
+// Average round trip time to this peer in the unit of mCountdownTimer: round trip total over the sample count, times 64
+// / 0x82ea, divided by 33 and rounded up; 0 without samples.
             /* 84 */ u16 mRoundTripAverage;
             /* 86 */ union {
                 u8 mReceivedAndRank;
@@ -1172,7 +1189,8 @@ typedef struct ItemDataSlot {
     /* 0b */ u8 mDataSize;
 } ItemDataSlot;
 
-// A race sync record as sent: header and progress words, kart record, slot results and item data bytes.
+// A race sync record or probe body as sent: header and progress words, kart record (or the probe words), slot results,
+// item data headers and item data bytes.
 typedef struct WiFiRaceSyncRecord {
     /* 00 */ union {
         u32 mHeaderWord;
@@ -1188,7 +1206,7 @@ typedef struct WiFiRaceSyncRecord {
     };
     /* 08 */ union {
         ParticipantKartRecord mKartRecord;
-        // The ticks of a probe packet, which has no kart record.
+        // The probe ticks; the first overlaps mProgressWord. A probe packet has no kart record.
         u32 mProbeWords[6];
     };
     /* 20 */ SlotResultSyncHalfword mSlotResultSyncs[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
@@ -1199,7 +1217,7 @@ typedef struct WiFiRaceSyncRecord {
 // The buffer a Wi-Fi race sync packet is sent from: the packet header and the record.
 typedef struct WiFiRaceSyncSendBuffer {
     union {
-        // The first 0x28 bytes are the packet that goes out.
+        // The packet view: SendWiFiRaceSyncPacket sends its first dataSize + 4 bytes.
         WiFiRaceSyncPacket mPacket;
         struct {
             /* 00 */ u8 mPacketHeader[4];
@@ -1209,22 +1227,23 @@ typedef struct WiFiRaceSyncSendBuffer {
 } WiFiRaceSyncSendBuffer;
 
 // Values of WiFiRaceSync.mSharedState, which is also sent to the peers. After PICKED_QUIT or PICKED_NEXT (the
-// GetChoisesSPickedValue pick, quit or next) the state waits until every other participant is in PICKED_NEXT or
-// ALL_PEERS_PICKED, then becomes ALL_PEERS_PICKED.
+// GetChoisesSPickedValue pick, quit or next) the state waits until every other participant still in mParticipantMask is
+// in PICKED_NEXT or ALL_PEERS_PICKED, then becomes ALL_PEERS_PICKED.
 enum {
     WIFI_RACE_SHARED_STATE_IDLE,
-    WIFI_RACE_SHARED_STATE_PROBING,
+    WIFI_RACE_SHARED_STATE_BEFORE_RACE,
     WIFI_RACE_SHARED_STATE_RACING,
     WIFI_RACE_SHARED_STATE_PICKED_QUIT,
     WIFI_RACE_SHARED_STATE_PICKED_NEXT,
     WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED
 };
 
-// The Wi-Fi race sync state: its state machine, peers, countdown drift, ready and sampled masks and entries.
+// The Wi-Fi race sync state: mStateMachine, mPeers, mEntries, the item data slots, the countdown (mCountdownTimer,
+// mCountdownSmoothedDifference), the ready, sampled, participant and dropped masks, mSharedState, mFlags and mSendBuffer.
 typedef struct WiFiRaceSync {
     /* 000 */ StateMachine mStateMachine;
     /* 014 */ WiFiRaceSyncPeer mPeers[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
-    /* 0f4 */ s32 mCountdownDrift;
+    /* 0f4 */ s32 mCountdownSmoothedDifference;
 // Participant the next probe goes to in state 1; the last participant sent to in states 2 and 3.
     /* 0f8 */ u16 mSendParticipantIndex;
     /* 0fa */ u8 mReadyMask;
@@ -1242,7 +1261,7 @@ typedef struct WiFiRaceSync {
     /* 728 */ s32 mSyncFrames;
     /* 72c */ BOOL mFinishRecorded;
     /* 730 */ u8 mUnk_730[0x4];
-    /* 734 */ u16 mCountdownSendIndex;
+    /* 734 */ u16 mCountdownSendParticipantIndex;
     /* 736 */ s16 mCountdownTimer;
     /* 738 */ u16 mIdleFrames;
     /* 73a */ u8 mRecordSendCursor;
@@ -1263,7 +1282,8 @@ typedef struct WiFiRaceSync {
     /* 75c */ u16 mFlags;
 } WiFiRaceSync;
 
-// The per-run state of the race scene (gRace): frame counters, toon table cycle, fog fade, kind flags, light vector.
+// The state of the running race (gRace): mStarted, frame counters, toon table cycle, fog fade, chain camera flags,
+// mUpdateFramesAtEntryEnd and the light vector.
 typedef struct Race {
     // 1 once the race has started, else 0: StartRace sets it when UpdateRaceStartSequence reaches its frame 180, and
     // InitRace sets it at once for the kinds 5 and 6 of RaceSetup.mRaceKind, which have no countdown; IsRaceStarted
@@ -1273,35 +1293,39 @@ typedef struct Race {
     // Counts calls of UpdateRace; in mode 5 held at 128 until mUpdateFramesUnlimited is set
     // (SetRaceUpdateFramesUnlimited).
     /* 04 */ s32 mUpdateFrames;
-    // Counts calls of DrawRace; never read (2 writes, 0 reads).
+    // Counts calls of DrawRace; nothing reads it.
     /* 08 */ s32 mDrawFrames;
-    // Value of mUpdateFrames modulo 8 (its low three bits) as of the end of the latest UpdateRace, 0 at set-up; kart
-    // and map object code compare it with an index or a limit to act on one frame out of eight.
+    // Value of mUpdateFrames modulo 8 (its low three bits) as of the end of the latest UpdateRace, 0 at set-up; kart,
+    // item, map object and mission run code compare it with a kart index, an object number or 0 to act on one frame out
+    // of eight (the item Teresa fade tests it above 2).
     /* 0c */ s32 mUpdateFramesMod8;
-    // Value of mUpdateFrames modulo 2 as of the end of the latest UpdateRace, 0 at set-up; compared with 0 or with a
-    // bit of the object's own flags to act on every second frame.
+    // Value of mUpdateFrames modulo 2 as of the end of the latest UpdateRace, 0 at set-up; the cameras compare it with
+    // 0 and an item with the low bit of its creation number, to act on every second frame.
     /* 10 */ s32 mUpdateFramesMod2;
     // Value of mUpdateFrames modulo RaceSetup.mKartCount as of the end of the latest UpdateRace, 0 at set-up; its one
     // reader uses it as a kart index.
     /* 14 */ s32 mUpdateFramesModKartCount;
-    // Start index (0 to 7) of the 32 entries of gToonTable that UpdateRace gives to G3X_SetToonTable on each call;
-    // it advances by 1 each time mToonTableFrames passes gToonTableFramesLimit and wraps back to 0 after 7.
+    // Index in gToonTable of the first of the 32 entries UpdateRace gives to G3X_SetToonTable on each call (0 to 7, so
+    // entries past the end of gToonTable are read when it is above 0); it advances by 1 each time mToonTableFrames
+    // passes gToonTableFramesLimit and wraps back to 0 after 7.
     /* 18 */ s32 mToonTableOffset;
     // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds gToonTableFramesLimit (2) it
     // restarts at 0 and mToonTableOffset advances (every third call).
     /* 1c */ s32 mToonTableFrames;
-    // 1 from the start of a fog fade (StartFadeFog) until UpdateRace ends it, else 0: while it is 1 DrawRace writes
-    // the fade fog into the fog registers instead of the course fog. UpdateRace holds it for 72 calls, then steps
-    // gFadeFogRemaining from 72 down to 0 in steps of 4 and clears it. DrawRace compares it with mDrawnFadeFog.
+    // 1 from the start of a fog fade (StartFadeFog) until UpdateRace ends it, else 0. UpdateRace counts 72 calls of the
+    // hold (the King Teresa code clears that count or sets it to the limit), then steps gFadeFogRemaining from 72 down
+    // to 0 in steps of 4 and clears this. When it differs from mDrawnFadeFog DrawRace writes the full-fade fog (1) or
+    // the course fog (0) to the fog registers, and while gFadeFogStepping is set it writes the stepped fade fog on
+    // every call.
     /* 20 */ s32 mFadeFog;
-    // The value of mFadeFog that DrawRace last handled; DrawRace writes the fog registers when it differs from
-    // mFadeFog, then copies mFadeFog here. StartFadeFog sets it to 0 when it is 1 so that the next DrawRace writes the
-    // registers again.
+    // The value of mFadeFog that DrawRace last handled; while gFadeFogStepping is 0 DrawRace writes the fog registers
+    // when it differs from mFadeFog, and in every case then copies mFadeFog here. StartFadeFog sets it to 0 when it is
+    // 1 so that the next DrawRace writes the registers again.
     /* 24 */ s32 mDrawnFadeFog;
     // 1 when RaceSetup.mRaceKind is 3, 4 or 5, else 0. While it is 1, InitRace creates the chain cameras, UpdateRace
-    // updates them and takes their view, and DrawRace skips the draw call of DrawKartNameTags. The other readers go
-    // through GetRaceUseChainCameras and use it to tell these kinds apart (map objects, balloons, effects, kart
-    // set-up).
+    // updates them and takes their view, and DrawRace skips the draw call of DrawKartNameTags. Other code reads it
+    // through GetRaceUseChainCameras to test for these kinds (map objects, course sound objects, balloons, effects,
+    // kart set-up).
     /* 28 */ s32 mUseChainCameras;
     // 1 when RaceSetup.mRaceKind is 4: only the first chain camera is created and updated instead of the pair (read
     // only while mUseChainCameras is non-zero).
@@ -1331,9 +1355,6 @@ extern Race *gRace;
 extern s32 gFadeFogActive;
 struct SequenceCameraEntry;
 
-// The viewer of a race: position, look-at point, three axes, view matrix and frustum. One class, several instances:
-// gChaseCamera follows the selected kart, gEntryCamera and gFirstChainCamera / gSecondChainCamera step through
-// CourseMapCamera entries; gCurrentCamera points at the one used this frame.
 // Camera.mCollisionState: neither a length nor an offset is kept.
 #define CAMERA_COLLISION_STATE_NONE 3
 // Camera.mCollisionState: the hit is kept as a length.
@@ -1350,11 +1371,12 @@ struct SequenceCameraEntry;
 #define CAMERA_FRUSTUM_SHIFT_UP 1
 #define CAMERA_FRUSTUM_SHIFT_DOWN 2
 
-// A race camera: its orientation, position, view matrix, field of view, frustum and distance values.
+// A race camera: orientation, position, view matrix, field of view, frustum, follow distance, shake, wobble, collision
+// state and the entry camera state.
 typedef struct Camera {
     /* 000 */ Vec3 mUp;
-    // baseUp x forward, perpendicular to mUp and mForward. Sign not fixed (left or right is not shown); not updated
-    // by UpdateCameraViewWithWorldUp.
+    // mBaseUp x mForward (perpendicular to mUp and mForward); set by UpdateCameraView, not by
+    // UpdateCameraViewWithWorldUp.
     /* 00c */ Vec3 mSide;
     /* 018 */ Vec3 mLookAt;
     /* 024 */ Vec3 mPos;
@@ -1365,33 +1387,36 @@ typedef struct Camera {
     /* 060 */ s32 mHalfFovAngle;
     // Default gDefaultHalfFovAngle (0x157c, about 30 degrees).
     /* 064 */ s32 mHalfFovAngleGoal;
-    // First and second element of the pair FX_SinCosTable_ holds for mHalfFovAngle; mFrustumTop = mNear * first /
-    // second.
+    // The chase camera sets the first and second element of the pair FX_SinCosTable_ holds for mHalfFovAngle; entry
+    // cameras copy them from their CourseMapCamera entry; mFrustumTop = mNear * first / second.
     /* 068 */ s16 mHalfFovPairFirst;
     /* 06a */ s16 mHalfFovPairSecond;
     /* 06c */ s32 mAspectRatio;
     /* 070 */ s32 mNear;
-    // Far plane of the main projection (course settings value, default 0x640000); mUnk_08c is a second far value.
+    // Far plane of the main projection (course settings value, default 0x640000); mSecondFar is the other far value.
     /* 074 */ s32 mFar;
-    // The four extents handed to G3i_FrustumW_ (top, bottom, left, right), 20.12; shifted by mFrustumShift
-    // and a kind-6 entry offset, left and right swapped in mirror mode.
+    // The four extents handed to G3i_FrustumW_ (top, bottom, left, right), 20.12; shifted by mFrustumShift and, in a
+    // RACE_KIND_STAFF_ROLL race, by an offset from the course camera entry; mFrustumLeft is negated in mirror mode
+    // (left and right swap).
     /* 078 */ s32 mFrustumTop;
     /* 07c */ s32 mFrustumBottom;
     /* 080 */ s32 mFrustumLeft;
     /* 084 */ s32 mFrustumRight;
-    // Fraction of the Kart's last-frame movement (mPos - mPrevPos) added to the camera position while
-    // KART_DRIVE_RESPAWN_FALL is set in Kart.mDriveFlags; 0x1000 when the camera is placed, times 0xe66/0x1000 per use.
+    // Fraction of the Kart's last-frame movement (Kart.mPos - Kart.mPrevPos) added to the camera position while
+    // KART_DRIVE_RESPAWN_FALL is set in Kart.mDriveFlags and KART_EFFECT_WATER_FALL is not set in Kart.mEffectFlags;
+    // 0x1000 when the camera is placed, times 0xe66/0x1000 per use.
     /* 088 */ s32 mKartMoveScale;
     /* 08c */ s32 mSecondFar;
     /* 090 */ Vec3 mViewLookAt;
     /* 09c */ Vec3 mViewPos;
     /* 0a8 */ Vec3 mPosOffset;
     /* 0b4 */ Vec3 mLookAtOffset;
-    // The up vector mUp is built from: eased toward world up (or a kart vector); mUp is made perpendicular to
-    // mForward from it.
+    // The up vector mUp is built from: eased toward world up, or toward the Kart's up while
+    // KART_DRIVE_BOOST_SURFACE_HELD is set in Kart.mDriveFlags; mUp is made perpendicular to mForward from it.
     /* 0c0 */ Vec3 mBaseUp;
     /* 0cc */ s32 mHeldHeight;
-    // Set once the kart is above mHeldHeight; then mHeldHeight eases toward the free y.
+    // While mHeightHold is non-zero: set once the Kart's y is above mHeldHeight (SetCameraHeightHold(1) clears it
+    // again); then mHeldHeight eases toward the free position y.
     /* 0d0 */ BOOL mHeldHeightEasing;
     /* 0d4 */ s32 mLookAtHeight;
     /* 0d8 */ s32 mUnk_0d8;
@@ -1402,14 +1427,15 @@ typedef struct Camera {
     /* 0e4 */ s32 mLookAtLowering;
     /* 0e8 */ s32 mFollowDistanceScale;
     /* 0ec */ s32 mUnk_0ec;
-    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceSetup.mMissionRunBits.
+    // 1.0 (0x1000), or -1.0 for the chase camera in MODE_MISSION_RUN when MISSION_RUN_BIT_FLIP_FOLLOW_DIRECTION is set
+    // in gRaceSetup.mMissionRunBits.
     /* 0f0 */ s32 mFollowDirectionSign;
     /* 0f4 */ Vec3 mShakeLookAtOffsetGoal;
     /* 100 */ Vec3 mShakePosOffsetGoal;
     /* 10c */ Vec3 mShakeLookAtOffset;
     /* 118 */ Vec3 mShakePosOffset;
-    // Third look-at shake term: adds -mShakeLookAtOffset times a per-kind factor (1.25 / 2 / 2.75), halved each call;
-    // added to the look-at in UpdateCameraView.
+    // Counter to mShakeLookAtOffset, used while mShakeKind is not 0: each call it gains -mShakeLookAtOffset times a
+    // factor picked by mShakeKind (1.25, 2 or 2.75) and is then halved; added to the look-at in UpdateCameraView.
     /* 124 */ Vec3 mShakeLookAtCounterOffset;
     /* 130 */ u8 mShakeKind;
     /* 131 */ u8 mUnk_131[0x3];
@@ -1419,29 +1445,32 @@ typedef struct Camera {
     /* 140 */ BOOL mWobbling;
     /* 144 */ s32 mFactor;
     /* 148 */ s32 mWobbleAmplitude;
-    // Added to mFactor each frame, times mWobbleDirection.
+    // Added to mFactor, times mWobbleDirection, on each UpdateCameraWobble call while mWobbling is set.
     /* 14c */ s32 mWobblePerFrame;
     /* 150 */ s16 mWobbleDirection;
     /* 152 */ u8 mUnk_152[0x2];
     /* 154 */ s32 mWobbleDecay;
     /* 158 */ s32 mWobbleOffset;
     /* 15c */ Vec3 mForward;
-    // Added to the y of the position goal; eased toward a value taken from the Kart's heading y while
-    // KART_MOTION_ON_GROUND is set in Kart.mMotionFlags or KART_DRIVE_KEYED_PLACEMENT in Kart.mDriveFlags.
+    // Added to the y of the position goal; eased toward a value taken from the heading y of the Kart (zero for a y from
+    // -0x4cd to 0) while KART_MOTION_ON_GROUND is set in Kart.mMotionFlags or KART_DRIVE_KEYED_PLACEMENT in
+    // Kart.mDriveFlags, else toward 0; always eased toward 0 while KART_DRIVE_BOOST_SURFACE_HELD is set in
+    // Kart.mDriveFlags.
     /* 168 */ s32 mPosGoalYOffset;
-    // Eased toward 0, or toward +-0x19000 (sign of Kart.mTurnDirection) while KART_MOTION_DRIFTING is set in
-    // Kart.mMotionFlags.
+    // Eased toward gChaseCameraDriftOffsetScale (0x19000) while KART_MOTION_DRIFTING is set in Kart.mMotionFlags, or
+    // toward its negative when Kart.mTurnDirection is positive; toward 0 when not drifting.
     /* 16c */ s32 mPosGoalKartOffsetScale;
-    // Length of the push-out vector while the push is in state 1 of mCollisionState, else 0; mCollisionOffsetLength
-    // eases toward it.
+    // Length of the push-out vector while mCollisionState is CAMERA_COLLISION_STATE_LENGTH, else 0;
+    // mCollisionOffsetLength eases toward it.
     /* 170 */ s32 mCollisionOffsetLengthGoal;
-    // Eased mCollisionOffsetLengthGoal; times 3 it shortens the follow distance and raises the position goal
-    // (UpdateChaseCameraPos).
+    // Eased toward mCollisionOffsetLengthGoal; three times it is subtracted from the follow distance used for the
+    // position goal (not below 500), and twice that is added to the position y on each call (UpdateChaseCameraPos).
     /* 174 */ s32 mCollisionOffsetLength;
     // Added to the eye height of the view only, not to the look-at.
     /* 178 */ s32 mViewPosYOffset;
-    // The push-out vector of the collision test (CollideSphereWithCourse) scaled by 3 to 8, kept and eased; added to
-    // the position goal.
+    // While mCollisionState is CAMERA_COLLISION_STATE_OFFSET and the hit is kept: the push-out vector of the collision
+    // test (CollideSphereWithCourse) scaled by 3 (at full Kart.mVelocityLengthRatio) to 8; otherwise eased toward the
+    // current push-out vector (zero without a hit); added to the position goal.
     /* 17c */ Vec3 mPosGoalCollisionOffset;
     // Kart.mRotationRow0 (a row of the Kart's matrix) times mPosGoalKartOffsetScale; added to the position goal.
     /* 188 */ Vec3 mPosGoalKartOffset;
@@ -1449,42 +1478,49 @@ typedef struct Camera {
     /* 1d0 */ PosCurve mReversePosCurve;
     /* 20c */ u16 mUnk_20c;
     /* 20e */ u16 mUnk_20e;
-    // Index into gKarts the look-at is taken from (entry cameras; the chase camera is handed its Kart).
+    // Index into gKarts the look-at is taken from: the argument of CreateEntryCamera, and in a RACE_KIND_AWARD race the
+    // index from the course camera entry (entry cameras; the chase camera is handed its Kart).
     /* 210 */ u16 mFollowedKartIndex;
     /* 212 */ u8 mUnk_212[0x2];
-    // Index GetCourseMapCameraIndexAtPos last returned for the followed kart; mCourseMapCamera is the entry actually in
-    // use.
+    // Last index other than -1 that GetCourseMapCameraIndexAtPos returned for the followed kart (-1 at set-up);
+    // mCourseMapCamera is the entry actually in use.
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
     /* 21c */ struct SequenceCameraEntry *mSequenceEntries;
-    /* 220 */ struct SequenceCameraEntry *mCurrentSequenceEntry;
+    /* 220 */ struct SequenceCameraEntry *mFirstSequenceEntry;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
-    // TRUE from StartEntryCameraAngleStart until mAngleStartFrames reaches 300 (outside mode 2) or
-    // SetEntryCameraUpdateHold replaces the entry. While TRUE the entry is not replaced by the one picked from the
-    // Kart's position; in mode 2 TryUpdateEntryCamera steps the entry by its kind on every call and only
-    // SetEntryCameraUpdateHold clears it.
+    // TRUE from StartEntryCameraAngleStart (when the course has an angle start camera) until mAngleStartFrames reaches
+    // CAMERA_ANGLE_START_FRAMES (outside MODE_BATTLE) or SetEntryCameraUpdateHold(1) replaces the entry (only for an
+    // angle or angle start entry). While TRUE the entry is not replaced by the one picked from the Kart's position; in
+    // MODE_BATTLE TryUpdateEntryCamera steps the entry by its kind on every call and only SetEntryCameraUpdateHold(1)
+    // clears it.
     /* 228 */ BOOL mAngleStartRunning;
-    // Counts the calls of TryUpdateEntryCamera outside mode 2 while mAngleStartRunning is TRUE; at 300 it clears
-    // mAngleStartRunning. Only SetupCamera zeroes it, so it carries over a restart.
+    // Counts the calls of TryUpdateEntryCamera that reach the angle start test (not in MODE_BATTLE, and after the staff
+    // roll, mEntryUpdateHold, mEntryUpdateDisabled and mMissionRunCameraRunning returns) while mAngleStartRunning is
+    // TRUE; at CAMERA_ANGLE_START_FRAMES it clears mAngleStartRunning. Only SetupCamera zeroes it, so
+    // StartEntryCameraAngleStart does not restart the count: at CAMERA_ANGLE_START_FRAMES the next counted call ends
+    // it.
     /* 22c */ u16 mAngleStartFrames;
     /* 22e */ u8 mUnk_22e[0x2];
-    // Set to 1 by SetEntryCameraUpdateHold(1), which only does so while the current entry is of kind 5 or 6, and to 0
-    // by SetEntryCameraUpdateHold(0) and SetupCamera. While non-zero TryUpdateEntryCamera returns FALSE at once, so the
-    // chase camera is shown.
+    // Set to 1 by SetEntryCameraUpdateHold(1), which only does so while the current entry is
+    // COURSE_MAP_CAMERA_KIND_ANGLE or COURSE_MAP_CAMERA_KIND_ANGLE_START, and to 0 by SetEntryCameraUpdateHold(0) (when
+    // the camera has an entry) and SetupCamera. While non-zero TryUpdateEntryCamera returns FALSE once its
+    // RACE_KIND_STAFF_ROLL case is past, so the chase camera is shown.
     /* 230 */ s32 mEntryUpdateHold;
     // Set to 1 once by DisableEntryCameraUpdate and never cleared (SetupCamera zeroes it). While set
-    // TryUpdateEntryCamera returns FALSE at once, so the chase camera is shown.
+    // TryUpdateEntryCamera returns FALSE once its RACE_KIND_STAFF_ROLL case is past, so the chase camera is shown.
     /* 234 */ BOOL mEntryUpdateDisabled;
-    // Set to TRUE by StartEntryCameraMissionRun and never cleared (SetupCamera zeroes it). While set, and after the
-    // mEntryUpdateHold and mEntryUpdateDisabled tests, TryUpdateEntryCamera runs UpdateCameraAngleEntry on the current
-    // entry and returns TRUE.
+    // Set to TRUE by StartEntryCameraMissionRun when the course has a mission run camera, and cleared only by
+    // SetupCamera. While set, and after the staff roll, mEntryUpdateHold and mEntryUpdateDisabled tests,
+    // TryUpdateEntryCamera runs UpdateCameraAngleEntry on the current entry and returns TRUE.
     /* 238 */ BOOL mMissionRunCameraRunning;
     /* 23c */ u16 mCourseMapCameraFrames;
     /* 23e */ u8 mUnk_23e[0x2];
     /* 240 */ s32 mFovBlend;
     /* 244 */ s32 mLookAtBlend;
-    // Non-zero while the position y is held at mHeldHeight (set by SetCameraHeightHold for kart state 6).
+    // Non-zero while the position y is held at mHeldHeight: SetCameraHeightHold(1) when the selected Kart starts
+    // KART_STATE_LAUNCH_DOUBLE_FLIP, SetCameraHeightHold(0) when that flip ends or the Kart is reset.
     /* 248 */ s32 mHeightHold;
     // 0 none; 1 and 2 (gFirstChainCamera / gSecondChainCamera while the entry is kind 4) shift the window of
     // mFrustumTop and mFrustumBottom up or down by 1.3 of its half height (RefreshCameraProjection).
@@ -1535,7 +1571,6 @@ typedef struct HeyhoPalette {
     /* 06 */ u8 mUnk_06[0x1a];
 } HeyhoPalette;
 
-// Object behind gKartModels (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.
 struct KartModelsEntry;
 
 // The kart models (gKartModels): the per-kart entries, course colors, palettes and the killer item model.
@@ -1651,7 +1686,7 @@ typedef struct KartModelMenuData {
 
 struct ParticleEmitter;
 
-// Two objects returned by StartEffect.
+// The two effect objects of one effect id of a Kart: side 0 and side 1 (mEffect0 and mEffect1, also mEffects[2]).
 typedef struct KartEffectPair {
     union {
         struct {
@@ -1662,7 +1697,8 @@ typedef struct KartEffectPair {
     };
 } KartEffectPair;
 
-// The effect objects of one Kart (gKartEffects, by Kart.mIndex): the current effect and further effects with points.
+// The effect objects of one Kart (gKartEffects, by Kart.mIndex): the current effect, mEffectPairs, the water, contact,
+// killer and spin follow effects, and the side positions and directions of the pairs.
 typedef struct KartEffects {
     // Id of the effect in mCurrentEffect, -1 when there is none.
     /* 00 */ s32 mCurrentEffectId;
@@ -1684,9 +1720,9 @@ typedef struct KartEffects {
     /* 28 */ struct ParticleEmitter *mContactEffect;
     /* 2c */ struct ParticleEmitter *mKillerEffect;
     /* 30 */ struct ParticleEmitter *mSpinFollowEffect;
-    // Position in effect units (position / 16) of each side of the Kart: model point 2 or 3 moved by the x offset
-    // 0x1800 or -0x1800 of gKartSideOffsetsX, scaled by the Kart scale and transformed by the Kart matrix; written only
-    // by ComputeKartSidePoints.
+    // Position in effect units (position / 16) of each side of the Kart: model point 2 or 3 with y set to 0 and the x
+    // offset 0x1800 or -0x1800 of gKartSideOffsetsX added, scaled by the Kart scale and transformed by the Kart matrix;
+    // written only by ComputeKartSidePoints.
     /* 34 */ Vec3 mSidePositions[2];
     // Direction vector (halfwords) of the effect on each side of the Kart: the vector of gKartSideDirectionVectors for
     // that side rotated by the Kart matrix; written only by ComputeKartSidePoints and read as the direction of the
@@ -1703,7 +1739,7 @@ typedef struct KartStarEffects {
     /* 00 */ struct ParticleEmitter *mEffects[3];
 } KartStarEffects;
 
-// A kart AI table index in a list: mTableIndex and the mLink to the next entry.
+// A kart AI table index that can be listed: mTableIndex and the mLink that joins it to mTableIndexList.
 typedef struct KartAiTableIndexEntry {
     /* 00 */ s32 mTableIndex;
     /* 04 */ NNSFndLink mLink;
@@ -1716,15 +1752,16 @@ typedef struct KartAiParamRow {
     /* 08 */ s32 mSpeedLimitFloor;
 } KartAiParamRow;
 
-// State the CPU kart code shares: per-kart tables, the random generator pointer and the team counts.
-// KartAiShared.mPointsGapKind: no large gap, or any mode but Grand Prix.
+// KartAiShared.mPointsGapKind: no points gap to act on: any mode but Grand Prix, a gap smaller than the two below, 4 or
+// more points ahead on easy, or 5 or more points behind with fewer than two listed CPU karts.
 #define KART_AI_POINTS_GAP_NONE 1
 // KartAiShared.mPointsGapKind: the best non-CPU kart is 4 or more points ahead of the best CPU kart (not on easy).
 #define KART_AI_POINTS_GAP_NON_CPU_AHEAD 2
 // KartAiShared.mPointsGapKind: the best non-CPU kart is 5 or more points behind the best CPU kart (Grand Prix, two
 // listed CPU karts).
 #define KART_AI_POINTS_GAP_NON_CPU_BEHIND 0
-// The kart AI's shared ranking: karts by rank, CPU and non-CPU karts, points gaps and the random generator.
+// The state the kart AI shares: karts by rank, CPU and non-CPU karts, table indices, points gaps, team counts and the
+// random generator.
 typedef struct KartAiShared {
     /* 000 */ s32 mRaceProgressScaled[8];
     // Kart index at rank n + 1, -1 when no kart has that rank.
@@ -1753,7 +1790,8 @@ typedef struct KartAiShared {
 
 struct KartNameTag;
 
-// The kart name tags: the tag of each kart, their order by start, view distance and distance, and the emblem textures.
+// The kart name tags: mNameTagByKart, the order by start, by distance along the view and by squared distance, those
+// distances, and the emblem textures and palettes.
 typedef struct KartNameTags {
     /* 000 */ struct KartNameTag *mNameTagByKart[8];
     /* 020 */ s32 mNameTagCount;
@@ -1837,7 +1875,7 @@ typedef struct ShapeMapObjectCountList {
 
 extern u16 gFadeFogHoldFrames;
 
-// Ten bytes: bytes 6 to 9 are signed values read in rows of four.
+// The participant of each kart, the mask of participants and the kart of each participant.
 typedef struct ParticipantKartMap {
     /* 00 */ s8 mParticipantOfKart[4];
     /* 04 */ u8 mParticipantMask;
@@ -1877,7 +1915,7 @@ typedef struct CourseTeamResults {
     /* 00 */ CourseTeamResult mTeams[2];
 } CourseTeamResults;
 
-// The kart results for each course of a cup, and the team results.
+// The kart results and the team results of each course of a cup, the cup score and mConnectionActive.
 typedef struct CupRecords {
     /* 000 */ KartCourseResult mKartResults[4][8];
     /* 140 */ s32 mScore;

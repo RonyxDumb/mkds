@@ -35,12 +35,14 @@ typedef enum ResultsGpGrade {
 #define CUP_RANK_TROPHY_COUNT 3
 // TimeRecord.mCupRank of a rank without a trophy.
 #define CUP_RANK_NO_TROPHY 3
-// Values of ResultsGp.mState: the timeline runs, a text is open and waits to close, the scene is left.
-#define RESULTS_GP_STATE_TIMELINE 0
+// Values of ResultsGp.mState: mStateFrames counts up to the frame limit and the scene waits for A or a new pair, a text
+// is open and waits to close, the scene is left.
+#define RESULTS_GP_STATE_COUNTING_FRAMES 0
 #define RESULTS_GP_STATE_TEXT_OPEN 1
 #define RESULTS_GP_STATE_LEFT 2
 
-// The Grand Prix results screen: its cell file sets, cup, grade and rank, messages, state and secret message mask.
+// The Grand Prix results screen: its cell file sets and oam lists, cup, grade and cup rank index, the common and secret
+// messages, the state with its frames, and the secret message mask.
 typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];
     /* 38 */ void *mOamLists[2];
@@ -51,7 +53,9 @@ typedef struct ResultsGp {
     /* 50 */ Bmg *mSecretMessages;
     /* 54 */ s32 mState;
     /* 58 */ u32 mSecretMessageMask;
-    /* 5c */ s32 mStateFrames; /* counted only in state 0 */
+    // Counts the calls in RESULTS_GP_STATE_COUNTING_FRAMES; not reset when the state returns from
+    // RESULTS_GP_STATE_TEXT_OPEN.
+    /* 5c */ s32 mStateFrames;
 } ResultsGp;
 
 
@@ -60,7 +64,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers);
 void InitResultsGp(void *heap, void *firstOamList, void *secondOamList);
 
 extern const u16 gEngineMessageIndexTable[4];
-extern const u16 gCupNameLeftCharIndices[8];
+extern const u16 gCupNameLeftCellIndices[8];
 extern const u16 gCupRankCellIndexTable[8];
 extern const u16 gResultsGpGradeCellIndices[8];
 extern const u32 gResultsGpCupCourseIds[8][4];

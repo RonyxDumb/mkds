@@ -7,7 +7,7 @@ void SetKillerItemRenderCallback(void *model) {
 }
 
 // Calls slot 8 of the kart's function table.
-void CallKartReleaseFunction(struct Kart *kart) {
+void CallKartSlot8Function(struct Kart *kart) {
     u32 slotFunction = (*(u32 *) (((u32) kart) + (556)));
     u32 result = ((u32(*)(u32))(slotFunction))((u32) kart);
 }

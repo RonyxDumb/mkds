@@ -47,8 +47,8 @@ void InitRaceHudSubScreenProjection(void) {
     GetRaceHudSubScreenKartIconsMinMax(&kartIconsMin, &kartIconsMax);
     gRaceHudSubScreenProjection->mKartIconsMin = kartIconsMin;
     gRaceHudSubScreenProjection->mKartIconsMax = kartIconsMax;
-    gRaceHudSubScreenProjection->mKartIconsInverseX = FX_InvFx64c(kartIconsMax.mFirst - kartIconsMin.mFirst);
-    gRaceHudSubScreenProjection->mKartIconsInverseZ = FX_InvFx64c(kartIconsMax.mSecond - kartIconsMin.mSecond);
+    gRaceHudSubScreenProjection->mKartIconsInverseFirst = FX_InvFx64c(kartIconsMax.mFirst - kartIconsMin.mFirst);
+    gRaceHudSubScreenProjection->mKartIconsInverseSecond = FX_InvFx64c(kartIconsMax.mSecond - kartIconsMin.mSecond);
     GetRaceHudSubScreenCourseMinMax(&courseMin, &courseMax);
     gRaceHudSubScreenProjection->mCourseMin = courseMin;
     gRaceHudSubScreenProjection->mCourseMax = courseMax;
@@ -100,7 +100,7 @@ BOOL IsCourseWithMap2DLocal3(void) {
     return result;
 }
 
-BOOL IsCourseWithSubBg3AreaOverflow(void) {
+BOOL IsCourseWithSubBg3CntBit13(void) {
     BOOL result = FALSE;
 
     switch (RaceHudSubScreenGetCurrentCourseId()) {
@@ -136,7 +136,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
                 camera = GetChaseCamera();
             }
             rawAngle = FX_Atan2Idx(camera->mViewMatrix.mRows[2].z, camera->mViewMatrix.mRows[0].z);
-            angle = (0x14000 - rawAngle) % 0x10000;
+            angle = (0x14000 - rawAngle) % ANGLE_FULL_TURN;
             gRaceHudSubScreenProjection->mScrollTimer = 0;
             break;
         case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
@@ -144,7 +144,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
             break;
         case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             rawAngle = GetFixed12Whole(GetCourseMapSubScreenView()->mAngleDegrees);
-            angle = (rawAngle << 16) / 360 + 0x8000;
+            angle = (rawAngle << 16) / 360 + ANGLE_HALF_TURN;
             break;
         default:
             break;
@@ -153,7 +153,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
 }
 
 u16 GetRaceHudSubScreenKartAngle(s32 kartIndex) {
-    return (0x18000 - GetKartHeadingAngle(kartIndex)) % 0x10000;
+    return (0x18000 - GetKartHeadingAngle(kartIndex)) % ANGLE_FULL_TURN;
 }
 
 void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out) {
@@ -168,51 +168,51 @@ void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out) {
             if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
                 out->mFirst = GetFixed12Whole(MulFixed12NoRound(
                                   0x80000, MulFx64c(kartIconsMin.mFirst - kartPos.z,
-                                                    gRaceHudSubScreenProjection->mKartIconsInverseX))) +
+                                                    gRaceHudSubScreenProjection->mKartIconsInverseFirst))) +
                               0xf8;
             } else {
                 out->mFirst = GetFixed12Whole(MulFixed12NoRound(
                                   0x80000, MulFx64c(kartPos.z - kartIconsMin.mFirst,
-                                                    gRaceHudSubScreenProjection->mKartIconsInverseX))) +
+                                                    gRaceHudSubScreenProjection->mKartIconsInverseFirst))) +
                               0x78;
             }
             out->mSecond =
                 GetFixed12Whole(MulFixed12NoRound(0x98000, MulFx64c(kartPos.x - kartIconsMin.mSecond,
-                                                                    gRaceHudSubScreenProjection->mKartIconsInverseZ))) +
+                                                                    gRaceHudSubScreenProjection->mKartIconsInverseSecond))) +
                 0x28;
             break;
         case COURSE_ID_BANK:
             if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
                 out->mFirst = GetFixed12Whole(MulFixed12NoRound(
                                   0x80000, MulFx64c(kartIconsMin.mFirst - kartPos.z,
-                                                    gRaceHudSubScreenProjection->mKartIconsInverseX))) +
+                                                    gRaceHudSubScreenProjection->mKartIconsInverseFirst))) +
                               0xf8;
             } else {
                 out->mFirst = GetFixed12Whole(MulFixed12NoRound(
                                   0x80000, MulFx64c(kartPos.z - kartIconsMin.mFirst,
-                                                    gRaceHudSubScreenProjection->mKartIconsInverseX))) +
+                                                    gRaceHudSubScreenProjection->mKartIconsInverseFirst))) +
                               0x78;
             }
             out->mSecond =
                 GetFixed12Whole(MulFixed12NoRound(0x98000, MulFx64c(kartPos.x - kartIconsMin.mSecond,
-                                                                    gRaceHudSubScreenProjection->mKartIconsInverseZ))) +
+                                                                    gRaceHudSubScreenProjection->mKartIconsInverseSecond))) +
                 0x28;
             break;
         default:
             if (RaceHudSubScreenGetCurrentMirrorMode() != 0) {
                 out->mFirst = GetFixed12Whole(MulFixed12NoRound(
                                   0x80000, MulFx64c(kartIconsMin.mFirst - kartPos.x,
-                                                    gRaceHudSubScreenProjection->mKartIconsInverseX))) +
+                                                    gRaceHudSubScreenProjection->mKartIconsInverseFirst))) +
                               0xf8;
             } else {
                 out->mFirst = GetFixed12Whole(MulFixed12NoRound(
                                   0x80000, MulFx64c(kartPos.x - kartIconsMin.mFirst,
-                                                    gRaceHudSubScreenProjection->mKartIconsInverseX))) +
+                                                    gRaceHudSubScreenProjection->mKartIconsInverseFirst))) +
                               0x78;
             }
             out->mSecond =
                 GetFixed12Whole(MulFixed12NoRound(0x98000, MulFx64c(kartPos.z - kartIconsMin.mSecond,
-                                                                    gRaceHudSubScreenProjection->mKartIconsInverseZ))) +
+                                                                    gRaceHudSubScreenProjection->mKartIconsInverseSecond))) +
                 0x28;
             break;
     }
@@ -283,7 +283,7 @@ static inline s32 ClearFixed12Fraction(s32 value) {
     return wholePart;
 }
 
-BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScreenScale, s32 requireNearCenter,
+BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 unusedSubScreenScale, s32 requireNearCenter,
                                      s32 exactCenter) {
     IntPair center = gRaceHudSubScreenProjection->mCenter;
     s32 pairSecondScaled = gRaceHudSubScreenProjection->mAnglePairSecondScaled;
@@ -465,7 +465,7 @@ void UpdateRaceHudSubScreenScroll(void) {
     Vec3 dir;
 
     GetRaceHudSubScreenScrollLimits(&scrollMin, &scrollMax);
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_LEFT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_LEFT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x < scrollMin.mFirst) {
@@ -476,7 +476,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_RIGHT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x > scrollMax.mFirst) {
@@ -487,7 +487,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_UP) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_UP) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z < scrollMin.mSecond) {
@@ -498,7 +498,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DOWN) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_DOWN) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z > scrollMax.mSecond) {

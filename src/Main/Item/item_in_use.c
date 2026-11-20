@@ -40,6 +40,7 @@
 #include "Main/Item/item_pool.h"
 #include "fixed_vector_math.h"
 #include "Main/Item/item_link_following.h"
+#include "Main/MapObjects/rock.h"
 
 void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,
                                                   AdvanceItemInUseTrail, AdvanceItemInUseCircle};
@@ -202,7 +203,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
     s32 courseHitAttributeBit;
     s32 outOfView;
     s32 reverseIndex;
-    enum { INDEX_FIRST } idx;
+    enum { INDEX_FIRST } kind;
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
@@ -234,16 +235,17 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         object = objects[reverseIndex];
         if (object->mCollisionSlotIndex == -1) {
             if (IsItemObjectScaleAtSetupSize(object) != FALSE) {
-                idx = object->mKind;
-                if (gItemKinds[idx].mSetupRadius != 0) {
+                kind = object->mKind;
+                if (gItemKinds[kind].mSetupRadius != 0) {
                     CreateItemObjectCollisionSlot(object);
                 }
             }
             continue;
         }
-        FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex, 0x6000);
+        FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex,
+                                          COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
         for (index = 0; index < gFoundCollisionSlotCount; index++) {
-            if ((gFoundCollisionSlotFlags[index] & 0x4000) != 0) {
+            if ((gFoundCollisionSlotFlags[index] & COLLISION_SLOT_FLAG_ITEM_OBJECT) != 0) {
                 ItemObject *other = gFoundCollisionSlotObjects[index];
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
@@ -253,7 +255,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                     continue;
                 }
                 CollideItemObjects(object, other);
-            } else if ((gFoundCollisionSlotFlags[index] & 0x2000) != 0) {
+            } else if ((gFoundCollisionSlotFlags[index] & COLLISION_SLOT_FLAG_MAP_OBJECT) != 0) {
                 MapObject *other = gFoundCollisionSlotObjects[index];
                 if (DoesMapObjectRespondToItemObject(other, object) == FALSE) {
                     continue;
@@ -467,7 +469,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
         }
-        if ((alpha = object->mAlpha) != 0x1f) {
+        if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
             model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
             model->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
         }
@@ -499,7 +501,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             matrix = SetViewAxis2MatrixPos(object->mPosPointer);
         }
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
-        if ((alpha = object->mAlpha) != 0x1f) {
+        if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
             model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
             model->mPolygonAttributes |= POLYGON_ATTR_ALPHA_MASK;
         }
@@ -530,7 +532,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     s16 alpha;
     void *matrix;
 
-    if ((alpha = object->mAlpha) != 0x1f) {
+    if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
         model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
         model->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
     }
@@ -559,7 +561,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         matrix = SetViewAxis2MatrixPos(object->mPosPointer);
     }
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
-    if ((alpha = object->mAlpha) != 0x1f) {
+    if ((alpha = object->mAlpha) != ITEM_OBJECT_ALPHA_OPAQUE) {
         model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
         model->mPolygonAttributes |= POLYGON_ATTR_ALPHA_MASK;
     }

@@ -15,10 +15,11 @@ typedef struct TPData {
     /* 06 */ u16 mValidity;
 } TPData;
 
-// TPData.mValidity of a reading with neither x nor y usable.
-#define TP_VALIDITY_INVALID_XY 3
+// TPData.mValidity written for a reading to ignore; 0 is a usable reading.
+#define TOUCH_VALIDITY_INVALID 3
 
-// The stored conversion for TP_GetCalibratedPoint: the origin and the size of a screen dot, for x and then y.
+// A calibration for TP_SetCalibrateParam, as TP_CalcCalibrateParam computes it: mX0 and mY0 with the mXDotSize and
+// mYDotSize of a screen dot.
 typedef struct TPCalibrateParam {
     /* 00 */ s16 mX0;
     /* 02 */ s16 mY0;
@@ -51,7 +52,8 @@ typedef enum TPRequestResult {
     TP_RESULT_PXI_BUSY
 } TPRequestResult;
 
-// Status byte of a reply from the other processor (0 is success).
+// Status byte of a reply from the other processor: 0 is success, 2, 3 and 4 are errors, any other value ends in
+// OS_Terminate.
 enum {
     TOUCH_REPLY_STATUS_SUCCESS = 0,
     TOUCH_REPLY_STATUS_INVALID_PARAMETER = 2,
@@ -63,7 +65,7 @@ enum {
 #define TOUCH_FLAG_AUTO_ON (1 << TP_REQUEST_COMMAND_AUTO_ON)
 #define TOUCH_FLAG_AUTO_OFF (1 << TP_REQUEST_COMMAND_AUTO_OFF)
 
-// Last touch position on the screen (256 by 192 dots).
+// Largest x and y position of a touch on the screen, which is 256 by 192 dots.
 #define TOUCH_SCREEN_MAX_X 0xff
 #define TOUCH_SCREEN_MAX_Y 0xbf
 
@@ -84,7 +86,8 @@ typedef union SPITpData {
     } e;
 } SPITpData;
 
-// The state of the touch panel channel: its callback, the last sample and the automatic sampling ring and settings.
+// The touch panel channel: mCallback, mRawSample, the automatic sample ring (mAutoSampleBuffer with its count and
+// index) and mFrequence, mCalibration with mCalibrated, mState, and the error and busy flags.
 typedef struct TouchPanelState {
     // Called when a request finishes or a sample arrives; 0 for none. Nothing sets it in this game.
     /* 00 */ TPRecvCallback mCallback;

@@ -5,7 +5,7 @@
 #include "01/Menu/emblem_button_entries.h"
 #include "01/MapObjects/mission_run_map_object.h" // MissionRunMapObject
 
-// Data that CreateLld gets for the name it is given.
+// One entry of a Lld file: its animation index, position and show mode.
 typedef struct LldRecord {
     /* 0 */ u16 mAnimIndex;
     /* 2 */ u16 mPosX;
@@ -18,18 +18,6 @@ typedef struct LldData {
     /* 00 */ u16 mEntryCount;
     /* 02 */ LldRecord mRecords[1];
 } LldData;
-
-// An OAM affine parameter group: the entries mPA to mPD, each kept in the spare halfword of an OAM entry.
-typedef struct OamAffineGroup {
-    /* 00 */ u8 mUnk_00[0x6];
-    /* 06 */ s16 mPA;
-    /* 08 */ u8 mUnk_08[0x6];
-    /* 0e */ s16 mPB;
-    /* 10 */ u8 mUnk_10[0x6];
-    /* 16 */ s16 mPC;
-    /* 18 */ u8 mUnk_18[0x6];
-    /* 1e */ s16 mPD;
-} OamAffineGroup;
 
 void StartDonketuStepSoundSecond(MissionRunMapObject *mapObject);
 void StartDonketuStepSoundFirst(MissionRunMapObject *mapObject);

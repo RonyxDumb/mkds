@@ -1,7 +1,8 @@
 #pragma once
 #include "types.h"
 
-// One row of the mission file: the mission kind, course, engine, characters, karts, message index and run stem.
+// One row of the mission file: the mission table value and kind, course, engine, two characters and karts, message
+// index, flags and run stem.
 typedef struct MissionFileRow {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mMissionTableValue;
@@ -18,7 +19,7 @@ typedef struct MissionFileRow {
     /* 20 */ u8 mMissionRunStem[0xc];
 } MissionFileRow;
 
-// MissionFileRow.mFlags bit: the mission runs mirrored. MissionFileRow.mCharacterIndex1 and mKartIndex1 hold this when
-// the mission has no second kart.
+// MissionFileRow.mFlags bit: the mission runs mirrored. A mission has no second kart when
+// MissionFileRow.mCharacterIndex1 or mKartIndex1 holds MISSION_FILE_ROW_NO_SECOND_KART.
 #define MISSION_FILE_ROW_FLAG_MIRROR 0x10
 #define MISSION_FILE_ROW_NO_SECOND_KART 0xff

@@ -1,4 +1,5 @@
 #include "Main/MapObjects/attractor.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "matrix_3x3_basic.h"
 
@@ -9,6 +10,7 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "fixed_vector_math.h"
 #include "Main/System/heap_call.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
@@ -30,12 +32,13 @@
 #include "Main/System/state_machine_init.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
 #include "Main/MapObjects/pendulum.h"
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/attractor_list_data.h"
@@ -172,7 +175,7 @@ void InitJg(void) {
             if ((u8) (gRaceSetup->mMissionKind + 0xfe) <= 8 &&
                 ((1 << 0 | 1 << (MISSION_KIND_LAPS_MINI_TURBO_COUNT - MISSION_KIND_LAPS) |
                   1 << (MISSION_KIND_LAPS_FIRST_PLACE - MISSION_KIND_LAPS) |
-                  1 << (MISSION_KIND_LAPS_NO_LAP_PROGRESS - MISSION_KIND_LAPS)) &
+                  1 << (MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS - MISSION_KIND_LAPS)) &
                  (1 << (u8) (gRaceSetup->mMissionKind + 0xfe))) != 0) {
                 enabled = TRUE;
             }
@@ -239,7 +242,8 @@ void CreateJg(void) {
     }
     gJgTableIndex = 0;
     light = 2;
-    for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[2]; rowIndex < 4; rowIndex++) {
+    for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[JG_KIND_REVERSE]; rowIndex < 4;
+         rowIndex++) {
         if (sourceRow->mNsbmdName != NULL) {
             kindRow->mModel = HeapAlloc(heap, sizeof(Nsbmd));
             file = FindSceneFile(sourceRow->mNsbmdName);
@@ -251,30 +255,30 @@ void CreateJg(void) {
         }
         if (sourceRow->mNsbcaName != NULL) {
             kindRow->mNsbcaAnimation = HeapAlloc(heap, sizeof(ModelAnimation));
-            InitModelAnimationWithEntries(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
+            InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_JOINT, kindRow->mModel, kindRow->mNsbcaAnimation, file,
                                           FindSceneFile(sourceRow->mNsbcaName));
-            SetModelAnimationEntryLoopMode(kindRow->mNsbcaAnimation, 0, 1);
+            SetModelAnimationEntryLoopMode(kindRow->mNsbcaAnimation, 0, MODEL_ANIMATION_LOOP_MODE_WRAP);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
         if (sourceRow->mNsbmaName != NULL) {
             kindRow->mNsbmaAnimation = HeapAlloc(heap, sizeof(ModelAnimation));
-            InitModelAnimationWithEntries(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
+            InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_MAT_C, kindRow->mModel, kindRow->mNsbmaAnimation, file,
                                           FindSceneFile(sourceRow->mNsbmaName));
-            SetModelAnimationEntryLoopMode(kindRow->mNsbmaAnimation, 0, 1);
+            SetModelAnimationEntryLoopMode(kindRow->mNsbmaAnimation, 0, MODEL_ANIMATION_LOOP_MODE_WRAP);
         } else {
             kindRow->mNsbmaAnimation = NULL;
         }
         sourceRow++;
         kindRow++;
     }
-    CreateNsbmdModel(&gJgKindRows[0].mLapModel, FindSceneFile("lap_count.nsbmd"), FindSceneFile("lap_count.nsbtp"),
-                     0);
-    SetNsbmdModelFixedAttributes(gJgKindRows[0].mLapModel);
-    gJgKindRows[0].mLapModel->mPolygonAttributes |= 0xc0;
-    CreateNsbmdModel(&gJgKindRows[1].mLapModel, FindSceneFile("lap_final.nsbmd"), 0, 0);
-    SetNsbmdModelFixedAttributes(gJgKindRows[1].mLapModel);
-    gJgKindRows[1].mLapModel->mPolygonAttributes |= 0xc0;
+    CreateNsbmdModel(&gJgKindRows[JG_KIND_LAP_COUNT].mLapModel, FindSceneFile("lap_count.nsbmd"),
+                     FindSceneFile("lap_count.nsbtp"), 0);
+    SetNsbmdModelFixedAttributes(gJgKindRows[JG_KIND_LAP_COUNT].mLapModel);
+    gJgKindRows[JG_KIND_LAP_COUNT].mLapModel->mPolygonAttributes |= 0xc0;
+    CreateNsbmdModel(&gJgKindRows[JG_KIND_LAP_FINAL].mLapModel, FindSceneFile("lap_final.nsbmd"), 0, 0);
+    SetNsbmdModelFixedAttributes(gJgKindRows[JG_KIND_LAP_FINAL].mLapModel);
+    gJgKindRows[JG_KIND_LAP_FINAL].mLapModel->mPolygonAttributes |= 0xc0;
 }
 #pragma thumb off
 
@@ -346,9 +350,9 @@ void UpdateMapObjectSoundSource(MapObject *object) {
 
     sound = object->mSound;
     if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
-        sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
+        sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
         resultIsFalse = (IsMapObjectOutOfRange(object) == FALSE);
-        isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & 1) != 0;
+        isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) != 0;
         if (resultIsFalse != FALSE) {
             if (isSoundSourceEnabled != FALSE) {
                 goto ret;
@@ -371,10 +375,10 @@ void UpdateMapObjectSoundSource(MapObject *object) {
         sound->mSoundSource.mDistanceSquared = distanceSquared;
         if (IsMapObjectOutOfRangeOrMaskedAtDistance(object, distanceSquared) != FALSE) {
             object->mDistanceSquaredAndFlags |= gAttractorDistanceFlag;
-            if ((sound->mSoundSource.mSourceFlags & 1) != 0) {
+            if ((sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) != 0) {
                 SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
             }
-        } else if ((sound->mSoundSource.mSourceFlags & 1) == 0) {
+        } else if ((sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
             SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
         }
     }

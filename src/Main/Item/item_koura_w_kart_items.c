@@ -10,7 +10,7 @@
 #include "Main/Item/item_bomb.h"
 #include "ITCM/collision_slots.h"
 
-const ItemInfo gItemInfoBomb = {1, 1, 9, 1, 0, 1, NULL};
+const ItemInfo gItemInfoBomb = {1, 1, ITEM_OBJECT_KIND_BOMB, 1, 0, ITEM_USE_KIND_ONE, NULL};
 const ItemKind gItemKindBomb = {0x1a4,
                                 1,
                                 0x18,
@@ -24,7 +24,7 @@ const ItemKind gItemKindBomb = {0x1a4,
                                 (void (*)(ItemObject *)) AdvanceItemBomb,
                                 (void (*)(void *, void *, void *)) DrawItemBomb,
                                 ComputeViewTest,
-                                (s32(*)(void *)) RequestItemBombExplode,
+                                (s32(*)(void *)) RequestItemBombGrow,
                                 (void (*)(void *)) RequestItemBombRest,
                                 (void (*)(void *)) ParkItemBombMapObject,
                                 0,
@@ -107,7 +107,8 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     velocity->z = (velocity->z * oldWeight + vector.z) >> shift;
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                 &vector, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
@@ -163,7 +164,8 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
         return;
     }
     if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                 &vector, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;

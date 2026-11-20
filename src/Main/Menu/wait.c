@@ -8,7 +8,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
@@ -32,9 +32,9 @@ void AdvanceWait(void) {
     Wait *wait;
 
     gWait->mFrameIndexFrames++;
-    if (gWait->mFrameIndexFrames >= WAIT_FRAME_TICKS) {
+    if (gWait->mFrameIndexFrames >= WAIT_FRAME_INDEX_CHANGE_FRAMES) {
         gWait->mFrameIndex++;
-        if (gWait->mFrameIndex >= WAIT_FRAME_COUNT) {
+        if (gWait->mFrameIndex >= WAIT_FRAME_INDEX_COUNT) {
             gWait->mFrameIndex = 0;
         }
         gWait->mFrameIndexFrames = 0;

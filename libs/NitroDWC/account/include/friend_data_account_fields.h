@@ -2,8 +2,7 @@
 
 #include "types.h"
 
-// Data types of a friend data record (the low two bits of its flags): empty, login id, friend key, or a profile id
-// of the game server.
+// Data types of a friend data record (the low two bits of its flags): empty, login id, friend key or GS profile id.
 #define ACCOUNT_DATA_TYPE_NONE 0
 #define ACCOUNT_DATA_TYPE_LOGIN_ID 1
 #define ACCOUNT_DATA_TYPE_FRIEND_KEY 2
@@ -13,21 +12,21 @@
 // Flag bit of a record of the profile id type: the friend is a buddy.
 #define ACCOUNT_FLAG_BUDDY 0x4
 
-// mIdData holds the flags in bits 11 and up, and the top bits of the user id below them.
-#define DWC_ACC_FLAGS_SHIFT 11
-#define DWC_ACC_FLAGS_MASK 0x1fffff
+// DWCAccFriendData.mIdData holds the flags in bits 11 and up, and the top bits of the user id below them.
+#define ACCOUNT_FLAGS_SHIFT 11
+#define ACCOUNT_FLAGS_MASK 0x1fffff
 #define ACCOUNT_USER_ID_HIGH_MASK 0x7ff
 
 typedef struct DWCAccFriendData {
     /* 00 */ u32 mIdData;
     union {
         struct {
-            /* 04 */ u32 mUserIdLo;
+            /* 04 */ u32 mUserIdLo32;
             /* 08 */ u32 mPlayerId;
         };
         struct {
-            /* 04 */ u32 mFriendKeyLo;
-            /* 08 */ u32 mFriendKeyHi;
+            /* 04 */ u32 mFriendKeyLo32;
+            /* 08 */ u32 mFriendKeyHi32;
         };
         /* 04 */ u32 mGsProfileId;
     };

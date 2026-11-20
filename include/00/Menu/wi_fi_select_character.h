@@ -13,5 +13,5 @@ void InitWiFiSelectCharacterNop(void);
 void ReleaseWiFiSelectCharacterState(void);
 void InitWiFiSelectCharacterState(void *heap);
 
-extern WiFiStateCallbacks gSelectCharacterCallbacks;
+extern WiFiStateCallbacks gWiFiSelectCharacterCallbacks;
 extern struct WiFiSelectHeapHolder *gWiFiSelectCharacterState;

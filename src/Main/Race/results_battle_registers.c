@@ -54,7 +54,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "00/Lib/DWC/friends_match_session.h"
@@ -131,7 +131,7 @@ char gResultsBattleVsRedNcgrName[] = "results_battle_VS_m.nce.ncgr";
 char gResultsBattleLoseBNcgrName[] = "results_battle_lose_m_b.NCGR";
 char gResultsBattleVsBlueONclrName[] = "results_battle_VS_m_o.NCLR";
 char gResultsBattleVsBlueBnclName[] = "Results_battle_VS_m.bncl";
-const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {
+const ResultsBattleFileNames gResultsBattleFileNames[5] = {
     {gResultsBattleVictoryBNcgrName, gResultsBattleVictoryBNclrName, gResultsBattleVictoryUpperNscrName,
      gResultsBattleVictoryLowerNscrName, gResultsBattleVictoryNcgrName, gResultsBattleVictoryNcerName,
      gResultsBattleVictoryONclrName, gResultsBattleVictoryBnclName, gResultsBattleVictoryBnllName},
@@ -149,7 +149,8 @@ const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {
      gResultsBattleVsRedONclrName, gResultsBattleVsRedBnclName, NULL}};
 ResultsBattle *gResultsBattle;
 
-// Reads the table of gCupRecords, a row chosen by one call and a column by another.
+// Returns the address of the current course's result for a kart entry in gCupRecords->mKartResults (row
+// GetCourseIndexInCup, column the low byte of entryIndex).
 static inline KartCourseResult *ResultsBattleGetKartCourseResult(u32 entryIndex) {
     return &gCupRecords->mKartResults[GetCourseIndexInCup()][GetLowByte(entryIndex)];
 }
@@ -360,10 +361,6 @@ s32 IsResultsBattleTimerBelowChoiceStart(void) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void StartResultsBattleChoices(void) {
     void *firstText;
     void *secondText;
@@ -386,14 +383,14 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
     s32 orderIndex;
     BOOL isTeamIndex1;
     BOOL cellVisible;
-    BOOL isOwnEntry;
+    BOOL entryFlag;
     BOOL isOwnNotTeam1;
 
     subCellFileSet = &gResultsBattle->mCellFileSets[1];
     if (gResultsBattle->mOwnEntryIndex == entryIndex) {
-        isOwnEntry = TRUE;
+        entryFlag = TRUE;
     } else {
-        isOwnEntry = FALSE;
+        entryFlag = FALSE;
     }
     orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
     if (gRaceSetup->mUseTeams != 0) {
@@ -408,38 +405,38 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
         } else {
             cellVisible = FALSE;
         }
-        if (cellVisible != FALSE && isOwnEntry != FALSE) {
+        if (cellVisible != FALSE && entryFlag != FALSE) {
             isOwnNotTeam1 = TRUE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = isOwnNotTeam1;
-        if (cellVisible != FALSE && isOwnEntry == FALSE) {
+        if (cellVisible != FALSE && entryFlag == FALSE) {
             cellVisible = TRUE;
         } else {
             cellVisible = FALSE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = cellVisible;
-        if (isTeamIndex1 != FALSE && isOwnEntry != FALSE) {
+        if (isTeamIndex1 != FALSE && entryFlag != FALSE) {
             cellVisible = TRUE;
         } else {
             cellVisible = FALSE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = cellVisible;
-        if (isTeamIndex1 != FALSE && isOwnEntry == FALSE) {
-            isOwnEntry = TRUE;
+        if (isTeamIndex1 != FALSE && entryFlag == FALSE) {
+            entryFlag = TRUE;
         } else {
-            isOwnEntry = FALSE;
+            entryFlag = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = isOwnEntry;
+        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = entryFlag;
         subCellFileSet->mCellTable[orderIndex + 8].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex].mVisible = subCellFileSet->mCellTable[orderIndex + 8].mVisible;
     } else {
-        subCellFileSet->mCellTable[orderIndex].mVisible = isOwnEntry;
-        if (isOwnEntry == FALSE) {
-            isOwnEntry = TRUE;
+        subCellFileSet->mCellTable[orderIndex].mVisible = entryFlag;
+        if (entryFlag == FALSE) {
+            entryFlag = TRUE;
         } else {
-            isOwnEntry = FALSE;
+            entryFlag = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 8].mVisible = isOwnEntry;
+        subCellFileSet->mCellTable[orderIndex + 8].mVisible = entryFlag;
         subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = subCellFileSet->mCellTable[orderIndex + 0x28].mVisible;
         subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = subCellFileSet->mCellTable[orderIndex + 0x20].mVisible;
@@ -500,7 +497,7 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
     QueueCellCharsAndFirstPalette(characterIndex, iconCellFileSet->mCells, iconCellFileSet->mChars,
                                   iconCellFileSet->mPalette, iconCellFileSet->mCellLayout, cellFileSetIndex, cellIndex,
                                   cellFileSet->mCells, cellFileSet->mCellLayout);
-    if (characterIndex == 0xc) {
+    if (characterIndex == CHARACTER_HEYHO) {
         if (iconSetSelector == 1) {
             palette = gResultsBattle->mCellFileSet2ShyguyPalette;
         } else {
@@ -693,11 +690,6 @@ void SetupResultsBattleTeamIcons(void *heap) {
     mainCellFileSet->mCellTable[0x38].mVisible = mainCellFileSet->mCellTable[0x39].mVisible;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
-// Fills with 0 using a volatile halfword.
 static inline void ResultsBattleMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);
@@ -754,7 +746,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     sceneTextInitParams.mUseSelectReturn = 0;
     sceneTextInitParams.mUseBackScreen = 0;
     sceneTextInitParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &sceneTextInitParams);
     InitFrmVramManagers();
     gResultsBattle->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -819,21 +811,21 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     gResultsBattle->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyguyNclr(1);
     gResultsBattle->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyguyNclr(0);
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
-    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNcgrName,
-                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNclrName,
-                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mLowerNscrName, 3, FindSceneFile);
+    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBNcgrName,
+                         gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBNclrName,
+                         gResultsBattleFileNames[gResultsBattle->mFileSetKind].mLowerNscrName, 3, FindSceneFile);
     LoadNscrData(&screenMapFileSet->mScreenMaps[2],
-                 FindSceneFile(gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mUpperNscrName));
+                 FindSceneFile(gResultsBattleFileNames[gResultsBattle->mFileSetKind].mUpperNscrName));
     GX_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
     GX_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
     GX_LoadBG2Scr(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
     GX_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    LoadCellFileSet(mainCellFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcgrName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcerName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mONclrName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnclName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
+    LoadCellFileSet(mainCellFileSet, gResultsBattleFileNames[gResultsBattle->mFileSetKind].mNcgrName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mNcerName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mONclrName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBnclName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
     SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case RESULTS_BATTLE_FILES_VICTORY:
@@ -938,10 +930,6 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     InitTrophy(8, value);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
@@ -1012,7 +1000,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         if (sceneNumbers != NULL) {
-                            sceneNumbers->mNextScene = SCENE_MENU_1;
+                            sceneNumbers->mNextScene = SCENE_MENU;
                         }
                         gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                     }
@@ -1055,7 +1043,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 } else {
                                     gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                                     if (sceneNumbers != NULL) {
-                                        sceneNumbers->mNextScene = SCENE_MENU_1;
+                                        sceneNumbers->mNextScene = SCENE_MENU;
                                     }
                                 }
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
@@ -1064,7 +1052,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 gConnectionWork->mFlags = gConnectionWork->mFlags | CONNECTION_FLAG_ENDING;
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_END_CONNECTION;
                                 break;
-                            case -1:
+                            case SELECT_CHOISES_INDEX_NONE:
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
@@ -1086,7 +1074,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 }
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
-                            case -1:
+                            case SELECT_CHOISES_INDEX_NONE:
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
@@ -1096,9 +1084,9 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             }
             break;
         case RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE:
-            if (GetWiFiSessionContinueResult() != 0) {
+            if (GetWiFiSessionContinueResult() != WIFI_CONTINUE_RESULT_NOT_SETTLED) {
                 switch (GetWiFiSessionContinueResult()) {
-                    case WIFI_CONTINUE_RESULT_KARTS_LEFT:
+                    case WIFI_CONTINUE_RESULT_KARTS_REMAINING:
                         gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_SELECT_CHARACTER;
                         break;
                     case WIFI_CONTINUE_RESULT_ENDED:
@@ -1114,7 +1102,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
         case RESULTS_BATTLE_STATE_END_CONNECTION:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 0;
+                    sceneNumbers->mNextScene = SCENE_TITLE;
                 }
                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
             }
@@ -1149,9 +1137,6 @@ void ReleaseResultsBattle(void) {
     ReleaseSceneText();
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void ResultsBattleWriteSceneTextRegistersWrapper(void) {
     u32 unused;
     WriteSceneTextRegisters();

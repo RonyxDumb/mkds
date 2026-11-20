@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/MapObjects/segment_group_collision.h"
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
@@ -53,36 +53,36 @@ typedef struct MapObjectKindData {
     /* 3c */ s32 mHeightRangeMin;
 } MapObjectKindData;
 
-// A far-away value: the draw distance of a GP start race and the position step of an object whose step is not measured.
+// A far-away value (9999.0): the draw distance of a GP start race, and the position step of an object whose kind's
+// mPosStepMode is neither 0 nor MAP_OBJECT_LIST_POS_STEP_MEASURED.
 #define MAP_OBJECT_FAR_VALUE 0x270f000
 
-// Range of heights, up and down, that a kind covers when its data leaves it 0 (a replay raises the upper one).
+// Limit of the height difference between the camera and an object, below and above, that a kind gets when its data
+// leaves it 0 (a replay raises the upper one).
 #define MAP_OBJECT_HEIGHT_RANGE_DEFAULT 0x64000
-#define MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX 0x44c000
+#define MAP_OBJECT_HEIGHT_RANGE_REPLAY_UPPER_MIN 0x44c000
 
 // View test kind of a grpconf row from which on the kind uses two view planes.
-#define MAP_OBJECT_VIEW_TEST_KIND_PAIRED_PLANES 2
+#define MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE_MIN 2
 
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f
-// MapObject.mFlags: the object is invisible (the map screen draws no cell for it and unparking keeps its alpha);
-// the map screen shows a translucent cell; the flipper is mirrored.
-#define MAP_OBJECT_FLAG_INVISIBLE 0x2
-#define MAP_OBJECT_FLAG_HUD_XLU 0x20
-#define MAP_OBJECT_FLAG_FLIPPER_MIRROR 0x400
-// MapObject.mFlags: a kart touching the object counts as hitting it fast whatever its speed (full push strength).
+// MapObject.mFlags: the speed tests of kart hits are skipped for the object (spin hits and touch sounds happen at any
+// speed) and its kind sound is started with the full fraction 0x1000.
 #define MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED 0x200
 
-// Bits of MapObject.mFlags.
-// Items and karts that overlap the object are not pushed out of it (the overlap tests skip it).
+// MapObject.mFlags: karts, items and Jg that overlap the object are not pushed out of it; the hit is still found and
+// its callback runs.
 #define MAP_OBJECT_FLAG_NO_PUSH_OUT 0x40
 // The object is parked (ParkMapObject sets it, UnparkMapObject clears it).
 #define MAP_OBJECT_FLAG_PARKED 0x100
 
-// MapObject.mDistanceSquaredAndFlags bit 31: set by kinds; item hits clear it and pass the object on as the one hit.
+// MapObject.mDistanceSquaredAndFlags bit 31: set by kinds; a bounce or fade-out item hit clears it, and reports the
+// object as the one hit when the bit was set or the first response is 1.
 #define MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT 0x80000000
 
-// The part every map object shares: its position, state machine and list data; each kind uses the rest its own way.
+// The part every map object shares: its kind, flags, position and matrix, collision and view-test values, state
+// machine, sound and kind data; each kind adds its own members after it.
 typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;
@@ -115,7 +115,7 @@ typedef struct MapObject {
     /* 70 */ s32 mFarDistanceSquared;
     // Mask of the non-zero decimal digits of the course row's number (bit d is digit d; a number of 10000 or more first
     // sets flag 0x80 in mFlags), or copied from the source object. The visibility pass and the kinds that test it treat
-    // the object as out of view while a bit is shared with the word GetKartZoneMask returns.
+    // the object as out of view while a bit is shared with the word GetEntryKartZoneMask returns.
     /* 74 */ u32 mDigitMask;
     // Result of the last view test of the object plus bits added by kinds. Bit 0: beyond mDrawDistance; bit 1: outside
     // the view planes (set with bit 0 when mAlpha is 1 or less); bit 2: beyond mFarDistanceSquared
@@ -141,20 +141,23 @@ typedef struct MapObject {
 
 // Bits of MapObject.mFlags. The low nibble (the 1, 2, 4 and 8 bits) is saved in the high nibble while the object is
 // parked.
-#define MAP_OBJECT_FLAG_INACTIVE 0x1 // hit tests answer FALSE and the race HUD leaves the object out
-#define MAP_OBJECT_FLAG_NO_VIEW_TEST 0x2 // the view test and the sound source update skip the object
+#define MAP_OBJECT_FLAG_DISABLED 0x1 // hit tests answer FALSE and the race HUD leaves the object out
+// not drawn; the view test skips it, the sound source update measures its distance itself and unparking keeps its alpha
+#define MAP_OBJECT_FLAG_NO_VIEW_TEST 0x2
 #define MAP_OBJECT_FLAG_NO_UPDATE 0x4 // the update lists skip the object
-#define MAP_OBJECT_FLAG_NO_ITEM_CALLBACK 0x8 // the item hit callback skips the object
-#define MAP_OBJECT_FLAG_OUT_OF_VIEW 0x10 // set by the view test while the object is outside the view planes
-#define MAP_OBJECT_FLAG_NOT_COLLIDABLE 0x40 // the kind's collidable word was 0: kart and item hits skip the object
+// the list-wide callback sweep (CallMapObjectListCallback) skips the object
+#define MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK 0x8
+// set by the view test while the object is outside the view planes or its mDigitMask matches the kart zone mask,
+// cleared when it is back inside
+#define MAP_OBJECT_FLAG_OUT_OF_VIEW 0x10
 #define MAP_OBJECT_FLAG_HUD_XLU 0x20 // the race HUD draws the cell of the object translucent
-#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW                                                                                \
-    0x80 // the course row's number was 10000 or more; the park pass parks the object
-#define MAP_OBJECT_FLAG_PARKED 0x100
+// the course row's number was 10000 or more (or the object was copied from one that had it): ParkFlaggedMapObjects
+// stops its update and collision slot, and the kart and item collision callbacks skip it
+#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW 0x80
 #define MAP_OBJECT_FLAG_MIRRORED 0x400 // the model is drawn mirrored
 #define MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI 0x800 // set at creation while gMapObjectsTimeAttackOrWiFi is non-zero
 #define MAP_OBJECT_FLAGS_NOT_DRAWN (MAP_OBJECT_FLAG_NO_VIEW_TEST | MAP_OBJECT_FLAG_OUT_OF_VIEW)
-#define MAP_OBJECT_FLAGS_SKIP_ITEM_CALLBACK (MAP_OBJECT_FLAG_NO_ITEM_CALLBACK | MAP_OBJECT_FLAG_NUMBER_OVERFLOW)
+#define MAP_OBJECT_FLAGS_SKIP_ITEM_CALLBACK (MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK | MAP_OBJECT_FLAG_NUMBER_OVERFLOW)
 #define MAP_OBJECT_FLAGS_LOW_NIBBLE 0xf
 #define MAP_OBJECT_FLAGS_SAVED_NIBBLE 0xf000
 
@@ -164,7 +167,7 @@ typedef struct MapObject {
 #define MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE 0x4
 #define MAP_OBJECT_VIEW_OUT_OF_SIGHT (MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE | MAP_OBJECT_VIEW_OUTSIDE_PLANES)
 #define MAP_OBJECT_VIEW_TESTED 0x8
-#define MAP_OBJECT_VIEW_KIND_BIT 0x10
+#define MAP_OBJECT_VIEW_FAR_KART_TOUCH 0x10
 #define MAP_OBJECT_VIEW_DISTANCE_MASK 0x3fffffe0
 #define MAP_OBJECT_VIEW_SKIP_KIND_SOUND 0x40000000
 
@@ -181,7 +184,10 @@ typedef struct AttractorMapObject {
 #define MAP_OBJECT_LIST_PASS_SECOND 2
 #define MAP_OBJECT_LIST_POS_STEP_MEASURED 2
 #define MAP_OBJECT_LIST_POS_STEP_UNSET 3
-#define MAP_OBJECT_LIST_ITEM_RESPONSE_UNSET 3
+#define MAP_OBJECT_LIST_ITEM_FIRST_RESPONSE_UNSET 3
+
+// Size of gFoundMapObjects and gFoundMapObjectVectors; FindMapObjectsTouchingKart keeps its count below it.
+#define FOUND_MAP_OBJECT_CAPACITY 0x20
 
 // The update and draw lists call mForEachObject with different arguments and the stored functions take their own object
 // type, so its type is left unprototyped.
@@ -231,8 +237,8 @@ typedef struct JgKindRow {
     /* 0c */ NsbmdModel *mLapModel;
 } JgKindRow;
 
-// Filled in by InitJg; UpdateJgReverse stores GetHorizontalCameraDistanceSquared's return value
-// at 0x0c and hands it to StartSndHandleSound.
+// InitJg sets mSoundId, mPositionSource and mFalloffIndex; UpdateJgReverse sets mDistanceSquared from
+// GetHorizontalCameraDistanceSquared and passes it to StartSndHandleSound.
 extern SoundStartParams gJgSoundStartParams;
 extern JgKindRow gJgKindRows[];
 

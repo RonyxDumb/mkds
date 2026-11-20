@@ -13,17 +13,17 @@ u8 gWcmRssiIndex;
 u8 gWcmRssi[16];
 
 u32 WCM_GetLinkLevel(void) {
-    u32 enabled;
+    u32 savedInterrupts;
     WCMWork *work;
     u32 level;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     work = WCMi_GetSystemWork();
     level = 0;
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED) {
         level = WcmGetLinkLevel();
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return level;
 }
 

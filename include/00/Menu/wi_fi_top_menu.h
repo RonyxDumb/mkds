@@ -10,7 +10,8 @@ struct Ncgr;
 struct Nclr;
 
 // Values of WiFiTopMenu.mState: the menu fades in, slides in, waits for the return button, lets one of the three items
-// be picked and slides out again; the last three handle the answer and message of the missing friend key.
+// be picked and slides out; WAIT_MESSAGE shows the message for a missing friend key; WAIT_CHOICE and
+// WAIT_NOT_LOGGED_IN_THEN_TITLE are never entered.
 enum {
     WIFI_TOP_MENU_STATE_WAIT_FADE,
     WIFI_TOP_MENU_STATE_SLIDE_IN,
@@ -19,19 +20,22 @@ enum {
     WIFI_TOP_MENU_STATE_PRESS_ITEM,
     WIFI_TOP_MENU_STATE_SLIDE_OUT,
     WIFI_TOP_MENU_STATE_WAIT_CHOICE,
-    WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE,
+    WIFI_TOP_MENU_STATE_WAIT_NOT_LOGGED_IN_THEN_TITLE,
     WIFI_TOP_MENU_STATE_WAIT_MESSAGE,
 };
 
-// Values of WiFiTopMenu.mIndex: the three items, named for the screen or scene they lead to.
+// Values of WiFiTopMenu.mIndex: the three items; VS leads to the VS setting (the login menu first when not logged in),
+// AIKOTOBA to the aikotoba screen (a message instead when there is no friend key), DWC_UTILITY to the DWC utility run
+// between two entries of the WiFi menu scene.
 enum {
     WIFI_TOP_MENU_ITEM_VS,
     WIFI_TOP_MENU_ITEM_AIKOTOBA,
-    WIFI_TOP_MENU_ITEM_WIFI_MENU,
+    WIFI_TOP_MENU_ITEM_DWC_UTILITY,
 };
 
-// Frames the three cell rows take to slide, the slide-in state lasts (the slide then settles with a press bounce), the
-// press state lasts, and the frame of it where the highlight shows again; the x offset of the cells while off screen.
+// Frames the three cell rows take to slide, the slide-in state lasts (the slide then settles with the press animation),
+// the press state lasts, and the frame of it where the highlight shows again; the x offset of the cells while off
+// screen.
 #define WIFI_TOP_MENU_SLIDE_FRAMES 10
 #define WIFI_TOP_MENU_SLIDE_IN_FRAMES 20
 #define WIFI_TOP_MENU_PRESS_FRAMES 10
@@ -47,7 +51,7 @@ typedef struct WiFiTopMenu {
     /* 10 */ s32 mPendingWiFiState;
     /* 14 */ void *mHeap;
     /* 18 */ BOOL mHighlightVisible;
-    // Table of cells built from the Bncl / Bnll by InitLayoutTable.
+    // Table of cells built from the Bncl by InitLayoutTable.
     /* 1c */ LayoutTableEntry *mWiFiTopMenuTable;
     /* 20 */ struct NNSG2dCellDataBank *mWiFiTopMenuSNcer;
     /* 24 */ struct Ncgr *mWiFiTopMenuSNcgr;
@@ -75,7 +79,7 @@ void AdvanceWiFiTopMenuWaitNextScene(void);
 void AdvanceWiFiTopMenuWaitChoice(void);
 void AdvanceWiFiTopMenuSlideOut(void);
 void AdvanceWiFiTopMenuPressItem(void);
-void AdvanceWiFiTopMenuBrowse(void);
+void AdvanceWiFiTopMenuWaitInput(void);
 void AdvanceWiFiTopMenuWaitReturnButton(void);
 void AdvanceWiFiTopMenuSlideIn(void);
 void AdvanceWiFiTopMenuWaitFade(void);

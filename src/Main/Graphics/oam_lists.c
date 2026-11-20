@@ -1,4 +1,6 @@
 #include "Main/Graphics/oam_lists.h"
+#include "03/Graphics/nce_oam.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "thread_scheduler.h"
 #include "arena_cache_init.h"
 #include "dma_copy_fill_wait.h"
@@ -47,18 +49,20 @@ void HideUnusedOams(void *mainOam, void *subOam) {
     if (mainOamList != NULL) {
         usedEntryCount = mainOamList->mOamCount;
         DC_FlushRange(mainOamList, 0x400);
-        for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
+        for (hiddenIndex = 0; hiddenIndex < RACE_HUD_OAM_COUNT - usedEntryCount; hiddenIndex++) {
             mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
-                (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_MASK) | OAM_ENTRY_HIDDEN_X;
+                (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_POSITION_MASK) |
+                OAM_ENTRY_HIDDEN_X;
             mainOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = OAM_ENTRY_HIDDEN_Y;
         }
     }
     if (subOamList != NULL) {
         usedEntryCount = subOamList->mOamCount;
         DC_FlushRange(subOamList, 0x400);
-        for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
+        for (hiddenIndex = 0; hiddenIndex < RACE_HUD_OAM_COUNT - usedEntryCount; hiddenIndex++) {
             subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
-                (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_MASK) | OAM_ENTRY_HIDDEN_X;
+                (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_POSITION_MASK) |
+                OAM_ENTRY_HIDDEN_X;
             subOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = OAM_ENTRY_HIDDEN_Y;
         }
     }

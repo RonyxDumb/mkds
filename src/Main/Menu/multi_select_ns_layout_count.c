@@ -19,7 +19,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "cell_transfer_state.h"
 #include "Main/Menu/wl_menu_scene.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -31,13 +31,13 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/System/input_slots.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -354,7 +354,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
             break;
         case MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION:
             switch (AdvanceMPStateMachineWithOwnIndex()) {
-                case MP_STATE_ADVANCE_READY:
+                case MP_STATE_ADVANCE_FINISHED:
                     if (gMultiSelectMember->mTimer == 0) {
                         if ((u8) ((gConnectionWork->mParticipantMask & ~gConnectionWork->mGroupSendMask) & 0xfe) != 0) {
                             SetupTxtSystemSubText(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x81));
@@ -418,7 +418,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                         gMultiSelectMember->mSkipChildCountSound = TRUE;
                     }
                     break;
-                case CONNECT_ADVANCE_CONNECT_FAILED:
+                case CONNECT_ADVANCE_NOT_CONNECTED:
                     SetupMultiSelectMemberSubTextButton();
                     break;
             }
@@ -430,7 +430,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                 return;
             }
             switch (AdvanceMPStateMachineWithOwnIndex()) {
-                case MP_STATE_ADVANCE_READY:
+                case MP_STATE_ADVANCE_FINISHED:
                     if (gMultiSelectMember->mIsMultiBoot == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
                         PrintMultiSelectConnectionNames();
                         SetMultiSelectChildCountCellsVisible();
@@ -525,12 +525,12 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
         subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, gMultiSelectMember->mHeap, subFileSet,
                                            &gMultiSelectMemberSubLabelRows.mRows[index], subObjSizeLeft);
     }
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[3], 3, 10, 0x40, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[3], INTERPOLATION_STATE_AT_START, 10, 0x40, 0);
     InitPaletteBlend(gMultiSelectMember->mHeap, subFileSet->mPalette, 3);
     SetMultiSelectMemberSubCellVisible(1);
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[0], 0, 10, -0x40, 0);
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[1], 0, 10, 0x40, 0);
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[2], 0, 10, -0xc0, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
     gMultiSelectMember->mRows[0].mState = MULTI_SELECT_MEMBER_ROW_SHOWN;
     for (index = 0; index < 8; index++) {
         gMultiSelectMember->mRows[index].mFirstCellIndex = index * 2;
@@ -628,12 +628,8 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     FrmHeapShrinkInParent(gMultiSelectMember->mHeap);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 BOOL MultiSelectMemberIsSubSlideInDone(void) {
-    if (gMultiSelectMember->mInterpolations[2].mState == 1) {
+    if (gMultiSelectMember->mInterpolations[2].mState == INTERPOLATION_STATE_AT_END) {
         return 1;
     }
     return 0;
@@ -659,10 +655,6 @@ void DrawMultiSelectMember(void) {
         } while (screenIndex < 2);
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
     CellFileSet *subFileSet;
@@ -742,7 +734,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             pairIsNew = 0;
             pairRecentlyGone = 0;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                 pairRecentlyGone = 1;
             }
             if (pairRecentlyGone == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -755,7 +747,8 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                 rectIndex = RectTableFindContaining(subFileSet->mRects, value, pairY);
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || rectIndex == 0) {
-                if (gMultiSelectMember->mChildCount > 0 && gMultiSelectMember->mInterpolations[3].mState == 1) {
+                if (gMultiSelectMember->mChildCount > 0 &&
+                    gMultiSelectMember->mInterpolations[3].mState == INTERPOLATION_STATE_AT_END) {
                     SetMultiSelectMemberSubCellVisible(0);
                     RequestSelectReturnSlideOut();
                     StopPaletteBlend();
@@ -787,7 +780,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                     gMenuShared->mRaceSetupRequested = 1;
                     gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                     if (sceneNumbers != NULL) {
-                        sceneNumbers->mNextScene = SCENE_MENU_1;
+                        sceneNumbers->mNextScene = SCENE_MENU;
                     }
                     gMultiSelectMember->mStartPressedFrames = 0;
                     gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
@@ -895,7 +888,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
             pairIsNew = 0;
             pairRecentlyGone = 0;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                 pairRecentlyGone = 1;
             }
             if (pairRecentlyGone == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -912,7 +905,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                     case CONNECTION_STATE_SYNCED:
                     case CONNECTION_STATE_SYNCED_RACE:
                     case CONNECTION_STATE_ENTRY_EXCHANGE:
-                    case CONNECTION_STATE_GATHERING:
+                    case CONNECTION_STATE_SETUP:
                         flag = TRUE;
                         break;
                     default:
@@ -935,7 +928,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 gMenuShared->mRaceSetupRequested = 1;
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
             } else if (started == 0) {
@@ -982,20 +975,12 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
     return result;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseMultiSelectMember(void) {
     SetTxtSystemBgOffsetRequested(0, 0);
     ClearPaletteBlendPointer();
     HeapDestroy(gMultiSelectMember->mHeap);
     *&gMultiSelectMember = NULL;
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteMultiSelectMemberRegisters(void) {
     s32 displayBits;

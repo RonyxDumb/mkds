@@ -12,13 +12,13 @@
 #include "Main/Scene/scene_run_step.h"
 #include "Main/Scene/scene_connection.h"
 #include "Main/Scene/scene_frames.h"
-#include "Main/Sound/scene_sound_set.h"
+#include "Main/Sound/startup_sound_set_player_back_lights_and_random.h"
 #include "Main/System/frm_heap_reset.h"
 #include "Main/Net/led_pattern.h"
 #include "Main/Net/connection_sharing.h"
 #include "Main/Net/connect_non_multiboot.h"
 #include "Main/Scene/run_scenes.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/wifi_session.h"
 #include "card_removal_handling.h"
 #include "power_management_commands.h"
@@ -112,8 +112,8 @@ static inline void RunSceneUpdateInputAndLcdPower(void) {
             savedInterrupts = OS_DisableInterrupts();
             PM_SetLCDPower(1);
             if (AreBrightnessFadesClear()) {
-                SetMainMasterBrightness(0);
-                SetSubMasterBrightness(0);
+                SetMainMasterBrightness(BRIGHTNESS_LEVEL_CLEAR);
+                SetSubMasterBrightness(BRIGHTNESS_LEVEL_CLEAR);
             }
             gSceneRunState->mLcdOff = FALSE;
             OS_RestoreInterrupts(savedInterrupts);
@@ -134,7 +134,7 @@ static inline BOOL RunSceneHasActiveConnection(void) {
 
 static inline void RunSceneFinishDisplayFrame(const SceneCallbacks *sceneCallbacks) {
     int currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == 1 || currentSceneNumber == 10) {
+    if (currentSceneNumber == 1 || currentSceneNumber == SCENE_RESULT) {
         FinishDisplayFrameSwapIf(!RunSceneHasActiveConnection() || !RunSceneIsDataSharingIncomplete());
     } else {
         FinishDisplayFrameUnlessSpanned(sceneCallbacks->mSkipWhenSpanned);
@@ -158,7 +158,7 @@ static inline s32 RunSceneIsWiFiSessionHeapCreated(void) {
 
 static inline BOOL RunSceneIsWiFiSessionStateZero(void) {
     if (RunSceneIsWiFiSessionHeapCreated()) {
-        if (gWiFiSession->mStateMachine.mState != 0) {
+        if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
             return FALSE;
         }
         return TRUE;
@@ -189,7 +189,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     gSceneRunState->mPassCount = exitValue;
     gSceneRunState->mSceneCallbacks = *callbacks;
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
-    gSceneRunState->mNextScene = 0;
+    gSceneRunState->mNextScene = SCENE_TITLE;
     gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;
     gSceneRunState->mMessageInputEnabled = 0;
     interruptState = OS_DisableInterrupts();
@@ -200,9 +200,9 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     }
     OS_RestoreInterrupts(interruptState);
     gSceneRunState->mRunStep = SCENE_RUN_STEP_LOADING;
-    SetHeapGroupId(0);
+    SetHeapGroupId(HEAP_GROUP_DEFAULT);
     LoadArchiveSlotsForScene(sceneNumbers->mScene);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     GetHeap(GetCurrentHeapCall());
     NNS_GfdInitVramTransferManager(
         HeapAlloc(GetHeap(GetCurrentHeapCall()), SCENE_VRAM_TASK_COUNT * sizeof(NNSGfdVramTransferTask)),
@@ -235,7 +235,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         RunSceneGetHalfwordIndex39OrZero();
         RunSceneFinishDisplayFrame(callbacks);
         disconnectHandled =
-            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
         NNS_GfdDoVramTransfer();
         if (disconnectHandled) {
             sceneNumbers->mNextScene = gSceneRunState->mNextScene;
@@ -258,7 +258,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         exitValue = RunSceneGetHalfwordIndex39OrZero();
         RunSceneFinishDisplayFrame(callbacks);
         disconnectHandled =
-            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
         NNS_GfdDoVramTransfer();
         if (disconnectHandled) {
             sceneNumbers->mNextScene = gSceneRunState->mNextScene;
@@ -281,8 +281,8 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
             StopSceneSoundSetSeq();
         }
     }
-    if ((exitValue != 0 || GetNextSceneNumber() == 0) && gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        RunMessageScreenOfKind(0);
+    if ((exitValue != 0 || GetNextSceneNumber() == SCENE_TITLE) && gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
+        RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
     }
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_TOP_MENU) {
         StartFadeToFadedPositive(callbacks->mFadeToFadedFrameCount);
@@ -298,7 +298,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         UpdateSounds();
         RunSceneGetHalfwordIndex39OrZero();
         RunSceneFinishDisplayFrame(callbacks);
-        RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+        RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
         NNS_GfdDoVramTransfer();
         if (callbacks->mPostUpdate != NULL) {
             callbacks->mPostUpdate(0, gSceneRunState->mSceneFrames);
@@ -312,8 +312,8 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     } while (!AreBrightnessFadesFaded());
 end:
     SetNoKeysAndUpdateInputSlots();
-    if (RunSceneIsWiFiSessionStateZero() && (exitValue != 0 || GetNextSceneNumber() == 0)) {
-        gSceneRunState->mRunStep = SCENE_RUN_STEP_CARD_PULLED_OUT;
+    if (RunSceneIsWiFiSessionStateZero() && (exitValue != 0 || GetNextSceneNumber() == SCENE_TITLE)) {
+        gSceneRunState->mRunStep = SCENE_RUN_STEP_CONNECTION_END;
         gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
         isDone = FALSE;
         SendLedPatternNone();
@@ -327,7 +327,7 @@ end:
                     isDone = TRUE;
                 }
             }
-            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
+            RunMessageScreenOnDisconnect(sceneNumbers, gSceneRunState->mRunStep != SCENE_RUN_STEP_CONNECTION_END);
             NNS_GfdDoVramTransfer();
             UpdateWiFiSession();
             RecordFrameTimes();
@@ -357,10 +357,10 @@ end:
     }
     ReleaseArchiveSlots();
     if (exitValue != 0) {
-        sceneNumbers->mNextScene = 0;
+        sceneNumbers->mNextScene = SCENE_TITLE;
     } else {
         messageKind = gSceneRunState->mMessageKind;
-        if (messageKind != -1) {
+        if (messageKind != MESSAGE_KIND_NONE) {
             switch (messageKind) {
                 case MESSAGE_KIND_WIFI_ERROR:
                 case MESSAGE_KIND_WIFI_NO_INPUT:
@@ -368,7 +368,7 @@ end:
                     sceneNumbers->mNextScene = gSceneRunState->mNextScene;
                     break;
                 default:
-                    sceneNumbers->mNextScene = 0;
+                    sceneNumbers->mNextScene = SCENE_TITLE;
                     break;
             }
         }

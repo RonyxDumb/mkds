@@ -1,17 +1,17 @@
 #include "Main/Course/course_sound_slot.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_handle_slots.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
 #include "sound_player_control.h"
 #include "sound_archive_load_result.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -28,7 +28,7 @@ CourseSoundTableRow gCourseSoundTable[5] = {
     {{0x01b1, 0x01b2, 0x01b3, 0x01b4, 0x01b5, 0xffff, 0xffff, 0xffff}},
     {{0x1000, 0x1001, 0x1002, 0x1003, 0x0198, 0x0197, 0xffff, 0xffff}},
     {{0x1000, 0x1001, 0x1002, 0x1003, 0x01ab, 0xffff, 0xffff, 0xffff}},
-    {{0x01cc, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff}},
+    {{PINBALL_COURSE_SEQ_ARC_INDEX, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff}},
     {{0x01c2, 0x01c3, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff}},
 };
 
@@ -90,7 +90,7 @@ void ApplyCourseSoundTableEntry(s32 entryIndex) {
     lowBits = tableValue & 0xfff;
     switch (gCourseSoundTableIndex) {
         case COURSE_SOUND_TABLE_PINBALL:
-            if (tableValue == 0x1cc) {
+            if (tableValue == PINBALL_COURSE_SEQ_ARC_INDEX) {
                 handle = GetSndHandles();
                 if (*handle != NULL) {
                     NNS_SndPlayerStopSeq(handle, 0);
@@ -135,7 +135,7 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
     NNSSndSeqPlayer **handle;
     u32 volumeHandle;
     u8 trackVolume;
-    u32 ok;
+    u32 hasVolume;
 
     if (slotIndex == 0) {
         handle = GetSndHandleSlot(0xa);
@@ -145,12 +145,12 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
     volumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
     if (volumeHandle == 0) {
         trackVolume = 0;
-        ok = 0;
+        hasVolume = 0;
     } else {
         trackVolume = gCourseSoundSlots[slotIndex].mVolumes[volumeHandle - 1];
-        ok = 1;
+        hasVolume = 1;
     }
-    if (ok != 0) {
+    if (hasVolume != 0) {
         if ((gRaceSoundKind & 1) != 0) {
             if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*handle != NULL) {
@@ -166,14 +166,14 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
             SetSndHandleTrackVolume(handle, trackVolume);
         }
     }
-    return ok;
+    return hasVolume;
 }
 
 BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     NNSSndSeqPlayer **handle;
     u32 volumeHandle;
     u8 trackVolume;
-    u32 ok;
+    u32 hasVolume;
 
     if (slotIndex == 0) {
         handle = GetSndHandleSlot(0xa);
@@ -183,12 +183,12 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     volumeHandle = gCourseSoundSlots[slotIndex].mVolumeHandle;
     if (volumeHandle == 0) {
         trackVolume = 0;
-        ok = 0;
+        hasVolume = 0;
     } else {
         trackVolume = gCourseSoundSlots[slotIndex].mVolumes[volumeHandle - 1];
-        ok = 1;
+        hasVolume = 1;
     }
-    if (ok != 0) {
+    if (hasVolume != 0) {
         if (*handle == NULL) {
             if ((gRaceSoundKind & 1) != 0) {
                 if (gSoundModeHolder.mSeqStartEnabled != 0) {
@@ -208,7 +208,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     } else {
         NNS_SndPlayerStopSeq(handle, 0xa);
     }
-    return ok;
+    return hasVolume;
 }
 
 void InitCourseSoundSlot(CourseSoundSlot *slot, u32 volumeHandle, u32 firstTableIndex) {

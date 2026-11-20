@@ -20,7 +20,7 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     char valueText[4];
     GpBuddyStatus status;
     if (DWCi_GetFriendBuddyStatus(friendData, &status) != 0) {
-        if (status.mStatus == DWC_STATUS_MATCH_SC_SV) {
+        if (status.mStatus == FRIEND_STATUS_MATCH_SERVER) {
             if (maxEntry != NULL) {
                 if (DWC_GetCommonValueString("SCM", valueText, status.mStatusString, 0x2f) > 0) {
                     *maxEntry = strtoul(valueText, NULL, 10);
@@ -75,13 +75,14 @@ s32 DWC_GetNumFriend(void *friendList, s32 friendListLength) {
     return count;
 }
 
-// Deletes the GP buddy of the entry (if GP lists it) and zeroes the 12-byte entry; the argument is the save data's
-// entry, not the sync's list.
+// Deletes the GP buddy of the entry when the sync object exists, the login is done, user data is set and GP lists a
+// profile id of the entry; always zeroes the 12-byte entry. The caller passes the save data's entry, not the sync's
+// list.
 void DWC_DeleteBuddyFriendData(void *friendData) {
     s32 profileId;
     if (gWiFiBuddySync != NULL && DWCi_CheckLogin() != 0 && DWCi_GetUserData() != NULL) {
         profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
-        if (profileId != 0 && profileId != -1 && GpIsBuddy(gWiFiBuddySync->mGpConnection, profileId) != 0) {
+        if (profileId != 0 && profileId != -1 && gpIsBuddy(gWiFiBuddySync->mGpConnection, profileId) != 0) {
             GpDeleteBuddy(gWiFiBuddySync->mGpConnection, profileId);
         }
     }

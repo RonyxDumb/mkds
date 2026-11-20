@@ -47,14 +47,14 @@ void WCMi_CpsifSendNullPacket(void) {
 u8 *WCM_GetApMacAddress(void) {
     u8 *mac = NULL;
     WCMWork *work;
-    u32 enabled;
+    u32 savedInterrupts;
 
     work = WCMi_GetSystemWork();
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
         mac = work->mBssDesc.mBssid;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return mac;
 }
 
@@ -62,15 +62,15 @@ u8 *WCM_GetApEssid(u16 *length) {
     u8 *ssidBytes = NULL;
     u16 ssidLength = 0;
     WCMWork *work;
-    u32 enabled;
+    u32 savedInterrupts;
 
     work = WCMi_GetSystemWork();
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
         ssidBytes = work->mBssDesc.mSsid;
         ssidLength = work->mBssDesc.mSsidLength;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     if (length != NULL) {
         *length = ssidLength;
     }
@@ -90,25 +90,25 @@ u32 WCM_SetRecvDCFCallback(WCMRecvInd callback) {
 }
 
 s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
-    u32 enabled;
+    u32 savedInterrupts;
     WCMWork *work;
     s32 result;
 
-    enabled = OS_DisableInterrupts();
+    savedInterrupts = OS_DisableInterrupts();
     if (WCMi_GetSystemWork() == NULL) {
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return -1;
     }
     OS_LockMutex(&gWcmCpsifWork.mSendMutex);
     work = WCMi_GetSystemWork();
     if (work == NULL) {
         OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return -1;
     }
     if (work->mPhase != WIFI_LINK_PHASE_CONNECTED || work->mResetting == 1) {
         OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return -4;
     }
     MI_CpuCopy8(buf, work->mSendBuf, len);
@@ -124,7 +124,7 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
         case WIRELESS_RESULT_PIPE_ERROR:
         default:
             OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return -5;
         case WIRELESS_CALL_QUEUED:
             OS_SleepThread(&gWcmCpsifWork.mSendQ);
@@ -132,11 +132,11 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
                 case WIRELESS_RESULT_REFUSED:
                 default:
                     OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-                    OS_RestoreInterrupts(enabled);
+                    OS_RestoreInterrupts(savedInterrupts);
                     return -5;
                 case WIRELESS_RESULT_SUCCEEDED:
                     OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
-                    OS_RestoreInterrupts(enabled);
+                    OS_RestoreInterrupts(savedInterrupts);
                     return len;
             }
     }

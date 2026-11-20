@@ -43,9 +43,8 @@ typedef struct WiFiSelectHeapHolder {
     /* 0 */ void *mHeap;
 } WiFiSelectHeapHolder;
 
-// Object behind gSortServerList; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
-// Values of SbServerList.mState: browsing the local network, not connected, taking in the data that follows the list
-// (ad hoc), and receiving the main list.
+// Values of SBServerList.mState: browsing the local network (only handled, never set here), not connected, taking in
+// the messages that follow the list (ad hoc), and receiving the main list.
 enum {
     SERVER_LIST_STATE_LOCAL_SCAN = 0,
     SERVER_LIST_STATE_NO_SOCKET = 1,
@@ -53,8 +52,8 @@ enum {
     SERVER_LIST_STATE_RECEIVING_LIST = 3,
 };
 
-// Values of SbServerList.mParseState, the parts of the main list in the order they arrive: the cipher key, the own
-// address, the field names, the popular values, the entries; DONE once the list is complete.
+// Values of SBServerList.mParseState, the parts of the main list in the order they arrive: the cipher key, the own
+// address, the field names, the popular values, the entries; DONE once the list is complete or was not sent.
 enum {
     SERVER_LIST_PARSE_CIPHER_KEY = 0,
     SERVER_LIST_PARSE_ADDRESS = 1,
@@ -64,19 +63,19 @@ enum {
     SERVER_LIST_PARSE_DONE = 5,
 };
 
-typedef struct SbServer SbServer;
-typedef struct SbServerList SbServerList;
+typedef struct SBServer SBServer;
+typedef struct SBServerList SBServerList;
 
-typedef void (*SbServerListCallback)(SbServerList *list, s32 reason, SbServer *server, void *instance);
-typedef void (*SbMaploopCallback)(SbServerList *list, SbServer *server, u32 rotationTime, s32 mapCount, u8 **mapNames,
+typedef void (*SBListCallBackFn)(SBServerList *list, s32 reason, SBServer *server, void *instance);
+typedef void (*SBMaploopCallbackFn)(SBServerList *list, SBServer *server, u32 rotationTime, s32 mapCount, u8 **mapNames,
                                   void *instance);
-typedef void (*SbPlayerSearchCallback)(SbServerList *list, u8 *name, u32 ipAddress, u16 netPort, u32 lastSeenTime,
+typedef void (*SBPlayerSearchCallbackFn)(SBServerList *list, u8 *name, u32 ipAddress, u16 netPort, u32 lastSeenTime,
                                        u8 *gameName, void *instance);
 
-typedef struct SbServerList {
+typedef struct SBServerList {
     /* 000 */ s32 mState;
-    /* 004 */ struct Darray *mServers;
-    /* 008 */ struct Darray *mKeyList;
+    /* 004 */ struct DArrayImplementation *mServers;
+    /* 008 */ struct DArrayImplementation *mKeyList;
     /* 00c */ char mQueryForGameName[0x24];
     /* 030 */ char mQueryFromGameName[0x24];
     /* 054 */ char mQueryFromKey[0x20];
@@ -86,9 +85,9 @@ typedef struct SbServerList {
     /* 084 */ char *mPopularValues[0xff];
     /* 480 */ s32 mNumPopularValues;
     /* 484 */ s32 mExpectedElements;
-    /* 488 */ SbServerListCallback mCallback;
-    /* 48c */ SbMaploopCallback mMaploopCallback;
-    /* 490 */ SbPlayerSearchCallback mPlayerSearchCallback;
+    /* 488 */ SBListCallBackFn mCallback;
+    /* 48c */ SBMaploopCallbackFn mMaploopCallback;
+    /* 490 */ SBPlayerSearchCallbackFn mPlayerSearchCallback;
     /* 494 */ void *mInstance;
     /* 498 */ const char *mSortKey;
     /* 49c */ s32 mSortAscending;
@@ -105,8 +104,8 @@ typedef struct SbServerList {
     /* 5c4 */ u32 mQueryOptions;
     /* 5c8 */ s32 mParseState;
     /* 5cc */ s32 mLanAdapterOverride;
-    /* 5d0 */ struct SbServer *mDeadList;
-} SbServerList;
+    /* 5d0 */ struct SBServer *mDeadList;
+} SBServerList;
 
 // The availability check request: its socket, server address, packet, send time and retry count.
 typedef struct GsiAvailableCheck {

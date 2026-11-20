@@ -8,7 +8,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "01/Scene/test_scene_sub_bg_registers.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "registers.h"
@@ -159,7 +159,7 @@ void DrawTestScene(void) {
         int row;
         int textIndex;
         s32 charRangeStarts[8] = {0xe000, 0xe060, 0x20, 0x80, 0xa0, 0x100, 0x3040, 0x30a0};
-        u16 chars[0x5f] = {0x20ac, 0x201a, 0x201e, 0x2026, 0x2c6,  0x152,  0x2018, 0x2019, 0x201c, 0x201d, 0x2022,
+        u16 charTable8Codes[0x5f] = {0x20ac, 0x201a, 0x201e, 0x2026, 0x2c6,  0x152,  0x2018, 0x2019, 0x201c, 0x201d, 0x2022,
                            0x2dc,  0x2122, 0x203a, 0x153,  0x3000, 0x3001, 0x3002, 0xff0c, 0xff0e, 0x30fb, 0xff1a,
                            0xff1b, 0xff1f, 0xff01, 0x309b, 0x309c, 0xb4,   0xff40, 0xa8,   0xff3e, 0xffe3, 0xffef,
                            0x309d, 0x309e, 0x3005, 0x30fc, 0x2015, 0x2010, 0xff0f, 0xff3c, 0xff5e, 0xff5c, 0x2026,
@@ -177,11 +177,11 @@ void DrawTestScene(void) {
         } else if (gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_2) {
             canvasIndex = 2;
         }
-        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_LEFT) != 0) {
+        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_DIRECTION_LEFT) != 0) {
             gTestSceneCharTableIndex = (gTestSceneCharTableIndex + 8) % 9;
             ClearCharCanvas(gTestScene->mCharCanvases[canvasIndex], 0);
             moved = TRUE;
-        } else if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_RIGHT) != 0) {
+        } else if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_DIRECTION_RIGHT) != 0) {
             gTestSceneCharTableIndex = (gTestSceneCharTableIndex + 1) % 9;
             ClearCharCanvas(gTestScene->mCharCanvases[canvasIndex], 0);
             moved = TRUE;
@@ -193,7 +193,7 @@ void DrawTestScene(void) {
                     if (gTestSceneCharTableIndex != 8) {
                         gTestSceneCharText[textIndex++] = row * 16 + col + charRangeStarts[gTestSceneCharTableIndex];
                     } else {
-                        gTestSceneCharText[textIndex++] = chars[row * 16 + col];
+                        gTestSceneCharText[textIndex++] = charTable8Codes[row * 16 + col];
                     }
                 }
                 gTestSceneCharText[textIndex++] = 0xa;
@@ -305,7 +305,7 @@ void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
         slotIndex = GetTestSceneInputSlot();
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_A) != 0) {
-            sceneNumbers->mNextScene = 0;
+            sceneNumbers->mNextScene = SCENE_TITLE;
         }
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_X) != 0) {
             testScene = gTestScene;

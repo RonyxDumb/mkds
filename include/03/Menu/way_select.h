@@ -4,7 +4,8 @@
 #include "03/System/touch_key_input.h"
 #include "03/Menu/wifi_menu_strings.h"
 
-// Values of gWaySelectedIndex when a way is chosen: the screen each one opens.
+// Values of gWaySelectedIndex and gWaySavedIndex, the highlighted way; UpdateWayRelease opens the screen of the chosen
+// one.
 #define WAY_SELECTED_AP_SCAN 0
 #define WAY_SELECTED_VALUE_RECORDS 1
 #define WAY_SELECTED_EXCHANGE_SEARCH 2
@@ -24,7 +25,7 @@ void StartWayFadeIn(void);
 void LoadWayFilesAndSetBgCnt(void);
 void SetupWay(void);
 
-// File name of the way screen palette.
+// The text of a file path of the way screen palette, passed to BuildFilePathWithLanguage.
 typedef struct WayPaletteFileName {
     /* 00 */ u8 mText[0x16];
 } WayPaletteFileName;

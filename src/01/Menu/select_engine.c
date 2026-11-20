@@ -12,6 +12,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Graphics/time_format.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_return.h"
 #include "Main/System/input_slots.h"
 #include "sound_player_control.h"
@@ -34,7 +35,8 @@ const s16 gSelectEngineRightStepsFlagSet[4] = {1, 0, 1, 0};
 const char *gSelectEngineBSBnclName = "gp/select_engine_B_s.bncl";
 const char *gSelectEngineBSBnblName = "gp/select_engine_B_s.bnbl";
 const char *gSelectEngineMNscrName = "gp/select_engine_m.nscr";
-const u32 gSelectEngineEngineIndices[4] = {0, 1, 2, 1};
+const u32 gSelectEngineEngineIndices[4] = {ENGINE_CLASS_SLOW, ENGINE_CLASS_MEDIUM, ENGINE_CLASS_FAST,
+                                           ENGINE_CLASS_MEDIUM};
 const u32 gSelectEngineIndicesByEngineIndex[3] = {0, 1, 2};
 const char *gSelectEngineSNcgrName = "gp/select_engine_s.nce.ncgr";
 const char *gSelectEngineMBNcgrName = "gp/select_engine_m_b.ncgr";
@@ -262,8 +264,8 @@ void RequestSelectEngineSlideIn(void) {
 }
 
 // Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
-// mState and runs AdvanceSelectEngineSettle.
-void RequestSelectEngineSettle(void) {
+// mState and runs AdvanceSelectEnginePressOffsetAfterSlideIn.
+void RequestSelectEngineSlideInPressOffset(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_SETTLE;
     gSelectEngine->mStateFrames = 0;
 }
@@ -284,7 +286,7 @@ void RequestSelectEngineInput(void) {
 void RequestSelectEnginePress(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_PRESS;
     gSelectEngine->mStateFrames = 0;
-    gSelectEngine->mResult = SELECT_ENGINE_RESULT_CHOSEN;
+    gSelectEngine->mResult = MENU_SCREEN_RESULT_NEXT;
     SetEngineFromSelectEngine();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -390,11 +392,11 @@ void AdvanceSelectEngineSlideIn(void) {
         }
     }
     if (gSelectEngine->mStateFrames >= SELECT_ENGINE_SLIDE_FRAMES) {
-        RequestSelectEngineSettle();
+        RequestSelectEngineSlideInPressOffset();
     }
 }
 
-void AdvanceSelectEngineSettle(void) {
+void AdvanceSelectEnginePressOffsetAfterSlideIn(void) {
     s16 selectedPressOffset;
     s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
@@ -435,7 +437,7 @@ void AdvanceSelectEngineInput(void) {
     AdvanceSelectEngineIndexChange();
     recentlyNoPair = pairStarted = FALSE;
     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyNoPair = 1;
     }
     if (recentlyNoPair == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -449,7 +451,7 @@ void AdvanceSelectEngineInput(void) {
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
         recentlyNoPairAgain = pairStartedAgain = FALSE;
         hasPairAgain = gInputSlots[inputSlotIndex].mPair.mHasPair;
-        if (hasPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (hasPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyNoPairAgain = 1;
         }
         if (recentlyNoPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPairAgain != 0) {
@@ -466,7 +468,7 @@ void AdvanceSelectEngineInput(void) {
     }
     SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectEngineSlideOut();
-    gSelectEngine->mResult = SELECT_ENGINE_RESULT_RETURN;
+    gSelectEngine->mResult = MENU_SCREEN_RESULT_BACK;
     RequestSelectReturnPressWithSound(0);
     return;
 next:
@@ -484,7 +486,7 @@ next:
         RequestSelectEnginePress();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -498,7 +500,7 @@ next:
             selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -512,7 +514,7 @@ next:
             selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -526,7 +528,7 @@ next:
             selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -545,7 +547,7 @@ next:
 
 void AdvanceSelectEnginePress(void) {
     AdvanceSelectEngineIndexChange();
-    if (gSelectEngine->mStateFrames == SELECT_ENGINE_HIGHLIGHT_FRAME) {
+    if (gSelectEngine->mStateFrames == SELECT_ENGINE_ALTERNATE_CELL_SHOWN_FRAME) {
         gSelectEngine->mAlternateCellShown = TRUE;
     }
     gSelectEngine->mStateFrames++;
@@ -610,7 +612,7 @@ int AdvanceSelectEngine(void) {
             AdvanceSelectEngineSlideIn();
             break;
         case SELECT_ENGINE_STATE_SETTLE:
-            AdvanceSelectEngineSettle();
+            AdvanceSelectEnginePressOffsetAfterSlideIn();
             break;
         case SELECT_ENGINE_STATE_WAIT_SELECT_RETURN:
             AdvanceSelectEngineWaitSelectReturn();
@@ -634,7 +636,7 @@ int AdvanceSelectEngine(void) {
         gSelectEngine->mStateFrames >= SELECT_ENGINE_SLIDE_FRAMES) {
         return gSelectEngine->mResult;
     }
-    return 0;
+    return SELECT_ENGINE_RESULT_NONE;
 }
 
 void WriteSelectEngineBg0Offset(void) {

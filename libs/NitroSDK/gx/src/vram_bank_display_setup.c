@@ -19,31 +19,31 @@ u16 gSavedDispMode = 0;
 u16 gVramBankGroups[13] = {0};
 
 void GX_VRAMCNT_SetLCDC_(u32 lcdc) {
-    if (lcdc & 0x1) {
+    if (lcdc & VRAM_BANK_A) {
         reg_GX_VRAMCNT_A = 0x80;
     }
-    if (lcdc & 0x2) {
+    if (lcdc & VRAM_BANK_B) {
         reg_GX_VRAMCNT_B = 0x80;
     }
-    if (lcdc & 0x4) {
+    if (lcdc & VRAM_BANK_C) {
         reg_GX_VRAMCNT_C = 0x80;
     }
-    if (lcdc & 0x8) {
+    if (lcdc & VRAM_BANK_D) {
         reg_GX_VRAMCNT_D = 0x80;
     }
-    if (lcdc & 0x10) {
+    if (lcdc & VRAM_BANK_E) {
         reg_GX_VRAMCNT_E = 0x80;
     }
-    if (lcdc & 0x20) {
+    if (lcdc & VRAM_BANK_F) {
         reg_GX_VRAMCNT_F = 0x80;
     }
-    if (lcdc & 0x40) {
+    if (lcdc & VRAM_BANK_G) {
         reg_GX_VRAMCNT_G = 0x80;
     }
-    if (lcdc & 0x80) {
+    if (lcdc & VRAM_BANK_H) {
         reg_GX_VRAMCNT_H = 0x80;
     }
-    if (lcdc & 0x100) {
+    if (lcdc & VRAM_BANK_I) {
         reg_GX_VRAMCNT_I = 0x80;
     }
 }
@@ -125,7 +125,7 @@ void GX_SetBankForOBJ(s32 obj) {
         case VRAM_BANK_G:
             reg_GX_VRAMCNT_G = 0x82;
             break;
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_A | VRAM_BANK_B:
             reg_GX_VRAMCNT_B = 0x8a;
@@ -159,7 +159,7 @@ void GX_SetBankForBGExtPltt(s32 bgExtPltt) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[7]) & ~bgExtPltt;
     gVramBankGroups[7] = bgExtPltt;
     switch (bgExtPltt) {
-        case 0:
+        case VRAM_BANK_NONE:
             reg_GX_DISPCNT &= ~0x40000000;
             break;
         case VRAM_BANK_E:
@@ -192,7 +192,7 @@ void GX_SetBankForOBJExtPltt(u32 objExtPltt) {
             reg_GX_DISPCNT |= 0x80000000;
             reg_GX_VRAMCNT_G = 0x85;
             break;
-        case 0:
+        case VRAM_BANK_NONE:
             reg_GX_DISPCNT &= ~0x80000000;
             break;
     }
@@ -263,7 +263,7 @@ void GX_SetBankForTexPltt(s32 texPltt) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[5]) & ~texPltt;
     gVramBankGroups[5] = texPltt;
     switch (texPltt) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_G:
             reg_GX_VRAMCNT_G = 0x83;
@@ -300,7 +300,7 @@ void GX_SetBankForClearImage(u32 clrImg) {
             reg_GX_VRAMCNT_D = 0x9b;
             reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_PRI_MASK;
             break;
-        case 0:
+        case VRAM_BANK_NONE:
             reg_G3X_DISP3DCNT &= ~REG_G3X_DISP3DCNT_PRI_MASK;
             break;
         case VRAM_BANK_A:
@@ -319,7 +319,7 @@ void GX_SetBankForARM7(s32 arm7) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[3]) & ~arm7;
     gVramBankGroups[3] = arm7;
     switch (arm7) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_C | VRAM_BANK_D:
             reg_GX_VRAMCNT_D = 0x8a;
@@ -344,7 +344,7 @@ void GX_SetBankForSubBG(s32 subBg) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[9]) & ~subBg;
     gVramBankGroups[9] = subBg;
     switch (subBg) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_C:
             reg_GX_VRAMCNT_C = 0x84;
@@ -457,31 +457,31 @@ u32 disableBankForX_(u16 *group) {
 
     mask = *group;
     *group = 0;
-    if (mask & 0x1) {
+    if (mask & VRAM_BANK_A) {
         reg_GX_VRAMCNT_A = 0;
     }
-    if (mask & 0x2) {
+    if (mask & VRAM_BANK_B) {
         reg_GX_VRAMCNT_B = 0;
     }
-    if (mask & 0x4) {
+    if (mask & VRAM_BANK_C) {
         reg_GX_VRAMCNT_C = 0;
     }
-    if (mask & 0x8) {
+    if (mask & VRAM_BANK_D) {
         reg_GX_VRAMCNT_D = 0;
     }
-    if (mask & 0x10) {
+    if (mask & VRAM_BANK_E) {
         reg_GX_VRAMCNT_E = 0;
     }
-    if (mask & 0x20) {
+    if (mask & VRAM_BANK_F) {
         reg_GX_VRAMCNT_F = 0;
     }
-    if (mask & 0x40) {
+    if (mask & VRAM_BANK_G) {
         reg_GX_VRAMCNT_G = 0;
     }
-    if (mask & 0x80) {
+    if (mask & VRAM_BANK_H) {
         reg_GX_VRAMCNT_H = 0;
     }
-    if (mask & 0x100) {
+    if (mask & VRAM_BANK_I) {
         reg_GX_VRAMCNT_I = 0;
     }
     OSi_UnlockVram((u16) mask, gVramLockId);
@@ -551,31 +551,31 @@ u32 GX_GetBankForTex(void) {
 u32 GX_GetSizeOfX_(u32 bits) {
     u32 size = 0;
 
-    if (bits & 0x1) {
+    if (bits & VRAM_BANK_A) {
         size += 0x20000;
     }
-    if (bits & 0x2) {
+    if (bits & VRAM_BANK_B) {
         size += 0x20000;
     }
-    if (bits & 0x4) {
+    if (bits & VRAM_BANK_C) {
         size += 0x20000;
     }
-    if (bits & 0x8) {
+    if (bits & VRAM_BANK_D) {
         size += 0x20000;
     }
-    if (bits & 0x10) {
+    if (bits & VRAM_BANK_E) {
         size += 0x10000;
     }
-    if (bits & 0x20) {
+    if (bits & VRAM_BANK_F) {
         size += 0x4000;
     }
-    if (bits & 0x40) {
+    if (bits & VRAM_BANK_G) {
         size += 0x4000;
     }
-    if (bits & 0x80) {
+    if (bits & VRAM_BANK_H) {
         size += 0x8000;
     }
-    if (bits & 0x100) {
+    if (bits & VRAM_BANK_I) {
         size += 0x4000;
     }
     return size;

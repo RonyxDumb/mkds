@@ -3,12 +3,15 @@
 #include "types.h"
 #include "Main/Item/item_gesso.h"
 
-// Limit of an OrthoQuad corner coordinate in either direction; the corners are clamped to it.
+// Limit of an OrthoQuad corner coordinate: the corners are clamped to plus and minus it by
+// AdvanceOrthoQuadCornersByVelocity (the mVelocityMode 0 branch clamps only the negative Y side).
 #define ORTHO_QUAD_COORD_LIMIT 0x3ccd
-// OrthoQuad.mTimer & this is 0 once every 16 frames, when the quad picks a new corner.
+// AdvanceOrthoQuadCornersByVelocity decrements OrthoQuad.mTimer; when mTimer & this is 0 (every 16th call past the move
+// start) the quad picks a new mPickedCornerIndex.
 #define ORTHO_QUAD_CORNER_PICK_MASK 0xf
 
-// The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.
+// The register words and texture sizes DrawOrthoQuadsWithModel uses; SetupOrthoQuadModel fills them from one model,
+// except mPolygonAttr, a fixed value.
 typedef struct {
     /* 00 */ void *mModel;
     /* 04 */ u32 mPolygonAttr;
@@ -17,15 +20,16 @@ typedef struct {
     /* 10 */ u32 mDifAmb;
     /* 14 */ u32 mSpeEmi;
     // Texture size values computed from mTeximageParam; they go into the texture coordinates of the quads.
-    /* 18 */ u32 mTexSizeT;
-    /* 1c */ u32 mTexSizeS;
+    /* 18 */ u32 mTexCoordLowSize;
+    /* 1c */ u32 mTexCoordHighSize;
 } OrthoQuadModel;
 
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "matrix44_concat.h"
 
-// The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
-// GesoSumi: the screen overlay the Gesso item starts for a hit kart.
+// gOrthoQuadUseCreamEffect picks which of gOrthoQuadCreamEffect and gOrthoQuadGesoSumi is drawn. GesoSumi: the quads
+// the Gesso item starts, only for the local entry. (put it above the two externs,
+// include/Main/Item/bouncing_item_box.h:60)
 
 void SetupItemGessoKarts(ItemGesso *gesso);
 void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model);

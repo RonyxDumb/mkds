@@ -10,12 +10,12 @@
 #include "00/Lib/DWC/login_state.h"
 
 u32 DWCi_CheckLogin(void);
-void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 param);
+void DWCi_GPGetInfoCallback(GPConnection *connection, GetInfoReply *arg, u32 param);
 void DWCi_RemoteLoginProcess(void);
 void DWCi_RemoteLogin(void (*callback)(), void *param);
 void DWCi_GPConnect(char *authToken, char *partnerChallenge, void (*callback)(), s32 targetState);
 void DWCi_RemoteAuthCallback(char *authToken, char *partnerChallenge);
-void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param);
+void DWCi_GPConnectCallback(GPConnection *connection, ConnectReply *arg, u32 param);
 s32 ReportWiFiLoginGpResult(s32 result);
 
 extern void (*stRemoteAuthCallback)();

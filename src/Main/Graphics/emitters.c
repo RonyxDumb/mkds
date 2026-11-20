@@ -6,7 +6,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
@@ -32,11 +32,11 @@ const Vec3 gStadiumEmitterPositions[6] = {{0xba000, 0x67000, 0x2e000},  {0x34000
 KartPhysicalParamTable *gKartPhysicalParamTable;
 
 static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
-    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+    RANDOM_ADVANCE(randomState);
     if (limit == 0) {
-        return randomState->mValue >> 32;
+        return RANDOM_HIGH32(randomState);
     }
-    return ((randomState->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState, limit);
 }
 
 // Ids from 1000 up belong to the second manager (Mission Run); the id inside the manager goes to *a.
@@ -131,7 +131,7 @@ void AdvanceStadiumEmitters(void) {
 }
 
 void CreateAwardEmitters(void) {
-    AwardEmitterEffectIds secondEffectIds = gAwardEmitterEffectIds;
+    AwardSecondEffectIds secondEffectIds = gAwardSecondEffectIds;
     AwardFirstEffectIds firstEffectIds = gAwardFirstEffectIds;
     s32 baseX = gAwardEmitterPosition.x;
     s32 baseY = gAwardEmitterPosition.y;
@@ -162,7 +162,7 @@ void CreateAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         ParticleEmitter *emitter;
-        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mEffectIds[emitterIndex]);
         position.x = baseX >> 4;
         position.y = emitY;
         position.z = emitZ;
@@ -186,8 +186,8 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
     gKartPhysicalParamTable->mFirstBaseSpeedLimit = gKartPhysicalParamTable->mKartParamFile->mBaseSpeedLimit;
 }
 
-// Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
-// IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
+// Copies the kart row and the character row of the two files to the slot; both rows are 0 when IsRaceAwardOrStaffRoll()
+// != 0, and in MODE_BATTLE the kart row is the character row + 0x25.
 void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow) {
     KartPhysicalParam *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
     s32 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;

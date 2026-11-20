@@ -53,8 +53,8 @@ void StartBlockNodeRequest(void) {
 }
 
 void BlockNodeRequestCallback(WBTCommand *record) {
-    if (record->mCommand == XFER_COMMAND_FETCH_DETAILS) {
-        if (record->mEvent == XFER_EVENT_LAYOUT_ENDED) {
+    if (record->mCommand == XFER_COMMAND_FETCH_NODE) {
+        if (record->mEvent == XFER_EVENT_NODE_ENDED) {
             gConnectionWork->mRequestPending = 0;
         } else {
             StartBlockNodeRequest();
@@ -101,7 +101,7 @@ void SetWbtOwnAidFromConnection(void) {
 }
 
 void StartMPWithBuffers(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_MP;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mMPReceiveBuffer, gConnectionWork->mMPReceiveBufferSize,
                      gConnectionWork->mMPSendBuffer, gConnectionWork->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
@@ -123,7 +123,7 @@ void AddGhostDataBlockWrapper(void *data, u32 size) {
 
 void RemoveGhostDataBlocks(void) {
     s32 blockIndex;
-    for (blockIndex = 0; blockIndex < 12; blockIndex++) {
+    for (blockIndex = 0; blockIndex < CONNECTION_BLOCK_ENTRY_COUNT; blockIndex++) {
         WBT_UnregisterBlock((u16) (blockIndex + 0x3e8));
         gConnectionWork->mBlockEntries[blockIndex].mBuffer = 0;
     }

@@ -95,7 +95,7 @@ void UpdateRecordSavedFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        CreateMessageBox(0x96, 5, 1, 0xffffffff, 0);
+        CreateMessageBox(0x96, MESSAGE_BOX_KIND_TIMED, 1, 0xffffffff, 0);
         SetUpdateFunction(UpdateRecordSaved);
     }
 }

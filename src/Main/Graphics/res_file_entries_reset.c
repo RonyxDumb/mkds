@@ -7,7 +7,7 @@ NNSFndList gResFileEntries;
 void ResetResFileEntries(void) {
     NNSFndList *list;
     u32 offset;
-    u32 unusedScratch;
+    u32 unusedValue;
     list = &gResFileEntries;
     offset = 0u;
     NNS_FndInitList(list, offset);

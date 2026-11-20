@@ -17,7 +17,8 @@ void UpdateMenuScreen(u32 sceneArg) {
     enum { SCREEN_NUMBER_FIRST } screenNumber;
 
     if (IsDataSharingIncomplete() == 0) {
-        if (MenuGetConnectionKind() == 1 || MenuGetConnectionKind() == 2) {
+        if (MenuGetConnectionKind() == CONNECTION_KIND_MEMBER_SELECT ||
+            MenuGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
             if (gMenuScene->mDataSharingSyncStarted == FALSE) {
                 if (StartDataSharingSync() != 1) {
                     return;
@@ -57,7 +58,8 @@ void UpdateMenuScreen(u32 sceneArg) {
 
 void HideUnusedMenuOams(void) {
     if (IsDataSharingIncomplete() == 0) {
-        if (MenuGetConnectionKind() == 1 || MenuGetConnectionKind() == 2) {
+        if (MenuGetConnectionKind() == CONNECTION_KIND_MEMBER_SELECT ||
+            MenuGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
             if (gMenuScene->mDataSharingSyncStarted == FALSE || gMenuScene->mDataSharingSyncFinished == FALSE) {
                 return;
             }

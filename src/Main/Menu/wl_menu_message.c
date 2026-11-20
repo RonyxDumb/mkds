@@ -4,7 +4,7 @@
 
 #include "registers.h"
 #include "Main/System/heap.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/mp_state_machine.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
@@ -66,14 +66,14 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
                     SetMultiSimple(WLMenuIsMultiBootSetupStarted());
                     gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX;
                     break;
-                case CONNECT_ADVANCE_CONNECT_FAILED:
+                case CONNECT_ADVANCE_NOT_CONNECTED:
                     break;
             }
             break;
         case WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX:
             result = AdvanceMPStateMachineWithOwnIndex();
             switch (result) {
-                case MP_STATE_ADVANCE_READY:
+                case MP_STATE_ADVANCE_FINISHED:
                     if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
@@ -120,7 +120,7 @@ s32 AdvanceWLMenuMessageToRace(SceneNumbers *sceneNumbers) {
             break;
         case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
-                SetNextScene(sceneNumbers, 2);
+                SetNextScene(sceneNumbers, SCENE_RACE);
             }
             gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;
@@ -150,7 +150,7 @@ s32 AdvanceWLMenuMessageToResult(SceneNumbers *sceneNumbers) {
             break;
         case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
-                SetNextScene(sceneNumbers, 10);
+                SetNextScene(sceneNumbers, SCENE_RESULT);
             }
             gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;
@@ -207,10 +207,6 @@ s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers) {
     return -1;
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void ReleaseWLMenuMessage(void) {
     HeapDestroy(gWLMenuMessage->mHeap);
     gWLMenuMessage = NULL;
@@ -233,9 +229,6 @@ void WriteWLMenuMessageRegisters(void) {
     WLMenuMessageG2S_SetBG3Offset(-gWLMenuMessage->mBg3Offset, 0);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WriteWLMenuMessageRegistersWrapper(void) {
     u32 unusedScratch;
     WriteWLMenuMessageRegisters();

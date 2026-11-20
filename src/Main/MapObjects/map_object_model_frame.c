@@ -34,9 +34,7 @@ void *CreateMapObjectUpdateList(void *init, void *forEachObject, void *beforeObj
     list->mAfterObjects = 0;
     return list;
 }
-#pragma thumb off
 
-#pragma thumb on
 // The 1 in the name is the value stored at +0x18, not a slot of the kind row.
 void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
@@ -47,9 +45,7 @@ void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObje
     list->mAfterObjects = 0;
     return list;
 }
-#pragma thumb off
 
-#pragma thumb on
 void *CreateMapObjectDrawList2(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
     list->mPassOrPosStepMode = MAP_OBJECT_LIST_PASS_SECOND;
@@ -59,9 +55,7 @@ void *CreateMapObjectDrawList2(void *init, void *forEachObject, void *beforeObje
     list->mAfterObjects = 0;
     return list;
 }
-#pragma thumb off
 
-#pragma thumb on
 MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const char *name) {
     MapObjectModel *mapObjectModel;
 
@@ -77,42 +71,34 @@ MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const
     mapObjectModel->mScale = gMapObjectModelFrameAnimatedScale;
     return mapObjectModel;
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const char *name) {
     void *courseMapObjFile;
 
     courseMapObjFile = FindCourseMapObjFile(name);
     mapObjectModel->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*mapObjectModel->mAnimations[0]));
-    InitModelAnimationWithEntries(0, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[0],
-                                  mapObjectModel->mNsbmdFile, courseMapObjFile);
+    InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_JOINT, mapObjectModel->mAnimatedModel,
+                                  mapObjectModel->mAnimations[0], mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const char *name) {
     void *courseMapObjFile;
 
     courseMapObjFile = FindCourseMapObjFile(name);
     mapObjectModel->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*mapObjectModel->mAnimations[3]));
-    InitModelAnimationWithEntries(1, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[3],
-                                  mapObjectModel->mNsbmdFile, courseMapObjFile);
+    InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_TEX_SRT, mapObjectModel->mAnimatedModel,
+                                  mapObjectModel->mAnimations[3], mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
-#pragma thumb off
 
-#pragma thumb on
 void CreateMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, const char *name) {
     void *courseMapObjFile;
 
     courseMapObjFile = FindCourseMapObjFile(name);
     mapObjectModel->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*mapObjectModel->mAnimations[1]));
-    InitModelAnimationWithEntries(2, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[1],
-                                  mapObjectModel->mNsbmdFile, courseMapObjFile);
+    InitModelAnimationWithEntries(MODEL_ANIMATION_KIND_TEX_PAT, mapObjectModel->mAnimatedModel,
+                                  mapObjectModel->mAnimations[1], mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
-#pragma thumb off
 
-#pragma thumb on
 MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const char *name) {
     MapObjectModel *mapObjectModel;
     void *courseMapObjFile;
@@ -127,9 +113,7 @@ MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const c
     mapObjectModel->mScale = gMapObjectModelFrameShadowScale;
     return mapObjectModel;
 }
-#pragma thumb off
 
-#pragma thumb on
 MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const char *name) {
     MapObjectModel *mapObjectModel;
     void *courseMapObjFile;
@@ -151,9 +135,7 @@ MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const ch
     mapObjectModel->mScale = gMapObjectModelFrameNsbmdScale;
     return mapObjectModel;
 }
-#pragma thumb off
 
-#pragma thumb on
 // Like CreateMapObjectModelNsbmd with a second file, the .nsbtp (named like Init<Kind><Kind>).
 MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, const char *modelName,
                                                const char *animationName) {
@@ -284,8 +266,8 @@ void SetMapObjectModelAlpha(MapObjectModel *mapObjectModel, u16 alpha) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mPolygonAttributes &= ~0x1f0000;
-        nsbmdModel->mPolygonAttributes |= alpha << 16;
+        nsbmdModel->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+        nsbmdModel->mPolygonAttributes |= alpha << POLYGON_ATTR_ALPHA_SHIFT;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlAlphaAll(mapObjectModel->mAnimatedModel->mResMdl, alpha);
@@ -302,7 +284,7 @@ void SetMapObjectModelPolygonId(MapObjectModel *mapObjectModel, u32 polygonId) {
 
     if (nsbmdModel != NULL) {
         nsbmdModel->mPolygonAttributes &= ~0x3f000000;
-        nsbmdModel->mPolygonAttributes |= polygonId << 24;
+        nsbmdModel->mPolygonAttributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlPolygonIDAll(mapObjectModel->mAnimatedModel->mResMdl, polygonId);
@@ -368,8 +350,8 @@ void SetMapObjectModelNsbcaFrameIndex(MapObjectModel *mapObjectModel, u16 frameI
     MapObjectModel *model = mapObjectModel;
     ModelAnimation *animation = model->mAnimations[0];
 
-    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(frameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
 }
 
 // Number of frames of the animation in slot 0 (its length, not the current frame).
@@ -383,8 +365,8 @@ u16 GetMapObjectModelNsbcaFrameCount(MapObjectModel *mapObjectModel) {
 void SetMapObjectModelNsbmaFrameIndex(MapObjectModel *mapObjectModel, u32 frameIndex) {
     ModelAnimation *animation = mapObjectModel->mAnimations[2];
 
-    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(frameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
 }
 
 // Number of frames of the animation in slot 2 (its length, not the current frame).
@@ -404,8 +386,8 @@ u16 GetMapObjectModelNsbtaFrameCount(MapObjectModel *mapObjectModel) {
 void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *mapObjectModel, s32 frameIndex) {
     ModelAnimation *animation = mapObjectModel->mAnimations[3];
 
-    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(frameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
 }
 
 void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *mapObjectModel, u16 frameIndex) {
@@ -419,8 +401,8 @@ void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *mapObjectModel, u16 frameI
         return;
     }
     animation = mapObjectModel->mAnimations[1];
-    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
-    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation->mFrameLoop.mFrameIndexFixed = TO_FIXED12(frameIndex);
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameLoop.mFrameIndexFixed;
 }
 
 u16 GetMapObjectModelNsbtpFrameCount(MapObjectModel *mapObjectModel) {
@@ -436,14 +418,14 @@ u16 GetMapObjectModelNsbtpFrameCount(MapObjectModel *mapObjectModel) {
 
 // Current frame of the .nsbca animation in slot 0: the whole-frame part of its 20.12 position.
 u32 GetMapObjectModelNsbcaFrameIndex(MapObjectModel *model) {
-    u32 frameIndex = model->mAnimations[0]->mHead.mFrameIndex;
+    u32 frameIndex = model->mAnimations[0]->mFrameLoop.mFrameIndexFixed;
     frameIndex = (frameIndex << 4);
     frameIndex = (frameIndex >> 16);
     return frameIndex;
 }
 
 u32 GetMapObjectModelNsbtpFrameIndex(MapObjectModel *model) {
-    u32 frameIndex = model->mAnimations[1]->mHead.mFrameIndex;
+    u32 frameIndex = model->mAnimations[1]->mFrameLoop.mFrameIndexFixed;
     frameIndex = (frameIndex << 4);
     frameIndex = (frameIndex >> 16);
     return frameIndex;

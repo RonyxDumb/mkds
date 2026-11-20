@@ -7,7 +7,7 @@
 #include "00/Lib/NitroWiFi/wireless_connection_options.h"
 #include "00/Lib/DWC/access_point_wep_key.h"
 
-// Six bytes moved as one value.
+// A MAC address: six bytes.
 typedef struct MacAddress {
     /* 0 */ u8 mBytes[6];
 } MacAddress;
@@ -28,7 +28,7 @@ enum {
     EXCHANGE_RESULT_KIND_WORDS_B,
 };
 
-// A result of the exchange: its text, kind and four value strings.
+// A result of the exchange: its text, kind, item 205 value, four value byte arrays and the item 20a words.
 typedef struct ExchangeResult {
     /* 00 */ char mText[0x20];
     /* 20 */ s32 mKind;
@@ -37,13 +37,13 @@ typedef struct ExchangeResult {
     /* a8 */ Words16 mItem20aWords;
 } ExchangeResult;
 
-// Values of ExchangeResultRecord.mItem202Value: what the record carries. 2 and 3 (bare) carry words and set the result
-// kind to 4 and 5.
+// Values of ExchangeResultRecord.mItem202Value: what the record carries. WORDS_A and WORDS_B carry words and set the
+// result kind to WORDS_A and WORDS_B.
 enum {
-    KIND5_ITEM202_NONE,
-    KIND5_ITEM202_VALUE_TEXTS,
-    KIND5_ITEM202_WORDS_A,
-    KIND5_ITEM202_WORDS_B,
+    RESULT_ITEM202_NONE,
+    RESULT_ITEM202_VALUE_TEXTS,
+    RESULT_ITEM202_WORDS_A,
+    RESULT_ITEM202_WORDS_B,
 };
 
 // A record of the result packet: its text, items 202 and 205, and the flag that stores the values as hex.

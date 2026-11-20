@@ -9,7 +9,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/back_screen_keyboard_tables.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Net/wifi_session.h"
@@ -120,10 +120,6 @@ void SetKeyboardButtonCorners(void) {
     SetKeyboardButton0Corners(0x24, 0x7a, 0x7e, 0x8e);
     SetKeyboardButton1Corners(0x82, 0x7a, 0xdc, 0x8e);
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 void PrintKeyboardButtonTexts(void) {
     s32 kindIndex;
@@ -243,7 +239,7 @@ void InitKeyboard(void *heap, s32 mode) {
     } else {
         config.mBackScreenKind = 0;
     }
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    LoadTxtSystemAndSelectFiles();
     InitSceneText(heap, &config);
     InitKeyboardDisplay();
     LoadKeyboardFiles();
@@ -274,7 +270,7 @@ void InitKeyboard(void *heap, s32 mode) {
         gKeyboard->mLayout = KEYBOARD_LAYOUT_DIGITS;
         SetKeyboardTextLimit(gKeyboardTextLimits[KEYBOARD_KIND_FRIEND_KEY]);
     } else {
-        if (gStartupWork->mRegion == 0) {
+        if (gStartupWork->mRegion == REGION_JAPAN) {
             gKeyboard->mLayout = KEYBOARD_LAYOUT_KANA;
         } else {
             gKeyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
@@ -312,9 +308,6 @@ void InitKeyboard(void *heap, s32 mode) {
     HideKeyboardFirstBufferObjects();
     WriteKeyboardObjectOffsets();
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void ReleaseKeyboard(void) {
     ClearLinkLevelIconsPointer();
@@ -322,9 +315,6 @@ void ReleaseKeyboard(void) {
     gKeyboard = NULL;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void WriteKeyboardObjectOffsets(void) {
     u16 cellCounts[2];
     s32 cursorLeft;
@@ -404,9 +394,6 @@ void WriteKeyboardObjectOffsets(void) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void QueueKeyboardScreenMap(void) {
     Nscr *screenMap;
@@ -457,9 +444,6 @@ void LoadKeyboardFiles(void) {
     GXS_LoadBGPltt(palette->mData, 0, 0x80);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void InitKeyboardDisplay(void) {
     u32 subDisplayBits;
     reg_G2S_DB_BLDCNT = 0;
@@ -534,7 +518,7 @@ void AdvanceKeyboardEnterFriendKey(void) {
     touchedRectIndex = -1;
     pairRecentlyLost = FALSE;
     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -609,7 +593,7 @@ void AdvanceKeyboardSlideOutFriendKey(void) {
                         0);
                     gKeyboard->mStateFrames = 0;
                     gKeyboard->mKind = KEYBOARD_KIND_NAME;
-                    if (gStartupWork->mRegion == 0) {
+                    if (gStartupWork->mRegion == REGION_JAPAN) {
                         gKeyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                     } else {
                         gKeyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
@@ -650,9 +634,6 @@ void AdvanceKeyboardWaitFadeName(void) {
         gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 1;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void UpdateKeyboardNameButtons(void) {
     s32 charIndex;
@@ -660,13 +641,15 @@ void UpdateKeyboardNameButtons(void) {
     charIndex = 0;
     gKeyboard->mButtonEnabled[0] = FALSE;
     for (; charIndex < GetKeyboardTextIndex(); charIndex++) {
-        if (GetKeyboardText()[charIndex] != 0x20 && GetKeyboardText()[charIndex] != 0x3000) {
+        if (GetKeyboardText()[charIndex] != KEYBOARD_VALUE_SPACE &&
+            GetKeyboardText()[charIndex] != KEYBOARD_VALUE_KANA_SPACE) {
             gKeyboard->mButtonEnabled[0] = TRUE;
         }
     }
     textLimit = gKeyboardTextLimits[KEYBOARD_KIND_NAME];
     if (textLimit - 1 == GetKeyboardTextIndex()) {
-        if ((GetKeyboardText() + textLimit)[-1] != 0x20 && (GetKeyboardText() + textLimit)[-1] != 0x3000 &&
+        if ((GetKeyboardText() + textLimit)[-1] != KEYBOARD_VALUE_SPACE &&
+            (GetKeyboardText() + textLimit)[-1] != KEYBOARD_VALUE_KANA_SPACE &&
             (GetKeyboardText() + textLimit)[-1] != 0) {
             gKeyboard->mButtonEnabled[0] = TRUE;
         }
@@ -683,9 +666,6 @@ void UpdateKeyboardNameButtons(void) {
     gKeyboard->mCursorOnButton[1] = FALSE;
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void AdvanceKeyboardSlideInName(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
@@ -725,7 +705,7 @@ void AdvanceKeyboardEnterName(void) {
     touchedRectIndex = -1;
     pairRecentlyLost = FALSE;
     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -769,7 +749,7 @@ void AdvanceKeyboardEnterName(void) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
     } else if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_Y) != 0) {
-        if (gStartupWork->mRegion == 0) {
+        if (gStartupWork->mRegion == REGION_JAPAN) {
             gKeyboard->mLayout = gKeyboardNextLayouts[0][gKeyboard->mLayout];
         } else {
             gKeyboard->mLayout = gKeyboardNextLayouts[1][gKeyboard->mLayout];
@@ -781,27 +761,27 @@ void AdvanceKeyboardEnterName(void) {
         previousLayout = keyboard->mLayout;
         touched = FALSE;
         switch (touchedRectIndex) {
-            case KEYBOARD_NAME_RECT_TAB_KANA:
+            case KEYBOARD_NAME_RECT_LAYOUT_JP:
                 keyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_ASCII:
+            case KEYBOARD_NAME_RECT_LAYOUT_ASCII:
                 keyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_EURO:
+            case KEYBOARD_NAME_RECT_LAYOUT_EURO:
                 keyboard->mLayout = KEYBOARD_LAYOUT_EURO;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_PICTOGRAMS:
+            case KEYBOARD_NAME_RECT_LAYOUT_PICTO:
                 keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_PICTOGRAMS_EXTRA:
+            case KEYBOARD_NAME_RECT_LAYOUT_PICTO_SECOND:
                 keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS_EXTRA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
@@ -992,7 +972,7 @@ void AdvanceKeyboardWaitBackup(void) {
                          ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
                          : 1;
         if (backupBusy == 0) {
-            SetTxtSystemOpenSoundId(0x23);
+            SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
             mode = gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode;
             if (mode == SCENE_WIFI_MENU || mode == SCENE_OPTION) {
                 gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = mode;
@@ -1204,9 +1184,7 @@ void WriteKeyboardRegisters(void) {
     UploadKeyboardBg2Data();
     WriteSceneTextRegisters();
 }
-#pragma thumb off
 
-#pragma thumb on
 u32 GetKeyboardNextScene(void) {
     return gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene;
 }

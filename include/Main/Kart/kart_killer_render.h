@@ -4,5 +4,5 @@
 
 struct Kart;
 
-void CallKartReleaseFunction(struct Kart *kart);
+void CallKartSlot8Function(struct Kart *kart);
 void SetKillerItemRenderCallback(void *model);

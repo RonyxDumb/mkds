@@ -7,15 +7,16 @@
 #define SOCKET_FAMILY_IPV4 2
 #define SOCKET_ADDRESS_LENGTH_IPV4 4
 
-// Bits of the events and revents members of the poll entry; port of the master server for the availability check and
-// the reporter; the numbers of the ports of the profile servers, as the network order words in the address.
-#define SOC_POLLRDNORM 0x0001
-#define SOC_POLLWRNORM 0x0008
-#define SOC_POLLERR 0x0020
-#define SOC_POLLHUP 0x0040
-#define MASTER_PORT 0x6cfc
-#define GPI_CONNECTION_MANAGER_PORT_NETWORK_ORDER 0xcc74
-#define GPI_SEARCH_MANAGER_PORT_NETWORK_ORDER 0xcd74
+// Bits of the events and revents members of a poll entry (SOCPollFD).
+#define POLL_EVENT_READABLE 0x0001
+#define POLL_EVENT_WRITABLE 0x0008
+#define POLL_EVENT_ERROR 0x0020
+#define POLL_EVENT_NOT_CONNECTED 0x0040
+// Port of the query reporter and the availability check (host order); ports of the profile connection and search
+// managers (network order words).
+#define REPORTING_AND_AVAILABILITY_PORT 0x6cfc
+#define PROFILE_CONNECTION_MANAGER_PORT_NETWORK_ORDER 0xcc74
+#define PROFILE_SEARCH_MANAGER_PORT_NETWORK_ORDER 0xcd74
 
 // A socket address: its length and address bytes.
 typedef struct SOCSockAddr {
@@ -24,7 +25,7 @@ typedef struct SOCSockAddr {
     /* 02 */ u8 mData[6];
 } SOCSockAddr;
 
-// Object ServerListConnect builds.
+// A socket address with a port: length, family, port and address.
 typedef struct SOCSockAddrIn {
     /* 0 */ u8 mLen;
     /* 1 */ u8 mFamily;
@@ -32,7 +33,7 @@ typedef struct SOCSockAddrIn {
     /* 4 */ u32 mAddr;
 } SOCSockAddrIn;
 
-// Object SOC_GetHostByName returns; mUnk_0c points at a table of pointers to a word.
+// Host entry SOC_GetHostByName returns: name, aliases, address type, address length and the list of addresses.
 typedef struct SOCHostEnt {
     /* 00 */ char *mName;
     /* 04 */ u8 *mAliases;
@@ -50,7 +51,7 @@ typedef struct SOCPollFD {
 
 
 u32 nextlongrand(u32 seed);
-u32 GetUnixTime(u32 *timer);
+u32 GetTickSeconds(u32 *timer);
 u32 GOAGetLastError(s32 sock);
 u32 inet_addr(const char *name);
 s32 getsockname(u32 sock, void *addr, u32 *len);
@@ -83,4 +84,4 @@ void *goastrdup(const char *src);
 void SocketShutDown(void);
 void SocketStartUp(void);
 void msleep(u32 msec);
-u32 GetElapsedMilliseconds(void);
+u32 current_time(void);

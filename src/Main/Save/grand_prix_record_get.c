@@ -10,10 +10,6 @@ void SetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
     PackGrandPrixRecord(&gBackupBuffers->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
 }
 
-#pragma thumb off
-
-#pragma thumb on
-
 void UnpackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
     if (packedGrandPrixRecord->mFilled != 0) {
         MI_CpuCopy8(packedGrandPrixRecord->mName, timeRecord->mName, sizeof(timeRecord->mName));
@@ -30,10 +26,6 @@ void UnpackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRec
         timeRecord->mFilled = 0;
     }
 }
-
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
     UnpackGrandPrixRecord(&gBackupBuffers->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);

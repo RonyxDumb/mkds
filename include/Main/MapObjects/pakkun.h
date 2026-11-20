@@ -8,10 +8,10 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-#define PAKKUN_PATH_SPEED 0x7800
+#define PAKKUN_SPIT_PATH_SPEED 0x7800
 #define PAKKUN_HEAD_HEIGHT 0x46000
 #define PAKKUN_BODY_STRETCH_SPEED_LIMIT 4
-#define PAKKUN_WAIT_FRAMES 0x1e
+#define PAKKUN_LEAN_FRAMES 0x1e
 #define PAKKUN_BODY_STRETCH_SETTLE 0xffc
 #define PAKKUN_HEAD_SCALE_SPEED_START 0x7b
 #define PAKKUN_HEAD_SCALE_SPIT_LIMIT 0x119a
@@ -29,7 +29,7 @@ enum {
     PAKKUN_STATE_LEAN_FORWARD,
 };
 
-// A Pakkun plant map object: its mouth animation, state, seven followers, head and body stretch motion.
+// A Pakkun map object: its mouth animation, state, up to seven followers, head and body stretch motion.
 typedef struct Pakkun {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mPolygonId;
@@ -61,7 +61,8 @@ MapObjectList *CreatePakkunUpdateList(void);
 MapObjectList *CreatePakkunZHeadDrawList(void);
 MapObjectList *CreatePakkunBodyDrawList(void);
 MapObjectList *CreatePakkunMouthDrawList(void);
-void UpdatePakkun(void *mapObjectList, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdatePakkun(void *mapObjectList,
+                  Pakkun *pakkun); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitPakkunObjects(void);
 void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun);
 void SetupDrawPakkunBody(void *mapObjectList);

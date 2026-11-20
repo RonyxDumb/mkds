@@ -33,7 +33,8 @@ typedef struct KartEffectIdSet {
     /* 04 */ s32 mEffectIds[2];
 } KartEffectIdSet;
 
-// How a surface affects a kart: effect id sets for the entry kart and the others, a start function, a velocity factor.
+// How a surface affects a kart: effect id sets for the entry kart and the others, a start function and a velocity
+// factor index.
 typedef struct KartSurfaceEffectRow {
     /* 00 */ KartEffectIdSet mEffectIdSets[2];
     /* 18 */ s32 (*mStartEffects)(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
@@ -148,8 +149,9 @@ extern OtherKartPairs gOtherKartPairsCopy;
 
 extern const KartSurfaceEffectRow gKartSurfaceEffectRows[8];
 
-// The boost camera effect ends once this many steps passed after its emission stopped.
-#define KART_BOOST_CAMERA_EFFECT_END_STEPS 5
+// The boost camera effect ends when more than this many steps passed after its emission stopped, or at once when the
+// camera kind is not 0.
+#define KART_BOOST_CAMERA_EFFECT_STOPPED_STEP_LIMIT 5
 // The trail effects of a kart keep emitting at or above this Kart.mVelocityLength (when no turn effect is active).
 #define KART_EFFECT_TRAIL_MIN_SPEED 0x119a
 // The water trail emits only while Kart.mWaterDepth is at most this.

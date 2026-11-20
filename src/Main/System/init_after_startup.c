@@ -7,8 +7,8 @@
 #include "Main/Net/connection_sharing.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/backup_buffers.h"
-#include "Main/Sound/sound_seq.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/System/thread_function_queue_init.h"
 #include "Main/System/init_after_startup_nop.h"
@@ -26,6 +26,7 @@
 #include "Main/Scene/scene_connection.h"
 #include "Main/Scene/wl_menu_scene_callback.h"
 #include "Main/Save/backup_read_copies.h"
+#include "capture_output_effect.h"
 
 RaceProgress *gRaceProgress;
 InputState *gInputState;
@@ -53,7 +54,7 @@ void InitAfterStartup(void) {
     CreateRaceSetupObjects(backHeap);
     InitBackupBuffers(backHeap);
     InitSound(soundBuffer, soundBufferSize, gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT);
-    SetSoundOutputEffect(1);
+    SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_SURROUND);
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
     }

@@ -53,7 +53,7 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
         st = SCAN_INT_STATE_FAILED;
     } else {
         consumed++;
-        currentChar = readChar(source, 0, 0);
+        currentChar = readChar(source, 0, SCAN_OP_READ);
     }
     if (base != 0) {
         lim = 0xffffffffU / base;
@@ -62,15 +62,15 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
         switch (st) {
             case SCAN_INT_STATE_READ_SIGN:
                 if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x100) {
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                     leadingSpaces++;
                 } else {
                     if (currentChar == '+') {
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                     } else if (currentChar == '-') {
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                         *negative = 1;
                     }
                     st = SCAN_INT_STATE_AFTER_SIGN;
@@ -80,7 +80,7 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
                 if ((base == 0 || base == 16) && currentChar == '0') {
                     st = SCAN_INT_STATE_CHECK_RADIX_MARK;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     st = SCAN_INT_STATE_FIRST_DIGIT;
                 }
@@ -90,7 +90,7 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
                     base = 16;
                     st = SCAN_INT_STATE_FIRST_DIGIT;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     if (base == 0) {
                         base = 8;
@@ -133,7 +133,7 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
                 acc += currentChar;
                 st = SCAN_INT_STATE_DIGITS;
                 consumed++;
-                currentChar = readChar(source, 0, 0);
+                currentChar = readChar(source, 0, SCAN_OP_READ);
                 break;
         }
     }
@@ -142,7 +142,7 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
     } else {
         *usedCount = consumed - 1 + leadingSpaces;
     }
-    readChar(source, currentChar, 1);
+    readChar(source, currentChar, SCAN_OP_UNREAD);
     return acc;
 }
 
@@ -166,7 +166,7 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
         st = SCAN_INT_STATE_FAILED;
     } else {
         consumed++;
-        currentChar = readChar(source, 0, 0);
+        currentChar = readChar(source, 0, SCAN_OP_READ);
     }
     if (base != 0) {
         lim = 0xffffffffffffffffULL / base;
@@ -175,15 +175,15 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
         switch (st) {
             case SCAN_INT_STATE_READ_SIGN:
                 if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x100) {
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                     leadingSpaces++;
                 } else {
                     if (currentChar == '+') {
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                     } else if (currentChar == '-') {
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                         *negative = 1;
                     }
                     st = SCAN_INT_STATE_AFTER_SIGN;
@@ -193,7 +193,7 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
                 if ((base == 0 || base == 16) && currentChar == '0') {
                     st = SCAN_INT_STATE_CHECK_RADIX_MARK;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     st = SCAN_INT_STATE_FIRST_DIGIT;
                 }
@@ -203,7 +203,7 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
                     base = 16;
                     st = SCAN_INT_STATE_FIRST_DIGIT;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     if (base == 0) {
                         base = 8;
@@ -246,7 +246,7 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
                 acc += currentChar;
                 st = SCAN_INT_STATE_DIGITS;
                 consumed++;
-                currentChar = readChar(source, 0, 0);
+                currentChar = readChar(source, 0, SCAN_OP_READ);
                 break;
         }
     }
@@ -255,7 +255,7 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
     } else {
         *usedCount = consumed - 1 + leadingSpaces;
     }
-    readChar(source, currentChar, 1);
+    readChar(source, currentChar, SCAN_OP_UNREAD);
     return acc;
 }
 
@@ -310,8 +310,8 @@ long StrtolBase10(const char *string) {
     return strtol(string, 0, 10);
 }
 
-/* readChar is called as readChar(source, 0, 0) for each next value and as readChar(source, currentChar, 1) with a value
- * already read. */
+/* readChar is called as readChar(source, 0, SCAN_OP_READ) for each next value and as
+ * readChar(source, currentChar, SCAN_OP_UNREAD) with a value already read. */
 double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *usedCount, int *overflow) {
     int state = SCAN_DOUBLE_STATE_READ_SIGN;
     int hexState = 0;
@@ -345,13 +345,13 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
     hd = 0;
     hz = hb;
     consumed++;
-    currentChar = readChar(source, 0, 0);
+    currentChar = readChar(source, 0, SCAN_OP_READ);
 
     while (consumed <= maxChars && currentChar != -1 && !(state & SCAN_DOUBLE_STATES_STOPPED)) {
         switch (state) {
             case SCAN_DOUBLE_STATE_READ_SIGN:
                 if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x100) {
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                     leadingSpaces++;
                 } else {
                     switch ((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) {
@@ -360,17 +360,17 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                             /* fall through */
                         case '+':
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                             sg = 1;
                             break;
                         case 'I':
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                             state = SCAN_DOUBLE_STATE_INFINITY;
                             break;
                         case 'N':
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                             state = SCAN_DOUBLE_STATE_NAN;
                             break;
                         default:
@@ -391,7 +391,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                     patternCursor++;
                     matchCount++;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 }
                 if (matchCount == 3 || matchCount == 8) {
                     if (negative) {
@@ -419,7 +419,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                     patternCursor++;
                     matchCount++;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 }
                 if (matchCount == 3 || matchCount == 4) {
                     if (matchCount == 4) {
@@ -429,7 +429,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                                 currentChar == '.')) {
                             buf[nameLength++] = currentChar;
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         }
                         if (currentChar != ')') {
                             state = SCAN_DOUBLE_STATE_FAILED;
@@ -453,14 +453,14 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                 if (currentChar == '.') {
                     state = SCAN_DOUBLE_STATE_POINT_FIRST;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
                     state = SCAN_DOUBLE_STATE_FAILED;
                 } else if (currentChar == '0') {
                     int charValue;
 
                     consumed++;
-                    currentChar = charValue = readChar(source, 0, 0);
+                    currentChar = charValue = readChar(source, 0, SCAN_OP_READ);
                     if (((charValue < 0 || charValue >= 0x80) ? charValue : gUpperCaseMap[charValue]) == 'X') {
                         state = SCAN_DOUBLE_STATE_HEX;
                         hexState = SCAN_HEX_STATE_START;
@@ -474,7 +474,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
             case SCAN_DOUBLE_STATE_LEADING_ZEROS:
                 if (currentChar == '0') {
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     state = SCAN_DOUBLE_STATE_INT_DIGITS;
                 }
@@ -484,7 +484,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                     if (currentChar == '.') {
                         state = SCAN_DOUBLE_STATE_FRACTION_DIGITS;
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                     } else {
                         state = SCAN_DOUBLE_STATE_EXPONENT_MARK;
                     }
@@ -495,7 +495,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                         ea++;
                     }
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 }
                 break;
             case SCAN_DOUBLE_STATE_POINT_FIRST:
@@ -516,14 +516,14 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                         ea--;
                     }
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 }
                 break;
             case SCAN_DOUBLE_STATE_EXPONENT_MARK:
                 if (((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) == 'E') {
                     state = SCAN_DOUBLE_STATE_EXPONENT_SIGN;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     state = SCAN_DOUBLE_STATE_DONE;
                 }
@@ -531,10 +531,10 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
             case SCAN_DOUBLE_STATE_EXPONENT_SIGN:
                 if (currentChar == '+') {
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else if (currentChar == '-') {
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                     em = 1;
                 }
                 state = SCAN_DOUBLE_STATE_EXPONENT_FIRST;
@@ -545,7 +545,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                 } else if (currentChar == '0') {
                     state = SCAN_DOUBLE_STATE_EXPONENT_ZEROS;
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     state = SCAN_DOUBLE_STATE_EXPONENT_DIGITS;
                 }
@@ -553,7 +553,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
             case SCAN_DOUBLE_STATE_EXPONENT_ZEROS:
                 if (currentChar == '0') {
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 } else {
                     state = SCAN_DOUBLE_STATE_EXPONENT_DIGITS;
                 }
@@ -567,7 +567,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                         *overflow = 1;
                     }
                     consumed++;
-                    currentChar = readChar(source, 0, 0);
+                    currentChar = readChar(source, 0, SCAN_OP_READ);
                 }
                 break;
             case SCAN_DOUBLE_STATE_HEX:
@@ -587,12 +587,12 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                         hk = 0;
                         hexState = SCAN_HEX_STATE_LEADING_ZEROS;
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                         break;
                     case SCAN_HEX_STATE_LEADING_ZEROS:
                         if (currentChar == '0') {
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         } else {
                             hexState = SCAN_HEX_STATE_INT_DIGITS;
                         }
@@ -602,7 +602,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                             if (currentChar == '.') {
                                 hexState = SCAN_HEX_STATE_FRACTION_DIGITS;
                                 consumed++;
-                                currentChar = readChar(source, 0, 0);
+                                currentChar = readChar(source, 0, SCAN_OP_READ);
                             } else {
                                 hexState = SCAN_HEX_STATE_EXPONENT_MARK;
                             }
@@ -623,10 +623,10 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                             }
                             hp[hk++ / 2] = hexByte;
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         } else {
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         }
                         break;
                     case SCAN_HEX_STATE_FRACTION_DIGITS:
@@ -648,10 +648,10 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                             }
                             hp[hk++ / 2] = hexByte;
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         } else {
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         }
                         break;
                     case SCAN_HEX_STATE_EXPONENT_MARK:
@@ -659,7 +659,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                             'P') {
                             hexState = SCAN_HEX_STATE_EXPONENT_SIGN;
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         } else {
                             state = SCAN_DOUBLE_STATE_DONE;
                         }
@@ -668,12 +668,12 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                         if (currentChar == '-') {
                             hm = 1;
                         } else if (currentChar != '+') {
-                            readChar(source, currentChar, 1);
+                            readChar(source, currentChar, SCAN_OP_UNREAD);
                             consumed--;
                         }
                         hexState = SCAN_HEX_STATE_EXPONENT_FIRST;
                         consumed++;
-                        currentChar = readChar(source, 0, 0);
+                        currentChar = readChar(source, 0, SCAN_OP_READ);
                         break;
                     case SCAN_HEX_STATE_EXPONENT_FIRST:
                         if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
@@ -681,7 +681,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                         } else if (currentChar == '0') {
                             hexState = SCAN_HEX_STATE_EXPONENT_ZEROS;
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         } else {
                             hexState = SCAN_HEX_STATE_EXPONENT_DIGITS;
                         }
@@ -689,7 +689,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                     case SCAN_HEX_STATE_EXPONENT_ZEROS:
                         if (currentChar == '0') {
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         } else {
                             hexState = SCAN_HEX_STATE_EXPONENT_DIGITS;
                         }
@@ -703,7 +703,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                                 *overflow = 1;
                             }
                             consumed++;
-                            currentChar = readChar(source, 0, 0);
+                            currentChar = readChar(source, 0, SCAN_OP_READ);
                         }
                         break;
                 }
@@ -717,7 +717,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
     } else {
         *usedCount = consumed - 1 + leadingSpaces;
     }
-    readChar(source, currentChar, 1);
+    readChar(source, currentChar, SCAN_OP_UNREAD);
 
     if (hexState == 0) {
         int digitIndex;

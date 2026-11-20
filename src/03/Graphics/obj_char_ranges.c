@@ -16,16 +16,16 @@
 struct ObjCharRanges *gObjCharRanges;
 
 void InitObjCharRanges(void) {
-    s32 rangeIndex;
+    s32 screen;
 
     gObjCharRanges = AllocZeroedExpHeapBlock(0x340, 4);
-    for (rangeIndex = 0; rangeIndex < 2; rangeIndex++) {
-        gObjCharRanges[rangeIndex].mFreeRanges = CreateFilledPointerStack(0x20, &gObjCharRanges[rangeIndex], 0xc);
-        gObjCharRanges[rangeIndex].mList = CreateNodeList();
-        gObjCharRanges[rangeIndex].mListStart.mStart = OBJ_CHAR_RANGE_FIRST_UNIT;
-        gObjCharRanges[rangeIndex].mListEnd.mStart = OBJ_CHAR_RANGE_END_UNIT;
-        AddNodeToListFront(gObjCharRanges[rangeIndex].mList, &gObjCharRanges[rangeIndex].mListStart);
-        AddNodeToListBack(gObjCharRanges[rangeIndex].mList, &gObjCharRanges[rangeIndex].mListEnd);
+    for (screen = 0; screen < 2; screen++) {
+        gObjCharRanges[screen].mFreeRanges = CreateFilledPointerStack(0x20, &gObjCharRanges[screen], 0xc);
+        gObjCharRanges[screen].mList = CreateNodeList();
+        gObjCharRanges[screen].mListStart.mStart = OBJ_CHAR_RANGE_FIRST_UNIT;
+        gObjCharRanges[screen].mListEnd.mStart = OBJ_CHAR_RANGE_END_UNIT;
+        AddNodeToListFront(gObjCharRanges[screen].mList, &gObjCharRanges[screen].mListStart);
+        AddNodeToListBack(gObjCharRanges[screen].mList, &gObjCharRanges[screen].mListEnd);
     }
 }
 

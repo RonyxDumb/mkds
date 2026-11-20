@@ -118,7 +118,8 @@ void AdvanceKartDrawState(Kart *kart) {
             AdvanceKartAnimationChangeTimer(kart);
         }
         characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
-        characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mHead.mFrameIndex;
+        characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame =
+            characterAnimation->mFrameLoop.mFrameIndexFixed;
     }
     if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) != 0) {
         kart->mBlinkFrames = kart->mBlinkFrames + 1;

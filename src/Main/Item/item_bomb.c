@@ -17,7 +17,7 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Sound/sound_data_sdat_path.h"
@@ -32,7 +32,7 @@
 #include "Main/Item/item_object_bouncing.h"
 #include "Main/Graphics/model_effects.h"
 #include "Main/Kart/camera.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Race/race.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -42,13 +42,13 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "Main/Sound/sound_system.h"
 #include "sound_player_type.h"
@@ -58,7 +58,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/Item/item_kinoko.h"
 #include "Main/Item/item_f_box.h"
@@ -66,22 +66,22 @@
 #include "matrix_4x3_basic.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-const Vec3 gItemBombExplodeStartScale = {0x1000, 0x1000, 0x1000};
-const u16 gItemBombDisabledFlag = 1;
+const Vec3 gItemBombGrowStartScale = {0x1000, 0x1000, 0x1000};
+const u16 gItemBombInactiveFlag = 1;
 StateCallbacks gItemBombStateTable[4] = {{ItemBombBounceNop, UpdateItemBombBounce},
                                          {ItemBombRestNop, UpdateItemBombRest},
-                                         {EnterItemBombExplode, UpdateItemBombExplode},
+                                         {EnterItemBombGrow, UpdateItemBombGrow},
                                          {NULL, NULL}};
-const u16 gItemBombSkipListCallbackFlag = 8;
+const u16 gItemBombNoItemCallbackFlag = 8;
 const u16 gItemBombNoUpdateListFlag = 4;
 const u32 gItemObjectDistanceSquaredMask = 0x3fffffe0;
 const u16 gItemBombSkipViewTestFlag = 2;
 const u16 gItemBombNoOwnerBit = ITEM_OWNER_NO_OWNER;
-s32 gItemBombExplodeMaxRadiusSquared;
+s32 gItemBombGrowMaxRadiusSquared;
 s32 gItemBombTimerLimit;
-s32 gItemBombExplodeInverseLimit;
-s32 gItemBombExplodeScaleLimit;
-s32 gItemBombExplodeScaleStep;
+s32 gItemBombGrowInverseLimit;
+s32 gItemBombGrowScaleLimit;
+s32 gItemBombGrowScaleStep;
 
 // Reset hook of the bomb kind.
 void ResetItemBomb(ItemBomb *bomb) {
@@ -118,7 +118,7 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     } else {
         ThrowBouncingItem(&bomb->mBouncingItemObject, inUse, ITEM_BOMB_THROWN_BOUNCES, 1, 0x6000, 0x5000, 0x59a);
     }
-    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
     bomb->mIsThrown = 1;
     return bomb->mIsThrown;
 }
@@ -127,14 +127,14 @@ void ItemBombBounceNop(void *stateObject) {}
 
 void UpdateItemBombBounce(void *stateObject) {
     ItemBomb *bomb = stateObject;
-    u32 collisionHitLink;
+    u32 hitObjects;
 
     if (bomb->mIsThrown != 0) {
-        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x385, 0xff8, 0x733, &collisionHitLink);
+        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x385, 0xff8, 0x733, &hitObjects);
     } else {
-        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &collisionHitLink);
+        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &hitObjects);
     }
-    if (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_BOUNCED) {
+    if (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_BOUNCED_OFF_GROUND) {
         StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe5);
     }
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LANDED) == 0) {
@@ -148,7 +148,7 @@ void UpdateItemBombBounce(void *stateObject) {
         bomb->mBouncingItemObject.mItemObject.mVelocity.y *= 2;
     }
     StopSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&bomb->mBouncingItemObject.mItemObject, &collisionHitLink);
+    StartRestingItemObject(&bomb->mBouncingItemObject.mItemObject, &hitObjects);
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         bomb->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
@@ -174,14 +174,14 @@ void UpdateItemBombRest(void *stateObject) {
     }
 }
 
-void EnterItemBombExplode(void *stateObject) {
+void EnterItemBombGrow(void *stateObject) {
     ItemBomb *bomb = stateObject;
-    NNSSndSeqPlayer **seqPlayerPointer;
+    NNSSndSeqPlayer **soundHandle;
     ModelEffect *modelEffect;
 
     bomb->mBouncingItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_FIXED_SCALE;
     bomb->mBouncingItemObject.mItemObject.mScaleTargetOrSpeed = 0;
-    bomb->mBouncingItemObject.mItemObject.mScale = gItemBombExplodeStartScale;
+    bomb->mBouncingItemObject.mItemObject.mScale = gItemBombGrowStartScale;
     bomb->mModelEffect =
         StartModelEffect(MODEL_EFFECT_BOMBCORE, &bomb->mBouncingItemObject.mItemObject.mPos,
                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
@@ -196,27 +196,27 @@ void EnterItemBombExplode(void *stateObject) {
     }
     StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe4);
     if (gRaceSoundKind & 1) {
-        seqPlayerPointer = TakeSoundHandleEntry(GetSoundHandlePool(0));
+        soundHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
         if (gSoundModeHolder.mSeqStartEnabled != 0) {
-            if (seqPlayerPointer[0] != NULL) {
-                NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
+            if (soundHandle[0] != NULL) {
+                NNS_SndPlayerStopSeq(soundHandle, 0);
             }
-            if (seqPlayerPointer[0] != NULL) {
-                NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
+            if (soundHandle[0] != NULL) {
+                NNS_SndPlayerStopSeq(soundHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(seqPlayerPointer, 0, 0xe0);
+            NNS_SndArcPlayerStartSeqArc(soundHandle, 0, 0xe0);
         }
     }
     StartCameraWobbleAtDistance(bomb->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemBombExplode(void *stateObject) {
+void UpdateItemBombGrow(void *stateObject) {
     ItemBomb *bomb = stateObject;
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombExplodeScaleLimit,
-                            gItemBombExplodeScaleStep) != 0) {
+    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombGrowScaleLimit,
+                            gItemBombGrowScaleStep) != 0) {
         RefreshItemObjectScaleExact(&bomb->mBouncingItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -279,22 +279,22 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
 }
 
 void ClampItemBombTimerByDistance(ItemBomb *bomb) {
-    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 6)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombGrowMaxRadiusSquared << 6)) {
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 4)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombGrowMaxRadiusSquared << 4)) {
         if (bomb->mTimer > gItemBombTimerLimit) {
             bomb->mTimer = gItemBombTimerLimit;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 2)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombGrowMaxRadiusSquared << 2)) {
         if (bomb->mTimer > (gItemBombTimerLimit >> 1)) {
             bomb->mTimer = gItemBombTimerLimit >> 1;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > gItemBombExplodeMaxRadiusSquared) {
+    if (bomb->mNearestKartDistanceSquared > gItemBombGrowMaxRadiusSquared) {
         if (bomb->mTimer > (gItemBombTimerLimit >> 2)) {
             bomb->mTimer = gItemBombTimerLimit >> 2;
         }
@@ -336,11 +336,11 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
         pooledMapObject->mMapObject.mAlpha = bomb->mTimer;
     }
     if (bomb->mTimer < ITEM_BOMB_MAP_OBJECT_DISABLE_FRAMES) {
-        pooledMapObject->mMapObject.mFlags |= gItemBombDisabledFlag;
+        pooledMapObject->mMapObject.mFlags |= gItemBombInactiveFlag;
     }
     if (bomb->mTimer == 0) {
         mapObjectToPark = bomb->mPooledMapObject;
-        mapObjectToPark->mMapObject.mFlags &= ~1;
+        mapObjectToPark->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         ParkMapObject(&mapObjectToPark->mMapObject);
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
@@ -408,7 +408,8 @@ void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData) {
 
 void InitItemBombFromData(ItemBomb *bomb) {
     SetupItemObjectFromData(&bomb->mBouncingItemObject.mItemObject);
-    StartItemObjectBouncing(&bomb->mBouncingItemObject, bomb->mIsThrown != 0 ? 3 : 2);
+    StartItemObjectBouncing(&bomb->mBouncingItemObject,
+                            bomb->mIsThrown != 0 ? ITEM_BOMB_THROWN_BOUNCES : ITEM_BOMB_DROPPED_BOUNCES);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if (!(bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA)) {
         return;
@@ -416,7 +417,7 @@ void InitItemBombFromData(ItemBomb *bomb) {
     if (bomb->mIsThrown == 0) {
         return;
     }
-    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
 }
 
 void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
@@ -438,7 +439,7 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
     bomb->mModelEffect->mVisible = (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_OUT_OF_VIEW) == 0;
 }
 
-int RequestItemBombExplode(ItemBomb *bomb) {
+int RequestItemBombGrow(ItemBomb *bomb) {
     if (bomb->mStateMachine.mState != ITEM_BOMB_STATE_EXPLODE) {
         InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
         bomb->mStateMachine.mNextState = ITEM_BOMB_STATE_EXPLODE;
@@ -474,7 +475,7 @@ void ParkItemBombMapObject(ItemBomb *bomb) {
     if (pooledMapObject == NULL) {
         return;
     }
-    pooledMapObject->mMapObject.mFlags &= ~1;
+    pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     ParkMapObject(&pooledMapObject->mMapObject);
 }
 
@@ -540,8 +541,8 @@ void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position) {
     bomb->mPooledMapObject->mMapObject.mPos = *positionAlias;
     bomb->mPooledMapObject->mMapObject.mPos.y += bomb->mMapObjectOffsetY;
     pooledMapObject = bomb->mPooledMapObject;
-    pooledMapObject->mMapObject.mFlags &= ~2;
-    pooledMapObject->mMapObject.mFlags &= ~8;
+    pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     pooledMapObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }
 
@@ -573,18 +574,18 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
         bomb->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
     if (pooledMapObject != NULL) {
-        pooledMapObject->mMapObject.mFlags &= ~2;
-        pooledMapObject->mMapObject.mFlags &= ~8;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
         pooledMapObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
-        pooledMapObject->mMapObject.mFlags &= ~4;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
         if (pooledMapObject->mMapObject.mKind != MAP_OBJECT_KIND_KURIBO) {
-            pooledMapObject->mMapObject.mFlags &= ~1;
+            pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         }
     }
     *bombSlot = NULL;
 }
 
-BOOL IsItemBombExploding(ItemObject *object) {
+BOOL IsItemBombGrowing(ItemObject *object) {
     ItemBomb *bomb;
 
     bomb = (ItemBomb *) object;
@@ -599,7 +600,7 @@ void ReleaseItemBomb(void **bombSlot) {
     SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
     pooledMapObject = bomb->mPooledMapObject;
     if (pooledMapObject != NULL) {
-        pooledMapObject->mMapObject.mFlags &= ~1;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         ParkMapObject(&pooledMapObject->mMapObject);
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
@@ -649,18 +650,18 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
         return NULL;
     }
     UnparkMapObject(&pooledMapObject->mMapObject);
-    pooledMapObject->mMapObject.mFlags |= gItemBombDisabledFlag;
+    pooledMapObject->mMapObject.mFlags |= gItemBombInactiveFlag;
     pooledMapObject->mMapObject.mFlags |= gItemBombSkipViewTestFlag;
-    pooledMapObject->mMapObject.mFlags |= gItemBombSkipListCallbackFlag;
+    pooledMapObject->mMapObject.mFlags |= gItemBombNoItemCallbackFlag;
     pooledMapObject->mMapObject.mFlags |= gItemBombNoUpdateListFlag;
     bomb->mPooledMapObject = pooledMapObject;
     bomb->mMapObjectOffsetY = offsetY;
     return bomb;
 }
 
-Vec3 *GetItemBombExplodeInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
+Vec3 *GetItemBombGrowInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateMachine.mStateFrames;
-    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombExplodeInverseLimit);
+    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombGrowInverseLimit);
     return &bomb->mBouncingItemObject.mItemObject.mPos;
 }
 
@@ -669,12 +670,13 @@ Vec3 *GetItemBombExplodeInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ
 void SetupItemBombKind(void) {
     s32 engineIndex;
 
-    gItemBombExplodeScaleLimit = 0x18006;
-    gItemBombExplodeInverseLimit = FX_Div(0x1000, 0x18006);
-    gItemBombExplodeScaleStep = 0x2148;
-    gItemBombExplodeMaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombExplodeScaleLimit, gItemKinds[9].mRadius);
-    gItemBombExplodeMaxRadiusSquared >>= 12;
-    gItemBombExplodeMaxRadiusSquared *= gItemBombExplodeMaxRadiusSquared;
+    gItemBombGrowScaleLimit = 0x18006;
+    gItemBombGrowInverseLimit = FX_Div(0x1000, 0x18006);
+    gItemBombGrowScaleStep = 0x2148;
+    gItemBombGrowMaxRadiusSquared =
+        MUL_FIXED12_NO_ROUND(gItemBombGrowScaleLimit, gItemKinds[ITEM_OBJECT_KIND_BOMB].mRadius);
+    gItemBombGrowMaxRadiusSquared >>= 12;
+    gItemBombGrowMaxRadiusSquared *= gItemBombGrowMaxRadiusSquared;
     engineIndex = gRaceSetup->mEngineIndex;
     switch (engineIndex) {
         case ENGINE_CLASS_SLOW:

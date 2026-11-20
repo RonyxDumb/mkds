@@ -7,7 +7,7 @@
 #include "01/MapObjects/map_object_model.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-#define MKD_EF_BURNER_KART_HIT_FRAMES 0x1f
+#define MKD_EF_BURNER_KART_SOUND_FRAMES 0x1f
 
 #define MKD_EF_BURNER_MEDIUM_SCALE 0x99a
 #define MKD_EF_BURNER_SMALL_SCALE 0x4cd
@@ -44,8 +44,9 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner);
 MapObjectList *CreateMkdEfBurnerUpdateList(void);
 MapObjectList *CreateMkdEfBurnerDrawList(void);
 MapObjectKindData *CreateMkdEfBurnerKindData(void);
-void UpdateMkdEfBurner(void *mapObjectList,
-                       MkdEfBurner *mkdEfBurner); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateMkdEfBurner(
+    void *mapObjectList,
+    MkdEfBurner *mkdEfBurner); /* skipped for objects with MAP_OBJECT_FLAG_NO_UPDATE set (parked ones) */
 void InitMkdEfBurnerObjects(MapObjectList *mapObjectList);
 void DrawMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner);
 void SetupDrawMkdEfBurner(void *mapObjectList);

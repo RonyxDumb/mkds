@@ -17,7 +17,7 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/nsbmd_model_draw.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "fixed_vector_math.h"
 #include "Main/Item/held_item.h"
@@ -26,19 +26,19 @@
 #include "Main/Item/item_object.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_object_reset_collide.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 
-const u16 gMissionRunBoxMapObjectFlag = 1;
+const u16 gMissionRunBoxInactiveFlag = 1;
 const u16 gItemObjectExcludedUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 const MapObjectKindDescriptor gMissionRunBoxKindDescriptor = {
     0,    {0, 0}, 0x144, InitMissionRunBoxMapObject, CreateMissionRunBoxKindData, NULL, NULL,
@@ -80,12 +80,12 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
 #pragma thumb off
 
 MapObjectKindData *CreateMissionRunBoxKindData(void) {
-    MapObjectKindData *kindData;
+    MapObjectKindData *result;
 
-    kindData = GetHeap(GetCurrentHeapCall());
-    kindData = HeapAlloc(kindData, sizeof(MapObjectKindData));
-    *kindData = gMissionRunBoxKindData;
-    return kindData;
+    result = GetHeap(GetCurrentHeapCall());
+    result = HeapAlloc(result, sizeof(MapObjectKindData));
+    *result = gMissionRunBoxKindData;
+    return result;
 }
 
 BOOL IsMissionRunBoxKind(u32 kind) {
@@ -123,7 +123,7 @@ void InitMissionRunBoxMapObject(MissionRunBox *object) {
     object->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
     object->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     object->mCollisionMapObject.mSkipsFlaggedQueries = 1;
-    object->mCollisionMapObject.mMapObject.mFlags |= gMissionRunBoxMapObjectFlag;
+    object->mCollisionMapObject.mMapObject.mFlags |= gMissionRunBoxInactiveFlag;
 }
 
 #pragma thumb off
@@ -241,7 +241,7 @@ u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     fbox->mPushDirection.z = 0;
     if ((inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&fbox->mBouncingItemObject, inUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StartSound(&fbox->mBouncingItemObject.mItemObject.mSoundSource, 0xda, SOUND_VOLUME_MAX, 0);
         fbox->mThrownForward = 1;
         return fbox->mThrownForward;
     }

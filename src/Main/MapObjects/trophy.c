@@ -25,7 +25,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/MapObjects/trophy_work.h"
@@ -56,7 +56,7 @@ char gTrophyTBanaNsbtp[] = "T_bana.nsbtp";
 char gTrophyTKonoNsbmd[] = "T_kono.nsbmd";
 char gTrophyTrophyNsbmd[] = "trophy.nsbmd";
 char gTrophyTKonoNsbtp[] = "T_kono.nsbtp";
-char *gTKinoNsbmdName[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd,
+char *gTrophyModelNsbmdNames[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd,
                             gTrophyTSpecNsbmd, gTrophyTKoraNsbmd, gTrophyTBanaNsbmd,
                             gTrophyTKonoNsbmd, gTrophyTThunNsbmd, gTrophyTrophyNsbmd};
 char gTrophyTFlowNsbtp[] = "T_flow.nsbtp";
@@ -68,7 +68,7 @@ char gTrophyTThunNsbtp[] = "T_thun.nsbtp";
 char gTrophyTSpecNsbtp[] = "T_spec.nsbtp";
 char gTrophyTKinoNsbmd[] = "T_kino.nsbmd";
 char gTrophyTThunNsbmd[] = "T_thun.nsbmd";
-char *gTKinoNsbtpName[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp,
+char *gTrophyModelNsbtpNames[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp,
                             gTrophyTSpecNsbtp, gTrophyTKoraNsbtp, gTrophyTBanaNsbtp,
                             gTrophyTKonoNsbtp, gTrophyTThunNsbtp, gTrophyTrophyNsbtp};
 Trophy *gTrophy;
@@ -83,8 +83,8 @@ void SetupTrophy(void) {
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 1, 0x1f, 0x10, 0x10);
     NNS_G3dGlbLightVector(0, gTrophy->mLight0X, gTrophy->mLight0Y, gTrophy->mLight0Z);
     NNS_G3dGlbLightVector(1, gTrophy->mLight1X, gTrophy->mLight1Y, gTrophy->mLight1Z);
-    NNS_G3dGlbLightColor(0, 0x7fff);
-    NNS_G3dGlbLightColor(1, 0x7fff);
+    NNS_G3dGlbLightColor(0, COLOR15_WHITE);
+    NNS_G3dGlbLightColor(1, COLOR15_WHITE);
     frustumTop = MUL_FIXED12_NO_ROUND(FX_Div(SIN_OF_ANGLE(0xaa0), COS_OF_ANGLE(0xaa0)), 0x19a);
     frustumRight = MUL_FIXED12_NO_ROUND(-frustumTop, 0x1555);
     if (gRaceSetup->mMirrorMode != 0) {
@@ -163,8 +163,8 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
     gTrophy->mRankIndex = rankIndex;
     gTrophy->mModelIndex = modelIndex;
     if (modelIndex < 9 && rankIndex < 3) {
-        modelFile = FindSceneFile(gTKinoNsbmdName[modelIndex]);
-        animationFile = FindSceneFile(gTKinoNsbtpName[modelIndex]);
+        modelFile = FindSceneFile(gTrophyModelNsbmdNames[modelIndex]);
+        animationFile = FindSceneFile(gTrophyModelNsbtpNames[modelIndex]);
         gTrophy->mLight0X = gTrophyModelLight0X[modelIndex];
         gTrophy->mLight0Y = gTrophyModelLight0Y[modelIndex];
         gTrophy->mLight0Z = gTrophyModelLight0Z[modelIndex];
@@ -183,7 +183,8 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
             SetNsbmdCullModeAll(&gTrophy->mModel, 2);
         }
         heap = GetHeap(GetCurrentHeapCall());
-        InitModelAnimation(2, &gTrophy->mModelAnimation, &gTrophy->mModel, 1, heap, modelFile);
+        InitModelAnimation(MODEL_ANIMATION_KIND_TEX_PAT, &gTrophy->mModelAnimation, &gTrophy->mModel, 1, heap,
+                           modelFile);
         InitModelAnimationEntries(&gTrophy->mModelAnimation, animationFile, GetHeap(GetCurrentHeapCall()));
         SetModelAnimation(&gTrophy->mModelAnimation, 0);
         storedRankIndex = gTrophy->mRankIndex;
@@ -193,8 +194,8 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
             frameIndex = TO_FIXED12(storedRankIndex) - 0.5f;
         }
         modelAnimation = &gTrophy->mModelAnimation;
-        modelAnimation->mHead.mFrameIndex = frameIndex;
-        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
+        modelAnimation->mFrameLoop.mFrameIndexFixed = frameIndex;
+        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mFrameLoop.mFrameIndexFixed;
         InitEffects(GetHeap(GetCurrentHeapCall()));
         if (rankIndex == 0) {
             Vec3 effectPos0 = {0, 0, 0};

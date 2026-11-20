@@ -11,10 +11,10 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
-// Switches to sound mode b (0 to 5): 0, 1, 3 and 4 stop the sounds, 5 fades them out and keeps the old mode, 1 and 2
-// fade back in from 5.
+// Sets the sound mode to newMode (0 to 5) unless it is already the current one: 0, 1, 3 and 4 stop the sounds, 5 fades
+// everything to silence and saves the old mode, and 1 and 2 fade the sequences back in from 5.
 void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
     u32 fadeSteps;
 

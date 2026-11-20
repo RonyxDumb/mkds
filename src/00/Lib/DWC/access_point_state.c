@@ -60,10 +60,10 @@ void DWCi_AC_SetPhase(u8 phase) {
     hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
     work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     hold->mPhase = phase;
-    if (phase < 0x10) {
+    if (phase < AC_PHASE_COMPLETE) {
         if (phase > hold->mEndSequence) {
             hold->mEndSequence = phase;
-            if (phase > 7) {
+            if (phase > AC_PHASE_CONNECT_START) {
                 hold->mEndType = DWCi_ConvConnectAPType(work->mConnectApType);
                 hold->mEndState = work->mFindList[work->mConnectNo].mState;
             }

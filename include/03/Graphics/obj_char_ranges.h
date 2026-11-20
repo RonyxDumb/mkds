@@ -17,7 +17,7 @@ typedef struct ObjCharRange {
     /* 0a */ u16 mLength;
 } ObjCharRange;
 
-// The object character ranges: the range storage, the list ends and the stack of free ranges.
+// The object character ranges: the range storage, the list ends, the node list and the stack of free ranges.
 typedef struct ObjCharRanges {
     /* 000 */ u8 mRanges[0x180];
     /* 180 */ ObjCharRange mListStart;

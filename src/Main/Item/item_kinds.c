@@ -13,13 +13,13 @@
 #include "Main/Item/item_thunder.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_kinoko_p_boost.h"
@@ -41,21 +41,21 @@ void CreateItemKinds(void) {
 
     kinds = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_OBJECT_KIND_COUNT * sizeof(*kinds));
     gItemKinds = kinds;
-    kinds[0] = gItemKindKouraG;
-    kinds[1] = gItemKindKouraR;
-    kinds[2] = gItemKindBanana;
-    kinds[3] = gItemKindKinoko;
-    kinds[4] = gItemKindStar;
-    kinds[5] = gItemKindKouraW;
-    kinds[6] = gItemKindThunder;
-    kinds[7] = gItemKindFBox;
-    kinds[8] = gItemKindBouncingItemBox;
-    kinds[9] = gItemKindBomb;
-    kinds[10] = gItemKindGesso;
-    kinds[11] = gItemKindTeresa;
-    kinds[12] = gItemKindKinokoP;
-    kinds[13] = gItemKindKiller;
-    for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+    kinds[ITEM_OBJECT_KIND_KOURA_G] = gItemKindKouraG;
+    kinds[ITEM_OBJECT_KIND_KOURA_R] = gItemKindKouraR;
+    kinds[ITEM_OBJECT_KIND_BANANA] = gItemKindBanana;
+    kinds[ITEM_OBJECT_KIND_KINOKO] = gItemKindKinoko;
+    kinds[ITEM_OBJECT_KIND_STAR] = gItemKindStar;
+    kinds[ITEM_OBJECT_KIND_KOURA_W] = gItemKindKouraW;
+    kinds[ITEM_OBJECT_KIND_THUNDER] = gItemKindThunder;
+    kinds[ITEM_OBJECT_KIND_F_BOX] = gItemKindFBox;
+    kinds[ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX] = gItemKindBouncingItemBox;
+    kinds[ITEM_OBJECT_KIND_BOMB] = gItemKindBomb;
+    kinds[ITEM_OBJECT_KIND_GESSO] = gItemKindGesso;
+    kinds[ITEM_OBJECT_KIND_TERESA] = gItemKindTeresa;
+    kinds[ITEM_OBJECT_KIND_KINOKO_P] = gItemKindKinokoP;
+    kinds[ITEM_OBJECT_KIND_KILLER] = gItemKindKiller;
+    for (kindIndex = 0; kindIndex < ITEM_OBJECT_KIND_COUNT; kindIndex++) {
         gItemKinds[kindIndex].mDataSize = GetItemKindCopyDataSize(kindIndex);
         getFar = gItemKinds[kindIndex].mGetFarDistanceSquared;
         if (getFar != NULL) {
@@ -82,12 +82,12 @@ void CreateItemKinds(void) {
 }
 
 void ComputeItemKindObjectCounts(void) {
-    s32 maxObjectCounts[14];
+    s32 maxObjectCounts[ITEM_OBJECT_KIND_COUNT];
     enum { KIND_INDEX_FIRST } kindIndex;
     enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
     s32 objectCount;
 
-    for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+    for (kindIndex = 0; kindIndex < ITEM_OBJECT_KIND_COUNT; kindIndex++) {
         gItemKinds[kindIndex].mObjectBudget = gItemKinds[kindIndex].mLimit - 1;
         maxObjectCounts[kindIndex] = 1;
     }
@@ -100,16 +100,16 @@ void ComputeItemKindObjectCounts(void) {
             }
         }
     }
-    for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+    for (kindIndex = 0; kindIndex < ITEM_OBJECT_KIND_COUNT; kindIndex++) {
         gItemKinds[kindIndex].mObjectBudget = gItemKinds[kindIndex].mObjectBudget + maxObjectCounts[kindIndex];
         gItemKinds[kindIndex].mObjectCount = gItemKinds[kindIndex].mObjectBudget;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
-        for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+        for (kindIndex = 0; kindIndex < ITEM_OBJECT_KIND_COUNT; kindIndex++) {
             gItemKinds[kindIndex].mObjectCount = gItemKinds[kindIndex].mObjectCount + 3;
         }
     } else {
-        gItemKinds[2].mObjectCount = gItemKinds[2].mObjectCount + 0x10;
+        gItemKinds[ITEM_OBJECT_KIND_BANANA].mObjectCount = gItemKinds[ITEM_OBJECT_KIND_BANANA].mObjectCount + 0x10;
     }
 }
 

@@ -4,20 +4,23 @@
 #include "wireless_link_control.h"
 
 // Values of mDataAttr in the game info entries and in the beacon block: the whole entry with its icon, the entry
-// without the icon (sent when the icon files could not be read), and the part that changes while the game runs.
+// without the icon (used when an icon file is missing or has the wrong size), and the part that changes while the game
+// runs.
 enum {
     MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON = 0,
-    MULTIBOOT_DATA_ATTR_FIXED_NO_ICON = 1,
+    MULTIBOOT_DATA_ATTR_FIXED_WITHOUT_ICON = 1,
     MULTIBOOT_DATA_ATTR_VOLATILE = 2,
 };
 
-// Bytes of game info in one beacon block, and how many blocks a fixed entry takes with and without the icon.
+// The most bytes of game info one beacon block holds, and how many blocks a fixed entry takes with and without the
+// icon.
 #define MULTIBOOT_GAME_INFO_BLOCK_SIZE 0x62
 #define MULTIBOOT_FIXED_BLOCK_COUNT_WITH_ICON 9
 #define MULTIBOOT_FIXED_BLOCK_COUNT_NO_ICON 4
 
 // Count-down counts: a received entry lives this long without a new beacon; while one entry is followed the scan
-// counts in bigger steps for the lock time, and the follow ends after that many lost beacons in a row.
+// counts in bigger steps, the follow lasts the lock time, and it ends early when more than the limit of calls in a row
+// report no beacon.
 #define MULTIBOOT_GAME_INFO_LIFETIME 0x1771
 #define MULTIBOOT_LOCKED_SCAN_COUNT_UNIT 0x16
 #define MULTIBOOT_LOCK_TIME_COUNT 0x321
@@ -67,7 +70,7 @@ typedef struct MbBeaconRecvStatus {
 } MbBeaconRecvStatus;
 
 // Characters in the name of a user.
-#define MB_USER_NAME_LENGTH 10
+#define MULTIBOOT_USER_NAME_LENGTH 10
 
 // A multiboot user: favourite colour, player number and name (mNameLength, mName).
 typedef struct MBUserInfo {
@@ -79,7 +82,7 @@ typedef struct MBUserInfo {
         };
     };
     /* 01 */ u8 mNameLength;
-    /* 02 */ u16 mName[MB_USER_NAME_LENGTH];
+    /* 02 */ u16 mName[MULTIBOOT_USER_NAME_LENGTH];
 } MBUserInfo;
 
 // A multiboot game info beacon: the game group id, data attribute, file number, sequence numbers and checksum.
@@ -102,7 +105,7 @@ typedef struct MbBeacon {
     /* 68 */ u8 mUserVolatData[8];
 } MbBeacon;
 
-typedef void (*EntryCallbackFunc)(u32 event, void *entry, u32 entryIndex);
+typedef void (*MBBeaconMsgCallback)(u32 event, void *entry, u32 entryIndex);
 
 extern MbBeaconRecvStatus *mbrsp;
 extern MbBeacon *gReceivedGameInfo;
@@ -123,9 +126,9 @@ void MBi_CheckSeqNoFixed(u32 entryIndex);
 void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex);
 
 void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value);
-void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value);
-void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback);
-s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback);
+void MB_CountGameInfoLifetime(MBBeaconMsgCallback callback, u32 value);
+void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, MBBeaconMsgCallback callback);
+s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, MBBeaconMsgCallback callback);
 
 void MBi_SetSSIDToBssDesc(WMBssDesc *scanBlock, u32 value);
 

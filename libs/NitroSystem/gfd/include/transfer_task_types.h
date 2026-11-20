@@ -22,7 +22,7 @@ typedef struct NNSGfdVramTransferTaskQueue {
     /* 10 */ u32 mTotalSize;
 } NNSGfdVramTransferTaskQueue;
 
-extern void (*const transFunc[36])(const void *pSrc, u32 offset, u32 szByte);
+extern void (*const gTransferFunctions[36])(const void *pSrc, u32 offset, u32 szByte);
 
 void DoTransfer_(NNSGfdVramTransferTask *task);
 void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte);

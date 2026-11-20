@@ -207,7 +207,7 @@ void UpdateExchangeKeyOutcome(void) {
             DisableButtonTouch();
             SetUpdateFunction(UpdateExchangeKeyMessageResult);
             break;
-        case EXCHANGE_OUTCOME_BAD_RESULT:
+        case EXCHANGE_OUTCOME_UNUSABLE_RESULT:
             gExchangeKeyShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(0x12);

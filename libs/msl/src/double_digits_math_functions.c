@@ -122,8 +122,8 @@ void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const Digit
     }
     shift = result->mExponent - subtrahend->mExponent;
     length += shift;
-    if (length > 32) {
-        length = 32;
+    if (length > DIGIT_RECORD_MAX_DIGITS) {
+        length = DIGIT_RECORD_MAX_DIGITS;
     }
     if (digitCount < length) {
         do {
@@ -320,8 +320,8 @@ void DoubleToDigitChars(DigitOptions *options, double value, DigitRecord *record
     if (record->mDigits[0] > 9) {
         return;
     }
-    if (digitCount > 32) {
-        digitCount = 32;
+    if (digitCount > DIGIT_RECORD_MAX_DIGITS) {
+        digitCount = DIGIT_RECORD_MAX_DIGITS;
     }
     DigitsRoundTo(record, digitCount);
     while (record->mDigitCount < digitCount) {
@@ -615,68 +615,68 @@ double PowBody(double base, double power) {
     static const double ln2Low = -1.904654299957768e-09;
     int scaleExp;
     double result, absBase, logHigh, powerHigh, logProdHigh, workTerm, ratioHigh, tHigh;
-    double baseCopy, highTerm, lowTerm, correction, poly, sign, ratio, ratioSquared, ratioError, logProdLow, tLow,
+    double baseCopy, firstTerm, secondTerm, correction, poly, sign, ratio, ratioSquared, ratioError, logBaseLow, sumLow,
         scaledHigh, scaledLow, logLow;
-    int lowBits, bits, expBits, intKind, nonNegative, baseExponent;
-    int ha, hb, ia, ib;
-    u32 la, lb;
+    int lowBits, bits, exponent, intKind, nonNegative, baseExponent;
+    int ha, powerHighWord, baseAbsHighWord, powerAbsHighWord;
+    u32 la, powerLowWord;
 
-    hb = *(1 + (int *) &power);
-    lb = *(u32 *) &power;
+    powerHighWord = *(1 + (int *) &power);
+    powerLowWord = *(u32 *) &power;
     ha = *(1 + (int *) &base);
     la = *(u32 *) &base;
-    ib = hb & 0x7fffffff;
-    ia = ha & 0x7fffffff;
+    powerAbsHighWord = powerHighWord & 0x7fffffff;
+    baseAbsHighWord = ha & 0x7fffffff;
 
-    if ((ib | lb) == 0) {
+    if ((powerAbsHighWord | powerLowWord) == 0) {
         return 1.0;
     }
-    if (ia > DOUBLE_EXPONENT_MASK || (ia == DOUBLE_EXPONENT_MASK && la != 0) || ib > DOUBLE_EXPONENT_MASK ||
-        (ib == DOUBLE_EXPONENT_MASK && lb != 0)) {
+    if (baseAbsHighWord > DOUBLE_EXPONENT_MASK || (baseAbsHighWord == DOUBLE_EXPONENT_MASK && la != 0) || powerAbsHighWord > DOUBLE_EXPONENT_MASK ||
+        (powerAbsHighWord == DOUBLE_EXPONENT_MASK && powerLowWord != 0)) {
         return base + power;
     }
 
     intKind = 0;
     if (ha < 0) {
-        if (ib >= 0x43400000) {
+        if (powerAbsHighWord >= 0x43400000) {
             intKind = 2;
-        } else if (ib >= 0x3ff00000) {
-            expBits = (ib >> 20) - 0x3ff;
-            if (expBits > 20) {
-                bits = lb >> (52 - expBits);
-                if ((bits << (52 - expBits)) == lb) {
+        } else if (powerAbsHighWord >= 0x3ff00000) {
+            exponent = (powerAbsHighWord >> 20) - 0x3ff;
+            if (exponent > 20) {
+                bits = powerLowWord >> (52 - exponent);
+                if ((bits << (52 - exponent)) == powerLowWord) {
                     intKind = 2 - (bits & 1);
                 }
-            } else if (lb == 0) {
-                bits = ib >> (20 - expBits);
-                if ((bits << (20 - expBits)) == ib) {
+            } else if (powerLowWord == 0) {
+                bits = powerAbsHighWord >> (20 - exponent);
+                if ((bits << (20 - exponent)) == powerAbsHighWord) {
                     intKind = 2 - (bits & 1);
                 }
             }
         }
     }
 
-    if (lb == 0) {
-        if (ib == DOUBLE_EXPONENT_MASK) {
-            if (((ia - 0x3ff00000) | la) == 0) {
+    if (powerLowWord == 0) {
+        if (powerAbsHighWord == DOUBLE_EXPONENT_MASK) {
+            if (((baseAbsHighWord - 0x3ff00000) | la) == 0) {
                 return power - power;
-            } else if (ia >= 0x3ff00000) {
-                return hb >= 0 ? power : 0.0;
+            } else if (baseAbsHighWord >= 0x3ff00000) {
+                return powerHighWord >= 0 ? power : 0.0;
             } else {
-                return hb < 0 ? -power : 0.0;
+                return powerHighWord < 0 ? -power : 0.0;
             }
         }
-        if (ib == 0x3ff00000) {
-            if (hb < 0) {
+        if (powerAbsHighWord == 0x3ff00000) {
+            if (powerHighWord < 0) {
                 return 1.0 / base;
             } else {
                 return base;
             }
         }
-        if (hb == 0x40000000) {
+        if (powerHighWord == 0x40000000) {
             return base * base;
         }
-        if (hb == 0x3fe00000) {
+        if (powerHighWord == 0x3fe00000) {
             if (ha >= 0) {
                 return SqrtDouble(base);
             }
@@ -686,13 +686,13 @@ double PowBody(double base, double power) {
     baseCopy = base;
     absBase = fabs(baseCopy);
     if (la == 0) {
-        if (ia == DOUBLE_EXPONENT_MASK || ia == 0 || ia == 0x3ff00000) {
+        if (baseAbsHighWord == DOUBLE_EXPONENT_MASK || baseAbsHighWord == 0 || baseAbsHighWord == 0x3ff00000) {
             result = absBase;
-            if (hb < 0) {
+            if (powerHighWord < 0) {
                 result = 1.0 / result;
             }
             if (ha < 0) {
-                if (((ia - 0x3ff00000) | intKind) == 0) {
+                if (((baseAbsHighWord - 0x3ff00000) | intKind) == 0) {
                     result = (result - result) / (result - result);
                 } else if (intKind == 1) {
                     result = -result;
@@ -708,58 +708,58 @@ double PowBody(double base, double power) {
         return gFloatQuietNan;
     }
 
-    if (ib > 0x41e00000) {
-        if (ib > 0x43f00000) {
-            if (ia <= 0x3fefffff) {
-                return hb < 0 ? 1e300 * 1e300 : 0.0;
+    if (powerAbsHighWord > 0x41e00000) {
+        if (powerAbsHighWord > 0x43f00000) {
+            if (baseAbsHighWord <= 0x3fefffff) {
+                return powerHighWord < 0 ? 1e300 * 1e300 : 0.0;
             }
-            if (ia >= 0x3ff00000) {
-                return hb > 0 ? 1e300 * 1e300 : 0.0;
+            if (baseAbsHighWord >= 0x3ff00000) {
+                return powerHighWord > 0 ? 1e300 * 1e300 : 0.0;
             }
         }
-        if (ia < 0x3fefffff) {
-            return hb < 0 ? 1e300 * 1e300 : 0.0;
+        if (baseAbsHighWord < 0x3fefffff) {
+            return powerHighWord < 0 ? 1e300 * 1e300 : 0.0;
         }
-        if (ia > 0x3ff00000) {
-            return hb > 0 ? 1e300 * 1e300 : 0.0;
+        if (baseAbsHighWord > 0x3ff00000) {
+            return powerHighWord > 0 ? 1e300 * 1e300 : 0.0;
         }
         workTerm = baseCopy - 1.0;
         correction = (workTerm * workTerm) * (0.5 - workTerm * (0.3333333333333333 - workTerm * 0.25));
-        highTerm = 1.4426950216293335 * workTerm;
-        lowTerm = workTerm * 1.9259629911266175e-08 - correction * 1.4426950408889634;
-        logProdHigh = highTerm + lowTerm;
+        firstTerm = 1.4426950216293335 * workTerm;
+        secondTerm = workTerm * 1.9259629911266175e-08 - correction * 1.4426950408889634;
+        logProdHigh = firstTerm + secondTerm;
         *(int *) &logProdHigh = 0;
-        logProdLow = lowTerm - (logProdHigh - highTerm);
+        logBaseLow = secondTerm - (logProdHigh - firstTerm);
     } else {
         baseExponent = 0;
-        if (ia < 0x00100000) {
+        if (baseAbsHighWord < 0x00100000) {
             absBase *= 9007199254740992.0;
             baseExponent -= 53;
-            ia = *(1 + (int *) &absBase);
+            baseAbsHighWord = *(1 + (int *) &absBase);
         }
-        baseExponent += (ia >> 20) - 0x3ff;
-        bits = ia & 0x000fffff;
-        ia = bits | 0x3ff00000;
+        baseExponent += (baseAbsHighWord >> 20) - 0x3ff;
+        bits = baseAbsHighWord & DOUBLE_HIGH_MANTISSA_MASK;
+        baseAbsHighWord = bits | 0x3ff00000;
         if (bits <= 0x3988e) {
-            expBits = 0;
+            exponent = 0;
         } else if (bits < 0xbb67a) {
-            expBits = 1;
+            exponent = 1;
         } else {
-            expBits = 0;
+            exponent = 0;
             baseExponent += 1;
-            ia -= 0x00100000;
+            baseAbsHighWord -= 0x00100000;
         }
-        *(1 + (int *) &absBase) = ia;
+        *(1 + (int *) &absBase) = baseAbsHighWord;
 
-        highTerm = absBase - gPowBreakpoint[expBits];
-        lowTerm = 1.0 / (absBase + gPowBreakpoint[expBits]);
-        ratio = highTerm * lowTerm;
+        firstTerm = absBase - gPowBreakpoint[exponent];
+        secondTerm = 1.0 / (absBase + gPowBreakpoint[exponent]);
+        ratio = firstTerm * secondTerm;
         ratioHigh = ratio;
         *(int *) &ratioHigh = 0;
         tHigh = 0.0;
-        *(1 + (int *) &tHigh) = ((ia >> 1) | 0x20000000) + 0x00080000 + (expBits << 18);
-        tLow = absBase - (tHigh - gPowBreakpoint[expBits]);
-        ratioError = lowTerm * ((highTerm - ratioHigh * tHigh) - ratioHigh * tLow);
+        *(1 + (int *) &tHigh) = ((baseAbsHighWord >> 1) | 0x20000000) + 0x00080000 + (exponent << 18);
+        sumLow = absBase - (tHigh - gPowBreakpoint[exponent]);
+        ratioError = secondTerm * ((firstTerm - ratioHigh * tHigh) - ratioHigh * sumLow);
         ratioSquared = ratio * ratio;
         poly = ratioSquared * ratioSquared *
                (0.5999999999999946 +
@@ -772,18 +772,18 @@ double PowBody(double base, double power) {
         ratioSquared = ratioHigh * ratioHigh;
         tHigh = 3.0 + ratioSquared + poly;
         *(int *) &tHigh = 0;
-        tLow = poly - ((tHigh - 3.0) - ratioSquared);
-        highTerm = ratioHigh * tHigh;
-        lowTerm = ratioError * tHigh + tLow * ratio;
-        logHigh = highTerm + lowTerm;
+        sumLow = poly - ((tHigh - 3.0) - ratioSquared);
+        firstTerm = ratioHigh * tHigh;
+        secondTerm = ratioError * tHigh + sumLow * ratio;
+        logHigh = firstTerm + secondTerm;
         *(int *) &logHigh = 0;
-        logLow = lowTerm - (logHigh - highTerm);
+        logLow = secondTerm - (logHigh - firstTerm);
         scaledHigh = 0.9617967009544373 * logHigh;
-        scaledLow = gPowLogAdjustLow[expBits] + (-7.028461650952758e-09 * logHigh + logLow * 0.9617966939259756);
+        scaledLow = gPowLogAdjustLow[exponent] + (-7.028461650952758e-09 * logHigh + logLow * 0.9617966939259756);
         workTerm = baseExponent;
-        logProdHigh = ((scaledHigh + scaledLow) + gPowLogAdjustHigh[expBits]) + workTerm;
+        logProdHigh = ((scaledHigh + scaledLow) + gPowLogAdjustHigh[exponent]) + workTerm;
         *(int *) &logProdHigh = 0;
-        logProdLow = scaledLow - (((logProdHigh - workTerm) - gPowLogAdjustHigh[expBits]) - scaledHigh);
+        logBaseLow = scaledLow - (((logProdHigh - workTerm) - gPowLogAdjustHigh[exponent]) - scaledHigh);
     }
 
     sign = 1.0;
@@ -792,7 +792,7 @@ double PowBody(double base, double power) {
     }
     powerHigh = power;
     *(int *) &powerHigh = 0;
-    logLow = (power - powerHigh) * logProdHigh + power * logProdLow;
+    logLow = (power - powerHigh) * logProdHigh + power * logBaseLow;
     logHigh = powerHigh * logProdHigh;
     result = logLow + logHigh;
     bits = *(1 + (int *) &result);
@@ -812,14 +812,14 @@ double PowBody(double base, double power) {
     }
 
     lowBits = bits & 0x7fffffff;
-    expBits = (lowBits >> 20) - 0x3ff;
+    exponent = (lowBits >> 20) - 0x3ff;
     scaleExp = 0;
     if (lowBits > 0x3fe00000) {
-        lowBits = bits + (0x00100000 >> (expBits + 1));
-        expBits = ((lowBits & 0x7fffffff) >> 20) - 0x3ff;
+        lowBits = bits + (0x00100000 >> (exponent + 1));
+        exponent = ((lowBits & 0x7fffffff) >> 20) - 0x3ff;
         workTerm = 0.0;
-        *(1 + (int *) &workTerm) = lowBits & ~(0x000fffff >> expBits);
-        scaleExp = ((lowBits & 0x000fffff) | 0x00100000) >> (20 - expBits);
+        *(1 + (int *) &workTerm) = lowBits & ~(DOUBLE_HIGH_MANTISSA_MASK >> exponent);
+        scaleExp = ((lowBits & DOUBLE_HIGH_MANTISSA_MASK) | 0x00100000) >> (20 - exponent);
         if (bits < 0) {
             scaleExp = -scaleExp;
         }
@@ -827,10 +827,10 @@ double PowBody(double base, double power) {
     }
     workTerm = logLow + logHigh;
     *(int *) &workTerm = 0;
-    highTerm = workTerm * 0.6931471824645996;
-    lowTerm = (logLow - (workTerm - logHigh)) * 0.6931471805599453 + workTerm * ln2Low;
-    result = highTerm + lowTerm;
-    correction = lowTerm - (result - highTerm);
+    firstTerm = workTerm * 0.6931471824645996;
+    secondTerm = (logLow - (workTerm - logHigh)) * 0.6931471805599453 + workTerm * ln2Low;
+    result = firstTerm + secondTerm;
+    correction = secondTerm - (result - firstTerm);
     workTerm = result * result;
     logProdHigh =
         result -

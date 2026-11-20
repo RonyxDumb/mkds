@@ -1,7 +1,7 @@
 #include "Main/Menu/emblem_choises_shown.h"
 #include "Main/Menu/choises_s.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "registers.h"
 #include "display_blend_affine_setup.h"
@@ -19,6 +19,7 @@
 #include "Main/Race/race_hud_sub_screen_shine16_cells.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 EmblemChoises *gEmblemChoises;
 
@@ -138,9 +139,6 @@ void WriteEmblemChoisesSelectedTiles(s32 choiceIndex) {
         }
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteEmblemChoisesScreenMap(void) {
     WriteEmblemChoisesTiles();
@@ -196,7 +194,7 @@ void DrawEmblemChoises(void) {
             if (gEmblemChoises->mHideCallback != NULL) {
                 gEmblemChoises->mHideCallback();
             } else {
-                EmblemChoisesWriteSubBlendAlpha(0, 0, 6, 10);
+                EmblemChoisesWriteSubBlendAlpha(0, 0, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
             }
         }
     }
@@ -253,9 +251,9 @@ void UpdateEmblemChoises(void) {
             gEmblemChoises->mCloseFrames = 1;
             StartEmblemChoisesSound(0x10);
         }
-        if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_UP)) {
+        if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_DIRECTION_UP)) {
             MoveEmblemChoisesIndex(-1);
-        } else if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_DOWN)) {
+        } else if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_DIRECTION_DOWN)) {
             MoveEmblemChoisesIndex(1);
         }
     }
@@ -281,9 +279,7 @@ void UpdateEmblemChoises(void) {
         }
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void WriteEmblemChoisesScreenMapWrapper(void) {
     u32 unusedValue;
     WriteEmblemChoisesScreenMap();
@@ -343,29 +339,19 @@ void InitEmblemChoises(void) {
         }
     }
 }
-#pragma thumb off
 
-#pragma thumb on
 void ClearEmblemChoisesPointer(void) {
     gEmblemChoises = NULL;
 }
-#pragma thumb off
 
-#pragma thumb on
 void RequestEmblemChoisesGraphicsUpload(void) {
     gEmblemChoises->mGraphicsUploadRequested = TRUE;
 }
-#pragma thumb off
-
-#pragma thumb on
 
 u32 GetEmblemChoisesResult(void) {
     return (gEmblemChoises->mResult);
 }
 
-#pragma thumb off
-
-#pragma thumb on
 void SetEmblemChoisesShownAndReset(u32 shown) {
     gEmblemChoises->mShown = shown;
     ResetEmblemChoisesState();

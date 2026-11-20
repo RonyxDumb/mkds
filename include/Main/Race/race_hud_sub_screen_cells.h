@@ -9,7 +9,7 @@ void DrawRaceHudSubScreenCellGroups(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCellGroups(void);
 void ClearRaceHudSubScreenCellGroups(void);
 
-// The 49 entries of gRaceHudSubScreenCellGroupFunctions.
+// One entry of gRaceHudSubScreenCellGroupFunctions: the create, clear, update and draw functions of a cell group.
 typedef struct RaceHudSubScreenCellGroupFunctions {
     /* 00 */ s32 (*mCreate)(void);
     /* 04 */ void (*mClear)(void);
@@ -23,10 +23,8 @@ typedef struct RaceHudSubScreenCells RaceHudSubScreenCells;
 
 // Values of RaceHudOamBits.mObjMode: the object mode of the OAM entry.
 enum {
-    RACE_HUD_OBJ_MODE_NORMAL,
-    RACE_HUD_OBJ_MODE_TRANSLUCENT,
+    RACE_HUD_OBJ_MODE_TRANSLUCENT = 1,
     RACE_HUD_OBJ_MODE_WINDOW,
-    RACE_HUD_OBJ_MODE_BITMAP,
 };
 
 // Second view of an OAM entry: two words, each with a two-bit part at bit 10.
@@ -41,14 +39,14 @@ typedef struct RaceHudOamBits {
 
 // Number of OAM entries in a RaceHudOamBuffer.
 #define RACE_HUD_OAM_COUNT 0x80
-// Bits 10 and 11 of the first word of an OAM entry hold the object mode (the item cells use the object window mode as
-// a mask); the same bits of the second word hold the priority.
+// Bits 10 and 11 of the first word of an OAM entry hold the object mode (DrawRaceItemSlot and DrawRaceModeCount set the
+// object window mode); the same bits of the second word hold the priority.
 #define RACE_HUD_OAM_MODE_MASK 0xc00
 #define RACE_HUD_OAM_MODE_OBJ_WINDOW 0x800
 #define RACE_HUD_OAM_PRIORITY_MASK 0xc00
 #define RACE_HUD_OAM_PRIORITY_1 0x400
 
-// The OAM buffer the race HUD draw functions fill: the OAM entries or affine matrices and their counts.
+// An OAM buffer: the OAM entries or affine matrices and their counts; the race HUD draw functions fill it.
 typedef struct RaceHudOamBuffer {
     union {
         /* 000 */ GXOamAttr mOams[RACE_HUD_OAM_COUNT];
@@ -73,8 +71,10 @@ unsigned int GetRaceHudSubScreenMinDrawValue(void);
 
 extern struct RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;
 
-// The burner cells count mSecond up to the cycle and show the first cell below the half; the pakkun cells swap their
-// cell with this bit of the frame counter.
+// The burner cells count mSecond up to the cycle, full scale below the half, smaller after; the pakkun cells swap their
+// cell by OB_PAKKUN_SF_FRAME_TOGGLE_BIT of the frame counter.
 #define RACE_HUD_BURNER_CYCLE_FRAMES 8
 #define RACE_HUD_BURNER_HALF_FRAMES 4
-#define RACE_HUD_PAKKUN_SF_SWAP_FRAME_BIT 0x10
+// The Fireball2 cells count mSecond up to the cycle and show the first cell below the half.
+#define RACE_HUD_FIREBALL2_CYCLE_FRAMES 0x14
+#define RACE_HUD_FIREBALL2_HALF_FRAMES 10

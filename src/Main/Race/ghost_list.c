@@ -15,7 +15,7 @@
 #include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
 #include "cell_transfer_state.h"
-#include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
+#include "Main/System/backup_net_camera_work.h" // GhostRecordHead
 
 #pragma opt_arithtransformation off
 

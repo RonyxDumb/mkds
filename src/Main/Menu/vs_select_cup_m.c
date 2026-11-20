@@ -18,6 +18,7 @@
 #include "Main/Race/race_hud_sub_screen_rain_star_cells.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #pragma thumb on
 
@@ -51,9 +52,6 @@ void UpdateVsSelectCharacter(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectKartRegisters(void) {
     int screenChanged;
@@ -80,9 +78,6 @@ void UpdateVsSelectKart(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectRaceRuleRegisters(void) {
     int screenChanged;
@@ -113,9 +108,6 @@ void UpdateVsSelectRaceRule(void) {
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectCupGridRegisters(void) {
     int flag;
@@ -162,19 +154,16 @@ void UpdateVsSelectCupGrid(void) {
             SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_VS, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_LEAVE:
-            if (VsSelectCupGetConnectionKind() == 0) {
+            if (VsSelectCupGetConnectionKind() == CONNECTION_KIND_NONE) {
                 SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             }
-            VsSelectCupSetMenuEntryKind(0);
+            VsSelectCupSetMenuEntryKind(MENU_ENTRY_SINGLE_PLAY_SELECT);
             VsSelectCupSetRaceSetupRequested(1);
             break;
     }
 }
-#pragma thumb off
-
-#pragma thumb on
 
 void WriteVsSelectCupCourseRegisters(void) {
     int flag;

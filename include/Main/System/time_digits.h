@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// The seven decimal digits of a time (minutes, seconds, milliseconds); one value stands for a blank digit.
+// The seven decimal digits of a time: two for the minutes, two for the seconds, three for the milliseconds.
 typedef struct TimeDigits {
     /* 00 */ s32 mDigits[7];
 } TimeDigits;

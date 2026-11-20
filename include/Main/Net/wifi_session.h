@@ -5,7 +5,7 @@
 
 typedef struct PlayerRecord PlayerRecord;
 
-// Seven pairs of functions passed to InitStateMachine by InitWiFiSession.
+// The (enter, update) pairs of the Wi-Fi session state machine, one per WiFiSessionState value; empty slots hold 0.
 extern StateCallbacks gWiFiSessionStateTable[7];
 
 u32 GetWiFiLinkLevel(void);

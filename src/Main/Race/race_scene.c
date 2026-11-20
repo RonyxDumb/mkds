@@ -13,7 +13,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_input.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/menu_entry_kind.h"
@@ -75,7 +75,7 @@ static inline u32 IsPadOrParticipantPairPresentOrRecentlyLost(void) {
     u32 result = 1;
     u32 briefNoPair = 0;
     u16 hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && hasPair == 0) {
@@ -171,7 +171,7 @@ void InitRaceScene(void) {
     InitDispCap(heap);
     SetupRaceDisplay(heap);
     ResetInputSlotsFromRaceSetup();
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     InitRace();
     SetHeapGroupId(5);
     InitChoisesS();
@@ -187,7 +187,7 @@ void InitRaceScene(void) {
         }
     }
     SetLeftRightKeysSwapped(mirrorMode);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     if (gRaceSetup->mMode != MODE_BATTLE) {
         if (gRaceSetup->mMode == MODE_WIFI) {
             sessionHeapCreated = FALSE;
@@ -303,7 +303,7 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     result = 0;
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
         InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-        if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_NO_DIRECTION_OR_SHOULDER) != 0 ||
+        if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_A_B_X_Y_SELECT_START) != 0 ||
             IsPadOrParticipantPairPresentOrRecentlyLost() != 0) {
             result = 1;
         }
@@ -322,7 +322,7 @@ void SetPickedValue(u32 pickedValue) {
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    gMenuShared->mMenuEntryKind = MENU_ENTRY_FIRST_SCREEN;
+    gMenuShared->mMenuEntryKind = MENU_ENTRY_SINGLE_PLAY_SELECT;
     nextScene = -1;
     switch (pickedValue) {
         case CHOISES_S_PICK_STAFF_CREDITS:
@@ -351,7 +351,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         nextScene = SCENE_WL_MENU;
                         gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                     } else {
-                        nextScene = SCENE_MENU_1;
+                        nextScene = SCENE_MENU;
                     }
                     gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                     gMenuShared->mRaceSetupRequested = 1;
@@ -394,7 +394,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = SCENE_MENU_1;
+                            nextScene = SCENE_MENU;
                         } else {
                             nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
@@ -423,7 +423,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = SCENE_MENU_1;
+                            nextScene = SCENE_MENU;
                         } else {
                             nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
@@ -456,16 +456,16 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             }
             break;
         case CHOISES_S_PICK_CHANGE_CHARACTERS:
-            nextScene = SCENE_MENU_1;
+            nextScene = SCENE_MENU;
             gMenuShared->mMenuEntryKind = MENU_ENTRY_CHARACTER_SELECT;
             break;
         case CHOISES_S_PICK_CHANGE_COURSE:
             gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
-            nextScene = SCENE_MENU_1;
+            nextScene = SCENE_MENU;
             break;
         case CHOISES_S_PICK_SELECT_MISSION:
             gMenuShared->mMenuEntryKind = MENU_ENTRY_MISSION_SELECT;
-            nextScene = SCENE_MENU_1;
+            nextScene = SCENE_MENU;
             break;
     }
     if (nextScene != -1) {
@@ -506,7 +506,7 @@ u32 RaceSceneSlotHasPairOrLost(u32 slotIndex) {
     result = 1;
     briefNoPair = 0;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && hasPair == 0) {
@@ -525,7 +525,7 @@ u32 RaceSceneIsSlotPairNew(u32 slotIndex) {
     result = 0;
     briefNoPair = 0;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&

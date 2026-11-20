@@ -5,7 +5,8 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Kart/kart_palette_stem_tables.h"
 
-// The Stadium course emitters: six directions, the six emitters now running, and the countdown to the next round.
+// The Stadium course emitters: six directions, the six emitters now running, and the countdown to the next time they
+// are replaced.
 typedef struct StadiumEmitters {
     /* 00 */ Vec3 mDirections[6];
     /* 48 */ ParticleEmitter *mEmitters[6];
@@ -13,17 +14,19 @@ typedef struct StadiumEmitters {
     /* 62 */ u8 mUnk_62[2];
 } StadiumEmitters;
 
-// Two halfwords at gAwardFirstEffectIds.
+// AwardFirstEffectIds.mEffectIds: the two effect ids CreateAwardEmitters starts first.
 typedef struct AwardFirstEffectIds {
     s16 mEffectIds[2];
 } AwardFirstEffectIds;
 
-// Twenty-four halfwords at gAwardEmitterEffectIds.
-typedef struct AwardEmitterEffectIds {
-    s16 mUnk_00[24];
-} AwardEmitterEffectIds;
+// AwardSecondEffectIds.mEffectIds: the 24 effect ids CreateAwardEmitters starts second (after the rename of the row
+// above).
+typedef struct AwardSecondEffectIds {
+    s16 mEffectIds[24];
+} AwardSecondEffectIds;
 
-// Function stored at gGetSPLManagerFunction: writes a word to the first argument and returns the object.
+// Type of gGetSPLManagerFunction: returns the SPLManager for effectId and writes the effect id inside that manager to
+// *outIndex.
 typedef SPLManager *GetSPLManagerFunc(s32 *outIndex, s32 effectId);
 
 void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow);

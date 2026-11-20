@@ -6,13 +6,13 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
+#include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "touch_panel_sampling.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "matrix_3x3_basic.h"
@@ -38,8 +38,8 @@ void InitChandelierObjects(MapObjectList *objectList) {
          objectIndex < objectList->mMapObjectCount && (chandelier = objectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
         random = &gRaceProgress->mLocalRandom;
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        chandelier->mTimer = (u16) (((u64) (u32) (random->mValue >> 32) * 0x3c) >> 32) + 0x3c;
+        RANDOM_ADVANCE(random);
+        chandelier->mTimer = (u16) RANDOM_BELOW_U64(random, 0x3c) + 0x3c;
     }
 }
 
@@ -64,12 +64,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     if (chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_EARLY_FRAME ||
         chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_LATE_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (chandelier->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (chandelier->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             firstSoundParams.mSoundId = CHANDELIER_FIRST_SOUND_ID;
             firstSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
@@ -80,12 +82,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     } else if (chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_EARLY_FRAME ||
                chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_LATE_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (chandelier->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (chandelier->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             secondSoundParams.mSoundId = CHANDELIER_SECOND_SOUND_ID;
             secondSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
@@ -95,12 +99,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
         }
     } else if (chandelier->mFrameIndex == CHANDELIER_THIRD_SOUND_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
-            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                falloffIndex = 2;
-            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                falloffIndex = 3;
+            if (chandelier->mMapObject.mFarDistanceSquared ==
+                gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_SHORT_RANGE;
+            } else if (chandelier->mMapObject.mFarDistanceSquared ==
+                       gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared) {
+                falloffIndex = SOUND_FALLOFF_MEDIUM_RANGE;
             } else {
-                falloffIndex = 4;
+                falloffIndex = SOUND_FALLOFF_LONG_RANGE;
             }
             thirdSoundParams.mSoundId = CHANDELIER_THIRD_SOUND_ID;
             thirdSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
